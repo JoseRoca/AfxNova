@@ -345,9 +345,9 @@ END OPERATOR
 ' ========================================================================================
 
 ' ========================================================================================
-' * Frees the underlying BSTR and returns the BSTR pointer.
+' Frees the underlying BSTR and returns a pointer to a new empty allocated BSTR.
 ' To pass the underlying BSTR to an OUT BYVAL BSTR PTR parameter.
-' If we pass a BSTRING to a function with an OUT BSTR parameter without first freeing it
+' If we pass a BSTRING to a procedure with an OUT BSTR parameter without first freeing it
 ' we will have a memory leak.
 ' ========================================================================================
 PRIVATE FUNCTION BSTRING.vptr () AS BSTR PTR
