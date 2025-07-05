@@ -112,7 +112,7 @@ const LOW_SURROGATE_END = &hdfff
 Translates Unicode chars to ansi bytes.
 
 ```
-FUNCTION wstrAcode (BYVAL pwszStr AS WSTRING PTR, BYVAL nCodePage AS LONG = 0) AS STRING
+FUNCTION DWSStrAcode (BYVAL pwszStr AS WSTRING PTR, BYVAL nCodePage AS LONG = 0) AS STRING
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
