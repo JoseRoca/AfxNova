@@ -1162,7 +1162,7 @@ PRINT nPos
 ' Output: 11
 ```
 
-Searches all the occurences of a word that stars with a letter ans is followed by three numbers. Returns a list of comma separated "index, length" value pairs. The pairs are separated by a semicolon.
+Searches all the occurences of a word that starts with a letter ans is followed by three numbers. Returns a list of comma separated "index, length" value pairs. The pairs are separated by a semicolon.
 
 ```
 DIM pRegExp AS CRegExp
