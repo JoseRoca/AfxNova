@@ -6,7 +6,7 @@ The procedures that need to be fast have been hard coded, whereas the ones that 
 
 [`CRegExp`](https://github.com/JoseRoca/WinFBX2/blob/main/docs/String%20Management/CRegExp%20Class.md) can also be used to build other string procedures not included in this collection.
 
-**Include file**: AfxStrProcs2.inc
+**Include file**: AfxNova/DWSTRProcs.inc
 
 Additionally, we can call external variadic functions written in C. They can be very useful to do string formatting.
 
