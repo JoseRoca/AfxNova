@@ -1183,7 +1183,7 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 
 ---
 
-### <a name="dwstrbase64encodea"></a>wstrBase64EncodeA
+### <a name="dwstrbase64encodea"></a>DWStrBase64EncodeA
 
 Converts the contents of an ascii string to Base64 mime encoding.
 
