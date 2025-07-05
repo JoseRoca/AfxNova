@@ -599,7 +599,7 @@ FUNCTION DWStrPathScan (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS C
 | ---------- | ----------- |
 | *wszOption* | One of the following words which is used to specify the requested part: PATH, NAME, EXTN, NAMEX. |
 | *wszFileSpec* | The path to be scanned. |
-| *wszOtherDirs* | An optional path string which includes one or more paths to be searched to find wszFileSpec. If multiple path names are included in this string, they musteach be separated by a semicolon (;) delimiter. If wszOtherDirs: is not given, or it is a null (zero-length) string, the following directories are searched:<br>- The directory from which the application was loaded.<br>- The current directory.<br>- The standard directories such as System32 and the directories specified in the PATH environment variable.<br>To expedite the process or enable DWStrPathScan to search a wider range of directories,use the wszOtherDirs parameter to specify one or more directories to be searched first. |
+| *wszOtherDirs* | An optional path string which includes one or more paths to be searched to find *wszFileSpec*. If multiple path names are included in this string, they must each be separated by a semicolon (;) delimiter. If *wszOtherDirs* is not given, or it is a null (zero-length) string, the following directories are searched:<br>- The directory from which the application was loaded.<br>- The current directory.<br>- The standard directories such as System32 and the directories specified in the PATH environment variable.<br>To expedite the process or enable **DWStrPathScan** to search a wider range of directories,use the *wszOtherDirs* parameter to specify one or more directories to be searched first. |
 
 #### Return value
 
