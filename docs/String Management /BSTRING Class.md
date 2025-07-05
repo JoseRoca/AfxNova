@@ -4,7 +4,7 @@ The `BSTRING` and `DWSTRING` classes implement a dynamic unicode null terminated
 
 While `DWSTRING`manages its own memory allocations, `BSTRING`is a wrapper on top of of the OLE string (aka BSTR) data type and the memory management is done by the COM library. It is better to use `DWSTRING`for general purposes, since it is faster, reserving the use of `BSTRING` for COM programming.
 
-**Include file**: AfxNova/BSTRING.INC.
+**Include file**: AfxNova/BSTRING.inc.
 
 | Name       | Description |
 | ---------- | ----------- |
