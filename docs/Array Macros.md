@@ -455,52 +455,7 @@ Sorts one-dimensional numeric array of any type. The macro detects the type of a
 
 #### Return code
 
-It does not return a result.
-
-#### Usage example
-```
-#define XSTRING DWSTRING ' // or STRING, BSTRING, etc.
-DIM rgstr(ANY) AS XSTRING
-DIM rgstr2(ANY) AS XSTRING
-DIM xStr AS XSTRING = "String - "
-' // Fill the array
-FOR i AS LONG = 1 TO 10
-   AppendElementToArray(rgstr, xStr & WSTR(i))
-NEXT
-' Fill the array to append
-xStr = "String 2 - "
-FOR i AS LONG = 1 TO 5
-   AppendElementToArray(rgstr2, xStr & WSTR(i))
-NEXT
-' // Append the array to the first array
-AppendArrayToArray(rgstr, rgstr2)
-' // Display the array
-FOR i AS LONG = LBOUND(rgstr) TO UBOUND(rgstr)
-   print rgstr(i)
-NEXT
-' // Sort the array
-AfxSortStringArray(rgstr, true)
-' // Display the sorted array
-FOR i AS LONG = LBOUND(rgstr) TO UBOUND(rgstr)
-   print rgstr(i)
-NEXT
-```
----
-
-### <a name="afxsortstringarray"></a>AfxSortStringArray
-
-Sorts one-dimensional string array of any type. The macro detects the type of array and calls the appropriate sorting procedures.
-```
-#macro AfxSortStringArray(rg, ascending)
-```
-| Parameter  | Description |
-| ---------- | ----------- |
-| *rg* | The array to sort. |
-| *ascending* | If true, sorts the array in ascending order. I false, sorts the array in descending order. |
-
-#### Return code
-
-It does not return a result.
+It does not return a result code.
 
 #### Usage example
 ```
@@ -530,6 +485,51 @@ AfxSortNumericArray(rgNum, true)
 ' // Display the sorted array
 FOR i AS LONG = LBOUND(rgNum) TO UBOUND(rgNum)
    print rgNum(i)
+NEXT
+```
+---
+
+### <a name="afxsortstringarray"></a>AfxSortStringArray
+
+Sorts one-dimensional string array of any type. The macro detects the type of array and calls the appropriate sorting procedures.
+```
+#macro AfxSortStringArray(rg, ascending)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *rg* | The array to sort. |
+| *ascending* | If true, sorts the array in ascending order. I false, sorts the array in descending order. |
+
+#### Return code
+
+It does not return a result code.
+
+#### Usage example
+```
+#define XSTRING DWSTRING ' // or STRING, BSTRING, etc.
+DIM rgstr(ANY) AS XSTRING
+DIM rgstr2(ANY) AS XSTRING
+DIM xStr AS XSTRING = "String - "
+' // Fill the array
+FOR i AS LONG = 1 TO 10
+   AppendElementToArray(rgstr, xStr & WSTR(i))
+NEXT
+' Fill the array to append
+xStr = "String 2 - "
+FOR i AS LONG = 1 TO 5
+   AppendElementToArray(rgstr2, xStr & WSTR(i))
+NEXT
+' // Append the array to the first array
+AppendArrayToArray(rgstr, rgstr2)
+' // Display the array
+FOR i AS LONG = LBOUND(rgstr) TO UBOUND(rgstr)
+   print rgstr(i)
+NEXT
+' // Sort the array
+AfxSortStringArray(rgstr, true)
+' // Display the sorted array
+FOR i AS LONG = LBOUND(rgstr) TO UBOUND(rgstr)
+   print rgstr(i)
 NEXT
 ```
 ---
