@@ -30,49 +30,49 @@ PRINT wszOut
 
 | Name       | Description |
 | ---------- | ----------- |
-| [DWStrAcode](#wstracode) | Translates Unicode chars to ansi bytes. |
-| [DWStrBase64DecodeA](#wstrbase64decodea) | Converts the contents of a Base64 mime encoded string to an ASCII string. |
-| [DWStrBase64DecodeW](#wstrbase64decodew) | Converts the contents of a Base64 mime encoded string to an Unicode string. |
-| [DWStrBase64EncodeA](#wstrbase64encodea) | Converts the contents of an ASCII string to Base64 mime encoding. |
-| [DWStrBase64EncodeW](#wstrbase64encodew) | Converts the contents of an Unicode string to Base64 mime encoding. |
-| [DWStrClip](#wstrclip) | Returns a string with the specified number of characters removed from the left, right or mid section of the string. |
-| [DWStrCryptBinaryToString](#wstrcryptbinarytostring) | Converts an array of bytes into a formatted string. |
-| [DWStrCryptStringToBinary](#wstrcryptstringtobinary) | Converts a formatted string into an array of bytes. |
-| [DWStrCSet](#wstrcset) | Returns a string containing a centered (padded) string. |
-| [DWStrCSetAbs](#wstrcsetabs) | Returns a string containing a centered string within the space of another string. |
-| [DWStrDelete](#wstrdelete) | Deletes a specified number of characters from a string expression. |
-| [DWStrEscape](#wstrescape) | Escapes any potential regex syntax characters in a string. |
-| [DWStrExtract](#wstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
-| [DWStrFormatByteSize](#wstrformatbytesize) | Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size. |
-| [DWStrFormatKBSize](#wstrformatkbsize) | Converts a numeric value into a string that represents the number expressed as a size value in kilobytes. |
-| [DWStrFromTimeInterval](#wstrfromtimeinterval) | Converts a time interval, specified in milliseconds, to a string. |
-| [DWStrInsert](#wstrinsert) | Inserts a string at a specified position within another string expression. |
-| [DWStrIsNumeric](#wstrisnumeric) | Returns True if the passed string is numeric. |
-| [DWStrJoin](#wstrjoin) | Returns a string consisting of all of the strings in an array, each separated by a delimiter. |
-| [DWStrLCase](#wstrlcase) | Returns a lowercased version of a string. |
-| [DWStrLSetAbs](#wstrlsetabs) | Left-aligns a string within the space of another string. |
-| [DWStrMCase](#wstrmcase) | Returns a mixed case version of its string argument. |
-| [DWStrParse](#wstrparse) | Returns a delimited field from a string expression. |
-| [DWStrParseCount](#wstrparsecount) | Returns the count of delimited fields from a string expression. |
-| [DWStrPathName](#wstrpathname) | Parses a path to extract component parts. |
-| [DWStrPathScan](#wstrpathscan) | Searches a path for a file name. |
-| [DWStrRemain](#wstrremain) | Returns the portion of a string following the first occurrence of a string. |
-| [DWStrRemove](#wstrremove) | Returns a new string with substrings removed. |
-| [DWStrRepeat](#wstrrepeat) | Returns a string consisting of multiple copies of the specified string. |
-| [DWStrReplace](#wstrreplace) | Replaces all the occurrences of a string with another string. |
-| [DWStrRetain](#wstrretain) | Returns a string containing only the characters contained in a specified match string. |
-| [DWStrReverse](#wstrreverse) | Reverses the contents of a string expression. |
-| [DWStrRSet](#wstrrset) | Returns a string containing a right justified string. |
-| [DWStrRSetAbs](#wstrrsetabs) | Right-aligns a string within the space of another string. |
-| [DWStrShrink](#wstrshrink) | Shrinks a string to use a consistent single character delimiter. |
-| [DWStrSplit](#wstrsplit) | Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. |
-| [DWStrSpn](#wstrspn) | Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters. |
-| [DWStrTally](#wstrtally) | Count the number of occurrences of a string within a string |
-| [DWStrUCase](#wstrucase) | Returns an uppercased version of a string. |
-| [DWStrUCode](#wstrucode) | Translates ansi bytes to Unicode bytes. |
-| [DWStrVerify](#wstrverify) | Determine whether each character of a string is present in another string. |
-| [DWStrWrap](#wstrwrap) | Adds paired characters to the beginning and end of a string. |
-| [DWStrUnWrap](#wstrunwrap) | Removes paired characters to the beginning and end of a string. |
+| [DWStrAcode](#dwstracode) | Translates Unicode chars to ansi bytes. |
+| [DWStrBase64DecodeA](#dwstrbase64decodea) | Converts the contents of a Base64 mime encoded string to an ASCII string. |
+| [DWStrBase64DecodeW](#dwstrbase64decodew) | Converts the contents of a Base64 mime encoded string to an Unicode string. |
+| [DWStrBase64EncodeA](#dwstrbase64encodea) | Converts the contents of an ASCII string to Base64 mime encoding. |
+| [DWStrBase64EncodeW](#dwstrbase64encodew) | Converts the contents of an Unicode string to Base64 mime encoding. |
+| [DWStrClip](#dwstrclip) | Returns a string with the specified number of characters removed from the left, right or mid section of the string. |
+| [DWStrCryptBinaryToString](#dwstrcryptbinarytostring) | Converts an array of bytes into a formatted string. |
+| [DWStrCryptStringToBinary](#dwstrcryptstringtobinary) | Converts a formatted string into an array of bytes. |
+| [DWStrCSet](#dwstrcset) | Returns a string containing a centered (padded) string. |
+| [DWStrCSetAbs](#dwstrcsetabs) | Returns a string containing a centered string within the space of another string. |
+| [DWStrDelete](#dwstrdelete) | Deletes a specified number of characters from a string expression. |
+| [DWStrEscape](#dwstrescape) | Escapes any potential regex syntax characters in a string. |
+| [DWStrExtract](#dwstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
+| [DWStrFormatByteSize](#dwstrformatbytesize) | Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size. |
+| [DWStrFormatKBSize](#dwstrformatkbsize) | Converts a numeric value into a string that represents the number expressed as a size value in kilobytes. |
+| [DWStrFromTimeInterval](#dwstrfromtimeinterval) | Converts a time interval, specified in milliseconds, to a string. |
+| [DWStrInsert](#dwstrinsert) | Inserts a string at a specified position within another string expression. |
+| [DWStrIsNumeric](#dwstrisnumeric) | Returns True if the passed string is numeric. |
+| [DWStrJoin](#dwstrjoin) | Returns a string consisting of all of the strings in an array, each separated by a delimiter. |
+| [DWStrLCase](#dwstrlcase) | Returns a lowercased version of a string. |
+| [DWStrLSetAbs](#dwstrlsetabs) | Left-aligns a string within the space of another string. |
+| [DWStrMCase](#dwstrmcase) | Returns a mixed case version of its string argument. |
+| [DWStrParse](#dwstrparse) | Returns a delimited field from a string expression. |
+| [DWStrParseCount](#dwstrparsecount) | Returns the count of delimited fields from a string expression. |
+| [DWStrPathName](#dwstrpathname) | Parses a path to extract component parts. |
+| [DWStrPathScan](#dwstrpathscan) | Searches a path for a file name. |
+| [DWStrRemain](#dwstrremain) | Returns the portion of a string following the first occurrence of a string. |
+| [DWStrRemove](#dwstrremove) | Returns a new string with substrings removed. |
+| [DWStrRepeat](#dwstrrepeat) | Returns a string consisting of multiple copies of the specified string. |
+| [DWStrReplace](#dwstrreplace) | Replaces all the occurrences of a string with another string. |
+| [DWStrRetain](#dwstrretain) | Returns a string containing only the characters contained in a specified match string. |
+| [DWStrReverse](#dwstrreverse) | Reverses the contents of a string expression. |
+| [DWStrRSet](#dwstrrset) | Returns a string containing a right justified string. |
+| [DWStrRSetAbs](#dwstrrsetabs) | Right-aligns a string within the space of another string. |
+| [DWStrShrink](#dwstrshrink) | Shrinks a string to use a consistent single character delimiter. |
+| [DWStrSplit](#dwstrsplit) | Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. |
+| [DWStrSpn](#dwstrspn) | Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters. |
+| [DWStrTally](#dwstrtally) | Count the number of occurrences of a string within a string |
+| [DWStrUCase](#dwstrucase) | Returns an uppercased version of a string. |
+| [DWStrUCode](#dwstrucode) | Translates ansi bytes to Unicode bytes. |
+| [DWStrVerify](#dwstrverify) | Determine whether each character of a string is present in another string. |
+| [DWStrWrap](#dwstrwrap) | Adds paired characters to the beginning and end of a string. |
+| [DWStrUnWrap](#dwstrunwrap) | Removes paired characters to the beginning and end of a string. |
 
 ### Surrogates
 
@@ -80,12 +80,12 @@ Checking and fixing broken surrogates is diabled by default for speed reasons. I
 
 | Name       | Description |
 | ---------- | ----------- |
-| [DWStrChrW](#wstrchrw) | Returns a wide-character string from a codepoint. |
-| [DWStrCodePointToSurrogatePair](#wstrcodepointtosurrogatepair) | Converts a Unicode code point (above U+FFFF) back into its high and low surrogate pair. |
-| [DWStrHasSurrogates](#wstrhassurrogates) | Checks if the passed string has surrogates. |
-| [DWStrIsValidSurrogatePair](#wstrisvalidsurrogatepair) | Checks whether a UTF-16 encoded string contains valid high-low surrogate pairs. |
-| [DWStrScanForSurrogates](#wstrscanforsurrogates) | Scans a string to search for surrogates. |
-| [DWStrSurrogatePairToCodePoint](#wstrsurrogatepairtocodepoint) | Converts a surrogate pair to a Unicode code point. |
+| [DWStrChrW](#dwstrchrw) | Returns a wide-character string from a codepoint. |
+| [DWStrCodePointToSurrogatePair](#dwstrcodepointtosurrogatepair) | Converts a Unicode code point (above U+FFFF) back into its high and low surrogate pair. |
+| [DWStrHasSurrogates](#dwstrhassurrogates) | Checks if the passed string has surrogates. |
+| [DWStrIsValidSurrogatePair](#dwstrisvalidsurrogatepair) | Checks whether a UTF-16 encoded string contains valid high-low surrogate pairs. |
+| [DWStrScanForSurrogates](#dwstrscanforsurrogates) | Scans a string to search for surrogates. |
+| [DWStrSurrogatePairToCodePoint](#dwstrsurrogatepairtocodepoint) | Converts a surrogate pair to a Unicode code point. |
 
 ### Surrogate macros
 
@@ -107,7 +107,7 @@ const LOW_SURROGATE_END = &hdfff
 
 ---
 
-### <a name="wstracode"></a>DWStrAcode
+### <a name="dwstracode"></a>DWStrAcode
 
 Translates Unicode chars to ansi bytes.
 
@@ -125,7 +125,7 @@ The translated string.
 
 ---
 
-### <a name="wstrclip"></a>DWStrClip
+### <a name="dwstrclip"></a>DWStrClip
 
 Returns a string with the specified number of characters removed from the left, middle or right side of the string.
 
@@ -149,7 +149,7 @@ DIM dws AS DWSTRING = DWStrClip("MID", "1234567890", 3, 4)   ' Output: "1237890"
 ```
 ---
 
-### <a name="wstrcset"></a>DWStrCSet
+### <a name="dwstrcset"></a>DWStrCSet
 
 Returns a string containing a centered (padded) string.
 
@@ -171,7 +171,7 @@ DIM dws AS DWSTRING = DWStrCSet("FreeBasic", 20, "*")   ' Output: "*****FreeBasi
 ```
 ---
 
-### <a name="wstrcsetabs"></a>DWStrCSetAbs
+### <a name="dwstrcsetabs"></a>DWStrCSetAbs
 
 Returns a string containing a centered string within the space of another string.
 
@@ -194,7 +194,7 @@ PRINT DWStrCSetAbs(dwsPad, dws)
 ```
 ---
 
-### <a name="wstrdelete"></a>DWStrDelete
+### <a name="dwstrdelete"></a>DWStrDelete
 
 Deletes a specified number of characters from a string expression.
 
@@ -286,7 +286,7 @@ PRINT DWStrExtract(dwsText, "(", ")")   ' Output: "text between parentheses"
 ```
 ---
 
-### <a name="wstrformatbytesize"></a>DWStrFormatByteSize
+### <a name="dwstrformatbytesize"></a>DWStrFormatByteSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size.
 
@@ -300,7 +300,7 @@ FUNCTION DWStrFormatByteSize (BYVAL ull AS LONGLONG) AS DWSTRING
 
 ---
 
-### <a name="wstrformatkbsize"></a>DWStrFormatKBSize
+### <a name="dwstrformatkbsize"></a>DWStrFormatKBSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in kilobytes.
 
@@ -314,7 +314,7 @@ FUNCTION DWStrFormatKBSize (BYVAL ull AS LONGLONG) AS DWSTRING
 
 ---
 
-### <a name="wstrfromtimeinterval"></a>DWStrFromTimeInterval
+### <a name="dwstrfromtimeinterval"></a>DWStrFromTimeInterval
 
 Converts a time interval, specified in milliseconds, to a string.
 
@@ -340,7 +340,7 @@ Some examples for *digits*:
 
 ---
 
-### <a name="wstrinsert"></a>DWStrInsert
+### <a name="dwstrinsert"></a>DWStrInsert
 
 Inserts a string at a specified position within another string expression.
 
@@ -362,7 +362,7 @@ DIM dws AS DWSTRING = DWStrInsert("1234567890", "--", 6)
 ```
 ---
 
-### <a name="wstrisnumeric"></a>DWStrIsNumeric
+### <a name="dwstrisnumeric"></a>DWStrIsNumeric
 
 Retuns True if the passed string is muneric.
 
@@ -390,7 +390,7 @@ $ ? Anchors the match to the end of the string, ensuring a full numeric match.
 ```
 ---
 
-### <a name="wstrjoin"></a>DWStrJoin
+### <a name="dwstrjoin"></a>DWStrJoin
 
 Returns a string consisting of all of the strings in an array, each separated by a delimiter. If the delimiter is a null (zero-length) string then no separators are inserted between the string sections. If the delimiter expression is the 3-byte value of '","', which may be expressed in your source code as the string literal """,""" or as Chr(34,44,34) then a leading and trailing double-quote is added to each string section. This ensures that the returned string contains standard comma-delimited quoted fields that can be easily parsed.
 
@@ -422,7 +422,7 @@ PRINT dws
 ```
 ---
 
-### <a name="wstrlcase"></a>DWStrLCase
+### <a name="dwstrlcase"></a>DWStrLCase
 
 Returns a lowercased version of a string.
 
@@ -501,7 +501,7 @@ PRINT DWStrLSetAbs(dws, "FreeBasic")  ' Output: "FreeBasic=SuperBasic"
 ```
 ---
 
-### <a name="wstrmcase"></a>DWStrMCase
+### <a name="dwstrmcase"></a>DWStrMCase
 
 Returns a mixed case version of its string argument.
 
@@ -515,7 +515,7 @@ DIM dws AS DWSTRING = strMCase("Cats aren't AL.WAYS good.")
 ' Note: It mimincs PowerBASIC's MCase$ function.
 ```
 
-### <a name="wstrparse"></a>DWStrParse 
+### <a name="dwstrparse"></a>DWStrParse 
 
 Returns a delimited field from a string expression.
 
@@ -561,7 +561,7 @@ DIM nCount AS LONG = DWStrParseCount("1;2,3", ",;")          ' Output: "3"
 ```
 ---
 
-### <a name="wstrpathname"></a>DWStrPathName 
+### <a name="dwstrpathname"></a>DWStrPathName 
 
 Parses a path to extract component parts.
 
@@ -584,7 +584,7 @@ FUNCTION DWStrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS W
 ---
 
 
-### <a name="wstrpathscan"></a>DWStrPathScan
+### <a name="dwstrpathscan"></a>DWStrPathScan
 
 Searches a path for a file name.
 
@@ -605,7 +605,7 @@ If the file is found, it returns either the full path/file name, or a selected p
 
 ---
 
-### <a name="wstrremain"></a>DWStrRemain
+### <a name="dwstrremain"></a>DWStrRemain
 
 Returns the portion of a string following the first occurrence of a character or group of characters. If *wszMatchString* is not present in *wszSourceString* (or is null) then a zero-length empty string is returned.
 
@@ -707,7 +707,7 @@ DIM dws AS DWSTRING = DWStrRepeat(5, "Paul")
 ```
 ---
 
-### <a name="wstrreplace"></a>DWStrReplace
+### <a name="dwstrreplace"></a>DWStrReplace
 
 Replaces all the occurrences of *wszMatchStr* in *wszSourceString* with the contents of *wszReplaceWith*.
 
@@ -769,7 +769,7 @@ PRINT dws
 ```
 ---
 
-### <a name="wstrreverse"></a>DWStrReverse
+### <a name="dwstrreverse"></a>DWStrReverse
 
 Reverses the contents of a string expression.
 
@@ -788,7 +788,7 @@ DIM dws AS DWSTRING = DWStrReverse("garden")   ' Output: "nedrag"
 ```
 ---
 
-### <a name="wstrrset"></a>DWStrRSet
+### <a name="dwstrrset"></a>DWStrRSet
 
 Returns a string containing a right justified string.
 
@@ -892,7 +892,7 @@ PRINT dwsTokens
 ```
 ---
 
-### <a name="wstrspn"></a>DWStrSpn
+### <a name="dwstrspn"></a>DWStrSpn
 
 Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters.
 
@@ -1012,7 +1012,7 @@ The translated string.
 
 ---
 
-### <a name="wstrunwrap"></a>DWStrUnWrap
+### <a name="dwstrunwrap"></a>DWStrUnWrap
 
 Removes paired characters to the beginning and end of a string.
 
@@ -1049,7 +1049,7 @@ DWStrUnWrap("""Paul""") results in Paul
 ```
 ---
 
-### <a name="wstrverify"></a>DWStrVerify
+### <a name="dwstrverify"></a>DWStrVerify
 
 Determine whether each character of a string is present in another string.
 
@@ -1116,7 +1116,7 @@ DWStrWrap("Paul") results in "Paul"
 ```
 ---
 
-### <a name="wstrbase64decodea"></a>DWStrBase64DecodeA
+### <a name="dwstrbase64decodea"></a>DWStrBase64DecodeA
 
 Converts the contents of a Base64 mime encoded string to an ascii string.
 
@@ -1157,7 +1157,7 @@ dws.utf8 = DWStrBase64DecodeA(s)
 ```
 ---
 
-### <a name="wstrbase64decodew"></a>DWStrBase64DecodeW
+### <a name="dwstrbase64decodew"></a>DWStrBase64DecodeW
 
 Converts the contents of a Base64 mime encoded string to an unicode string.
 
@@ -1181,7 +1181,7 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 
 ---
 
-### <a name="wstrbase64encodea"></a>wstrBase64EncodeA
+### <a name="dwstrbase64encodea"></a>wstrBase64EncodeA
 
 Converts the contents of an ascii string to Base64 mime encoding.
 
@@ -1222,7 +1222,7 @@ dws.utf8 = DWStrBase64DecodeA(s)
 ````
 ---
 
-### <a name="wstrbase64encodew"></a>DWStrBase64EncodeW
+### <a name="dwstrbase64encodew"></a>DWStrBase64EncodeW
 
 Converts the contents of an unicode string to Base64 mime encoding.
 
@@ -1246,7 +1246,7 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 
 ---
 
-### <a name="wstrcryptbinarytostring"></a>DWStrCryptBinaryToString
+### <a name="dwstrcryptbinarytostring"></a>DWStrCryptBinaryToString
 
 Converts an array of bytes into a formatted string.
 
@@ -1312,7 +1312,7 @@ With the exception of when **CRYPT_STRING_BINARY** encoding is used, all strings
 
 ---
 
-### <a name="wstrcryptstringtobinary"></a>DWStrCryptStringToBinary
+### <a name="dwstrcryptstringtobinary"></a>DWStrCryptStringToBinary
 
 Converts a formatted string into an array of bytes.
 
@@ -1381,7 +1381,7 @@ Values available for the *pdwFlags* parameter:
 
 ---
 
-### <a name="wstrhassurrogates"></a>DWStrHasSurrogates
+### <a name="dwstrhassurrogates"></a>DWStrHasSurrogates
 
 Checks if the specified string has surrogates.
 ```
@@ -1398,7 +1398,7 @@ BOOLEAN. True if the string has rurrogates; False, otherwise.
 
 ---
 
-### <a name="wstrisvalidsurrogatepair"></a>DWStrIsValidSurrogatePair
+### <a name="dwstrisvalidsurrogatepair"></a>DWStrIsValidSurrogatePair
 
 Checks whether a UTF-16 encoded string contains valid high-low surrogate pairs.
 ```
@@ -1416,7 +1416,7 @@ BOOLEAN. True if the surrogate pair is valid; False, otherwise.
 
 ---
 
-### <a name="wstrsurrogatepairtocodepoint"></a>DWStrSurrogatePairToCodePoint
+### <a name="dwstrsurrogatepairtocodepoint"></a>DWStrSurrogatePairToCodePoint
 
 Converts a surrogate pair to a Unicode code point.
 ```
@@ -1452,7 +1452,7 @@ This method does not return a value.
 
 ---
 
-### <a name="wstrscanforsurrogates"></a>DWStrScanForSurrogates
+### <a name="dwstrscanforsurrogates"></a>DWStrScanForSurrogates
 
 Scans a UTF-16 buffer (passed as a pointer to WSTRING) in chunks of 64 characters. Returns the 0-based index (relative to *memAddr*) of the first broken surrogate found, or -1 if none is found.
 
@@ -1480,7 +1480,7 @@ Returns the 0-based index (relative to *memAddr*) of the first broken surrogate 
 
 ---
 
-### <a name="wstrchrw"></a>DWStrChrW
+### <a name="dwstrchrw"></a>DWStrChrW
 
 Returns a wide-character string from a codepoint.
 ```
