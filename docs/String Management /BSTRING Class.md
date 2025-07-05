@@ -83,9 +83,9 @@ PRINT bs
 ```
 It can be used with Windows API functions, e.g.
 ```
-DIM nLen AS LONG = SendMessageW(hDlg, WM_GETTEXTLENGTH, 0, 0)
+DIM nLen AS LONG = SendMessageW(hWin, WM_GETTEXTLENGTH, 0, 0)
 DIM bsText AS BSTRING = WSPACE(nLen + 1)
-SendMessageW(hDlg, WM_GETTEXT, nLen + 1, cast(LPARAM, *bsText))
+SendMessageW(hWin, WM_GETTEXT, nLen + 1, cast(LPARAM, *bsText))
 bsText = LEFT(bsText, LEN(bsText) - 1)
 PRINT bsText
 ```
