@@ -14,7 +14,7 @@ With regular expressions, you can:
 
 * Extract a substring from a string based upon a pattern match. You can find specific text within a document or input field.
 
-**Include file**: CRegExp2.inc
+**Include file**: AfxNova/CRegExp.inc
 
 **Tutorial**: [Introduction to Regular Expressions](#Introduction)
 
