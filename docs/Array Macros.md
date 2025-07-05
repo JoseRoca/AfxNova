@@ -404,6 +404,7 @@ FOR i AS LONG = LBOUND(rg) TO UBOUND(rg)
    print rg(i)
 NEXT
 ```
+---
 
 ### <a name="Removeelementsfromarray"></a>RemoveElementsFromArray
 
