@@ -12,8 +12,8 @@ The `DWSTRING` class implements a dynamic unicode null terminated string. Free B
 | [Operator Cast](#operatorcast) | Returns a pointer to the `DWSTRING` buffer or the string data.<br>Casting is automatic. You don't have to call this operator. |
 | [ChrW](#chrw) | Returns a wide-character string from a codepoint. |
 | [bstr](#bstr) | Returns the contents of the `DWSTRING` as a `BSTR`. |
+| [Utf8](#utf8) | Converts from UTF8 to Unicode and from Unicode to UTF8. |
 | [wchar](#wchar) | Returns the string data as a new unicode string allocated with **CoTaskMemAlloc**. |
-| [utf8](#utf8) | Converts from UTF8 to Unicode and from Unicode to UTF8. |
 
 # <a name="constructors"></a>Constructors
 
@@ -146,6 +146,8 @@ END IF
 
 Notice that, contrarily to **CreateFileW**, FreeBasic's OPEN statement doesn't allow to use unicode for the file name.
 
+---
+
 # Operators
 
 ### <a name="operator*"></a>Operator *
@@ -155,6 +157,8 @@ Dereferences the `DWSTRING`.<br>One * returns the address of the `DWSTRING` buff
 ```
 OPERATOR * (BYREF dws AS DWSTRING) AS WSTRING PTR
 ```
+
+---
 
 # Casting and Conversions
 
@@ -167,6 +171,8 @@ OPERATOR CAST () AS ANY PTR
 
 Returns a pointer to the `DWSTRING` buffer or the string data. These operators aren't called directly.
 
+---
+
 ### <a name="bstr"></a>bstr
 
 Returns the contents of the `DWSTRING` as a BSTR.
@@ -174,6 +180,19 @@ Returns the contents of the `DWSTRING` as a BSTR.
 ```
 FUNCTION bstr () AS BSTR
 ```
+
+---
+
+### <a name="utf8"></a>Utf8
+
+Converts from UTF8 to Unicode and from Unicode to UTF8.
+
+```
+PROPERTY Utf8() AS STRING
+PROPERTY Utf8 (BYREF utf8String AS STRING)
+```
+
+---
 
 ### <a name="wchar"></a>wchar
 
@@ -185,14 +204,7 @@ FUNCTION wchar () AS WSTRING PTR
 
 Useful when we need to pass a pointer to a null terminated wide string to a function or method that will release it. If we pass a WSTRING it will GPF. If the length of the input string is 0, **CoTaskMemAlloc** allocates a zero-length item and returns a valid pointer to that item. If there is insufficient memory available, **CoTaskMemAlloc** returns NULL.
 
-### <a name="utf8"></a>Utf8
-
-Converts from UTF8 to Unicode and from Unicode to UTF8.
-
-```
-PROPERTY Utf8() AS STRING
-PROPERTY Utf8 (BYREF utf8String AS STRING)
-```
+---
 
 # Methods
 
@@ -209,6 +221,8 @@ PROPERTY Capacity (BYVAL nValue AS LONG)
 | ---------- | ----------- |
 | *nValue* | The new capacity value, in bytes. If the new capacity is equal to the current capacity, no operation is performed; is it is smaller, the buffer is shortened and the contents that exceed the new capacity are lost. If you pass an odd number, 1 is added to the value to make it even. |
 
+---
+
 ### <a name="chrw"></a>ChrW
 
 Returns a wide-character string from a codepoint. If the codepoint is higher than 65535, the value returned a surrogate pair.
@@ -220,3 +234,5 @@ FUNCTION ChrW (BYVAL codePoint AS UInteger) AS DWSTRING
 | Parameter  | Description |
 | ---------- | ----------- |
 | *codepoint* | The code point. |
+
+---
