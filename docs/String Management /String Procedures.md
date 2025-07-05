@@ -282,7 +282,7 @@ PRINT DWStrExtract(dws, "[dr]")
 ' Output: "abaca" - match on "d"
 ```
 ```
-DIM dwsText AS DWSTRING = "blah blah text between parentheses) blah blah"
+DIM dwsText AS DWSTRING = "blah blah (text between parentheses) blah blah"
 PRINT DWStrExtract(dwsText, "(", ")")   ' Output: "text between parentheses"
 ```
 ---
