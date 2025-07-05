@@ -19,6 +19,7 @@ The `DWSTRING` class implements a dynamic unicode null terminated string. Free B
 
 ```
 CONSTRUCTOR
+CONSTRUCTOR (BYREF wszStr AS CONST WSTRING)
 CONSTRUCTOR (BYVAL pwszStr AS WSTRING PTR)
 CONSTRUCTOR (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT = 0)
 CONSTRUCTOR (BYREF dws AS DWSTRING)
