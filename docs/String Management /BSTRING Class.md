@@ -15,6 +15,7 @@ While `DWSTRING`manages its own memory allocations, `BSTRING`is a wrapper on top
 | [Detach](#detach) | Detaches the underlying BSTR from the BSTRING class and returns it as the result of the function. |
 | [Utf8](#utf8) | Converts from UTF8 to Unicode and from Unicode to UTF8. |
 | [wchar](#wchar) | Returns the string data as a new unicode string allocated with CoTaskMemAlloc. |
+| [vptr](#vptr) | Returns the string data as a new unicode string allocated with CoTaskMemAlloc. |
 
 # <a name="constructors"></a>Constructors
 
@@ -159,6 +160,8 @@ END IF
 
 Notice that, contrarily to **CreateFileW**, FreeBasic's OPEN statement doesn't allow to use unicode for the file name.
 
+---
+
 # Operators
 
 ## <a name="operator*"></a>Operator *
@@ -168,6 +171,8 @@ Deferences the `BSTRING`.<br>One * returns the address of the underlying `BSTR` 
 ```
 OPERATOR * (BYREF bs AS BSTRING) AS WSTRING PTR
 ```
+
+---
 
 # Casting and Conversions
 
@@ -180,6 +185,8 @@ OPERATOR CAST () BYREF AS CONST WSTRING
 OPERATOR CAST () AS ANY PTR
 ```
 
+---
+
 ## <a name="wchar"></a>wchar
 
 Returns the string data as a new unicode string allocated with **CoTaskMemAlloc**.
@@ -190,6 +197,8 @@ Useful when we need to pass a pointer to a null terminated wide string to a func
 FUNCTION wchar () AS WSTRING PTR
 ```
 
+---
+
 ## <a name="utf8"></a>Utf8
 
 Converts from UTF8 to Unicode and from Unicode to UTF8.
@@ -198,6 +207,8 @@ Converts from UTF8 to Unicode and from Unicode to UTF8.
 PROPERTY Utf8() AS STRING
 PROPERTY Utf8 (BYREF utf8String AS STRING)
 ```
+
+---
 
 # Methods
 
@@ -209,6 +220,8 @@ Attaches a `BSTR` to the `BSTRING` class.
 SUB Attach (BYVAL pbstrSrc AS BSTR)
 ```
 
+---
+
 ## <a name="detach"></a>Detach
 
 Detaches the underlying `BSTR` from the `BSTRING` class and returns it as the result of the function. The returned pointer must be freed by **SysFreeString**.
@@ -218,3 +231,6 @@ FUNCTION Detach () AS BSTR
 ```
 
 This method frees the *m_bstr* member of the `BSTRING` class and returns it as the result of the function. Because it no longer belongs to the class, it must be freed by **SysFreeString**.
+
+---
+
