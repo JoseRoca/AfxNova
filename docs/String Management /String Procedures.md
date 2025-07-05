@@ -319,7 +319,7 @@ FUNCTION DWStrFormatKBSize (BYVAL ull AS LONGLONG) AS DWSTRING
 Converts a time interval, specified in milliseconds, to a string.
 
 ```
-FUNCTION wtrFromTimeInterval (BYVAL dwTimeMS AS DWORD, BYVAL digits AS LONG) AS DWSTRING
+FUNCTION DWStrFromTimeInterval (BYVAL dwTimeMS AS DWORD, BYVAL digits AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
