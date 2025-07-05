@@ -30,49 +30,49 @@ PRINT wszOut
 
 | Name       | Description |
 | ---------- | ----------- |
-| [wstrACode](#wstracode) | Translates Unicode chars to ansi bytes. |
-| [wstrBase64DecodeA](#wstrbase64decodea) | Converts the contents of a Base64 mime encoded string to an ASCII string. |
-| [wstrBase64DecodeW](#wstrbase64decodew) | Converts the contents of a Base64 mime encoded string to an Unicode string. |
-| [wstrBase64EncodeA](#wstrbase64encodea) | Converts the contents of an ASCII string to Base64 mime encoding. |
-| [wstrBase64EncodeW](#wstrbase64encodew) | Converts the contents of an Unicode string to Base64 mime encoding. |
-| [wstrClip](#wstrclip) | Returns a string with the specified number of characters removed from the left, right or mid section of the string. |
-| [wstrCryptBinaryToString](#wstrcryptbinarytostring) | Converts an array of bytes into a formatted string. |
-| [wstrCryptStringToBinary](#wstrcryptstringtobinary) | Converts a formatted string into an array of bytes. |
-| [wstrCSet](#wstrcset) | Returns a string containing a centered (padded) string. |
-| [wstrCSetAbs](#wstrcsetabs) | Returns a string containing a centered string within the space of another string. |
-| [wstrDelete](#wstrdelete) | Deletes a specified number of characters from a string expression. |
-| [wstrEscape](#wstrescape) | Escapes any potential regex syntax characters in a string. |
-| [wstrExtract](#wstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
-| [wstrFormatByteSize](#wstrformatbytesize) | Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size. |
-| [wstrFormatKBSize](#wstrformatkbsize) | Converts a numeric value into a string that represents the number expressed as a size value in kilobytes. |
-| [wstrFromTimeInterval](#wstrfromtimeinterval) | Converts a time interval, specified in milliseconds, to a string. |
-| [wstrInsert](#wstrinsert) | Inserts a string at a specified position within another string expression. |
-| [wstrIsNumeric](#wstrisnumeric) | Returns True if the passed string is numeric. |
-| [wstrJoin](#wstrjoin) | Returns a string consisting of all of the strings in an array, each separated by a delimiter. |
-| [wstrLCase](#wstrlcase) | Returns a lowercased version of a string. |
-| [wstrLSetAbs](#wstrlsetabs) | Left-aligns a string within the space of another string. |
-| [wstrMCase](#wstrmcase) | Returns a mixed case version of its string argument. |
-| [wstrParse](#wstrparse) | Returns a delimited field from a string expression. |
-| [wstrParseCount](#wstrparsecount) | Returns the count of delimited fields from a string expression. |
-| [wstrPathName](#wstrpathname) | Parses a path to extract component parts. |
-| [wstrPathScan](#wstrpathscan) | Searches a path for a file name. |
-| [wstrRemain](#wstrremain) | Returns the portion of a string following the first occurrence of a string. |
-| [wstrRemove](#wstrremove) | Returns a new string with substrings removed. |
-| [wstrRepeat](#wstrrepeat) | Returns a string consisting of multiple copies of the specified string. |
-| [wstrReplace](#wstrreplace) | Replaces all the occurrences of a string with another string. |
-| [wstrRetain](#wstrretain) | Returns a string containing only the characters contained in a specified match string. |
-| [wstrReverse](#wstrreverse) | Reverses the contents of a string expression. |
-| [wstrRSet](#wstrrset) | Returns a string containing a right justified string. |
-| [wstrRSetAbs](#wstrrsetabs) | Right-aligns a string within the space of another string. |
-| [wstrShrink](#wstrshrink) | Shrinks a string to use a consistent single character delimiter. |
-| [wstrSplit](#wstrsplit) | Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. |
-| [wstrSpn](#wstrspn) | Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters. |
-| [wstrTally](#wstrtally) | Count the number of occurrences of a string within a string |
-| [wstrUCase](#wstrucase) | Returns an uppercased version of a string. |
-| [wstrUCode](#wstrucode) | Translates ansi bytes to Unicode bytes. |
-| [wstrVerify](#wstrverify) | Determine whether each character of a string is present in another string. |
-| [wstrWrap](#wstrwrap) | Adds paired characters to the beginning and end of a string. |
-| [wstrUnWrap](#wstrunwrap) | Removes paired characters to the beginning and end of a string. |
+| [DWStrAcode](#wstracode) | Translates Unicode chars to ansi bytes. |
+| [DWStrBase64DecodeA](#wstrbase64decodea) | Converts the contents of a Base64 mime encoded string to an ASCII string. |
+| [DWStrBase64DecodeW](#wstrbase64decodew) | Converts the contents of a Base64 mime encoded string to an Unicode string. |
+| [DWStrBase64EncodeA](#wstrbase64encodea) | Converts the contents of an ASCII string to Base64 mime encoding. |
+| [DWStrBase64EncodeW](#wstrbase64encodew) | Converts the contents of an Unicode string to Base64 mime encoding. |
+| [DWStrClip](#wstrclip) | Returns a string with the specified number of characters removed from the left, right or mid section of the string. |
+| [DWStrCryptBinaryToString](#wstrcryptbinarytostring) | Converts an array of bytes into a formatted string. |
+| [DWStrCryptStringToBinary](#wstrcryptstringtobinary) | Converts a formatted string into an array of bytes. |
+| [DWStrCSet](#wstrcset) | Returns a string containing a centered (padded) string. |
+| [DWStrCSetAbs](#wstrcsetabs) | Returns a string containing a centered string within the space of another string. |
+| [DWStrDelete](#wstrdelete) | Deletes a specified number of characters from a string expression. |
+| [DWStrEscape](#wstrescape) | Escapes any potential regex syntax characters in a string. |
+| [DWStrExtract](#wstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
+| [DWStrFormatByteSize](#wstrformatbytesize) | Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size. |
+| [DWStrFormatKBSize](#wstrformatkbsize) | Converts a numeric value into a string that represents the number expressed as a size value in kilobytes. |
+| [DWStrFromTimeInterval](#wstrfromtimeinterval) | Converts a time interval, specified in milliseconds, to a string. |
+| [DWStrInsert](#wstrinsert) | Inserts a string at a specified position within another string expression. |
+| [DWStrIsNumeric](#wstrisnumeric) | Returns True if the passed string is numeric. |
+| [DWStrJoin](#wstrjoin) | Returns a string consisting of all of the strings in an array, each separated by a delimiter. |
+| [DWStrLCase](#wstrlcase) | Returns a lowercased version of a string. |
+| [DWStrLSetAbs](#wstrlsetabs) | Left-aligns a string within the space of another string. |
+| [DWStrMCase](#wstrmcase) | Returns a mixed case version of its string argument. |
+| [DWStrParse](#wstrparse) | Returns a delimited field from a string expression. |
+| [DWStrParseCount](#wstrparsecount) | Returns the count of delimited fields from a string expression. |
+| [DWStrPathName](#wstrpathname) | Parses a path to extract component parts. |
+| [DWStrPathScan](#wstrpathscan) | Searches a path for a file name. |
+| [DWStrRemain](#wstrremain) | Returns the portion of a string following the first occurrence of a string. |
+| [DWStrRemove](#wstrremove) | Returns a new string with substrings removed. |
+| [DWStrRepeat](#wstrrepeat) | Returns a string consisting of multiple copies of the specified string. |
+| [DWStrReplace](#wstrreplace) | Replaces all the occurrences of a string with another string. |
+| [DWStrRetain](#wstrretain) | Returns a string containing only the characters contained in a specified match string. |
+| [DWStrReverse](#wstrreverse) | Reverses the contents of a string expression. |
+| [DWStrRSet](#wstrrset) | Returns a string containing a right justified string. |
+| [DWStrRSetAbs](#wstrrsetabs) | Right-aligns a string within the space of another string. |
+| [DWStrShrink](#wstrshrink) | Shrinks a string to use a consistent single character delimiter. |
+| [DWStrSplit](#wstrsplit) | Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. |
+| [DWStrSpn](#wstrspn) | Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters. |
+| [DWStrTally](#wstrtally) | Count the number of occurrences of a string within a string |
+| [DWStrUCase](#wstrucase) | Returns an uppercased version of a string. |
+| [DWStrUCode](#wstrucode) | Translates ansi bytes to Unicode bytes. |
+| [DWStrVerify](#wstrverify) | Determine whether each character of a string is present in another string. |
+| [DWStrWrap](#wstrwrap) | Adds paired characters to the beginning and end of a string. |
+| [DWStrUnWrap](#wstrunwrap) | Removes paired characters to the beginning and end of a string. |
 
 ### Surrogates
 
@@ -80,12 +80,12 @@ Checking and fixing broken surrogates is diabled by default for speed reasons. I
 
 | Name       | Description |
 | ---------- | ----------- |
-| [wstrChrW](#wstrchrw) | Returns a wide-character string from a codepoint. |
-| [wstrCodePointToSurrogatePair](#wstrcodepointtosurrogatepair) | Converts a Unicode code point (above U+FFFF) back into its high and low surrogate pair. |
-| [wstrHasSurrogates](#wstrhassurrogates) | Checks if the passed string has surrogates. |
-| [wstrIsValidSurrogatePair](#wstrisvalidsurrogatepair) | Checks whether a UTF-16 encoded string contains valid high-low surrogate pairs. |
-| [wstrScanForSurrogates](#wstrscanforsurrogates) | Scans a string to search for surrogates. |
-| [wstrSurrogatePairToCodePoint](#wstrsurrogatepairtocodepoint) | Converts a surrogate pair to a Unicode code point. |
+| [DWStrChrW](#wstrchrw) | Returns a wide-character string from a codepoint. |
+| [DWStrCodePointToSurrogatePair](#wstrcodepointtosurrogatepair) | Converts a Unicode code point (above U+FFFF) back into its high and low surrogate pair. |
+| [DWStrHasSurrogates](#wstrhassurrogates) | Checks if the passed string has surrogates. |
+| [DWStrIsValidSurrogatePair](#wstrisvalidsurrogatepair) | Checks whether a UTF-16 encoded string contains valid high-low surrogate pairs. |
+| [DWStrScanForSurrogates](#wstrscanforsurrogates) | Scans a string to search for surrogates. |
+| [DWStrSurrogatePairToCodePoint](#wstrsurrogatepairtocodepoint) | Converts a surrogate pair to a Unicode code point. |
 
 ### Surrogate macros
 
@@ -107,7 +107,7 @@ const LOW_SURROGATE_END = &hdfff
 
 ---
 
-### <a name="wstracode"></a>wstrACode
+### <a name="wstracode"></a>DWStrAcode
 
 Translates Unicode chars to ansi bytes.
 
@@ -125,12 +125,12 @@ The translated string.
 
 ---
 
-### <a name="wstrclip"></a>wstrClip
+### <a name="wstrclip"></a>DWStrClip
 
 Returns a string with the specified number of characters removed from the left, middle or right side of the string.
 
 ```
-FUNCTION FUNCTION wstrClip (BYREF wszSide AS CONST WSTRING, BYREF wszSourceString AS CONST WSTRING, _
+FUNCTION FUNCTION DWStrClip (BYREF wszSide AS CONST WSTRING, BYREF wszSourceString AS CONST WSTRING, _
    BYVAL nCount AS LONG, BYVAL nStart AS LONG = 0) AS DWSTRING
 ```
 
@@ -143,18 +143,18 @@ FUNCTION FUNCTION wstrClip (BYREF wszSide AS CONST WSTRING, BYREF wszSourceStrin
 
 #### Usage examples
 ```
-DIM dws AS DWSTRING = wstrClip("LEFT", "1234567890", 3)     ' Output: "4567890"
-DIM dws AS DWSTRING = wstrClip("RIGHT", "1234567890", 3)    ' Output: "1234567"
-DIM dws AS DWSTRING = wstrClip("MID", "1234567890", 3, 4)   ' Output: "1237890"
+DIM dws AS DWSTRING = DWStrClip("LEFT", "1234567890", 3)     ' Output: "4567890"
+DIM dws AS DWSTRING = DWStrClip("RIGHT", "1234567890", 3)    ' Output: "1234567"
+DIM dws AS DWSTRING = DWStrClip("MID", "1234567890", 3, 4)   ' Output: "1237890"
 ```
 ---
 
-### <a name="wstrcset"></a>wstrCSet
+### <a name="wstrcset"></a>DWStrCSet
 
 Returns a string containing a centered (padded) string.
 
 ```
-FUNCTION wstrCSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength AS LONG, _
+FUNCTION DWStrCSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength AS LONG, _
    BYREF wszPadCharacter AS CONST WSTRING = " ") AS DWSTRING
 ```
 
@@ -167,16 +167,16 @@ FUNCTION wstrCSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength A
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrCSet("FreeBasic", 20, "*")   ' Output: "*****FreeBasic******"
+DIM dws AS DWSTRING = DWStrCSet("FreeBasic", 20, "*")   ' Output: "*****FreeBasic******"
 ```
 ---
 
-### <a name="wstrcsetabs"></a>wstrCSetAbs
+### <a name="wstrcsetabs"></a>DWStrCSetAbs
 
 Returns a string containing a centered string within the space of another string.
 
 ```
-FUNCTION wstrCSetAbs (BYREF wszPadString AS CONST WSTRING, BYREF wszString AS CONST WSTRING) AS DWSTRING
+FUNCTION DWStrCSetAbs (BYREF wszPadString AS CONST WSTRING, BYREF wszString AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -189,17 +189,17 @@ FUNCTION wstrCSetAbs (BYREF wszPadString AS CONST WSTRING, BYREF wszString AS CO
 ```
 DIM dwsPad AS DWSTRING = "COOL COOL COOL COOL COOL"
 DIM dws AS DWSTRING = "..FreeBasic is.."
-PRINT wstrCSetAbs(dwsPad, dws)
+PRINT DWStrCSetAbs(dwsPad, dws)
 ' Output: "COOL..FreeBasic is..COOL"
 ```
 ---
 
-### <a name="wstrdelete"></a>wstrDelete
+### <a name="wstrdelete"></a>DWStrDelete
 
 Deletes a specified number of characters from a string expression.
 
 ```
-FUNCTION wstrDelete (BYREF wszSourceString AS CONST WSTRING, BYVAL nStart AS LONG, BYVAL nCount AS LONG) AS DWSTRING
+FUNCTION DWStrDelete (BYREF wszSourceString AS CONST WSTRING, BYVAL nStart AS LONG, BYVAL nCount AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -211,16 +211,16 @@ FUNCTION wstrDelete (BYREF wszSourceString AS CONST WSTRING, BYVAL nStart AS LON
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrDelete("1234567890", 4, 3)   ' Output: "1237890"
+DIM dws AS DWSTRING = DWStrDelete("1234567890", 4, 3)   ' Output: "1237890"
 ```
 ---
 
-### <a name="wstrEscape"></a>wstrEscape
+### <a name="DWStrEscape"></a>DWStrEscape
 
 Escapes any potential regex syntax characters in a pattern string and returns a new string that can be safely used as a literal pattern.
 
 ```
-FUNCTION wstrEscape (BYREF wszStr AS CONST WSTRING) AS DWSTRING
+FUNCTION DWStrEscape (BYREF wszStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -229,14 +229,14 @@ FUNCTION wstrEscape (BYREF wszStr AS CONST WSTRING) AS DWSTRING
 
 ---
 
-### <a name="wstrExtract"></a>wstrExtract
+### <a name="DWStrExtract"></a>DWStrExtract
 
 Extracts characters from a string up to (but not including) a string.
 
 ```
-FUNCTION wstrExtract (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
+FUNCTION DWStrExtract (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
    BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
-FUNCTION wstrExtract (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
+FUNCTION DWStrExtract (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
    BYREF wszMatchString AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
 ```
 
@@ -253,9 +253,9 @@ FUNCTION wstrExtract (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRI
 
 Returns the portion of a string following the occurrence of a specified delimiter up to the second delimiter. If no match is found, an empty string is returned. If *nStart* is 0 or greater than the length of *wszSourceString*, an empty string is returned.
 ```
-FUNCTION wstrExtract OVERLOAD (BYREF wszSourceString AS CONST WSTRING, BYREF leftDelimiter AS CONST WSTRING, _
+FUNCTION DWStrExtract OVERLOAD (BYREF wszSourceString AS CONST WSTRING, BYREF leftDelimiter AS CONST WSTRING, _
    BYREF rightDelimiter AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
-FUNCTION wstrExtract OVERLOAD (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
+FUNCTION DWStrExtract OVERLOAD (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
    BYREF leftDelimiter AS CONST WSTRING, BYREF rightDelimiter AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
 ```
 
@@ -271,27 +271,27 @@ FUNCTION wstrExtract OVERLOAD (BYVAL nStart AS LONG, BYREF wszSourceString AS CO
 
 ```
 DIM dws AS DWSTRING = "abacadabra"
-PRINT wstrExtract(dws, "cad")
+PRINT DWStrExtract(dws, "cad")
 ' Output: "aba" - match on "cad"
 ```
 *wszMatchStr* can specify a list of single characters, enclosed between [], to be searched for individually, a match on any one of which will cause the extract operation to be performed up to that character.
 ```
 DIM dws AS DWSTRING = "abacadabra"
-PRINT wstrExtract(dws, "[dr]")
+PRINT DWStrExtract(dws, "[dr]")
 ' Output: "abaca" - match on "d"
 ```
 ```
 DIM dwsText AS DWSTRING = "blah blah text between parentheses) blah blah"
-PRINT wstrExtract(dwsText, "(", ")")   ' Output: "text between parentheses"
+PRINT DWStrExtract(dwsText, "(", ")")   ' Output: "text between parentheses"
 ```
 ---
 
-### <a name="wstrformatbytesize"></a>wstrFormatByteSize
+### <a name="wstrformatbytesize"></a>DWStrFormatByteSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size.
 
 ```
-FUNCTION wstrFormatByteSize (BYVAL ull AS LONGLONG) AS DWSTRING
+FUNCTION DWStrFormatByteSize (BYVAL ull AS LONGLONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -300,12 +300,12 @@ FUNCTION wstrFormatByteSize (BYVAL ull AS LONGLONG) AS DWSTRING
 
 ---
 
-### <a name="wstrformatkbsize"></a>wstrFormatKBSize
+### <a name="wstrformatkbsize"></a>DWStrFormatKBSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in kilobytes.
 
 ```
-FUNCTION wstrFormatKBSize (BYVAL ull AS LONGLONG) AS DWSTRING
+FUNCTION DWStrFormatKBSize (BYVAL ull AS LONGLONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -314,7 +314,7 @@ FUNCTION wstrFormatKBSize (BYVAL ull AS LONGLONG) AS DWSTRING
 
 ---
 
-### <a name="wstrfromtimeinterval"></a>wstrFromTimeInterval
+### <a name="wstrfromtimeinterval"></a>DWStrFromTimeInterval
 
 Converts a time interval, specified in milliseconds, to a string.
 
@@ -340,12 +340,12 @@ Some examples for *digits*:
 
 ---
 
-### <a name="wstrinsert"></a>wstrInsert
+### <a name="wstrinsert"></a>DWStrInsert
 
 Inserts a string at a specified position within another string expression.
 
 ```
-FUNCTION wstrInsert (BYREF wszSourceString AS CONST WSTRING, BYREF wszInsertString AS CONST WSTRING, _
+FUNCTION DWStrInsert (BYREF wszSourceString AS CONST WSTRING, BYREF wszInsertString AS CONST WSTRING, _
    BYVAL nPosition AS LONG) AS DWSTRING
 ```
 
@@ -358,21 +358,21 @@ FUNCTION wstrInsert (BYREF wszSourceString AS CONST WSTRING, BYREF wszInsertStri
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrInsert("1234567890", "--", 6)
+DIM dws AS DWSTRING = DWStrInsert("1234567890", "--", 6)
 ```
 ---
 
-### <a name="wstrisnumeric"></a>wstrIsNumeric
+### <a name="wstrisnumeric"></a>DWStrIsNumeric
 
 Retuns True if the passed string is muneric.
 
 ```
-FUNCTION wstrIsNumeric (BYREF wszSourcestring AS CONST WSTRING) AS BOOLEAN
+FUNCTION DWStrIsNumeric (BYREF wszSourcestring AS CONST WSTRING) AS BOOLEAN
 ```
 #### Example
 
 ```
-wstrIsNumeric("1.2345678901234567e+029")   ' Output: "true"
+DWStrIsNumeric("1.2345678901234567e+029")   ' Output: "true"
 ```
 Explanation of the pattern used: "^[\+\-]?\d*\.?\d+(?:[Ee][\+\-]?\d+)?$"
 ```
@@ -390,12 +390,12 @@ $ ? Anchors the match to the end of the string, ensuring a full numeric match.
 ```
 ---
 
-### <a name="wstrjoin"></a>wstrJoin
+### <a name="wstrjoin"></a>DWStrJoin
 
 Returns a string consisting of all of the strings in an array, each separated by a delimiter. If the delimiter is a null (zero-length) string then no separators are inserted between the string sections. If the delimiter expression is the 3-byte value of '","', which may be expressed in your source code as the string literal """,""" or as Chr(34,44,34) then a leading and trailing double-quote is added to each string section. This ensures that the returned string contains standard comma-delimited quoted fields that can be easily parsed.
 
 ```
-#macro wstrJoin(array, dest, delim)
+#macro DWStrJoin(array, dest, delim)
 ```
 
 | Parameter  | Description |
@@ -416,18 +416,18 @@ FOR i AS LONG = 1 TO 10
    rg(i) = "string " & i
 NEXT
 DIM dws AS DWSTRING
-wstrJoin(rg, dws, """,""")
+DWStrJoin(rg, dws, """,""")
 PRINT dws
 ' Instead of DWSTRING, any other data type can be used: BSTRING, STRING...
 ```
 ---
 
-### <a name="wstrlcase"></a>wstrLCase
+### <a name="wstrlcase"></a>DWStrLCase
 
 Returns a lowercased version of a string.
 
 ```
-FUNCTION wstrLCase (BYVAL pwszStr AS WSTRING PTR, _
+FUNCTION DWStrLCase (BYVAL pwszStr AS WSTRING PTR, _
    BYVAL pwszLocaleName AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT, _
    BYVAL dwMapFlags AS DWORD = 0) AS DWSTRING
 ```
@@ -448,8 +448,8 @@ The string conversion functions available in FreeBasic are not fully suitable fo
 
 For Turkey, use:
 ```
-wstrUCase("karışıklığı", "tr-TR")
-wstrLCase("KARIŞIKLIĞI", "tr-TR")
+DWStrUCase("karışıklığı", "tr-TR")
+DWStrLCase("KARIŞIKLIĞI", "tr-TR")
 ```
 
 #### Return value
@@ -480,12 +480,12 @@ DIM dws AS DWSTRING = wstrLSet("FreeBasic", 20, "*")
 ```
 ---
 
-### <a name="wtrlsetabs"></a>wstrLSetAbs
+### <a name="wtrlsetabs"></a>DWStrLSetAbs
 
 Left-aligns a string within the space of another string. If *wszStr* is empty, the function leaves the padding positions unchanged from their original content, rather than replacing them with spaces as `LSET` does. If *wszStr* is longer than *wszSourceString*, **wstrLSet** truncates it from the right until it fits in the result string.
 
 ```
-FUNCTION wstrLSetAbs (BYREF wszSourceString AS CONST WSTRING, BYREF wszStr AS CONST WSTRING) AS DWSTRING
+FUNCTION DWStrLSetAbs (BYREF wszSourceString AS CONST WSTRING, BYREF wszStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -497,16 +497,16 @@ FUNCTION wstrLSetAbs (BYREF wszSourceString AS CONST WSTRING, BYREF wszStr AS CO
 
 ```
 DIM dws AS DWSTRING = "NameBasic=SuperBasic"
-PRINT wstrLSetAbs(dws, "FreeBasic")  ' Output: "FreeBasic=SuperBasic"
+PRINT DWStrLSetAbs(dws, "FreeBasic")  ' Output: "FreeBasic=SuperBasic"
 ```
 ---
 
-### <a name="wstrmcase"></a>wstrMCase
+### <a name="wstrmcase"></a>DWStrMCase
 
 Returns a mixed case version of its string argument.
 
 ```
-FUNCTION wstrMCase (BYREF wszSourceString AS WSTRING) AS DWSTRING
+FUNCTION DWStrMCase (BYREF wszSourceString AS WSTRING) AS DWSTRING
 ```
 #### Example
 ```
@@ -515,12 +515,12 @@ DIM dws AS DWSTRING = strMCase("Cats aren't AL.WAYS good.")
 ' Note: It mimincs PowerBASIC's MCase$ function.
 ```
 
-### <a name="wstrparse"></a>wstrParse 
+### <a name="wstrparse"></a>DWStrParse 
 
 Returns a delimited field from a string expression.
 
 ```
-FUNCTION wstrParse (BYREF wszSourceString AS CONST WSTRING, BYVAL index AS LONG = 1, _
+FUNCTION DWStrParse (BYREF wszSourceString AS CONST WSTRING, BYVAL index AS LONG = 1, _
    BYREF wszDelimiter AS CONST WSTRING = ",") AS DWSTRING
 ```
 
@@ -533,18 +533,18 @@ FUNCTION wstrParse (BYREF wszSourceString AS CONST WSTRING, BYVAL index AS LONG 
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrParse("one,two,three")           ' Output: "one"
-DIM dws AS DWSTRING = wstrParse("one;two,three", 1, ";")   ' Output: "one"
-DIM dws AS DWSTRING = wstrParse("1;2,3", 2, ",;")          ' Output: "2"
+DIM dws AS DWSTRING = DWStrParse("one,two,three")           ' Output: "one"
+DIM dws AS DWSTRING = DWStrParse("one;two,three", 1, ";")   ' Output: "one"
+DIM dws AS DWSTRING = DWStrParse("1;2,3", 2, ",;")          ' Output: "2"
 ```
 ---
 
-### <a name="wstrParseCount"></a>wstrParseCount 
+### <a name="DWStrParseCount"></a>DWStrParseCount 
 
 Returns the count of delimited fields from a string expression.
 
 ```
-FUNCTION wstrParseCount (BYREF wszSourceString AS CONST WSTRING, BYREF wszDelimiter AS CONST WSTRING = ",") AS LONG
+FUNCTION DWStrParseCount (BYREF wszSourceString AS CONST WSTRING, BYREF wszDelimiter AS CONST WSTRING = ",") AS LONG
 ```
 
 | Parameter  | Description |
@@ -555,18 +555,18 @@ FUNCTION wstrParseCount (BYREF wszSourceString AS CONST WSTRING, BYREF wszDelimi
 #### Usage example
 
 ```
-DIM nCount AS LONG = wstrParseCount("one,two,three", ",")   ' Output: "3"
-DIM nCount AS LONG = wstrParseCount("1;2,3", ",;")          ' Output: "3"
+DIM nCount AS LONG = DWStrParseCount("one,two,three", ",")   ' Output: "3"
+DIM nCount AS LONG = DWStrParseCount("1;2,3", ",;")          ' Output: "3"
 
 ```
 ---
 
-### <a name="wstrpathname"></a>wstrPathName 
+### <a name="wstrpathname"></a>DWStrPathName 
 
 Parses a path to extract component parts.
 
 ```
-FUNCTION wstrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS WSTRING) AS DWSTRING
+FUNCTION DWStrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -584,12 +584,12 @@ FUNCTION wstrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS WS
 ---
 
 
-### <a name="wstrpathscan"></a>wstrPathScan
+### <a name="wstrpathscan"></a>DWStrPathScan
 
 Searches a path for a file name.
 
 ```
-FUNCTION wstrPathScan (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS CONST WSTRING,_
+FUNCTION DWStrPathScan (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS CONST WSTRING,_
    BYREF wszOtherDirs AS CONST WSTRING = "") AS DWSTRING
 ```
 
@@ -597,22 +597,22 @@ FUNCTION wstrPathScan (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS CO
 | ---------- | ----------- |
 | *wszOption* | One of the following words which is used to specify the requested part: PATH, NAME, EXTN, NAMEX. |
 | *wszFileSpec* | The path to be scanned. |
-| *wszOtherDirs* | An optional path string which includes one or more paths to be searched to find wszFileSpec. If multiple path names are included in this string, they musteach be separated by a semicolon (;) delimiter. If wszOtherDirs: is not given, or it is a null (zero-length) string, the following directories are searched:<br>- The directory from which the application was loaded.<br>- The current directory.<br>- The standard directories such as System32 and the directories specified in the PATH environment variable.<br>To expedite the process or enable wstrPathScan to search a wider range of directories,use the wszOtherDirs parameter to specify one or more directories to be searched first. |
+| *wszOtherDirs* | An optional path string which includes one or more paths to be searched to find wszFileSpec. If multiple path names are included in this string, they musteach be separated by a semicolon (;) delimiter. If wszOtherDirs: is not given, or it is a null (zero-length) string, the following directories are searched:<br>- The directory from which the application was loaded.<br>- The current directory.<br>- The standard directories such as System32 and the directories specified in the PATH environment variable.<br>To expedite the process or enable DWStrPathScan to search a wider range of directories,use the wszOtherDirs parameter to specify one or more directories to be searched first. |
 
 #### Return value
 
-If the file is found, it returns either the full path/file name, or a selected part of it.If the file is not found, a null (zero-length)  is returned. If you wish to simply parsea text file name, without regard to its validation on disk, you should use the companionfunction *wstrPathName*.
+If the file is found, it returns either the full path/file name, or a selected part of it.If the file is not found, a null (zero-length)  is returned. If you wish to simply parsea text file name, without regard to its validation on disk, you should use the companionfunction *DWStrPathName*.
 
 ---
 
-### <a name="wstrremain"></a>wstrRemain
+### <a name="wstrremain"></a>DWStrRemain
 
 Returns the portion of a string following the first occurrence of a character or group of characters. If *wszMatchString* is not present in *wszSourceString* (or is null) then a zero-length empty string is returned.
 
 ```
-FUNCTION wstrRemain (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
+FUNCTION DWStrRemain (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
    BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
-FUNCTION wstrRemain (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
+FUNCTION DWStrRemain (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
    BYREF wszMatchString AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
 ```
 
@@ -626,26 +626,26 @@ FUNCTION wstrRemain (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRIN
 
 ```
 DIM dws AS DWSTRING = "I think, therefore I am"
-dws = wstrRemain(dws, ",", TRUE)
+dws = DWStrRemain(dws, ",", TRUE)
 PRINT dws
 ' Output: " therefore I am"
 ```
 ```
 DIM dws AS DWSTRING = "One, two, three"
-dws = wstrRemain(5, dws, ",", TRUE)
+dws = DWStrRemain(5, dws, ",", TRUE)
 PRINT dws
 ' Output: " three"
 ```
 ---
 
-### <a name="wstrRemove"></a>wstrRemove
+### <a name="DWStrRemove"></a>DWStrRemove
 
 Returns a new string with strings removed.
 
 ```
-FUNCTION wstrRemove (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
+FUNCTION DWStrRemove (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
    BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
-FUNCTION wstrRemove (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
+FUNCTION DWStrRemove (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
    BYREF wszMatchString AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
 ```
 | Parameter  | Description |
@@ -660,9 +660,9 @@ FUNCTION wstrRemove (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRIN
 Return a copy of a string with a substring enclosed between the specified delimiters removed.
 
 ```
-FUNCTION wstrRemove (BYREF wszSourceString AS CONST WSTRING, BYREF leftDelimiter AS CONST WSTRING, _
+FUNCTION DWStrRemove (BYREF wszSourceString AS CONST WSTRING, BYREF leftDelimiter AS CONST WSTRING, _
    BYREF rightDelimiter AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
-FUNCTION wstrRemove OVERLOAD (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
+FUNCTION DWStrRemove OVERLOAD (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
    BYREF leftDelimiter AS CONST WSTRING, BYREF rightDelimiter AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
 ```
 
@@ -677,9 +677,9 @@ FUNCTION wstrRemove OVERLOAD (BYVAL nStart AS LONG, BYREF wszSourceString AS CON
 #### Usage examples
 
 ```
-wstrRemove("Hello World. Welcome to the Freebasic World", "World")   'Output: "Hello . Welcome to the Freebasic"
-wstrRemove("abacadabra", "bac")        ' Output: "aaabra"
-wstrRemove("abacadabra", "[bac]")      ' Output: "dr"
+DWStrRemove("Hello World. Welcome to the Freebasic World", "World")   'Output: "Hello . Welcome to the Freebasic"
+DWStrRemove("abacadabra", "bac")        ' Output: "aaabra"
+DWStrRemove("abacadabra", "[bac]")      ' Output: "dr"
 ```
 ```
 DIM dwsText AS DWSTRING = "As Long var1(34), var2(  73 ), var3(any)"
@@ -687,12 +687,12 @@ PRINT WstrRemove(19, dwsText, "(", ")", TRUE)   ' Returns "var2, var3"
 ```
 ---
 
-### <a name="wstrRepeat"></a>wstrRepeat
+### <a name="DWStrRepeat"></a>DWStrRepeat
 
 Returns a string consisting of multiple copies of the specified string. This function is similar to FreeBasic `STRING`, but `STRING` only makes multiple copies of a single character.
 
 ```
-FUNCTION wstrRepeat (BYVAL nCount AS LONG, BYREF wszSourceString AS CONST WSTRING) AS DWSTRING
+FUNCTION DWStrRepeat (BYVAL nCount AS LONG, BYREF wszSourceString AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -703,16 +703,16 @@ FUNCTION wstrRepeat (BYVAL nCount AS LONG, BYREF wszSourceString AS CONST WSTRIN
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrRepeat(5, "Paul")
+DIM dws AS DWSTRING = DWStrRepeat(5, "Paul")
 ```
 ---
 
-### <a name="wstrreplace"></a>wstrReplace
+### <a name="wstrreplace"></a>DWStrReplace
 
 Replaces all the occurrences of *wszMatchStr* in *wszSourceString* with the contents of *wszReplaceWith*.
 
 ```
-FUNCTION wstrReplace (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
+FUNCTION DWStrReplace (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
    BYREF wszReplaceString AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
 ```
 
@@ -726,18 +726,18 @@ FUNCTION wstrReplace (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchStri
 #### Usage examples
 
 ```
-wstrReplace("Hello World", "World", "Earth")   ' Output: "Hello Earth"
-wstrReplace("abacadabra", "bac", "***")        ' Output: "a***adabra"
-wstrReplace("abacadabra", "[bac]", "*")        ' Output: "*****d**r*"
+DWStrReplace("Hello World", "World", "Earth")   ' Output: "Hello Earth"
+DWStrReplace("abacadabra", "bac", "***")        ' Output: "a***adabra"
+DWStrReplace("abacadabra", "[bac]", "*")        ' Output: "*****d**r*"
 ```
 ---
 
-### <a name="wstrRetain"></a>wstrRetain
+### <a name="DWStrRetain"></a>DWStrRetain
 
 Returns a string containing only the characters contained in a specified match string. If *wszMatchString* is an empty string, **strRetain** returns an empty string.
 
 ```
-FUNCTION wstrRetain (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
+FUNCTION DWStrRetain (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
    BYVAL IgnoreCase AS BOOLEAN = TRUE) AS DWSTRING
 ```
 
@@ -751,30 +751,30 @@ FUNCTION wstrRetain (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchStrin
 
 ```
 DIM dws AS DWSTRING = "abacadabra"
-dws = wstrRetain(dws, "B", TRUE)
+dws = DWStrRetain(dws, "B", TRUE)
 PRINT dws
 ' Output: "bb"
 ```
 ```
 DIM dws AS DWSTRING = "<p>1234567890<ak;lk;l>1234567890</p>"
-dws = wstrRetain(dws, "<;/p>", TRUE)
+dws = DWStrRetain(dws, "<;/p>", TRUE)
 PRINT dws
 ' Output: "<p><;;></p>"
 ```
 ```
 DIM dws AS DWSTRING = "<p>1234567890<ak;lk;l>1234567890</p>"
-dws = wstrRetain(dws, "0123456789", TRUE)
+dws = DWStrRetain(dws, "0123456789", TRUE)
 PRINT dws
 ' Output: "12345678901234567890"
 ```
 ---
 
-### <a name="wstrreverse"></a>wstrReverse
+### <a name="wstrreverse"></a>DWStrReverse
 
 Reverses the contents of a string expression.
 
 ```
-FUNCTION wstrReverse (BYREF wszSourceString AS CONST WSTRING) AS DWSTRING
+FUNCTION DWStrReverse (BYREF wszSourceString AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -784,16 +784,16 @@ FUNCTION wstrReverse (BYREF wszSourceString AS CONST WSTRING) AS DWSTRING
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrReverse("garden")   ' Output: "nedrag"
+DIM dws AS DWSTRING = DWStrReverse("garden")   ' Output: "nedrag"
 ```
 ---
 
-### <a name="wstrrset"></a>wstrRSet
+### <a name="wstrrset"></a>DWStrRSet
 
 Returns a string containing a right justified string.
 
 ```
-FUNCTION wstrRSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength AS LONG, _
+FUNCTION DWStrRSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength AS LONG, _
    BYREF wszPadCharacter AS CONST WSTRING = " ") AS DWSTRING
 ```
 
@@ -806,17 +806,17 @@ FUNCTION wstrRSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength A
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrRSet("FreeBasic", 20, "*")
+DIM dws AS DWSTRING = DWStrRSet("FreeBasic", 20, "*")
 ```
 ---
 
 
-### <a name="wtrrsetabs"></a>wstrRSetAbs
+### <a name="wtrrsetabs"></a>DWStrRSetAbs
 
 Right-aligns a string within the space of another string. If *wszStr* is empty, the function leaves the padding positions unchanged from their original content, rather than replacing them with spaces as `RSET` does. If *wszStr* is longer than *wszSourceString*, **wstRSet** truncates it from the right until it fits in the result string.
 
 ```
-FUNCTION wstrRSetAbs (BYREF wszSourceString AS CONST WSTRING, BYREF wszStr AS CONST WSTRING) AS DWSTRING
+FUNCTION DWStrRSetAbs (BYREF wszSourceString AS CONST WSTRING, BYREF wszStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -828,15 +828,15 @@ FUNCTION wstrRSetAbs (BYREF wszSourceString AS CONST WSTRING, BYREF wszStr AS CO
 
 ```
 DIM dws AS DWSTRING = "NameBasic=NameBasic"
-PRINT wstrRSetAbs(dws, "FreeBasic")  ' Output: "NameBasic=FreeBasic"
+PRINT DWStrRSetAbs(dws, "FreeBasic")  ' Output: "NameBasic=FreeBasic"
 ```
 
-### <a name="wstrShrink"></a>wstrShrink
+### <a name="DWStrShrink"></a>DWStrShrink
 
 Shrinks a string to use a consistent single character delimiter.
 
 ```
-FUNCTION wstrShrink(BYREF wszSourceString AS CONST WSTRING, BYREF wszMask AS CONST WSTRING = "", _
+FUNCTION DWStrShrink(BYREF wszSourceString AS CONST WSTRING, BYREF wszMask AS CONST WSTRING = "", _
    BYVAL IgnoreCase AS LONG = TRUE) AS DWSTRING
 ```
 
@@ -853,17 +853,17 @@ This function creates a string with consecutive words separated by a consistent 
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrShrink(",,, one , two     three, four,", " ,")
+DIM dws AS DWSTRING = DWStrShrink(",,, one , two     three, four,", " ,")
 ' Output: "one two three four".
 ```
 ---
 
-### <a name="wstrSplit"></a>wstrSplit
+### <a name="DWStrSplit"></a>DWStrSplit
 
 Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. Each token is added to a DWSTRING (my own dynamic Unicode string data type for FreeBasic) and delimited by a carriage return and line feed. The returned string will be parsed later to get the individual tokens.
 
 ```
-FUNCTION wstrSplit (BYREF wszStr AS WSTRING, BYREF wszDelimiters AS WSTRING = " ", _
+FUNCTION DWStrSplit (BYREF wszStr AS WSTRING, BYREF wszDelimiters AS WSTRING = " ", _
    BYREF wszSeparator AS WSTRING = CHR(34, 44, 34), BYVAL maxsplits AS LONG = -1) AS DWSTRING
 ```
 
@@ -882,22 +882,22 @@ A list of tokens separated by the optional seoarator specified in *wszSeparator*
 
 ```
 DIM wsz AS WSTRING * 260 = "- This, a sample string."
-DIM dwsTokens AS DWSTRING = wstrSplit(wsz, " ,.-", , -1)
+DIM dwsTokens AS DWSTRING = DWStrSplit(wsz, " ,.-", , -1)
 PRINT "len dwsTokens: ", len(dwsTokens)
 PRINT dwsTokens
 ' Output: "This","a","sample","string"
 ' Passing " # " in wszSeparator:
-' DIM dwsTokens AS DWSTRING = wstrSplit(wsz, " ,.-", " # ", -1)
+' DIM dwsTokens AS DWSTRING = DWStrSplit(wsz, " ,.-", " # ", -1)
 ' Output: "This # a # sample # string"
 ```
 ---
 
-### <a name="wstrspn"></a>wstrSpn
+### <a name="wstrspn"></a>DWStrSpn
 
 Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters.
 
 ```
-FUNCTION wstrSpn (BYREF wszText AS CONST WSTRING, BYREF wszSet AS CONST WSTRING, BYVAL IgnoreCase AS LONG = TRUE) AS LONG
+FUNCTION DWStrSpn (BYREF wszText AS CONST WSTRING, BYREF wszSet AS CONST WSTRING, BYVAL IgnoreCase AS LONG = TRUE) AS LONG
 ```
 
 | Parameter  | Description |
@@ -911,7 +911,7 @@ FUNCTION wstrSpn (BYREF wszText AS CONST WSTRING, BYREF wszSet AS CONST WSTRING,
 ```
 DIM dwsText AS DWSTRING = "129th"
 DIM dwsSet AS DWSTRING = "1234567890"
-DIM n AS LONG = wstrSpn(dwsText, dwsSet)
+DIM n AS LONG = DWStrSpn(dwsText, dwsSet)
 PRINT "The initial number has " & WSTR(n) & " digits"   ' Output: "3"
 ```
 
@@ -921,12 +921,12 @@ The Windows API **StrSpnW** function and the C **wcsspn** function can also be u
 
 ---
 
-### <a name="wstrTally"></a>wstrTally
+### <a name="DWStrTally"></a>DWStrTally
 
 Count the number of occurrences of a string or a list of characters within a string.
 
 ```
-FUNCTION wstrTally (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
+FUNCTION DWStrTally (BYREF wszSourceString AS CONST WSTRING, BYREF wszMatchString AS CONST WSTRING, _
    BYVAL IgnoreCase AS BOOLEAN = TRUE) AS LONG
 ```
 
@@ -945,25 +945,25 @@ The number of occurrences of *wszMatchStr* in *wszSourceString*.
 
 ```
 DIM dws AS DWSTRING = "abacadabra"
-DIM nCount AS LONG = wstrTally(dws, "bac")
+DIM nCount AS LONG = DWStrTally(dws, "bac")
 PRINT nCount
 ' Output: Returns 1, counting the string "bac"
 ```
 ```
 DIM dws AS DWSTRING = "abacadabra"
-DIM nCount AS LONG = wstrTally(dws, "b|a|c")   ' // [bac] is the same that [b|a|c]
+DIM nCount AS LONG = DWStrTally(dws, "b|a|c")   ' // [bac] is the same that [b|a|c]
 PRINT nCount
 ' Output: Returns 8, counting all "b", "a", and "c" characters.
 ' The | is the OR operator in regular expressions. It means "match b OR a OR c".
 ```
 ---
 
-### <a name="wstrUCase"></a>wstrUCase
+### <a name="DWStrUCase"></a>DWStrUCase
 
 Returns an uppercased version of a string.
 
 ```
-FUNCTION wstrUCase (BYVAL pwszStr AS WSTRING PTR, _
+FUNCTION DWStrUCase (BYVAL pwszStr AS WSTRING PTR, _
    BYVAL pwszLocaleName AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT, _
    BYVAL dwMapFlags AS DWORD = 0) AS DWSTRING
 ```
@@ -985,7 +985,7 @@ The string conversion functions available in FreeBasic are not fully suitable fo
 For Turkey, use:
 ```
 wstrUcase("karışıklığı", "tr-TR")
-wstrLCase("KARIŞIKLIĞI", "tr-TR")
+DWStrLCase("KARIŞIKLIĞI", "tr-TR")
 ```
 
 #### Return value
@@ -994,12 +994,12 @@ The uppercased string.
 
 ---
 
-### <a name="wstrUCode"></a>wstrUCode
+### <a name="DWStrUCode"></a>DWStrUCode
 
 Translates ansi bytes to Unicode chars.
 
 ```
-FUNCTION wstrUCode (BYREF ansiStr AS CONST STRING, BYVAL nCodePage AS LONG = 0) AS DWSTRING
+FUNCTION DWStrUCode (BYREF ansiStr AS CONST STRING, BYVAL nCodePage AS LONG = 0) AS DWSTRING
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1012,12 +1012,12 @@ The translated string.
 
 ---
 
-### <a name="wstrunwrap"></a>wstrUnWrap
+### <a name="wstrunwrap"></a>DWStrUnWrap
 
 Removes paired characters to the beginning and end of a string.
 
 ```
-FUNCTION wstrUnWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszLeftChar AS CONST WSTRING, _
+FUNCTION DWStrUnWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszLeftChar AS CONST WSTRING, _
    BYREF wszRightChar AS CONST WSTRING) AS DWSTRING
 ```
 
@@ -1028,7 +1028,7 @@ FUNCTION wstrUnWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszLeftChar A
 | *wszRightChar* | The right character. |
 
 ```
-FUNCTION wstrUnWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszChar AS CONST WSTRING = CHR(34)) AS DWSTRING
+FUNCTION DWStrUnWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszChar AS CONST WSTRING = CHR(34)) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1043,18 +1043,18 @@ If only one wrap character/string is specified then that character or string is 
 #### Usage examples
 
 ```
-wstrUnWrap("<Paul>", "<", ">") results in Paul
-wstrUnWrap("'Paul'", "'") results in Paul
-wstrUnWrap("""Paul""") results in Paul
+DWStrUnWrap("<Paul>", "<", ">") results in Paul
+DWStrUnWrap("'Paul'", "'") results in Paul
+DWStrUnWrap("""Paul""") results in Paul
 ```
 ---
 
-### <a name="wstrverify"></a>wstrVerify
+### <a name="wstrverify"></a>DWStrVerify
 
 Determine whether each character of a string is present in another string.
 
 ```
-FUNCTION wstrVerify (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
+FUNCTION DWStrVerify (BYVAL nStart AS LONG, BYREF wszSourceString AS CONST WSTRING, _
    BYREF wszMatchString AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS LONG
 ```
 
@@ -1073,18 +1073,18 @@ Returns zero if each character in *wszSourceString* is present in *wszMatchStr*;
 
 ```
 DIM dws AS DWSTRING = "123.65,22.5"
-DIM nPos AS LONG = wstrVerify(5, dws, "0123456789", TRUE)
+DIM nPos AS LONG = DWStrVerify(5, dws, "0123456789", TRUE)
 PRINT nPos
 ' Output: "7"
 ' Returns "7" since 5 starts it past the first non-digit ("." at position 4)
 ```
 
-### <a name="wstrWrap"></a>wstrWrap
+### <a name="DWStrWrap"></a>DWStrWrap
 
 Adds paired characters to the beginning and end of a string.
 
 ```
-FUNCTION wstrWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszLeftChar AS CONST WSTRING, _
+FUNCTION DWStrWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszLeftChar AS CONST WSTRING, _
    BYREF wszRightChar AS CONST WSTRING) AS DWSTRING
 ```
 
@@ -1095,7 +1095,7 @@ FUNCTION wstrWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszLeftChar AS 
 | *wszRightChar* | The right character. |
 
 ```
-FUNCTION wstrWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszChar AS CONST WSTRING = CHR(34)) AS DWSTRING
+FUNCTION DWStrWrap (BYREF wszSourceString AS CONST WSTRING, BYREF wszChar AS CONST WSTRING = CHR(34)) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1110,18 +1110,18 @@ If only one wrap character/string is specified then that character or string is 
 #### Usage examples
 
 ```
-wstrWrap("Paul", "<", ">") results in <Paul>
-wstrWrap("Paul", "'") results in 'Paul'
-wstrWrap("Paul") results in "Paul"
+DWStrWrap("Paul", "<", ">") results in <Paul>
+DWStrWrap("Paul", "'") results in 'Paul'
+DWStrWrap("Paul") results in "Paul"
 ```
 ---
 
-### <a name="wstrbase64decodea"></a>wstrBase64DecodeA
+### <a name="wstrbase64decodea"></a>DWStrBase64DecodeA
 
 Converts the contents of a Base64 mime encoded string to an ascii string.
 
 ```
-FUNCTION wstrBase64DecodeA (BYREF strData AS STRING) AS STRING
+FUNCTION DWStrBase64DecodeA (BYREF strData AS STRING) AS STRING
 ```
 
 | Parameter  | Description |
@@ -1148,21 +1148,21 @@ DIM s AS STRING = wstrBase64EncodeA(dws.Utf8)
 To decode it, we can use
 
 ````
-DIM dwsOut AS dwsTRING = DWSTRING(wstrBase64DecodeA(s), CP_UTF8)
+DIM dwsOut AS dwsTRING = DWSTRING(DWStrBase64DecodeA(s), CP_UTF8)
 ````
 or
 ```
 DIM dwsOut AS DWSTRING
-dws.utf8 = wstrBase64DecodeA(s)
+dws.utf8 = DWStrBase64DecodeA(s)
 ```
 ---
 
-### <a name="wstrbase64decodew"></a>wstrBase64DecodeW
+### <a name="wstrbase64decodew"></a>DWStrBase64DecodeW
 
 Converts the contents of a Base64 mime encoded string to an unicode string.
 
 ```
-FUNCTION wstrBase64DecodeW (BYREF dwsData AS DWSTRING) AS DWSTRING
+FUNCTION DWStrBase64DecodeW (BYREF dwsData AS DWSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1213,16 +1213,16 @@ DIM s AS STRING = wstrBase64EncodeA(dws.Utf8)
 To decode it, we can use
 
 ````
-DIM dwsOut AS DWSTRING = DWSTRING(wstrBase64DecodeA(s), CP_UTF8)
+DIM dwsOut AS DWSTRING = DWSTRING(DWStrBase64DecodeA(s), CP_UTF8)
 ````
 or
 ````
 DIM dwsOut AS DWSTRING
-dws.utf8 = wstrBase64DecodeA(s)
+dws.utf8 = DWStrBase64DecodeA(s)
 ````
 ---
 
-### <a name="wstrbase64encodew"></a>wstrBase64EncodeW
+### <a name="wstrbase64encodew"></a>DWStrBase64EncodeW
 
 Converts the contents of an unicode string to Base64 mime encoding.
 
@@ -1246,12 +1246,12 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 
 ---
 
-### <a name="wstrcryptbinarytostring"></a>wstrCryptBinaryToString
+### <a name="wstrcryptbinarytostring"></a>DWStrCryptBinaryToString
 
 Converts an array of bytes into a formatted string.
 
 ```
-FUNCTION FUNCTION wstrCryptBinaryToStringA ( _
+FUNCTION FUNCTION DWStrCryptBinaryToStringA ( _
    BYVAL pbBinary AS CONST UBYTE PTR, _
    BYVAL cbBinary AS DWORD, _
    BYVAL dwFlags AS DWORD, _
@@ -1261,7 +1261,7 @@ FUNCTION FUNCTION wstrCryptBinaryToStringA ( _
 ```
 
 ```
-FUNCTION wstrCryptBinaryToStringW ( _
+FUNCTION DWStrCryptBinaryToStringW ( _
    BYVAL pbBinary AS CONST UBYTE PTR, _
    BYVAL cbBinary AS DWORD, _
    BYVAL dwFlags AS DWORD, _
@@ -1312,12 +1312,12 @@ With the exception of when **CRYPT_STRING_BINARY** encoding is used, all strings
 
 ---
 
-### <a name="wstrcryptstringtobinary"></a>wstrCryptStringToBinary
+### <a name="wstrcryptstringtobinary"></a>DWStrCryptStringToBinary
 
 Converts a formatted string into an array of bytes.
 
 ```
-FUNCTION wstrCryptStringToBinaryA ( _
+FUNCTION DWStrCryptStringToBinaryA ( _
    BYVAL pszString AS LPCSTR, _
    BYVAL cchString AS DWORD, _
    BYVAL dwFlags AS DWORD, _
@@ -1329,7 +1329,7 @@ FUNCTION wstrCryptStringToBinaryA ( _
 ```
 
 ```
-FUNCTION wstrCryptStringToBinaryW ( _
+FUNCTION DWStrCryptStringToBinaryW ( _
    BYVAL pszString AS LPCWSTR, _
    BYVAL cchString AS DWORD, _
    BYVAL dwFlags AS DWORD, _
@@ -1381,11 +1381,11 @@ Values available for the *pdwFlags* parameter:
 
 ---
 
-### <a name="wstrhassurrogates"></a>wstrHasSurrogates
+### <a name="wstrhassurrogates"></a>DWStrHasSurrogates
 
 Checks if the specified string has surrogates.
 ```
-FUNCTION wstrHasSurrogates (BYREF wszStr AS WSTRING) AS BOOLEAN
+FUNCTION DWStrHasSurrogates (BYREF wszStr AS WSTRING) AS BOOLEAN
 ```
 
 | Parameter  | Description |
@@ -1398,11 +1398,11 @@ BOOLEAN. True if the string has rurrogates; False, otherwise.
 
 ---
 
-### <a name="wstrisvalidsurrogatepair"></a>wstrIsValidSurrogatePair
+### <a name="wstrisvalidsurrogatepair"></a>DWStrIsValidSurrogatePair
 
 Checks whether a UTF-16 encoded string contains valid high-low surrogate pairs.
 ```
-FUNCTION wstrIsValidSurrogatePair (BYVAL high AS USHORT, BYVAL low AS USHORT) AS BOOLEAN
+FUNCTION DWStrIsValidSurrogatePair (BYVAL high AS USHORT, BYVAL low AS USHORT) AS BOOLEAN
 ```
 
 | Parameter  | Description |
@@ -1416,11 +1416,11 @@ BOOLEAN. True if the surrogate pair is valid; False, otherwise.
 
 ---
 
-### <a name="wstrsurrogatepairtocodepoint"></a>wstrSurrogatePairToCodePoint
+### <a name="wstrsurrogatepairtocodepoint"></a>DWStrSurrogatePairToCodePoint
 
 Converts a surrogate pair to a Unicode code point.
 ```
-FUNCTION wstrSurrogatePairToCodePoint (BYVAL high AS USHORT, BYVAL low AS USHORT) AS ULONG
+FUNCTION DWStrSurrogatePairToCodePoint (BYVAL high AS USHORT, BYVAL low AS USHORT) AS ULONG
 ```
 
 | Parameter  | Description |
@@ -1434,11 +1434,11 @@ BOOLEAN. True if the surrogate pair is valid; False, otherwise.
 
 ---
 
-### <a name="wstrcodepointtosurrogatpair"></a>wstrCodePointToSurrogatePair
+### <a name="wstrcodepointtosurrogatpair"></a>DWStrCodePointToSurrogatePair
 
 Converts a Unicode code point (above U+FFFF) back into its high and low surrogate pair.
 ```
-SUB wstrCodePointToSurrogatePair (BYVAL codePoint AS ULONG, BYREF high AS USHORT, BYREF low AS USHORT)
+SUB DWStrCodePointToSurrogatePair (BYVAL codePoint AS ULONG, BYREF high AS USHORT, BYREF low AS USHORT)
 ```
 
 | Parameter  | Description |
@@ -1452,7 +1452,7 @@ This method does not return a value.
 
 ---
 
-### <a name="wstrscanforsurrogates"></a>wstrScanForSurrogates
+### <a name="wstrscanforsurrogates"></a>DWStrScanForSurrogates
 
 Scans a UTF-16 buffer (passed as a pointer to WSTRING) in chunks of 64 characters. Returns the 0-based index (relative to *memAddr*) of the first broken surrogate found, or -1 if none is found.
 
@@ -1469,7 +1469,7 @@ Scans a UTF-16 buffer (passed as a pointer to WSTRING) in chunks of 64 character
 | *searchBrokenOnly* | The low surrogate part. |
 
 ```
-FUNCTION wstrScanForSurrogates( _
+FUNCTION DWStrScanForSurrogates( _
    BYVAL memAddr AS WSTRING PTR, _
    BYVAL nChars AS LONG, _
    BYVAL searchBrokenOnly AS BOOLEAN = TRUE) AS LONG
@@ -1480,11 +1480,11 @@ Returns the 0-based index (relative to *memAddr*) of the first broken surrogate 
 
 ---
 
-### <a name="wstrchrw"></a>wstrChrW
+### <a name="wstrchrw"></a>DWStrChrW
 
 Returns a wide-character string from a codepoint.
 ```
-FUNCTION wstrChrW (BYVAL codepoint AS UInteger) AS DWSTRING
+FUNCTION DWStrChrW (BYVAL codepoint AS UInteger) AS DWSTRING
    If codepoint <= &hFFFF Then RETURN WCHR(codepoint)
    ' Convert to UTF-16 surrogate pair for higher codepoints
    DIM AS USHORT highSurrogate = &hD800 OR ((codepoint - &h10000) SHR 10)
