@@ -14,8 +14,8 @@ While `DWSTRING`manages its own memory allocations, `BSTRING`is a wrapper on top
 | [Attach](#attach) | Attaches a BSTR to the BSTRING class. |
 | [Detach](#detach) | Detaches the underlying BSTR from the BSTRING class and returns it as the result of the function. |
 | [Utf8](#utf8) | Converts from UTF8 to Unicode and from Unicode to UTF8. |
+| [vptr](#vptr) | Frees the underlying BSTR and returns a pointer to a new empty allocated string. |
 | [wchar](#wchar) | Returns the string data as a new unicode string allocated with CoTaskMemAlloc. |
-| [vptr](#vptr) | Returns the string data as a new unicode string allocated with CoTaskMemAlloc. |
 
 # <a name="constructors"></a>Constructors
 
