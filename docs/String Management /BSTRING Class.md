@@ -187,6 +187,17 @@ OPERATOR CAST () AS ANY PTR
 
 ---
 
+## <a name="utf8"></a>Utf8
+
+Converts from UTF8 to Unicode and from Unicode to UTF8.
+
+```
+PROPERTY Utf8() AS STRING
+PROPERTY Utf8 (BYREF utf8String AS STRING)
+```
+
+---
+
 ## <a name="wchar"></a>wchar
 
 Returns the string data as a new unicode string allocated with **CoTaskMemAlloc**.
@@ -195,17 +206,6 @@ Useful when we need to pass a pointer to a null terminated wide string to a func
 
 ```
 FUNCTION wchar () AS WSTRING PTR
-```
-
----
-
-## <a name="utf8"></a>Utf8
-
-Converts from UTF8 to Unicode and from Unicode to UTF8.
-
-```
-PROPERTY Utf8() AS STRING
-PROPERTY Utf8 (BYREF utf8String AS STRING)
 ```
 
 ---
