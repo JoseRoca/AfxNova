@@ -22,11 +22,12 @@ While `DWSTRING`manages its own memory allocations, `BSTRING`is a wrapper on top
 Initialize the class with the specified value.
 
 ```
-CONSTRUCTOR BSTRING
-CONSTRUCTOR BSTRING (BYREF bs AS BSTRING)
-CONSTRUCTOR BSTRING (BYREF dws AS DWSTRING)
-CONSTRUCTOR BSTRING (BYVAL pwszStr AS WSTRING PTR)
-CONSTRUCTOR BSTRING (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT = 0)
+CONSTRUCTOR
+CONSTRUCTOR (BYREF wszStr AS CONST WSTRING)
+CONSTRUCTOR (BYVAL pwszStr AS WSTRING PTR)
+CONSTRUCTOR (BYREF bs AS BSTRING)
+CONSTRUCTOR (BYREF dws AS DWSTRING)
+CONSTRUCTOR (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT = 0)
 CONSTRUCTOR (BYVAL nChars AS LONG, BYREF wszFill AS CONST WSTRING)
 CONSTRUCTOR (BYVAL n AS LONGINT)
 CONSTRUCTOR (BYVAL n AS DOUBLE)
@@ -35,6 +36,7 @@ CONSTRUCTOR (BYVAL n AS DOUBLE)
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszStr* | A WSTRING. |
+| *pwszStr* | A pointer to a WSTRING. |
 | *dws* | A DWSTRING. |
 | *bs* | A BSTRING. |
 | *ansiStr* | An ansi string or string literal. |
