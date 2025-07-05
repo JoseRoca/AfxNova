@@ -685,7 +685,7 @@ DWStrRemove("abacadabra", "[bac]")      ' Output: "dr"
 ```
 ```
 DIM dwsText AS DWSTRING = "As Long var1(34), var2(  73 ), var3(any)"
-PRINT WstrRemove(19, dwsText, "(", ")", TRUE)   ' Returns "var2, var3"
+PRINT DWStrRemove(19, dwsText, "(", ")", TRUE)   ' Returns "var2, var3"
 ```
 ---
 
@@ -923,7 +923,7 @@ The Windows API **StrSpnW** function and the C **wcsspn** function can also be u
 
 ---
 
-### <a name="DWStrTally"></a>DWStrTally
+### <a name="dwstrtally"></a>DWStrTally
 
 Count the number of occurrences of a string or a list of characters within a string.
 
@@ -960,7 +960,7 @@ PRINT nCount
 ```
 ---
 
-### <a name="DWStrUCase"></a>DWStrUCase
+### <a name="dwstrucase"></a>DWStrUCase
 
 Returns an uppercased version of a string.
 
@@ -996,7 +996,7 @@ The uppercased string.
 
 ---
 
-### <a name="DWStrUCode"></a>DWStrUCode
+### <a name="dwstrucode"></a>DWStrUCode
 
 Translates ansi bytes to Unicode chars.
 
@@ -1144,7 +1144,7 @@ If we want to encode a unicode string, we must convert it to utf8 before calling
 
 ````
 DIM dws AS DWSTRING = "おはようございます – Good morning!"
-DIM s AS STRING = wstrBase64EncodeA(dws.Utf8)
+DIM s AS STRING = DWStrBase64EncodeA(dws.Utf8)
 ````
 
 To decode it, we can use
@@ -1188,7 +1188,7 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 Converts the contents of an ascii string to Base64 mime encoding.
 
 ```
-FUNCTION wstrBase64EncodeA (BYREF strData AS STRING) AS STRING
+FUNCTION DEStrBase64EncodeA (BYREF strData AS STRING) AS STRING
 ```
 
 | Parameter  | Description |
@@ -1209,7 +1209,7 @@ If we want to encode a unicode string, we must convert it to utf8 before calling
 
 ````
 DIM dws AS DWSTRING = "おはようございます – Good morning!"
-DIM s AS STRING = wstrBase64EncodeA(dws.Utf8)
+DIM s AS STRING = DWStrBase64EncodeA(dws.Utf8)
 ````
 
 To decode it, we can use
@@ -1229,7 +1229,7 @@ dws.utf8 = DWStrBase64DecodeA(s)
 Converts the contents of an unicode string to Base64 mime encoding.
 
 ```
-FUNCTION wstrBase64EncodWeA (BYREF dwsData AS DWSTRING) AS DWSTRING
+FUNCTION DWStrBase64EncodWeA (BYREF dwsData AS DWSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1436,7 +1436,7 @@ BOOLEAN. True if the surrogate pair is valid; False, otherwise.
 
 ---
 
-### <a name="wstrcodepointtosurrogatpair"></a>DWStrCodePointToSurrogatePair
+### <a name="dwstrcodepointtosurrogatpair"></a>DWStrCodePointToSurrogatePair
 
 Converts a Unicode code point (above U+FFFF) back into its high and low surrogate pair.
 ```
