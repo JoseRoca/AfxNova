@@ -77,7 +77,7 @@ PRINT wszOut
 
 ### Surrogates
 
-Checking and fixing broken surrogates is disabled by default for speed reasons. If you want to enable it, use `"#define __AFX2_CHECKSURROGATES__"` (without the quotes) at the beginning of your application, before including the files of this framework. Surrogate checking and fixing is centralized in te internal **AppendBuffer** method of the `DWSTRING` class.
+Checking and fixing broken surrogates is disabled by default for speed reasons. If you want to enable it, use `"#define __AFX_CHECKSURROGATES__"` (without the quotes) at the beginning of your application, before including the files of this framework. Surrogate checking and fixing is centralized in te internal **AppendBuffer** method of the `DWSTRING` class.
 
 | Name       | Description |
 | ---------- | ----------- |
