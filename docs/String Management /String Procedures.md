@@ -50,6 +50,7 @@ PRINT wszOut
 | [DWStrIsNumeric](#dwstrisnumeric) | Returns True if the passed string is numeric. |
 | [DWStrJoin](#dwstrjoin) | Returns a string consisting of all of the strings in an array, each separated by a delimiter. |
 | [DWStrLCase](#dwstrlcase) | Returns a lowercased version of a string. |
+| [DWStrLSet](#dwstrlset) | Returns a string containing a left-justified (padded) string. |
 | [DWStrLSetAbs](#dwstrlsetabs) | Left-aligns a string within the space of another string. |
 | [DWStrMCase](#dwstrmcase) | Returns a mixed case version of its string argument. |
 | [DWStrParse](#dwstrparse) | Returns a delimited field from a string expression. |
@@ -458,12 +459,12 @@ The lowercased string.
 
 ---
 
-### <a name="wtrlset"></a>wstrLSet
+### <a name="dwtrlset"></a>DWStrLSet
 
 Returns a string containing a left justified string.
 
 ```
-FUNCTION wstrLSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength AS LONG, _
+FUNCTION DWStrLSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength AS LONG, _
    BYREF wszPadCharacter AS CONST WSTRING = " ") AS DWSTRING
 ```
 
@@ -476,11 +477,11 @@ FUNCTION wstrLSet (BYREF wszSourceString AS CONST WSTRING, BYVAL nStringLength A
 #### Usage example
 
 ```
-DIM dws AS DWSTRING = wstrLSet("FreeBasic", 20, "*")
+DIM dws AS DWSTRING = DWStrLSet("FreeBasic", 20, "*")
 ```
 ---
 
-### <a name="wtrlsetabs"></a>DWStrLSetAbs
+### <a name="dwstrlsetabs"></a>DWStrLSetAbs
 
 Left-aligns a string within the space of another string. If *wszStr* is empty, the function leaves the padding positions unchanged from their original content, rather than replacing them with spaces as `LSET` does. If *wszStr* is longer than *wszSourceString*, **wstrLSet** truncates it from the right until it fits in the result string.
 
