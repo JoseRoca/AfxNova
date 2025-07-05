@@ -515,6 +515,7 @@ DIM dws AS DWSTRING = strMCase("Cats aren't AL.WAYS good.")
 ' Output: "Cats Aren'T Al.Ways Good."
 ' Note: It mimincs PowerBASIC's MCase$ function.
 ```
+---
 
 ### <a name="dwstrparse"></a>DWStrParse 
 
