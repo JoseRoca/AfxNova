@@ -200,9 +200,9 @@ PROPERTY Utf8 (BYREF utf8String AS STRING)
 
 ## <a name="vptr"></a>vptr
 
-Frees the underlying BSTR and returns a pointer to a new empty allocated BSTR.
+Frees the underlying `BSTR` and returns a pointer to a new empty allocated `BSTR`.
 
-Used to pass the underlying BSTR to an OUT BYVAL BSTR PTR parameter. If we pass a BSTRING to a function with an OUT BSTR parameter without first freeing it we will have a memory leak.
+Used to pass the underlying `BSTR` to an OUT BYVAL BSTR PTR parameter. If we pass a `BSTRING` to a procedure with an OUT BSTR parameter without first freeing it we will have a memory leak.
 
 ```
 FUNCTION vptr () AS BSTR PTR
