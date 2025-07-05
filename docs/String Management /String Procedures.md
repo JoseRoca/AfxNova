@@ -483,7 +483,7 @@ DIM dws AS DWSTRING = DWStrLSet("FreeBasic", 20, "*")
 
 ### <a name="dwstrlsetabs"></a>DWStrLSetAbs
 
-Left-aligns a string within the space of another string. If *wszStr* is empty, the function leaves the padding positions unchanged from their original content, rather than replacing them with spaces as `LSET` does. If *wszStr* is longer than *wszSourceString*, **wstrLSet** truncates it from the right until it fits in the result string.
+Left-aligns a string within the space of another string. If *wszStr* is empty, the function leaves the padding positions unchanged from their original content, rather than replacing them with spaces as `LSET` does. If *wszStr* is longer than *wszSourceString*, **dwstrLSetAbs** truncates it from the right until it fits in the result string.
 
 ```
 FUNCTION DWStrLSetAbs (BYREF wszSourceString AS CONST WSTRING, BYREF wszStr AS CONST WSTRING) AS DWSTRING
