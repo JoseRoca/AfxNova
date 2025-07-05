@@ -49,7 +49,7 @@ Example: DIM bs AS BSTRING
 DIM wsz AS WSTRING * 30 = "This is a test string"
 DIM bsText AS BSTRING = wsz
 ```
-3. Initializes a `DWSTRING` from an ANSI or UTF-8 encoded string, with optional code page support.
+3. Initializes a `BSTRING` from an ANSI or UTF-8 encoded string, with optional code page support.
 ```
 Example: DIM s AS STRING = "Hello, world"
          DIM bs AS BSTRING = s
