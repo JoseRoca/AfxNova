@@ -5,7 +5,9 @@ Assorted file, folder and path procedures.
 
 **Include files**: AfxWin.inc, AfxPath.inc
 
-# Dialogs
+---
+
+## Dialogs
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -13,7 +15,9 @@ Assorted file, folder and path procedures.
 | [AfxOpenFileDialog](#AfxOpenFileDialog) | Creates an Open dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened. |
 | [AfxSaveFileDialog](#AfxSaveFileDialog) | Creates a Save dialog box that lets the user specify the drive, directory, and name of a file to save. |
 
-# File and Folder Procedures
+---
+
+## File and Folder Procedures
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -79,6 +83,8 @@ Assorted file, folder and path procedures.
 | [AfxSaveTempFile](#AfxSaveTempFile) | Saves the contents of a string buffer in a temporary file. |
 | [AfxSetCurDir](#AfxChDir) | Changes the current directory for the current process. |
 | [AfxSetCurrentDirectory](#AfxChDir) | Changes the current directory for the current process. |
+
+---
 
 ## Path and Url Procedures
 
@@ -159,7 +165,9 @@ Assorted file, folder and path procedures.
 | [AfxUrlUnescape](#AfxUrlUnescape) | Converts escape sequences back into ordinary characters. |
 | [AfxUrlUnescapeInPlace](#AfxUrlUnescapeInPlace) | Converts escape sequences back into ordinary characters and overwrites the original string. |
 
-# <a name="AfxBrowseForFolder"></a>AfxBrowseForFolder
+---
+
+## <a name="AfxBrowseForFolder"></a>AfxBrowseForFolder
 
 Displays a dialog box that enables the user to select a folder.
 
@@ -210,8 +218,9 @@ If you don't pass any flags, the function will use BIF_RETURNONLYFSDIRS OR BIF_D
 ```
 DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
 ```
+---
 
-# <a name="AfxOpenFileDialog"></a>AfxOpenFileDialog
+## <a name="AfxOpenFileDialog"></a>AfxOpenFileDialog
 
 Creates an **Open** dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened. The dialog box uses the Explorer-style user interface.
 
@@ -263,8 +272,9 @@ DIM dwFlags AS DWORD = OFN_EXPLORER OR OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR 
 DIM dws AS DWSTRING = AfxOpenFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags, NULL)
 AfxMsg dws
 ```
+---
 
-# <a name="AfxSaveFileDialog"></a>AfxSaveFileDialog
+## <a name="AfxSaveFileDialog"></a>AfxSaveFileDialog
 
 Creates a **Save** dialog box that lets the user specify the drive, directory, and name of a file to save. The dialog box uses the Explorer-style user interface.
 
@@ -314,8 +324,9 @@ DIM dwFlags AS DWORD = OFN_EXPLORER OR OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR 
 DIM dws AS DWSTRING = AfxSaveFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags)
 AfxMsg dws
 ```
+---
 
-# <a name="AfxChDir"></a>AfxChDir / AfxSetCurDir / AfxSetCurrentDirectory
+## <a name="AfxChDir"></a>AfxChDir / AfxSetCurDir / AfxSetCurrentDirectory
 
 Changes the current directory for the current process.
 
@@ -343,7 +354,9 @@ If the function succeeds, the return value is TRUE.<br>
 If the function fails, the return value is FALSE.<br>
 To get extended error information, call **GetLastError**.
 
-# <a name="AfxCopyFile"></a>AfxCopyFile / AfxFileCopy
+---
+
+## <a name="AfxCopyFile"></a>AfxCopyFile / AfxFileCopy
 
 Copies an existing file to a new file.
 
@@ -369,7 +382,9 @@ If the function fails, the return value is FALSE. To get extended error informat
 
 **AfxFileCopy** is an unicode replacement for Free Basic's **FileCopy** and returns 0 on success, or 1 if an error occurred.
 
-# <a name="AfxMakeDir"></a>AfxMkDir / AfxMakeDir / AfxCreateDirectory
+---
+
+## <a name="AfxMakeDir"></a>AfxMkDir / AfxMakeDir / AfxCreateDirectory
 
 Creates a new directory.
 
@@ -404,7 +419,9 @@ Possible errors include the following.
 | ERROR_ALREADY_EXISTS | The specified directory already exists. |
 | ERROR_PATH_NOT_FOUND | One or more intermediate directories do not exist; this function will only create the final directory in the path. |
 
-# <a name="AfxDeleteFile"></a>AfxDeleteFile / AfxKill
+---
+
+## <a name="AfxDeleteFile"></a>AfxDeleteFile / AfxKill
 
 Deletes the specified file.
 
@@ -429,7 +446,9 @@ If an application attempts to delete a file that does not exist, this function f
 
 **AfxKill** is an unicode replacement for Free Basic's **Kill** and returns 0 on success, or -1 on failure.
 
-# <a name="AfxFileDateTime"></a>AfxFileDateTime
+---
+
+## <a name="AfxFileDateTime"></a>AfxFileDateTime
 
 Returns the file's last modified date and time as Date Serial.
 
@@ -456,7 +475,9 @@ DIM dt AS DOUBLE = AfxFileDateTime(wszFileName)
 PRINT Format(dt, "yyyy-mm-dd hh:mm AM/PM")
 ```
 
-# <a name="AfxCurDir"></a>AfxCurdir / AfxGetCurDir / AfxGetCurrentDirectory
+---
+
+## <a name="AfxCurDir"></a>AfxCurdir / AfxGetCurDir / AfxGetCurrentDirectory
 
 Retrieves the current directory for the current process.
 
@@ -474,7 +495,9 @@ The name of the current directory for the current process.
 
 Unicode replacement for Free Basic's **CurDir**.
 
-# <a name="AfxMoveFile"></a>AfxName / AfxRenameFile / AfxMoveFile
+---
+
+## <a name="AfxMoveFile"></a>AfxName / AfxRenameFile / AfxMoveFile
 
 Moves an existing file or a directory, including its children.
 
@@ -503,7 +526,9 @@ If the function succeeds, the return value is TRUE.<br>
 If the function fails, the return value is FALSE.<br>
 To get extended error information, call **GetLastError**.
 
-# <a name="AfxRemoveDir"></a>AfxRmDir / AfxRemoveDir / AfxRemoveDirectory
+---
+
+## <a name="AfxRemoveDir"></a>AfxRmDir / AfxRemoveDir / AfxRemoveDirectory
 
 Deletes an existing empty directory.
 
@@ -535,7 +560,9 @@ To get extended error information, call **GetLastError**.
 
 These functions mark a directory for deletion on close. Therefore, the directory is not removed until the last handle to the directory is closed. To recursively delete the files in a directory, use the **SHFileOperation** function.
 
-# <a name="AfxFileExists"></a>AfxFileExists
+---
+
+## <a name="AfxFileExists"></a>AfxFileExists
 
 Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used).
 
@@ -561,7 +588,9 @@ To examine a directory that is not a root directory, use the path to that direct
 
 Be aware that some other thread or process could create or delete a file with this name between the time you query for the result and the time you act on the information. If this is a potential concern for your application, one possible solution is to use the **CreateFile** function with CREATE_NEW (which fails if the file exists) or OPEN_EXISTING (which fails if the file does not exist).
 
-# <a name="AfxFolderExists"></a>AfxFolderExists
+---
+
+## <a name="AfxFolderExists"></a>AfxFolderExists
 
 Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used).
 
@@ -587,7 +616,9 @@ To examine a directory that is not a root directory, use the path to that direct
 
 Be aware that some other thread or process could create or delete a file with this name between the time you query for the result and the time you act on the information. If this is a potential concern for your application, one possible solution is to use the **CreateFile** function with CREATE_NEW (which fails if the file exists) or OPEN_EXISTING (which fails if the file does not exist).
 
-# <a name="AfxGetFileSize"></a>AfxGetFileSize / AfxFileLen
+---
+
+## <a name="AfxGetFileSize"></a>AfxGetFileSize / AfxFileLen
 
 Returns the size in bytes of the specified file.
 
@@ -604,7 +635,9 @@ FUNCTION AfxFileLen (BYREF wszFileSpec AS WSTRING) AS ULONGLONG
 
 The size in bytes of the file on success, or 0 on failure.
 
-# <a name="AfxExePath"></a>AfxExePath / AfxGetExePath
+---
+
+## <a name="AfxExePath"></a>AfxExePath / AfxGetExePath
 
 Returns the path of the program which is currently executing.
 
@@ -617,7 +650,9 @@ FUNCTION AfxGetExePath () AS DWSTRING
 
 Unicode replacement for Free Basic's **ExePath** function. The path name has not a trailing backslash, except if it is a drive, e.g. "C:\".
 
-# <a name="AfxGetExePathName"></a>AfxGetExePathName
+---
+
+## <a name="AfxGetExePathName"></a>AfxGetExePathName
 
 Returns the path of the program which is currently executing.
 
@@ -645,7 +680,9 @@ FUNCTION AfxGetDriveType (BYVAL lpRootPathName AS LPCWSTR) as UINT
 
 DRIVE_UNKNOWN (0), DRIVE_NO_ROOT_DIR (1), DRIVE_REMOVABLE (2), DRIVE_FIXED(3), DRIVE_REMOTE (4), DRIVE_CDROM (5), DRIVE_RAMDISK (6).
 
-# <a name="AfxGetExeFileExt"></a>AfxGetExeFileExt
+---
+
+## <a name="AfxGetExeFileExt"></a>AfxGetExeFileExt
 
 Parses a path/filename and returns the extension portion of the path/file name.
 
@@ -665,23 +702,27 @@ Returns the file name of the program which is currently executing.
 FUNCTION AfxGetExeFileName () AS DWSTRING
 ```
 
-# <a name="AfxGetExeFileNameX"></a>AfxGetExeFileNameX
+---
+
+## <a name="AfxGetExeFileNameX"></a>AfxGetExeFileNameX
 
 Returns the file name and extension of the program which is currently executing.
 
 ```
 FUNCTION AfxGetExeFileNameX () AS DWSTRING
 ```
+---
 
-# <a name="AfxGetExeFullPath"></a>AfxGetExeFullPath
+## <a name="AfxGetExeFullPath"></a>AfxGetExeFullPath
 
 Returns the complete drive, path, file name, and extension of the program which is currently executing.
 
 ```
 FUNCTION AfxGetExeFullPath () AS DWSTRING
 ```
+---
 
-# <a name="AfxGetFileExt"></a>AfxGetFileExt
+## <a name="AfxGetFileExt"></a>AfxGetFileExt
 
 Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it.
 
@@ -693,7 +734,9 @@ FUNCTION AfxGetFileExt (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
 
-# <a name="AfxGetFileCreationTime"></a>AfxGetFileCreationTime
+---
+
+## <a name="AfxGetFileCreationTime"></a>AfxGetFileCreationTime
 
 Returns the time the file was created, in FILETIME format.
 
@@ -706,7 +749,9 @@ FUNCTION AfxGetFileCreationTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BOO
 | *wszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit from MAX_PATH to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 | *bUTC* | Optional. Pass FALSE if you want to get the time in local time (the NTFS file system stores time values in UTC format, so they are not affected by changes in time zone or daylight saving time). **FileTimeToLocalFileTime** uses the current settings for the time zone and daylight saving time. Therefore, if it is daylight saving time, it takes daylight saving time into account, even if the file time you are converting is in standard time. |
 
-# <a name="AfxGetFileLastAccessTime"></a>AfxGetFileLastAccessTime
+---
+
+## <a name="AfxGetFileLastAccessTime"></a>AfxGetFileLastAccessTime
 
 Returns the time the file was accessed, in FILETIME format.
 
@@ -719,7 +764,9 @@ FUNCTION AfxGetFileLastAccessTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS B
 | *wszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit from MAX_PATH to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 | *bUTC* | Optional. Pass FALSE if you want to get the time in local time (the NTFS file system stores time values in UTC format, so they are not affected by changes in time zone or daylight saving time). **FileTimeToLocalFileTime** uses the current settings for the time zone and daylight saving time. Therefore, if it is daylight saving time, it takes daylight saving time into account, even if the file time you are converting is in standard time. |
 
-# <a name="AfxGetFileLastWriteTime"></a>AfxGetFileLastWriteTime
+---
+
+## <a name="AfxGetFileLastWriteTime"></a>AfxGetFileLastWriteTime
 
 Returns the time the file was last written to, truncated, or overwritten, in FILETIME format.
 
@@ -732,7 +779,9 @@ FUNCTION AfxGetFileLastWriteTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BO
 | *wszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit from MAX_PATH to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 | *bUTC* | Optional. Pass FALSE if you want to get the time in local time (the NTFS file system stores time values in UTC format, so they are not affected by changes in time zone or daylight saving time). **FileTimeToLocalFileTime** uses the current settings for the time zone and daylight saving time. Therefore, if it is daylight saving time, it takes daylight saving time into account, even if the file time you are converting is in standard time. |
 
-# <a name="AfxGetFileName"></a>AfxGetFileName
+---
+
+## <a name="AfxGetFileName"></a>AfxGetFileName
 
 Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.).
 
@@ -744,7 +793,9 @@ FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
 
-# <a name="AfxGetFileNameX"></a>AfxGetFileNameX
+---
+
+## <a name="AfxGetFileNameX"></a>AfxGetFileNameX
 
 Parses a path/filename and returns the file name and extension portion. That is the text to the right of the last backslash (\\) or colon (:).
 
@@ -756,7 +807,9 @@ FUNCTION AfxGetFileNameX (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
 
-# <a name="AfxGetFileVersion"></a>AfxGetFileVersion
+---
+
+## <a name="AfxGetFileVersion"></a>AfxGetFileVersion
 
 Retrieves the version of the specified file multiplied by 100, e.g. 601 for version 6.01.
 
@@ -768,7 +821,9 @@ FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS DWORD
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
 
-# <a name="AfxGetFolderName"></a>AfxGetFolderName
+---
+
+## <a name="AfxGetFolderName"></a>AfxGetFolderName
 
 Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name.
 
@@ -780,7 +835,9 @@ FUNCTION AfxGetFolderName (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
 
-# <a name="AfxGetKnowFolderPath"></a>AfxGetKnowFolderPath
+---
+
+## <a name="AfxGetKnowFolderPath"></a>AfxGetKnowFolderPath
 
 Retrieves the path of an special folder.
 
@@ -810,12 +867,9 @@ For a list of KNOWNFOLDERID constants see: [KNOWNFOLDERID](https://msdn.microsof
 ```
 AfxGetKnowFolderPath(@FOLDERID_CommonPrograms)
 ```
+---
 
-| Parameter  | Description |
-| ---------- | ----------- |
-| *wszPath* | The path/filename string. |
-
-# <a name="AfxGetLongPathName"></a>AfxGetLongPathName
+## <a name="AfxGetLongPathName"></a>AfxGetLongPathName
 
 Retrieves the short path form of the specified path.
 ```
@@ -826,7 +880,9 @@ FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. To extend the limit of MAX_PATH wode characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxGetPathName"></a>AfxGetPathName
+---
+
+## <a name="AfxGetPathName"></a>AfxGetPathName
 
 Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:).
 
@@ -838,7 +894,9 @@ FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
 
-# <a name="AfxGetShortPathName"></a>AfxGetShortPathName
+---
+
+## <a name="AfxGetShortPathName"></a>AfxGetShortPathName
 
 Retrieves the short path form of the specified path.
 
@@ -850,7 +908,9 @@ FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. To extend the limit of MAX_PATH wode characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxGetSpecialFolderLocation"></a>AfxGetSpecialFolderLocation
+---
+
+## <a name="AfxGetSpecialFolderLocation"></a>AfxGetSpecialFolderLocation
 
 Retrieves the path of a special folder.
 
@@ -866,7 +926,9 @@ FUNCTION AfxGetSpecialFolderLocation (BYVAL nFolder AS LONG) AS DWSTRING
 
 For a list of CSIDL values see: [CSIDL](https://msdn.microsoft.com/en-us/library/windows/desktop/bb762494(v=vs.85).aspx)
 
-# <a name="AfxGetSystemDllPath"></a>AfxGetSystemDllPath
+---
+
+## <a name="AfxGetSystemDllPath"></a>AfxGetSystemDllPath
 
 Retrieves the fully qualified path for the file that contains the specified module.
 
@@ -882,15 +944,18 @@ FUNCTION AfxGetSystemDllPath (BYREF wszDllName AS WSTRING) AS DWSTRING
 
 To locate the file for a module that was loaded by another process, use the **GetModuleFileNameEx** function.
 
-# <a name="AfxGetWinDir"></a>AfxGetWinDir
+---
+
+## <a name="AfxGetWinDir"></a>AfxGetWinDir
 
 Retrieves the path of the Windows directory. This path does not end with a backslash unless the Windows directory is the root directory. For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows. If the system was installed in the root directory of drive C, the path retrieved is C:\\.
 
 ```
 FUNCTION AfxGetWinDir () AS DWSTRING
 ```
+---
 
-# <a name="AfxIsCompressedFile"></a>AfxIsCompressedFile
+## <a name="AfxIsCompressedFile"></a>AfxIsCompressedFile
 
 Returns True if the specified file or directory is compressed; False if it is not.
 
@@ -902,7 +967,9 @@ FUNCTION AfxIsCompressedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsEncryptedFile"></a>AfxIsEncryptedFile
+---
+
+## <a name="AfxIsEncryptedFile"></a>AfxIsEncryptedFile
 
 Returns True if the specified file or directory is encrypted; False if it is not.
 
@@ -914,7 +981,9 @@ FUNCTION AfxIsEncryptedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsFolder"></a>AfxIsFolder
+---
+
+## <a name="AfxIsFolder"></a>AfxIsFolder
 
 Returns True if the specified path is a folder; False if it is not.
 
@@ -926,7 +995,9 @@ FUNCTION AfxIsFolder (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsHiddenFile"></a>AfxIsHiddenFile
+---
+
+## <a name="AfxIsHiddenFile"></a>AfxIsHiddenFile
 
 Returns True if the specified path is a hidden file or directory; False if it is not.
 
@@ -938,7 +1009,9 @@ FUNCTION AfxIsHiddenFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsNormalFile"></a>AfxIsNormalFile
+---
+
+## <a name="AfxIsNormalFile"></a>AfxIsNormalFile
 
 Returns True if the specified path is a normal file (a file that does not have other attributes set); False if it is not.
 
@@ -950,7 +1023,9 @@ FUNCTION AfxIsNormalFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsNotContentIndexedFile"></a>AfxIsNotContentIndexedFile
+---
+
+## <a name="AfxIsNotContentIndexedFile"></a>AfxIsNotContentIndexedFile
 
 Returns TRUE if the specified file or directory is not to be indexed by the content indexing service; FALSE, otherwise.
 
@@ -962,7 +1037,9 @@ FUNCTION AfxIsNotContentIndexedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsOfflineFile"></a>AfxIsOfflineFile
+---
+
+## <a name="AfxIsOfflineFile"></a>AfxIsOfflineFile
 
 Returns TRUE if the specified file file is not available immediately; FALSE, otherwise.
 
@@ -974,7 +1051,9 @@ FUNCTION AfxIsOfflineFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsReadOnlyFile"></a>AfxIsReadOnlyFile
+---
+
+## <a name="AfxIsReadOnlyFile"></a>AfxIsReadOnlyFile
 
 Returns True if the specified path is a read only file; False if it is not.
 
@@ -986,7 +1065,9 @@ FUNCTION AfxIsReadOnlyFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsReparsePointFile"></a>AfxIsReparsePointFile
+---
+
+## <a name="AfxIsReparsePointFile"></a>AfxIsReparsePointFile
 
 Returns TRUE if the specified path is a file or directory that has an associated reparse point, or a file that is a symbolic link.; FALSE, otherwise.
 
@@ -998,7 +1079,9 @@ FUNCTION AfxIsReparsePointFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsSparseFile"></a>AfxIsSparseFile
+---
+
+## <a name="AfxIsSparseFile"></a>AfxIsSparseFile
 
 Returns TRUE if the specified path is a sparse file; FALSE, otherwise.
 
@@ -1010,7 +1093,9 @@ FUNCTION AfxIsSparseFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsSystemFile"></a>AfxIsSystemFile
+---
+
+## <a name="AfxIsSystemFile"></a>AfxIsSystemFile
 
 Returns True if the specified path is a system file; False if it is not.
 
@@ -1022,7 +1107,9 @@ FUNCTION AfxIsSystemFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxIsTemporaryFile"></a>AfxIsTemporaryFile
+---
+
+## <a name="AfxIsTemporaryFile"></a>AfxIsTemporaryFile
 
 Returns True if the specified path is a temporary file; False if it is not.
 
@@ -1034,7 +1121,9 @@ FUNCTION AfxIsTemporaryFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 | ---------- | ----------- |
 | *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
-# <a name="AfxFileScan"></a>AfxFileScan
+---
+
+## <a name="AfxFileScan"></a>AfxFileScan
 
 Scans a text file ans returns the number of occurrences of the specified delimiter.
 
@@ -1052,7 +1141,9 @@ FUNCTION AfxFileScanW (BYREF wszFileName AS WSTRING, BYREF Delimiter AS WSTRING 
 
 Use **AfxFileScanA** for ansi text files and **AfxFileScanW** for unicode text files.
 
-# <a name="AfxFileReadAllLines"></a>AfxFileReadAllLines
+---
+
+## <a name="AfxFileReadAllLines"></a>AfxFileReadAllLines
 
 Reads all the lines of the specified file into a safe array.
 
@@ -1072,7 +1163,9 @@ Use **AfxFileReadAllLinesA** for ansi text files and **AfxFileReadAllLinesW** fo
 
 Because it returns a safe array, this function is located in the CSafeArray.inc include file.
 
-# <a name="AfxSaveTempFile"></a>AfxSaveTempFile
+---
+
+## <a name="AfxSaveTempFile"></a>AfxSaveTempFile
 
 Saves the contents of a string buffer in a temporary file.
 
@@ -1089,7 +1182,9 @@ FUNCTION AfxSaveTempFile (BYVAL pwszBuffer AS WSTRING PTR, BYREF wszExtension AS
 
 Temporary files whose names have been created by this function are not automatically deleted. To delete these files call **AfxDeleteFile**.
 
-# <a name="AfxPathAddBackSlash"></a>AfxPathAddBackSlash
+---
+
+## <a name="AfxPathAddBackSlash"></a>AfxPathAddBackSlash
 
 Adds a backslash to the end of a string to create the correct syntax for a path. If the source path already has a trailing backslash, no backslash will be added.
 
@@ -1110,8 +1205,9 @@ The changed path.
 ```
 DIM dws AS DWSTRING = AfxPathAddBackSlash("C:\dir_name\dir_name\file_name")
 ```
+---
 
-# <a name="AfxPathAddExtension"></a>AfxPathAddExtension
+## <a name="AfxPathAddExtension"></a>AfxPathAddExtension
 
 Adds a file name extension to a path string.
 
@@ -1140,8 +1236,9 @@ DIM dws AS DWSTRING = AfxPathAddExtension("file.doc") ' output: file.doc
 DIM dws AS DWSTRING = AfxPathAddExtension("file", ".txt") ' output: file.txt
 DIM dws AS DWSTRING = AfxPathAddExtension("", ".txt") ' output: .txt
 ```
+---
 
-# <a name="AfxPathAppend"></a>AfxPathAppend
+## <a name="AfxPathAppend"></a>AfxPathAppend
 
 Appends one path to the end of another.
 
@@ -1169,8 +1266,9 @@ The path supplied in *wszPath* cannot begin with "..\\" or ".\\" to produce a re
 ```
 DIM dws AS DWSTRING = AfxPathAppend("name_1\name_2", "name_3")
 ```
+---
 
-# <a name="AfxPathBuildRoot"></a>AfxPathBuildRoot
+## <a name="AfxPathBuildRoot"></a>AfxPathBuildRoot
 
 Creates a root path from a given drive number.
 
@@ -1191,8 +1289,9 @@ The root path. If the call fails for any reason (for example, an invalid drive n
 ```
 DIM dws AS DWSTRING = AfxPathBuildRoot(2) ' output: C:\
 ```
+---
 
-# <a name="AfxPathCanonicalize"></a>AfxPathCanonicalize
+## <a name="AfxPathCanonicalize"></a>AfxPathCanonicalize
 
 Removes elements of a file path according to special strings inserted into that path.
 
@@ -1223,8 +1322,9 @@ DIM dws AS DWSTRING = AfxPathCanonicalize("A:\name_1\name_2\.\name_3\..\name_4")
 DIM dws AS DWSTRING = AfxPathCanonicalize("A:\name_1\.\name_2\.\name_3\..\name_4\..") ' output: A:\name_1\name_2
 DIM dws AS DWSTRING = AfxPathCanonicalize("C:\..") ' output: C:\
 ```
+---
 
-# <a name="AfxPathCombine"></a>AfxPathCombine
+## <a name="AfxPathCombine"></a>AfxPathCombine
 
 Concatenates two strings that represent properly formed paths into one path; also concatenates any relative path elements.
 
@@ -1250,8 +1350,9 @@ The directory path should be in the form of A:,B:, ..., Z:. The file path should
 ```
 DIM dws AS DWSTRING = AfxPathCombine("C:", "One\Two\Three") ' output: C:\One\Two\Three
 ```
+---
 
-# <a name="AfxPathCommonPrefix"></a>AfxPathCommonPrefix
+## <a name="AfxPathCommonPrefix"></a>AfxPathCommonPrefix
 
 Compares two paths to determine if they share a common prefix. A prefix is one of these types: "C:\\", ".", "..", "..\\".
 
@@ -1273,8 +1374,9 @@ The common prefix.
 ```
 DIM dws AS DWSTRING = AfxPathCommonPrefix("C:\win\desktop\temp.txt", "c:\win\tray\sample.txt")
 ```
+---
 
-# <a name="AfxPathCompactPath"></a>AfxPathCompactPath
+## <a name="AfxPathCompactPath"></a>AfxPathCompactPath
 
 Truncates a file path to fit within a given pixel width by replacing path components with ellipses.
 
@@ -1301,8 +1403,9 @@ This function uses the font currently selected in *hDC* to calculate the width o
 ```
 DIM dws AS DWSTRING = AfxPathCompactPath(NULL, "C:\path1\path2\sample.txt", 180)
 ```
+---
 
-# <a name="AfxPathCompactPathEx"></a>AfxPathCompactPathEx
+## <a name="AfxPathCompactPathEx"></a>AfxPathCompactPathEx
 
 Truncates a path to fit within a certain number of characters by replacing path components with ellipses.
 
@@ -1328,8 +1431,9 @@ The '/' separator will be used instead of '\\' if the original string used it. I
 ```
 DIM dws AS DWSTRING = AfxPathCompactPathEx("c:\test\My Filename", 18)
 ```
+---
 
-# <a name="AfxPathCreateFromUrl"></a>AfxPathCreateFromUrl
+## <a name="AfxPathCreateFromUrl"></a>AfxPathCreateFromUrl
 
 Converts a file URL to a Microsoft MS-DOS path.
 
@@ -1350,8 +1454,9 @@ The MS-DOS path.
 ```
 DIM dws AS DWSTRING = AfxPathCreateFromUrl("file:///C:/Documents%20and%20Settings/URIS.txt")
 ```
+---
 
-# <a name="AfxPathFileExists"></a>AfxPathFileExists
+## <a name="AfxPathFileExists"></a>AfxPathFileExists
 
 Determines whether a path to a file system object such as a file or directory is valid.
 
@@ -1373,7 +1478,9 @@ This function tests the validity of the path.
 
 A path specified by Universal Naming Convention (UNC) is limited to a file only; that is, \\\\server\\share\file is permitted. A UNC path to a server or server share is not permitted; that is, \\\\server or \\\\server\\share. This function returns FALSE if a mounted remote drive is out of service.
 
-# <a name="AfxPathFindExtension"></a>AfxPathFindExtension
+---
+
+## <a name="AfxPathFindExtension"></a>AfxPathFindExtension
 
 Searches a path for an extension.
 
@@ -1398,8 +1505,9 @@ Note that a valid file name extension cannot contain a space.
 ```
 DIM dws AS DWSTRING = AfxPathFindExtension("C:\TEST\filetxt")
 ```
+---
 
-# <a name="AfxPathFindFileName"></a>AfxPathFindFileName
+## <a name="AfxPathFindFileName"></a>AfxPathFindFileName
 
 Searches a path for a file name.
 
@@ -1415,7 +1523,9 @@ FUNCTION AfxPathFindFileName (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The file name.
 
-# <a name="AfxPathFindNextComponent"></a>AfxPathFindNextComponent
+---
+
+## <a name="AfxPathFindNextComponent"></a>AfxPathFindNextComponent
 
 Searches a path for a file name.
 
@@ -1440,8 +1550,9 @@ The truncated path.
 ```
 DIM dws AS DWSTRING = AfxPathFindNextComponent("C:\TEST\file.txt")
 ```
+---
 
-# <a name="AfxPathFindOnPath"></a>AfxPathFindOnPath
+## <a name="AfxPathFindOnPath"></a>AfxPathFindOnPath
 
 Searches for a file.
 
@@ -1463,7 +1574,9 @@ The fully-qualified path name on success or an empty string on failure.
 
 **AfxPathFindOnPath** searches for the file specified by *wszFile*. If no directories are specified in *ppwszOtherDirs*, it attempts to find the file by searching standard directories such as System32 and the directories specified in the PATH environment variable. To expedite the process or enable **AfxPathFindOnPath** to search a wider range of directories, use the *ppwszOtherDirs* parameter to specify one or more directories to be searched first. If more than one file has the name specified by *wszFile*, **AfxPathFindOnPath** returns the first instance it finds.
 
-# <a name="AfxPathFindSuffixArray"></a>AfxPathFindSuffixArray
+---
+
+## <a name="AfxPathFindSuffixArray"></a>AfxPathFindSuffixArray
 
 Determines whether a given file name has one of a list of suffixes.
 
@@ -1486,7 +1599,9 @@ The matching suffix if successful, or an empty string if bstrPath does not end w
 
 This function uses a case-sensitive comparison. The suffix must match exactly.
 
-# <a name="AfxPathGetArgs"></a>AfxPathGetArgs
+---
+
+## <a name="AfxPathGetArgs"></a>AfxPathGetArgs
 
 Finds the command line arguments within a given path.
 
@@ -1506,7 +1621,9 @@ A string that contains the arguments portion of the path if successful or an emp
 
 This function should not be used on generic command path templates (from users or the registry), but rather should be used only on templates that the application knows to be well formed.
 
-# <a name="AfxPathGetCharType"></a>AfxPathGetCharType
+---
+
+## <a name="AfxPathGetCharType"></a>AfxPathGetCharType
 
 Determines the type of character in relation to a path.
 
@@ -1530,7 +1647,9 @@ Returns one or more of the following values that define the type of character.
 | GCT_SHORTCHAR | The character is valid in a short (8.3) file name. |
 | GCT_WILD | The character is a wildcard character. |
 
-# <a name="AfxPathGetDriveNumber"></a>AfxPathGetDriveNumber
+---
+
+## <a name="AfxPathGetDriveNumber"></a>AfxPathGetDriveNumber
 
 Searches a path for a drive letter within the range of 'A' to 'Z' and returns the corresponding drive number.
 
@@ -1551,8 +1670,9 @@ Returns 0 through 25 (corresponding to 'A' through 'Z') if the path has a drive 
 ```
 DIM n AS LONG = AfxPathGetDriveNumber("C:\TEST\bar.txt") ' output: 2
 ```
+---
 
-# <a name="AfxPathIsContentType"></a>AfxPathIsContentType
+## <a name="AfxPathIsContentType"></a>AfxPathIsContentType
 
 Determines if a file's registered content type matches the specified content type. This function obtains the content type for the specified file type and compares that string with the *wszContentType*. The comparison is not case-sensitive.
 
@@ -1576,8 +1696,9 @@ Returns nonzero if the file's registered content type matches *wszContentType*, 
 DIM b AS BOOLEAN = AfxPathIsContentType("C:\TEST\bar.txt", "text/plain") ' output: true
 DIM b AS BOOLEAN = AfxPathIsContentType("C:\TEST\bar.txt", "image/gif") ' output: false
 ```
+---
 
-# <a name="AfxPathIsDirectory"></a>AfxPathIsDirectory
+## <a name="AfxPathIsDirectory"></a>AfxPathIsDirectory
 
 Verifies that a path is a valid directory.
 
@@ -1593,7 +1714,9 @@ FUNCTION AfxPathIsDirectory (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns TRUE if the path is a valid directory (FILE_ATTRIBUTE_DIRECTORY is set), or FALSE otherwise.
 
-# <a name="AfxPathIsDirectoryEmpty"></a>AfxPathIsDirectoryEmpty
+---
+
+## <a name="AfxPathIsDirectoryEmpty"></a>AfxPathIsDirectoryEmpty
 
 Determines whether a specified path is an empty directory.
 
@@ -1613,7 +1736,9 @@ Returns TRUE if wszPath is an empty directory. Returns FALSE if *wszPath* is not
 
 "C:\" is considered a directory.
 
-# <a name="AfxPathIsFileSpec"></a>AfxPathIsFileSpec
+---
+
+## <a name="AfxPathIsFileSpec"></a>AfxPathIsFileSpec
 
 Searches a path for any path-delimiting characters (for example, ':' or '\\' ). If there are no path-delimiting characters present, the path is considered to be a File Spec path.
 
@@ -1629,7 +1754,9 @@ FUNCTION AfxPathIsFileSpec (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns TRUE if there are no path-delimiting characters within the path, or FALSE if there are path-delimiting characters.
 
-# <a name="AfxPathIsHTMLFile"></a>AfxPathIsHTMLFile
+---
+
+## <a name="AfxPathIsHTMLFile"></a>AfxPathIsHTMLFile
 
 Determines if a file is an HTML file. The determination is made based on the content type that is registered for the file's extension.
 
@@ -1645,7 +1772,9 @@ FUNCTION AfxPathIsHTMLFile (BYREF wszFile AS CONST WSTRING) AS BOOLEAN
 
 Returns True if the file is an HTML file, or False otherwise.
 
-# <a name="AfxPathIsLFNFileSpec"></a>AfxPathIsLFNFileSpec
+---
+
+## <a name="AfxPathIsLFNFileSpec"></a>AfxPathIsLFNFileSpec
 
 Determines whether a file name is in long format.
 
@@ -1661,7 +1790,9 @@ FUNCTION AfxPathIsLFNFileSpec (BYREF wszName AS CONST WSTRING) AS BOOLEAN
 
 Returns True if wszName exceeds the number of characters allowed by the 8.3 format, or False otherwise.
 
-# <a name="AfxPathIsNetworkPath"></a>AfxPathIsNetworkPath
+---
+
+## <a name="AfxPathIsNetworkPath"></a>AfxPathIsNetworkPath
 
 Determines whether a path string represents a network resource.
 
@@ -1677,7 +1808,9 @@ FUNCTION AfxPathIsNetworkPath (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns True if the string represents a network resource, or False otherwise.
 
-# <a name="AfxPathIsPrefix"></a>AfxPathIsPrefix
+---
+
+## <a name="AfxPathIsPrefix"></a>AfxPathIsPrefix
 
 Searches a path to determine if it contains a valid prefix of the type passed by wszPrefix. A prefix is one of these types: "C:\\", ".", "..", "..\\".
 
@@ -1694,7 +1827,9 @@ FUNCTION AfxPathIsPrefix (BYREF wszPrefix AS CONST WSTRING, BYREF wszPath AS CON
 
 Returns True if the compared path is the full prefix for the path, or False otherwise.
 
-# <a name="AfxPathIsRelative"></a>AfxPathIsRelative
+---
+
+## <a name="AfxPathIsRelative"></a>AfxPathIsRelative
 
 Searches a path and determines if it is relative.
 
@@ -1710,7 +1845,9 @@ FUNCTION AfxPathIsRelative (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns True if the path is relative, or False if it is absolute.
 
-# <a name="AfxPathIsRoot"></a>AfxPathIsRoot
+---
+
+## <a name="AfxPathIsRoot"></a>AfxPathIsRoot
 
 Parses a path to determine if it is a directory root.
 
@@ -1730,7 +1867,9 @@ Returns True if the specified path is a root, or False otherwise.
 
 Returns True for paths such as "\\", "X:\\" or "\\\\server\\share". Paths such as "..\\path2" or "\\\\server\\" return FALSE. 
 
-# <a name="AfxPathIsSameRoot"></a>AfxPathIsSameRoot
+---
+
+## <a name="AfxPathIsSameRoot"></a>AfxPathIsSameRoot
 
 Compares two paths to determine if they have a common root component.
 
@@ -1747,7 +1886,9 @@ FUNCTION AfxPathIsSameRoot (BYREF wszPath1 AS CONST WSTRING, BYREF wszPath2 AS C
 
 Returns True if both strings have the same root component, or False otherwise. If *wszPath1* contains only the server and share, this function also returns False.
 
-# <a name="AfxPathIsSystemFolder"></a>AfxPathIsSystemFolder
+---
+
+## <a name="AfxPathIsSystemFolder"></a>AfxPathIsSystemFolder
 
 Determines if an existing folder contains the attributes that make it a system folder. Alternately, this function indicates if certain attributes qualify a folder to be a system folder.
 
@@ -1764,7 +1905,9 @@ FUNCTION AfxPathIsSystemFolder (BYREF wszPath AS CONST WSTRING, BYVAL dwAttrb AS
 
 Returns True if the *wszPath* or *dwAttrb* represent a system folder, or False otherwise.
 
-# <a name="AfxPathIsUNC"></a>AfxPathIsUNC
+---
+
+## <a name="AfxPathIsUNC"></a>AfxPathIsUNC
 
 Determines if the string is a valid Universal Naming Convention (UNC) for a server and share path.
 
@@ -1780,7 +1923,9 @@ FUNCTION AfxPathIsUNC (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns True if the string is a valid UNC path, or False otherwise.
 
-# <a name="AfxPathIsUNCServer"></a>AfxPathIsUNCServer
+---
+
+## <a name="AfxPathIsUNCServer"></a>AfxPathIsUNCServer
 
 Determines if a string is a valid Universal Naming Convention (UNC) for a server path only.
 
@@ -1796,7 +1941,9 @@ FUNCTION AfxPathIsUNCServer (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns True if the string is a valid UNC path for a server only (no share name), or False otherwise.
 
-# <a name="AfxPathIsUNCServerShare"></a>AfxPathIsUNCServerShare
+---
+
+## <a name="AfxPathIsUNCServerShare"></a>AfxPathIsUNCServerShare
 
 Determines if a string is a valid Universal Naming Convention (UNC) share path, \\\\server\\share.
 
@@ -1812,7 +1959,9 @@ FUNCTION AfxPathIsUNCServerShare (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns True if the string is in the form \\\\server\\share, or False otherwise.
 
-# <a name="AfxPathIsURL"></a>AfxPathIsURL
+---
+
+## <a name="AfxPathIsURL"></a>AfxPathIsURL
 
 Tests a given string to determine if it conforms to a valid URL format.
 
@@ -1832,8 +1981,9 @@ Returns True if *wszPath* has a valid URL format, or Fañse otherwise.
 
 This function does not verify that the path points to an existing site—only that it has a valid URL format.
 
+---
 
-# <a name="AfxPathMakePretty"></a>AfxPathMakePretty
+## <a name="AfxPathMakePretty"></a>AfxPathMakePretty
 
 Converts a path to all lowercase characters to give the path a consistent appearance.
 
@@ -1853,8 +2003,9 @@ The changed path.
 
 This function only operates on paths that are entirely uppercase. For example: C:\WINDOWS will be converted to c:\windows, but c:\Windows will not be changed.
 
+---
 
-# <a name="AfxPathMakeSystemFolder"></a>AfxPathMakeSystemFolder
+## <a name="AfxPathMakeSystemFolder"></a>AfxPathMakeSystemFolder
 
 Gives an existing folder the proper attributes to become a system folder.
 
@@ -1870,7 +2021,9 @@ FUNCTION AfxPathMakeSystemFolder (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns True if successful, or False otherwise.
 
-# <a name="AfxPathMatchSpec"></a>AfxPathMatchSpec
+---
+
+## <a name="AfxPathMatchSpec"></a>AfxPathMatchSpec
 
 Searches a string using a Microsoft MS-DOS wild card match type.
 
@@ -1887,8 +2040,9 @@ FUNCTION AfxPathMatchSpec (BYREF wszFile AS CONST WSTRING, BYREF wszSpec AS CONS
 
 Returns True if the string matches, or False otherwise.
 
+---
 
-# <a name="AfxPathMatchSpecEx"></a>AfxPathMatchSpecEx
+## <a name="AfxPathMatchSpecEx"></a>AfxPathMatchSpecEx
 
 Searches a path to determine whether it contains a file of a specified file type extension.
 
@@ -1912,7 +2066,9 @@ Returns one of the following values:
 | TRUE | A file type extension specified in *wszSpec* was found in the path pointed to by *wszFile*. |
 | FALSE | The path pointed to by *wszFile* does not contain any file type extension specified in *wszSpec*. |
 
-# <a name="AfxPathParseIconLocation"></a>AfxPathParseIconLocation
+---
+
+## <a name="AfxPathParseIconLocation"></a>AfxPathParseIconLocation
 
 Parses a file location string that contains a file location and icon index, and returns separate values.
 
@@ -1937,8 +2093,9 @@ This function is useful for taking a DefaultIcon value retrieved from the regist
 ```
 DIM dwsIconLocation AS DWSTRING = AfxPathParseIconLocation("C:\TEST\sample.txt,3")
 ```
+---
 
-# <a name="AfxPathQuoteSpaces"></a>AfxPathQuoteSpaces
+## <a name="AfxPathQuoteSpaces"></a>AfxPathQuoteSpaces
 
 Searches a path for spaces. If spaces are found, the entire path is enclosed in quotation marks.
 
@@ -1954,7 +2111,9 @@ FUNCTION AfxPathQuoteSpaces (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 True if spaces were found; otherwise, False.
 
-# <a name="AfxPathRelativePathTo"></a>AfxPathRelativePathTo
+---
+
+## <a name="AfxPathRelativePathTo"></a>AfxPathRelativePathTo
 
 Creates a relative path from one file or folder to another.
 
@@ -1980,8 +2139,9 @@ This function takes a pair of paths and generates a relative path from one to th
 
 For example, let the starting point, *wszFrom*, be "c:\\FolderA\FolderB\\FolderC", and the ending point, *wszTo*, be "c:\\FolderA\\FolderD\\FolderE". **AfxPathRelativePathTo** will return the relative path from *wszFrom* to *wszTo* as: "..\\..\\FolderD\\FolderE". You will get the same result if you set *wszFrom* to "\\FolderA\\FolderB\\FolderC" and *wszTo* to "\\FolderA\\FolderD\\FolderE". On the other hand, "c:\\FolderA\\FolderB" and "a:\\FolderA\\FolderD do not share a common prefix, and the function will fail. Note that "\\\\" is not considered a prefix and is ignored. If you set *wszFrom* to "\\\\FolderA\\FolderB", and *wszTo* to "\\\\FolderC\\FolderD", the function will fail.
 
+---
 
-# <a name="AfxPathRemoveArgs"></a>AfxPathRemoveArgs
+## <a name="AfxPathRemoveArgs"></a>AfxPathRemoveArgs
 
 Removes any arguments from a given path.
 
@@ -2001,7 +2161,9 @@ The changed path.
 
 This function should not be used on generic command path templates (from users or the registry), but rather it should be used only on templates that the application knows to be well formed.
 
-# <a name="AfxPathRemoveBackslash"></a>AfxPathRemoveBackslash
+---
+
+## <a name="AfxPathRemoveBackslash"></a>AfxPathRemoveBackslash
 
 Removes the trailing backslash from a given path.
 
@@ -2017,7 +2179,9 @@ FUNCTION AfxPathRemoveBackslash (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The changed path.
 
-# <a name="AfxPathRemoveBlanks"></a>AfxPathRemoveBlanks
+---
+
+## <a name="AfxPathRemoveBlanks"></a>AfxPathRemoveBlanks
 
 Removes all leading and trailing spaces from a string.
 
@@ -2033,7 +2197,9 @@ FUNCTION AfxPathRemoveBlanks (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The changed path.
 
-# <a name="AfxPathRemoveExtension"></a>AfxPathRemoveExtension
+---
+
+## <a name="AfxPathRemoveExtension"></a>AfxPathRemoveExtension
 
 Removes the file name extension from a path, if one is present.
 
@@ -2049,7 +2215,9 @@ FUNCTION AfxPathRemoveExtension (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The changed path.
 
-# <a name="AfxPathRemoveFileSpec"></a>AfxPathRemoveFileSpec
+---
+
+## <a name="AfxPathRemoveFileSpec"></a>AfxPathRemoveFileSpec
 
 Removes the trailing file name and backslash from a path, if they are present.
 
@@ -2065,7 +2233,9 @@ FUNCTION AfxPathRemoveFileSpec (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The changed path.
 
-# <a name="AfxPathRenameExtension"></a>AfxPathRenameExtension
+---
+
+## <a name="AfxPathRenameExtension"></a>AfxPathRenameExtension
 
 Replaces the extension of a file name with a new extension. If the file name does not contain an extension, the extension will be attached to the end of the string.
 
@@ -2082,7 +2252,9 @@ FUNCTION AfxPathRenameExtension (BYREF wszPath AS CONST WSTRING, BYREF wszExt AS
 
 The new path. If the new path and extension would exceed MAX_PATH characters, the path won't be changed.
 
-# <a name="AfxPathSearchAndQualify"></a>AfxPathSearchAndQualify
+---
+
+## <a name="AfxPathSearchAndQualify"></a>AfxPathSearchAndQualify
 
 Determines if a given path is correctly formatted and fully qualified.
 
@@ -2101,7 +2273,9 @@ FUNCTION AfxPathSearchAndQualify (BYREF wszPath AS CONST WSTRING, BYREF wszFully
 
 Returns True if the path is qualified, or False otherwise.
 
-# <a name="AfxPathSetDlgItemPath"></a>AfxPathSetDlgItemPath
+---
+
+## <a name="AfxPathSetDlgItemPath"></a>AfxPathSetDlgItemPath
 
 Sets the text of a child control in a window or dialog box, using **AfxCompactPath** to ensure the path fits in the control.
 
@@ -2115,7 +2289,9 @@ SUB AfxPathSetDlgItemPath (BYVAL hDlg AS HWND, BYVAL cID AS LONG, BYREF wszPath 
 | *cID* | The identifier of the control. |
 | *wszPath* | A string that contains the path to set in the control. |
 
-# <a name="AfxPathSkipRoot"></a>AfxPathSkipRoot
+---
+
+## <a name="AfxPathSkipRoot"></a>AfxPathSkipRoot
 
 Parses a path, ignoring the drive letter or Universal Naming Convention (UNC) server/share path elements.
 
@@ -2131,7 +2307,9 @@ FUNCTION AfxPathSkipRoot (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The changed path.
 
-# <a name="AfxPathStripPath"></a>AfxPathStripPath
+---
+
+## <a name="AfxPathStripPath"></a>AfxPathStripPath
 
 Removes the path portion of a fully qualified path and file.
 
@@ -2147,7 +2325,9 @@ FUNCTION AfxPathStripPath (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The changed path.
 
-# <a name="AfxPathStripToRoot"></a>AfxPathStripToRoot
+---
+
+## <a name="AfxPathStripToRoot"></a>AfxPathStripToRoot
 
 Removes all parts of the path except for the root information.
 
@@ -2163,7 +2343,9 @@ FUNCTION AfxPathStripToRoot (BYREF wszRoot AS CONST WSTRING) AS DWSTRING
 
 Returns a string that contains only the root information taken from that path.
 
-# <a name="AfxPathUndecorate"></a>AfxPathUndecorate
+---
+
+## <a name="AfxPathUndecorate"></a>AfxPathUndecorate
 
 Removes the decoration from a path string.
 
@@ -2194,7 +2376,9 @@ The following table illustrates how strings are modified by **AfxPathUndecorate*
 | C:\\Path\\File.txt | C:\\Path\\File.txt |
 | C:\\Path\\\[3].txt | C:\\Path\\\[3].txt |
 
-# <a name="AfxPathUnExpandEnvStrings"></a>AfxPathUnExpandEnvStrings
+---
+
+## <a name="AfxPathUnExpandEnvStrings"></a>AfxPathUnExpandEnvStrings
 
 Replaces certain folder names in a fully-qualified path with their associated environment string.
 
@@ -2210,7 +2394,9 @@ FUNCTION AfxPathUnExpandEnvStrings (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The unexpanded string.
 
-# <a name="AfxPathUnmakeSystemFolder"></a>AfxPathUnmakeSystemFolder
+---
+
+## <a name="AfxPathUnmakeSystemFolder"></a>AfxPathUnmakeSystemFolder
 
 Removes the attributes from a folder that make it a system folder. This folder must actually exist in the file system.
 
@@ -2226,7 +2412,9 @@ FUNCTION AfxPathUnmakeSystemFolder (BYREF wszPath AS CONST WSTRING) AS BOOLEAN
 
 Returns nonzero if successful, or zero otherwise.
 
-# <a name="AfxPathUnquoteSpaces"></a>AfxPathUnquoteSpaces
+---
+
+## <a name="AfxPathUnquoteSpaces"></a>AfxPathUnquoteSpaces
 
 Removes quotes from the beginning and end of a path.
 
@@ -2242,7 +2430,9 @@ FUNCTION AfxPathUnquoteSpaces (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 The unquoted path.
 
-# <a name="AfxUrlApplyScheme"></a>AfxUrlApplyScheme
+---
+
+## <a name="AfxUrlApplyScheme"></a>AfxUrlApplyScheme
 
 Determines a scheme for a specified URL string, and returns a string with an appropriate prefix.
 
@@ -2271,7 +2461,9 @@ The changed url.
 
 If the URL has a valid scheme, the string will not be modified. However, almost any combination of two or more characters followed by a colon will be parsed as a scheme. Valid characters include some common punctuation marks, such as ".". If your input string fits this description, **AfxUrlApplyScheme** may treat it as valid and not apply a scheme. To force the function to apply a scheme to a URL, set the URL_APPLY_FORCEAPPLY and URL_APPLY_DEFAULT flags in *dwFlags*. This combination of flags forces the function to apply a scheme to the URL. Typically, the function will not be able to determine a valid scheme. The second flag guarantees that, if no valid scheme can be determined, the function will apply the default scheme to the URL.
 
-# <a name="AfxUrlCanonicalize"></a>AfxUrlCanonicalize
+---
+
+## <a name="AfxUrlCanonicalize"></a>AfxUrlCanonicalize
 
 Converts a URL string into canonical form.
 
@@ -2305,7 +2497,9 @@ This function performs such tasks as replacing unsafe characters with their esca
 
 If a URL string contains "/../" or "/./", **AfxUrlCanonicalize** normally treats the characters as indicating navigation in the URL hierarchy. The function simplifies the URLs before combining them. For instance "/hello/cruel/../world" is simplified to "/hello/world". If the URL_DONT_SIMPLIFY flag is set in *dwFlags*, the function does not simplify URLs. In this case, "/hello/cruel/../world" is left as it is.
 
-# <a name="AfxUrlCombine"></a>AfxUrlCombine
+---
+
+## <a name="AfxUrlCombine"></a>AfxUrlCombine
 
 When provided with a relative URL and its base, returns a URL in canonical form.
 
@@ -2340,7 +2534,9 @@ Items between slashes are treated as hierarchical identifiers; the last item spe
 
 If a URL string contains '/../' or '/./', **AfxUrlCombine** usually treats the characters as if they indicated navigation in the URL hierarchy. The function simplifies the URLs before combining them. For instance, "/hello/cruel/../world" is simplified to "/hello/world". If the URL_DONT_SIMPLIFY flag is set in dwFlags, the function does not simplify URLs. In this case, "/hello/cruel/../world" is left as it is.
 
-# <a name="AfxUrlCompare"></a>AfxUrlCompare
+---
+
+## <a name="AfxUrlCompare"></a>AfxUrlCompare
 
 Makes a case-sensitive comparison of two URL strings.
 
@@ -2363,7 +2559,9 @@ Returns zero if the two strings are equal. The function will also return zero if
 
 For best results, you should first canonicalize the URLs with **AfxUrlCanonicalize**. Then, compare the canonicalized URLs with **AfxUrlCompare**.
 
-# <a name="AfxUrlCreateFromPath"></a>AfxUrlCreateFromPath
+---
+
+## <a name="AfxUrlCreateFromPath"></a>AfxUrlCreateFromPath
 
 Converts a Microsoft MS-DOS path to a canonicalized URL.
 
@@ -2379,7 +2577,9 @@ FUNCTION AfxUrlCreateFromPath (BYREF wszPath AS WSTRING) AS DWSTRING
 
 The canonicalized URL.
 
-# <a name="AfxUrlEscape"></a>AfxUrlEscape
+---
+
+## <a name="AfxUrlEscape"></a>AfxUrlEscape
 
 Converts characters in a URL that might be altered during transport across the Internet ("unsafe" characters) into their corresponding escape sequences.
 
@@ -2434,14 +2634,15 @@ Unsafe characters are those characters that might be altered during transport ac
 | > | %3E |
 | \ | %5C |
 
-
 Use of the URL_ESCAPE_SEGMENT_ONLY flag also causes the conversion of the # (%23), ? (%3F), and / (%2F) characters.
 
 By default, AfxUrlEscape ignores any text following a # or ? character. The URL_ESCAPE_SEGMENT_ONLY flag overrides this behavior by regarding the entire string as the segment. The URL_ESCAPE_SPACES_ONLY flag overrides this behavior, but only for space characters.
 
 Security Warning: This function should be called from client applications only.
 
-# <a name="AfxUrlEscapeSpaces"></a>AfxUrlEscapeSpaces
+---
+
+## <a name="AfxUrlEscapeSpaces"></a>AfxUrlEscapeSpaces
 
 Converts space characters into their corresponding escape sequence.
 
@@ -2457,7 +2658,9 @@ FUNCTION AfxUrlEscapeSpaces (BYREF wszUrl AS WSTRING) AS DWSTRING
 
 The converted URL.
 
-# <a name="AfxUrlFixup"></a>AfxUrlFixup
+---
+
+## <a name="AfxUrlFixup"></a>AfxUrlFixup
 
 Attempts to correct a URL whose protocol identifier is incorrect. For example, htttp will be changed to http.
 
@@ -2485,7 +2688,9 @@ Do not use this function for deterministic data transformation. The heuristics u
 
 This function is available through Windows 7 and Windows Server 2008. It might be altered or unavailable in subsequent versions of Windows.
 
-# <a name="AfxUrlGetLocation"></a>AfxUrlGetLocation
+---
+
+## <a name="AfxUrlGetLocation"></a>AfxUrlGetLocation
 
 Retrieves the location from a URL.
 
@@ -2505,7 +2710,9 @@ A string with the location or an empty string.
 
 The location is the segment of the URL starting with a ? or # character. If a file URL has a query string, the returned string includes the query string.
 
-# <a name="AfxUrlGetPart"></a>AfxUrlGetPart
+---
+
+## <a name="AfxUrlGetPart"></a>AfxUrlGetPart
 
 Accepts a URL string and returns a specified part of that URL.
 
@@ -2524,7 +2731,9 @@ FUNCTION AfxUrlGetPart (BYREF wszUrl AS WSTRING, _
 
 A string with the specified part of that URL.
 
-# <a name="AfxUrlHash"></a>AfxUrlHash
+---
+
+## <a name="AfxUrlHash"></a>AfxUrlHash
 
 Hashes a URL string.
 
@@ -2549,7 +2758,9 @@ To hash a URL into a single byte, set cbHash = SIZEOF(BYTE) and pbHash = VARPTR(
 
 To hash a URL into a DWORD, set cbHash = SIZEOF(DWORD) and pbHash = VARPTR(dwHashedValue), where dwHashedValue is a DWORD buffer.
 
-# <a name="AfxUrlIs"></a>AfxUrlIs
+---
+
+## <a name="AfxUrlIs"></a>AfxUrlIs
 
 Tests whether or not a URL is a specified type.
 
@@ -2568,7 +2779,9 @@ For all but one of the URL types, **AfxUrlIs** returns True if the URL is the sp
 
 If **AfxUrlIs** is set to URLIS_APPLIABLE, **AfxUrlIs** will attempt to determine the URL scheme. If the function is able to determine a scheme, it returns True, or False otherwise.
 
-# <a name="AfxUrlIsFileUrl"></a>AfxUrlIsFileUrl
+---
+
+## <a name="AfxUrlIsFileUrl"></a>AfxUrlIsFileUrl
 
 Tests a URL to determine if it is a file URL.
 
@@ -2588,7 +2801,9 @@ Returns True if the URL is a file URL, or False otherwise.
 
 A file URL has the form "File:// xxx".
 
-# <a name="AfxUrlIsNoHistory"></a>AfxUrlIsNoHistory
+---
+
+## <a name="AfxUrlIsNoHistory"></a>AfxUrlIsNoHistory
 
 Returns whether a URL is a URL that browsers typically do not include in navigation history.
 
@@ -2608,7 +2823,9 @@ Returns a True value if the URL is a URL that is not included in navigation hist
 
 This function is equivalent to the following: AfxUrlIs(wszURL, URLIS_NOHISTORY)
 
-# <a name="AfxUrlIsOpaque"></a>AfxUrlIsOpaque
+---
+
+## <a name="AfxUrlIsOpaque"></a>AfxUrlIsOpaque
 
 Returns whether a URL is opaque.
 
@@ -2628,7 +2845,9 @@ Returns True if the URL is opaque, or False otherwise.
 
 A URL that has a scheme that is not followed by two slashes (//) is opaque. For example, mailto:xyz@litwareinc.com is an opaque URL. Opaque URLs cannot be separated into the standard URL hierarchy. **AfxUrlIsOpaque** is equivalent to the following: AfxUrlIs(wszURL, URLIS_OPAQUE)
 
-# <a name="AfxUrlUnescape"></a>AfxUrlUnescape
+---
+
+## <a name="AfxUrlUnescape"></a>AfxUrlUnescape
 
 Converts escape sequences back into ordinary characters.
 
@@ -2651,7 +2870,9 @@ An escape sequence has the form "%xy".
 
 Input strings cannot be longer than INTERNET_MAX_URL_LENGTH.
 
-# <a name="AfxUrlUnescapeInPlace"></a>AfxUrlUnescapeInPlace
+---
+
+## <a name="AfxUrlUnescapeInPlace"></a>AfxUrlUnescapeInPlace
 
 Converts escape sequences back into ordinary characters and overwrites the original string.
 
@@ -2667,3 +2888,5 @@ FUNCTION AfxUrlUnescapeInPlace (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD)
 #### Return value
 
 Returns S_OK (0) if successful or an HRESULT otherwise.
+
+---
