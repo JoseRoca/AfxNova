@@ -114,7 +114,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 
 ```
 #include "AfxNova/CTextStream.inc"
-using Afx
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -169,8 +169,8 @@ USING AfxNova
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Open file as a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
-pTxtStm.Open(cbsFile, IOMode_ForReading)
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
+pTxtStm.Open(dwsFile, IOMode_ForReading)
 ' // Read the file sequentially
 DIM s AS STRING
 DO UNTIL pTxtStm.EOS
@@ -178,9 +178,6 @@ DO UNTIL pTxtStm.EOS
    PRINT s
 LOOP
 pTxtStm.Close
-
-PRINT "Press any key..."
-SLEEP
 ```
 ---
 
