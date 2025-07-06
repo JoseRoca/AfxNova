@@ -1,14 +1,18 @@
 # CTextStream Class
 
 Allows to read and write sequential text files (sometimes referred to as a text stream).
+
 Works with ASCII and Unicode.
+
 Works with Windows CRLF files and with Linux LF files.
 
-**Include file**: CTextStream.inc
+**Include file**: AfxNova/CTextStream.inc
 
-### Constructors
+---
 
-Besides the default constructor, that initializes the COM library and creates an instance of the ITextStream interface, this additional constructor allows to create an instance of the class by passing a pointer to an existing ITextStream interface that becomes attached to the class (therefore, don't release the passed pointer, it will be released by the CTextStream class).
+## Constructors
+
+Besides the default constructor, that initializes the COM library and creates an instance of the **ITextStream** interface, this additional constructor allows to create an instance of the class by passing a pointer to an existing **ITextStream** interface that becomes attached to the class (therefore, don't release the passed pointer, it will be released by the `CTextStream` class).
 
 ```
 CONSTRUCTOR CTextStream (BYVAL pstm AS Afx_ITextStream PTR)
@@ -16,24 +20,25 @@ CONSTRUCTOR CTextStream (BYVAL pstm AS Afx_ITextStream PTR)
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *pstm* | Pointer to an instance of the Afx_ITextStream interface. |
+| *pstm* | Pointer to an instance of the **Afx_ITextStream** interface. |
 
-This allows to work with the standard StdIn, StdErr and StdOut streams using the methods of the **CTextStream** class.
+This allows to work with the standard StdIn, StdErr and StdOut streams using the methods of the `CTextStream` class.
 
 ```
-#include "Afx/AfxFile.inc"
+#include "AfxNova/CTextStream.inc"
 ' // Create an instance of the CTextStream class initialized with a pointer to the standard StdOut stream
 DIM pTxtStm AS CTextStream = CFileSys().GetStdOutStream(TRUE)   ' or FALSE to work with ansi
 ' // Write a string and an end of line to the stream
 pTxtStm.WriteLine "This is a test."
 ```
+---
 
-### Operators
+## Operators
 
 | Name       | Description |
 | ---------- | ----------- |
 | LET | Initializes the class from an existing stream and attaches it. |
-| CAST | Returns a pointer to the underlying ITextStream interface of the text stream object. |
+| CAST | Returns a pointer to the underlying **ITextStream** interface of the text stream object. |
 
 ```
 OPERATOR LET (BYVAL pstm AS Afx_ITextStream PTR)
@@ -42,50 +47,62 @@ OPERATOR CAST () AS Afx_ITextStream PTR
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *pstm* | A pointer to the ITextStream interface of an existing text stream that will be attached to the class. |
+| *pstm* | A pointer to the **ITextStream** interface of an existing text stream that will be attached to the class. |
 
-### Methods and properties
+---
+
+## Methods and properties
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Create](#Create) | Creates a file and returns a TextStream object that can be used to read from or write to the file. |
-| [Open](#Open) | Opens a file and returns a TextStream object that can be used to read from, write to, or append to the file. |
-| [OpenUnicode](#OpenUnicode) | Opens a file and returns a TextStream object that can be used to read from, write to, or append to the file. |
-| [OpenForInputA](#OpenForInputA) | Opens a file for input and returns a TextStream object that can be used to read from the file. |
-| [OpenForInputW](#OpenForInputW) | Opens a file for input and returns a TextStream object that can be used to read from the file. |
-| [OpenForOutputA](#OpenForOutputA) | Opens a file for putput and returns a TextStream object that can be used to write to the file. |
-| [OpenForOutputW](#OpenForOutputW) | Opens a file for putput and returns a TextStream object that can be used to write to the file. |
-| [OpenForAppendA](#OpenForAppendA) | Opens a file for append and returns a TextStream object that can be used to write to the file. |
-| [OpenForAppendW](#OpenForAppendW) | Opens a file for append and returns a TextStream object that can be used to write to the file. |
-| [Close](#Close) | Closes an open TextStream file. |
-| [EOL](#EOL) | Returns TRUE if the file pointer is positioned immediately before the end-of-line marker in a TextStream file; FALSE if it is not. |
-| [EOS](#EOS) | Returns TRUE if the file pointer is at the end of a TextStream file; FALSE if it is not. |
-| [Read](#Read) | Reads a specified number of characters from a TextStream file and returns the resulting string. |
+| [Create](#Create) | Creates a file and returns a **TextStream** object that can be used to read from or write to the file. |
+| [Open](#Open) | Opens a file and returns a **TextStream** object that can be used to read from, write to, or append to the file. |
+| [OpenUnicode](#OpenUnicode) | Opens a file and returns a **TextStream** object that can be used to read from, write to, or append to the file. |
+| [OpenForInputA](#OpenForInputA) | Opens a file for input and returns a **TextStream** object that can be used to read from the file. |
+| [OpenForInputW](#OpenForInputW) | Opens a file for input and returns a **TextStream** object that can be used to read from the file. |
+| [OpenForOutputA](#OpenForOutputA) | Opens a file for putput and returns a **TextStream** object that can be used to write to the file. |
+| [OpenForOutputW](#OpenForOutputW) | Opens a file for putput and returns a **TextStream** object that can be used to write to the file. |
+| [OpenForAppendA](#OpenForAppendA) | Opens a file for append and returns a **TextStream** object that can be used to write to the file. |
+| [OpenForAppendW](#OpenForAppendW) | Opens a file for append and returns a **TextStream** object that can be used to write to the file. |
+| [Close](#Close) | Closes an open **TextStream** file. |
+| [EOL](#EOL) | Returns TRUE if the file pointer is positioned immediately before the end-of-line marker in a **TextStream** file; FALSE if it is not. |
+| [EOS](#EOS) | Returns TRUE if the file pointer is at the end of a **TextStream** file; FALSE if it is not. |
+| [Read](#Read) | Reads a specified number of characters from a **TextStream** file and returns the resulting string. |
 | [ReadLine](#ReadLine) | Reads an entire line (up to, but not including, the newline character) from a TextStream file and returns the resulting string. |
-| [ReadAll](#ReadAll) | Reads an entire TextStream file and returns the resulting string. |
-| [Write](#Write) | Writes a specified string to a TextStream file. |
-| [WriteLine](#WriteLine) | Writes a specified string and newline character to a TextStream file. |
-| [WriteBlankLines](#WriteBlankLines) | Writes a specified number of newline characters to a TextStream file. |
-| [Skip](#Skip) | Skips a specified number of characters when reading a TextStream file. |
-| [SkipLine](#SkipLine) | Skips the next line when reading a TextStream file. |
-| [Line](#Line) | Returns the current line number in a TextStream file. |
-| [Column](#Column) | Returns the column number of the current character position in a TextStream file. |
-| [GetLastResult](#GetLastResult) | Returns the last result code. |
+| [ReadAll](#ReadAll) | Reads an entire **TextStream** file and returns the resulting string. |
+| [Write](#Write) | Writes a specified string to a **TextStream** file. |
+| [WriteLine](#WriteLine) | Writes a specified string and newline character to a **TextStream** file. |
+| [WriteBlankLines](#WriteBlankLines) | Writes a specified number of newline characters to a **TextStream** file. |
+| [Skip](#Skip) | Skips a specified number of characters when reading a **TextStream** file. |
+| [SkipLine](#SkipLine) | Skips the next line when reading a **TextStream** file. |
+| [Line](#Line) | Returns the current line number in a **TextStream** file. |
+| [Column](#Column) | Returns the column number of the current character position in a **TextStream** file. |
 
+---
 
-# <a name="Create"></a>Create
+## Error and result codes
+
+| Name       | Description |
+| ---------- | ----------- |
+| [GetErrorInfo](#geterrorinfo) | Returns a localized description of the specified error code. |
+| [GetLastResult](#getlastresult) | Returns the last result code. |
+| [SetResult](#setresult) | Sets the last result code. |
+
+---
+
+## <a name="Create"></a>Create
 
 Creates a specified file name and returns a TextStream object that can be used to read from or write to the file.
 
 ```
-FUNCTION Create (BYREF cbsFileName AS CBSTR, _
+FUNCTION Create (BYREF wszFileName AS WSTRING, _
    BYVAL bOverwrite AS BOOLEAN = TRUE, _
    BYVAL bUnicode AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to create. |
+| *wszFileName* | String expression that identifies the file to create. |
 | *bOverwrite* | Boolean value that indicates whether you can overwrite an existing file. The value is true if the file can be overwritten, false if it can't be overwritten. If omitted, existing files are not overwritten. |
 | *bUnicode* | Boolean value that indicates whether the file is created as a Unicode or ASCII file. The value is true if the file is created as a Unicode file, false if it's created as an ASCII file. If omitted, an ASCII file is assumed. |
 
@@ -96,31 +113,29 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-#include "Afx/CTextStream.inc"
+#include "AfxNova/CTextStream.inc"
 using Afx
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Create a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
-pTxtStm.Create(cbsFile, TRUE)
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
+pTxtStm.Create(dwsFile, TRUE)
 ' // Write a string and an end of line to the stream
 pTxtStm.WriteLine "This is a test."
 ' // Write more strings
 pTxtStm.WriteLine "This is a string."
 pTxtStm.WriteLine "This is a second string."
 pTxtStm.WriteLine "This is the end line."
-
-PRINT
-PRINT "Press any key o end..."
-SLEEP
 ```
-# <a name="Open"></a>Open
+---
 
-Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file.
+## <a name="Open"></a>Open
+
+Opens a specified file and returns a **TextStream** object that can be used to read from, write to, or append to the file.
 
 ```
-FUNCTION Open (BYREF cbsFileName AS CBSTR, _
+FUNCTION Open (BYREF wszFileName AS WSTRING, _
    BYVAL IOMode AS LONG = 1, _
    BYVAL bCreate AS BOOLEAN = FALSE, _
    BYVAL bUnicode AS BOOLEAN = FALSE) AS HRESULT
@@ -128,7 +143,7 @@ FUNCTION Open (BYREF cbsFileName AS CBSTR, _
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *wszFileName* | String expression that identifies the file to open. |
 | *IOMode* | LONG. Can be one of three constants: IOMode_ForReading, IOMode_ForWriting, or IOMode_ForAppending. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 | *bUnicode* | Boolean value that indicates whether the file is created as a Unicode or ASCII file. The value is true if the file is created as a Unicode file, false if it's created as an ASCII file. If omitted, an ASCII file is assumed. |
@@ -148,9 +163,8 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -168,8 +182,9 @@ pTxtStm.Close
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="OpenUnicode"></a>OpenUnicode
+## <a name="OpenUnicode"></a>OpenUnicode
 
 Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file.
 
@@ -200,39 +215,36 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Open file as a text stream
-DIM cbsFile AS CBSTR = ExePath & "\TestW.txt"
-IF pTxtStm.OpenUnicode(cbsFile, IOMode_ForReading) = S_OK THEN
+DIM dwsFile AS DWSTRING = ExePath & "\TestW.txt"
+IF pTxtStm.OpenUnicode(dwsFile, IOMode_ForReading) = S_OK THEN
    ' // Read the file sequentially
-   DIM cbs AS CBSTR
+   DIM dws AS DWSTRING
    DO UNTIL pTxtStm.EOS
-      cbs = pTxtStm.ReadLine
-      PRINT cbs
+      dws = pTxtStm.ReadLine
+      PRINT dws
    LOOP
    pTxtStm.Close
 END IF
-
-PRINT "Press any key..."
-SLEEP
 ```
+---
 
-# <a name="OpenForInputA"></a>OpenForInputA
+## <a name="OpenForInputA"></a>OpenForInputA
 
-Opens a file for input and returns a TextStream object that can be used to read from the file. (Ansi version.)
+Opens a file for input and returns a **TextStream** object that can be used to read from the file. (Ansi version.)
 
 ```
-FUNCTION OpenForInputA (BYREF cbsFileName AS CBSTR, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION OpenForInputA (BYREF wszFileName AS WSTRING, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *wszFileName* | String expression that identifies the file to open. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
 #### Return value
@@ -242,9 +254,8 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -258,22 +269,20 @@ IF pTxtStm.OpenForInputA(ExePath & "\Test.txt") = S_OK THEN
    LOOP
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="OpenForInputW"></a>OpenForInputW
+## <a name="OpenForInputW"></a>OpenForInputW
 
-Opens a file for input and returns a TextStream object that can be used to read from the file. (Unicode version.)
+Opens a file for input and returns a **TextStream** object that can be used to read from the file. (Unicode version.)
 
 ```
-FUNCTION OpenForInputW (BYREF cbsFileName AS CBSTR, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION OpenForInputW (BYREF wszFileName AS WsTRING, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *wszFileName* | String expression that identifies the file to open. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
 #### Return value
@@ -283,38 +292,35 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // ' // Open file for input as a text stream
 IF pTxtStm.OpenForInputW(ExePath & "\TestW.txt") = S_OK THEN
    ' // Read the file sequentially
-   DIM cbs AS CBSTR
+   DIM dws AS DWSTRING
    DO UNTIL pTxtStm.EOS
       cbs = pTxtStm.ReadLine
-      PRINT cbs
+      PRINT dws
    LOOP
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="OpenForOutputA"></a>OpenForOutputA
+## <a name="OpenForOutputA"></a>OpenForOutputA
 
-Opens a file for output and returns a TextStream object that can be used to write to the file. (Ansi version.)
+Opens a file for output and returns a **TextStream** object that can be used to write to the file. (Ansi version.)
 
 ```
-FUNCTION OpenForOutputA (BYREF cbsFileName AS CBSTR, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION OpenForOutputA (BYREF wszFileName AS WSTRING, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *wszFileName* | String expression that identifies the file to open. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
 #### Return value
@@ -324,9 +330,8 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -337,22 +342,20 @@ IF pTxtStm.OpenForOutputA(ExePath & "\Test.txt") = S_OK THEN
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="OpenForOutputW"></a>OpenForOutputW
+## <a name="OpenForOutputW"></a>OpenForOutputW
 
-Opens a file for output and returns a TextStream object that can be used to write to the file. (Unicode version.)
+Opens a file for output and returns a **TextStream** object that can be used to write to the file. (Unicode version.)
 
 ```
-FUNCTION OpenForOutputW (BYREF cbsFileName AS CBSTR, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION OpenForOutputW (BYREF wszFileName AS WSTRING, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *wszFileName* | String expression that identifies the file to open. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
 #### Return value
@@ -362,9 +365,8 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -375,23 +377,20 @@ IF pTxtStm.OpenForOutputW(ExePath & "\TestW.txt") = S_OK THEN
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
+## <a name="OpenForAppendA"></a>OpenForAppendA
 
-# <a name="OpenForAppendA"></a>OpenForAppendA
-
-Opens a file for append and returns a TextStream object that can be used to write to the file. (Ansi version.)
+Opens a file for append and returns a **TextStream** object that can be used to write to the file. (Ansi version.)
 
 ```
-FUNCTION OpenForOutputA (BYREF cbsFileName AS CBSTR, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION OpenForOutputA (BYREF wszFileName AS WSTRING, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *wszFileName* | String expression that identifies the file to open. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
 #### Return value
@@ -401,9 +400,8 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -414,22 +412,20 @@ IF pTxtStm.OpenForAppendA(ExePath & "\Test.txt") = S_OK THEN
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="OpenForAppendW"></a>OpenForAppendW
+## <a name="OpenForAppendW"></a>OpenForAppendW
 
-Opens a file for append and returns a TextStream object that can be used to write to the file. (Unicode version.)
+Opens a file for append and returns a **TextStream** object that can be used to write to the file. (Unicode version.)
 
 ```
-FUNCTION OpenForAppendW (BYREF cbsFileName AS CBSTR, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION OpenForAppendW (BYREF wszFileName AS WSTRING, BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *wszFileName* | String expression that identifies the file to open. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
 #### Return value
@@ -437,9 +433,8 @@ FUNCTION OpenForAppendW (BYREF cbsFileName AS CBSTR, BYVAL bCreate AS BOOLEAN = 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
 ```
-'#CONSOLE ON
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -450,14 +445,12 @@ IF pTxtStm.OpenForAppendW(ExePath & "\TestW.txt") = S_OK THEN
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="Close"></a>Close
+## <a name="Close"></a>Close
 
-Closes an open TextStream file.
+Closes an open **TextStream** file.
 
 ```
 FUNCTION Close () AS HRESULT
@@ -467,9 +460,11 @@ FUNCTION Close () AS HRESULT
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="EOL"></a>EOL
+---
 
-Returns TRUE if the file pointer is positioned immediately before the end-of-line marker in a TextStream file; FALSE if it is not.
+## <a name="EOL"></a>EOL
+
+Returns TRUE if the file pointer is positioned immediately before the end-of-line marker in a **TextStream** file; FALSE if it is not.
 
 ```
 FUNCTION EOL () AS BOOLEAN
@@ -477,11 +472,13 @@ FUNCTION EOL () AS BOOLEAN
 
 #### Remark
 
-The EOL (End of Line) property applies only to TextStream files that are open for reading; otherwise, an error occurs.
+The EOL (End of Line) property applies only to **TextStream** files that are open for reading; otherwise, an error occurs.
 
-# <a name="EOS"></a>EOS
+---
 
-Returns TRUE if the file pointer is at the end of a TextStream file; FALSE if it is not.
+## <a name="EOS"></a>EOS
+
+Returns TRUE if the file pointer is at the end of a **TextStream** file; FALSE if it is not.
 
 ```
 FUNCTION EOS () AS BOOLEAN
@@ -489,15 +486,16 @@ FUNCTION EOS () AS BOOLEAN
 
 #### Remark
 
-The EOS (End os Stream) property applies only to TextStream files that are open for reading, otherwise, an error occurs.
+The EOS (End os Stream) property applies only to **TextStream** files that are open for reading, otherwise, an error occurs.
 
+---
 
 # <a name="Read"></a>Read
 
-Reads a specified number of characters from a TextStream file and returns the resulting string.
+Reads a specified number of characters from a **TextStream** file and returns the resulting string.
 
 ```
-FUNCTION Read (BYVAL numChars AS LONG) AS CBSTR
+FUNCTION Read (BYVAL numChars AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -506,25 +504,27 @@ FUNCTION Read (BYVAL numChars AS LONG) AS CBSTR
 
 #### Return value
 
-CBSTR. A string with the characters read.
+A string with the characters read.
 
-# <a name="ReadLine"></a>ReadLine
+---
+
+## <a name="ReadLine"></a>ReadLine
 
 Reads an entire line (up to, but not including, the newline character) from a TextStream file and returns the resulting string.
 
 ```
-FUNCTION ReadLine  () AS CBSTR
+FUNCTION ReadLine  () AS DWSTRING
 ```
 
 #### Return value
 
-CBSTR. A string with the content of the line read.
+A string with the content of the line read.
 
 #### Example
 
 ```
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
@@ -535,62 +535,58 @@ IF pTxtStm.Open(cbsFile, IOMode_ForReading) = S_OK THEN
    DO
      IF pTxtStm.EOS THEN EXIT DO
      DIM curLine AS LONG = pTxtStm.Line
-     DIM cbsText AS CBSTR = pTxtStm.ReadLine
-     PRINT "Line " & STR(curLine) & ": " & cbsText
+     DIM dwsText AS DWSTRING = pTxtStm.ReadLine
+     PRINT "Line " & STR(curLine) & ": " & dwsText
    LOOP
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="ReadAll"></a>ReadAll
+## <a name="ReadAll"></a>ReadAll
 
-Reads an entire TextStream file and returns the resulting string.
+Reads an entire **TextStream** file and returns the resulting string.
 
 ```
-FUNCTION ReadAll  () AS CBSTR
+FUNCTION ReadAll  () AS DWSTRING
 ```
 
 #### Return value
 
-CBSTR. A string with the content of all the file.
+A string with the content of all the file.
 
 #### Example
 
 ```
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Open file as a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
-IF pTxtStm.Open(cbsFile, IOMode_ForReading) = S_OK THEN
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
+IF pTxtStm.Open(dwsFile, IOMode_ForReading) = S_OK THEN
    ' // Read all the contents of the file
-   DIM cbsText AS CBSTR = pTxtStm.ReadAll
-   PRINT cbsText
+   DIM dwsText AS DWSTRING = pTxtStm.ReadAll
+   PRINT dwsText
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="Write"></a>Write
+## <a name="Write"></a>Write
 
-Writes a specified string to a TextStream file.
+Writes a specified string to a **TextStream** file.
 
 ```
-FUNCTION Write (BYREF cbsText AS CBSTR) AS HRESULT
+FUNCTION Write (BYREF dwsText AS DWSTRING) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsText* | CBSTR. The text you want to write to the file. |
+| *dwsText* | The text you want to write to the file. |
 
 #### Return value
 
@@ -599,51 +595,49 @@ CBSTR. The text you want to write to the file.
 #### Example
 
 ```
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Create a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
-IF pTxtStm.Create(cbsFile, TRUE) = S_OK THEN
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
+IF pTxtStm.Create(dwsFile, TRUE) = S_OK THEN
    ' // Write strings
    pTxtStm.Write "This is a string."
    pTxtStm.Write "This is a second string."
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="WriteLine"></a>WriteLine
+## <a name="WriteLine"></a>WriteLine
 
-Writes a specified string and newline character to a TextStream file.
+Writes a specified string and newline character to a **TextStream** file.
 
 ```
-FUNCTION WriteLine (BYREF cbsText AS CBSTR) AS HRESULT
+FUNCTION WriteLine (BYREF dwsText AS DWSTRING) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsText* | CBSTR. The text you want to write to the file. If omitted, a newline character is written to the file. |
+| *dwsText* | The text you want to write to the file. If omitted, a newline character is written to the file. |
 
 #### Return value
 
-CBSTR. The text you want to write to the file.
+The text you want to write to the file.
 
 #### Example
 
 ```
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Create a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
 IF pTxtStm.Create(cbsFile, TRUE) = S_OK THEN
    ' // Write strings
    pTxtStm.WriteLine "This is a string."
@@ -651,12 +645,10 @@ IF pTxtStm.Create(cbsFile, TRUE) = S_OK THEN
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="WriteBlankLines"></a>WriteBlankLines
+## <a name="WriteBlankLines"></a>WriteBlankLines
 
 Writes a specified string and newline character to a TextStream file.
 
@@ -675,13 +667,13 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Create a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
 IF pTxtStm.Create(cbsFile, TRUE) = S_OK THEN
    ' // Write a string and an end of line to the stream
    pTxtStm.WriteLine "This is a test."
@@ -694,14 +686,12 @@ IF pTxtStm.Create(cbsFile, TRUE) = S_OK THEN
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="Skip"></a>Skip
+## <a name="Skip"></a>Skip
 
-Skips a specified number of characters when reading a TextStream file.
+Skips a specified number of characters when reading a **TextStream** file.
 
 ```
 FUNCTION Skip (BYVAL numChars AS LONG) AS HRESULT
@@ -718,14 +708,14 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Example
 
 ```
-#include "Afx/CTextStream.inc"
-using Afx
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
 
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Open file as a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
-IF pTxtStm.Open(cbsFile, IOMode_ForReading) = S_OK THEN
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
+IF pTxtStm.Open(dwsFile, IOMode_ForReading) = S_OK THEN
    ' // Read the file sequentially
    DO
      ' // Ext if we are at the end of the stream
@@ -742,22 +732,20 @@ IF pTxtStm.Open(cbsFile, IOMode_ForReading) = S_OK THEN
      ' // Current column
      DIM curColumn AS LONG = pTxtStm.Column
      ' // Read 5 characters
-     DIM cbsText AS CBSTR = pTxtStm.Read(5)
+     DIM dwsText AS DWSTRING = pTxtStm.Read(5)
      ' // Skip the rest of the line
      pTxtStm.SkipLine
-     PRINT "Line " + WSTR(curLine) + ", Column " +  WSTR(curColumn) & ": " + cbsText
+     PRINT "Line " + WSTR(curLine) + ", Column " +  WSTR(curColumn) & ": " + dwsText
    LOOP
    '// Close the file
    pTxtStm.Close
 END IF
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="SkipLine"></a>SkipLine
+## <a name="SkipLine"></a>SkipLine
 
-Skips the next line when reading a TextStream file.
+Skips the next line when reading a **TextStream** file.
 
 ```
 FUNCTION SkipLine () AS HRESULT
@@ -767,9 +755,11 @@ FUNCTION SkipLine () AS HRESULT
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
+---
+
 # <a name="Line"></a>Line
 
-Read-only property that returns the current line number in a TextStream file.
+Read-only property that returns the current line number in a **TextStream** file.
 
 ```
 PROPERTY Line  () AS LONG
@@ -783,9 +773,11 @@ LONG. The current line number.
 
 After a file is initially opened and before anything is written, Line is equal to 1.
 
-# <a name="Column"></a>Column
+---
 
-Read-only property that returns the column number of the current character position in a TextStream file.
+## <a name="Column"></a>Column
+
+Read-only property that returns the column number of the current character position in a **TextStream** file.
 
 ```
 PROPERTY Column  () AS LONG
@@ -799,7 +791,9 @@ LONG. The current column number.
 
 After a newline character has been written, but before any other character is written, Column is equal to 1.
 
-# <a name="GetLastResult"></a>GetLastResult
+---
+
+## <a name="GetLastResult"></a>GetLastResult
 
 Returns the last result code.
 
@@ -810,3 +804,46 @@ FUNCTION GetLastResult () AS HRESULT
 #### Return value
 
 HRESULT. S_OK (0) on success, or an error code on failure.
+
+---
+
+## <a name="setresult"></a>SetResult
+
+Sets the result code.
+```
+FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
+```
+| Parameter | Description |
+| --------- | ----------- |
+| *Result* | The error code returned by the methods. |
+
+---
+
+### <a name="geterrorinfo"></a>GetErrorInfo
+
+Returns a description of the last error code.
+```
+PRIVATE FUNCTION GetErrorInfo () AS DWSTRING
+```
+#### Error codes
+
+| Value | Description |
+| ------ | ----------- |
+| &h800A0034 | Bad file name or number |
+| &h800A0035 | File not found |
+| &h800A0036 | Bad file mode |
+| &h800A0037 | File is already open |
+| &h800A0039 | Device I/O error |
+| &h800A003A | File already exists |
+| &h800A003D | Disk space is full |
+| &h800A003E | Input beyond the end of the file |
+| &h800A0043 | Too many files |
+| &h800A0044 | Device not available |
+| &h800A0046 | Permission denied |
+| &h800A0047 | Disk not ready |
+| &h800A004A | Cannot rename with different drive |
+| &h800A004B | Path/file access error |
+| &h800A004C | Path not found |
+
+---
+
