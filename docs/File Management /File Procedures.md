@@ -165,7 +165,7 @@ Displays a dialog box that enables the user to select a folder.
 
 ```
 FUNCTION AfxBrowseForFolder (BYVAL hwnd AS HWND, BYVAL pwszTitle AS WSTRING PTR = NULL, _
-   BYVAL pwszStartFolder AS WSTRING PTR = NULL, BYVAL nFlags AS LONG = 0) AS CWSTR
+   BYVAL pwszStartFolder AS WSTRING PTR = NULL, BYVAL nFlags AS LONG = 0) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -208,7 +208,7 @@ If you don't pass any flags, the function will use BIF_RETURNONLYFSDIRS OR BIF_D
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxBrowseForFolder(hwnd, "C:")
+DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
 ```
 
 # <a name="AfxOpenFileDialog"></a>AfxOpenFileDialog
@@ -218,7 +218,7 @@ Creates an **Open** dialog box that lets the user specify the drive, directory, 
 ```
 FUNCTION AfxOpenFileDialog (BYVAL hwndOwner AS HWND, BYREF wszTitle AS WSTRING, BYREF wszFile AS WSTRING, _
    BYREF wszInitialDir AS WSTRING, BYREF wszFilter AS WSTRING, BYREF wszDefExt AS WSTRING, _
-   BYVAL pdwFlags AS DWORD PTR = NULL, BYVAL pdwBufLen AS DWORD PTR = NULL) AS CWSTR
+   BYVAL pdwFlags AS DWORD PTR = NULL, BYVAL pdwBufLen AS DWORD PTR = NULL) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -260,8 +260,8 @@ DIM wszFile AS WSTRING * 260 = "*.*"
 DIM wszInitialDir AS STRING * 260 = CURDIR
 DIM wszFilter AS WSTRING * 260 = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
 DIM dwFlags AS DWORD = OFN_EXPLORER OR OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_ALLOWMULTISELECT
-DIM cws AS CWSTR = AfxOpenFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags, NULL)
-AfxMsg cws
+DIM dws AS DWSTRING = AfxOpenFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags, NULL)
+AfxMsg dws
 ```
 
 # <a name="AfxSaveFileDialog"></a>AfxSaveFileDialog
@@ -271,7 +271,7 @@ Creates a **Save** dialog box that lets the user specify the drive, directory, a
 ```
 FUNCTION AfxSaveFileDialog (BYVAL hwndOwner AS HWND, BYREF wszTitle AS WSTRING, BYREF wszFile AS WSTRING, _
    BYREF wszInitialDir AS WSTRING, BYREF wszFilter AS WSTRING, BYREF wszDefExt AS WSTRING, _
-   BYVAL pdwFlags AS DWORD PTR = NULL) AS CWSTR
+   BYVAL pdwFlags AS DWORD PTR = NULL) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -311,8 +311,8 @@ DIM wszFile AS WSTRING * 260 = "*.*"
 DIM wszInitialDir AS STRING * 260 = CURDIR
 DIM wszFilter AS WSTRING * 260 = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
 DIM dwFlags AS DWORD = OFN_EXPLORER OR OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_OVERWRITEPROMPT
-DIM cws AS CWSTR = AfxSaveFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags)
-AfxMsg cws
+DIM dws AS DWSTRING = AfxSaveFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags)
+AfxMsg dws
 ```
 
 # <a name="AfxChDir"></a>AfxChDir / AfxSetCurDir / AfxSetCurrentDirectory
@@ -461,9 +461,9 @@ PRINT Format(dt, "yyyy-mm-dd hh:mm AM/PM")
 Retrieves the current directory for the current process.
 
 ```
-FUNCTION AfxCurDir () AS CWSTR
-FUNCTION AfxGetCurDir () AS CWSTR
-FUNCTION AfxGetCurrentDirectory () AS CWSTR
+FUNCTION AfxCurDir () AS DWSTRING
+FUNCTION AfxGetCurDir () AS DWSTRING
+FUNCTION AfxGetCurrentDirectory () AS DWSTRING
 ```
 
 #### Return value
@@ -609,8 +609,8 @@ The size in bytes of the file on success, or 0 on failure.
 Returns the path of the program which is currently executing.
 
 ```
-FUNCTION AfxExePath () AS CWSTR
-FUNCTION AfxGetExePath () AS CWSTR
+FUNCTION AfxExePath () AS DWSTRING
+FUNCTION AfxGetExePath () AS DWSTRING
 ```
 
 #### Remarks
@@ -622,7 +622,7 @@ Unicode replacement for Free Basic's **ExePath** function. The path name has not
 Returns the path of the program which is currently executing.
 
 ```
-FUNCTION AfxGetExePathName () AS CWSTR
+FUNCTION AfxGetExePathName () AS DWSTRING
 ```
 
 #### Remarks
@@ -650,7 +650,7 @@ DRIVE_UNKNOWN (0), DRIVE_NO_ROOT_DIR (1), DRIVE_REMOVABLE (2), DRIVE_FIXED(3), D
 Parses a path/filename and returns the extension portion of the path/file name.
 
 ```
-FUNCTION AfxGetExeFileExt () AS CWSTR
+FUNCTION AfxGetExeFileExt () AS DWSTRING
 ```
 
 #### Return value
@@ -662,7 +662,7 @@ The extension portion of the file name. That is the last period (.) in the strin
 Returns the file name of the program which is currently executing.
 
 ```
-FUNCTION AfxGetExeFileName () AS CWSTR
+FUNCTION AfxGetExeFileName () AS DWSTRING
 ```
 
 # <a name="AfxGetExeFileNameX"></a>AfxGetExeFileNameX
@@ -670,7 +670,7 @@ FUNCTION AfxGetExeFileName () AS CWSTR
 Returns the file name and extension of the program which is currently executing.
 
 ```
-FUNCTION AfxGetExeFileNameX () AS CWSTR
+FUNCTION AfxGetExeFileNameX () AS DWSTRING
 ```
 
 # <a name="AfxGetExeFullPath"></a>AfxGetExeFullPath
@@ -678,7 +678,7 @@ FUNCTION AfxGetExeFileNameX () AS CWSTR
 Returns the complete drive, path, file name, and extension of the program which is currently executing.
 
 ```
-FUNCTION AfxGetExeFullPath () AS CWSTR
+FUNCTION AfxGetExeFullPath () AS DWSTRING
 ```
 
 # <a name="AfxGetFileExt"></a>AfxGetFileExt
@@ -686,7 +686,7 @@ FUNCTION AfxGetExeFullPath () AS CWSTR
 Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it.
 
 ```
-FUNCTION AfxGetFileExt (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxGetFileExt (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -737,7 +737,7 @@ FUNCTION AfxGetFileLastWriteTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BO
 Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.).
 
 ```
-FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -749,7 +749,7 @@ FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS CWSTR
 Parses a path/filename and returns the file name and extension portion. That is the text to the right of the last backslash (\\) or colon (:).
 
 ```
-FUNCTION AfxGetFileNameX (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxGetFileNameX (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -773,7 +773,7 @@ FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS DWORD
 Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name.
 
 ```
-FUNCTION AfxGetFolderName (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxGetFolderName (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -786,7 +786,7 @@ Retrieves the path of an special folder.
 
 ```
 FUNCTION AfxGetKnowFolderPath (BYVAL rfid AS CONST KNOWNFOLDERID CONST PTR, _
-   BYVAL dwFlags AS DWORD = 0, BYVAL hToken AS HANDLE = NULL) AS CWSTR
+   BYVAL dwFlags AS DWORD = 0, BYVAL hToken AS HANDLE = NULL) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -819,7 +819,7 @@ AfxGetKnowFolderPath(@FOLDERID_CommonPrograms)
 
 Retrieves the short path form of the specified path.
 ```
-FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -831,7 +831,7 @@ FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS CWSTR
 Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:).
 
 ```
-FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -843,7 +843,7 @@ FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS CWSTR
 Retrieves the short path form of the specified path.
 
 ```
-FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -855,7 +855,7 @@ FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS CWSTR
 Retrieves the path of a special folder.
 
 ```
-FUNCTION AfxGetSpecialFolderLocation (BYVAL nFolder AS LONG) AS CWSTR
+FUNCTION AfxGetSpecialFolderLocation (BYVAL nFolder AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -871,7 +871,7 @@ For a list of CSIDL values see: [CSIDL](https://msdn.microsoft.com/en-us/library
 Retrieves the fully qualified path for the file that contains the specified module.
 
 ```
-FUNCTION AfxGetSystemDllPath (BYREF wszDllName AS WSTRING) AS CWSTR
+FUNCTION AfxGetSystemDllPath (BYREF wszDllName AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -887,7 +887,7 @@ To locate the file for a module that was loaded by another process, use the **Ge
 Retrieves the path of the Windows directory. This path does not end with a backslash unless the Windows directory is the root directory. For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows. If the system was installed in the root directory of drive C, the path retrieved is C:\\.
 
 ```
-FUNCTION AfxGetWinDir () AS CWSTR
+FUNCTION AfxGetWinDir () AS DWSTRING
 ```
 
 # <a name="AfxIsCompressedFile"></a>AfxIsCompressedFile
@@ -1077,7 +1077,7 @@ Because it returns a safe array, this function is located in the CSafeArray.inc 
 Saves the contents of a string buffer in a temporary file.
 
 ```
-FUNCTION AfxSaveTempFile (BYVAL pwszBuffer AS WSTRING PTR, BYREF wszExtension AS WSTRING) AS CWSTR
+FUNCTION AfxSaveTempFile (BYVAL pwszBuffer AS WSTRING PTR, BYREF wszExtension AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1094,7 +1094,7 @@ Temporary files whose names have been created by this function are not automatic
 Adds a backslash to the end of a string to create the correct syntax for a path. If the source path already has a trailing backslash, no backslash will be added.
 
 ```
-FUNCTION AfxPathAddBackSlash (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathAddBackSlash (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1108,7 +1108,7 @@ The changed path.
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathAddBackSlash("C:\dir_name\dir_name\file_name")
+DIM dws AS DWSTRING = AfxPathAddBackSlash("C:\dir_name\dir_name\file_name")
 ```
 
 # <a name="AfxPathAddExtension"></a>AfxPathAddExtension
@@ -1116,7 +1116,7 @@ DIM cws AS CWSTR = AfxPathAddBackSlash("C:\dir_name\dir_name\file_name")
 Adds a file name extension to a path string.
 
 ```
-FUNCTION AfxPathAddExtension (BYREF wszPath AS CONST WSTRING, BYVAL pwszExt AS WSTRING PTR = NULL) AS CWSTR
+FUNCTION AfxPathAddExtension (BYREF wszPath AS CONST WSTRING, BYVAL pwszExt AS WSTRING PTR = NULL) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1135,10 +1135,10 @@ If there is already a file name extension present, no extension will be added. I
 #### Usage examples
 
 ```
-DIM cws AS CWSTR = AfxPathAddExtension("file") ' output: file.exe
-DIM cws AS CWSTR = AfxPathAddExtension("file.doc") ' output: file.doc
-DIM cws AS CWSTR = AfxPathAddExtension("file", ".txt") ' output: file.txt
-DIM cws AS CWSTR = AfxPathAddExtension("", ".txt") ' output: .txt
+DIM dws AS DWSTRING = AfxPathAddExtension("file") ' output: file.exe
+DIM dws AS DWSTRING = AfxPathAddExtension("file.doc") ' output: file.doc
+DIM dws AS DWSTRING = AfxPathAddExtension("file", ".txt") ' output: file.txt
+DIM dws AS DWSTRING = AfxPathAddExtension("", ".txt") ' output: .txt
 ```
 
 # <a name="AfxPathAppend"></a>AfxPathAppend
@@ -1146,7 +1146,7 @@ DIM cws AS CWSTR = AfxPathAddExtension("", ".txt") ' output: .txt
 Appends one path to the end of another.
 
 ```
-FUNCTION AfxPathAppend (BYREF wszPath AS CONST WSTRING, BYREF wszMore AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathAppend (BYREF wszPath AS CONST WSTRING, BYREF wszMore AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1167,7 +1167,7 @@ The path supplied in *wszPath* cannot begin with "..\\" or ".\\" to produce a re
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathAppend("name_1\name_2", "name_3")
+DIM dws AS DWSTRING = AfxPathAppend("name_1\name_2", "name_3")
 ```
 
 # <a name="AfxPathBuildRoot"></a>AfxPathBuildRoot
@@ -1175,7 +1175,7 @@ DIM cws AS CWSTR = AfxPathAppend("name_1\name_2", "name_3")
 Creates a root path from a given drive number.
 
 ```
-FUNCTION AfxPathBuildRoot (BYVAL nDrive AS LONG) AS CWSTR
+FUNCTION AfxPathBuildRoot (BYVAL nDrive AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1189,7 +1189,7 @@ The root path. If the call fails for any reason (for example, an invalid drive n
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathBuildRoot(2) ' output: C:\
+DIM dws AS DWSTRING = AfxPathBuildRoot(2) ' output: C:\
 ```
 
 # <a name="AfxPathCanonicalize"></a>AfxPathCanonicalize
@@ -1197,7 +1197,7 @@ DIM cws AS CWSTR = AfxPathBuildRoot(2) ' output: C:\
 Removes elements of a file path according to special strings inserted into that path.
 
 ```
-FUNCTION AfxPathCanonicalize (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathCanonicalize (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1217,11 +1217,11 @@ If there are more ".." sequences than there are path segments, the contents of t
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathCanonicalize("A:\name_1\.\name_2\..\sname_3") ' output: A:\name_1\name_3
-DIM cws AS CWSTR = AfxPathCanonicalize("A:\name_1\..\name_2\.\name_3") ' output: A:\name_2\name_3
-DIM cws AS CWSTR = AfxPathCanonicalize("A:\name_1\name_2\.\name_3\..\name_4") ' output: A:\name_1\name_2\name_4
-DIM cws AS CWSTR = AfxPathCanonicalize("A:\name_1\.\name_2\.\name_3\..\name_4\..") ' output: A:\name_1\name_2
-DIM cws AS CWSTR = AfxPathCanonicalize("C:\..") ' output: C:\
+DIM dws AS DWSTRING = AfxPathCanonicalize("A:\name_1\.\name_2\..\sname_3") ' output: A:\name_1\name_3
+DIM dws AS DWSTRING = AfxPathCanonicalize("A:\name_1\..\name_2\.\name_3") ' output: A:\name_2\name_3
+DIM dws AS DWSTRING = AfxPathCanonicalize("A:\name_1\name_2\.\name_3\..\name_4") ' output: A:\name_1\name_2\name_4
+DIM dws AS DWSTRING = AfxPathCanonicalize("A:\name_1\.\name_2\.\name_3\..\name_4\..") ' output: A:\name_1\name_2
+DIM dws AS DWSTRING = AfxPathCanonicalize("C:\..") ' output: C:\
 ```
 
 # <a name="AfxPathCombine"></a>AfxPathCombine
@@ -1229,7 +1229,7 @@ DIM cws AS CWSTR = AfxPathCanonicalize("C:\..") ' output: C:\
 Concatenates two strings that represent properly formed paths into one path; also concatenates any relative path elements.
 
 ```
-FUNCTION AfxPathCombine (BYREF wszDir AS CONST WSTRING, BYREF wszFile AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathCombine (BYREF wszDir AS CONST WSTRING, BYREF wszFile AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1248,7 +1248,7 @@ The directory path should be in the form of A:,B:, ..., Z:. The file path should
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathCombine("C:", "One\Two\Three") ' output: C:\One\Two\Three
+DIM dws AS DWSTRING = AfxPathCombine("C:", "One\Two\Three") ' output: C:\One\Two\Three
 ```
 
 # <a name="AfxPathCommonPrefix"></a>AfxPathCommonPrefix
@@ -1256,7 +1256,7 @@ DIM cws AS CWSTR = AfxPathCombine("C:", "One\Two\Three") ' output: C:\One\Two\Th
 Compares two paths to determine if they share a common prefix. A prefix is one of these types: "C:\\", ".", "..", "..\\".
 
 ```
-FUNCTION AfxPathCommonPrefix (BYREF wszFile1 AS CONST WSTRING, BYREF wszFile2 AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathCommonPrefix (BYREF wszFile1 AS CONST WSTRING, BYREF wszFile2 AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1271,7 +1271,7 @@ The common prefix.
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathCommonPrefix("C:\win\desktop\temp.txt", "c:\win\tray\sample.txt")
+DIM dws AS DWSTRING = AfxPathCommonPrefix("C:\win\desktop\temp.txt", "c:\win\tray\sample.txt")
 ```
 
 # <a name="AfxPathCompactPath"></a>AfxPathCompactPath
@@ -1279,7 +1279,7 @@ DIM cws AS CWSTR = AfxPathCommonPrefix("C:\win\desktop\temp.txt", "c:\win\tray\s
 Truncates a file path to fit within a given pixel width by replacing path components with ellipses.
 
 ```
-FUNCTION AfxPathCompactPath (BYVAL hDC AS HDC, BYREF wszPath AS CONST WSTRING, BYVAL dx AS DWORD) AS CWSTR
+FUNCTION AfxPathCompactPath (BYVAL hDC AS HDC, BYREF wszPath AS CONST WSTRING, BYVAL dx AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1299,7 +1299,7 @@ This function uses the font currently selected in *hDC* to calculate the width o
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathCompactPath(NULL, "C:\path1\path2\sample.txt", 180)
+DIM dws AS DWSTRING = AfxPathCompactPath(NULL, "C:\path1\path2\sample.txt", 180)
 ```
 
 # <a name="AfxPathCompactPathEx"></a>AfxPathCompactPathEx
@@ -1307,7 +1307,7 @@ DIM cws AS CWSTR = AfxPathCompactPath(NULL, "C:\path1\path2\sample.txt", 180)
 Truncates a path to fit within a certain number of characters by replacing path components with ellipses.
 
 ```
-FUNCTION AfxPathCompactPathEx (BYREF wszPath AS CONST WSTRING, BYVAL cchMax AS DWORD) AS CWSTR
+FUNCTION AfxPathCompactPathEx (BYREF wszPath AS CONST WSTRING, BYVAL cchMax AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1326,7 +1326,7 @@ The '/' separator will be used instead of '\\' if the original string used it. I
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathCompactPathEx("c:\test\My Filename", 18)
+DIM dws AS DWSTRING = AfxPathCompactPathEx("c:\test\My Filename", 18)
 ```
 
 # <a name="AfxPathCreateFromUrl"></a>AfxPathCreateFromUrl
@@ -1334,7 +1334,7 @@ DIM cws AS CWSTR = AfxPathCompactPathEx("c:\test\My Filename", 18)
 Converts a file URL to a Microsoft MS-DOS path.
 
 ```
-FUNCTION AfxPathCreateFromUrl (BYREF wszUrl AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathCreateFromUrl (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1348,7 +1348,7 @@ The MS-DOS path.
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathCreateFromUrl("file:///C:/Documents%20and%20Settings/URIS.txt")
+DIM dws AS DWSTRING = AfxPathCreateFromUrl("file:///C:/Documents%20and%20Settings/URIS.txt")
 ```
 
 # <a name="AfxPathFileExists"></a>AfxPathFileExists
@@ -1378,7 +1378,7 @@ A path specified by Universal Naming Convention (UNC) is limited to a file only;
 Searches a path for an extension.
 
 ```
-FUNCTION AfxPathFindExtension (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathFindExtension (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1396,7 +1396,7 @@ Note that a valid file name extension cannot contain a space.
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathFindExtension("C:\TEST\filetxt")
+DIM dws AS DWSTRING = AfxPathFindExtension("C:\TEST\filetxt")
 ```
 
 # <a name="AfxPathFindFileName"></a>AfxPathFindFileName
@@ -1404,7 +1404,7 @@ DIM cws AS CWSTR = AfxPathFindExtension("C:\TEST\filetxt")
 Searches a path for a file name.
 
 ```
-FUNCTION AfxPathFindFileName (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathFindFileName (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1420,7 +1420,7 @@ The file name.
 Searches a path for a file name.
 
 ```
-FUNCTION AfxPathFindNextComponent (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathFindNextComponent (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1438,7 +1438,7 @@ The truncated path.
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxPathFindNextComponent("C:\TEST\file.txt")
+DIM dws AS DWSTRING = AfxPathFindNextComponent("C:\TEST\file.txt")
 ```
 
 # <a name="AfxPathFindOnPath"></a>AfxPathFindOnPath
@@ -1447,7 +1447,7 @@ Searches for a file.
 
 ```
 FUNCTION AfxPathFindOnPath (BYREF wszFile AS CONST WSTRING, _
-   BYVAL ppwszOtherDirs AS WSTRING PTR PTR = NULL) AS CWSTR
+   BYVAL ppwszOtherDirs AS WSTRING PTR PTR = NULL) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1469,7 +1469,7 @@ Determines whether a given file name has one of a list of suffixes.
 
 ```
 FUNCTION AfxPathFindSuffixArray (BYREF wszPath AS WSTRING, BYVAL apwszSuffix AS WSTRING PTR PTR, _
-   BYVAL iArraySize AS LONG) AS CWSTR
+   BYVAL iArraySize AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1491,7 +1491,7 @@ This function uses a case-sensitive comparison. The suffix must match exactly.
 Finds the command line arguments within a given path.
 
 ```
-FUNCTION AfxPathGetArgs (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathGetArgs (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1838,7 +1838,7 @@ This function does not verify that the path points to an existing site—only th
 Converts a path to all lowercase characters to give the path a consistent appearance.
 
 ```
-FUNCTION AfxPathMakePretty (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathMakePretty (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1917,7 +1917,7 @@ Returns one of the following values:
 Parses a file location string that contains a file location and icon index, and returns separate values.
 
 ```
-FUNCTION AfxPathParseIconLocation (BYREF wszIconFile AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathParseIconLocation (BYREF wszIconFile AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1935,7 +1935,7 @@ This function is useful for taking a DefaultIcon value retrieved from the regist
 #### Usage example
 
 ```
-DIM wszIconLocation AS CWSTR = AfxPathParseIconLocation("C:\TEST\sample.txt,3")
+DIM dwsIconLocation AS DWSTRING = AfxPathParseIconLocation("C:\TEST\sample.txt,3")
 ```
 
 # <a name="AfxPathQuoteSpaces"></a>AfxPathQuoteSpaces
@@ -1943,7 +1943,7 @@ DIM wszIconLocation AS CWSTR = AfxPathParseIconLocation("C:\TEST\sample.txt,3")
 Searches a path for spaces. If spaces are found, the entire path is enclosed in quotation marks.
 
 ```
-FUNCTION AfxPathQuoteSpaces (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathQuoteSpaces (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1960,7 +1960,7 @@ Creates a relative path from one file or folder to another.
 
 ```
 FUNCTION AfxPathRelativePathTo (BYREF wszFrom AS CONST WSTRING, BYVAL dwAttrFrom AS DWORD, _
-   BYREF wszTo AS CONST WSTRING, BYVAL dwAttrTo AS DWORD) AS CWSTR
+   BYREF wszTo AS CONST WSTRING, BYVAL dwAttrTo AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1986,7 +1986,7 @@ For example, let the starting point, *wszFrom*, be "c:\\FolderA\FolderB\\FolderC
 Removes any arguments from a given path.
 
 ```
-FUNCTION AfxPathRemoveArgs (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathRemoveArgs (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2006,7 +2006,7 @@ This function should not be used on generic command path templates (from users o
 Removes the trailing backslash from a given path.
 
 ```
-FUNCTION AfxPathRemoveBackslash (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathRemoveBackslash (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2022,7 +2022,7 @@ The changed path.
 Removes all leading and trailing spaces from a string.
 
 ```
-FUNCTION AfxPathRemoveBlanks (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathRemoveBlanks (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2038,7 +2038,7 @@ The changed path.
 Removes the file name extension from a path, if one is present.
 
 ```
-FUNCTION AfxPathRemoveExtension (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathRemoveExtension (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2054,7 +2054,7 @@ The changed path.
 Removes the trailing file name and backslash from a path, if they are present.
 
 ```
-FUNCTION AfxPathRemoveFileSpec (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathRemoveFileSpec (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2070,7 +2070,7 @@ The changed path.
 Replaces the extension of a file name with a new extension. If the file name does not contain an extension, the extension will be attached to the end of the string.
 
 ```
-FUNCTION AfxPathRenameExtension (BYREF wszPath AS CONST WSTRING, BYREF wszExt AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathRenameExtension (BYREF wszPath AS CONST WSTRING, BYREF wszExt AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2120,7 +2120,7 @@ SUB AfxPathSetDlgItemPath (BYVAL hDlg AS HWND, BYVAL cID AS LONG, BYREF wszPath 
 Parses a path, ignoring the drive letter or Universal Naming Convention (UNC) server/share path elements.
 
 ```
-FUNCTION AfxPathSkipRoot (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathSkipRoot (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2136,7 +2136,7 @@ The changed path.
 Removes the path portion of a fully qualified path and file.
 
 ```
-FUNCTION AfxPathStripPath (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathStripPath (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2152,7 +2152,7 @@ The changed path.
 Removes all parts of the path except for the root information.
 
 ```
-FUNCTION AfxPathStripToRoot (BYREF wszRoot AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathStripToRoot (BYREF wszRoot AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2168,7 +2168,7 @@ Returns a string that contains only the root information taken from that path.
 Removes the decoration from a path string.
 
 ```
-FUNCTION AfxPathUndecorate (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathUndecorate (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2199,7 +2199,7 @@ The following table illustrates how strings are modified by **AfxPathUndecorate*
 Replaces certain folder names in a fully-qualified path with their associated environment string.
 
 ```
-FUNCTION AfxPathUnExpandEnvStrings (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathUnExpandEnvStrings (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2231,7 +2231,7 @@ Returns nonzero if successful, or zero otherwise.
 Removes quotes from the beginning and end of a path.
 
 ```
-FUNCTION AfxPathUnquoteSpaces (BYREF wszPath AS CONST WSTRING) AS CWSTR
+FUNCTION AfxPathUnquoteSpaces (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2247,7 +2247,7 @@ The unquoted path.
 Determines a scheme for a specified URL string, and returns a string with an appropriate prefix.
 
 ```
-FUNCTION AfxUrlApplyScheme (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS CWSTR
+FUNCTION AfxUrlApplyScheme (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2276,7 +2276,7 @@ If the URL has a valid scheme, the string will not be modified. However, almost 
 Converts a URL string into canonical form.
 
 ```
-FUNCTION AfxUrlCanonicalize (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS CWSTR
+FUNCTION AfxUrlCanonicalize (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2310,7 +2310,7 @@ If a URL string contains "/../" or "/./", **AfxUrlCanonicalize** normally treats
 When provided with a relative URL and its base, returns a URL in canonical form.
 
 ```
-FUNCTION AfxUrlCombine (BYREF wszBase AS WSTRING, BYREF wszRelative AS WSTRING, BYVAL dwFlags AS DWORD) AS CWSTR
+FUNCTION AfxUrlCombine (BYREF wszBase AS WSTRING, BYREF wszRelative AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2368,7 +2368,7 @@ For best results, you should first canonicalize the URLs with **AfxUrlCanonicali
 Converts a Microsoft MS-DOS path to a canonicalized URL.
 
 ```
-FUNCTION AfxUrlCreateFromPath (BYREF wszPath AS WSTRING) AS CWSTR
+FUNCTION AfxUrlCreateFromPath (BYREF wszPath AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2384,7 +2384,7 @@ The canonicalized URL.
 Converts characters in a URL that might be altered during transport across the Internet ("unsafe" characters) into their corresponding escape sequences.
 
 ```
-FUNCTION AfxUrlEscape (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS CWSTR
+FUNCTION AfxUrlEscape (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2446,7 +2446,7 @@ Security Warning: This function should be called from client applications only.
 Converts space characters into their corresponding escape sequence.
 
 ```
-FUNCTION AfxUrlEscapeSpaces (BYREF wszUrl AS WSTRING) AS CWSTR
+FUNCTION AfxUrlEscapeSpaces (BYREF wszUrl AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2462,7 +2462,7 @@ The converted URL.
 Attempts to correct a URL whose protocol identifier is incorrect. For example, htttp will be changed to http.
 
 ```
-FUNCTION AfxUrlFixup (BYREF wszUrl AS WSTRING) AS CWSTR
+FUNCTION AfxUrlFixup (BYREF wszUrl AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2490,7 +2490,7 @@ This function is available through Windows 7 and Windows Server 2008. It might b
 Retrieves the location from a URL.
 
 ```
-FUNCTION AfxUrlGetLocation (BYREF wszUrl AS CONST WSTRING) AS CWSTR
+FUNCTION AfxUrlGetLocation (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2511,7 +2511,7 @@ Accepts a URL string and returns a specified part of that URL.
 
 ```
 FUNCTION AfxUrlGetPart (BYREF wszUrl AS WSTRING, _
-   BYVAL dwPart AS DWORD, BYVAL dwFlags AS DWORD) AS CWSTR
+   BYVAL dwPart AS DWORD, BYVAL dwFlags AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -2633,7 +2633,7 @@ A URL that has a scheme that is not followed by two slashes (//) is opaque. For 
 Converts escape sequences back into ordinary characters.
 
 ```
-FUNCTION AfxUrlUnescape (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS CWSTR
+FUNCTION AfxUrlUnescape (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
 ```
 
 | Parameter  | Description |
