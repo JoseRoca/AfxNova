@@ -31,9 +31,9 @@ USING AfxNova
 NAMESPACE AfxNova
 
 ' ========================================================================================
-' DisplayOpenFile class
+' OpenFileDialog class
 ' ========================================================================================
-TYPE DisplayOpenFile
+TYPE OpenFileDialog
 
 Private:
    m_hParent AS HWND                       ' // Handle of the parent window or dialog
@@ -79,21 +79,21 @@ END TYPE
 ' ========================================================================================
 ' Constructor
 ' ========================================================================================
-PRIVATE CONSTRUCTOR DisplayOpenFile
+PRIVATE CONSTRUCTOR OpenFileDialog
 END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
 ' Destructor
 ' ========================================================================================
-PRIVATE DESTRUCTOR DisplayOpenFile
+PRIVATE DESTRUCTOR OpenFileDialog
 END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
 ' Open file dialog hook callback procedure
 ' ========================================================================================
-FUNCTION DisplayOpenFile.OFNHookProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS UINT_PTR
+FUNCTION OpenFileDialog.OFNHookProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS UINT_PTR
    DIM pOFN AS OPENFILENAMEW PTR
    DIM AS LONG xPos, yPos
    ' // Process the WM_INITDIALOG message
@@ -157,7 +157,7 @@ END FUNCTION
 ' ========================================================================================
 ' Display the dialog.
 ' Usage example:
-'   DIM pOFN AS DisplayOpenFile
+'   DIM pOFN AS OpenFileDialog
 '   pOFN.FileName = "*.*"
 '   pOFN.InitialDir = CURDIR
 '   pOFN.Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
@@ -169,7 +169,7 @@ END FUNCTION
 '   --or-- DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hWin, -1, -1, TRUE) to center the dialog
 '   PRINT dwsFile
 ' ========================================================================================
-PRIVATE FUNCTION DisplayOpenFile.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
+PRIVATE FUNCTION OpenFileDialog.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
 
    ' // Filter is a sequence of WSTRINGs with a final (extra) double null terminator
    ' // The "|" characters are replaced with nulls
@@ -217,7 +217,7 @@ PRIVATE FUNCTION DisplayOpenFile.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL x
       ' // Set a hook
       m_Flags = m_Flags OR OFN_EXPLORER OR OFN_ENABLEHOOK
       ofn.Flags = m_Flags
-      ofn.lpfnHook = @DisplayOpenFile.OFNHookProc
+      ofn.lpfnHook = @OpenFileDialog.OFNHookProc
    END IF
    ' // Call the open file dialog
    IF GetOpenFilenameW(@ofn) THEN
@@ -250,14 +250,14 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the title of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.Title () AS DWSTRING
+PRIVATE PROPERTY OpenFileDialog.Title () AS DWSTRING
    RETURN m_wszTitle
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Sets the title of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.Title (BYREF wszTitle AS WSTRING)
+PRIVATE PROPERTY OpenFileDialog.Title (BYREF wszTitle AS WSTRING)
    m_wszTitle = wszTitle
 END PROPERTY
 ' ========================================================================================
@@ -265,12 +265,12 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the flags that control the behavior of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.Flags () AS DWORD
+PRIVATE PROPERTY OpenFileDialog.Flags () AS DWORD
    RETURN m_Flags
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.FlagsEx () AS DWORD
+PRIVATE PROPERTY OpenFileDialog.FlagsEx () AS DWORD
    RETURN m_FlagsEx
 END PROPERTY
 ' ========================================================================================
@@ -278,14 +278,14 @@ END PROPERTY
 ' ========================================================================================
 ' Sets the flags that control the behavior of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.Flags (BYVAL dwFlags AS DWORD)
+PRIVATE PROPERTY OpenFileDialog.Flags (BYVAL dwFlags AS DWORD)
    m_Flags = dwFlags
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Currently, the only option is OFN_EX_NOPLACESBAR
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.FlagsEx (BYVAL dwFlagsEx AS DWORD)
+PRIVATE PROPERTY OpenFileDialog.FlagsEx (BYVAL dwFlagsEx AS DWORD)
    m_FlagsEx = dwFlagsEx
 END PROPERTY
 ' ========================================================================================
@@ -293,14 +293,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.DefaultExt () AS DWSTRING
+PRIVATE PROPERTY OpenFileDialog.DefaultExt () AS DWSTRING
    RETURN m_wszDefaultExt
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Gets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.DefaultExt (BYREF wszDefaultExt AS WSTRING)
+PRIVATE PROPERTY OpenFileDialog.DefaultExt (BYREF wszDefaultExt AS WSTRING)
    m_wszDefaultExt = wszDefaultExt
 END PROPERTY
 ' ========================================================================================
@@ -308,14 +308,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the folder used as a the initial directory
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.InitialDir () AS DWSTRING
+PRIVATE PROPERTY OpenFileDialog.InitialDir () AS DWSTRING
    RETURN m_wszInitiaDir
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Gets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.InitialDir (BYREF wszInitialDir AS WSTRING)
+PRIVATE PROPERTY OpenFileDialog.InitialDir (BYREF wszInitialDir AS WSTRING)
    m_wszInitiaDir = wszInitialDir
 END PROPERTY
 ' ========================================================================================
@@ -323,14 +323,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the file type that appears as selected in the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.FilterIndex () AS DWORD
+PRIVATE PROPERTY OpenFileDialog.FilterIndex () AS DWORD
    RETURN m_FilterIndex
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Sets the file type that appears as selected in the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.FilterIndex (BYVAL dwFilterIndex AS DWORD)
+PRIVATE PROPERTY OpenFileDialog.FilterIndex (BYVAL dwFilterIndex AS DWORD)
    m_FilterIndex = dwFilterIndex
 END PROPERTY
 ' ========================================================================================
@@ -338,14 +338,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the file name that appears in the File name edit box when that dialog box is opened.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.FileName () AS DWSTRING
+PRIVATE PROPERTY OpenFileDialog.FileName () AS DWSTRING
    RETURN m_wszFileName
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Sets the file name that appears in the File name edit box when that dialog box is opened.
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.FileName (BYREF wszFileName AS WSTRING)
+PRIVATE PROPERTY OpenFileDialog.FileName (BYREF wszFileName AS WSTRING)
    m_wszFileName = wszFileName
 END PROPERTY
 ' ========================================================================================
@@ -354,7 +354,7 @@ END PROPERTY
 ' Sets the file types that the dialog can open or save.
 ' Filter (pairs of strings separated with "|")
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.Filter () AS DWSTRING
+PRIVATE PROPERTY OpenFileDialog.Filter () AS DWSTRING
    RETURN m_dwsFilter
 END PROPERTY
 ' ========================================================================================
@@ -362,7 +362,7 @@ END PROPERTY
 ' Sets the file types that the dialog can open or save.
 ' Filter (pairs of strings separated with "|")
 ' ========================================================================================
-PRIVATE PROPERTY DisplayOpenFile.Filter (BYREF dwsFilter AS DWSTRING)
+PRIVATE PROPERTY OpenFileDialog.Filter (BYREF dwsFilter AS DWSTRING)
    m_dwsFilter = dwsFilter
 END PROPERTY
 ' ========================================================================================
@@ -371,9 +371,9 @@ END PROPERTY
 ' ########################################################################################
 
 ' ========================================================================================
-' DisplaySaveFile class
+' SaveFileDialog class
 ' ========================================================================================
-TYPE DisplaySaveFile
+TYPE SaveFileDialog
 
 Private:
    m_hParent AS HWND                       ' // Handle of the parent window or dialog
@@ -419,21 +419,21 @@ END TYPE
 ' ========================================================================================
 ' Constructor
 ' ========================================================================================
-PRIVATE CONSTRUCTOR DisplaySaveFile
+PRIVATE CONSTRUCTOR SaveFileDialog
 END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
 ' Destructor
 ' ========================================================================================
-PRIVATE DESTRUCTOR DisplaySaveFile
+PRIVATE DESTRUCTOR SaveFileDialog
 END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
 ' Open file dialog hook callback procedure
 ' ========================================================================================
-FUNCTION DisplaySaveFile.OFNHookProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS UINT_PTR
+FUNCTION SaveFileDialog.OFNHookProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS UINT_PTR
    DIM pOFN AS OPENFILENAMEW PTR
    DIM AS LONG xPos, yPos
    ' // Process the WM_INITDIALOG message
@@ -497,7 +497,7 @@ END FUNCTION
 ' ========================================================================================
 ' Display the dialog.
 ' Usage example:
-'   DIM pSFN AS DisplaySaveFile
+'   DIM pSFN AS SaveFileDialog
 '   pSFN.FileName = "*.*"
 '   pSFN.InitialDir = CURDIR
 '   pSFN.Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
@@ -508,7 +508,7 @@ END FUNCTION
 '   --or-- DIM dwsFile AS DWSTRING = pSFN.ShowSave(hWin, -1, -1, TRUE) to center the dialog
 '   PRINT dwsFile
 ' ========================================================================================
-PRIVATE FUNCTION DisplaySaveFile.ShowSave (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
+PRIVATE FUNCTION SaveFileDialog.ShowSave (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
 
    ' // Filter is a sequence of WSTRINGs with a final (extra) double null terminator
    ' // The "|" characters are replaced with nulls
@@ -553,7 +553,7 @@ PRIVATE FUNCTION DisplaySaveFile.ShowSave (BYVAL hParent AS HWND = NULL, BYVAL x
       ' // Set a hook
       m_Flags = m_Flags OR OFN_EXPLORER OR OFN_ENABLEHOOK
       ofn.Flags = m_Flags
-      ofn.lpfnHook = @DisplaySaveFile.OFNHookProc
+      ofn.lpfnHook = @SaveFileDialog.OFNHookProc
    END IF
 
    ' // Call the save filename dialog
@@ -568,14 +568,14 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the title of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.Title () AS DWSTRING
+PRIVATE PROPERTY SaveFileDialog.Title () AS DWSTRING
    RETURN m_wszTitle
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Sets the title of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.Title (BYREF wszTitle AS WSTRING)
+PRIVATE PROPERTY SaveFileDialog.Title (BYREF wszTitle AS WSTRING)
    m_wszTitle = wszTitle
 END PROPERTY
 ' ========================================================================================
@@ -583,12 +583,12 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the flags that control the behavior of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.Flags () AS DWORD
+PRIVATE PROPERTY SaveFileDialog.Flags () AS DWORD
    RETURN m_Flags
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.FlagsEx () AS DWORD
+PRIVATE PROPERTY SaveFileDialog.FlagsEx () AS DWORD
    RETURN m_FlagsEx
 END PROPERTY
 ' ========================================================================================
@@ -596,14 +596,14 @@ END PROPERTY
 ' ========================================================================================
 ' Sets the flags that control the behavior of the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.Flags (BYVAL dwFlags AS DWORD)
+PRIVATE PROPERTY SaveFileDialog.Flags (BYVAL dwFlags AS DWORD)
    m_Flags = dwFlags
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Currently, the only option is OFN_EX_NOPLACESBAR
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.FlagsEx (BYVAL dwFlagsEx AS DWORD)
+PRIVATE PROPERTY SaveFileDialog.FlagsEx (BYVAL dwFlagsEx AS DWORD)
    m_FlagsEx = dwFlagsEx
 END PROPERTY
 ' ========================================================================================
@@ -611,14 +611,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.DefaultExt () AS DWSTRING
+PRIVATE PROPERTY SaveFileDialog.DefaultExt () AS DWSTRING
    RETURN m_wszDefaultExt
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Gets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.DefaultExt (BYREF wszDefaultExt AS WSTRING)
+PRIVATE PROPERTY SaveFileDialog.DefaultExt (BYREF wszDefaultExt AS WSTRING)
    m_wszDefaultExt = wszDefaultExt
 END PROPERTY
 ' ========================================================================================
@@ -626,14 +626,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the folder used as a the initial directory
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.InitialDir () AS DWSTRING
+PRIVATE PROPERTY SaveFileDialog.InitialDir () AS DWSTRING
    RETURN m_wszInitiaDir
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Gets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.InitialDir (BYREF wszInitialDir AS WSTRING)
+PRIVATE PROPERTY SaveFileDialog.InitialDir (BYREF wszInitialDir AS WSTRING)
    m_wszInitiaDir = wszInitialDir
 END PROPERTY
 ' ========================================================================================
@@ -641,14 +641,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the file type that appears as selected in the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.FilterIndex () AS DWORD
+PRIVATE PROPERTY SaveFileDialog.FilterIndex () AS DWORD
    RETURN m_FilterIndex
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Sets the file type that appears as selected in the dialog.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.FilterIndex (BYVAL dwFilterIndex AS DWORD)
+PRIVATE PROPERTY SaveFileDialog.FilterIndex (BYVAL dwFilterIndex AS DWORD)
    m_FilterIndex = dwFilterIndex
 END PROPERTY
 ' ========================================================================================
@@ -656,14 +656,14 @@ END PROPERTY
 ' ========================================================================================
 ' Gets the file name that appears in the File name edit box when that dialog box is opened.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.FileName () AS DWSTRING
+PRIVATE PROPERTY SaveFileDialog.FileName () AS DWSTRING
    RETURN m_wszFileName
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 ' Sets the file name that appears in the File name edit box when that dialog box is opened.
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.FileName (BYREF wszFileName AS WSTRING)
+PRIVATE PROPERTY SaveFileDialog.FileName (BYREF wszFileName AS WSTRING)
    m_wszFileName = wszFileName
 END PROPERTY
 ' ========================================================================================
@@ -672,7 +672,7 @@ END PROPERTY
 ' Sets the file types that the dialog can open or save.
 ' Filter (pairs of strings separated with "|")
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.Filter () AS DWSTRING
+PRIVATE PROPERTY SaveFileDialog.Filter () AS DWSTRING
    RETURN m_dwsFilter
 END PROPERTY
 ' ========================================================================================
@@ -680,7 +680,7 @@ END PROPERTY
 ' Sets the file types that the dialog can open or save.
 ' Filter (pairs of strings separated with "|")
 ' ========================================================================================
-PRIVATE PROPERTY DisplaySaveFile.Filter (BYREF dwsFilter AS DWSTRING)
+PRIVATE PROPERTY SaveFileDialog.Filter (BYREF dwsFilter AS DWSTRING)
    m_dwsFilter = dwsFilter
 END PROPERTY
 ' ========================================================================================
