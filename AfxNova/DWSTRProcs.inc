@@ -28,6 +28,9 @@
 #include once "windows.bi"
 #include once "win/shlwapi.bi"
 #include once "AfxNova/CRegExp.inc"
+#include once "AfxNova/AfxArrays.inc"
+#include once "AfxNova/AfxSort.inc"
+#include once "AfxNova/AfxWin.inc"
 USING AfxNova
 
 ' ========================================================================================
@@ -850,7 +853,7 @@ END FUNCTION
 '   print dws
 ' Instead of DWSTRING, any other data type can be used: BSTRING, STRING...
 ' ========================================================================================
-#macro wstrJoin(array, dest, delim)
+#macro DWStrJoin(array, dest, delim)
 SCOPE
    dest = ""
    IF delim = CHR(34, 44, 34) THEN dest = CHR(34)
@@ -992,7 +995,7 @@ END FUNCTION
 ' Left-aligns a string within the space of another string.
 ' If wszStr is empty, DWStrLsetAbs leaves the padding positions unchanged from their original
 ' content, rather than replacing them with spaces as LSET does.
-' If wszStr is longer than wszSourceString, wstrLSet truncates it from the right until it fits
+' If wszStr is longer than wszSourceString, DWStrLSetAbs truncates it from the right until it fits
 ' in the result string.
 ' Example:
 ' DIM dws AS DWSTRING = "NameBasic=SuperBasic"
@@ -1029,7 +1032,7 @@ END FUNCTION
 ' character of wszPadCharacter.
 ' If wszStr is empty, DWStrRSetAbs leaves the padding positions unchanged from their original
 ' content, rather than replacing them with spaces as RSET does.
-' If wszStr is longer than wszSourceString, wstrRSet truncates it from the right until it fits
+' If wszStr is longer than wszSourceString, DWStrRSetAbs truncates it from the right until it fits
 ' in the result string.
 ' Example:
 ' DIM dws AS DWSTRING = "NameBasic=NameBasic"

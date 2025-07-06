@@ -142,7 +142,7 @@ PRIVATE FUNCTION CRegExp.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
       dwsMsg = *pBuffer
       LocalFree pBuffer
    END IF
-   IF nError THEN dwsMsg = "Error &h" & HEX(nError) & CHR(13, 10) & dwsMsg
+   IF nError THEN dwsMsg = "Error &h" + HEX(nError) & CHR(13, 10) + dwsMsg
    RETURN dwsMsg
 END FUNCTION
 ' ========================================================================================

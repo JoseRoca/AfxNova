@@ -28,6 +28,7 @@
 #pragma once
 #include once "AfxNova/DWSTRING.bi"
 #include once "AfxNova/BSTRING.inc"
+#include once "AfxNova/DWStrProcs.inc"
 
 NAMESPACE AfxNova
 
