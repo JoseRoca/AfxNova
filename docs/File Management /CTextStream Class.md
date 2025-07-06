@@ -109,7 +109,7 @@ FUNCTION Create (BYREF wszFileName AS WSTRING, BYVAL bOverwrite AS BOOLEAN = TRU
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-#### Example
+#### Example (Ansi text)
 
 ```
 #include "AfxNova/CTextStream.inc"
@@ -127,6 +127,24 @@ pTxtStm.WriteLine "This is a string."
 pTxtStm.WriteLine "This is a second string."
 pTxtStm.WriteLine "This is the end line."
 ```
+#### Example (Unicode text)
+
+```
+#include "AfxNova/CTextStream.inc"
+USING AfxNova
+
+' // Create an instance of the CTextStream class
+DIM pTxtStm AS CTextStream
+' // Create a text stream
+DIM dwsFile AS DWSTRING = ExePath & "\TestW.txt"
+pTxtStm.Create(dwsFile, TRUE, TRUE)
+' // Write a string and an end of line to the stream
+pTxtStm.WriteLine "This is a test."
+' // Write more strings
+pTxtStm.WriteLine "This is a string."
+pTxtStm.WriteLine "This is a second string."
+pTxtStm.WriteLine "This is the end line."
+```
 ---
 
 ## <a name="Open"></a>Open
@@ -134,16 +152,14 @@ pTxtStm.WriteLine "This is the end line."
 Opens a specified file and returns a **TextStream** object that can be used to read from, write to, or append to the file.
 
 ```
-FUNCTION Open (BYREF wszFileName AS WSTRING, _
-   BYVAL IOMode AS LONG = 1, _
-   BYVAL bCreate AS BOOLEAN = FALSE, _
-   BYVAL bUnicode AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION Open (BYREF wszFileName AS WSTRING, BYVAL IOMode AS LONG = 1, _
+   BYVAL bCreate AS BOOLEAN = FALSE, BYVAL bUnicode AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszFileName* | String expression that identifies the file to open. |
-| *IOMode* | LONG. Can be one of three constants: IOMode_ForReading, IOMode_ForWriting, or IOMode_ForAppending. |
+| *IOMode* | Can be one of three constants: *IOMode_ForReading*, *IOMode_ForWriting*, or *IOMode_ForAppending*. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 | *bUnicode* | Boolean value that indicates whether the file is created as a Unicode or ASCII file. The value is true if the file is created as a Unicode file, false if it's created as an ASCII file. If omitted, an ASCII file is assumed. |
 
@@ -192,7 +208,7 @@ FUNCTION OpenUnicode (BYREF wszFileName AS WSTRING, BYVAL IOMode AS LONG = 1, _
 | Parameter  | Description |
 | ---------- | ----------- |
 | *cbsFileName* | String expression that identifies the file to open. |
-| *IOMode* | LONG. Can be one of three constants: IOMode_ForReading, IOMode_ForWriting, or IOMode_ForAppending. |
+| *IOMode* | LONG. Can be one of three constants: *IOMode_ForReading*, *IOMode_ForWriting*, or *IOMode_ForAppending*. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
 The *IOMode* argument can have any of the following settings:
@@ -297,7 +313,7 @@ IF pTxtStm.OpenForInputW(ExePath & "\TestW.txt") = S_OK THEN
    ' // Read the file sequentially
    DIM dws AS DWSTRING
    DO UNTIL pTxtStm.EOS
-      cbs = pTxtStm.ReadLine
+      dws = pTxtStm.ReadLine
       PRINT dws
    LOOP
    pTxtStm.Close
@@ -633,7 +649,7 @@ USING AfxNova
 DIM pTxtStm AS CTextStream
 ' // Create a text stream
 DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
-IF pTxtStm.Create(cbsFile, TRUE) = S_OK THEN
+IF pTxtStm.Create(dwsFile, TRUE) = S_OK THEN
    ' // Write strings
    pTxtStm.WriteLine "This is a string."
    pTxtStm.WriteLine "This is a second string."
@@ -669,7 +685,7 @@ USING AfxNova
 DIM pTxtStm AS CTextStream
 ' // Create a text stream
 DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
-IF pTxtStm.Create(cbsFile, TRUE) = S_OK THEN
+IF pTxtStm.Create(dwsFile, TRUE) = S_OK THEN
    ' // Write a string and an end of line to the stream
    pTxtStm.WriteLine "This is a test."
    ' // Write more strings
