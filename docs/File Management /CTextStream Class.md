@@ -95,8 +95,7 @@ OPERATOR CAST () AS Afx_ITextStream PTR
 Creates a specified file name and returns a TextStream object that can be used to read from or write to the file.
 
 ```
-FUNCTION Create (BYREF wszFileName AS WSTRING, _
-   BYVAL bOverwrite AS BOOLEAN = TRUE, _
+FUNCTION Create (BYREF wszFileName AS WSTRING, BYVAL bOverwrite AS BOOLEAN = TRUE, _
    BYVAL bUnicode AS BOOLEAN = FALSE) AS HRESULT
 ```
 
