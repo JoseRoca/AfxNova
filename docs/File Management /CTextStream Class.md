@@ -1,6 +1,6 @@
 # CTextStream Class
 
-Allows to read and write sequential text files (sometimes referred to as a text stream).
+Allows to read and write sequential text files (sometimes referred to as a text streams).
 
 Works with ASCII and Unicode.
 
