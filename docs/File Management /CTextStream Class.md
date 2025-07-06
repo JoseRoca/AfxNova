@@ -84,7 +84,7 @@ OPERATOR CAST () AS Afx_ITextStream PTR
 
 | Name       | Description |
 | ---------- | ----------- |
-| [GetErrorInfo](#geterrorinfo) | Returns a localized description of the specified error code. |
+| [GetErrorInfo](#geterrorinfo) | Returns a description of the specified error code. |
 | [GetLastResult](#getlastresult) | Returns the last result code. |
 | [SetResult](#setresult) | Sets the last result code. |
 
