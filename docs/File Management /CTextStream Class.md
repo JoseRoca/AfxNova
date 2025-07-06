@@ -68,7 +68,7 @@ OPERATOR CAST () AS Afx_ITextStream PTR
 | [EOL](#EOL) | Returns TRUE if the file pointer is positioned immediately before the end-of-line marker in a **TextStream** file; FALSE if it is not. |
 | [EOS](#EOS) | Returns TRUE if the file pointer is at the end of a **TextStream** file; FALSE if it is not. |
 | [Read](#Read) | Reads a specified number of characters from a **TextStream** file and returns the resulting string. |
-| [ReadLine](#ReadLine) | Reads an entire line (up to, but not including, the newline character) from a TextStream file and returns the resulting string. |
+| [ReadLine](#ReadLine) | Reads an entire line (up to, but not including, the newline character) from a **TextStream** file and returns the resulting string. |
 | [ReadAll](#ReadAll) | Reads an entire **TextStream** file and returns the resulting string. |
 | [Write](#Write) | Writes a specified string to a **TextStream** file. |
 | [WriteLine](#WriteLine) | Writes a specified string and newline character to a **TextStream** file. |
