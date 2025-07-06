@@ -186,14 +186,13 @@ pTxtStm.Close
 Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file.
 
 ```
-FUNCTION OpenUnicode (BYREF cbsFileName AS CBSTR, _
-   BYVAL IOMode AS LONG = 1, _
+FUNCTION OpenUnicode (BYREF wszFileName AS WSTRING, BYVAL IOMode AS LONG = 1, _
    BYVAL bCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsFileName* | CBSTR. String expression that identifies the file to open. |
+| *cbsFileName* | String expression that identifies the file to open. |
 | *IOMode* | LONG. Can be one of three constants: IOMode_ForReading, IOMode_ForWriting, or IOMode_ForAppending. |
 | *bCreate* | Boolean value that indicates whether a new file can be created if the specified filename doesn't exist. The value is True if a new file is created, False if it isn't created. If omitted, a new file isn't created. |
 
@@ -526,8 +525,8 @@ USING AfxNova
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Open file as a text stream
-DIM cbsFile AS CBSTR = ExePath & "\Test.txt"
-IF pTxtStm.Open(cbsFile, IOMode_ForReading) = S_OK THEN
+DIM dwsFile AS DWSTRING = ExePath & "\Test.txt"
+IF pTxtStm.Open(dwsFile, IOMode_ForReading) = S_OK THEN
    ' // Read the file sequentially
    DO
      IF pTxtStm.EOS THEN EXIT DO
@@ -587,7 +586,7 @@ FUNCTION Write (BYREF dwsText AS DWSTRING) AS HRESULT
 
 #### Return value
 
-CBSTR. The text you want to write to the file.
+The text you want to write to the file.
 
 #### Example
 
