@@ -332,7 +332,7 @@ USING AfxNova
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Open file for output as a text stream
-IF pTxtStm.OpenForOutputA(ExePath & "\Test.txt", TRUE) = S_OK THEN
+IF pTxtStm.OpenForOutputA(ExePath & "\Test.txt") = S_OK THEN
    ' // Write a string and an end of line to the stream
    pTxtStm.WriteLine "This is a test."
    '// Close the file
@@ -367,7 +367,7 @@ USING AfxNova
 ' // Create an instance of the CTextStream class
 DIM pTxtStm AS CTextStream
 ' // Open file for output as a text stream
-IF pTxtStm.OpenForOutputW(ExePath & "\TestW.txt", TRUE) = S_OK THEN
+IF pTxtStm.OpenForOutputW(ExePath & "\TestW.txt") = S_OK THEN
    ' // Write a string and an end of line to the stream
    pTxtStm.WriteLine "This is a test."
    '// Close the file
