@@ -137,3 +137,26 @@ PROPERTY Title (BYREF wszTitle AS WSTRING)
 If not specified, the default titles are "Open" for the **OpenFileDialog** and "Save" for the **SaveFileDialog**. These default names are localized.
 
 ---
+
+## <a name="showopen"></a>ShopOpen
+
+Displays the Open File Dialog.
+
+```
+FUNCTION ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, _
+   BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| **hParent** | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
+| **xPos**/**yPos** | Coordinates to position the dialog relative to the client area of the parent. If both *xPos* and *yPos* are -1, the dialog is centered. They are ignored if a hook is not used. |
+| **bHook** | Boolean True or False. If True, the dialog is positioned according the specified coordinates and uses the old-style user interface. |
+
+#### Remarks
+
+If the OFN_ALLOWMULTISELECT flag is set and the user selects multiple files, the returned string contains the current directory followed by the file names of the selected files. For Explorer-style dialog boxes, the directory and file name strings are separated by semicolons. If the user selects only one file, the returned string does not have a separator between the path and file name.
+
+Parse the number of ",". If only one, then the user has selected only a file and the string contains the full path. If more, The first substring contains the path and the others the files. If the user has not selected any file, an empty string is returned. On failure, an empty string is returned and, if not null, the pdwBufLen parameter will be filled by the size of the required buffer in characters.
+
+---
