@@ -108,8 +108,8 @@ BOOLEAN. True on success or False on failure.
 
 #### Example
 ```
-#include once "Afx2/CRegExp2.inc"
-USING Afx2
+#include once "AfxNova/CRegExp2.inc"
+USING AfxNova
 DIM pRegExp AS CRegExp
 pRegExp.Pattern = "is."
 pRegExp.IgnoreCase = TRUE
@@ -309,8 +309,8 @@ The **Replace** method returns a copy of *wszSourceString* with the text replace
 #### Examples
 
 ```
-#INCLUDE ONCE "Afx2/CRegExp.inc"
-USING Afx2
+#INCLUDE ONCE "AfxNova/CRegExp.inc"
+USING AfxNova
 
 DIM pRegExp AS CRegExp
 pRegExp.Pattern = "fox"
@@ -576,8 +576,8 @@ Special characters and sequences are used in writing patterns for regular expres
 #### Example
 
 ```
-#INCLUDE ONCE "Afx2/CRegExp2.inc"
-USING Afx2
+#INCLUDE ONCE "AfxNova/CRegExp2.inc"
+USING AfxNova
 
 DIM pRegExp AS CRegExp
 pRegExp.Pattern = "is."
