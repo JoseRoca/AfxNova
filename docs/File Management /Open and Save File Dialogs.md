@@ -6,6 +6,8 @@
 
 `SaveFileDialog` creates a dialog box that lets the user specify the drive, directory, and name of a file to save.
 
+---
+
 ## Properties
 
 | Name       | Description |
@@ -18,3 +20,5 @@
 | [FlagsEx](#flagsex) | Gets/sets extra flags that control the behavior of the dialog. |
 | [InitialDir](#initialdir) | Gets/sets the folder used as a the initial directory. |
 | [Title](#title) | Gets/sets the title of the dialog. |
+
+---
