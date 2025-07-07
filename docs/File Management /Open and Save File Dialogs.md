@@ -91,6 +91,8 @@ PROPERTY Flags () AS DWORD
 PROPERTY Flags (BYVAL dwFilterIndex AS DWORD)
 ```
 
+#### OpenFileDialog
+
 | Flag       | Description |
 | ---------- | ----------- |
 | OFN_ALLOWMULTISELECT | The **File Name** list box allows multiple selections. |
@@ -107,6 +109,8 @@ PROPERTY Flags (BYVAL dwFilterIndex AS DWORD)
 | OFN_SHOWHELP | Causes the dialog box to display the **Help** button. The *hwndOwner* member must specify the window to receive the HELPMSGSTRING registered messages that the dialog box sends when the user clicks the **Help** button. |
 
 Example: Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
+
+#### SaveFileDialog
 
 | Flag       | Description |
 | ---------- | ----------- |
