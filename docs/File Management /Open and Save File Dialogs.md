@@ -69,7 +69,7 @@ Example: Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
 
 ---
 
-## <a name="filterindex"></a>FilerIndex
+## <a name="filterindex"></a>FilterIndex
 
 Gets/sets the file type that appears as selected in the dialog.
 
@@ -78,5 +78,17 @@ PROPERTY FilterIndex () AS DWORD
 PROPERTY FilterIndex (BYVAL dwFilterIndex AS DWORD)
 ```
 Example: FilterIndex = 1
+
+---
+
+## <a name="flags"></a>Flags
+
+Gets/sets the flags that control the behavior of the dialog.
+
+```
+PROPERTY Flags () AS DWORD
+PROPERTY Flags (BYVAL dwFilterIndex AS DWORD)
+```
+Example: Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
 
 ---
