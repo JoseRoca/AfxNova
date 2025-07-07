@@ -22,3 +22,12 @@
 | [Title](#title) | Gets/sets the title of the dialog. |
 
 ---
+
+## Methods
+
+| Name       | Description |
+| ---------- | ----------- |
+| [ShowOpen](#showopen) | Displays the Open File Dialog. |
+| [ShowSave](#showsave) | Displays the Save File Dialog. |
+
+---
