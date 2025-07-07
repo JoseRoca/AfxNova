@@ -14,6 +14,7 @@
 | ---------- | ----------- |
 | [DefaultExt](#defaultext) | Gets/sets the default extension to be added to file names. |
 | [FileName](#filename) | Gets/sets the file name that appears in the file name edit box when that dialog box is opened. |
+| [FileType](#filetype) | Gets/sets the file type that appears as selected. |
 | [Filter](#filter) | Gets/sets the file types that the dialog can open or save. |
 | [FilterIndex](#filterindex) | Gets/sets the file type that appears as selected in the dialog. |
 | [Flags](#flags) | Gets/sets flags that control the behavior of the dialog. |
@@ -90,5 +91,17 @@ PROPERTY Flags () AS DWORD
 PROPERTY Flags (BYVAL dwFilterIndex AS DWORD)
 ```
 Example: Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
+
+---
+
+## <a name="flagsex"></a>FlagsEx
+
+Gets/sets extra flags that control the behavior of the dialog. Currently, the only option is OFN_EX_NOPLACESBAR.
+
+```
+PROPERTY FlagsEx () AS DWORD
+PROPERTY FlagsEx (BYVAL dwFilterIndex AS DWORD)
+```
+Example: FlagsEx = OFN_EX_NOPLACESBAR
 
 ---
