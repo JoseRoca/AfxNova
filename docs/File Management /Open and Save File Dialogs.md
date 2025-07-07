@@ -166,7 +166,7 @@ If not specified, the default titles are "Open" for the **OpenFileDialog** and "
 
 ---
 
-## ShopOpen
+## ShowOpen
 
 Displays the Open File Dialog.
 
