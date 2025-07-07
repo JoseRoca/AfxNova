@@ -45,6 +45,7 @@ Private:
    m_wszDefaultExt AS WSTRING * MAX_PATH   ' // Default extension to be appended to the selected file name if the user does not enter it
    m_dwsFilter AS DWSTRING                 ' // Filter (pairs of strings separated with "|")
    m_FilterIndex AS DWORD                  ' // The file type that appears as selected in the dialog
+   m_dwBufferSize AS DWORD                 ' // Buffer size to return the selected files
 
 Public:
    DECLARE CONSTRUCTOR
@@ -66,6 +67,8 @@ Public:
    DECLARE PROPERTY FileName (BYREF wszFileName AS WSTRING)
    DECLARE PROPERTY Filter () AS DWSTRING
    DECLARE PROPERTY Filter (BYREF dwsFilter AS DWSTRING)
+   DECLARE PROPERTY BufferSize () AS LONG
+   DECLARE PROPERTY BufferSize (BYVAL dwSize AS LONG)
 
 Private:
    DECLARE STATIC FUNCTION OFNHookProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS UINT_PTR
@@ -184,8 +187,13 @@ PRIVATE FUNCTION OpenFileDialog.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xP
    ' // If the initial directory has not been specified, assume the current directory
    IF LEN(m_wszInitiaDir) = 0 THEN m_wszInitiaDir = CURDIR
    ' // The size of the buffer must be at least MAX_PATH characters
-   DIM dwBufLen AS DWORD = MAX_PATH   ' // Make room for at least one path
-   IF (m_Flags AND OFN_ALLOWMULTISELECT) = OFN_ALLOWMULTISELECT THEN dwBufLen = 32768  ' // 64 Kb buffer
+   DIM dwBufLen AS DWORD
+   IF m_dwBufferSize = 0 OR m_dwBufferSize < MAX_PATH THEN
+      dwBufLen = MAX_PATH   ' // Make room for at least one path
+      IF (m_Flags AND OFN_ALLOWMULTISELECT) = OFN_ALLOWMULTISELECT THEN dwBufLen = 65536  ' // Allocate 64K WCHARs (128 KB)
+   ELSE
+      dwBuflen = m_dwBufferSize
+   END IF   
    ' // Allocate the file name and a marker ("|") to be replaced with a null
    DIM dwsFileName AS DWSTRING = m_wszFileName & "|"
    ' // Store the position of the marker
@@ -217,7 +225,7 @@ PRIVATE FUNCTION OpenFileDialog.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xP
       ofn.Flags = m_Flags
       ofn.lpfnHook = @OpenFileDialog.OFNHookProc
    ELSE
-      ofn.Flags = m_Flags
+      ofn.Flags = m_Flags OR OFN_EXPLORER
    END IF
    ' // Call the open file dialog
    IF GetOpenFilenameW(@ofn) THEN
@@ -236,7 +244,7 @@ PRIVATE FUNCTION OpenFileDialog.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xP
    ELSE
       ' // Buffer too small
       IF CommDlgExtendedError = FNERR_BUFFERTOOSMALL THEN
-         dwBufLen = ASC(dwsFileName)   ' // needed buffer lenght
+         m_dwBufferSize = ASC(dwsFileName)   ' // needed buffer lenght
       END IF
       dwsFileName = ""
    END IF
@@ -364,6 +372,21 @@ END PROPERTY
 ' ========================================================================================
 PRIVATE PROPERTY OpenFileDialog.Filter (BYREF dwsFilter AS DWSTRING)
    m_dwsFilter = dwsFilter
+END PROPERTY
+' ========================================================================================
+
+' ========================================================================================
+' Gets the buffer size to return the selected files.
+' ========================================================================================
+PRIVATE PROPERTY OpenFileDialog.BufferSize() AS LONG
+   RETURN m_dwBufferSize
+END PROPERTY
+' ========================================================================================
+' ========================================================================================
+' Sets the buffer size to return the selected files.
+' ========================================================================================
+PRIVATE PROPERTY OpenFileDialog.BufferSize(BYVAL dwSize AS LONG)
+   m_dwBufferSize = dwsize
 END PROPERTY
 ' ========================================================================================
 
@@ -553,7 +576,7 @@ PRIVATE FUNCTION SaveFileDialog.ShowSave (BYVAL hParent AS HWND = NULL, BYVAL xP
       ofn.Flags = m_Flags
       ofn.lpfnHook = @SaveFileDialog.OFNHookProc
    ELSE
-      ofn.Flags = m_Flags
+      ofn.Flags = m_Flags OR OFN_EXPLORER
    END IF
 
    ' // Call the save filename dialog
