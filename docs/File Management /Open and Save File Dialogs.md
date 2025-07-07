@@ -159,4 +159,28 @@ If the OFN_ALLOWMULTISELECT flag is set and the user selects multiple files, the
 
 Parse the number of ",". If only one, then the user has selected only a file and the string contains the full path. If more, The first substring contains the path and the others the files. If the user has not selected any file, an empty string is returned. On failure, an empty string is returned and, if not null, the pdwBufLen parameter will be filled by the size of the required buffer in characters.
 
+#### Usage example:
+
+```
+DIM pOFN AS OpenFileDialog
+pOFN.FileName = "*.*"
+pOFN.InitialDir = CURDIR
+pOFN.Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
+pOFN.DefaultExt = "BAS"
+pOFN.FilterIndex = 1
+pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
+DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hParent)
+```
+To allow myltiple selection use:
+```
+pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_ALLOWMULTISELECT
+```
+To position the dialog box use:
+```
+DIM dwsFile AS DWSTRING = pOFN.ShowOPen(0, 20, 20, FALSE)
+```
+To center the dialog use:
+```
+DIM dwsFile AS DWSTRING = pOFN.ShowOpen(0, -1, -1, TRUE)
+```
 ---
