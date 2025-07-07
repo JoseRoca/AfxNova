@@ -39,7 +39,6 @@ Private:
    m_hParent AS HWND                       ' // Handle of the parent window or dialog
    m_Flags AS DWORD                        ' // The style attributes of the dialog
    m_FlagsEx AS DWORD                      ' // Extra style attributes of the dialog
-   m_Index AS UINT                         ' // File type that appears as selected in the dialog
    m_wszTitle AS WSTRING * MAX_PATH        ' // The title to be displayed in the title bar of the dialog box
    m_wszInitiaDir AS WSTRING * MAX_PATH    ' // The name of the initial file directory to be displayed
    m_wszFileName AS WSTRING * MAX_PATH     ' // The file name to be used as the initial file selection
@@ -153,7 +152,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Display the dialog.
+' Displays the dialog.
 ' Usage example:
 '   DIM pOFN AS OpenFileDialog
 '   pOFN.FileName = "*.*"
@@ -217,6 +216,8 @@ PRIVATE FUNCTION OpenFileDialog.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xP
       m_Flags = m_Flags OR OFN_EXPLORER OR OFN_ENABLEHOOK
       ofn.Flags = m_Flags
       ofn.lpfnHook = @OpenFileDialog.OFNHookProc
+   ELSE
+      ofn.Flags = m_Flags
    END IF
    ' // Call the open file dialog
    IF GetOpenFilenameW(@ofn) THEN
@@ -297,7 +298,7 @@ PRIVATE PROPERTY OpenFileDialog.DefaultExt () AS DWSTRING
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-' Gets the default extension to be added to file names.
+' Sets the default extension to be added to file names.
 ' ========================================================================================
 PRIVATE PROPERTY OpenFileDialog.DefaultExt (BYREF wszDefaultExt AS WSTRING)
    m_wszDefaultExt = wszDefaultExt
@@ -312,7 +313,7 @@ PRIVATE PROPERTY OpenFileDialog.InitialDir () AS DWSTRING
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-' Gets the default extension to be added to file names.
+' Sets the folder used as a the initial directory
 ' ========================================================================================
 PRIVATE PROPERTY OpenFileDialog.InitialDir (BYREF wszInitialDir AS WSTRING)
    m_wszInitiaDir = wszInitialDir
@@ -335,14 +336,14 @@ END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the file name that appears in the File name edit box when that dialog box is opened.
+' Gets the file name that appears in the file name edit box when that dialog box is opened.
 ' ========================================================================================
 PRIVATE PROPERTY OpenFileDialog.FileName () AS DWSTRING
    RETURN m_wszFileName
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-' Sets the file name that appears in the File name edit box when that dialog box is opened.
+' Sets the file name that appears in the file name edit box when that dialog box is opened.
 ' ========================================================================================
 PRIVATE PROPERTY OpenFileDialog.FileName (BYREF wszFileName AS WSTRING)
    m_wszFileName = wszFileName
@@ -350,7 +351,7 @@ END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the file types that the dialog can open or save.
+' Gets the file types that the dialog can open or save.
 ' Filter (pairs of strings separated with "|")
 ' ========================================================================================
 PRIVATE PROPERTY OpenFileDialog.Filter () AS DWSTRING
@@ -378,7 +379,6 @@ Private:
    m_hParent AS HWND                       ' // Handle of the parent window or dialog
    m_Flags AS DWORD                        ' // The style attributes of the dialog
    m_FlagsEx AS DWORD                      ' // Extra style attributes of the dialog
-   m_Index AS UINT                         ' // File type that appears as selected in the dialog
    m_wszTitle AS WSTRING * MAX_PATH        ' // The title to be displayed in the title bar of the dialog box
    m_wszInitiaDir AS WSTRING * MAX_PATH    ' // The name of the initial file directory to be displayed
    m_wszFileName AS WSTRING * MAX_PATH     ' // The file name to be used as the initial file selection
@@ -500,7 +500,7 @@ END FUNCTION
 '   pSFN.Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
 '   pSFN.DefaultExt = "BAS"
 '   pSFN.FilterIndex = 1
-'   pSFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
+'   pSFN.Flags = OFN_HIDEREADONLY OR OFN_OVERWRITEPROMPT OR OFN_CREATEPROMPT
 '   DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent)
 '   --or-- DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent, 20, 20, TRUE) to position the dialog
 '   --or-- DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent, -1, -1, TRUE) to center the dialog
@@ -552,6 +552,8 @@ PRIVATE FUNCTION SaveFileDialog.ShowSave (BYVAL hParent AS HWND = NULL, BYVAL xP
       m_Flags = m_Flags OR OFN_EXPLORER OR OFN_ENABLEHOOK
       ofn.Flags = m_Flags
       ofn.lpfnHook = @SaveFileDialog.OFNHookProc
+   ELSE
+      ofn.Flags = m_Flags
    END IF
 
    ' // Call the save filename dialog
@@ -614,7 +616,7 @@ PRIVATE PROPERTY SaveFileDialog.DefaultExt () AS DWSTRING
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-' Gets the default extension to be added to file names.
+' Sets the default extension to be added to file names.
 ' ========================================================================================
 PRIVATE PROPERTY SaveFileDialog.DefaultExt (BYREF wszDefaultExt AS WSTRING)
    m_wszDefaultExt = wszDefaultExt
@@ -629,7 +631,7 @@ PRIVATE PROPERTY SaveFileDialog.InitialDir () AS DWSTRING
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-' Gets the default extension to be added to file names.
+' Sets the folder used as a the initial directory
 ' ========================================================================================
 PRIVATE PROPERTY SaveFileDialog.InitialDir (BYREF wszInitialDir AS WSTRING)
    m_wszInitiaDir = wszInitialDir
