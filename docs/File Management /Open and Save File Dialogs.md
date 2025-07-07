@@ -93,14 +93,38 @@ PROPERTY Flags (BYVAL dwFilterIndex AS DWORD)
 
 | Flag       | Description |
 | ---------- | ----------- |
-| OFN_ALLOWMULTISELECT | **OpenFileDialog**: Allows multiple selections. |
+| OFN_ALLOWMULTISELECT | The **File Name** list box allows multiple selections. |
+| OFN_DONTADDTORECENT | Prevents the system from adding a link to the selected file in the file system directory that contains the user's most recently used documents. To retrieve the location of this directory, call the **SHGetSpecialFolderLocation** function with the CSIDL_RECENT flag. |
+| OFN_EXTENSIONDIFFERENT | The user typed a file name extension that differs from the extension specified by *wszDefExt*. The function does not use this flag if *wszDefExt* is NULL. |
 | OFN_FILEMUSTEXIST | The user can type only names of existing files in the **File Name** entry field. If this flag is specified and the user enters an invalid name, the dialog box procedure displays a warning in a message box. If this flag is specified, the OFN_PATHMUSTEXIST flag is also used. |
 | OFN_FORCESHOWHIDDEN | Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden files. However, a file that is marked both system and hidden is not shown. |
+| OFN_HIDEREADONLY | Hides the **Read Only** check box. |
 | OFN_NODEREFERENCELINKS | Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value is not specified, the dialog box returns the path and file name of the file referenced by the shortcut. |
+| OFN_NONETWORKBUTTON | Hides and disables the **Network** button. |
+| OFN_NOREADONLYRETURN | The returned file does not have the **Read Only** check box selected and is not in a write-protected directory. |
 | OFN_PATHMUSTEXIST | The user can type only valid paths and file names. If this flag is used and the user types an invalid path and file name in the **File Name** entry field, the dialog box function displays a warning in a message box. |
-| OFN_CREATEPROMPT | If the user specifies a file that does not exist, this flag causes the dialog box to prompt the user for permission to create the file. If the user chooses to create the file, the dialog box closes and the function returns the specified name; otherwise, the dialog box remains open. |
+| OFN_READONLY | Causes the **Read Only** check box to be selected initially when the dialog box is created. This flag indicates the state of the **Read Only** check box when the dialog box is closed. |
+| OFN_SHOWHELP | Causes the dialog box to display the **Help** button. The *hwndOwner* member must specify the window to receive the HELPMSGSTRING registered messages that the dialog box sends when the user clicks the **Help** button. |
 
 Example: Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
+
+| Flag       | Description |
+| ---------- | ----------- |
+| OFN_CREATEPROMPT | If the user specifies a file that does not exist, this flag causes the dialog box to prompt the user for permission to create the file. If the user chooses to create the file, the dialog box closes and the function returns the specified name; otherwise, the dialog box remains open. |
+| OFN_DONTADDTORECENT | Prevents the system from adding a link to the selected file in the file system directory that contains the user's most recently used documents. To retrieve the location of this directory, call the **SHGetSpecialFolderLocation** function with the CSIDL_RECENT flag. |
+| OFN_EXTENSIONDIFFERENT | The user typed a file name extension that differs from the extension specified by *wszDefExt*. The function does not use this flag if *wszDefExt* is NULL. |
+| OFN_FORCESHOWHIDDEN | Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden files. However, a file that is marked both system and hidden is not shown. |
+| OFN_HIDEREADONLY | Hides the **Read Only** check box |
+| OFN_NOCHANGEDIR | Restores the current directory to its original value if the user changed the directory while searching for files. |
+| OFN_NODEREFERENCELINKS | Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value is not specified, the dialog box returns the path and file name of the file referenced by the shortcut. |
+| OFN_NOTESTFILECREATE | The file is not created before the dialog box is closed. This flag should be specified if the application saves the file on a create-nonmodify network share. When an application specifies this flag, the library does not check for write protection, a full disk, an open drive door, or network protection. Applications using this flag must perform file operations carefully, because a file cannot be reopened once it is closed. |
+| OFN_NONETWORKBUTTON | Hides and disables the **Network** button. |
+| OFN_NOREADONLYRETURN | The returned file does not have the **Read Only** check box selected and is not in a write-protected directory. |
+| OFN_OVERWRITEPROMPT | The user can type only valid paths and file names. If this flag is used and the user types an invalid path and file name in the **File Name** entry field, the dialog box function displays a warning in a message box. |
+| OFN_PATHMUSTEXIST | The user can type only valid paths and file names. If this flag is used and the user types an invalid path and file name in the **File Name** entry field, the dialog box function displays a warning in a message box. |
+| OFN_SHOWHELP | Causes the dialog box to display the **Help** button. The hwndOwner member must specify the window to receive the HELPMSGSTRING registered messages that the dialog box sends when the user clicks the **Help** button. |
+
+Example: Flags = OFN_HIDEREADONLY OR OFN_OVERWRITEPROMPT OR OFN_CREATEPROMPT
 
 ---
 
@@ -178,7 +202,7 @@ pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_ALLOWMULTISELECT
 ```
 To position the dialog box use:
 ```
-DIM dwsFile AS DWSTRING = pOFN.ShowOPen(0, 20, 20, FALSE)
+DIM dwsFile AS DWSTRING = pOFN.ShowOpen(0, 20, 20, FALSE)
 ```
 To center the dialog use:
 ```
@@ -214,19 +238,15 @@ pSFN.InitialDir = CURDIR
 pSFN.Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
 pSFN.DefaultExt = "BAS"
 pSFN.FilterIndex = 1
-pSFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
+pSFN.Flags = OFN_HIDEREADONLY OR OFN_OVERWRITEPROMPT OR OFN_CREATEPROMPT
 DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent)
-```
-To allow myltiple selection use:
-```
-pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_ALLOWMULTISELECT
 ```
 To position the dialog box use:
 ```
-DIM dwsFile AS DWSTRING = pOFN.ShowOPen(0, 20, 20, FALSE)
+DIM dwsFile AS DWSTRING = pSFN.ShowSave(0, 20, 20, FALSE)
 ```
 To center the dialog use:
 ```
-DIM dwsFile AS DWSTRING = pOFN.ShowOpen(0, -1, -1, TRUE)
+DIM dwsFile AS DWSTRING = pSFN.ShowSave(0, -1, -1, TRUE)
 ```
 ---
