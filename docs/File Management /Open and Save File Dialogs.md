@@ -68,3 +68,15 @@ A string containing pairs of "\|" separated strings. The first string in each pa
 Example: Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
 
 ---
+
+## <a name="filterindex"></a>FilerIndex
+
+Gets/sets the file type that appears as selected in the dialog.
+
+```
+PROPERTY FilterIndex () AS DWORD
+PROPERTY FilterIndex (BYVAL dwFilterIndex AS DWORD)
+```
+Example: FilterIndex = 1
+
+---
