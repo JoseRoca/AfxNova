@@ -105,3 +105,26 @@ PROPERTY FlagsEx (BYVAL dwFilterIndex AS DWORD)
 Example: FlagsEx = OFN_EX_NOPLACESBAR
 
 ---
+
+## <a name="initialdir"></a>InitialDir
+
+Gets/sets the folder used as a the initial directory. If no initial directory is specified, the default is the current directory.
+
+```
+PROPERTY InitialDir () AS DWSTRING
+PROPERTY InitialDir (BYREF wszInitialDir AS WSTRING)
+```
+---
+
+## <a name="title"></a>Title
+
+Gets/sets the title of the dialog.
+
+```
+PROPERTY Title () AS DWSTRING
+PROPERTY Title (BYREF wszTitle AS WSTRING)
+```
+
+If not specified, the default titles are "Open" for the **OpenFileDialog** and "Save" for the **SaveFileDialog**.
+
+---
