@@ -43,3 +43,15 @@ PROPERTY DefaultExt (BYREF wszDefaultExt AS WSTRING)
 Example: DefaultExt = "BAS"
 
 ---
+
+## <a name="filename"></a>FileName
+
+Gets/sets the file name that appears in the file name edit box when that dialog box is opened.
+
+```
+PROPERTY FileName () AS DWSTRING
+PROPERTY FileName (BYREF wszFileName AS WSTRING)
+```
+Example: FileName = "*.*"
+
+---
