@@ -37,8 +37,6 @@ TYPE OpenFileDialog
 
 Private:
    m_hParent AS HWND                       ' // Handle of the parent window or dialog
-   m_xPos AS LONG                          ' // Horizontal position, in pixels, relative to the parent window
-   m_yPos AS LONG                          ' // Vertical position, in pixels, relative to the parent window
    m_Flags AS DWORD                        ' // The style attributes of the dialog
    m_FlagsEx AS DWORD                      ' // Extra style attributes of the dialog
    m_Index AS UINT                         ' // File type that appears as selected in the dialog
@@ -165,8 +163,9 @@ END FUNCTION
 '   pOFN.FilterIndex = 1
 '   'pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
 '   pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_ALLOWMULTISELECT
-'   DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hWin, 20, 20, TRUE)
-'   --or-- DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hWin, -1, -1, TRUE) to center the dialog
+'   DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hParent)
+'   --or-- DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hParent, 20, 20, TRUE) to position the dilog
+'   --or-- DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hParent, -1, -1, TRUE) to center the dialog
 '   PRINT dwsFile
 ' ========================================================================================
 PRIVATE FUNCTION OpenFileDialog.ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
@@ -377,8 +376,6 @@ TYPE SaveFileDialog
 
 Private:
    m_hParent AS HWND                       ' // Handle of the parent window or dialog
-   m_xPos AS LONG                          ' // Horizontal position, in pixels, relative to the parent window
-   m_yPos AS LONG                          ' // Vertical position, in pixels, relative to the parent window
    m_Flags AS DWORD                        ' // The style attributes of the dialog
    m_FlagsEx AS DWORD                      ' // Extra style attributes of the dialog
    m_Index AS UINT                         ' // File type that appears as selected in the dialog
@@ -504,8 +501,9 @@ END FUNCTION
 '   pSFN.DefaultExt = "BAS"
 '   pSFN.FilterIndex = 1
 '   pSFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
-'   DIM dwsFile AS DWSTRING = pSFN.ShowSave(hWin, 20, 20, TRUE)
-'   --or-- DIM dwsFile AS DWSTRING = pSFN.ShowSave(hWin, -1, -1, TRUE) to center the dialog
+'   DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent)
+'   --or-- DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent, 20, 20, TRUE) to position the dialog
+'   --or-- DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent, -1, -1, TRUE) to center the dialog
 '   PRINT dwsFile
 ' ========================================================================================
 PRIVATE FUNCTION SaveFileDialog.ShowSave (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
