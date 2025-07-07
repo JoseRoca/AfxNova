@@ -98,6 +98,7 @@ PROPERTY Flags (BYVAL dwFilterIndex AS DWORD)
 | OFN_FORCESHOWHIDDEN | Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden files. However, a file that is marked both system and hidden is not shown. |
 | OFN_NODEREFERENCELINKS | Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value is not specified, the dialog box returns the path and file name of the file referenced by the shortcut. |
 | OFN_PATHMUSTEXIST | The user can type only valid paths and file names. If this flag is used and the user types an invalid path and file name in the **File Name** entry field, the dialog box function displays a warning in a message box. |
+| OFN_CREATEPROMPT | If the user specifies a file that does not exist, this flag causes the dialog box to prompt the user for permission to create the file. If the user chooses to create the file, the dialog box closes and the function returns the specified name; otherwise, the dialog box remains open. |
 
 Example: Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
 
@@ -170,6 +171,51 @@ pOFN.DefaultExt = "BAS"
 pOFN.FilterIndex = 1
 pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
 DIM dwsFile AS DWSTRING = pOFN.ShowOpen(hParent)
+```
+To allow myltiple selection use:
+```
+pOFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_ALLOWMULTISELECT
+```
+To position the dialog box use:
+```
+DIM dwsFile AS DWSTRING = pOFN.ShowOPen(0, 20, 20, FALSE)
+```
+To center the dialog use:
+```
+DIM dwsFile AS DWSTRING = pOFN.ShowOpen(0, -1, -1, TRUE)
+```
+---
+
+## <a name="showsave"></a>ShopSave
+
+Displays the Save File Dialog.
+
+```
+FUNCTION ShowSave (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL yPos AS LONG = 0, _
+   BYVAL bHook AS BOOLEAN = FALSE) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| **hParent** | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
+| **xPos**/**yPos** | Coordinates to position the dialog relative to the client area of the parent. If both *xPos* and *yPos* are -1, the dialog is centered. They are ignored if a hook is not used. |
+| **bHook** | Boolean True or False. If True, the dialog is positioned according the specified coordinates and uses the old-style user interface. |
+
+#### Return value
+
+The path of the file to be saved.
+
+#### Usage example:
+
+```
+DIM pSFN AS SaveFileDialog
+pSFN.FileName = "*.*"
+pSFN.InitialDir = CURDIR
+pSFN.Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
+pSFN.DefaultExt = "BAS"
+pSFN.FilterIndex = 1
+pSFN.Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
+DIM dwsFile AS DWSTRING = pSFN.ShowSave(hParent)
 ```
 To allow myltiple selection use:
 ```
