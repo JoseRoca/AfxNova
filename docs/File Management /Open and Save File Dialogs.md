@@ -45,7 +45,7 @@ Example: DefaultExt = "BAS"
 
 ---
 
-## <a name="filename"></a>FileName
+## FileName
 
 Gets/sets the file name that appears in the file name edit box when that dialog box is opened.
 
@@ -57,7 +57,7 @@ Example: FileName = "*.*"
 
 ---
 
-## <a name="filter"></a>Filter
+## Filter
 
 Gets/sets the file types that the dialog can open or save.
 ```
