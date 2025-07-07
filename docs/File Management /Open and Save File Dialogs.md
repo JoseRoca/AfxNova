@@ -65,4 +65,6 @@ PROPERTY FileName (BYREF dwsFilter AS DWSTRING)
 ```
 A string containing pairs of "\|" separated strings. The first string in each pair is a display string that describes the filter (for example, "Text Files"), and the second string specifies the filter pattern (for example, "\*.TXT"). To specify multiple filter patterns for a single display string, use a semicolon to separate the patterns (for example, "\*.TXT;\*.DOC;\*.BAK"). A pattern string can be a combination of valid file name characters and the asterisk (\*) wildcard character. Do not include spaces in the pattern string. The system does not change the order of the filters. It displays them in the **File Types** combo box in the order specified in *dwsFilter*. |
 
+Example: Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
+
 ---
