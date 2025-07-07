@@ -213,7 +213,7 @@ DIM dwsFile AS DWSTRING = pOFN.ShowOpen(0, -1, -1, TRUE)
 ```
 ---
 
-## ShopSave
+## ShowSave
 
 Displays the Save File Dialog.
 
