@@ -69,7 +69,7 @@ Example: Filter = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
 
 ---
 
-## <a name="filterindex"></a>FilterIndex
+## FilterIndex
 
 Gets/sets the file type that appears as selected in the dialog.
 
@@ -81,7 +81,7 @@ Example: FilterIndex = 1
 
 ---
 
-## <a name="flags"></a>Flags
+## Flags
 
 Gets/sets the flags that control the behavior of the dialog.
 
@@ -131,7 +131,7 @@ Example: Flags = OFN_HIDEREADONLY OR OFN_OVERWRITEPROMPT OR OFN_CREATEPROMPT
 
 ---
 
-## <a name="flagsex"></a>FlagsEx
+## FlagsEx
 
 Gets/sets extra flags that control the behavior of the dialog. Currently, the only option is OFN_EX_NOPLACESBAR.
 
@@ -143,7 +143,7 @@ Example: FlagsEx = OFN_EX_NOPLACESBAR
 
 ---
 
-## <a name="initialdir"></a>InitialDir
+## InitialDir
 
 Gets/sets the folder used as a the initial directory. If no initial directory is specified, the default is the current directory.
 
@@ -153,7 +153,7 @@ PROPERTY InitialDir (BYREF wszInitialDir AS WSTRING)
 ```
 ---
 
-## <a name="title"></a>Title
+## Title
 
 Gets/sets the title of the dialog.
 
@@ -166,7 +166,7 @@ If not specified, the default titles are "Open" for the **OpenFileDialog** and "
 
 ---
 
-## <a name="showopen"></a>ShopOpen
+## ShopOpen
 
 Displays the Open File Dialog.
 
@@ -213,7 +213,7 @@ DIM dwsFile AS DWSTRING = pOFN.ShowOpen(0, -1, -1, TRUE)
 ```
 ---
 
-## <a name="showsave"></a>ShopSave
+## ShopSave
 
 Displays the Save File Dialog.
 
