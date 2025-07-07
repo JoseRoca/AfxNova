@@ -14,7 +14,6 @@
 | ---------- | ----------- |
 | [DefaultExt](#defaultext) | Gets/sets the default extension to be added to file names. |
 | [FileName](#filename) | Gets/sets the file name that appears in the dialog's file name edit box when that dialog box is opened. |
-| [FileType](#filetype) | Gets/sets the selected file type. |
 | [Filter](#filter) | Gets/sets the file types that the dialog can open or save. |
 | [FilterIndex](#filterindex) | Gets/sets the file type that appears as selected in the dialog. |
 | [Flags](#flags) | Gets/sets flags that control the behavior of the dialog. |
