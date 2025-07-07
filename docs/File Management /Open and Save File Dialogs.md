@@ -90,6 +90,15 @@ Gets/sets the flags that control the behavior of the dialog.
 PROPERTY Flags () AS DWORD
 PROPERTY Flags (BYVAL dwFilterIndex AS DWORD)
 ```
+
+| Flag       | Description |
+| ---------- | ----------- |
+| OFN_ALLOWMULTISELECT | **OpenFileDialog**: Allows multiple selections. |
+| OFN_FILEMUSTEXIST | The user can type only names of existing files in the **File Name** entry field. If this flag is specified and the user enters an invalid name, the dialog box procedure displays a warning in a message box. If this flag is specified, the OFN_PATHMUSTEXIST flag is also used. |
+| OFN_FORCESHOWHIDDEN | Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden files. However, a file that is marked both system and hidden is not shown. |
+| OFN_NODEREFERENCELINKS | Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value is not specified, the dialog box returns the path and file name of the file referenced by the shortcut. |
+| OFN_PATHMUSTEXIST | The user can type only valid paths and file names. If this flag is used and the user types an invalid path and file name in the **File Name** entry field, the dialog box function displays a warning in a message box. |
+
 Example: Flags = OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY
 
 ---
@@ -125,6 +134,6 @@ PROPERTY Title () AS DWSTRING
 PROPERTY Title (BYREF wszTitle AS WSTRING)
 ```
 
-If not specified, the default titles are "Open" for the **OpenFileDialog** and "Save" for the **SaveFileDialog**.
+If not specified, the default titles are "Open" for the **OpenFileDialog** and "Save" for the **SaveFileDialog**. These default names are localized.
 
 ---
