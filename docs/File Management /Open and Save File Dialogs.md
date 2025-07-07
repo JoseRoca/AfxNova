@@ -1,6 +1,6 @@
 # OpenFileDialog class
 
-`OpenFileDialog`ceates an dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened.
+`OpenFileDialog`creates an dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened.
 
 # SaveFileDialog class
 
