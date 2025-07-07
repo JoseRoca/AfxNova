@@ -33,7 +33,7 @@
 
 ---
 
-## <a name="defaultext"></a>DefaultExt
+## DefaultExt
 
 Gets/sets the default extension to be added to file names. This extension is appended to the file name if the user fails to type an extension. This string can be any length, but only the first three characters are appended. The string should not contain a period (.). If this property is empty and the user fails to type an extension, no extension is appended.
 
