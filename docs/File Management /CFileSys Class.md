@@ -146,7 +146,7 @@ CFileSys().BuildPath("C:\MyFolder", "Text.txt")
 ```
 ---
 
-# CopyFile
+## CopyFile
 
 Copies one or more files from one location to another.
 
@@ -210,7 +210,7 @@ CFileSys().CopyFile("C:\MyFolder\MyFile.txt", "C:\MyOtherFolder\MyFile.txt")
 ```
 ---
 
-# CopyFolder
+## CopyFolder
 
 Recursively copies a folder from one location to another.
 
@@ -268,17 +268,17 @@ pFileSys.CopyFolder("C:\MyFolder", "C:\MyOtherFolder\")
 ```
 ---
 
-# <a name="CreateFolder"></a>CreateFolder
+## CreateFolder
 
 Creates a folder.
 
 ```
-FUNCTION CreateFolder (BYREF cbsFolderSpec AS CBSTR) AS Afx_IFolder PTR
+FUNCTION CreateFolder (BYREF wszFolderSpec AS WSTRING) AS Afx_IFolder PTR
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolderSpec* | CBSTR. String expression that identifies the folder to create. |
+| *wszFolderSpec* | String expression that identifies the folder to create. |
 
 #### Return value
 
@@ -297,9 +297,10 @@ DIM pFolder AS Afx_IFolder PTR
 pFolder = pFileSys.CreateFolder("C:\MyNewFolder")
 IF pFolder THEN
    ' ....
-   pFolder.Release
+   pFolder->Release
 END IF
 ```
+---
 
 # <a name="DeleteFile"></a>DeleteFile
 
