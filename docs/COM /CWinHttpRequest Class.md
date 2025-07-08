@@ -342,6 +342,8 @@ Returns S_OK (0) if successful or an error value otherwise.
 
 This method can only be invoked after the **Send** method has been called.
 
+---
+
 ## GetResponseText
 
 Retrieves the response entity body.
@@ -435,8 +437,8 @@ This method opens a connection to the resource identified in *cbsUrl* using the 
 #### Example
 
 ```
-#include "Afx/CWinHttpRequest.inc"
-using Afx
+#include once "AfxNova/CWinHttpRequest.inc"
+USING AfxNova
 
 ' // Create an instance of the CWinHttpRequest class
 DIM pWHttp AS CWinHttpRequest
@@ -449,7 +451,7 @@ DIM iSucceeded AS LONG = pWHttp.WaitForResponse(5)
 ```
 ---
 
-#@ Send
+## Send
 
 Sends an HTTP request to an HTTP server.
 
@@ -500,7 +502,7 @@ Call **SetAutoLogonPolicy** to set the automatic logon policy before calling **S
 Selects a client certificate to send to a Secure Hypertext Transfer Protocol (HTTPS) server.
 
 ```
-FUNCTION SetClientCertificate (BYREF wszClientCertificate AS WSTRFING) AS HRESULT
+FUNCTION SetClientCertificate (BYREF wszClientCertificate AS WSTRING) AS HRESULT
 ```
 
 | Parameter  | Description |
@@ -575,8 +577,8 @@ Returns S_OK (0) if successful or an error value otherwise.
 #### Example
 
 ```
-#include once "Afx/CWinHttpRequest.inc"
-using Afx
+#include once "AfxNova/CWinHttpRequest.inc"
+USING AfxNova
 
 ' // Create an instance of the CWinHttp class
 DIM pWHttp AS CWinHttpRequest
@@ -596,7 +598,6 @@ IF pWHttp.GetLastResult = S_OK THEN
    ' // Convert percent symbols to escape sequences.
    PRINT pWHttp.GetOption(WinHttpRequestOption_EscapePercentInURL)
 END IF
-Sleep
 ```
 ---
 
@@ -634,7 +635,7 @@ Enables the calling application to specify use of default proxy information (con
 
 ---
 
-# SetRequestHeader
+## SetRequestHeader
 
 Adds, changes, or deletes an HTTP request header.
 
@@ -661,7 +662,7 @@ The name and value of request headers added with this method are validated. Head
 
 ---
 
-# SetTimeouts
+## SetTimeouts
 
 Specifies the individual time-out components of a send/receive operation, in milliseconds.
 
