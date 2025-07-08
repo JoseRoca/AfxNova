@@ -302,17 +302,17 @@ END IF
 ```
 ---
 
-# <a name="DeleteFile"></a>DeleteFile
+# DeleteFile
 
 Deletes a specified file.
 
 ```
-FUNCTION DeleteFile (BYREF cbsFileSpec AS CBSTR, BYVAL bForce AS VARIANT_BOOL = FALSE) AS HRESULT
+FUNCTION DeleteFile (BYREF wszFileSpec AS WSTRING, BYVAL bForce AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFileSpec* | CBSTR. The name of the file to delete. cbsFileSpec can contain wildcard characters in the last path component. |
+| *wszFileSpec* | The name of the file to delete. cbsFileSpec can contain wildcard characters in the last path component. |
 | *bForce* | Boolean value that is true if files with the read-only attribute set are to be deleted; false (default) if they are not. |
 
 #### Return value
@@ -330,6 +330,7 @@ An error occurs if no matching files are found. The **DeleteFile** method stops 
 DIM pFileSys AS CFileSys
 pFileSys.DeleteFile("C:\MyFolder\MyFile.txt")
 ```
+---
 
 # <a name="DeleteFolder"></a>DeleteFolder
 
