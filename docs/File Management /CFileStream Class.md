@@ -2,9 +2,9 @@
 
 Allows to work with binary file streams. A binary stream consists of one or more bytes of arbitrary information. **CFileStream** provides a stream for a file, allowing read, write and seek operations.
 
-**Include file**: CStream.inc
+**Include file**: AfxNova/CStream.inc
 
-### Constructors
+## Constructors
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -13,10 +13,10 @@ Allows to work with binary file streams. A binary stream consists of one or more
 
 ```
 CONSTRUCTOR CFileStream ( _
-   BYREF cwsFile AS CWSTR, _
+   BYREF wszFile AS WSTRING, _
    BYVAL grfMode AS DWORD = STGM_READ, _
    BYVAL dwAttributes AS DWORD = FILE_ATTRIBUTE_NORMAL, _
-   BYVAL fCreate AS WINBOOL = FALSE)
+   BYVAL fCreate AS BOOLEAN = FALSE)
 ```
 
 ```
@@ -24,16 +24,16 @@ CONSTRUCTOR CFileStream ( _
    BYVAL pwszFile AS WSTRING PTR, _
    BYVAL grfMode AS DWORD = STGM_READ, _
    BYVAL dwAttributes AS DWORD = FILE_ATTRIBUTE_NORMAL, _
-   BYVAL fCreate AS WINBOOL = FALSE)
+   BYVAL fCreate AS BOOLEAN = FALSE)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cwsFile* | The file name. |
+| *wszFile* | The file name. |
 | *pwszFile* | A pointer to a unicode null-terminated string that specifies the file name. |
 | *grfMode* | One or more **STGM** values that are used to specify the file access mode and how the the stream is created and deleted. |
 | *dwAttributes* | One or more flag values that specify file attributes in the case that a new file is created. |
-| *fCreate* | A BOOL value that helps specify, in conjunction with *grfMode*, how existing files should be treated when creating the stream. |
+| *fCreate* | A boolean value that helps specify, in conjunction with *grfMode*, how existing files should be treated when creating the stream. |
 
 ```
 CONSTRUCTOR CFileStream (BYVAL pstm AS IStream PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
@@ -44,7 +44,9 @@ CONSTRUCTOR CFileStream (BYVAL pstm AS IStream PTR, BYVAL fAddRef AS BOOLEAN = F
 | *pstm* | A pointer to the **IStream** interface of an existing stream that will be attached to the class. |
 | *fAddRef* | TRUE to increase the reference count of the stream; FALSE, otherwise. |
 
-### Operators
+---
+
+## Operators
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -60,50 +62,56 @@ OPERATOR CAST () AS IStream PTR
 | ---------- | ----------- |
 | *pstm* | A pointer to the **IStream** interface of an existing stream that will be attached to the class. |
 
-### Methods
+---
+
+## Methods
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Attach](#Attach) | Attaches the passed stream to the class. |
-| [Detach](#Detach) | Detaches the stream from the class. |
-| [Open](#Open) | Opens or creates a file and retrieves a stream to read or write to that file. |
-| [Close](#Close) | Releases the stream object. |
-| [Read](#Read) | Reads a specified number of bytes from the stream into memory, starting at the current seek pointer. |
-| [ReadTextA](#ReadTextA) | Reads a specified number of characters from the stream into memory, starting at the current seek pointer, and returns them as an ansi string. |
-| [ReadTextW](#ReadTextW) | Reads a specified number of characters from the stream into memory, starting at the current seek pointer, and returns them as a unicode string. |
-| [Write](#Write) | Writes a specified number of bytes into the stream starting at the current seek pointer. |
-| [WriteTextA](#WriteTextA) | Writes a ansi string into the stream starting at the current seek pointer. |
-| [WriteTextW](#WriteTextW) | Writes a unicode string into the stream starting at the current seek pointer. |
-| [Seek](#Seek) | Changes the seek pointer to a new location. The new location is relative to either the beginning of the stream, the end of the stream, or the current seek pointer. |
-| [GetSeekPosition](#GetSeekPosition) | Returns the seek position. |
-| [ResetSeekPosition](#ResetSeekPosition) | Sets the seek position at the beginning of the stream. |
-| [SeekAtEndOfFile](#SeekAtEndOfFile) | Sets the seek position at the end of the stream. |
-| [SeekAtEndOfStream](#SeekAtEndOfStream) | Sets the seek position at the end of the stream. |
-| [GetSize](#GetSize) | Returns the size of the stream. |
-| [SetSize](#SetSize) | Changes the size of the stream. |
-| [CopyTo](#CopyTo) | Copies a specified number of bytes from the current seek pointer in the stream to the current seek pointer in another stream. |
-| [LockRegion](#LockRegion) | Restricts access to a specified range of bytes in the stream. |
-| [UnlockRegion](#UnlockRegion) | Removes the access restriction on a range of bytes previously restricted with *LockRegion*. |
-| [Stat](#Stat) | Retrieves the **STATSTG** structure for this stream. |
-| [Clone](#Clone) | Creates a new stream with its own seek pointer that references the same bytes as the original stream. |
-| [StreamPtr](#StreamPtr) | Returns a pointer to the underlying IStream interface. |
+| [Attach](#attach) | Attaches the passed stream to the class. |
+| [Detach](#detach) | Detaches the stream from the class. |
+| [Open](#open) | Opens or creates a file and retrieves a stream to read or write to that file. |
+| [Close](#close) | Releases the stream object. |
+| [Read](#read) | Reads a specified number of bytes from the stream into memory, starting at the current seek pointer. |
+| [ReadTextA](#readTextA) | Reads a specified number of characters from the stream into memory, starting at the current seek pointer, and returns them as an ansi string. |
+| [ReadTextW](#readTextW) | Reads a specified number of characters from the stream into memory, starting at the current seek pointer, and returns them as a unicode string. |
+| [Write](#write) | Writes a specified number of bytes into the stream starting at the current seek pointer. |
+| [WriteTextA](#writetexta) | Writes a ansi string into the stream starting at the current seek pointer. |
+| [WriteTextW](#writetextw) | Writes a unicode string into the stream starting at the current seek pointer. |
+| [Seek](#seek) | Changes the seek pointer to a new location. The new location is relative to either the beginning of the stream, the end of the stream, or the current seek pointer. |
+| [GetSeekPosition](#getseekposition) | Returns the seek position. |
+| [ResetSeekPosition](#resetseekposition) | Sets the seek position at the beginning of the stream. |
+| [SeekAtEndOfFile](#seekatendoffile) | Sets the seek position at the end of the stream. |
+| [SeekAtEndOfStream](#seekatendofstream) | Sets the seek position at the end of the stream. |
+| [GetSize](#getsize) | Returns the size of the stream. |
+| [SetSize](#setsize) | Changes the size of the stream. |
+| [CopyTo](#copyto) | Copies a specified number of bytes from the current seek pointer in the stream to the current seek pointer in another stream. |
+| [LockRegion](#lockregion) | Restricts access to a specified range of bytes in the stream. |
+| [UnlockRegion](#unlockregion) | Removes the access restriction on a range of bytes previously restricted with *LockRegion*. |
+| [Stat](#stat) | Retrieves the **STATSTG** structure for this stream. |
+| [Clone](#clone) | Creates a new stream with its own seek pointer that references the same bytes as the original stream. |
+| [StreamPtr](#streamptr) | Returns a pointer to the underlying IStream interface. |
 
+---
 
 ## Error and result codes
 
 | Name       | Description |
 | ---------- | ----------- |
-| [GetErrorInfo](#geterrorinfo) | Returns a description of the specified error code. |
 | [GetLastResult](#getlastresult) | Returns the last result code. |
 | [SetResult](#setresult) | Sets the last result code. |
+| [GetErrorInfo](#geterrorinfo) | Returns a description of the specified error code. |
 
-# <a name="GetLastResult"></a>GetLastResult
+---
+
+## GetLastResult
 
 Returns the last result code.
 
 ```
 FUNCTION GetLastResult () AS HRESULT
 ```
+---
 
 ## SetResult
 
@@ -115,6 +123,7 @@ FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 | --------- | ----------- |
 | *Result* | The error code returned by the methods. |
 
+---
 ---
 
 #### Return value
@@ -131,69 +140,11 @@ FUNCTION GetErrorInfo () AS DWSTRING
 
 #### Return value
 
-DWSTRING. A description of the last result code. If the result code is S_OK (0), it returns "Success"; otherwise, it returns the hexadecimal value of the error code and a description such "File not found", "Seek error", "Write fault", "Read fault" or "Share violation".
+DWSTRING. A description of the last result code.
 
-#### Error codes
+---
 
-| Value | Description |
-| ------ | ----------- |
-| E_INVALIDARG | Invalid argument |
-| STG_E_INVALIDFUNCTION | Unable to perform requested operation |
-| STG_E_FILENOTFOUND | File not found |
-| STG_E_PATHNOTFOUND | Path not found |
-| STG_E_TOOMANYOPENFILES | Too many open files |
-| STG_E_ACCESSDENIED | Access denied |
-| STG_E_INVALIDHANDLE | Invalid handle |
-| STG_E_INSUFFICIENTMEMORY | Insufficient memory |
-| STG_E_INVALIDPOINTER | Invalid pointer |
-| STG_E_NOMOREFILES | No more files |
-| STG_E_DISKISWRITEPROTECTED | Disk write protected |
-| STG_E_SEEKERROR | Seek error |
-| STG_E_WRITEFAULT | Write fault |
-| STG_E_READFAULT | Read fault |
-| STG_E_SHAREVIOLATION | Share violation |
-| STG_E_LOCKVIOLATION | Lock violation |
-| STG_E_FILEALREADYEXISTS | File already exists |
-| STG_E_INVALIDPARAMETER | Invalid parameter |
-| STG_E_MEDIUMFULL | Medium full |
-| STG_E_PROPSETMISMATCHED | Property set mismatched |
-| STG_E_ABNORMALAPIEXIT | Abnormal API call exit |
-| STG_E_INVALIDHEADER | Invalid header |
-| STG_E_INVALIDNAME | Invalid name |
-| STG_E_UNKNOWN | Unknown error |
-| STG_E_UNIMPLEMENTEDFUNCTION | Unimplemented function |
-| STG_E_INVALIDFLAG | Invalid flag |
-| STG_E_INUSE | Object is busy |
-| STG_E_NOTCURRENT | The storage has been changed since the last commit |
-| STG_E_REVERTED | The object has ceased to exist |
-| STG_E_CANTSAVE | Can't save |
-| STG_E_OLDFORMAT | The compound file was produced with an incompatible version of storage |
-| STG_E_OLDDLL | The compound file was produced with a newer version of storage |
-| STG_E_SHAREREQUIRED | Share.exe or equivalent is required for operation |
-| STG_E_NOTFILEBASEDSTORAGE | Illegal operation called on non-file based storage |
-| STG_E_EXTANTMARSHALLINGS | Illegal operation called on object with extant marshallings |
-| STG_E_DOCFILECORRUPT | The docfile has been corrupted |
-| STG_E_BADBASEADDRESS | OLE32.DLL has been loaded at the wrong address |
-| STG_E_DOCFILETOOLARGE | The compound file is too large for the current implementation |
-| STG_E_NOTSIMPLEFORMAT | The compound file was not created with the STGM_SIMPLE flag |
-| STG_E_INCOMPLETE | The file download was aborted abnormally. The file is incomplete |
-| STG_E_TERMINATED | The file download has been terminated |
-| STG_S_CONVERTED | The underlying file was converted to compound file format |
-| STG_S_BLOCK | The storage operation should block until more data is available |
-| STG_S_RETRYNOW | The storage operation should retry immediately |
-| STG_S_MONITORING | The notified event sink will not influence the storage operation |
-| STG_S_MULTIPLEOPENS | Multiple opens prevent consolidated. (commit succeeded) |
-| STG_S_CONSOLIDATIONFAILED | Consolidation of the storage file failed. (commit succeeded) |
-| STG_S_CANNOTCONSOLIDATE | Consolidation of the storage file is inappropriate. (commit succeeded) |
-| STG_E_STATUS_COPY_PROTECTION_FAILURE | Generic Copy Protection Error |
-| STG_E_CSS_AUTHENTICATION_FAILURE | Copy Protection Error - DVD CSS Authentication failed |
-| STG_E_CSS_KEY_NOT_PRESENT | Copy Protection Error - The given sector does not have a valid CSS key |
-| STG_E_CSS_KEY_NOT_ESTABLISHED | Copy Protection Error - DVD session key not established |
-| STG_E_CSS_SCRAMBLED_SECTOR | Copy Protection Error - The read failed because the sector is encrypted |
-| STG_E_CSS_REGION_MISMATCH | Copy Protection Error - The current DVD's region does not correspond to the region setting of the drive |
-| STG_E_RESETS_EXHAUSTED | Copy Protection Error - The drive's region setting may be permanent or the number of user resets has been exhausted |
-
-# <a name="Attach"></a>Attach
+## Attach
 
 Attaches the passed stream to the class.
 
@@ -210,7 +161,9 @@ FUNCTION Attach (BYVAL pstm AS IStream PTR, BYVAL fAddRef AS BOOLEAN = FALSE) AS
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="Detach"></a>Detach
+---
+
+## Detach
 
 Detaches the stream from the class.
 
@@ -222,26 +175,28 @@ FUNCTION Detach () AS IStream PTR
 
 IStream PTR. A pointer to the **IStream** interface of the stream object.
 
-# <a name="Open"></a>Open
+---
+
+## Open
 
 Opens or creates a file and retrieves a stream to read or write to that file.
 
 ```
-FUNCTION Open (BYREF cwsFile AS CWSTR, _
+FUNCTION Open (BYREF wszFile AS WSTRING, _
    BYVAL grfMode AS DWORD = STGM_READ, _
    BYVAL dwAttributes AS DWORD = FILE_ATTRIBUTE_NORMAL, _
-   BYVAL fCreate AS WINBOOL = FALSE) AS HRESULT
+   BYVAL fCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 ```
 FUNCTION Open (BYVAL pwszFile AS WSTRING PTR, _
    BYVAL grfMode AS DWORD = STGM_READ, _
    BYVAL dwAttributes AS DWORD = FILE_ATTRIBUTE_NORMAL, _
-   BYVAL fCreate AS WINBOOL = FALSE) AS HRESULT
+   BYVAL fCreate AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cwsFile* | The file name. |
+| *wszFile* | The file name. |
 | *pwszFile* | A pointer to a unicode null-terminated string that specifies the file name. |
 | *grfMode* | One or more **STGM** values that are used to specify the file access mode and how the stream is created and deleted. The STGM constants are flags that indicate conditions for creating and deleting the stream and access modes for the stream. These elements are often combined using an **OR** operator. They are interpreted in groups as listed in the following table. It is not valid to use more than one element from a single group. |
 | *dwAttributes* | One or more flag values that specify file attributes in the case that a new file is created.<br>**_0_** = Prevents other processes from opening a file or device if they request delete, read, or write access.<br>**FILE_SHARE_DELETE** : Enables subsequent open operations on a file or device to request delete access. Otherwise, other processes cannot open the file or device if they request delete access. If this flag is not specified, but the file or device has been opened for delete access, the function fails. Delete access allows both delete and rename operations.<br>**FILE_SHARE_READ** : Enables subsequent open operations on a file or device to request read access. Otherwise, other processes cannot open the file or device if they request read access. If this flag is not specified, but the file or device has been opened for read access, the function fails.<br>**FILE_SHARE_WRITE** : Enables subsequent open operations on a file or device to request write access. Otherwise, other processes cannot open the file or device if they request write access. If this flag is not specified, but the file or device has been opened for write access or has a file mapping with write access, the function fails. |
@@ -296,34 +251,28 @@ The *grfMode* and *fCreate* parameters work together to specify how the function
 #### Example
 
 ```
-'#CONSOLE ON
-#INCLUDE ONCE "Afx/CStream.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CStream.inc"
+USING AfxNova
 
-SCOPE
-   DIM pStream AS CFileStream
-   IF pStream.Open("binary.txt", STGM_CREATE OR STGM_WRITE) = S_OK then
-      DIM s AS STRING = "This is a test"
-      pStream.Write(STRPTR(s), LEN(s))
-      ' // Because we are using a scope, we don't need to call the Close method,
-      ' // since the stream will be released when pStream goes out of scope.
-      ' pStream.Close
-   END IF
-END SCOPE
-
-PRINT "Press any key to end..."
-SLEEP
+DIM pStream AS CFileStream
+IF pStream.Open("binary.txt", STGM_CREATE OR STGM_WRITE) = S_OK then
+   DIM s AS STRING = "This is a test"
+   pStream.Write(STRPTR(s), LEN(s))
+   pStream.Close
+END IF
 ```
+---
 
-# <a name="Close"></a>Close
+## Close
 
 Releases the stream object.
 
 ```
 FUNCTION Close
 ```
+---
 
-# <a name="Read"></a>Read
+## Read
 
 Reads a specified number of bytes from the stream into memory, starting at the current seek pointer.
 
@@ -357,22 +306,18 @@ ULONG. The actual number of bytes read from the stream. Note: The number of byte
 #### Example
 
 ```
-'#CONSOLE ON
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CStream.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CStream.inc"
+USING AfxNova
 
 DIM pstm AS CFileStream
-pstm.Open(AfxGetExePath & "\TextA1.txt", STGM_READ)
+pstm.Open(ExePath & "\TextA1.txt", STGM_READ)
 DIM strText AS STRING = SPACE(10)
 pstm.Read(STRPTR(strText), LEN(strText))
 print strText
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="ReadTextA"></a>ReadTextA
+## ReadTextA
 
 Reads a specified number of characters from the stream into memory, starting at the current seek pointer. Ansi version.
 
@@ -391,26 +336,22 @@ STRING. The characters read.
 #### Example
 
 ```
-'#CONSOLE ON
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CStream.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CStream.inc"
+USING AfxNova
 
 DIM pstm AS CFileStream
-pstm.Open(AfxGetExePath & "\TextA1.txt", STGM_READ)
+pstm.Open(ExePath & "\TextA1.txt", STGM_READ)
 DIM strText AS STRING = pstm.ReadTextA(-1)
 PRINT strText
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="ReadTextW"></a>ReadTextW
+## ReadTextW
 
 Reads a specified number of characters from the stream into memory, starting at the current seek pointer. Unicode version.
 
 ```
-FUNCTION ReadTextW (BYVAL numChars AS LONG) AS CWSTR
+FUNCTION ReadTextW (BYVAL numChars AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -419,26 +360,22 @@ FUNCTION ReadTextW (BYVAL numChars AS LONG) AS CWSTR
 
 #### Return value
 
-CWSTR. The characters read.
+DWSTRING. The characters read.
 
 #### Example
 
 ```
-'#CONSOLE ON
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CStream.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CStream.inc"
+USING AfxNova
 
 DIM pstm AS CFileStream
-pstm.Open(AfxGetExePath & "\TextW1.txt", STGM_READ)
-DIM cwsText AS CWSTR = pstm.ReadTextW(-1)
-PRINT cwsText
-
-PRINT "Press any key to end..."
-SLEEP
+pstm.Open(ExePath & "\TextW1.txt", STGM_READ)
+DIM dwsText AS DWSTRING = pstm.ReadTextW(-1)
+PRINT dwsText
 ```
+---
 
-# <a name="Write"></a>Write
+## Write
 
 Writes a specified number of bytes into the stream starting at the current seek pointer.
 
@@ -469,7 +406,9 @@ FUNCTION Write (BYVAL pv AS ANY PTR, BYVAL cb AS ULONG) AS ULONG
 
 ULONG. The actual number of bytes written to the stream. Note: The number of bytes read may be zero.
 
-# <a name="WriteTextA"></a>WriteTextA
+---
+
+## WriteTextA
 
 Writes a string at the current seek position. Ansi version.
 
@@ -488,24 +427,20 @@ ULONG. The characters written.
 #### Example
 
 ```
-'#CONSOLE ON
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CStream.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CStream.inc"
+USING AfxNova
 
 DIM pstm AS CFileStream
-pstm.Open(AfxGetExePath & "\TextA1.txt", STGM_READWRITE)
+pstm.Open(ExePath & "\TextA1.txt", STGM_READWRITE)
 pstm.Seek(5, STREAM_SEEK_SET)
 pstm.WriteTextA(" 12345 ")
 pstm.Seek(0, STREAM_SEEK_SET)
 DIM s AS STRING = pstm.ReadTextA(50)
 print s
-
-PRINT "Press any key to end..."
-SLEEP
 ```
+---
 
-# <a name="WriteTextW"></a>WriteTextW
+## WriteTextW
 
 Writes a string at the current seek position. Unicode version.
 
@@ -524,31 +459,26 @@ ULONG. The characters written.
 #### Example
 
 ```
-'#CONSOLE ON
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CStream.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CStream.inc"
+USING AfxNova
 
 DIM pstm AS CFileStream
-pstm.Open(AfxGetExePath & "\TextW1.txt", STGM_READWRITE)
+pstm.Open(ExePath & "\TextW1.txt", STGM_READWRITE)
 pstm.Seek(2, STREAM_SEEK_SET)   ' Skip BOM
 pstm.Seek(5 * 2, STREAM_SEEK_CUR)
 pstm.WriteTextW(" 12345 ")
 pstm.Seek(2, STREAM_SEEK_SET)   ' Skip BOM
-DIM cws AS CWSTR = pstm.ReadTextW(50)
-print cws
-
-PRINT "Press any key to end..."
-SLEEP
+DIM dws AS DWSTRING = pstm.ReadTextW(50)
+print dws
 ```
+---
 
-# <a name="Seek"></a>Seek
+## Seek
 
 Changes the seek pointer to a new location. The new location is relative to either the beginning of the stream, the end of the stream, or the current seek pointer.
 
 ```
-FUNCTION Seek (BYVAL dlibMove AS ULONGINT, _
-   BYVAL dwOrigin AS DWORD, _
+FUNCTION Seek (BYVAL dlibMove AS ULONGINT, BYVAL dwOrigin AS DWORD, _
    BYVAL plibNewPosition AS ULONGINT PTR = NULL) AS HRESULT
 ```
 
@@ -562,7 +492,9 @@ FUNCTION Seek (BYVAL dlibMove AS ULONGINT, _
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="GetSeekPosition"></a>GetSeekPosition
+---
+
+## GetSeekPosition
 
 Returns the current seek position.
 
@@ -574,7 +506,9 @@ FUNCTION GetSeekPosition () AS ULONGINT
 
 ULONGINT. The current seek position.
 
-# <a name="ResetSeekPosition"></a>ResetSeekPosition
+---
+
+## ResetSeekPosition
 
 Sets the seek position at the beginning of the stream.
 
@@ -586,7 +520,9 @@ FUNCTION ResetSeekPosition () AS ULONGINT
 
 ULONGINT. The new seek position.
 
-# <a name="SeekAtEndOfFile"></a>SeekAtEndOfFile
+---
+
+## SeekAtEndOfFile
 
 Sets the seek position at the end of the stream.
 
@@ -598,7 +534,9 @@ FUNCTION SeekAtEndOfFile () AS ULONGINT
 
 ULONGINT. The new seek position.
 
-# <a name="SeekAtEndOfStream"></a>SeekAtEndOfFile
+---
+
+## SeekAtEndOfFile
 
 Sets the seek position at the end of the stream.
 
@@ -610,7 +548,9 @@ FUNCTION SeekAtEndOfStream () AS ULONGINT
 
 ULONGINT. The new seek position.
 
-# <a name="GetSize"></a>GetSize
+---
+
+## GetSize
 
 Returns the size of the stream in bytes.
 
@@ -622,7 +562,9 @@ FUNCTION GetSize () AS ULONGINT
 
 ULONGINT. The size of the stream in bytes.
 
-# <a name="SetSize"></a>SetSize
+---
+
+## SetSize
 
 Changes the size of the stream object.
 
@@ -638,7 +580,9 @@ FUNCTION SetSize (BYVAL libNewSize AS ULONGINT) AS HRESULT
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="CopyTo"></a>CopyTo
+---
+
+## CopyTo
 
 Copies a specified number of bytes from the current seek pointer in the stream to the current seek pointer in another stream.
 
@@ -660,7 +604,9 @@ FUNCTION CopyTo (BYVAL pstm AS IStream PTR, _
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="LockRegion"></a>LockRegion
+---
+
+## LockRegion
 
 Restricts access to a specified range of bytes in the stream.
 
@@ -678,7 +624,9 @@ FUNCTION LockRegion (BYVAL libOffset AS ULONGINT, BYVAL cb AS ULONGINT, BYVAL dw
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="UnlockRegion"></a>UnlockRegion
+---
+
+## UnlockRegion
 
 Unlocks a region previously locked with the **LockRegion** method. Locked regions must later be explicitly unlocked by calling **UnlockRegion** with exactly the same values for the *libOffset*, *cb*, and *dwLockType* parameters. The region must be unlocked before the stream is released. Two adjacent regions cannot be locked separately and then unlocked with a single unlock call.
 
@@ -696,7 +644,9 @@ FUNCTION UnlockRegion (BYVAL libOffset AS ULONGINT, BYVAL cb AS ULONGINT, BYVAL 
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="Stat"></a>Stat
+---
+
+## Stat
 
 Retrieves the **STATSTG** structure for this stream. For a detailed description of this structure see [STATSTG structure](https://docs.microsoft.com/en-us/windows/desktop/api/objidl/ns-objidl-tagstatstg).
 
@@ -725,7 +675,9 @@ FUNCTION Stat (BYVAL grfStatFlag AS DWORD) AS STATSTG
 
 STATFLAG. The **STATSTG** structure for this stream.
 
-# <a name="Clone"></a>Clone
+---
+
+## Clone
 
 Creates a new stream with its own seek pointer that references the same bytes as the original stream. The **Clone** method creates a new stream for accessing the same bytes but using a separate seek pointer. The new stream sees the same data as the source-stream. Changes written to one stream are immediately visible in the other. Range locking is shared between the streams. The initial setting of the seek pointer in the cloned stream instance is the same as the current setting of the seek pointer in the original stream at the time of the clone operation.
 
@@ -741,10 +693,14 @@ FUNCTION Clone (BYVAL ppstm AS IStream PTR PTR) AS HRESULT
 
 HRESULT. S_OK (0) on success, or an error code on failure.
 
-# <a name="StreamPtr"></a>StreamPtr
+---
 
-Returns a pointer to the underlying IStream interface.
+## StreamPtr
+
+Returns a pointer to the underlying **IStream** interface.
 
 ```
 FUNCTION StreamPtr () AS IStreamPtr
 ```
+---
+
