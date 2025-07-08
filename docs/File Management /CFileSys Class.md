@@ -2,73 +2,113 @@
 
 The **CFileSys** class wraps the Microsoft File System Object and provides methods to work with files and folders, giving your application the ability to create, copy, alter, move, and delete files and folders, or to determine if and where particular files or folders exist. It also enables you to get information about files and folders, such as their names and the date they were created or last modified.
 
-**Include file**: CFileSys.inc
+**Include file**: AfxNova/CFileSys.inc
 
 ### Methods
 
 | Name       | Description |
 | ---------- | ----------- |
-| [BuildPath](#BuildPath) | Appends a name to an existing path. |
-| [CopyFile](#CopyFile) | Copies one or more files from one location to another. |
-| [CopyFolder](#CopyFolder) | Recursively copies a folder from one location to another. |
-| [CreateFolder](#CreateFolder) | Creates a folder. |
-| [DeleteFile](#DeleteFile) | Deletes a specified file. |
-| [DeleteFolder](#DeleteFolder) | Deletes a specified folder and its contents. |
-| [DriveExists](#DriveExists) | Checks if the specified drive exists. |
-| [DriveLetters](#DriveLetters) | Returns a semicolon separated list with the driver letters. |
-| [FileExists](#FileExists) | Checks for the existence of the specified file. |
-| [FolderExists](#FolderExists) | Checks for the existence of the specified folder. |
-| [GetAbsolutePathName](#GetAbsolutePathName) | Returns complete and unambiguous path from a provided path specification. |
-| [GetBaseName](#GetBaseName) | Returns a string containing the base name of the last component, less any file extension, in a path. |
-| [GetDriveAvailableSpace](#GetDriveAvailableSpace) | Returns the amount of space available to a user on the specified drive or network share. |
-| [GetDriveFileSystem](#GetDriveFileSystem) | Returns the type of file system in use for the specified drive or network share. |
-| [GetDriveFreeSpace](#GetDriveFreeSpace) | Returns the amount of free space available to a user on the specified drive or network share. |
-| [GetDriveName](#GetDriveName) | Returns a string containing the name of the drive for a specified path. |
-| [GetDriveShareName](#GetDriveShareName) | Returns the network share name for a specified drive. |
-| [GetDriveTotalSize](#GetDriveTotalSize) | Returns the total space, in bytes, of a drive or network share. |
-| [GetDriveType](#GetDriveType) | Returns a value indicating the type of a specified drive. |
-| [GetExtensionName](#GetExtensionName) | Returns a string containing the extension name of the file for a specified path. |
-| [GetFileAttributes](#GetFileAttributes) | Returns the attributes of files. Read/write or read-only, depending on the attribute. |
-| [GetFileDateCreated](#GetFileDateCreated) | Returns the date and time that the specified file was created. |
-| [GetFileDateLastAccessed](#GetFileDateLastAccessed) | Returns the date and time that the specified file was accessed. |
-| [GetFileDateLastModified](#GetFileDateLastModified) | Returns the date and time that the specified file was modified. |
-| [GetFileName](#GetFileName) | Returns a string containing the name of the file for a specified path. |
-| [GetFileShortName](#GetFileShortName) | Returns the short name used by programs that require the earlier 8.3 file naming convention. |
-| [GetFileShortPath](#GetFileShortPath) | Returns the short path used by programs that require the earlier 8.3 file naming convention. |
-| [GetFileSize](#GetFileSize) | Returns the size, in bytes, of the specified file. |
-| [GetFileType](#GetFileType) | Returns information about the type of a file. |
-| [GetFileVersion](#GetFileVersion) | Returns the version number of a specified file. |
-| [GetFolderAttributes](#GetFolderAttributes) | Returns the attributes of folders. |
-| [GetFolderDateCreated](#GetFolderDateCreated) | Returns the date and time that the specified folder was created. |
-| [GetFolderDateLastAccessed](#GetFolderDateLastAccessed) | Returns the date and time that the specified folder was last accessed. |
-| [GetFolderDateLastModified](#GetFolderDateLastModified) | Returns the date and time that the specified folder was last modified. |
-| [GetFolderDriveLetter](#GetFolderDriveLetter) | Returns a string containing the drive letter for a specified folder. |
-| [GetFolderName](#GetFolderName) | Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name. |
-| [GetFolderShortName](#GetFolderShortName) | Returns the short name used by programs that require the earlier 8.3 file naming convention. |
-| [GetFolderShortPath](#GetFolderShortPath) | Returns the short path used by programs that require the earlier 8.3 file naming convention. |
-| [GetFolderSize](#GetFolderSize) | Returns the size, in bytes, of all files and subfolders contained in the folder. |
-| [GetFolderType](#GetFolderType) | Returns information about the type of a folder. |
-| [GetLastResult](#GetLastResult) | Returns the last result code. |
-| [GetNumDrives](#GetNumDrives) | Returns the number of drives. |
-| [GetNumFiles](#GetNumFiles) | Returns the number of files contained in a specified folder, including those with hidden and system file attributes set. |
-| [GetNumSubFolders](#GetNumSubFolders) | Returns the number of folders contained in a specified folder, including those with hidden and system file attributes set. |
-| [GetParentFolderName](#GetParentFolderName) | Returns the folder name for the parent of the specified folder. |
-| [GetSerialNumber](#GetSerialNumber) | Returns the decimal serial number used to uniquely identify a disk volume. |
-| [GetStandardStream](#GetStandardStream) | Returns a TextStream object corresponding to the standard input, output, or error stream. |
-| [GetStdErrStream](#GetStdErrStream) | Returns a TextStream object corresponding to the standard error stream. |
-| [GetStdInStream](#GetStdInStream) | Returns a TextStream object corresponding to the standard input stream. |
-| [GetStdOutStream](#GetStdOutStream) | Returns a TextStream object corresponding to the standard output stream. |
-| [GetTempName](#GetTempName) | Returns a randomly generated temporary file or folder name that is useful for performing operations that require a temporary file or folder. |
-| [GetVolumeName](#GetVolumeName) | Returns the volume name of the specified drive. |
-| [IsDriveReady](#IsDriveReady) | Returns True if the specified drive is ready; False if it is not. |
-| [IsRootFolder](#IsRootFolder) | Returns True(-1) if the specified folder is the root folder; False(0) if it is not. |
-| [MoveFile](#MoveFile) | Moves one or more files from one location to another. |
-| [MoveFolder](#MoveFolder) | Moves one or more folders from one location to another. |
-| [SetFileAttributes](#SetFileAttributes) | Sets the attributes of files. |
-| [SetFileName](#SetFileName) | Sets the name of a specified file. |
-| [SetFolderAttributes](#SetFolderAttributes) | Sets the attributes of folders. |
-| [SetFolderName](#SetFolderName) | Sets the name of a specified folder. |
-| [SetVolumeName](#SetVolumeName) | Sets the volume name of the specified drive. |
+| [BuildPath](#buildpath) | Appends a name to an existing path. |
+| [CopyFile](#copyfile) | Copies one or more files from one location to another. |
+| [CopyFolder](#copyfolder) | Recursively copies a folder from one location to another. |
+| [CreateFolder](#createfolder) | Creates a folder. |
+| [DeleteFile](#deletefile) | Deletes a specified file. |
+| [DeleteFolder](#deletefolder) | Deletes a specified folder and its contents. |
+| [DriveExists](#driveexists) | Checks if the specified drive exists. |
+| [DriveLetters](#driveletters) | Returns a semicolon separated list with the driver letters. |
+| [FileExists](#fileexists) | Checks for the existence of the specified file. |
+| [FolderExists](#folderexists) | Checks for the existence of the specified folder. |
+| [GetAbsolutePathName](#getabsolutepathname) | Returns complete and unambiguous path from a provided path specification. |
+| [GetBaseName](#getbasename) | Returns a string containing the base name of the last component, less any file extension, in a path. |
+| [GetDriveAvailableSpace](#getfriveavailablespace) | Returns the amount of space available to a user on the specified drive or network share. |
+| [GetDriveFileSystem](#getdrivefilesystem) | Returns the type of file system in use for the specified drive or network share. |
+| [GetDriveFreeSpace](#getdrivefreespace) | Returns the amount of free space available to a user on the specified drive or network share. |
+| [GetDriveName](#getdrivename) | Returns a string containing the name of the drive for a specified path. |
+| [GetDriveShareName](#getdrivesharename) | Returns the network share name for a specified drive. |
+| [GetDriveTotalSize](#getdrivetotalsize) | Returns the total space, in bytes, of a drive or network share. |
+| [GetDriveType](#getdrivetype) | Returns a value indicating the type of a specified drive. |
+| [GetExtensionName](#getextensionname) | Returns a string containing the extension name of the file for a specified path. |
+| [GetFileAttributes](#getfileattributes) | Returns the attributes of files. Read/write or read-only, depending on the attribute. |
+| [GetFileDateCreated](#getfiledatecreated) | Returns the date and time that the specified file was created. |
+| [GetFileDateLastAccessed](#getfiledatelastaccessed) | Returns the date and time that the specified file was accessed. |
+| [GetFileDateLastModified](#getfiledatelastmodified) | Returns the date and time that the specified file was modified. |
+| [GetFileName](#getfilename) | Returns a string containing the name of the file for a specified path. |
+| [GetFileShortName](#getfileshortname) | Returns the short name used by programs that require the earlier 8.3 file naming convention. |
+| [GetFileShortPath](#getfileshortpath) | Returns the short path used by programs that require the earlier 8.3 file naming convention. |
+| [GetFileSize](#getfilesize) | Returns the size, in bytes, of the specified file. |
+| [GetFileType](#getfiletype) | Returns information about the type of a file. |
+| [GetFileVersion](#getfileversion) | Returns the version number of a specified file. |
+| [GetFolderAttributes](#getfolderattributes) | Returns the attributes of folders. |
+| [GetFolderDateCreated](#getfolderdatecreated) | Returns the date and time that the specified folder was created. |
+| [GetFolderDateLastAccessed](#getfolderdatelastaccessed) | Returns the date and time that the specified folder was last accessed. |
+| [GetFolderDateLastModified](#getfolderdatelastmodified) | Returns the date and time that the specified folder was last modified. |
+| [GetFolderDriveLetter](#getfolderdriveletter) | Returns a string containing the drive letter for a specified folder. |
+| [GetFolderName](#getfoldername) | Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name. |
+| [GetFolderShortName](#getfoldershortname) | Returns the short name used by programs that require the earlier 8.3 file naming convention. |
+| [GetFolderShortPath](#getfoldershortpath) | Returns the short path used by programs that require the earlier 8.3 file naming convention. |
+| [GetFolderSize](#getfoldersize) | Returns the size, in bytes, of all files and subfolders contained in the folder. |
+| [GetFolderType](#getfoldertype) | Returns information about the type of a folder. |
+| [GetNumDrives](#getnumdrives) | Returns the number of drives. |
+| [GetNumFiles](#getnumfiles) | Returns the number of files contained in a specified folder, including those with hidden and system file attributes set. |
+| [GetNumSubFolders](#getnumsubfolders) | Returns the number of folders contained in a specified folder, including those with hidden and system file attributes set. |
+| [GetParentFolderName](#getparentfoldername) | Returns the folder name for the parent of the specified folder. |
+| [GetSerialNumber](#getserialnumber) | Returns the decimal serial number used to uniquely identify a disk volume. |
+| [GetStandardStream](#getstandardstream) | Returns a TextStream object corresponding to the standard input, output, or error stream. |
+| [GetStdErrStream](#getstderrstream) | Returns a TextStream object corresponding to the standard error stream. |
+| [GetStdInStream](#getstdinstream) | Returns a TextStream object corresponding to the standard input stream. |
+| [GetStdOutStream](#getstdoutstream) | Returns a TextStream object corresponding to the standard output stream. |
+| [GetTempName](#gettempname) | Returns a randomly generated temporary file or folder name that is useful for performing operations that require a temporary file or folder. |
+| [GetVolumeName](#getvolumename) | Returns the volume name of the specified drive. |
+| [IsDriveReady](#isdriveready) | Returns True if the specified drive is ready; False if it is not. |
+| [IsRootFolder](#isrootfolder) | Returns True(-1) if the specified folder is the root folder; False(0) if it is not. |
+| [MoveFile](#movefile) | Moves one or more files from one location to another. |
+| [MoveFolder](#movefolder) | Moves one or more folders from one location to another. |
+| [SetFileAttributes](#setfileattributes) | Sets the attributes of files. |
+| [SetFileName](#setfilename) | Sets the name of a specified file. |
+| [SetFolderAttributes](#setfolderattributes) | Sets the attributes of folders. |
+| [SetFolderName](#setfoldername) | Sets the name of a specified folder. |
+| [SetVolumeName](#setvolumename) | Sets the volume name of the specified drive. |
+
+---
+
+## Error and result codes
+
+| Name       | Description |
+| ---------- | ----------- |
+| [GetLastResult](#getlastresult) | Returns the last result code. |
+| [SetResult](#setresult) | Sets the last result code. |
+| [GetErrorInfo](#geterrorinfo) | Returns a description of the specified error code. |
+
+---
+
+## GetLastResult
+
+Returns the last result code.
+
+```
+FUNCTION GetLastResult () AS HRESULT
+```
+---
+
+## SetResult
+
+Sets the result code.
+```
+FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
+```
+| Parameter | Description |
+| --------- | ----------- |
+| *Result* | The error code returned by the methods. |
+
+---
+
+## GetErrorInfo
+
+Returns a description of the last result code.
+
+```
+FUNCTION GetErrorInfo () AS DWSTRING
+```
 
 # <a name="BuildPath"></a>BuildPath
 
@@ -1210,18 +1250,6 @@ CBSTR. The type of folder.
 DIM pFileSys AS CFileSys
 DIM cbsFolderType AS CBSTR = pFileSys.GetFolderType("c:\MyFolder)
 ```
-
-# <a name="GetLastResult"></a>GetLastResult
-
-Returns the last result code.
-
-```
-FUNCTION GetLastResult () AS HRESULT
-```
-
-#### Return value
-
-HRESULT. The result code returned by the last executed method.
 
 # <a name="GetNumDrives"></a>GetNumDrives
 
