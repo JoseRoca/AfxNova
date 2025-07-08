@@ -12,6 +12,7 @@ The **CFileSys** class wraps the Microsoft File System Object and provides metho
 | [CopyFile](#copyfile) | Copies one or more files from one location to another. |
 | [CopyFolder](#copyfolder) | Recursively copies a folder from one location to another. |
 | [CreateFolder](#createfolder) | Creates a folder. |
+| [DateTimeToString](#datetimetostring) | Converts a DATE_ type to a string containing the date and the time. |
 | [DeleteFile](#deletefile) | Deletes a specified file. |
 | [DeleteFolder](#deletefolder) | Deletes a specified folder and its contents. |
 | [DriveExists](#driveexists) | Checks if the specified drive exists. |
@@ -979,44 +980,45 @@ DIM nFileSize AS LONG = pFileSys.GetFileSize("C:\MyPath\MyFile.txt")
 Returns localized information about the type of a file. For example, for files ending in .TXT, "Text Document" is returned ("Documento de texto" in Spanish computers).
 
 ```
-FUNCTION GetFileType (BYREF cbsFile AS CBSTR) AS CBSTR
+FUNCTION GetFileType (BYREF wszFile AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
+| *wszFile* | The path to a specific file. |
 
 #### Return value
 
-CBSTR. The type of file.
+The type of file.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsFileType AS CBSTR = pFileSys.GetFileType("C:\MyPath\MyFile.txt")
+DIM dwsFileType AS DWSTRING = pFileSys.GetFileType("C:\MyPath\MyFile.txt")
 ```
+---
 
-# <a name="GetFileVersion"></a>GetFileVersion
+## GetFileVersion
 
 Returns the version number of a specified file.
 
 ```
-FUNCTION GetFileVersion (BYREF cbsFile AS CBSTR) AS CBSTR
+FUNCTION GetFileVersion (BYREF dwsFile AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path (absolute or relative) to a specific file. |
+| *wszFile* | The path (absolute or relative) to a specific file. |
 
 #### Return value
 
-CBSTR. The version number.
+The version number.
 
 #### Remarks
 
-The **GetFileVersion** method returns a zero-length string ("") if *cbsFile* does not end with the named component. 
+The **GetFileVersion** method returns a zero-length string ("") if *wszFile* does not end with the named component. 
 
 Note: The **GetFileVersion** method works only on the provided path string. It does not attempt to resolve the path, nor does it check for the existence of the specified path.
 
@@ -1025,9 +1027,9 @@ Note: The **GetFileVersion** method works only on the provided path string. It d
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsVersion AS CBSTR = pFileSys.GetFileVersion("C:\MyFolder\MyFile.doc")
-IF LEN(cbsVersion) THEN
-   MSGBOX "File version: " & cbsVersion
+DIM dwsVersion AS DWSTRING = pFileSys.GetFileVersion("C:\MyFolder\MyFile.doc")
+IF LEN(dwsVersion) THEN
+   MSGBOX "File version: " & dwsVersion
 ELSE
    MSGBOX "No version information available"
 END IF
@@ -1036,18 +1038,19 @@ END IF
 DIM pFileSys AS CFileSys
 print pFileSys.GetFileVersion("c:\windows\system32\scrrun.dll")
 ```
+---
 
-# <a name="GetFolderAttributes"></a>GetFolderAttributes
+## GetFolderAttributes
 
 Returns the attributes of folders.
 
 ```
-FUNCTION GetFolderAttributes (BYREF cbsFolder AS CBSTR) AS FILEATTRIBUTE
+FUNCTION GetFolderAttributes (BYREF wszFolder AS WSTRING) AS FILEATTRIBUTE
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | CBSTR. The path to a specific folder. |
 
 #### Return value
 
@@ -1072,22 +1075,23 @@ The attributes. Can be any of the following values or any logical combination of
 DIM pFileSys AS CFileSys
 DIM lAttr FILEATTRIBUTE = pFileSys.GetFolderAttributes("C:\MyPath")
 ```
+---
 
-# <a name="GetFolderDateCreated"></a>GetFolderDateCreated
+## GetFolderDateCreated
 
 Returns the date and time that the specified folder was created.
 
 ```
-FUNCTION GetFolderDateCreated (BYREF cbsFolder AS CBSTR) AS DATE_
+FUNCTION GetFolderDateCreated (BYREF wszFolder AS WSTRING) AS DATE_
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-DATE_. The date and time that the folder was created. This is a *Date Serial* number that can be formatted using the Free Basic's **Format** function. You can also use the wrapper function **AfxVariantDateTimeToStr**.
+DATE_. The date and time that the folder was created. This is a *Date Serial* number that can be formatted using The **DateTimeoString**method pr the Free Basic's **Format** function.
 
 #### Usage example
 
@@ -1095,23 +1099,25 @@ DATE_. The date and time that the folder was created. This is a *Date Serial* nu
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFolderDateCreated("C:\MyPath")
+PRINT pFilesys.DateTimeToString(nDate)
 ```
+---
 
-# <a name="GetFolderDateLastAccessed"></a>GetFolderDateLastAccessed
+## GetFolderDateLastAccessed
 
 Returns the date and time that the specified folder was last accessed.
 
 ```
-FUNCTION GetFolderDateLastAccessed (BYREF cbsFolder AS CBSTR) AS DATE_
+FUNCTION GetFolderDateLastAccessed (BYREF dwsFolder AS WSTRING) AS DATE_
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-DATE_. The date and time that the folder was last accessed. This is a *Date Serial* number that can be formatted using the Free Basic's **Format** function. You can also use the wrapper function **AfxVariantDateTimeToStr**.
+DATE_. The date and time that the folder was last accessed. This is a *Date Serial* number that can be formatted using the **DateTimeToString** method or the Free Basic's **Format** function.
 
 #### Usage example
 
@@ -1119,23 +1125,25 @@ DATE_. The date and time that the folder was last accessed. This is a *Date Seri
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFolderDateLastAccessed("C:\MyPath)
+PRINT pFilesys.DateTimeToString(nDate)
 ```
+---
 
-# <a name="GetFolderDateLastModified"></a>GetFolderDateLastModified
+## GetFolderDateLastModified
 
 Returns the date and time that the specified folder was last modified.
 
 ```
-FUNCTION GetFolderDateLastModified (BYREF cbsFolder AS CBSTR) AS DATE_
+FUNCTION GetFolderDateLastModified (BYREF wszFolder AS WSTRING) AS DATE_
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | CBSTR. The path to a specific folder. |
 
 #### Return value
 
-DATE_. The date and time that the folder was last modified. This is a *Date Serial* number that can be formatted using the Free Basic's **Format** function. You can also use the wrapper function **AfxVariantDateTimeToStr**.
+DATE_. The date and time that the folder was last modified. This is a *Date Serial* number that can be formatted using the **DateTimeToString** method or the Free Basic's **Format** function.
 
 #### Usage example
 
@@ -1143,115 +1151,121 @@ DATE_. The date and time that the folder was last modified. This is a *Date Seri
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFolderDateLastModified("C:\MyPath)
+PRINT pFilesys.DateTimeToString(nDate
 ```
+---
 
-# <a name="GetFolderDriveLetter"></a>GetFolderDriveLetter
+## GetFolderDriveLetter
 
 Returns a string containing the drive letter for a specified folder.
 
 ```
-FUNCTION GetFolderDriveLetter (BYREF cbsFolder AS CBSTR) AS CBSTR
+FUNCTION GetFolderDriveLetter (BYREF wszFolder AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-CBSTR. The drive letter of the folder.
+The drive letter of the folder.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsDriveLetter AS CBSTR = pFileSys.GetFolderDriveLetter("c:\MyFolder)
+DIM dwsDriveLetter AS DWSTRING = pFileSys.GetFolderDriveLetter("c:\MyFolder)
 ```
+---
 
-# <a name="GetFolderName"></a>GetFolderName
+## GetFolderName
 
 Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name.
 
 ```
-FUNCTION GetFolderName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetFolderName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-CBSTR. The name of the folder.
+The name of the folder.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsName AS CBSTR = pFileSys.GetFolderName("C:\MyFolder\Test.txt")
+DIM dwsName AS DWSTRING = pFileSys.GetFolderName("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="GetFolderShortName"></a>GetFolderShortName
+## GetFolderShortName
 
 Returns the short name used by programs that require the earlier 8.3 file naming convention.
 
 ```
-FUNCTION GetFolderShortName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetFolderShortName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-CBSTR. The short name for the specified folder.
+The short name for the specified folder.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsFolderShortPath AS CBSTR = pFileSys.GetFolderShortName("c:\MyFolder)
+DIM dwsFolderShorName AS DWSTRING = pFileSys.GetFolderShortName("c:\MyFolder)
 ```
+---
 
-# <a name="GetFolderShortPath"></a>GetFolderShortPath
+## GetFolderShortPath
 
 Returns the short path used by programs that require the earlier 8.3 file naming convention.
 
 ```
-FUNCTION GetFolderShortPath (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetFolderShortPath (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-CBSTR. The short path for the specified folder.
+The short path for the specified folder.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsFolderShortPath AS CBSTR = pFileSys.GetFolderShortPath("c:\MyFolder)
+DIM dwsFolderShortPath AS DWSTRING = pFileSys.GetFolderShortPath("c:\MyFolder)
 ```
+---
 
-# <a name="GetFolderSize"></a>GetFolderSize
+## GetFolderSize
 
 Returns the size, in bytes, of all files and subfolders contained in the folder.
 
 ```
-FUNCTION GetFolderSize (BYREF cbsFolder AS CBSTR) AS LONG
+FUNCTION GetFolderSize (BYREF wszFolder AS WsTRING) AS LONG
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | CBSTR. The path to a specific folder. |
 
 #### Return value
 
@@ -1264,18 +1278,19 @@ LONG. The size, in bytes, of all files and subfolders contained in the folder.
 DIM pFileSys AS CFileSys
 DIM nFolderSize AS LONG = pFileSys.GetFolderSize("C:\MyPath")
 ```
+---
 
-# <a name="GetFolderType"></a>GetFolderType
+## GetFolderType
 
 Returns information about the type of a folder.
 
 ```
-FUNCTION GetFolderType (BYREF cbsFolder AS CBSTR) AS CBSTR
+FUNCTION GetFolderType (BYREF wszFolder AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | CBSTR. The path to a specific folder. |
 
 #### Return value
 
@@ -1286,16 +1301,18 @@ CBSTR. The type of folder.
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsFolderType AS CBSTR = pFileSys.GetFolderType("c:\MyFolder)
+DIM dwsFolderType AS DWSTRING = pFileSys.GetFolderType("c:\MyFolder)
 ```
+---
 
-# <a name="GetNumDrives"></a>GetNumDrives
+## GetNumDrives
 
 Returns the number of drives.
 
 ```
 FUNCTION GetNumDrives () AS LONG
 ```
+---
 
 #### Return value
 
@@ -1308,18 +1325,19 @@ LONG. The number of drives.
 DIM pFileSys AS CFileSys
 DIM numDrives AS LONG = pFileSys.GetNumDrives
 ```
+---
 
-# <a name="GetNumFiles"></a>GetNumFiles
+## GetNumFiles
 
 Returns the number of files contained in a specified folder, including those with hidden and system file attributes set.
 
 ```
-FUNCTION GetNumFiles (BYREF cbsFolder AS CBSTR) AS LONG
+FUNCTION GetNumFiles (BYREF wszFolder AS WSTRING) AS LONG
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
@@ -1332,18 +1350,19 @@ LONG. The number of files.
 DIM pFileSys AS CFileSys
 DIM numFiles AS LONG = pFileSys.GetNumFiles("C:\MyFolder")
 ```
+---
 
-# <a name="GetNumSubFolders"></a>GetNumSubFolders
+## GetNumSubFolders
 
 Returns the number of files contained in a specified folder, including those with hidden and system file attributes set.
 
 ```
-FUNCTION GetNumSubFolders (BYREF cbsFolder AS CBSTR) AS LONG
+FUNCTION GetNumSubFolders (BYREF wszFolder AS WsTRING) AS LONG
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
@@ -1356,42 +1375,44 @@ LONG. The number of subfolders.
 DIM pFileSys AS CFileSys
 DIM numSubFolders AS LONG = pFileSys.GetNumSubFolders("C:\MyFolder")
 ```
+---
 
-# <a name="GetParentFolderName"></a>GetParentFolderName
+## GetParentFolderName
 
 Returns the folder name for the parent of the specified folder.
 
 ```
-FUNCTION GetParentFolderName (BYREF cbsFolder AS CBSTR) AS CBSTR
+FUNCTION GetParentFolderName (BYREF wszFolder AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-CBSTR. The name of the parent folder, or a empty string if the folder has no parent.
+The name of the parent folder, or a empty string if the folder has no parent.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsParentFolderName AS CBSTR = pFileSys.GetParentFolderName("C:\MyFolder\MySubfolder")
+DIM dwsParentFolderName AS DWsTRING = pFileSys.GetParentFolderName("C:\MyFolder\MySubfolder")
 ```
+---
 
-# <a name="GetSerialNumber"></a>GetSerialNumber
+## GetSerialNumber
 
 Returns the decimal serial number used to uniquely identify a disk volume.
 
 ```
-FUNCTION GetSerialNumber (BYREF cbsDrive AS CBSTR) AS LONG
+FUNCTION GetSerialNumber (BYREF wszDrive AS WSTRING) AS LONG
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1408,14 +1429,15 @@ You can use the **GetSerialNumber** method to ensure that the correct disk is in
 DIM pFileSys AS CFileSys
 DIM nSerialNumber AS LONG = pFileSys.GetSerialNumber("C:")
 ```
+---
 
-# <a name="GetStandardStream"></a>GetStandardStream
+## GetStandardStream
 
 Returns a TextStream object corresponding to the standard input, output, or error stream.
 
 ```
 FUNCTION GetStandardStream (BYVAL nStreamType AS STANDARDSTREAMTYPES, _
-   BYVAL bUnicode AS VARIANT_BOOL = FALSE) AS Afx_ITextStream PTR
+   BYVAL bUnicode AS BOOLEAN = FALSE) AS Afx_ITextStream PTR
 ```
 
 | Name       | Description |
@@ -1444,13 +1466,14 @@ The nStreamType argument can have any of the following settings:
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStandardStream(StandardStreamTypes_StdOut)
 ```
+---
 
-# <a name="GetStdErrStream"></a>GetStdErrStream
+## GetStdErrStream
 
-Returns a TextStream object corresponding to the standard error stream.
+Returns a **TextStream** object corresponding to the standard error stream.
 
 ```
-FUNCTION GetStdErrStream (BYVAL bUnicode AS VARIANT_BOOL = FALSE) AS Afx_ITextStream PTR
+FUNCTION GetStdErrStream (BYVAL bUnicode AS BOOLEAN = FALSE) AS Afx_ITextStream PTR
 ```
 
 | Name       | Description |
@@ -1468,13 +1491,14 @@ A pointer to the *ITextStream* interface of the standard error stream.
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStdErrStream
 ```
+---
 
-# <a name="GetStdInStream"></a>GetStdInStream
+## GetStdInStream
 
 Returns a TextStream object corresponding to the standard input stream.
 
 ```
-FUNCTION GetStdInStream (BYVAL bUnicode AS VARIANT_BOOL = FALSE) AS Afx_ITextStream PTR
+FUNCTION GetStdInStream (BYVAL bUnicode AS BOOLEAN = FALSE) AS Afx_ITextStream PTR
 ```
 
 | Name       | Description |
@@ -1492,13 +1516,14 @@ A pointer to the *ITextStream* interface of the standard input stream.
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStdInStream
 ```
+---
 
-# <a name="GetStdOutStream"></a>GetStdOutStream
+## GetStdOutStream
 
-Returns a TextStream object corresponding to the standard output stream.
+Returns a **TextStream** object corresponding to the standard output stream.
 
 ```
-FUNCTION GetStdOutStream (BYVAL bUnicode AS VARIANT_BOOL = FALSE) AS Afx_ITextStream PTR
+FUNCTION GetStdOutStream (BYVAL bUnicode AS BOOLEAN = FALSE) AS Afx_ITextStream PTR
 ```
 
 | Name       | Description |
@@ -1507,7 +1532,7 @@ FUNCTION GetStdOutStream (BYVAL bUnicode AS VARIANT_BOOL = FALSE) AS Afx_ITextSt
 
 #### Return value
 
-A pointer to the *ITextStream* interface of the standard output stream.
+A pointer to the **ITextStream** interface of the standard output stream.
 
 #### Usage example
 
@@ -1516,20 +1541,22 @@ A pointer to the *ITextStream* interface of the standard output stream.
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStdOutStream
 ```
+---
 
-# <a name="GetTempName"></a>GetTempName
+## GetTempName
 
 Returns a randomly generated temporary file or folder name that is useful for performing operations that require a temporary file or folder.
 
 ```
-FUNCTION GetTempName () AS CBSTR
+FUNCTION GetTempName () AS DWSTRING
 ```
 
 #### Return value
 
-CBSTR. The temporary name.
+The temporary name.
 
 #### Remarks
+
 The **GetTempName** method does not create a file. It provides only a temporary file name that can be used with **CreateTextFile** to create a file.
 
 #### Usage example
@@ -1539,42 +1566,44 @@ The **GetTempName** method does not create a file. It provides only a temporary 
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetTempName
 ```
+---
 
-# <a name="GetVolumeName"></a>GetVolumeName
+## GetVolumeName
 
 Returns the volume name of the specified drive.
 
 ```
-FUNCTION GetVolumeName (BYREF cbsDrive AS CBSTR) AS CBSTR
+FUNCTION GetVolumeName (BYREF dwsDrive AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *dwsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
-CBSTR. The volume name.
+The volume name.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsVolumeName AS CBSTR = pFileSys.GetVolumeName("C:")
+DIM dwsVolumeName AS DWSTRING = pFileSys.GetVolumeName("C:")
 ```
+---
 
-# <a name="IsDriveReady"></a>IsDriveReady
+## IsDriveReady
 
 Returns True if the specified drive is ready; False if it is not.
 
 ```
-FUNCTION IsDriveReady (BYREF cbsDrive AS CBSTR) AS BOOLEAN
+FUNCTION IsDriveReady (BYREF dwsDrive AS STRING) AS BOOLEAN
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1591,18 +1620,19 @@ For removable-media drives and CD-ROM drives, **IsDriveReady** returns True only
 DIM pFileSys AS CFileSys
 DIM bIsReady AS BOOLEAN = pFileSys.IsDriveReady("C:")
 ```
+---
 
-# <a name="IsRootFolder"></a>IsRootFolder
+## IsRootFolder
 
 Returns True(-1) if the specified folder is the root folder; False(0) if it is not.
 
 ```
-FUNCTION IsRootFolder (BYREF cbsFolder AS CBSTR) AS BOOLEAN
+FUNCTION IsRootFolder (BYREF dwsFolder AS WSTRIN) AS BOOLEAN
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1615,19 +1645,20 @@ BOOLEAN. True(-1) if the specified folder is the root folder; False(0) if it is 
 DIM pFileSys AS CFileSys
 DIM bIsRoot AS BOOLEAN = pFileSys.IsRootFolder("C:\MyFolder")
 ```
+---
 
-# <a name="MoveFile"></a>MoveFile
+## MoveFile
 
 Moves one or more files from one location to another.
 
 ```
-FUNCTION MoveFile (BYREF cbsSource AS CBSTR, BYREF cbsDestination AS CBSTR) AS HRESULT
+FUNCTION MoveFile (BYREF wszSource AS DWSTRING, BYREF wszDestination AS WSTRING) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsSource* | CBSTR. The path to the file or files to be moved. The *cbsSource* argument string can contain wildcard characters in the last path component only. |
-| *cbsDestination* | CBSTR. Destination where the file is to be moved. Wildcard characters are not allowed. |
+| *cwszource* | The path to the file or files to be moved. The *wszSource* argument string can contain wildcard characters in the last path component only. |
+| *wszDestination* | Destination where the file is to be moved. Wildcard characters are not allowed. |
 
 #### Return value
 
@@ -1640,19 +1671,20 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 DIM pFileSys AS CFileSys
 pFileSys.MoveFile("C:\MyFolder\MyFile.txt", "C:\MyOtherFolder\")
 ```
+---
 
-# <a name="MoveFolder"></a>MoveFolder
+## MoveFolder
 
 Moves one or more folders from one location to another.
 
 ```
-FUNCTION MoveFolder (BYREF cbsSource AS CBSTR, BYREF cbsDestination AS CBSTR) AS HRESULT
+FUNCTION MoveFolder (BYREF wszSource AS WSTRING, BYREF wszDestination AS WSTRING) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsSource* | CBSTR. The path to the folder or folders to be moved. The *cbsSource* argument string can contain wildcard characters in the last path component only. |
-| *cbsDestination* | CBSTR. Destination where the folder is to be moved (must end with a "\\"). Wildcard characters are not allowed. |
+| *wszSource* | CBSTR. The path to the folder or folders to be moved. The *cbsSource* argument string can contain wildcard characters in the last path component only. |
+| *wszDestination* | CBSTR. Destination where the folder is to be moved (must end with a "\\"). Wildcard characters are not allowed. |
 
 #### Return value
 
@@ -1665,18 +1697,19 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 DIM pFileSys AS CFileSys
 pFileSys.MoveFolder("C:\MyFolder", "C:\MyNewFolder\")
 ```
+---
 
-# <a name="SetFileAttributes"></a>SetFileAttributes
+## SetFileAttributes
 
 Sets the attributes of files.
 
 ```
-FUNCTION SetFileAttributes (BYREF cbsFile AS CBSTR, BYVAL lAttr AS FILEATTRIBUTE) AS HRESULT
+FUNCTION SetFileAttributes (BYREF wszFile AS WSTRING, BYVAL lAttr AS FILEATTRIBUTE) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
+| *wszFile* | The path to a specific file. |
 | *lAttr* | LONG. The new value for the attributes of the specified file. |
 
 #### Return value
@@ -1702,19 +1735,20 @@ The file attributes. Can be any of the following values or any logical combinati
 DIM pFileSys AS CFileSys
 pFileSys.SetFileAttributes("C:\MyPath\MyFile.txt", 33)   ' FileAttribute_Archive OR FileAttribute_Normal
 ```
+---
 
-# <a name="SetFileName"></a>SetFileName
+## SetFileName
 
 Sets the name of a specified file.
 
 ```
-FUNCTION SetFileName (BYREF cbsFile AS CBSTR, BYREF cbsName AS CBSTR) AS HRESULT
+FUNCTION SetFileName (BYREF wszFile AS WSTRING, BYREF wszName AS WSTRING) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
-| *cbsName* | CBSTR. The new name of the file. |
+| *wszFile* | CBSTR. The path to a specific file. |
+| *wszName* | CBSTR. The new name of the file. |
 
 #### Return value
 
@@ -1731,18 +1765,19 @@ You only have to pass the new name of the file, not the full path.
 DIM pFileSys AS CFileSys
 pFileSys.SetFileName("c:\MyFolder\Test.txt", "NewName")
 ```
+---
 
-# <a name="SetFolderAttributes"></a>SetFolderAttributes
+## SetFolderAttributes
 
 Sets the attributes of folders.
 
 ```
-FUNCTION SetFolderAttributes (BYREF cbsFolder AS CBSTR, BYVAL lAttr AS FILEATTRIBUTE) AS HRESULT
+FUNCTION SetFolderAttributes (BYREF wszFolder AS WSTRING, BYVAL lAttr AS FILEATTRIBUTE) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | CBSTR. The path to a specific folder. |
 | *lAttr* | LONG. The new value for the attributes of the specified folder. |
 
 #### Return value
@@ -1768,19 +1803,20 @@ The *lAttr* argument can have any of the following values or any logical combina
 DIM pFileSys AS CFileSys
 pFileSys.SetFolderAttributes("C:\MyPath\MyFile.txt", 17)   ' FileAttribute_Directory OR FileAttribute_ReadOnly
 ```
+---
 
-# <a name="SetFolderName"></a>SetFolderName
+## SetFolderName
 
 Sets the name of a specified folder.
 
 ```
-FUNCTION SetFolderName (BYREF cbsFolder AS CBSTR, BYREF cbsName AS CBSTR) AS HRESULT
+FUNCTION SetFolderName (BYREF wszFolder AS WSTRING, BYREF wszName AS WSTRING) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolder* | CBSTR. The path to a specific folder. |
-| *cbsName* | CBSTR. The new name of the folder. |
+| *wszFolder* | The path to a specific folder. |
+| *wszName* | The new name of the folder. |
 
 #### Return value
 
@@ -1797,19 +1833,20 @@ You only have to pass the new name of the folder, not the full path.
 DIM pFileSys AS CFileSys
 pFileSys.SetFolderName("c:\MyFolder", "NewName")
 ```
+---
 
-# <a name="SetVolumeName"></a>SetVolumeName
+## SetVolumeName
 
 Sets the name of a specified drive.
 
 ```
-FUNCTION SetVolumeName (BYREF cbsDrive AS CBSTR, BYREF cbsName AS CBSTR) AS HRESULT
+FUNCTION SetVolumeName (BYREF wszDrive AS WSTRING, BYREF wszName AS WSTRING) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
-| *cbsName* | CBSTR. The volume name. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszName* | The volume name. |
 
 #### Return value
 
@@ -1822,3 +1859,32 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 DIM pFileSys AS CFileSys
 pFileSys.SetVolumeName("C:", "VolumeName")
 ```
+---
+
+## DateTimeToString
+
+Converts a DATE_ type to a string containing the date and the time.
+
+```
+FUNCTION DateTimeToString (BYVAL vbDate AS DATE_, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT, _
+   BYVAL dwFlags AS DWORD = 0) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *vbDate* | A variant representation of time. |
+| *lcid* | Optional. The language identifier used for the conversion. Default is LOCALE_USER_DEFAULT. |
+| *dwFlags* | Optional. A value made from one or more flags. The following table shows the flags that can be set for this parameter. |
+
+| Flag       | Description |
+| ---------- | ----------- |
+| LOCALE_NOUSEROVERRIDE | Uses the system default locale settings, rather than custom locale settings. |
+| VAR_CALENDAR_HJRI | If set then the Hijri calendar is used. Otherwise the calendar sent in Control Panel is used. |
+| VAR_DATEVALUEONLY | Omits the time portion of a **VT_DATE** and retrieves only the date.<br>Applies to conversions to or from dates.<br>Not used for **ChangeType** and **ChangeTypeEx**. |
+| VAR_TIMEVALUEONLY | Omits the date portion of a **VT_DATE** and returns only the time. Applies to conversions to or from dates. Not used for **ChangeType** and **ChangeTypeEx**. |
+
+#### Return value
+
+The formatted date and time.
+
+---
