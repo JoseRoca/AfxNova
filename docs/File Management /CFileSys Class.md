@@ -134,29 +134,30 @@ The **BuildPath** method inserts an additional path separator between the existi
 #### Usage example
 
 ```
-#INCLUDE ONCE "AfxNoca/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM dwsNewPath AS DWSTRING = pFileSys.BuildPath ("C:\MyFolder", "Text.txt")
+DIM dwsNewPath AS DWSTRING = pFileSys.BuildPath("C:\MyFolder", "Text.txt")
+' Output: C:\MyFolder\Text.txt
 ```
 Alternate syntax:
 ```
-CFileSys().BuildPath ("C:\MyFolder", "Text.txt")
+CFileSys().BuildPath("C:\MyFolder", "Text.txt")
 ```
 ---
 
-# <a name="CopyFile"></a>CopyFile
+# CopyFile
 
 Copies one or more files from one location to another.
 
 ```
-FUNCTION CopyFile (BYREF cbsSource AS CBSTR, BYREF cbsDestination AS CBSTR, _
-   BYVAL OverWriteFiles AS VARIANT_BOOL = -1) AS HRESULT
+FUNCTION CopyFile (BYREF wszSource AS WSTRING, BYREF wszDestination AS WSTRING, _
+   BYVAL OverWriteFiles AS BOOLEAN = TRUE) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsSource* | CBSTR. Character string file specification, which can include wildcard characters, for one or more files to be copied. |
-| *cbsDestination* | CBSTR. Character string destination where the file or files from source are to be copied. Wildcard characters are not allowed. |
+| *wszSource* | Character string file specification, which can include wildcard characters, for one or more files to be copied. |
+| *wszDestination* | Character string destination where the file or files from source are to be copied. Wildcard characters are not allowed. |
 | *OverWriteFiles* | Boolean value that indicates if existing files are to be overwritten. If true, files are overwritten; if false, they are not. The default is true. Note that **CopyFile** will fail if destination has the read-only attribute set, regardless of the value of overwrite. |
 
 #### Return value
@@ -165,7 +166,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 
 #### Remarks
 
-Wildcard characters can only be used in the last path component of the *cbSource* argument. For example, you can use:
+Wildcard characters can only be used in the last path component of the *wszSource* argument. For example, you can use:
 
 ```
 #INCLUDE ONCE "Afx/CFileSys.inc"
@@ -179,7 +180,7 @@ But you can't use:
 pFileSys.CopyFile("c:\mydocuments\*\R1???97.xls", "c:\tempfolder")
 ```
 
-If *cbsSource* contains wildcard characters, or destination ends with a path separator ("\\"), it is assumed that destination is an existing folder in which to copy matching files. Otherwise, destination is assumed to be the name of a file to create. In either case, three things can happen when an individual file is copied:
+If *wszSource* contains wildcard characters, or destination ends with a path separator ("\\"), it is assumed that destination is an existing folder in which to copy matching files. Otherwise, destination is assumed to be the name of a file to create. In either case, three things can happen when an individual file is copied:
 
    - If destination does not exist, source gets copied. This is the usual case.
 
@@ -202,6 +203,11 @@ pFileSys.CopyFile("c:\mydocuments\letters\sample.doc", "c:\tempfolder\sample_new
 DIM pFileSys AS CFileSys
 pFileSys.CopyFile("C:\MyFolder\MyFile.txt", "C:\MyOtherFolder\MyFile.txt")
 ```
+Alternate syntax:
+```
+CFileSys().CopyFile("C:\MyFolder\MyFile.txt", "C:\MyOtherFolder\MyFile.txt")
+```
+---
 
 # <a name="CopyFolder"></a>CopyFolder
 
