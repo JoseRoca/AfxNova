@@ -591,17 +591,17 @@ DIM dwsFileSystem AS DWSTRING = pFileSys.GetDriveFileSystem("C:")
 ```
 ---
 
-# <a name="GetDriveFreeSpace"></a>GetDriveFreeSpace
+## GetDriveFreeSpace
 
 Returns the amount of free space available to a user on the specified drive or network share
 
 ```
-FUNCTION GetDriveFreeSpace (BYREF cbsDrive AS CBSTR) AS DOUBLE
+FUNCTION GetDriveFreeSpace (BYREF wszDrive AS WSTRING) AS DOUBLE
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -618,46 +618,48 @@ The value returned by the **GetDriveFreeSpace** property is typically the same a
 DIM pFileSys AS CFileSys
 PRINT pFileSys.GetDriveFreeSpace("C:")
 ```
+---
 
-# <a name="GetDriveName"></a>GetDriveName
+## GetDriveName
 
 Returns a string containing the name of the drive for a specified path.
 
 ```
-FUNCTION GetDriveName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetDriveName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPathSpec* | CBSTR. The path. |
+| *wszPathSpec* | CBSTR. The path. |
 
 #### Return value
 
-CBSTR. The drive name.
+The drive name.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsName AS CBSTR = pFileSys.GetDriveName("C:\MyFolder\Test.txt")
+DIM dwsName AS DWSTRING = pFileSys.GetDriveName("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="GetDriveShareName"></a>GetDriveShareName
+## GetDriveShareName
 
 Returns the network share name for a specified drive.
 
 ```
-FUNCTION GetDriveShareName (BYREF cbsDrive AS CBSTR) AS CBSTR
+FUNCTION GetDriveShareName (BYREF wszDrive AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
-CBSTR. The share name.
+The share name.
 
 #### Remarks
 
@@ -668,20 +670,21 @@ If object is not a network drive, the **GetDriveShareName** method returns a zer
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsShareName AS CBSTR = pFileSys.GetDriveShareName("H:")
+DIM dwsShareName AS DWSTRING = pFileSys.GetDriveShareName("H:")
 ```
+---
 
-# <a name="GetDriveTotalSize"></a>GetDriveTotalSize
+## GetDriveTotalSize
 
 Returns the total space, in bytes, of a drive or network share.
 
 ```
-FUNCTION GetDriveTotalSize (BYREF cbsDrive AS CBSTR) AS DOUBLE
+FUNCTION GetDriveTotalSize (BYREF wszDrive AS WSTRING) AS DOUBLE
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -694,18 +697,19 @@ DOUBLE. The total space in bytes.
 DIM pFileSys AS CFileSys
 PRINT pFileSys.GetDriveTotalSize("C:")
 ```
+---
 
-# <a name="GetDriveType"></a>GetDriveType
+## GetDriveType
 
 Returns a value indicating the type of a specified drive.
 
 ```
-FUNCTION GetDriveType (BYREF cbsDrive AS CBSTR) AS DRIVETYPECONST
+FUNCTION GetDriveType (BYREF wszDrive AS WSTRING) AS DRIVETYPECONST
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -725,7 +729,7 @@ DriveType_RamDisk = 5
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDriveType AS DRIVETYPECONST = pFileSys.GetDriveType("C:")
-DIM t AS CBSTR
+DIM t AS DWSTRING
 SELECT CASE pDrive.DriveType
    CASE 0 : t = "Unknown"
    CASE 1 : t = "Removable"
@@ -735,38 +739,40 @@ SELECT CASE pDrive.DriveType
    CASE 5 : t = "RAM Disk"
 END SELECT
 ```
+---
 
-# <a name="GetExtensionName"></a>GetExtensionName
+## GetExtensionName
 
 Returns a string containing the extension name of the file for a specified path.
 
 ```
-FUNCTION GetExtensionName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetExtensionName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPathSpec* | CBSTR. The extension name. |
+| *wszPathSpec* | The extension name. |
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsName AS CBSTR = pFileSys.GetExtensionName("C:\MyFolder\Test.txt")
+DIM dwsName AS DWSTRING = pFileSys.GetExtensionName("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="GetFileAttributes"></a>GetFileAttributes
+## GetFileAttributes
 
 Returns the attributes of files.
 
 ```
-FUNCTION GetFileAttributes (BYREF cbsFile AS CBSTR) AS FILEATTRIBUTE
+FUNCTION GetFileAttributes (BYREF wszFile AS WSTRING) AS FILEATTRIBUTE
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
+| *wszFile* | The path to a specific file. |
 
 #### Return value
 
@@ -791,18 +797,19 @@ The file attributes. Can be any of the following values or any logical combinati
 DIM pFileSys AS CFileSys
 DIM lAttr FILEATTRIBUTE = pFileSys.GetFileAttributes("C:\MyPath\MyFile.txt")
 ```
+---
 
-# <a name="GetFileDateCreated"></a>GetFileDateCreated
+## GetFileDateCreated
 
 Returns the date and time that the specified file was created.
 
 ```
-FUNCTION GetFileDateCreated (BYREF cbsFile AS CBSTR) AS DATE_
+FUNCTION GetFileDateCreated (BYREF wszFile AS WSTRING) AS DATE_
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
+| *wszFile* | The path to a specific file. |
 
 #### Return value
 
@@ -815,18 +822,19 @@ DATE_. The date and time of the file creation. This is a *Date Serial* number th
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFileDateCreated("C:\MyPath\MyFile.txt")
 ```
+---
 
-# <a name="GetFileDateLastAccessed"></a>GetFileDateLastAccessed
+## GetFileDateLastAccessed
 
 Returns the date and time that the specified file was accesed.
 
 ```
-FUNCTION GetFileDateLastAccessed (BYREF cbsFile AS CBSTR) AS DATE_
+FUNCTION GetFileDateLastAccessed (BYREF wszFile AS WSTRING) AS DATE_
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
+| *wszFile* | The path to a specific file. |
 
 #### Return value
 
@@ -839,22 +847,23 @@ DATE_. The date and time that the file was last accessed. This is a *Date Serial
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFileDateLastAccessed("C:\MyPath\MyFile.txt")
 ```
+---
 
-# <a name="GetFileDateLastModified"></a>GetFileDateLastModified
+## GetFileDateLastModified
 
 Returns the date and time that the specified file was accessed.
 
 ```
-FUNCTION GetFileDateLastModified (BYREF cbsFile AS CBSTR) AS DATE_
+FUNCTION GetFileDateLastModified (BYREF wszFile AS WSTRING) AS DATE_
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
+| *wszFile* | The path to a specific file. |
 
 #### Return value
 
-DATE_. The date and time that the file was last modified. This is a *Date Serial* number that can be formatted using the Free Basic's **Format** function. You can also use the wrapper function **AfxVariantDateTimeToStr**.
+DATE_. The date and time that the file was last modified. This is a *Date Serial* number that can be formatted using the **DateTimeToString** method or the Free Basic's **Format** function.
 
 #### Usage example
 
@@ -862,91 +871,95 @@ DATE_. The date and time that the file was last modified. This is a *Date Serial
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFileDateLastModified("C:\MyPath\MyFile.txt")
+PRINT pFilesys.DateTimeToString(nDate)
 ```
+---
 
-# <a name="GetFileName"></a>GetFileName
+## GetFileName
 
 Returns a string containing the name of the file for a specified path.
 
 ```
-FUNCTION GetFileName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetFileName (BYREF wszPathSpec AS WSTRING) AS DWSREING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPathSpec* | CBSTR. The path to a specific file. |
+| *wszPathSpec* | The path to a specific file. |
 
 #### Return value
 
-CBSTR. The file name.
+The file name.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsName AS CBSTR = pFileSys.GetFileName("C:\MyFolder\Test.txt")
+DIM dwsName AS DWSTRING = pFileSys.GetFileName("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="GetFileShortName"></a>GetFileShortName
+## GetFileShortName
 
 Returns the short name used by programs that require the earlier 8.3 file naming convention.
 
 ```
-FUNCTION GetFileShortName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetFileShortName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPathSpec* | CBSTR. The path to a specific file. |
+| *wszPathSpec* | The path to a specific file. |
 
 #### Return value
 
-CBSTR. The short name for the specified file.
+The short name for the specified file.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsName AS CBSTR = pFileSys.GetFileShortName("C:\MyFolder\Test.txt")
+DIM dwsName AS DWSTRING = pFileSys.GetFileShortName("C:\MyFolder\Test.txt")
 ```
 
-# <a name="GetFileShortPath"></a>GetFileShortPath
+## GetFileShortPath
 
 Returns the short path used by programs that require the earlier 8.3 file naming convention.
 
 ```
-FUNCTION GetFileShortPath (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetFileShortPath (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPathSpec* | CBSTR. The path to a specific file. |
+| *wszPathSpec* | The path to a specific file. |
 
 #### Return value
 
-CBSTR. The short path to a specific file.
+The short path to a specific file.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsName AS CBSTR = pFileSys.GetFileShortPath("C:\MyFolder\Test.txt")
+DIM dwsName AS DWSTRING = pFileSys.GetFileShortPath("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="GetFileSize"></a>GetFileSize
+## GetFileSize
 
 Returns the size, in bytes, of the specified file.
 
 ```
-FUNCTION GetFileSize (BYREF cbsFile AS CBSTR) AS LONG
+FUNCTION GetFileSize (BYREF wszFile AS WSTRING) AS LONG
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFile* | CBSTR. The path to a specific file. |
+| *wszFile* | The path to a specific file. |
 
 #### Return value
 
@@ -959,10 +972,11 @@ LONG. The size, in bytes, of the file.
 DIM pFileSys AS CFileSys
 DIM nFileSize AS LONG = pFileSys.GetFileSize("C:\MyPath\MyFile.txt")
 ```
+---
 
-# <a name="GetFileType"></a>GetFileType
+## GetFileType
 
-Returns information about the type of a file. For example, for files ending in .TXT, "Text Document" is returned.
+Returns localized information about the type of a file. For example, for files ending in .TXT, "Text Document" is returned ("Documento de texto" in Spanish computers).
 
 ```
 FUNCTION GetFileType (BYREF cbsFile AS CBSTR) AS CBSTR
