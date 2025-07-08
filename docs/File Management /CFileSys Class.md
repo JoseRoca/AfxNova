@@ -110,22 +110,22 @@ Returns a description of the last result code.
 FUNCTION GetErrorInfo () AS DWSTRING
 ```
 
-# <a name="BuildPath"></a>BuildPath
+## BuildPath
 
 Appends a name to an existing path.
 
 ```
-FUNCTION BuildPath (BYREF cbsPath AS CBSTR, BYREF cbsName AS CBSTR) AS CWSTR
+FUNCTION BuildPath (BYREF wszPath AS WSTRING, BYREF wszName AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPath* | CBSTR. Existing path to which name is appended. Path can be absolute or relative and need not specify an existing folder. |
-| *cbsName* | CBSTR. Name being appended to the existing path. |
+| *wszPath* | Existing path to which name is appended. Path can be absolute or relative and need not specify an existing folder. |
+| *wszName* | Name being appended to the existing path. |
 
 #### Return value
 
-CBSTR. The new path.
+The new path.
 
 #### Remarks
 
@@ -134,10 +134,15 @@ The **BuildPath** method inserts an additional path separator between the existi
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNoca/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsNewPath AS CBSTR = pFileSys.BuildPath ("C:\MyFolder", "Text.txt")
+DIM dwsNewPath AS DWSTRING = pFileSys.BuildPath ("C:\MyFolder", "Text.txt")
 ```
+Alternate syntax:
+```
+CFileSys().BuildPath ("C:\MyFolder", "Text.txt")
+```
+---
 
 # <a name="CopyFile"></a>CopyFile
 
