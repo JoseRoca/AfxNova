@@ -142,38 +142,42 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns a description of the last status code.
+' Returns a description of the last result code.
 ' ========================================================================================
 PRIVATE FUNCTION CTextStream.GetErrorInfo () AS DWSTRING
-   IF SUCCEEDED(m_Result) THEN RETURN ""
    DIM dws AS DWSTRING = "Error &h" & HEX(m_Result, 8)
-   SELECT CASE m_Result
-      CASE &h800A0034 : dws += ": Bad file name or number"
-      CASE &h800A0035 : dws += ": File not found"
-      CASE &h800A0036 : dws += ": Bad file mode"
-      CASE &h800A0037 : dws += ": File is already open"
-      CASE &h800A0039 : dws += ": Device I/O error"
-      CASE &h800A003A : dws += ": File already exists"
-      CASE &h800A003D : dws += ": Disk space is full"
-      CASE &h800A003E : dws += ": Input beyond the end of the file"
-      CASE &h800A0043 : dws += ": Too many files"
-      CASE &h800A0044 : dws += ": Device not available"
-      CASE &h800A0046 : dws += ": Permission denied"
-      CASE &h800A0047 : dws += ": Disk not ready"
-      CASE &h800A004A : dws += ": Cannot rename with different drive"
-      CASE &h800A004B : dws += ": Path/file access error"
-      CASE &h800A004C : dws += ": Path not found"
+   SELECT CASE UCASE(HEX(m_Result, 8))
+      CASE "800A0030" : dws += ": Path not found"
+      CASE "800A0034" : dws += ": Bad file name or number"
+      CASE "800A0035" : dws += ": File not found"
+      CASE "800A0036" : dws += ": Bad file mode"
+      CASE "800A0037" : dws += ": File is already open"
+      CASE "800A0039" : dws += ": Device I/O error"
+      CASE "800A003A" : dws += ": File already exists"
+      CASE "800A003D" : dws += ": Disk space is full"
+      CASE "800A003E" : dws += ": Input beyond the end of the file"
+      CASE "800A0043" : dws += ": Too many files"
+      CASE "800A0044" : dws += ": Device not available"
+      CASE "800A0046" : dws += ": Permission denied"
+      CASE "800A0047" : dws += ": Disk not ready"
+      CASE "800A004A" : dws += ": Cannot rename with different drive"
+      CASE "800A004B" : dws += ": Path/file access error"
+      CASE "800A004C" : dws += ": Path not found"
       CASE ELSE
-         DIM cbLen AS DWORD, pBuffer AS WSTRING PTR
+         DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, dwsMsg AS DWSTRING
          cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
                  FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
                  NULL, m_Result, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
                  cast(LPWSTR, @pBuffer), 0, NULL)
          IF cbLen THEN
-            dws = *pBuffer
+            dwsMsg = *pBuffer
             LocalFree pBuffer
          END IF
-         dws = "Error &h" & HEX(m_Result) & CHR(13, 10) & dws
+         IF m_Result = 0 THEN
+            dws = dwsMsg
+         ELSE
+            dws += " " & dwsMsg
+         END IF
    END SELECT
    RETURN dws
 END FUNCTION
