@@ -364,17 +364,17 @@ pFileSys.DeleteFolder("C:\MyFolder")
 ```
 ---
 
-# <a name="DriveExists"></a>DriveExists
+## DriveExists
 
 Returns True if the specified drive exists; False if it does not.
 
 ```
-FUNCTION DriveExists (BYREF cbsDriveSpec AS CBSTR) AS BOOLEAN
+FUNCTION DriveExists (BYREF wszDriveSpec AS WSTRING) AS BOOLEAN
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDriveSpec* | CBSTR. A drive letter or a complete path specification. |
+| *wszDriveSpec* | A drive letter or a complete path specification. |
 
 #### Return value
 
@@ -391,6 +391,7 @@ For drives with removable media, the **DriveExists** method returns true even if
 DIM pFileSys AS CFileSys
 DIM fExists AS BOOLEAN = pFileSys.DriveExists("C:")
 ```
+---
 
 # <a name="DriveLetters"></a>DriveLetters
 
