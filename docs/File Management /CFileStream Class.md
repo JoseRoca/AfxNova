@@ -124,7 +124,6 @@ FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 | *Result* | The error code returned by the methods. |
 
 ---
----
 
 #### Return value
 
