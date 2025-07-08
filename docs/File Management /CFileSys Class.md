@@ -302,7 +302,7 @@ END IF
 ```
 ---
 
-# DeleteFile
+## DeleteFile
 
 Deletes a specified file.
 
@@ -332,17 +332,17 @@ pFileSys.DeleteFile("C:\MyFolder\MyFile.txt")
 ```
 ---
 
-# <a name="DeleteFolder"></a>DeleteFolder
+## DeleteFolder
 
 Deletes a specified folder and its contents.
 
 ```
-FUNCTION DeleteFolder (BYREF cbsFolderSpec AS CBSTR, BYVAL bForce AS VARIANT_BOOL = FALSE) AS HRESULT
+FUNCTION DeleteFolder (BYREF wszFolderSpec AS WSTRING, BYVAL bForce AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolderSpec* | CBSTR. The name of the folder to delete. *cbsFolderSpec* can contain wildcard characters in the last path component. |
+| *wszFolderSpec* | The name of the folder to delete. *cbsFolderSpec* can contain wildcard characters in the last path component. |
 | *bForce* | Boolean value that is true if folders with the read-only attribute set are to be deleted; false (default) if they are not. |
 
 #### Return value
@@ -362,6 +362,7 @@ An error occurs if no matching folders are found. The **DeleteFolder** method st
 DIM pFileSys AS CFileSys
 pFileSys.DeleteFolder("C:\MyFolder")
 ```
+---
 
 # <a name="DriveExists"></a>DriveExists
 
