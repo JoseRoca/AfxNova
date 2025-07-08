@@ -170,7 +170,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 Wildcard characters can only be used in the last path component of the *wszSource* argument. For example, you can use:
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.CopyFile("c:\mydocuments\letters\*.doc", "c:\tempfolder\")
 ```
@@ -200,7 +200,7 @@ pFileSys.CopyFile("c:\mydocuments\letters\sample.doc", "c:\tempfolder\sample_new
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.CopyFile("C:\MyFolder\MyFile.txt", "C:\MyOtherFolder\MyFile.txt")
 ```
@@ -210,19 +210,19 @@ CFileSys().CopyFile("C:\MyFolder\MyFile.txt", "C:\MyOtherFolder\MyFile.txt")
 ```
 ---
 
-# <a name="CopyFolder"></a>CopyFolder
+# CopyFolder
 
 Recursively copies a folder from one location to another.
 
 ```
-FUNCTION CopyFolder (BYREF cbsSource AS CBSTR, BYREF cbsDestination AS CBSTR, _
-   BYVAL OverWriteFiles AS VARIANT_BOOL = -1) AS HRESULT
+FUNCTION CopyFolder (BYREF wszSource AS WSTRING, BYREF wsDestination AS WSTRING, _
+   BYVAL OverWriteFiles AS BOOLEAN = TRUE) AS HRESULT
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsSource* | CBSTR. Character string file specification, which can include wildcard characters, for one or more folders to be copied. |
-| *cbsDestination* | CBSTR. Character string destination where the folder and subfolders from source are to be copied (must end with a "\\"). Wildcard characters are not allowed.  |
+| *wszSource* | Character string file specification, which can include wildcard characters, for one or more folders to be copied. |
+| *wszDestination* |  Character string destination where the folder and subfolders from source are to be copied (must end with a "\\"). Wildcard characters are not allowed.  |
 | *OverWriteFiles* | Boolean value that indicates if existing folders are to be overwritten. If true, files are overwritten; if false, they are not. The default is true. |
 
 #### Return value
@@ -231,10 +231,10 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 
 #### Remarks
 
-Wildcard characters can only be used in the last path component of the *cbSource* argument. For example you can use:
+Wildcard characters can only be used in the last path component of the *wszource* argument. For example you can use:
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.CopyFolder "c:\mydocuments\letters\*", "c:\tempfolder\"
 ```
@@ -245,7 +245,7 @@ But you can't use:
 pFileSys.CopyFolder "c:\mydocuments\*\*", "c:\tempfolder\"
 ```
 
-If *cbsSource* contains wildcard characters, or destination ends with a path separator ("\\"), it is assumed that destination is an existing folder in which to copy matching folders and subfolders. Otherwise, destination is assumed to be the name of a folder to create. In either case, four things can happen when an individual folder is copied:
+If *wszSource* contains wildcard characters, or destination ends with a path separator ("\\"), it is assumed that destination is an existing folder in which to copy matching folders and subfolders. Otherwise, destination is assumed to be the name of a folder to create. In either case, four things can happen when an individual folder is copied:
 
    - If destination does not exist, the source folder and all its contents gets copied. This is the usual case.
 
@@ -262,10 +262,11 @@ The **CopyFolder** method stops on the first error it encounters. No attempt is 
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.CopyFolder("C:\MyFolder", "C:\MyOtherFolder\")
 ```
+---
 
 # <a name="CreateFolder"></a>CreateFolder
 
@@ -290,7 +291,7 @@ An error occurs if the specified folder already exists.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM pFolder AS Afx_IFolder PTR
 pFolder = pFileSys.CreateFolder("C:\MyNewFolder")
@@ -324,7 +325,7 @@ An error occurs if no matching files are found. The **DeleteFile** method stops 
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.DeleteFile("C:\MyFolder\MyFile.txt")
 ```
@@ -355,7 +356,7 @@ An error occurs if no matching folders are found. The **DeleteFolder** method st
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.DeleteFolder("C:\MyFolder")
 ```
@@ -383,7 +384,7 @@ For drives with removable media, the **DriveExists** method returns true even if
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM fExists AS BOOLEAN = pFileSys.DriveExists("C:")
 ```
@@ -403,7 +404,7 @@ CBSTR. A semicolon separated list with the driver letters.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsLetters AS CBSTR = pFileSys.DriveLetters
 ```
@@ -427,7 +428,7 @@ Boolean. True if the specified file exists; False if it does not.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM fExists AS BOOLEAN = pFileSys.FileExists("C:\MyFolder\Test.txt")
 ```
@@ -451,7 +452,7 @@ Boolean. True if the specified folder exists; False if it does not.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM fExists AS BOOLEAN = pFileSys.FolderExists("C:\MyFolder")
 ```
@@ -490,7 +491,7 @@ Assuming the current directory is c:\mydocuments\reports, the following table il
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetAbsolutePathName("C:\MyFolder\Test.txt")
 ```
@@ -518,7 +519,7 @@ The **GetBaseName** method returns a zero-length string ("") if no component mat
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cwsName AS CWSTR = pFileSys.GetBaseName("C:\MyFolder\Test.txt")
 ```
@@ -546,7 +547,7 @@ The value returned by the **GetDriveAvailableSpace** method is typically the sam
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 PRINT pFileSys.GetDriveAvailableSpace("C:")
 ```
@@ -574,7 +575,7 @@ Available return types include FAT, NTFS, and CDFS.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsFileSystem AS CBSTR = pFileSys.GetDriveFileSystem("C:")
 ```
@@ -602,7 +603,7 @@ The value returned by the **GetDriveFreeSpace** property is typically the same a
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 PRINT pFileSys.GetDriveFreeSpace("C:")
 ```
@@ -626,7 +627,7 @@ CBSTR. The drive name.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetDriveName("C:\MyFolder\Test.txt")
 ```
@@ -654,7 +655,7 @@ If object is not a network drive, the **GetDriveShareName** method returns a zer
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsShareName AS CBSTR = pFileSys.GetDriveShareName("H:")
 ```
@@ -678,7 +679,7 @@ DOUBLE. The total space in bytes.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 PRINT pFileSys.GetDriveTotalSize("C:")
 ```
@@ -710,7 +711,7 @@ DriveType_RamDisk = 5
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDriveType AS DRIVETYPECONST = pFileSys.GetDriveType("C:")
 DIM t AS CBSTR
@@ -739,7 +740,7 @@ FUNCTION GetExtensionName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetExtensionName("C:\MyFolder\Test.txt")
 ```
@@ -775,7 +776,7 @@ The file attributes. Can be any of the following values or any logical combinati
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM lAttr FILEATTRIBUTE = pFileSys.GetFileAttributes("C:\MyPath\MyFile.txt")
 ```
@@ -799,7 +800,7 @@ DATE_. The date and time of the file creation. This is a *Date Serial* number th
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFileDateCreated("C:\MyPath\MyFile.txt")
 ```
@@ -823,7 +824,7 @@ DATE_. The date and time that the file was last accessed. This is a *Date Serial
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFileDateLastAccessed("C:\MyPath\MyFile.txt")
 ```
@@ -847,7 +848,7 @@ DATE_. The date and time that the file was last modified. This is a *Date Serial
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFileDateLastModified("C:\MyPath\MyFile.txt")
 ```
@@ -871,7 +872,7 @@ CBSTR. The file name.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetFileName("C:\MyFolder\Test.txt")
 ```
@@ -895,7 +896,7 @@ CBSTR. The short name for the specified file.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetFileShortName("C:\MyFolder\Test.txt")
 ```
@@ -919,7 +920,7 @@ CBSTR. The short path to a specific file.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetFileShortPath("C:\MyFolder\Test.txt")
 ```
@@ -943,7 +944,7 @@ LONG. The size, in bytes, of the file.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nFileSize AS LONG = pFileSys.GetFileSize("C:\MyPath\MyFile.txt")
 ```
@@ -967,7 +968,7 @@ CBSTR. The type of file.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsFileType AS CBSTR = pFileSys.GetFileType("C:\MyPath\MyFile.txt")
 ```
@@ -997,7 +998,7 @@ Note: The **GetFileVersion** method works only on the provided path string. It d
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsVersion AS CBSTR = pFileSys.GetFileVersion("C:\MyFolder\MyFile.doc")
 IF LEN(cbsVersion) THEN
@@ -1042,7 +1043,7 @@ The attributes. Can be any of the following values or any logical combination of
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM lAttr FILEATTRIBUTE = pFileSys.GetFolderAttributes("C:\MyPath")
 ```
@@ -1066,7 +1067,7 @@ DATE_. The date and time that the folder was created. This is a *Date Serial* nu
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFolderDateCreated("C:\MyPath")
 ```
@@ -1090,7 +1091,7 @@ DATE_. The date and time that the folder was last accessed. This is a *Date Seri
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFolderDateLastAccessed("C:\MyPath)
 ```
@@ -1114,7 +1115,7 @@ DATE_. The date and time that the folder was last modified. This is a *Date Seri
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nDate AS DATE_ = pFileSys.GetFolderDateLastModified("C:\MyPath)
 ```
@@ -1138,7 +1139,7 @@ CBSTR. The drive letter of the folder.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsDriveLetter AS CBSTR = pFileSys.GetFolderDriveLetter("c:\MyFolder)
 ```
@@ -1162,7 +1163,7 @@ CBSTR. The name of the folder.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetFolderName("C:\MyFolder\Test.txt")
 ```
@@ -1186,7 +1187,7 @@ CBSTR. The short name for the specified folder.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsFolderShortPath AS CBSTR = pFileSys.GetFolderShortName("c:\MyFolder)
 ```
@@ -1210,7 +1211,7 @@ CBSTR. The short path for the specified folder.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsFolderShortPath AS CBSTR = pFileSys.GetFolderShortPath("c:\MyFolder)
 ```
@@ -1234,7 +1235,7 @@ LONG. The size, in bytes, of all files and subfolders contained in the folder.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nFolderSize AS LONG = pFileSys.GetFolderSize("C:\MyPath")
 ```
@@ -1258,7 +1259,7 @@ CBSTR. The type of folder.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsFolderType AS CBSTR = pFileSys.GetFolderType("c:\MyFolder)
 ```
@@ -1278,7 +1279,7 @@ LONG. The number of drives.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM numDrives AS LONG = pFileSys.GetNumDrives
 ```
@@ -1302,7 +1303,7 @@ LONG. The number of files.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM numFiles AS LONG = pFileSys.GetNumFiles("C:\MyFolder")
 ```
@@ -1326,7 +1327,7 @@ LONG. The number of subfolders.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM numSubFolders AS LONG = pFileSys.GetNumSubFolders("C:\MyFolder")
 ```
@@ -1350,7 +1351,7 @@ CBSTR. The name of the parent folder, or a empty string if the folder has no par
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsParentFolderName AS CBSTR = pFileSys.GetParentFolderName("C:\MyFolder\MySubfolder")
 ```
@@ -1378,7 +1379,7 @@ You can use the **GetSerialNumber** method to ensure that the correct disk is in
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM nSerialNumber AS LONG = pFileSys.GetSerialNumber("C:")
 ```
@@ -1414,7 +1415,7 @@ The nStreamType argument can have any of the following settings:
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStandardStream(StandardStreamTypes_StdOut)
 ```
@@ -1438,7 +1439,7 @@ A pointer to the *ITextStream* interface of the standard error stream.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStdErrStream
 ```
@@ -1462,7 +1463,7 @@ A pointer to the *ITextStream* interface of the standard input stream.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStdInStream
 ```
@@ -1486,7 +1487,7 @@ A pointer to the *ITextStream* interface of the standard output stream.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM pStm AS Afx_ITextStream PTR = pFileSys.GetStdOutStream
 ```
@@ -1509,7 +1510,7 @@ The **GetTempName** method does not create a file. It provides only a temporary 
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetTempName
 ```
@@ -1533,7 +1534,7 @@ CBSTR. The volume name.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM cbsVolumeName AS CBSTR = pFileSys.GetVolumeName("C:")
 ```
@@ -1561,7 +1562,7 @@ For removable-media drives and CD-ROM drives, **IsDriveReady** returns True only
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM bIsReady AS BOOLEAN = pFileSys.IsDriveReady("C:")
 ```
@@ -1585,7 +1586,7 @@ BOOLEAN. True(-1) if the specified folder is the root folder; False(0) if it is 
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 DIM bIsRoot AS BOOLEAN = pFileSys.IsRootFolder("C:\MyFolder")
 ```
@@ -1610,7 +1611,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.MoveFile("C:\MyFolder\MyFile.txt", "C:\MyOtherFolder\")
 ```
@@ -1635,7 +1636,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.MoveFolder("C:\MyFolder", "C:\MyNewFolder\")
 ```
@@ -1672,7 +1673,7 @@ The file attributes. Can be any of the following values or any logical combinati
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.SetFileAttributes("C:\MyPath\MyFile.txt", 33)   ' FileAttribute_Archive OR FileAttribute_Normal
 ```
@@ -1701,7 +1702,7 @@ You only have to pass the new name of the file, not the full path.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.SetFileName("c:\MyFolder\Test.txt", "NewName")
 ```
@@ -1738,7 +1739,7 @@ The *lAttr* argument can have any of the following values or any logical combina
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.SetFolderAttributes("C:\MyPath\MyFile.txt", 17)   ' FileAttribute_Directory OR FileAttribute_ReadOnly
 ```
@@ -1767,7 +1768,7 @@ You only have to pass the new name of the folder, not the full path.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.SetFolderName("c:\MyFolder", "NewName")
 ```
@@ -1792,7 +1793,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 #### Usage example
 
 ```
-#INCLUDE ONCE "Afx/CFileSys.inc"
+#INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
 pFileSys.SetVolumeName("C:", "VolumeName")
 ```
