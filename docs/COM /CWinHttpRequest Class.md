@@ -50,7 +50,7 @@ Wrapper class for Microsoft WinHTTP Services, version 5.1
 | [WinHttpRequestAutoLogonPolicy](#winhttprequestautologonpolicy) | Includes possible settings for the Automatic Logon Policy. |
 | [WinHttpRequestOption](#winhttprequestoption) | Includes options that can be set or retrieved for the current Microsoft Windows HTTP Services (WinHTTP) session. |
 | [WinHttpRequestSecureProtocols](#winhttprequestsecureprotocols) | Type of secure protocol. |
-| [WinHttpRequestSslErrorFlags](#winhttprequestssierrorflags) | SSL certificate errors. |
+| [WinHttpRequestSslErrorFlags](#winhttprequestsslerrorflags) | SSL certificate errors. |
 
 ---
 
@@ -787,7 +787,7 @@ SSL certificate errors.
 | **SslErrorFlag_CertDateInvalid** | Invalid date or certificate expired. |
 | **SslErrorFlag_Ignore_All** | Ignore all. |
 
-# <a name="HTTPStatusCodes"></a>HTTP Status Codes
+# <a name="httpstatuscodes"></a>HTTP Status Codes
 
 These constants and corresponding values indicate HTTP status codes returned by servers on the Internet.
 
