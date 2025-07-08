@@ -109,6 +109,7 @@ Returns a description of the last result code.
 ```
 FUNCTION GetErrorInfo () AS DWSTRING
 ```
+---
 
 ## BuildPath
 
