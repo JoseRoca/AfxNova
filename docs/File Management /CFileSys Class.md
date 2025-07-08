@@ -393,25 +393,26 @@ DIM fExists AS BOOLEAN = pFileSys.DriveExists("C:")
 ```
 ---
 
-# <a name="DriveLetters"></a>DriveLetters
+## DriveLetters
 
 Returns a semicolon separated list with the driver letters.
 
 ```
-FUNCTION DriveLetters () AS CBSTR
+FUNCTION DriveLetters () AS DWSTRING
 ```
 
 #### Return value
 
-CBSTR. A semicolon separated list with the driver letters.
+A semicolon separated list with the driver letters.
 
 #### Usage example
 
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsLetters AS CBSTR = pFileSys.DriveLetters
+DIM dwsLetters AS DWSTRING = pFileSys.DriveLetters
 ```
+---
 
 # <a name="FileExists"></a>FileExists
 
