@@ -125,10 +125,6 @@ FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 
 ---
 
-#### Return value
-
-HRESULT. S_OK (0) on success, or an error code on failure.
-
 ## GetErrorInfo
 
 Returns a description of the last result code.
