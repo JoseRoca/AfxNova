@@ -414,17 +414,17 @@ DIM dwsLetters AS DWSTRING = pFileSys.DriveLetters
 ```
 ---
 
-# <a name="FileExists"></a>FileExists
+## FileExists
 
 Returns True if the specified file exists; False if it does not.
 
 ```
-FUNCTION FileExists (BYREF cbsFileSpec AS CBSTR) AS BOOLEAN
+FUNCTION FileExists (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFileSpec* | CBSTR. The name of the file whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the file isn't expected to exist in the current folder. |
+| *wszFileSpec* | CBSTR. The name of the file whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the file isn't expected to exist in the current folder. |
 
 #### Return value
 
@@ -437,18 +437,19 @@ Boolean. True if the specified file exists; False if it does not.
 DIM pFileSys AS CFileSys
 DIM fExists AS BOOLEAN = pFileSys.FileExists("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="FolderExists"></a>FolderExists
+## FolderExists
 
 Returns True if the specified folder exists; False if it does not.
 
 ```
-FUNCTION FolderExists (BYREF cbsFolderSpec AS CBSTR) AS BOOLEAN
+FUNCTION FolderExists (BYREF wszFolderSpec AS WSTRING) AS BOOLEAN
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsFolderSpec* | CBSTR. The name of the folder whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the folder isn't expected to exist in the current folder. |
+| *wszFolderSpec* | CBSTR. The name of the folder whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the folder isn't expected to exist in the current folder. |
 
 #### Return value
 
@@ -461,18 +462,19 @@ Boolean. True if the specified folder exists; False if it does not.
 DIM pFileSys AS CFileSys
 DIM fExists AS BOOLEAN = pFileSys.FolderExists("C:\MyFolder")
 ```
+---
 
-# <a name="GetAbsolutePathName"></a>GetAbsolutePathName
+## GetAbsolutePathName
 
 Returns complete and unambiguous path from a provided path specification.
 
 ```
-FUNCTION GetAbsolutePathName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetAbsolutePathName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPathSpec* | CBSTR. Path specification to change to a complete and unambiguous path. |
+| *wszPathSpec* | Path specification to change to a complete and unambiguous path. |
 
 #### Return value
 
@@ -500,18 +502,19 @@ Assuming the current directory is c:\mydocuments\reports, the following table il
 DIM pFileSys AS CFileSys
 DIM cbsName AS CBSTR = pFileSys.GetAbsolutePathName("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="GetBaseName"></a>GetBaseName
+## GetBaseName
 
 Returns a string containing the base name of the last component, less any file extension, in a path
 
 ```
-FUNCTION GetBaseName (BYREF cbsPathSpec AS CBSTR) AS CBSTR
+FUNCTION GetBaseName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsPathSpec* | CBSTR. The path specification for the component whose base name is to be returned. |
+| *wszPathSpec* | The path specification for the component whose base name is to be returned. |
 
 #### Return value
 
@@ -528,18 +531,19 @@ The **GetBaseName** method returns a zero-length string ("") if no component mat
 DIM pFileSys AS CFileSys
 DIM cwsName AS CWSTR = pFileSys.GetBaseName("C:\MyFolder\Test.txt")
 ```
+---
 
-# <a name="GetDriveAvailableSpace"></a>GetDriveAvailableSpace
+## GetDriveAvailableSpace
 
 Returns the amount of space available to a user on the specified drive or network share.
 
 ```
-FUNCTION GetDriveAvailableSpace (BYREF cbsDrive AS CBSTR) AS DOUBLE
+FUNCTION GetDriveAvailableSpace (BYREF wszDrive AS WSTRING) AS DOUBLE
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -556,22 +560,23 @@ The value returned by the **GetDriveAvailableSpace** method is typically the sam
 DIM pFileSys AS CFileSys
 PRINT pFileSys.GetDriveAvailableSpace("C:")
 ```
+---
 
-# <a name="GetDriveFileSystem"></a>GetDriveFileSystem
+## GetDriveFileSystem
 
 Returns the type of file system in use for the specified drive or network share.
 
 ```
-FUNCTION GetDriveFileSystem (BYREF cbsDrive AS CBSTR) AS CBSTR
+FUNCTION GetDriveFileSystem (BYREF wszDrive AS WSTRING) AS DWSTRING
 ```
 
 | Name       | Description |
 | ---------- | ----------- |
-| *cbsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
-CBSTR. The type of file system in use.
+The type of file system in use.
 
 #### Remarks
 
@@ -582,8 +587,9 @@ Available return types include FAT, NTFS, and CDFS.
 ```
 #INCLUDE ONCE "AfxNova/CFileSys.inc"
 DIM pFileSys AS CFileSys
-DIM cbsFileSystem AS CBSTR = pFileSys.GetDriveFileSystem("C:")
+DIM dwsFileSystem AS DWSTRING = pFileSys.GetDriveFileSystem("C:")
 ```
+---
 
 # <a name="GetDriveFreeSpace"></a>GetDriveFreeSpace
 
