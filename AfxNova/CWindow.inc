@@ -98,6 +98,12 @@ TYPE AFX_ANCHORPROPERTY
    centerY AS LONG
 END TYPE
 
+' // Controls user data
+TYPE AFX_CTLUSERDATA
+   hCtl AS HWND
+   Values (0 TO 9) AS LONG_PTR
+END TYPE
+
 ' ========================================================================================
 ' CWindow class
 ' ========================================================================================
@@ -106,7 +112,7 @@ TYPE CWindow
 Private:
    m_hwnd AS HWND                                  ' // Window handle
    m_hInstance AS HINSTANCE                        ' // Instance handle
-   m_pfnWndProc AS WNDPROC                         ' // User window proc
+   m_pUserWndProc AS WNDPROC                       ' // User window procedure
    m_hFont AS HFONT                                ' // Default font handle
    m_hAccel AS HACCEL                              ' // Accelerator table handle
    m_DPI AS LONG = 96                              ' // Design-time DPI
@@ -116,12 +122,12 @@ Private:
    m_wszClassName AS WSTRING * 260                 ' // Class name
    m_DefaultFontSize AS LONG                       ' // Default font size
    m_wszDefaultFontName AS WSTRING * LF_FACESIZE   ' // Default font name
-   DIM m_rgUserData(0 TO 99) AS LONG_PTR
-   DIM m_rgAccelEntries(ANY) AS ACCEL
    m_hRichEditLib AS HMODULE                       ' // Rich Edit moudle handle
-'      m_pScrollWindow AS CScrollWindow PTR            ' // Pointer to the scroll window class
-   ' // Layout manager
-   DIM m_rgProps(ANY) AS AFX_ANCHORPROPERTY     ' // Array of anchor property structures
+'   m_pScrollWindow AS CScrollWindow PTR            ' // Pointer to the scroll window class
+   DIM m_rgUserData(0 TO 99) AS LONG_PTR           ' // User data
+   DIM m_rgAccelEntries(ANY) AS ACCEL              ' // Accelerator table
+   DIM m_rgProps(ANY) AS AFX_ANCHORPROPERTY        ' // Array of anchor property structures
+   DIM m_rgCtrlUserData(ANY) AS AFX_CTLUSERDATA    ' // Control's user data
 
 Public:
    DECLARE CONSTRUCTOR (BYREF wszClassName AS CONST WSTRING = "")
@@ -219,6 +225,11 @@ Public:
    DECLARE FUNCTION GetAnchorItem (BYVAL hwndCtl AS HWND) AS LONG
    DECLARE FUNCTION AdjustControls () AS BOOLEAN
 
+   '// Control's user data
+   DECLARE FUNCTION GetUserDataItem (BYVAL cid AS LONG) AS LONG
+   DECLARE FUNCTION ControlSetUser (BYVAL cid AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
+   DECLARE FUNCTION ControlGetUser (BYVAL cid AS LONG, BYVAL index AS LONG) AS LONG_PTR
+
 Private:
    DECLARE STATIC FUNCTION LayoutEnumChildProc (BYVAL hwnd AS HWND, BYVAL lParam AS LPARAM) AS LONG
 
@@ -236,7 +247,6 @@ DECLARE FUNCTION AfxCWindowPtr OVERLOAD (BYVAL hwnd AS HWND) AS CWindow PTR
 DECLARE FUNCTION AfxCWindowPtr OVERLOAD (BYVAL lParam AS LPARAM) AS CWindow PTR
 DECLARE FUNCTION AfxCWindowPtr OVERLOAD (BYVAL pCreateStruct AS CREATESTRUCT PTR) AS CWindow PTR
 DECLARE FUNCTION AfxCWindowOwnerPtr OVERLOAD (BYVAL hwnd AS HWND) AS CWindow PTR
-
 
 ' ========================================================================================
 ' Registers the window class.
@@ -379,10 +389,6 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
 '            ' ...
 '            ' ...
 '         END SELECT
-
-      CASE WM_DESTROY
-         ' // Close the main window
-         PostQuitMessage(0)
 
    END SELECT
 
@@ -546,7 +552,7 @@ PRIVATE FUNCTION CWindow.Create (BYVAL hParent AS HWND = NULL, BYREF wszTitle AS
 
    IF m_hwnd <> NULL THEN EXIT FUNCTION
    ' // User window callback procedure
-   m_pfnWndProc = lpfnWndProc
+   m_pUserWndProc = lpfnWndProc
    ' // Internal window callback procedure
    lpfnWndProc = @CWindow_WindowProc
    ' // Register the class
@@ -610,7 +616,7 @@ END SUB
 ' Return the Window procedure function pointer
 ' =====================================================================================
 PRIVATE FUNCTION CWindow.GetWindowProc () AS WNDPROC
-   FUNCTION = m_pfnWndProc
+   FUNCTION = m_pUserWndProc
 END FUNCTION
 ' =====================================================================================
 
@@ -1605,6 +1611,10 @@ PRIVATE FUNCTION CWindow.AddControl ( _
 END FUNCTION
 ' =====================================================================================
 
+' ########################################################################################
+'                               *** ACCELERATOR TABLE ***
+' ########################################################################################
+
 ' =====================================================================================
 ' Gets/Sets the accelerator table handle
 ' =====================================================================================
@@ -1656,6 +1666,53 @@ PRIVATE SUB CWindow.DestroyAcceleratorTable
    m_hAccel = NULL
 END SUB
 ' =====================================================================================
+
+' ########################################################################################
+'                             *** CONTROL'S USER DATA ***
+' ########################################################################################
+
+' ========================================================================================
+' Gets the control user data item
+' Return Value: The array index on success, or -1 on failure.
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetUserDataItem (BYVAL cID AS LONG) AS LONG
+   FUNCTION = -1
+   Dim hCtl AS HWND = GetDlgItem(m_hWnd, cID)
+   FOR i AS LONG = 0 TO UBOUND(m_rgCtrlUserData)
+      IF m_rgCtrlUserData(i).hCtl = hCtl THEN FUNCTION = i : EXIT FOR
+   NEXT
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the control's user data
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlSetUser (BYVAL cID AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
+   IF index < 0 OR index > 9 THEN RETURN FALSE
+   DIM hCtl AS HWND = GetDlgItem(m_hWnd, CID)
+   IF IsWindow(hCtl) = FALSE THEN RETURN FALSE
+   ' // Check if the element already exists
+   DIM nItem AS LONG = this.GetUserDataItem(cID)
+   ' // If it does not exist, make room for it
+   IF nItem = -1 THEN
+      REDIM PRESERVE m_rgCtrlUserData(UBOUND(m_rgCtrlUserData) + 1) AS AFX_CTLUSERDATA
+      nItem = UBOUND(m_rgCtrlUserData)
+   END IF
+   m_rgCtrlUserData(nItem).hCtl = hCtl
+   m_rgCtrlUserData(nItem).Values(index) = userValue
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Sets the colors of the control
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlGetUser (BYVAL cID AS LONG, BYVAL index AS LONG) AS LONG_PTR
+   IF index < 0 OR index > 9 THEN RETURN FALSE
+   DIM hCtl AS HWND = GetDlgItem(m_hWnd, cID)
+   DIM nItem AS LONG = this.GetUserDataItem(cID)
+   IF nItem > -1 THEN RETURN m_rgCtrlUserData(nItem).Values(index)
+END FUNCTION
+' ========================================================================================
 
 ' ########################################################################################
 '                               *** LAYOUT MANAGER ***
