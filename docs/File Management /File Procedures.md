@@ -556,6 +556,8 @@ FUNCTION AfxGetExePathName () AS DWSTRING
 
 The path name has a trailing backslash.
 
+---
+
 # <a name="AfxGetDriveType"></a>AfxGetDriveType
 
 Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
