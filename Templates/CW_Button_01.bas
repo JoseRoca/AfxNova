@@ -73,10 +73,13 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          SELECT CASE CBCTL(wParam, lParam)
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
-               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
-                  SendMessageW hwnd, WM_CLOSE, 0, 0
-               END IF
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN SendMessageW(hwnd, WM_CLOSE, 0, 0)
          END SELECT
+         RETURN 0
+
+      CASE WM_DESTROY
+         ' // End the application by sending an WM_QUIT message
+         PostQuitMessage(0)
          RETURN 0
 
    END SELECT
