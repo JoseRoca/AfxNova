@@ -71,115 +71,157 @@ USING AfxNova
 
 NAMESPACE AfxNova
 
+' // Layout manager - Anchor flags
+ENUM AFX_ANCHORPOINT
+   AFX_ANCHOR_NONE =  0
+   AFX_ANCHOR_WIDTH
+   AFX_ANCHOR_RIGHT
+   AFX_ANCHOR_CENTER_HORZ
+   AFX_ANCHOR_HEIGHT
+   AFX_ANCHOR_HEIGHT_WIDTH
+   AFX_ANCHOR_HEIGHT_RIGHT
+   AFX_ANCHOR_BOTTOM
+   AFX_ANCHOR_BOTTOM_WIDTH
+   AFX_ANCHOR_BOTTOM_RIGHT
+   AFX_ANCHOR_CENTER_HORZ_BOTTOM
+   AFX_ANCHOR_CENTER_VERT
+   AFX_ANCHOR_CENTER_VERT_RIGHT
+   AFX_ANCHOR_CENTER
+END ENUM
+
+' // Layout manager - Anchor properties
+TYPE AFX_ANCHORPROPERTY
+   hwndCtl AS HWND
+   anchor  AS LONG
+   rc      AS RECT
+   centerX AS LONG
+   centerY AS LONG
+END TYPE
+
 ' ========================================================================================
 ' CWindow class
 ' ========================================================================================
 TYPE CWindow
 
-   Private:
-      m_hwnd AS HWND                                  ' // Window handle
-      m_hInstance AS HINSTANCE                        ' // Instance handle
-      m_pfnWndProc AS WNDPROC                         ' // User window proc
-      m_hFont AS HFONT                                ' // Default font handle
-      m_hAccel AS HACCEL                              ' // Accelerator table handle
-      m_DPI AS LONG = 96                              ' // Design-time DPI
-      m_rx AS SINGLE = 1                              ' // Horizontal scaling ratio
-      m_ry AS SINGLE = 1                              ' // Vertical scaling ratio
-      m_wAtom AS ATOM                                 ' // Class atom
-      m_wszClassName AS WSTRING * 260                 ' // Class name
-      m_DefaultFontSize AS LONG                       ' // Default font size
-      m_wszDefaultFontName AS WSTRING * LF_FACESIZE   ' // Default font name
-      DIM m_rgUserData(0 TO 99) AS LONG_PTR
-      DIM m_rgAccelEntries(ANY) AS ACCEL
-      m_hRichEditLib AS HMODULE                       ' // Rich Edit moudle handle
+Private:
+   m_hwnd AS HWND                                  ' // Window handle
+   m_hInstance AS HINSTANCE                        ' // Instance handle
+   m_pfnWndProc AS WNDPROC                         ' // User window proc
+   m_hFont AS HFONT                                ' // Default font handle
+   m_hAccel AS HACCEL                              ' // Accelerator table handle
+   m_DPI AS LONG = 96                              ' // Design-time DPI
+   m_rx AS SINGLE = 1                              ' // Horizontal scaling ratio
+   m_ry AS SINGLE = 1                              ' // Vertical scaling ratio
+   m_wAtom AS ATOM                                 ' // Class atom
+   m_wszClassName AS WSTRING * 260                 ' // Class name
+   m_DefaultFontSize AS LONG                       ' // Default font size
+   m_wszDefaultFontName AS WSTRING * LF_FACESIZE   ' // Default font name
+   DIM m_rgUserData(0 TO 99) AS LONG_PTR
+   DIM m_rgAccelEntries(ANY) AS ACCEL
+   m_hRichEditLib AS HMODULE                       ' // Rich Edit moudle handle
 '      m_pScrollWindow AS CScrollWindow PTR            ' // Pointer to the scroll window class
+   ' // Layout manager
+   DIM m_rgProps(ANY) AS AFX_ANCHORPROPERTY     ' // Array of anchor property structures
 
-   Public:
-      DECLARE CONSTRUCTOR (BYREF wszClassName AS CONST WSTRING = "")
-      DECLARE DESTRUCTOR
-      DECLARE PROPERTY DPI () AS SINGLE
-      DECLARE PROPERTY DPI (BYVAL dpi AS SINGLE)
-      DECLARE PROPERTY UserData (BYVAL idx AS LONG) AS LONG_PTR
-      DECLARE PROPERTY UserData (BYVAL idx AS LONG, BYVAL newValue AS LONG_PTR)
-      DECLARE FUNCTION DoEvents (BYVAL nCmdShow AS LONG = 0) AS LONG
-      DECLARE FUNCTION Create (BYVAL hParent AS HWND = NULL, BYREF wszTitle AS WSTRING = "", BYVAL lpfnWndProc AS WNDPROC = NULL, _
-         BYVAL x AS LONG = CW_USEDEFAULT, BYVAL y AS LONG = CW_USEDEFAULT, BYVAL nWidth AS LONG = CW_USEDEFAULT, BYVAL nHeight AS LONG = CW_USEDEFAULT, _
-         BYVAL dwStyle AS DWORD = WS_OVERLAPPEDWINDOW OR WS_CLIPCHILDREN OR WS_CLIPSIBLINGS, _
-         BYVAL dwExStyle AS DWORD = WS_EX_CONTROLPARENT OR WS_EX_WINDOWEDGE) AS HWND
-      DECLARE FUNCTION CreateOverlapped (BYVAL hParent AS HWND = NULL, BYREF wszTitle AS WSTRING = "", BYVAL lpfnWndProc AS WNDPROC = NULL, _
-         BYVAL x AS LONG = CW_USEDEFAULT, BYVAL y AS LONG = CW_USEDEFAULT, BYVAL nWidth AS LONG = CW_USEDEFAULT, BYVAL nHeight AS LONG = CW_USEDEFAULT, _
-         BYVAL dwExStyle AS UINT = WS_EX_CONTROLPARENT OR WS_EX_WINDOWEDGE) AS HWND
-      DECLARE SUB SetClientSize (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
-      DECLARE SUB Center (BYVAL hwnd AS HWND = NULL, BYVAL hwndParent AS HWND = NULL)
-      DECLARE FUNCTION GetWindowProc () AS WNDPROC
-      DECLARE PROPERTY hWindow () AS HWND
-      DECLARE PROPERTY hWindow (BYVAL hwnd AS HWND)
-      DECLARE PROPERTY InstanceHandle () AS HINSTANCE
-      DECLARE PROPERTY InstanceHandle (BYVAL hInst AS HINSTANCE)
-      DECLARE PROPERTY ClassStyle () AS ULONG_PTR
-      DECLARE PROPERTY ClassStyle (BYVAL dwStyle AS ULONG_PTR)
-      DECLARE PROPERTY WindowStyle () AS ULONG_PTR
-      DECLARE PROPERTY WindowStyle (BYVAL dwStyle AS ULONG_PTR)
-      DECLARE PROPERTY WindowExStyle () AS ULONG_PTR
-      DECLARE PROPERTY WindowExStyle (BYVAL dwExStyle AS ULONG_PTR)
-      DECLARE PROPERTY DefaultFontName () AS STRING
-      DECLARE PROPERTY DefaultFontName (BYREF wszFontName AS WSTRING)
-      DECLARE PROPERTY DefaultFontSize () AS LONG
-      DECLARE PROPERTY DefaultFontSize (BYVAL nPointSize AS LONG)
-      DECLARE PROPERTY Font () AS HFONT
-      DECLARE PROPERTY Font (BYVAL hFont AS HFONT)
-      DECLARE PROPERTY Brush () AS HBRUSH
-      DECLARE PROPERTY Brush (BYVAL hbrBackground AS HBRUSH)
-      DECLARE PROPERTY BigIcon (BYVAL hIcon AS HICON)
-      DECLARE PROPERTY SmallIcon (BYVAL hIcon AS HICON)
-      DECLARE PROPERTY rxRatio () AS SINGLE
-      DECLARE PROPERTY rxRatio (BYVAL rx AS SINGLE)
-      DECLARE PROPERTY ryRatio (BYVAL rx AS SINGLE)
-      DECLARE PROPERTY ryRatio () AS SINGLE
-      DECLARE FUNCTION ScaleX (BYVAL cx AS SINGLE) AS SINGLE
-      DECLARE FUNCTION ScaleY (BYVAL cy AS SINGLE) AS SINGLE
-      DECLARE FUNCTION UnScaleX (BYVAL cx AS SINGLE) AS SINGLE
-      DECLARE FUNCTION UnScaleY (BYVAL cy AS SINGLE) AS SINGLE
-      DECLARE PROPERTY Width () AS LONG
-      DECLARE PROPERTY Height () AS LONG
-      DECLARE PROPERTY ScreenX () AS LONG
-      DECLARE PROPERTY ScreenY () AS LONG
-      DECLARE PROPERTY ClientHeight () AS LONG
-      DECLARE PROPERTY ClientWidth () AS LONG
-      DECLARE PROPERTY ControlWidth (BYVAL hwnd AS HWND) AS LONG
-      DECLARE PROPERTY ControlHeight (BYVAL hwnd AS HWND) AS LONG
-      DECLARE PROPERTY ControlClientWidth (BYVAL hwnd AS HWND) AS LONG
-      DECLARE PROPERTY ControlClientHeight (BYVAL hwnd AS HWND) AS LONG
-      DECLARE SUB GetWindowRect OVERLOAD (BYVAL lpRect AS LPRECT)
-      DECLARE FUNCTION GetWindowRect OVERLOAD () AS RECT
-      DECLARE SUB GetClientRect OVERLOAD (BYVAL lpRect AS LPRECT)
-      DECLARE FUNCTION GetClientRect OVERLOAD () AS RECT
-      DECLARE SUB GetControlWindowRect OVERLOAD (BYVAL hwnd AS HWND, BYVAL lpRect AS LPRECT)
-      DECLARE FUNCTION GetControlWindowRect OVERLOAD (BYVAL hwnd AS HWND) AS RECT
-      DECLARE SUB GetControlClientRect OVERLOAD (BYVAL hwnd AS HWND, BYVAL lpRect AS LPRECT)
-      DECLARE FUNCTION GetControlClientRect OVERLOAD (BYVAL hwnd AS HWND) AS RECT
-      DECLARE SUB GetWorkArea OVERLOAD (BYVAL lpRect AS LPRECT)
-      DECLARE FUNCTION GetWorkArea OVERLOAD () AS RECT
-      DECLARE FUNCTION ControlHandle (BYVAL cID AS LONG) AS HWND
+Public:
+   DECLARE CONSTRUCTOR (BYREF wszClassName AS CONST WSTRING = "")
+   DECLARE DESTRUCTOR
+   DECLARE PROPERTY DPI () AS SINGLE
+   DECLARE PROPERTY DPI (BYVAL dpi AS SINGLE)
+   DECLARE PROPERTY UserData (BYVAL idx AS LONG) AS LONG_PTR
+   DECLARE PROPERTY UserData (BYVAL idx AS LONG, BYVAL newValue AS LONG_PTR)
+   DECLARE FUNCTION DoEvents (BYVAL nCmdShow AS LONG = 0) AS LONG
+   DECLARE FUNCTION Create (BYVAL hParent AS HWND = NULL, BYREF wszTitle AS WSTRING = "", BYVAL lpfnWndProc AS WNDPROC = NULL, _
+      BYVAL x AS LONG = CW_USEDEFAULT, BYVAL y AS LONG = CW_USEDEFAULT, BYVAL nWidth AS LONG = CW_USEDEFAULT, BYVAL nHeight AS LONG = CW_USEDEFAULT, _
+      BYVAL dwStyle AS DWORD = WS_OVERLAPPEDWINDOW OR WS_CLIPCHILDREN OR WS_CLIPSIBLINGS, _
+      BYVAL dwExStyle AS DWORD = WS_EX_CONTROLPARENT OR WS_EX_WINDOWEDGE) AS HWND
+   DECLARE FUNCTION CreateOverlapped (BYVAL hParent AS HWND = NULL, BYREF wszTitle AS WSTRING = "", BYVAL lpfnWndProc AS WNDPROC = NULL, _
+      BYVAL x AS LONG = CW_USEDEFAULT, BYVAL y AS LONG = CW_USEDEFAULT, BYVAL nWidth AS LONG = CW_USEDEFAULT, BYVAL nHeight AS LONG = CW_USEDEFAULT, _
+      BYVAL dwExStyle AS UINT = WS_EX_CONTROLPARENT OR WS_EX_WINDOWEDGE) AS HWND
+   DECLARE SUB SetClientSize (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
+   DECLARE SUB Center (BYVAL hwnd AS HWND = NULL, BYVAL hwndParent AS HWND = NULL)
+   DECLARE FUNCTION GetWindowProc () AS WNDPROC
+   DECLARE PROPERTY hWindow () AS HWND
+   DECLARE PROPERTY hWindow (BYVAL hwnd AS HWND)
+   DECLARE PROPERTY InstanceHandle () AS HINSTANCE
+   DECLARE PROPERTY InstanceHandle (BYVAL hInst AS HINSTANCE)
+   DECLARE PROPERTY ClassStyle () AS ULONG_PTR
+   DECLARE PROPERTY ClassStyle (BYVAL dwStyle AS ULONG_PTR)
+   DECLARE PROPERTY WindowStyle () AS ULONG_PTR
+   DECLARE PROPERTY WindowStyle (BYVAL dwStyle AS ULONG_PTR)
+   DECLARE PROPERTY WindowExStyle () AS ULONG_PTR
+   DECLARE PROPERTY WindowExStyle (BYVAL dwExStyle AS ULONG_PTR)
+   DECLARE PROPERTY DefaultFontName () AS STRING
+   DECLARE PROPERTY DefaultFontName (BYREF wszFontName AS WSTRING)
+   DECLARE PROPERTY DefaultFontSize () AS LONG
+   DECLARE PROPERTY DefaultFontSize (BYVAL nPointSize AS LONG)
+   DECLARE PROPERTY Font () AS HFONT
+   DECLARE PROPERTY Font (BYVAL hFont AS HFONT)
+   DECLARE PROPERTY Brush () AS HBRUSH
+   DECLARE PROPERTY Brush (BYVAL hbrBackground AS HBRUSH)
+   DECLARE PROPERTY BigIcon (BYVAL hIcon AS HICON)
+   DECLARE PROPERTY SmallIcon (BYVAL hIcon AS HICON)
+   DECLARE PROPERTY rxRatio () AS SINGLE
+   DECLARE PROPERTY rxRatio (BYVAL rx AS SINGLE)
+   DECLARE PROPERTY ryRatio (BYVAL rx AS SINGLE)
+   DECLARE PROPERTY ryRatio () AS SINGLE
+   DECLARE FUNCTION ScaleX (BYVAL cx AS SINGLE) AS SINGLE
+   DECLARE FUNCTION ScaleY (BYVAL cy AS SINGLE) AS SINGLE
+   DECLARE FUNCTION UnScaleX (BYVAL cx AS SINGLE) AS SINGLE
+   DECLARE FUNCTION UnScaleY (BYVAL cy AS SINGLE) AS SINGLE
+   DECLARE PROPERTY Width () AS LONG
+   DECLARE PROPERTY Height () AS LONG
+   DECLARE PROPERTY ScreenX () AS LONG
+   DECLARE PROPERTY ScreenY () AS LONG
+   DECLARE PROPERTY ClientHeight () AS LONG
+   DECLARE PROPERTY ClientWidth () AS LONG
+   DECLARE PROPERTY ControlWidth (BYVAL hwnd AS HWND) AS LONG
+   DECLARE PROPERTY ControlHeight (BYVAL hwnd AS HWND) AS LONG
+   DECLARE PROPERTY ControlClientWidth (BYVAL hwnd AS HWND) AS LONG
+   DECLARE PROPERTY ControlClientHeight (BYVAL hwnd AS HWND) AS LONG
+   DECLARE SUB GetWindowRect OVERLOAD (BYVAL lpRect AS LPRECT)
+   DECLARE FUNCTION GetWindowRect OVERLOAD () AS RECT
+   DECLARE SUB GetClientRect OVERLOAD (BYVAL lpRect AS LPRECT)
+   DECLARE FUNCTION GetClientRect OVERLOAD () AS RECT
+   DECLARE SUB GetControlWindowRect OVERLOAD (BYVAL hwnd AS HWND, BYVAL lpRect AS LPRECT)
+   DECLARE FUNCTION GetControlWindowRect OVERLOAD (BYVAL hwnd AS HWND) AS RECT
+   DECLARE SUB GetControlClientRect OVERLOAD (BYVAL hwnd AS HWND, BYVAL lpRect AS LPRECT)
+   DECLARE FUNCTION GetControlClientRect OVERLOAD (BYVAL hwnd AS HWND) AS RECT
+   DECLARE SUB GetWorkArea OVERLOAD (BYVAL lpRect AS LPRECT)
+   DECLARE FUNCTION GetWorkArea OVERLOAD () AS RECT
+   DECLARE FUNCTION ControlHandle (BYVAL cID AS LONG) AS HWND
 '      DECLARE PROPERTY ScrollWindowPtr () AS CScrollWindow PTR
 '      DECLARE PROPERTY ScrollWindowPtr (BYVAL pScrollWindow AS CScrollWindow PTR)
-      DECLARE SUB Resize ()
-      DECLARE FUNCTION SetWindowPos (BYVAL hwnd AS HWND, BYVAL hwndInsertAfter AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL uFlags AS UINT) AS BOOLEAN
-      DECLARE FUNCTION MoveWindow (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN) AS BOOLEAN
-      DECLARE FUNCTION CreateFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL lWeight AS LONG = 0, _
-              BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS HFONT
-      DECLARE FUNCTION SetFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL lWeight AS LONG = 0, _
-              BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS BOOLEAN
-      DECLARE FUNCTION AddControl (BYREF wszClassName AS WSTRING, BYVAL hParent AS HWND = NULL, BYVAL cID AS LONG_PTR = 0, _
-              BYREF wszTitle AS WSTRING = "", BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, _
-              BYVAL nHeight AS LONG = 0, BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0, _
-              BYVAL pWndProc AS SUBCLASSPROC = NULL, BYVAL uIdSubclass AS UINT_PTR = &HFFFFFFFF, BYVAL dwRefData AS DWORD_PTR = NULL) AS HWND
-      DECLARE PROPERTY AccelHandle () AS HACCEL
-      DECLARE PROPERTY AccelHandle (BYVAL hAccel AS HACCEL)
-      DECLARE SUB AddAccelerator OVERLOAD (BYVAL fvirt AS UBYTE, BYVAL wKey AS WORD, BYVAL cmd AS WORD)
-      DECLARE SUB AddAccelerator OVERLOAD (BYVAL fvirt AS UBYTE, BYREF wszKey AS WSTRING, BYVAL cmd AS WORD)
-      DECLARE FUNCTION CreateAcceleratorTable () AS HACCEL
-      DECLARE SUB DestroyAcceleratorTable ()
+   DECLARE SUB Resize ()
+   DECLARE FUNCTION SetWindowPos (BYVAL hwnd AS HWND, BYVAL hwndInsertAfter AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL uFlags AS UINT) AS BOOLEAN
+   DECLARE FUNCTION MoveWindow (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN) AS BOOLEAN
+   DECLARE FUNCTION CreateFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL lWeight AS LONG = 0, _
+           BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS HFONT
+   DECLARE FUNCTION SetFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL lWeight AS LONG = 0, _
+           BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS BOOLEAN
+   DECLARE FUNCTION AddControl (BYREF wszClassName AS WSTRING, BYVAL hParent AS HWND = NULL, BYVAL cID AS LONG_PTR = 0, _
+           BYREF wszTitle AS WSTRING = "", BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, _
+           BYVAL nHeight AS LONG = 0, BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0, _
+           BYVAL pWndProc AS WNDPROC = NULL) AS HWND
+
+   ' // Keyboard accelerators
+   DECLARE PROPERTY AccelHandle () AS HACCEL
+   DECLARE PROPERTY AccelHandle (BYVAL hAccel AS HACCEL)
+   DECLARE SUB AddAccelerator OVERLOAD (BYVAL fvirt AS UBYTE, BYVAL wKey AS WORD, BYVAL cmd AS WORD)
+   DECLARE SUB AddAccelerator OVERLOAD (BYVAL fvirt AS UBYTE, BYREF wszKey AS WSTRING, BYVAL cmd AS WORD)
+   DECLARE FUNCTION CreateAcceleratorTable () AS HACCEL
+   DECLARE SUB DestroyAcceleratorTable ()
+
+   ' // Layout manager
+   DECLARE FUNCTION AnchorControl (BYVAL cID AS LONG, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+   DECLARE FUNCTION AnchorControl (BYVAL hCtl AS HWND, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+   DECLARE FUNCTION AnchorControl (BYVAL hParent AS HWND, BYVAL cID AS LONG, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+   DECLARE FUNCTION GetAnchorItem (BYVAL hwndCtl AS HWND) AS LONG
+   DECLARE FUNCTION AdjustControls () AS BOOLEAN
+
+Private:
+   DECLARE STATIC FUNCTION LayoutEnumChildProc (BYVAL hwnd AS HWND, BYVAL lParam AS LPARAM) AS LONG
+
 END TYPE
 ' ========================================================================================
 
@@ -318,6 +360,17 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
                END IF
          END SELECT
 
+      CASE WM_SIZE
+         ' // Adjust anchored controls and redraw the main window
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+            IF wParam = SIZE_RESTORED OR wParam = SIZE_MAXIMIZED THEN
+               IF pWindow->AdjustControls THEN
+                  InvalidateRect hwnd, NULL, CTRUE
+                  UpdateWindow hwnd
+               END IF
+            END IF
+         END IF
 
       CASE WM_NOTIFY
 '         DIM ptnmhdr AS NMHDR PTR
@@ -1224,9 +1277,7 @@ PRIVATE FUNCTION CWindow.AddControl ( _
    BYVAL dwStyle AS LONG = -1, _                          ' // Control style
    BYVAL dwExStyle AS LONG = -1, _                        ' // Extended style
    BYVAL lpParam AS LONG_PTR = 0, _                       ' // Pointer to custom data
-   BYVAL pWndProc AS SUBCLASSPROC = NULL, _               ' // Address of the window callback procedure
-   BYVAL uIdSubclass AS UINT_PTR = &HFFFFFFFF, _          ' // The subclass ID
-   BYVAL dwRefData as DWORD_PTR = NULL _                  ' // Pointer to reference data
+   BYVAL pCtlProc AS WNDPROC = NULL _                     ' // Address of the control callback procedure
    ) AS HWND                                              ' // Control handle
 
    DIM hCtl AS HWND
@@ -1550,15 +1601,6 @@ PRIVATE FUNCTION CWindow.AddControl ( _
          END IF
          IF hImage THEN ..SendMessageW(hCtl, BM_SETIMAGE, IMAGE_ICON, CAST(LPARAM, hImage))
    END SELECT
-   ' // Subclass the control if pWndProc is not null
-   IF pWndProc <> NULL THEN
-      IF uIdSubclass = &HFFFFFFFF THEN
-         ..SetPropW(hCtl, "OLDWNDPROC", CAST(HANDLE, .SetWindowLongPtrW(hCtl, GWLP_WNDPROC, CAST(LONG_PTR, pWndProc))))
-      ELSE
-'         ..SetWindowSubclass hCtl, CAST(SUBCLASSPROC, pWndProc), uIdSubclass, dwRefData
-         ..SetWindowSubclass hCtl, pWndProc, uIdSubclass, dwRefData
-      END IF
-   END IF
    FUNCTION = hCtl
 END FUNCTION
 ' =====================================================================================
@@ -1614,6 +1656,174 @@ PRIVATE SUB CWindow.DestroyAcceleratorTable
    m_hAccel = NULL
 END SUB
 ' =====================================================================================
+
+' ########################################################################################
+'                               *** LAYOUT MANAGER ***
+' ########################################################################################
+
+' ========================================================================================
+' Gets the anchor item
+' Return Value: The array index on success, or -1 on failure.
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetAnchorItem (BYVAL hwndCtl AS HWND) AS LONG
+   FUNCTION = -1
+   FOR i AS LONG = 0 TO UBOUND(m_rgProps)
+      IF m_rgProps(i).hwndCtl = hwndCtl THEN FUNCTION = i : EXIT FOR
+   NEXT
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Anchors the control
+' ========================================================================================
+PRIVATE FUNCTION CWindow.AnchorControl (BYVAL hwndCtl AS HWND, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+   IF .IsWindow(hwndCtl) = FALSE THEN RETURN FALSE
+   ' // Check if the item already exists
+   DIM nItem AS LONG = this.GetAnchorItem(hwndCtl)
+   ' // If it does not exist, make room for it
+   IF nItem = -1 THEN
+      REDIM PRESERVE m_rgProps(UBOUND(m_rgProps) + 1) AS AFX_ANCHORPROPERTY
+      nItem = UBOUND(m_rgProps)
+   END IF
+   m_rgProps(nItem).hwndCtl = hwndCtl
+   ' // Get the coordinates of the control
+   DIM rcCtl AS RECT, pt AS POINT
+   .GetWindowRect(hwndCtl, @rcCtl)
+   pt.x = rcCtl.Left
+   pt.y = rcCtl.Top
+   ' // Convert the screen coordinates to screen to client-area coordinates
+   .ScreenToClient(GetParent(hwndCtl), @pt)
+   ' // Get the client coordinates of the parent window
+   DIm rcParent AS RECT
+   .GetClientRect(GetParent(hwndCtl), @rcParent)
+   m_rgProps(nItem).anchor    = MIN(MAX(nAnchorMode, AFX_ANCHOR_NONE), AFX_ANCHOR_CENTER)
+   m_rgProps(nItem).rc.Left   = pt.x
+   m_rgProps(nItem).rc.Top    = pt.y
+   m_rgProps(nItem).rc.Right  = rcParent.Right - (rcCtl.Right - rcCtl.Left + pt.x)
+   m_rgProps(nItem).rc.Bottom = rcParent.Bottom - (rcCtl.Bottom - rcCtl.Top + pt.y)
+   m_rgProps(nItem).centerX   = pt.x - (rcParent.Right \ 2)
+   m_rgProps(nItem).centerY   = pt.y - (rcParent.Bottom \ 2)
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.AnchorControl (BYVAL cID AS LONG, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+   DIM hwndCtl AS HWND = GetDlgItem(m_hwnd, cID)
+   IF hwndCtl THEN RETURN this.AnchorControl(hwndCtl, nAnchorMode)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.AnchorControl (BYVAL hParent AS HWND, BYVAL cID AS LONG, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+   DIM hwndCtl AS HWND = GetDlgItem(hParent, cID)
+   IF hwndCtl THEN RETURN this.AnchorControl(hwndCtl, nAnchorMode)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Callback function to enumerate child windows
+' ========================================================================================
+PRIVATE FUNCTION CWindow.LayoutEnumChildProc (BYVAL hwndChild AS HWND, BYVAL lParam AS LPARAM) AS LONG
+   DIM rcParent AS RECT, rcChild AS RECT
+   DIM nWidth AS LONG, nHeight AS LONG, x AS LONG, y AS LONG, xWidth AS LONG, yHeight AS LONG
+   DIM pWindow AS CWindow PTR = CAST(CWindow PTR, lParam)
+   DIM nItem AS LONG = pWindow->GetAnchorItem(hwndChild)
+   IF nItem > -1 THEN
+      IF pWindow->m_rgProps(nItem).anchor > AFX_ANCHOR_NONE THEN
+         ..GetWindowRect(hwndChild, @rcChild)
+         nWidth = rcChild.Right - rcChild.Left
+         nHeight = rcChild.Bottom - rcChild.Top
+         ..GetClientRect(GetParent(hwndChild), @rcParent)
+         x = 0: y = 0: xWidth = 0: yHeight = 0
+         SELECT CASE pWindow->m_rgProps(nItem).anchor
+            CASE AFX_ANCHOR_NONE
+               x = pWindow->m_rgProps(nItem).rc.Left
+               y = pWindow->m_rgProps(nItem).rc.Top
+               xWidth = MAX(rcParent.Right - pWindow->m_rgProps(nItem).rc.Left - pWindow->m_rgProps(nItem).rc.Right, 0)
+               yHeight = nHeight
+            CASE AFX_ANCHOR_WIDTH
+               x = pWindow->m_rgProps(nItem).rc.Left
+               y = pWindow->m_rgProps(nItem).rc.Top
+               xWidth = MAX(rcParent.Right - pWindow->m_rgProps(nItem).rc.Left - pWindow->m_rgProps(nItem).rc.Right, 0)
+               yHeight = nHeight
+            CASE AFX_ANCHOR_RIGHT
+               x = rcParent.Right - nWidth - pWindow->m_rgProps(nItem).rc.Right
+               y = pWindow->m_rgProps(nItem).rc.Top
+               xWidth = nWidth
+               yHeight = nHeight
+            CASE AFX_ANCHOR_CENTER_HORZ
+               x = (rcParent.Right \ 2) + pWindow->m_rgProps(nItem).centerX
+               y = pWindow->m_rgProps(nItem).rc.Top
+               xWidth = nWidth
+               yHeight = nHeight
+            CASE AFX_ANCHOR_HEIGHT
+               x = pWindow->m_rgProps(nItem).rc.Left
+               y = pWindow->m_rgProps(nItem).rc.Top
+               xWidth = nWidth
+               yHeight = MAX(rcParent.Bottom - pWindow->m_rgProps(nItem).rc.Top - pWindow->m_rgProps(nItem).rc.Bottom, 0)
+            CASE AFX_ANCHOR_HEIGHT_WIDTH
+               x = pWindow->m_rgProps(nItem).rc.Left
+               y = pWindow->m_rgProps(nItem).rc.Top
+               xWidth = MAX(rcParent.Right - pWindow->m_rgProps(nItem).rc.Left - pWindow->m_rgProps(nItem).rc.Right, 0)
+               yHeight = MAX(rcParent.Bottom - pWindow->m_rgProps(nItem).rc.Top - pWindow->m_rgProps(nItem).rc.Bottom, 0)
+            CASE AFX_ANCHOR_HEIGHT_RIGHT
+               x = rcParent.Right - nWidth - pWindow->m_rgProps(nItem).rc.Right
+               y = pWindow->m_rgProps(nItem).rc.Top
+               xWidth = nWidth
+               yHeight = MAX(rcParent.Bottom - pWindow->m_rgProps(nItem).rc.Top - pWindow->m_rgProps(nItem).rc.Bottom, 0)
+            CASE AFX_ANCHOR_BOTTOM
+               x = pWindow->m_rgProps(nItem).rc.Left
+               y = rcParent.Bottom - pWindow->m_rgProps(nItem).rc.Bottom - nHeight
+               xWidth = nWidth
+               yHeight = nHeight
+            CASE AFX_ANCHOR_BOTTOM_WIDTH
+               x = pWindow->m_rgProps(nItem).rc.Left
+               y = rcParent.Bottom - pWindow->m_rgProps(nItem).rc.Bottom - nHeight
+               xWidth = MAX(rcParent.Right - pWindow->m_rgProps(nItem).rc.Left - pWindow->m_rgProps(nItem).rc.Right, 0)
+               yHeight = nHeight
+            CASE AFX_ANCHOR_BOTTOM_RIGHT
+               x = rcParent.Right - nWidth - pWindow->m_rgProps(nItem).rc.Right
+               y = rcParent.Bottom - pWindow->m_rgProps(nItem).rc.Bottom - nHeight
+               xWidth = nWidth
+               yHeight = nHeight
+            CASE AFX_ANCHOR_CENTER_HORZ_BOTTOM
+               x = (rcParent.Right \ 2) + pWindow->m_rgProps(nItem).centerX
+               y = rcParent.Bottom - pWindow->m_rgProps(nItem).rc.Bottom - nHeight
+               xWidth = nWidth
+               yHeight = nHeight
+            CASE AFX_ANCHOR_CENTER_VERT
+               x = pWindow->m_rgProps(nItem).rc.Left
+               y = (rcParent.Bottom - nHeight) \ 2
+               xWidth = nWidth
+               yHeight = nHeight
+            CASE AFX_ANCHOR_CENTER_VERT_RIGHT
+               x = rcParent.Right - nWidth - pWindow->m_rgProps(nItem).rc.Right
+               y = (rcParent.Bottom - nHeight) \ 2
+               xWidth = nWidth
+               yHeight = nHeight
+            CASE AFX_ANCHOR_CENTER
+               x = (rcParent.Right \ 2) + pWindow->m_rgProps(nItem).centerX
+               y = (rcParent.Bottom \ 2) + pWindow->m_rgProps(nItem).centerY
+               xWidth = nWidth
+               yHeight = nHeight
+         END SELECT
+         ..MoveWindow(hwndChild, x, y, xWidth, yHeight, CTRUE)
+      END IF
+   END IF
+
+   RETURN CTRUE
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Adjust the controls size and/or position
+' ========================================================================================
+PRIVATE FUNCTION CWindow.AdjustControls () AS BOOLEAN
+   IF UBOUND(m_rgProps) = -1 THEN RETURN FALSE
+   EnumChildWindows(m_hWnd, CAST(WNDENUMPROC, @LayoutEnumChildProc), CAST(LPARAM, @this))
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
 
 ' ########################################################################################
 '                                *** HELPER FUNCTIONS ***
