@@ -966,7 +966,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE FUNCTION GetLastResult () AS HRESULT
    DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
-   DECLARE FUNCTION GetErrorInfo () AS DWSTRING
+   DECLARE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
    DECLARE OPERATOR CAST () AS IStream PTR
    DECLARE FUNCTION StreamPtr () AS IStream PTR
    DECLARE FUNCTION Read (BYVAL numChars AS LONG) AS DWSTRING
@@ -1232,25 +1232,19 @@ END FUNCTION
 ' ========================================================================================
 ' Returns a description of the last result code.
 ' ========================================================================================
-PRIVATE FUNCTION CMemTextStream.GetErrorInfo () AS DWSTRING
-   IF SUCCEEDED(m_Result) THEN RETURN "Success"
-   DIM s AS DWSTRING = "Error &h" & HEX(m_Result, 8)
-   SELECT CASE m_Result
-      CASE E_POINTER : s += ": Null pointer"
-      CASE E_INVALIDARG : s += ": Invalid argument"
-      CASE STG_E_INVALIDFUNCTION : s += ": Unable to perform requested operation"
-      CASE STG_E_ACCESSDENIED : s += ": Access denied"
-      CASE STG_E_INVALIDHANDLE : s += ": Invalid handle"
-      CASE STG_E_INSUFFICIENTMEMORY : s += ": Insufficient memory"
-      CASE STG_E_INVALIDPOINTER : s += ": Invalid pointer"
-      CASE STG_E_SEEKERROR : s += ": Seek error"
-      CASE STG_E_WRITEFAULT : s += ": Write fault"
-      CASE STG_E_INVALIDPARAMETER : s += ": Invalid parameter"
-      CASE STG_E_UNKNOWN : s += ": Unknown error"
-      CASE ELSE
-         s += "Unknown error"
-   END SELECT
-   RETURN s
+PRIVATE FUNCTION CMemTextStream.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+   IF nError = -1 THEN nError = m_Result
+   DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, dwsMsg AS DWSTRING
+   cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
+           FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
+           NULL, nError, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
+           cast(LPWSTR, @pBuffer), 0, NULL)
+   IF cbLen THEN
+      dwsMsg = *pBuffer
+      LocalFree pBuffer
+   END IF
+   IF nError THEN dwsMsg = "Error &h" + HEX(nError) & CHR(13, 10) + dwsMsg
+   RETURN dwsMsg
 END FUNCTION
 ' ========================================================================================
 
