@@ -2,6 +2,7 @@
 ' Platform: Microsoft Windows
 ' Filename: CFileTime.inc
 ' Contents: Date and time classes
+' Based on the MFC classes CFileTimeSpan and CFileTime.
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
 '
