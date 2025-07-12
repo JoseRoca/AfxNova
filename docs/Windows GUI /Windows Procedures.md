@@ -6,6 +6,25 @@ Assorted Windows procedures.
 
 ---
 
+# Windows
+
+| Name       | Description |
+| ---------- | ----------- |
+| [AfxCommand](#afxcommand) | Returns command line parameters used to call the program. |
+| [AfxCommandLineCount](#afxcommandlinecount) | Returns the number of command line arguments used to call the program |
+| [AfxEnviron](#afxenviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
+| [AfxExtractResource](#afxextractresource) | Extracts resource data and returns it as a string. |
+| [AfxExtractResourceToFile](#afxextractresourcetofile) | Extracts resource data and saves it to a file. |
+| [AfxGetComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
+| [AfxGetMACAddress](#AfxGetMACAddress) | Retrieves the MAC address of a machine's Ethernet card. |
+| [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
+| [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
+| [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
+| [AfxMsg](#afxmsg) | Displays an application modal message box. |
+| [AfxSetEnviron](#afxsetenviron) | Sets the contents of the specified environment variable for the current process. |
+
+---
+
 # Window
 
 | Name       | Description |
@@ -213,26 +232,6 @@ Assorted Windows procedures.
 
 ---
 
-# Miscellaneous procedures
-
-| Name       | Description |
-| ---------- | ----------- |
-| [AfxCommand](#afxcommand) | Returns command line parameters used to call the program. |
-| [AfxCommandLineCount](#afxcommandlinecount) | Returns the number of command line arguments used to call the program |
-| [AfxEnviron](#AfxEnviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
-| [AfxExtractResource](#AfxExtractResource) | Extracts resource data and returns it as a string. |
-| [AfxExtractResourceToFile](#AfxExtractResourceToFile) | Extracts resource data and saves it to a file. |
-| [AfxGetComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
-| [AfxGetMACAddress](#AfxGetMACAddress) | Retrieves the MAC address of a machine's Ethernet card. |
-| [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
-| [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
-| [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
-| [AfxMsg](#afxmsg) | Displays an application modal message box. |
-| [AfxSetDlgMsgResult](#AfxSetDlgMsgResult) | Sets the return value of a message processed in the dialog box procedure. |
-| [AfxSetEnviron](#AfxSetEnviron) | Sets the contents of the specified environment variable for the current process. |
-
----
-
 # Versioning
 
 | Name       | Description |
@@ -245,6 +244,192 @@ Assorted Windows procedures.
 | [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
 
 ---
+
+## AfxCommand
+
+Returns command line parameters used to call the program. Unicode replacement for FreeBasic's **Command** keyword. **WCOmmand** is an alias or **AfxCommand**.
+
+```
+FUNCTION AfxCommand (BYVAL nIndex AS LONG = -1) AS DWSTRING
+#define WCommand AfxCommand
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nIndex* | Zero-based index for a particular command-line argument. |
+
+#### Return value
+
+Returns the command-line arguments(s).
+
+#### Remarks
+
+**AfxCommand** returns command-line arguments passed to the program upon execution.
+
+If index is less than zero (< 0), a space-separated list of all command-line arguments is returned, otherwise, a single argument is returned. A value of zero (0) returns the name of the executable; and values of one (1) and greater return each command-line argument.
+
+If index is greater than the number of arguments passed to the program, a null string ("") is returned.
+
+---
+
+## AfxCommandLineCount
+
+Returns the number of command line arguments used to call the program. **WCommandArgsc** is an alias for **AfxCommandLineCount**.
+
+```
+FUNCTION AfxCommandLineCount (BYVAL nIndex AS LONG = -1) AS DWSTRING
+#define WCommandArgsc AfxCommandLineCount
+```
+#### Return value
+
+The number of command line arguments used to call the program.
+
+---
+
+## AfxEnviron
+
+Retrieves the contents of the specified variable from the environment block of the calling process.
+
+```
+FUNCTION AfxEnviron (BYVAL pwszName AS LPCWSTR) AS CWSTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszName* | The name of the environment variable. |
+
+#### Usage example
+
+```
+DIM dws AS DWSTRING = AfxEnviron("path")
+```
+---
+
+## AfxExtractResource
+
+Extracts resource data and returns it as a string.
+
+```
+FUNCTION AfxExtractResource (BYVAL hInstance AS HINSTANCE, _
+   BYREF wszResourceName AS WSTRING, BYVAL pResourceType AS LPWSTR = MAKEINTRESOURCEW(10)) AS STRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hInstance* | A handle to the module whose portable executable file or an accompanying MUI file contains the resource. If this parameter is NULL, the function searches the module used to create the current process. |
+| *wszResourceName* | Name of the resource. If the resource is an image that uses an integral identifier, *wszResourceName* should begin with a number symbol (#) followed by the identifier in an ASCII format, e.g., "#998". Otherwise, use the text identifier name for the image. Only images embedded as raw data (type RCDATA) are valid. These must be in format .png, .jpg, .gif, .tiff. |
+| *pResourceType* | Type of the resource, e.g. RT_RCDATA. For a list of predefined resource types see: [Resource Types](https://docs.microsoft.com/en-us/windows/desktop/menurc/resource-types) |
+
+#### Return value
+
+A string containing the resource data.
+
+#### Example
+
+```
+DIM strResData AS STRING = AfxExtractResource(NULL, "IDI_ARROW_RIGHT")
+where IDI_ARROW_RIGHT is the identifier in the resource file for
+IDI_ARROW_RIGHT RCDATA ".\Resources\arrow_right_64.png"
+--or--
+DIM strResData AS STRING = AfxExtractResource(NULL, "#111")
+' where "#111" is the identifier in the resource file for
+' 111 RCDATA ".\Resources\VEGA_PAZ_01.jpg"
+-----
+' // Write the resource data to a file
+DIM hFile AS HANDLE = CreateFileW("PazVega.jpg", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)
+IF hFile THEN
+   DIM dwBytesWritten AS DWORD
+   DIM bSuccess AS BOOLEAN = WriteFile(hFile, STRPTR(strResData), LEN(strResData), @dwBytesWritten, NULL)
+   CloseHandle(hFile)
+   print bSuccess
+END IF
+```
+---
+
+## AfxExtractResourceToFile
+
+Extracts resource data and saves it to a file.
+
+```
+FUNCTION AfxExtractResourceToFile (BYVAL hInstance AS HINSTANCE, BYREF wszResourceName AS WSTRING, _
+   BYREF wszFileName AS WSTRING, BYVAL pResourceType AS LPWSTR = MAKEINTRESOURCEW(10)) AS STRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hInstance* | A handle to the module whose portable executable file or an accompanying MUI file contains the resource. If this parameter is NULL, the function searches the module used to create the current process. |
+| *wszResourceName* | Name of the resource. If the resource is an image that uses an integral identifier, *wszResourceName* should begin with a number symbol (#) followed by the identifier in an ASCII format, e.g., "#998". Otherwise, use the text identifier name for the image. Only images embedded as raw data (type RCDATA) are valid. These must be in format .png, .jpg, .gif, .tiff. |
+| *wszFileName* | Path of the file where to save the extracted resource. |
+| *pResourceType* | Type of the resource, e.g. RT_RCDATA. For a list of predefined resource types see: [Resource Types](https://docs.microsoft.com/en-us/windows/desktop/menurc/resource-types) |
+
+#### Return value
+
+TRUE on success of FALSE on failure.
+
+#### Example
+
+```
+AfxExtractResourceToFile(NULL, "IDI_ARROW_RIGHT", "IDI_ARROW_RIGHT.png")
+where IDI_ARROW_RIGHT is the identifier in the resource file for
+IDI_ARROW_RIGHT RCDATA ".\Resources\arrow_right_64.png"
+```
+#### Example
+
+```
+AfxExtractResourceToFile(NULL, "#111", "VEGA_PAZ_01.jpg")
+where "#111" is the identifier in the resource file for
+111 RCDATA ".\Resources\VEGA_PAZ_01.jpg"
+```
+---
+
+## AfxSetEnviron
+
+Sets the contents of the specified environment variable for the current process.
+
+```
+FUNCTION AfxSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
+| *pwszValue* | The name of the environment variable. The maximum size of a user-defined environment variable is 32,767 characters. |
+
+#### Return value
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE.<br>
+To get extended error information, call **GetLastError**.
+
+#### Usage example
+
+```
+AfxSetEnviron("path", "c:")
+```
+
+# AfxSetEnviron (Overload)
+
+Sets the contents of the specified environment variable for the current process.<br>
+Unicode replacement for Free Basic's **SetEnviron** function.
+
+```
+FUNCTION AfxSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
+FUNCTION AfxSetEnviron (BYREF varexp AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
+| *varexp* | Name and setting of an environment variable in the following (or equivalent) form: varname=varstring (*varname* being the name of the environment variable, and *varstring* being its text value to set).
+
+#### Return value
+
+Returns 0 on success, or -1 on failure.
+
+---
+
++++++++++++++++++++++++
+
 
 ## AfxCenterWindow
 
@@ -889,209 +1074,6 @@ FUNCTION AfxGetWinErrMsg (BYVAL dwError AS DWORD) AS DWSTRING
 The localized description of the error code.
 
 ---
-
-## AfxCommand
-
-Returns command line parameters used to call the program. Unicode replacement for FreeBasic's **Command** keyword. **WCOmmand** is an alias or **AfxCommand**.
-
-```
-FUNCTION AfxCommand (BYVAL nIndex AS LONG = -1) AS DWSTRING
-#define WCommand AfxCommand
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *nIndex* | Zero-based index for a particular command-line argument. |
-
-#### Return value
-
-Returns the command-line arguments(s).
-
-#### Remarks
-
-**AfxCommand** returns command-line arguments passed to the program upon execution.
-
-If index is less than zero (< 0), a space-separated list of all command-line arguments is returned, otherwise, a single argument is returned. A value of zero (0) returns the name of the executable; and values of one (1) and greater return each command-line argument.
-
-If index is greater than the number of arguments passed to the program, a null string ("") is returned.
-
----
-
-## AfxCommandLineCount
-
-Returns the number of command line arguments used to call the program. **WCommandArgsc** is an alias for **AfxCommandLineCount**.
-
-```
-FUNCTION AfxCommandLineCount (BYVAL nIndex AS LONG = -1) AS DWSTRING
-#define WCommandArgsc AfxCommandLineCount
-```
-#### Return value
-
-The number of command line arguments used to call the program.
-
----
-
-
-# <a name="AfxEnviron"></a>AfxEnviron
-
-Retrieves the contents of the specified variable from the environment block of the calling process.
-
-```
-FUNCTION AfxEnviron (BYVAL pwszName AS LPCWSTR) AS CWSTR
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pwszName* | The name of the environment variable. |
-
-**Include file**: AfxStr.inc
-
-#### Usage example
-
-```
-DIM cws AS CWSTR = AfxEnviron("path")
-```
-
-# <a name="AfxSetEnviron"></a>AfxSetEnviron
-
-Sets the contents of the specified environment variable for the current process.
-
-```
-FUNCTION AfxSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
-| *pwszValue* | The name of the environment variable. The maximum size of a user-defined environment variable is 32,767 characters. |
-
-**Include file**: AfxStr.inc
-
-#### Return value
-
-If the function succeeds, the return value is TRUE.<br>
-If the function fails, the return value is FALSE.<br>
-To get extended error information, call **GetLastError**.
-
-#### Usage example
-
-```
-AfxSetEnviron("path", "c:")
-```
-
-# AfxSetEnviron (Overload)
-
-Sets the contents of the specified environment variable for the current process.<br>
-Unicode replacement for Free Basic's **SetEnviron** function.
-
-```
-FUNCTION AfxSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
-FUNCTION AfxSetEnviron (BYREF varexp AS WSTRING) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
-| *varexp* | Name and setting of an environment variable in the following (or equivalent) form: varname=varstring (*varname* being the name of the environment variable, and *varstring* being its text value to set).
-
-**Include file**: AfxStr.inc
-
-#### Return value
-
-Returns 0 on success, or -1 on failure.
-
-# <a name="AfxSetDlgMsgResult"></a>AfxSetDlgMsgResult
-
-Sets the return value of a message processed in the dialog box procedure.
-
-```
-FUNCTION AfxSetDlgMsgResult (BYVAL hDlg AS HWND, BYVAL msg AS UINT, BYVAL result AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hDlg* | A handle to a dialog box. |
-| *msg* | The message type. |
-| *result* | The return value. |
-
-#### Return value
-
-If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE.
-
-# <a name="AfxExtractResource"></a>AfxExtractResource
-
-Extracts resource data and returns it as a string.
-
-```
-FUNCTION AfxExtractResource (BYVAL hInstance AS HINSTANCE, _
-   BYREF wszResourceName AS WSTRING, BYVAL pResourceType AS LPWSTR = MAKEINTRESOURCEW(10)) AS STRING
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hInstance* | A handle to the module whose portable executable file or an accompanying MUI file contains the resource. If this parameter is NULL, the function searches the module used to create the current process. |
-| *wszResourceName* | Name of the resource. If the resource is an image that uses an integral identifier, *wszResourceName* should begin with a number symbol (#) followed by the identifier in an ASCII format, e.g., "#998". Otherwise, use the text identifier name for the image. Only images embedded as raw data (type RCDATA) are valid. These must be in format .png, .jpg, .gif, .tiff. |
-| *pResourceType* | Type of the resource, e.g. RT_RCDATA. For a list of predefined resource types see: [Resource Types](https://docs.microsoft.com/en-us/windows/desktop/menurc/resource-types) |
-
-#### Return value
-
-A string containing the resource data.
-
-#### Example
-
-```
-DIM strResData AS STRING = AfxExtractResource(NULL, "IDI_ARROW_RIGHT")
-where IDI_ARROW_RIGHT is the identifier in the resource file for
-IDI_ARROW_RIGHT RCDATA ".\Resources\arrow_right_64.png"
---or--
-DIM strResData AS STRING = AfxExtractResource(NULL, "#111")
-' where "#111" is the identifier in the resource file for
-' 111 RCDATA ".\Resources\VEGA_PAZ_01.jpg"
------
-' // Write the resource data to a file
-DIM hFile AS HANDLE = CreateFileW("PazVega.jpg", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)
-IF hFile THEN
-   DIM dwBytesWritten AS DWORD
-   DIM bSuccess AS BOOLEAN = WriteFile(hFile, STRPTR(strResData), LEN(strResData), @dwBytesWritten, NULL)
-   CloseHandle(hFile)
-   print bSuccess
-END IF
-```
-
-# <a name="AfxExtractResourceToFile"></a>AfxExtractResourceToFile
-
-Extracts resource data and saves it to a file.
-
-```
-FUNCTION AfxExtractResourceToFile (BYVAL hInstance AS HINSTANCE, BYREF wszResourceName AS WSTRING, _
-   BYREF wszFileName AS WSTRING, BYVAL pResourceType AS LPWSTR = MAKEINTRESOURCEW(10)) AS STRING
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hInstance* | A handle to the module whose portable executable file or an accompanying MUI file contains the resource. If this parameter is NULL, the function searches the module used to create the current process. |
-| *wszResourceName* | Name of the resource. If the resource is an image that uses an integral identifier, *wszResourceName* should begin with a number symbol (#) followed by the identifier in an ASCII format, e.g., "#998". Otherwise, use the text identifier name for the image. Only images embedded as raw data (type RCDATA) are valid. These must be in format .png, .jpg, .gif, .tiff. |
-| *wszFileName* | Path of the file where to save the extracted resource. |
-| *pResourceType* | Type of the resource, e.g. RT_RCDATA. For a list of predefined resource types see: [Resource Types](https://docs.microsoft.com/en-us/windows/desktop/menurc/resource-types) |
-
-#### Return value
-
-TRUE on success of FALSE on failure.
-
-#### Example
-
-```
-AfxExtractResourceToFile(NULL, "IDI_ARROW_RIGHT", "IDI_ARROW_RIGHT.png")
-where IDI_ARROW_RIGHT is the identifier in the resource file for
-IDI_ARROW_RIGHT RCDATA ".\Resources\arrow_right_64.png"
-```
-#### Example
-
-```
-AfxExtractResourceToFile(NULL, "#111", "VEGA_PAZ_01.jpg")
-where "#111" is the identifier in the resource file for
-111 RCDATA ".\Resources\VEGA_PAZ_01.jpg"
-```
 
 ## AfxGetComputerName
 
