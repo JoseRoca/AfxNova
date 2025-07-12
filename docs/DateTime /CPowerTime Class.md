@@ -775,6 +775,21 @@ Gets/sets the date and time as a date serial.
 PROPERTY DateSerial () AS DOUBLE
 PROPERTY DateSerial (BYVAL dTime AS DOUBLE)
 ```
+
+#### Remarks
+
+A date serial is a number that holds a date and time value in the same format used by PDS or VBDOS. The value is a count of the days from 0:00 AM of December 30,1899; it's mainly used for easy counting of the time between two dates.
+
+The date serial unit is one day and the fractional part represents the time of the day. If a date serial is written into an integer, the time is lost. FreeBASIC date serials are not limited to dates between 1753 and 2078 as in VBDOS. FreeBASIC date serial handling functions use Double arguments.
+
+FreeBASIC date serial handling functions require the inclusion of vbcompat.bi or datetime.bi in the source.
+
+A date serial can be created by the functions Now, TimeSerial+DateSerial, or DateValue+TimeValue.
+
+The functions Year, Month, Weekday, Day, Hour, Minute, Second allow to recover the different components of a date serial.
+
+The Format function has formatting expressions to print date serials in a human readable way.
+
 #### Usage examples
 
 ```
