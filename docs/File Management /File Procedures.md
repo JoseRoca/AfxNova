@@ -11,7 +11,7 @@ Assorted file, folder and path procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxBrowseForFolder](#AfxBrowseForFolder) | Displays a dialog box that enables the user to select a folder. |
+| [AfxBrowseForFolder](#afxbrowseforfolder) | Displays a dialog box that enables the user to select a folder. |
 
 ---
 
@@ -19,68 +19,68 @@ Assorted file, folder and path procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxChDir](#AfxChDir) | Changes the current directory for the current process. |
-| [AfxCopyFile](#AfxCopyFile) | Copies an existing file to a new file. |
-| [AfxCreateDirectory](#AfxMakeDir) | Creates a new directory. |
-| [AfxCurDir](#AfxCurDir) | Retrieves the current directory for the current process. |
-| [AfxDeleteFile](#AfxDeleteFile) | Deletes the specified file. |
-| [AfxExePath](#AfxExePath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
-| [AfxFileCopy](#AfxCopyFile) | Copies an existing file to a new file. |
-| [AfxFileDateTime](#AfxFileDateTime) | Returns the file's last modified date and time as Date Serial. |
-| [AfxFileExists](#AfxFileExists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
-| [AfxFileReadAllLines](#AfxFileReadAllLines) | Reads all the lines of the specified file into a safe array. |
-| [AfxFileScan](#AfxFileScan) | Scans a text file and returns the number of occurrences of the specified delimiter. |
-| [AfxFolderExists](#AfxFolderExists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
-| [AfxGetCurDir](#AfxCurDir) | Retrieves the current directory for the current process. |
-| [AfxGetCurrentDirectory](#AfxCurDir) | Retrieves the current directory for the current process. |
-| [AfxGetDriveType](#AfxGetDriveType) | Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive. |
-| [AfxGetExeFileExt](#AfxGetExeFileExt) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
-| [AfxGetExeFileName](#AfxGetExeFileName) | Returns the file name of the program which is currently executing. |
-| [AfxGetExeFileNameX](#AfxGetExeFileNameX) | Returns the file name and extension of the program which is currently executing. |
-| [AfxGetExeFullPath](#AfxGetExeFullPath) | Returns the complete drive, path, file name, and extension of the program which is currently executing. |
-| [AfxGetExePath](#AfxExePath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
-| [AfxGetExePathName](#AfxGetExePathName) | Returns the path of the program which is currently executing. The path has a trailing backslash. |
-| [AfxGetFileCreationTime](#AfxGetFileCreationTime) | Returns the time the file was created, in FILETIME format. |
-| [AfxGetFileExt](#AfxGetFileExt) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
-| [AfxGetFileLastAccessTime](#AfxGetFileLastAccessTime) | Returns the time the file was last accessed, in FILETIME format. |
-| [AfxGetFileLastWriteTime](#AfxGetFileLastWriteTime) | Returns the time the file was last written to, truncated, or overwritten, in FILETIME format. |
-| [AfxFileLen](#AfxGetFileSize) | Returns the size in bytes of the specified file. |
-| [AfxGetFileName](#AfxGetFileName) | Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.). |
-| [AfxGetFileNameX](#AfxGetFileNameX) | Parses a path/filename and returns the file name and extension portion. That is the text to the right of the last backslash (\) or colon (:). |
-| [AfxGetFileSize](#AfxGetFileSize) | Returns the size in bytes of the specified file. |
-| [AfxGetFileVersion](#AfxGetFileVersion) | Retrieves the version of the specified file multiplied by 100, e.g. 601 for version 6.01. |
-| [AfxGetFolderName](#AfxGetFolderName) | Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name. |
-| [AfxGetKnowFolderPath](#AfxGetKnowFolderPath) | Retrieves the path of an special folder. Requires Windows Vista/Windows 7 or superior. |
-| [AfxGetLongPathName](#AfxGetLongPathName) | Retrieves the short path form of the specified path. |
-| [AfxGetPathName](#AfxGetPathName) | Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:). |
-| [AfxGetShortPathName](#AfxGetShortPathName) | Retrieves the short path form of the specified path. |
-| [AfxGetSpecialFolderLocation](#AfxGetSpecialFolderLocation) | Retrieves the path of an special folder. |
-| [AfxGetSystemDllPath](#AfxGetSystemDllPath) | Retrieves the fully qualified path for the file that contains the specified module. |
-| [AfxGetWinDir](#AfxGetWinDir) | Retrieves the path of the Windows directory. |
-| [AfxIsCompressedFile](#AfxIsCompressedFile) | Returns True if the specified file or directory is compressed; False if it is not. |
-| [AfxIsEncryptedFile](#AfxIsEncryptedFile) | Returns True if the specified file or directory is encrypted; False if it is not. |
-| [AfxIsFolder](#AfxIsFolder) | Returns True if the specified path is a folder; False if it is not. |
-| [AfxIsHiddenFile](#AfxIsHiddenFile) | Returns True if the specified path is a hidden file or directory; False if it is not. |
-| [AfxIsNormalFile](#AfxIsNormalFile) | Returns True if the specified path is a normal file (a file that does not have other attributes set); False if it is not. |
-| [AfxIsNotContentIndexedFile](#AfxIsNotContentIndexedFile) | Returns TRUE if the specified file or directory is not to be indexed by the content indexing service; FALSE, otherwise. |
-| [AfxIsOfflineFile](#AfxIsOfflineFile) | Returns TRUE if the specified file file is not available immediately; FALSE, otherwise. |
-| [AfxIsReadOnlyFile](#AfxIsReadOnlyFile) | Returns True if the specified path is a read only file; False if it is not. |
-| [AfxIsReparsePointFile](#AfxIsReparsePointFile) | Returns TRUE if the specified path is a file or directory that has an associated reparse point, or a file that is a symbolic link.; FALSE, otherwise. |
-| [AfxIsSparseFile](#AfxIsSparseFile) | Returns TRUE if the specified path is a sparse file; FALSE, otherwise. |
-| [AfxIsSystemFile](#AfxIsSystemFile) | Returns True if the specified path is a system file; False if it is not. |
-| [AfxIsTemporaryFile](#AfxIsTemporaryFile) | Returns True if the specified path is a temporary file; False if it is not. |
-| [AfxKill](#AfxDeleteFile) | Deletes the specified file. |
-| [AfxMakeDir](#AfxMakeDir) | Creates a new directory. |
-| [AfxMkDir](#AfxMakeDir) | Creates a new directory. |
-| [AfxMoveFile](#AfxMoveFile) | Moves an existing file or a directory, including its children. |
-| [AfxName](#AfxMoveFile) | Moves an existing file or a directory, including its children. |
-| [AfxRemoveDirectory](#AfxRemoveDir) | Deletes an existing empty directory. |
-| [AfxRemoveDir](#AfxRemoveDir) | Deletes an existing empty directory. |
-| [AfxRenameFile](#AfxMoveFile) | Moves an existing file or a directory, including its children. |
-| [AfxRmDir](#AfxRemoveDir) | Deletes an existing empty directory. |
-| [AfxSaveTempFile](#AfxSaveTempFile) | Saves the contents of a string buffer in a temporary file. |
-| [AfxSetCurDir](#AfxChDir) | Changes the current directory for the current process. |
-| [AfxSetCurrentDirectory](#AfxChDir) | Changes the current directory for the current process. |
+| [AfxChDir](#afxchdir) | Changes the current directory for the current process. |
+| [AfxCopyFile](#afxcopyfile) | Copies an existing file to a new file. |
+| [AfxCreateDirectory](#afxmakedir) | Creates a new directory. |
+| [AfxCurDir](#afxcurdir) | Retrieves the current directory for the current process. |
+| [AfxDeleteFile](#Afxdeletefile) | Deletes the specified file. |
+| [AfxExePath](#afxexepath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
+| [AfxFileCopy](#Afxcopyfile) | Copies an existing file to a new file. |
+| [AfxFileDateTime](#afxfiledatetime) | Returns the file's last modified date and time as Date Serial. |
+| [AfxFileExists](#afxfileexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
+| [AfxFileReadAllLines](#afxfilereadalllines) | Reads all the lines of the specified file into a safe array. |
+| [AfxFileScan](#afxfilescan) | Scans a text file and returns the number of occurrences of the specified delimiter. |
+| [AfxFolderExists](#afxfolderexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
+| [AfxGetCurDir](#afxcurdir) | Retrieves the current directory for the current process. |
+| [AfxGetCurrentDirectory](#afxcurdir) | Retrieves the current directory for the current process. |
+| [AfxGetDriveType](#afxgetdrivetype) | Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive. |
+| [AfxGetExeFileExt](#afxgetexefileext) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
+| [AfxGetExeFileName](#afxgetexefilename) | Returns the file name of the program which is currently executing. |
+| [AfxGetExeFileNameX](#afxgetexefilenameX) | Returns the file name and extension of the program which is currently executing. |
+| [AfxGetExeFullPath](#afxgetexefullpath) | Returns the complete drive, path, file name, and extension of the program which is currently executing. |
+| [AfxGetExePath](#Afxexepath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
+| [AfxGetExePathName](#afxgetexpathname) | Returns the path of the program which is currently executing. The path has a trailing backslash. |
+| [AfxGetFileCreationTime](#afxgetfilecreationtime) | Returns the time the file was created, in FILETIME format. |
+| [AfxGetFileExt](#Afxgetfileext) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
+| [AfxGetFileLastAccessTime](#afxgetfilelastaccesstime) | Returns the time the file was last accessed, in FILETIME format. |
+| [AfxGetFileLastWriteTime](#Afxgetfilelastwritetime) | Returns the time the file was last written to, truncated, or overwritten, in FILETIME format. |
+| [AfxFileLen](#afxgetfilesize) | Returns the size in bytes of the specified file. |
+| [AfxGetFileName](#afxgetfilename) | Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.). |
+| [AfxGetFileNameX](#afxgetfilenamex) | Parses a path/filename and returns the file name and extension portion. That is the text to the right of the last backslash (\) or colon (:). |
+| [AfxGetFileSize](#afxgetfilesize) | Returns the size in bytes of the specified file. |
+| [AfxGetFileVersion](#afxgetfileversion) | Retrieves the version of the specified file multiplied by 100, e.g. 601 for version 6.01. |
+| [AfxGetFolderName](#afxgetfoldername) | Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name. |
+| [AfxGetKnowFolderPath](#afxgetknowfolderpath) | Retrieves the path of an special folder. Requires Windows Vista/Windows 7 or superior. |
+| [AfxGetLongPathName](#afxgetlongpathname) | Retrieves the short path form of the specified path. |
+| [AfxGetPathName](#afxgetpathname) | Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:). |
+| [AfxGetShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
+| [AfxGetSpecialFolderLocation](#afxgetspecialfolderlocation) | Retrieves the path of an special folder. |
+| [AfxGetSystemDllPath](#afxgetsystemdllpath) | Retrieves the fully qualified path for the file that contains the specified module. |
+| [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
+| [AfxIsCompressedFile](#afxiscompressedfile) | Returns True if the specified file or directory is compressed; False if it is not. |
+| [AfxIsEncryptedFile](#afxisencryptedfile) | Returns True if the specified file or directory is encrypted; False if it is not. |
+| [AfxIsFolder](#afxisfolder) | Returns True if the specified path is a folder; False if it is not. |
+| [AfxIsHiddenFile](#afxishiddenFile) | Returns True if the specified path is a hidden file or directory; False if it is not. |
+| [AfxIsNormalFile](#afxisnormalfile) | Returns True if the specified path is a normal file (a file that does not have other attributes set); False if it is not. |
+| [AfxIsNotContentIndexedFile](#afxisnotcontentindexedfile) | Returns TRUE if the specified file or directory is not to be indexed by the content indexing service; FALSE, otherwise. |
+| [AfxIsOfflineFile](#afxisofflinefile) | Returns TRUE if the specified file file is not available immediately; FALSE, otherwise. |
+| [AfxIsReadOnlyFile](#afxisreadonlyfile) | Returns True if the specified path is a read only file; False if it is not. |
+| [AfxIsReparsePointFile](#afxisreparsepointfile) | Returns TRUE if the specified path is a file or directory that has an associated reparse point, or a file that is a symbolic link.; FALSE, otherwise. |
+| [AfxIsSparseFile](#afxissparsefile) | Returns TRUE if the specified path is a sparse file; FALSE, otherwise. |
+| [AfxIsSystemFile](#afxissystemfile) | Returns True if the specified path is a system file; False if it is not. |
+| [AfxIsTemporaryFile](#afxistemporaryfile) | Returns True if the specified path is a temporary file; False if it is not. |
+| [AfxKill](#afxdeletefile) | Deletes the specified file. |
+| [AfxMakeDir](#afxmakedir) | Creates a new directory. |
+| [AfxMkDir](#afxmakedir) | Creates a new directory. |
+| [AfxMoveFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxName](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxRemoveDirectory](#afxremovedir) | Deletes an existing empty directory. |
+| [AfxRemoveDir](#afxremovedir) | Deletes an existing empty directory. |
+| [AfxRenameFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxRmDir](#afxremovedir) | Deletes an existing empty directory. |
+| [AfxSaveTempFile](#afxsavetempfile) | Saves the contents of a string buffer in a temporary file. |
+| [AfxSetCurDir](#afxchdir) | Changes the current directory for the current process. |
+| [AfxSetCurrentDirectory](#afxchdir) | Changes the current directory for the current process. |
 
 ---
 
@@ -88,80 +88,80 @@ Assorted file, folder and path procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxPathAddBackSlash](#AfxPathAddBackSlash) | Adds a backslash to the end of a string to create the correct syntax for a path. If the source path already has a trailing backslash, no backslash will be added. |
-| [AfxPathAddExtension](#AfxPathAddExtension) | Adds a file name extension to a path string. |
-| [AfxPathAppend](#AfxPathAppend) | Appends one path to the end of another. |
-| [AfxPathBuildRoot](#AfxPathBuildRoot) | Creates a root path from a given drive number. |
-| [AfxPathCanonicalize](#AfxPathCanonicalize) | Removes elements of a file path according to special strings inserted into that path. |
-| [AfxPathCombine](#AfxPathCombine) | Concatenates two strings that represent properly formed paths into one path; also concatenates any relative path elements. |
-| [AfxPathCommonPrefix](#AfxPathCommonPrefix) | Compares two paths to determine if they share a common prefix. A prefix is one of these types: "C:\\", ".", "..", "..\\". |
-| [AfxPathCompactPath](#AfxPathCompactPath) | Truncates a file path to fit within a given pixel width by replacing path components with ellipses. |
-| [AfxPathCompactPathEx](#AfxPathCompactPathEx) | Truncates a path to fit within a certain number of characters by replacing path components with ellipses. |
-| [AfxPathCreateFromUrl](#AfxPathCreateFromUrl) | Converts a file URL to a Microsoft MS-DOS path. |
-| [AfxPathFileExists](#AfxPathFileExists) | Determines whether a path to a file system object such as a file or directory is valid. |
-| [AfxPathFindExtension](#AfxPathFindExtension) | Searches a path for an extension. |
-| [AfxPathFindFileName](#AfxPathFindFileName) | Searches a path for a file name. |
-| [AfxPathFindNextComponent](#AfxPathFindNextComponent) | Parses a path and returns the portion of that path that follows the first backslash. |
-| [AfxPathFindOnPath](#AfxPathFindOnPath) | Searches for a file. |
-| [AfxPathFindSuffixArray](#AfxPathFindSuffixArray) | Determines whether a given file name has one of a list of suffixes. |
-| [AfxPathGetArgs](#AfxPathGetArgs) | Finds the command line arguments within a given path. |
-| [AfxPathGetCharType](#AfxPathGetCharType) | Determines the type of character in relation to a path. |
-| [AfxPathGetDriveNumber](#AfxPathGetDriveNumber) | Searches a path for a drive letter within the range of 'A' to 'Z' and returns the corresponding drive number. |
-| [AfxPathIsContentType](#AfxPathIsContentType) | Determines if a file's registered content type matches the specified content type. |
-| [AfxPathIsDirectory](#AfxPathIsDirectory) | Verifies that a path is a valid directory. |
-| [AfxPathIsDirectoryEmpty](#AfxPathIsDirectoryEmpty) | Determines whether a specified path is an empty directory. |
-| [AfxPathIsFileSpec](#AfxPathIsFileSpec) | Searches a path for any path-delimiting characters (for example, ':' or '\' ). If there are no path-delimiting characters present, the path is considered to be a File Spec path. |
-| [AfxPathIsHTMLFile](#AfxPathIsHTMLFile) | Determines if a file is an HTML file. The determination is made based on the content type that is registered for the file's extension. |
-| [AfxPathIsLFNFileSpec](#AfxPathIsLFNFileSpec) | Determines whether a file name is in long format. |
-| [AfxPathIsNetworkPath](#AfxPathIsNetworkPath) | Determines whether a path string represents a network resource. |
-| [AfxPathIsPrefix](#AfxPathIsPrefix) | Searches a path to determine if it contains a valid prefix of the type passed by wszPrefix. A prefix is one of these types: "C:\\", ".", "..", "..\\". |
-| [AfxPathIsRelative](#AfxPathIsRelative) | Searches a path and determines if it is relative. |
-| [AfxPathIsRoot](#AfxPathIsRoot) | Parses a path to determine if it is a directory root. |
-| [AfxPathIsSameRoot](#AfxPathIsSameRoot) | Compares two paths to determine if they have a common root component. |
-| [AfxPathIsSystemFolder](#AfxPathIsSystemFolder) | Determines if an existing folder contains the attributes that make it a system folder. Alternately, this function indicates if certain attributes qualify a folder to be a system folder. |
-| [AfxPathIsUNC](#AfxPathIsUNC) | Determines if the string is a valid Universal Naming Convention (UNC) for a server and share path. |
-| [AfxPathIsUNCServer](#AfxPathIsUNCServer) | Determines if a string is a valid Universal Naming Convention (UNC) for a server path only. |
-| [AfxPathIsUNCServerShare](#AfxPathIsUNCServerShare) | Determines if a string is a valid Universal Naming Convention (UNC) share path, \\\\*server*\\*share*. |
-| [AfxPathIsURL](#AfxPathIsURL) | Tests a given string to determine if it conforms to a valid URL format. |
-| [AfxPathMakePretty](#AfxPathMakePretty) | Converts a path to all lowercase characters to give the path a consistent appearance. |
-| [AfxPathMakeSystemFolder](#AfxPathMakeSystemFolder) | Gives an existing folder the proper attributes to become a system folder. |
-| [AfxPathMatchSpec](#AfxPathMatchSpec) | Searches a string using a Microsoft MS-DOS wild card match type. |
-| [AfxPathMatchSpecEx](#AfxPathMatchSpecEx) | Searches a path to determine whether it contains a file of a specified file type extension. |
-| [AfxPathParseIconLocation](#AfxPathParseIconLocation) | Parses a file location string that contains a file location and icon index, and returns separate values. |
-| [AfxPathQuoteSpaces](#AfxPathQuoteSpaces) | Searches a path for spaces. If spaces are found, the entire path is enclosed in quotation marks. |
-| [AfxPathRelativePathTo](#AfxPathRelativePathTo) | Creates a relative path from one file or folder to another. |
-| [AfxPathRemoveArgs](#AfxPathRemoveArgs) | Removes any arguments from a given path. |
-| [AfxPathRemoveBackslash](#AfxPathRemoveBackslash) | Removes the trailing backslash from a given path. |
-| [AfxPathRemoveBlanks](#AfxPathRemoveBlanks) | Removes all leading and trailing spaces from a string. |
-| [AfxPathRemoveExtension](#AfxPathRemoveExtension) | Removes the file name extension from a path, if one is present. |
-| [AfxPathRemoveFileSpec](#AfxPathRemoveFileSpec) | Removes the trailing file name and backslash from a path, if they are present. |
-| [AfxPathRenameExtension](#AfxPathRenameExtension) | Replaces the extension of a file name with a new extension. If the file name does not contain an extension, the extension will be attached to the end of the string. |
-| [AfxPathSearchAndQualify](#AfxPathSearchAndQualify) | Determines if a given path is correctly formatted and fully qualified. |
-| [AfxPathSetDlgItemPath](#AfxPathSetDlgItemPath) | Sets the text of a child control in a window or dialog box, using **AfxCompactPath** to ensure the path fits in the control. |
-| [AfxPathSkipRoot](#AfxPathSkipRoot) | Parses a path, ignoring the drive letter or Universal Naming Convention (UNC) server/share path elements. |
-| [AfxPathStripPath](#AfxPathStripPath) | Removes the path portion of a fully qualified path and file. |
-| [AfxPathStripToRoot](#AfxPathStripToRoot) | Removes all parts of the path except for the root information. |
-| [AfxPathUndecorate](#AfxPathUndecorate) | Removes the decoration from a path string. |
-| [AfxPathUnExpandEnvStrings](#AfxPathUnExpandEnvStrings) | Replaces certain folder names in a fully-qualified path with their associated environment string. |
-| [AfxPathUnmakeSystemFolder](#AfxPathUnmakeSystemFolder) | Removes the attributes from a folder that make it a system folder. This folder must actually exist in the file system. |
-| [AfxPathUnquoteSpaces](#AfxPathUnquoteSpaces) | Removes quotes from the beginning and end of a path. |
-| [AfxUrlApplyScheme](#AfxUrlApplyScheme) | Determines a scheme for a specified URL string, and returns a string with an appropriate prefix. |
-| [AfxUrlCanonicalize](#AfxUrlCanonicalize) | Converts a URL string into canonical form. |
-| [AfxUrlCombine](#AfxUrlCombine) | When provided with a relative URL and its base, returns a URL in canonical form. |
-| [AfxUrlCompare](#AfxUrlCompare) | Makes a case-sensitive comparison of two URL strings. |
-| [AfxUrlCreateFromPath](#AfxUrlCreateFromPath) | Converts a Microsoft MS-DOS path to a canonicalized URL. |
-| [AfxUrlEscape](#AfxUrlEscape) | Converts characters in a URL that might be altered during transport across the Internet ("unsafe" characters) into their corresponding escape sequences. |
-| [AfxUrlEscapeSpaces](#AfxUrlEscapeSpaces) | Converts space characters into their corresponding escape sequence. |
-| [AfxUrlFixup](#AfxUrlFixup) | Attempts to correct a URL whose protocol identifier is incorrect. For example, htttp will be changed to http. |
-| [AfxUrlGetLocation](#AfxUrlGetLocation) | Retrieves the location from a URL. |
-| [AfxUrlGetPart](#AfxUrlGetPart) | Accepts a URL string and returns a specified part of that URL. |
-| [AfxUrlHash](#AfxUrlHash) | Hashes a URL string. |
-| [AfxUrlIs](#AfxUrlIs) | Tests whether or not a URL is a specified type. |
-| [AfxUrlIsFileUrl](#AfxUrlIsFileUrl) | Tests a URL to determine if it is a file URL. |
-| [AfxUrlIsNoHistory](#AfxUrlIsNoHistory) | Returns whether a URL is a URL that browsers typically do not include in navigation history. |
-| [AfxUrlIsOpaque](#AfxUrlIsOpaque) | Returns whether a URL is opaque. |
-| [AfxUrlUnescape](#AfxUrlUnescape) | Converts escape sequences back into ordinary characters. |
-| [AfxUrlUnescapeInPlace](#AfxUrlUnescapeInPlace) | Converts escape sequences back into ordinary characters and overwrites the original string. |
+| [AfxPathAddBackSlash](#afxpathaddbackslash) | Adds a backslash to the end of a string to create the correct syntax for a path. If the source path already has a trailing backslash, no backslash will be added. |
+| [AfxPathAddExtension](#afxpathaddextension) | Adds a file name extension to a path string. |
+| [AfxPathAppend](#afxpathappend) | Appends one path to the end of another. |
+| [AfxPathBuildRoot](#afxpathbuildroot) | Creates a root path from a given drive number. |
+| [AfxPathCanonicalize](#afxpathcanonicalize) | Removes elements of a file path according to special strings inserted into that path. |
+| [AfxPathCombine](#afxpathcombine) | Concatenates two strings that represent properly formed paths into one path; also concatenates any relative path elements. |
+| [AfxPathCommonPrefix](#afxpathcommonprefix) | Compares two paths to determine if they share a common prefix. A prefix is one of these types: "C:\\", ".", "..", "..\\". |
+| [AfxPathCompactPath](#afxpathcompactpath) | Truncates a file path to fit within a given pixel width by replacing path components with ellipses. |
+| [AfxPathCompactPathEx](#afxpathcompactpathex) | Truncates a path to fit within a certain number of characters by replacing path components with ellipses. |
+| [AfxPathCreateFromUrl](#afxpathcreatefromurl) | Converts a file URL to a Microsoft MS-DOS path. |
+| [AfxPathFileExists](#afxpathfileexists) | Determines whether a path to a file system object such as a file or directory is valid. |
+| [AfxPathFindExtension](#afxpathfindextension) | Searches a path for an extension. |
+| [AfxPathFindFileName](#afxpathfindfilename) | Searches a path for a file name. |
+| [AfxPathFindNextComponent](#afxpathfindnextcomponent) | Parses a path and returns the portion of that path that follows the first backslash. |
+| [AfxPathFindOnPath](#afxpathfindonpath) | Searches for a file. |
+| [AfxPathFindSuffixArray](#afxpathfindsuffixarray) | Determines whether a given file name has one of a list of suffixes. |
+| [AfxPathGetArgs](#afxpathgetargs) | Finds the command line arguments within a given path. |
+| [AfxPathGetCharType](#afxpathgetchartype) | Determines the type of character in relation to a path. |
+| [AfxPathGetDriveNumber](#afxpathgetdrivenumber) | Searches a path for a drive letter within the range of 'A' to 'Z' and returns the corresponding drive number. |
+| [AfxPathIsContentType](#afxpathiscontenttype) | Determines if a file's registered content type matches the specified content type. |
+| [AfxPathIsDirectory](#afxpathisdirectory) | Verifies that a path is a valid directory. |
+| [AfxPathIsDirectoryEmpty](#afxpathisdirectoryempty) | Determines whether a specified path is an empty directory. |
+| [AfxPathIsFileSpec](#afxpathisfilespec) | Searches a path for any path-delimiting characters (for example, ':' or '\' ). If there are no path-delimiting characters present, the path is considered to be a File Spec path. |
+| [AfxPathIsHTMLFile](#afxpathishtmlfile) | Determines if a file is an HTML file. The determination is made based on the content type that is registered for the file's extension. |
+| [AfxPathIsLFNFileSpec](#afxpathislfnfileSpec) | Determines whether a file name is in long format. |
+| [AfxPathIsNetworkPath](#afxpathisnetworkpath) | Determines whether a path string represents a network resource. |
+| [AfxPathIsPrefix](#afxpathisprefix) | Searches a path to determine if it contains a valid prefix of the type passed by wszPrefix. A prefix is one of these types: "C:\\", ".", "..", "..\\". |
+| [AfxPathIsRelative](#afxpathisrelative) | Searches a path and determines if it is relative. |
+| [AfxPathIsRoot](#afxpathisroot) | Parses a path to determine if it is a directory root. |
+| [AfxPathIsSameRoot](#afxpathissameroot) | Compares two paths to determine if they have a common root component. |
+| [AfxPathIsSystemFolder](#afxpathissystemfolder) | Determines if an existing folder contains the attributes that make it a system folder. Alternately, this function indicates if certain attributes qualify a folder to be a system folder. |
+| [AfxPathIsUNC](#afxpathisunc) | Determines if the string is a valid Universal Naming Convention (UNC) for a server and share path. |
+| [AfxPathIsUNCServer](#afxpathisuncserver) | Determines if a string is a valid Universal Naming Convention (UNC) for a server path only. |
+| [AfxPathIsUNCServerShare](#afxpathisuncservershare) | Determines if a string is a valid Universal Naming Convention (UNC) share path, \\\\*server*\\*share*. |
+| [AfxPathIsURL](#afxpathisurl) | Tests a given string to determine if it conforms to a valid URL format. |
+| [AfxPathMakePretty](#afxpathmakepretty) | Converts a path to all lowercase characters to give the path a consistent appearance. |
+| [AfxPathMakeSystemFolder](#afxpathmakesystemfolder) | Gives an existing folder the proper attributes to become a system folder. |
+| [AfxPathMatchSpec](#afxpathmatchspec) | Searches a string using a Microsoft MS-DOS wild card match type. |
+| [AfxPathMatchSpecEx](#afxpathmatchspecex) | Searches a path to determine whether it contains a file of a specified file type extension. |
+| [AfxPathParseIconLocation](#afxpathparseiconlocation) | Parses a file location string that contains a file location and icon index, and returns separate values. |
+| [AfxPathQuoteSpaces](#afxpathquotespaces) | Searches a path for spaces. If spaces are found, the entire path is enclosed in quotation marks. |
+| [AfxPathRelativePathTo](#afxpathrelativepathto) | Creates a relative path from one file or folder to another. |
+| [AfxPathRemoveArgs](#afxpathremoveargs) | Removes any arguments from a given path. |
+| [AfxPathRemoveBackslash](#afxpathremovebackslash) | Removes the trailing backslash from a given path. |
+| [AfxPathRemoveBlanks](#afxpathremoveblanks) | Removes all leading and trailing spaces from a string. |
+| [AfxPathRemoveExtension](#afxpathremoveextension) | Removes the file name extension from a path, if one is present. |
+| [AfxPathRemoveFileSpec](#afxpathremovefilespec) | Removes the trailing file name and backslash from a path, if they are present. |
+| [AfxPathRenameExtension](#afxpathrenameextension) | Replaces the extension of a file name with a new extension. If the file name does not contain an extension, the extension will be attached to the end of the string. |
+| [AfxPathSearchAndQualify](#afxpathsearchandqualify) | Determines if a given path is correctly formatted and fully qualified. |
+| [AfxPathSetDlgItemPath](#afxpathsetdlgitempath) | Sets the text of a child control in a window or dialog box, using **AfxCompactPath** to ensure the path fits in the control. |
+| [AfxPathSkipRoot](#afxpathskiproot) | Parses a path, ignoring the drive letter or Universal Naming Convention (UNC) server/share path elements. |
+| [AfxPathStripPath](#afxpathstrippath) | Removes the path portion of a fully qualified path and file. |
+| [AfxPathStripToRoot](#afxpathstriptoroot) | Removes all parts of the path except for the root information. |
+| [AfxPathUndecorate](#afxpathundecorate) | Removes the decoration from a path string. |
+| [AfxPathUnExpandEnvStrings](#afxpathunexpandenvstrings) | Replaces certain folder names in a fully-qualified path with their associated environment string. |
+| [AfxPathUnmakeSystemFolder](#afxpathunmakesystemfolder) | Removes the attributes from a folder that make it a system folder. This folder must actually exist in the file system. |
+| [AfxPathUnquoteSpaces](#afxpathunquotespaces) | Removes quotes from the beginning and end of a path. |
+| [AfxUrlApplyScheme](#afxurlapplyscheme) | Determines a scheme for a specified URL string, and returns a string with an appropriate prefix. |
+| [AfxUrlCanonicalize](#afxurlcanonicalize) | Converts a URL string into canonical form. |
+| [AfxUrlCombine](#afxurlcombine) | When provided with a relative URL and its base, returns a URL in canonical form. |
+| [AfxUrlCompare](#afxurlcompare) | Makes a case-sensitive comparison of two URL strings. |
+| [AfxUrlCreateFromPath](#afxurlcreatefrompath) | Converts a Microsoft MS-DOS path to a canonicalized URL. |
+| [AfxUrlEscape](#afxurlescape) | Converts characters in a URL that might be altered during transport across the Internet ("unsafe" characters) into their corresponding escape sequences. |
+| [AfxUrlEscapeSpaces](#afxurlescapespaces) | Converts space characters into their corresponding escape sequence. |
+| [AfxUrlFixup](#afxurlfixup) | Attempts to correct a URL whose protocol identifier is incorrect. For example, htttp will be changed to http. |
+| [AfxUrlGetLocation](#afxurlgetlocation) | Retrieves the location from a URL. |
+| [AfxUrlGetPart](#afxurlgetoart) | Accepts a URL string and returns a specified part of that URL. |
+| [AfxUrlHash](#afxurlhash) | Hashes a URL string. |
+| [AfxUrlIs](#afxurlis) | Tests whether or not a URL is a specified type. |
+| [AfxUrlIsFileUrl](#afxurlisfileurl) | Tests a URL to determine if it is a file URL. |
+| [AfxUrlIsNoHistory](#afxurlisnohistory) | Returns whether a URL is a URL that browsers typically do not include in navigation history. |
+| [AfxUrlIsOpaque](#afxurlissopaque) | Returns whether a URL is opaque. |
+| [AfxUrlUnescape](#afxurlunescape) | Converts escape sequences back into ordinary characters. |
+| [AfxUrlUnescapeInPlace](#afxurlunescapeinplace) | Converts escape sequences back into ordinary characters and overwrites the original string. |
 
 ---
 
