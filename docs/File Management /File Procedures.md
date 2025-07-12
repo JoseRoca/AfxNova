@@ -218,9 +218,9 @@ DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
 ```
 ---
 
-## AfxChDir / AfxSetCurDir / AfxSetCurrentDirectory
+## AfxChDir
 
-Changes the current directory for the current process.
+Changes the current directory for the current process. Aliases: AfxSetCurDir, AfxSetCurrentDirectory
 
 ```
 FUNCTION AfxChDir (BYVAL pwszPathName AS LPCWSTR) AS LONG
