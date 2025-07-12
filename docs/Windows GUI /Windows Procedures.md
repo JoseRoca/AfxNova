@@ -10,34 +10,34 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxCenterWindow](#AfxCenterWindow) | Centers a window on the screen or over another window. |
-| [AfxForceSetForegroundWindow](#AfxForceSetForegroundWindow) | Brings the thread that created the specified window into the foreground and activates the window. |
+| [AfxCenterWindow](#afxcenterwindow) | Centers a window on the screen or over another window. |
+| [AfxForceSetForegroundWindow](#afxforcesetforegroundwindow) | Brings the thread that created the specified window into the foreground and activates the window. |
 | [AfxGetSystemInfo](#afxgetsysteminfo) | Retrieves information about the current system. |
-| [AfxGetTopEnabledWindow](#AfxGetTopEnabledWindow) | Retrieves the handle of the enabled and visible window at the top of the z-order in an application. |
-| [AfxGetTopLevelParent](#AfxGetTopLevelParent) | Retrieves the window's top-level parent window. |
-| [AfxGetTopLevelWindow](#AfxGetTopLevelWindow) | Retrieves the window's top-level parent or owner window. |
-| [AfxGetWindowClassName](#AfxGetWindowClassName) | Retrieves the name of the class to which the specified window belongs. |
-| [AfxGetWindowClientHeight](#AfxGetWindowClientHeight) | Returns the height of the client area of window, in pixels. |
-| [AfxGetWindowClientRect](#AfxGetWindowClientRect) | Retrieves the coordinates of a window's client area. |
-| [AfxGetWindowClientWidth](#AfxGetWindowClientWidth) | Returns the width of the client area of a window, in pixels. |
-| [AfxGetWindowHeight](#AfxGetWindowHeight) | Returns the height of a window, in pixels. |
-| [AfxGetWindowLocation](#AfxGetWindowLocation) | Returns the location of the top left corner of the window, in pixels. |
-| [AfxGetWindowRect](#AfxGetWindowRect) | Retrieves the dimensions of the bounding rectangle of the specified window. |
-| [AfxGetWindowSize](#AfxGetWindowSize) | Gets the width and height of a window, in pixels. |
-| [AfxGetWindowText](#AfxGetWindowText) | Gets the text of a window. |
-| [AfxGetWindowTextLength](#AfxGetWindowTextLength) | Gets the length of the text of a window. |
-| [AfxGetWindowWidth](#AfxGetWindowWidth) | Returns the width of a window, in pixels. |
-| [AfxGetWorkAreaHeight](#AfxGetWorkAreaHeight) | Retrieves the height of the work area on the primary display monitor expressed in virtual screen coordinates. |
-| [AfxGetWorkAreaRect](#AfxGetWorkAreaRect) | Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates |
-| [AfxGetWorkAreaWidth](#AfxGetWorkAreaWidth) | Retrieves the width of the work area on the primary display monitor expressed in virtual screen coordinates. |
-| [AfxRedrawNonClientArea](#AfxRedrawNonClientArea) | Redraws the non-client area of the specified window. |
-| [AfxRedrawWindow](#AfxRedrawWindow) | Redraws the specified window. |
-| [AfxSetWindowClientSize](#AfxSetWindowClientSize) | Adjusts the bounding rectangle of a window based on the desired size of the client area. |
-| [AfxSetWindowIcon](#AfxSetWindowIcon) | Associates a new large icon with a window. |
-| [AfxSetWindowLocation](#AfxSetWindowLocation) | Sets the location of the top left corner of the window, in pixels. |
-| [AfxSetWindowSize](#AfxSetWindowSize) | Sets the size of the specified window, in pixels. |
-| [AfxSetWindowText](#AfxSetWindowText) | Sets the text of a window. |
-| [AfxShowWindowState](#AfxShowWindowState) | Sets the specified window's show state. |
+| [AfxGetTopEnabledWindow](#afxgettopenabledwindow) | Retrieves the handle of the enabled and visible window at the top of the z-order in an application. |
+| [AfxGetTopLevelParent](#afxgettoplevelparent) | Retrieves the window's top-level parent window. |
+| [AfxGetTopLevelWindow](#afxgettoplevelwindow) | Retrieves the window's top-level parent or owner window. |
+| [AfxGetWindowClassName](#afxgetwindowclassname) | Retrieves the name of the class to which the specified window belongs. |
+| [AfxGetWindowClientHeight](#afxgetwindowclientheight) | Returns the height of the client area of window, in pixels. |
+| [AfxGetWindowClientRect](#afxgetwindowclientrect) | Retrieves the coordinates of a window's client area. |
+| [AfxGetWindowClientWidth](#afxgetwindowclientwidth) | Returns the width of the client area of a window, in pixels. |
+| [AfxGetWindowHeight](#afxgetwindowHhight) | Returns the height of a window, in pixels. |
+| [AfxGetWindowLocation](#afxgetwindowlocation) | Returns the location of the top left corner of the window, in pixels. |
+| [AfxGetWindowRect](#afxgetwindowrect) | Retrieves the dimensions of the bounding rectangle of the specified window. |
+| [AfxGetWindowSize](#afxgetwindowsize) | Gets the width and height of a window, in pixels. |
+| [AfxGetWindowText](#afxgetwindowtext) | Gets the text of a window. |
+| [AfxGetWindowTextLength](#afxgetwindowtextlength) | Gets the length of the text of a window. |
+| [AfxGetWindowWidth](#afxgetwindowwidth) | Returns the width of a window, in pixels. |
+| [AfxGetWorkAreaHeight](#afxgetworkareaheight) | Retrieves the height of the work area on the primary display monitor expressed in virtual screen coordinates. |
+| [AfxGetWorkAreaRect](#afxgetworkarearect) | Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates |
+| [AfxGetWorkAreaWidth](#afxgetworkareawidth) | Retrieves the width of the work area on the primary display monitor expressed in virtual screen coordinates. |
+| [AfxRedrawNonClientArea](#afxredrawnonclientarea) | Redraws the non-client area of the specified window. |
+| [AfxRedrawWindow](#afxredrawwindow) | Redraws the specified window. |
+| [AfxSetWindowClientSize](#afxsetwindowclientsize) | Adjusts the bounding rectangle of a window based on the desired size of the client area. |
+| [AfxSetWindowIcon](#afxsetwindowicon) | Associates a new large icon with a window. |
+| [AfxSetWindowLocation](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. |
+| [AfxSetWindowSize](#afxsetwindowsize) | Sets the size of the specified window, in pixels. |
+| [AfxSetWindowText](#afxsetwindowtext) | Sets the text of a window. |
+| [AfxShowWindowState](#afxshowwindowstate) | Sets the specified window's show state. |
 
 ---
 
@@ -93,6 +93,7 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
+| [AfxBrowseForFolder](#afxbrowseforfolder) | Displays a dialog box that enables the user to select a folder. |
 | [AfxChooseColorDialog](#AfxChooseColorDialog) | Displays the Windows choose color dialog. |
 | [AfxControlRunDLL](#AfxControlRunDLL) | Launches control panel applications. |
 | [AfxShowSysInfo](#AfxShowSysInfo) | Displays the Windows Information System dialog. |
@@ -244,6 +245,506 @@ Assorted Windows procedures.
 | [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
 
 ---
+
+## AfxCenterWindow
+
+Centers a window on the screen or over another window. It also ensures that the placement is done within the work area.
+
+```
+SUB AfxCenterWindow (BYVAL hwnd AS HWND = NULL, BYVAL hwndParent AS HWND = NULL)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Optional. Handle to the window. |
+| *hwndParent* | Optional. Handle to the parent window. |
+
+---
+
+## AfxForceSetForegroundWindow
+
+Brings the thread that created the specified window into the foreground and activates the window. Keyboard input is directed to the window, and various visual cues are changed for the user. The system assigns a slightly higher priority to the thread that created the foreground window than it does to other threads.
+
+```
+SUB AfxForceSetForegroundWindow (BYVAL hwnd AS HWND)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+#### Remarks
+
+Replacement for the **SetForegroundWindow** API function, that sometimes fails.
+
+#### Warning
+
+Don't use it. Apparently, **AttachThreadInput** can lead to a deadlock.
+See: [The dangers of attaching input queues](https://blogs.msdn.microsoft.com/oldnewthing/20080801-00/?p=21393)
+
+---
+
+## AfxGetSystemInfo
+
+Retrieves information about the current system.
+
+```
+FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
+```
+| MetricName | Description |
+| ---------- | ----------- |
+| *CpuCount* | The number of logical processors in the current group. |
+| *CpuMask* | A mask representing the set of processors configured into the system. Bit 0 is processor 0; bit 31 is processor 31. |
+| *Granularity* | The granularity for the starting address at which virtual memory can be allocated. |
+| *MaxAppAddr* | The highest memory address accessible to applications and DLLs. |
+| *MaxAppAddr* | The lowest memory address accessible to applications and DLLs. |
+| *PageSize* | The page size and the granularity of page protection and commitment. This is the page size used by the **VirtualAlloc** function. |
+
+---
+
+## AfxGetTopEnabledWindow
+
+Retrieves the handle of the enabled and visible window at the top of the z-order in an application.
+
+```
+FUNCTION AfxGetTopEnabledWindow () AS HWND
+```
+
+#### Return value
+
+Handle of the window at top of z-order or NULL.
+
+---
+
+## AfxGetTopLevelParent
+
+Retrieves the window's top-level parent window.
+
+```
+FUNCTION AfxGetTopEnabledWindow () AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+#### Return value
+
+Handle of the top-level parent window.
+
+---
+
+## AfxGetTopLevelWindow
+
+Retrieves the window's top-level parent or owner window.
+
+```
+FUNCTION AfxGetTopLevelWindow (BYVAL hwnd AS HWND) AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+#### Return value
+
+Handle of the top-level parent or owner window.
+
+---
+
+## AfxGetWindowClassName
+
+Retrieves the name of the class to which the specified window belongs. 
+
+```
+FUNCTION AfxGetWindowClassName (BYVAL hwnd AS HWND) AS CWSTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+#### Return value
+
+The name of the class.
+
+---
+
+## AfxGetWindowClientHeight
+
+Returns the height of the client area of window, in pixels.
+
+```
+FUNCTION AfxGetWindowClientHeight (BYVAL hwnd AS HWND) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+---
+
+## AfxGetWindowClientRect
+
+Retrieves the coordinates of a window's client area. The client coordinates specify the upper-left and lower-right corners of the client area. Because client coordinates are relative to the upper-left corner of a window's client area, the coordinates of the upper-left corner are (0,0).
+
+```
+FUNCTION AfxGetWindowClientRect (BYVAL hwnd AS HWND) AS RECT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+#### Return value
+
+A RECT structure with the retrieved coordinates of the window's client area.
+
+---
+
+## AfxGetWindowClientWidth
+
+Returns the width of the client area of a window, in pixels.
+
+```
+FUNCTION AfxGetWindowClientWidth (BYVAL hwnd AS HWND) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+---
+
+## AfxGetWindowHeight
+
+Returns the height of a window, in pixels.
+
+```
+FUNCTION AfxGetWindowHeight (BYVAL hwnd AS HWND) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+---
+
+## AfxGetWindowLocation
+
+Returns the location of the top left corner of the window, in pixels. The location is relative to the upper-left corner of the client area in the parent window.
+
+```
+SUB AfxGetWindowLocation (BYVAL hwnd AS HWND, BYREF nLeft AS LONG, BYREF nTop AS LONG)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nLeft* | Out. The horizontal location. |
+| *nTop* | Out. The vertical location. |
+
+---
+
+## AfxGetWindowRect
+
+Retrieves the dimensions of the bounding rectangle of the specified window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
+
+```
+FUNCTION AfxGetWindowRect (BYVAL hwnd AS HWND) AS RECT
+```
+
+#### Return value
+
+A RECT structure with the retrieved dimensions.
+
+---
+
+## AfxGetWindowSize
+
+Gets the width and height of the specified window, in pixels.
+
+```
+FUNCTION AfxGetWindowSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nWidth* | The width of the window. |
+| *nHeight* | The height of the window. |
+
+---
+
+## AfxGetWindowText
+
+Gets the text of a window. This function can also be used to retrieve the text of buttons, edit and static controls.
+
+```
+FUNCTION AfxGetWindowText (BYVAL hwnd AS HWND) AS DWSTRING
+```
+
+#### Return value
+
+The text of the window.
+
+For an edit control, the text returned is the content of the edit control. For a combo box, the text is the content of the edit control (or static-text) portion of the combo box. For a button, the text is the button name. For other windows, the text is the window title. To retrieve the text of an item in a list box, an application can use the **ListBox_GetText** function. 
+
+Rich Edit: If the text to be copied exceeds 64K, use either the EM_STREAMOUT or EM_GETSELTEXT message.
+
+#### Remarks
+
+This function uses the WM_GETTEXT message because **GetWindowText** cannot retrieve the text of a window in another application.
+
+#### Usage examples
+
+DIM dwsText AS DWSTRING = AfxGetWindowText(hwnd)
+MessageBoxW 0, dwsText, "", MB_OK
+
+## AfxGetWindowTextLength
+
+Retrieves the length of the text of a window. This function can also be used to retrieve the length of the text of buttons, edit and static controls.
+
+```
+FUNCTION AfxGetWindowTextLength (BYVAL hwnd AS HWND) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+#### Return value
+
+If the function succeeds, the return value is the length of the text in characters, not including the terminating null character.
+
+If the function fails, the return value is zero.
+
+For an edit control, the text returned is the content of the edit control. For a combo box, the text is the content of the edit control (or static-text) portion of the combo box. For a button, the text is the button name. For other windows, the text is the window title. To retrieve the text of an item in a list box, an application can use the **ListBox_GetTextLength** function. 
+
+**AfxGetWindowTextLength** sends a WM_GETTEXTLENGTH message. When the WM_GETTEXTLENGTH message is sent, the **DefWindowProc** function returns the length, in characters, of the text. Under certain conditions, the **DefWindowProc** function returns a value that is larger than the actual length of the text. This occurs with certain mixtures of ANSI and Unicode, and is due to the system allowing for the possible existence of double-byte character set (DBCS) characters within the text. The return value, however, will always be at least as large as the actual length of the text; you can thus always use it to guide buffer allocation. This behavior can occur when an application uses both ANSI functions and common dialogs, which use Unicode.
+
+To obtain the exact length of the text, use the WM_GETTEXT, LB_GETTEXT, or CB_GETLBTEXT messages, or the **GetWindowText** function.
+
+Sending a WM_GETTEXTLENGTH message to a non-text static control, such as a static bitmap or static icon control, does not return a string value. Instead, it returns zero.
+
+---
+
+## AfxGetWindowWidth
+
+Returns the width of a window, in pixels.
+
+```
+FUNCTION AfxGetWindowWidth (BYVAL hwnd AS HWND) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+---
+
+## AfxGetWorkAreaHeight
+
+Retrieves the height of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
+
+```
+FUNCTION AfxGetWorkAreaHeight () AS LONG
+```
+
+## AfxGetWorkAreaRect
+
+Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
+
+```
+FUNCTION AfxGetWorkAreaRect () AS RECT
+```
+
+#### Return value
+
+A RECT structure with the retrieved coordinates.
+
+---
+
+## AfxGetWorkAreaWidth
+
+Retrieves the width of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
+
+```
+FUNCTION AfxGetWorkAreaWidth () AS LONG
+```
+
+## AfxRedrawNonClientArea
+
+Redraws the non-client area of the specified window.
+
+```
+FUNCTION AfxRedrawNonClientArea (BYVAL hwnd AS HWND) AS BOOLEAN
+```
+
+#### Return value
+
+If the function succeeds, the return value is TRUE.
+
+If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
+
+---
+
+## AfxRedrawWindow
+
+Redraws the specified window.
+
+```
+SUB AfxRedrawWindow (BYVAL hwnd AS HWND)
+```
+---
+
+## AfxSetWindowClientSize
+
+Adjusts the bounding rectangle of a window based on the desired size of the client area.
+
+```
+SUB AfxSetWindowClientSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, _
+   BYVAL rxRatio AS SINGLE = 1, BYVAL ryRatio AS SINGLE = 1)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nWidth* | The new width of the client area of the window. |
+| *nHeight* | The new height of the client area of the window. |
+| *rxRatio* | Horizontal scaling ratio. |
+| *ryRatio* | Vertical scaling ratio. |
+
+---
+
+## AfxSetWindowIcon
+
+Associates a new large icon with a window. The system displays the large icon in the ALT+TAB dialog box, and the small icon in the window caption.
+
+```
+FUNCTION AfxSetWindowIcon (BYVAL hwnd AS HWND, BYVAL nIconType AS LONG, BYVAL hIcon AS HICON) AS HICON
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nIconType* | The type of icon to be set. This parameter can be one of the following values.<br>**ICON_BIG** : Set the large icon for the window.<br>**ICON_SMALL** : Set the small icon for the window. |
+| *hIcon* | A handle to the new large icon. If this parameter is NULL, the icon is removed. |
+
+#### Return value
+
+The return value is a handle to the previous large or small icon, depending on the value of *nIconType*. It is NULL if the window previously had no icon of the type indicated by *nIconType*.
+
+---
+
+## AfxSetWindowLocation
+
+Sets the location of the top left corner of the window, in pixels.The location is relative to the upper-left corner of the client area in the parent window.
+
+```
+FUNCTION AfxSetWindowLocation (BYVAL hwnd AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nLeft* | The new position of the left side of the window, in client coordinates. |
+| *nTop* | The new position of the top side of the window, in client coordinates. |
+
+#### Return value
+
+If the function succeeds, the return value is TRUE.
+
+If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
+
+---
+
+## AfxSetWindowSize
+
+Sets the size of the specified window, in pixels.
+
+```
+FUNCTION AfxSetWindowSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nWidth* | The new width of the window. |
+| *nHeight* | The new height of the window. |
+
+---
+
+## AfxSetWindowText
+
+Sets the text of a window. This function can also be used to set the text of buttons, edit and static controls.
+
+```
+FUNCTION AfxSetWindowText (BYVAL hwnd AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *pwszText* | The text to set. |
+
+#### Return value
+
+If the function succeeds, the return value is TRUE.
+
+If the function fails, the return value is FALSE.
+
+---
+
+## AfxShowWindowState
+
+Sets the specified window's show state.
+
+```
+FUNCTION AfxShowWindowState (BYVAL hwnd AS HWND, BYVAL nShowState AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nShowState* | Controls how the window is to be shown. This parameter is ignored the first time an application calls **AfxShowWindowState**, if the program that launched the application provides a **STARTUPINFO** structure. Otherwise, the first time **AfxShowWindowState** is called, the value should be the value obtained by the **WinMain** function in its *nCmdShow* parameter. In subsequent calls, this parameter can be one of the values listed below. |
+
+| Value      | Maning |
+| ---------- | ----------- |
+| SW_FORCEMINIMIZE | Minimizes a window, even if the thread that owns the window is not responding. This flag should only be used when minimizing windows from a different thread. |
+| SW_HIDE | Hides the window and activates another window. |
+| SW_MAXIMIZE | Maximizes the specified window. |
+| SW_MINIMIZE | Minimizes the specified window and activates the next top-level window in the Z order. |
+| SW_RESTORE | Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window. |
+| SW_SHOW | Activates the window and displays it in its current size and position. |
+| SW_SHOWDEFAULT | Sets the show state based on the SW_ value specified in the **STARTUPINFO** structure passed to the **CreateProcess** function by the program that started the application. |
+| SW_SHOWMAXIMIZED | Activates the window and displays it as a maximized window. |
+| SW_SHOWMINIMIZED | Activates the window and displays it as a minimized window. |
+| SW_SHOWMINNOACTIVE | Displays the window as a minimized window. This value is similar to SW_SHOWMINIMIZED, except the window is not activated. |
+| SW_SHOWNA | Displays the window in its current size and position. This value is similar to SW_SHOW, except that the window is not activated. |
+| SW_SHOWNOACTIVATE | Displays a window in its most recent size and position. This value is similar to SW_SHOWNORMAL, except that the window is not activated. |
+| SW_SHOWNORMAL | Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time. |
+
+#### Return value
+
+If the window was previously visible, the return value is TRUE.
+
+If the window was previously hidden, the return value is FALSE.
+
+#### Remarks
+
+To perform certain special effects when showing or hiding a window, use **AnimateWindow**.
+
+The first time an application calls **AfxShowWindowState**, it should use the **WinMain** function's *nCmdShow* parameter as its *nCmdShow* parameter. Subsequent calls to **AfxShowWindowState** must use one of the values in the given list, instead of the one specified by the **WinMain** function's *nCmdShow* parameter.
+
+As noted in the discussion of the *nCmdShow* parameter, the *nCmdShow* value is ignored in the first call to **AfxShowWindowState** if the program that launched the application specifies startup information in the structure. In this case, **AfxShowWindowState** uses the information specified in the **STARTUPINFO** structure to show the window. On subsequent calls, the application must call **AfxShowWindowState** with *nCmdShow* set to SW_SHOWDEFAULT to use the startup information provided by the program that launched the application. This behavior is designed for the following situations:
+
+* Applications create their main window by calling **CreateWindow** with the WS_VISIBLE flag set.
+* Applications create their main window by calling **CreateWindow** with the WS_VISIBLE flag cleared, and later call **AfxShowWindowState** with the SW_SHOW flag set to make it visible.
+
+---
+
+++++++++++++++++++++++++++++++++++++++++
 
 ## AfxWindowsVersion
 
@@ -610,24 +1111,6 @@ The behavior of this function can be affected if the local computer is a node in
 
 ---
 
-## AfxGetSystemInfo
-
-Retrieves information about the current system.
-
-```
-FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
-```
-| MetricName | Description |
-| ---------- | ----------- |
-| *CpuCount* | The number of logical processors in the current group. |
-| *CpuMask* | A mask representing the set of processors configured into the system. Bit 0 is processor 0; bit 31 is processor 31. |
-| *Granularity* | The granularity for the starting address at which virtual memory can be allocated. |
-| *MaxAppAddr* | The highest memory address accessible to applications and DLLs. |
-| *MaxAppAddr* | The lowest memory address accessible to applications and DLLs. |
-| *PageSize* | The page size and the granularity of page protection and commitment. This is the page size used by the **VirtualAlloc** function. |
-
----
-
 ## AfxGetUserName
 
 Retrieves the name of the user associated with the current thread.
@@ -714,6 +1197,61 @@ FUNCTION AfxForwardSizeMessage (BYVAL hwnd AS HWND, BYVAL nResizeType AS DWORD, 
 #### Remark
 
 If an application processes this message, it should return zero.
+
+---
+
+## AfxBrowseForFolder
+
+Displays a dialog box that enables the user to select a folder.
+
+```
+FUNCTION AfxBrowseForFolder (BYVAL hwnd AS HWND, BYVAL pwszTitle AS WSTRING PTR = NULL, _
+   BYVAL pwszStartFolder AS WSTRING PTR = NULL, BYVAL nFlags AS LONG = 0) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle to the parent window of the dialog box. This value can be zero. |
+| *pwszTitle* | Optional. A string value that represents the title displayed inside the Browse dialog box. |
+| *pwszStartFolder* | Optional.  The initial folder that the dialog will show. |
+| *nFlags* | Optional. A LONG value that contains the options for the method. This can be zero or a combination of the values listed under the *ulFlags* member of the **BROWSEINFO** structure. |
+
+| Flag       | Description |
+| ---------- | ----------- |
+| BIF_RETURNONLYFSDIRS | Only return file system directories. If the user selects folders that are not part of the file system, the OK button is grayed. |
+| BIF_DONTGOBELOWDOMAIN | Do not include network folders below the domain level in the dialog box's tree view control. |
+| BIF_STATUSTEXT | Include a status area in the dialog box. The callback function can set the status text by sending messages to the dialog box. This flag is not supported when BIF_NEWDIALOGSTYLE is specified. |
+| BIF_RETURNFSANCESTORS | Only return file system ancestors. An ancestor is a subfolder that is beneath the root folder in the namespace hierarchy. If the user selects an ancestor of the root folder that is not part of the file system, the **OK** button is grayed. |
+| BIF_EDITBOX | Version 4.71. Include an edit control in the browse dialog box that allows the user to type the name of an item. |
+| BIF_NEWDIALOGSTYLE | Version 5.0. Use the new user interface. Setting this flag provides the user with a larger dialog box that can be resized. The dialog box has several new capabilities, including: drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders, delete, and other shortcut menu commands. |
+| BIF_USENEWUI | Version 5.0. Use the new user interface, including an edit box. This flag is equivalent to BIF_EDITBOX OR BIF_NEWDIALOGSTYLE. |
+| BIF_UAHINT | Version 6.0. When combined with BIF_NEWDIALOGSTYLE, adds a usage hint to the dialog box, in place of the edit box. BIF_EDITBOX overrides this flag. |
+| BIF_NONEWFOLDERBUTTON | Version 6.0. Do not include the **New Folder** button in the browse dialog box. |
+| BIF_NOTRANSLATETARGETS | Version 6.0. When the selected item is a shortcut, return the PIDL of the shortcut itself rather than its target. |
+| BIF_BROWSEFORCOMPUTER | Only return computers. If the user selects anything other than a computer, the **OK** button is grayed. |
+| BIF_BROWSEFORPRINTER | Only allow the selection of printers. If the user selects anything other than a printer, the **OK** button is grayed. In Windows XP and later systems, the best practice is to use a Windows XP-style dialog, setting the root of the dialog to the Printers and Faxes folder (CSIDL_PRINTERS). |
+| BIF_BROWSEINCLUDEFILES | Version 4.71. The browse dialog box displays files as well as folders. |
+| BIF_SHAREABLE | Version 5.0. The browse dialog box can display shareable resources on remote systems. This is intended for applications that want to expose remote shares on a local system. The BIF_NEWDIALOGSTYLE flag must also be set. |
+| BIF_BROWSEFILEJUNCTIONS | Windows 7 and later. Allow folder junctions such as a library or a compressed file with a .zip file name extension to be browsed. |
+
+#### Notes
+
+If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set, **AfxShellBrowserForFolder** fails if BIF_NEWDIALOGSTYLE or BIF_USENEWUI are passed.
+
+#### Return value
+
+The path of the selected folder.
+
+#### Remarks
+
+If you don't pass any flags, the function will use BIF_RETURNONLYFSDIRS OR BIF_DONTGOBELOWDOMAIN OR BIF_USENEWUI OR BIF_RETURNFSANCESTORS.
+
+#### Usage example
+
+```
+DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
+```
+---
 
 # <a name="AfxChooseColorDialog"></a>AfxChooseColorDialog
 
@@ -2124,436 +2662,4 @@ FUNCTION AfxGetPathFromWindowHandle (BYVAL hwnd AS HWND) AS CWSTR
 
 The path of the executable file.
 
-# <a name="AfxCenterWindow"></a>AfxCenterWindow
-
-Centers a window on the screen or over another window. It also ensures that the placement is done within the work area.
-
-```
-SUB AfxCenterWindow (BYVAL hwnd AS HWND = NULL, BYVAL hwndParent AS HWND = NULL)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Optional. Handle to the window. |
-| *hwndParent* | Optional. Handle to the parent window. |
-
-# <a name="AfxForceSetForegroundWindow"></a>AfxForceSetForegroundWindow
-
-Brings the thread that created the specified window into the foreground and activates the window. Keyboard input is directed to the window, and various visual cues are changed for the user. The system assigns a slightly higher priority to the thread that created the foreground window than it does to other threads.
-
-```
-SUB AfxForceSetForegroundWindow (BYVAL hwnd AS HWND)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-#### Remarks
-
-Replacement for the **SetForegroundWindow** API function, that sometimes fails.
-
-#### Warning
-
-Don't use it. Apparently, **AttachThreadInput** can lead to a deadlock.
-See: [The dangers of attaching input queues](https://blogs.msdn.microsoft.com/oldnewthing/20080801-00/?p=21393)
-
-# <a name="AfxGetTopEnabledWindow"></a>AfxGetTopEnabledWindow
-
-Retrieves the handle of the enabled and visible window at the top of the z-order in an application.
-
-```
-FUNCTION AfxGetTopEnabledWindow () AS HWND
-```
-
-#### Return value
-
-Handle of the window at top of z-order or NULL.
-
-# <a name="AfxGetTopLevelParent"></a>AfxGetTopLevelParent
-
-Retrieves the window's top-level parent window.
-
-```
-FUNCTION AfxGetTopEnabledWindow () AS HWND
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-#### Return value
-
-Handle of the top-level parent window.
-
-# <a name="AfxGetTopLevelWindow"></a>AfxGetTopLevelWindow
-
-Retrieves the window's top-level parent or owner window.
-
-```
-FUNCTION AfxGetTopLevelWindow (BYVAL hwnd AS HWND) AS HWND
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-#### Return value
-
-Handle of the top-level parent or owner window.
-
-# <a name="AfxGetWindowClassName"></a>AfxGetWindowClassName
-
-Retrieves the name of the class to which the specified window belongs. 
-
-```
-FUNCTION AfxGetWindowClassName (BYVAL hwnd AS HWND) AS CWSTR
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-#### Return value
-
-The name of the class.
-
-# <a name="AfxGetWindowClientHeight"></a>AfxGetWindowClientHeight
-
-Returns the height of the client area of window, in pixels.
-
-```
-FUNCTION AfxGetWindowClientHeight (BYVAL hwnd AS HWND) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-# <a name="AfxGetWindowClientRect"></a>AfxGetWindowClientRect
-
-Retrieves the coordinates of a window's client area. The client coordinates specify the upper-left and lower-right corners of the client area. Because client coordinates are relative to the upper-left corner of a window's client area, the coordinates of the upper-left corner are (0,0).
-
-```
-FUNCTION AfxGetWindowClientRect (BYVAL hwnd AS HWND) AS RECT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-#### Return value
-
-A RECT structure with the retrieved coordinates of the window's client area.
-
-# <a name="AfxGetWindowClientWidth"></a>AfxGetWindowClientWidth
-
-Returns the width of the client area of a window, in pixels.
-
-```
-FUNCTION AfxGetWindowClientWidth (BYVAL hwnd AS HWND) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-# <a name="AfxGetWindowHeight"></a>AfxGetWindowHeight
-
-Returns the height of a window, in pixels.
-
-```
-FUNCTION AfxGetWindowHeight (BYVAL hwnd AS HWND) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-# <a name="AfxGetWindowWidth"></a>AfxGetWindowWidth
-
-Returns the width of a window, in pixels.
-
-```
-FUNCTION AfxGetWindowWidth (BYVAL hwnd AS HWND) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-# <a name="AfxGetWindowLocation"></a>AfxGetWindowLocation
-
-Returns the location of the top left corner of the window, in pixels. The location is relative to the upper-left corner of the client area in the parent window.
-
-```
-SUB AfxGetWindowLocation (BYVAL hwnd AS HWND, BYREF nLeft AS LONG, BYREF nTop AS LONG)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nLeft* | Out. The horizontal location. |
-| *nTop* | Out. The vertical location. |
-
-# <a name="AfxGetWindowRect"></a>AfxGetWindowRect
-
-Retrieves the dimensions of the bounding rectangle of the specified window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
-
-```
-FUNCTION AfxGetWindowRect (BYVAL hwnd AS HWND) AS RECT
-```
-
-#### Return value
-
-A RECT structure with the retrieved dimensions.
-
-# <a name="AfxGetWindowSize"></a>AfxGetWindowSize
-
-Gets the width and height of the specified window, in pixels.
-
-```
-FUNCTION AfxGetWindowSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nWidth* | The width of the window. |
-| *nHeight* | The height of the window. |
-
-# <a name="AfxGetWindowText"></a>AfxGetWindowText
-
-Gets the text of a window. This function can also be used to retrieve the text of buttons, edit and static controls.
-
-```
-FUNCTION AfxGetWindowText (BYVAL hwnd AS HWND) AS CWSTR
-```
-
-#### Return value
-
-The text of the window.
-
-For an edit control, the text returned is the content of the edit control. For a combo box, the text is the content of the edit control (or static-text) portion of the combo box. For a button, the text is the button name. For other windows, the text is the window title. To retrieve the text of an item in a list box, an application can use the **ListBox_GetText** function. 
-
-Rich Edit: If the text to be copied exceeds 64K, use either the EM_STREAMOUT or EM_GETSELTEXT message.
-
-#### Remarks
-
-This function uses the WM_GETTEXT message because **GetWindowText** cannot retrieve the text of a window in another application.
-
-#### Usage examples
-
-DIM cwsText AS CWSTR = AfxGetWindowText(hwnd)
-MessageBoxW 0, cwsText, "", MB_OK
-
-# <a name="AfxGetWindowTextLength"></a>AfxGetWindowTextLength
-
-Retrieves the length of the text of a window. This function can also be used to retrieve the length of the text of buttons, edit and static controls.
-
-```
-FUNCTION AfxGetWindowTextLength (BYVAL hwnd AS HWND) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-#### Return value
-
-If the function succeeds, the return value is the length of the text in characters, not including the terminating null character.
-
-If the function fails, the return value is zero.
-
-For an edit control, the text returned is the content of the edit control. For a combo box, the text is the content of the edit control (or static-text) portion of the combo box. For a button, the text is the button name. For other windows, the text is the window title. To retrieve the text of an item in a list box, an application can use the **ListBox_GetTextLength** function. 
-
-**AfxGetWindowTextLength** sends a WM_GETTEXTLENGTH message. When the WM_GETTEXTLENGTH message is sent, the **DefWindowProc** function returns the length, in characters, of the text. Under certain conditions, the **DefWindowProc** function returns a value that is larger than the actual length of the text. This occurs with certain mixtures of ANSI and Unicode, and is due to the system allowing for the possible existence of double-byte character set (DBCS) characters within the text. The return value, however, will always be at least as large as the actual length of the text; you can thus always use it to guide buffer allocation. This behavior can occur when an application uses both ANSI functions and common dialogs, which use Unicode.
-
-To obtain the exact length of the text, use the WM_GETTEXT, LB_GETTEXT, or CB_GETLBTEXT messages, or the **GetWindowText** function.
-
-Sending a WM_GETTEXTLENGTH message to a non-text static control, such as a static bitmap or static icon control, does not return a string value. Instead, it returns zero.
-
-# <a name="AfxGetWorkAreaHeight"></a>AfxGetWorkAreaHeight
-
-Retrieves the height of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
-
-```
-FUNCTION AfxGetWorkAreaHeight () AS LONG
-```
-
-# <a name="AfxGetWorkAreaRect"></a>AfxGetWorkAreaRect
-
-Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
-
-```
-FUNCTION AfxGetWorkAreaRect () AS RECT
-```
-
-#### Return value
-
-A RECT structure with the retrieved coordinates.
-
-# <a name="AfxGetWorkAreaWidth"></a>AfxGetWorkAreaWidth
-
-Retrieves the width of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
-
-```
-FUNCTION AfxGetWorkAreaWidth () AS LONG
-```
-
-# <a name="AfxRedrawNonClientArea"></a>AfxRedrawNonClientArea
-
-Redraws the non-client area of the specified window.
-
-```
-FUNCTION AfxRedrawNonClientArea (BYVAL hwnd AS HWND) AS BOOLEAN
-```
-
-#### Return value
-
-If the function succeeds, the return value is TRUE.
-
-If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
-
-# <a name="AfxRedrawWindow"></a>AfxRedrawWindow
-
-Redraws the specified window.
-
-```
-SUB AfxRedrawWindow (BYVAL hwnd AS HWND)
-```
-
-# <a name="AfxSetWindowClientSize"></a>AfxSetWindowClientSize
-
-Adjusts the bounding rectangle of a window based on the desired size of the client area.
-
-```
-SUB AfxSetWindowClientSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, _
-   BYVAL rxRatio AS SINGLE = 1, BYVAL ryRatio AS SINGLE = 1)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nWidth* | The new width of the client area of the window. |
-| *nHeight* | The new height of the client area of the window. |
-| *rxRatio* | Horizontal scaling ratio. |
-| *ryRatio* | Vertical scaling ratio. |
-
-# <a name="AfxSetWindowIcon"></a>AfxSetWindowIcon
-
-Associates a new large icon with a window. The system displays the large icon in the ALT+TAB dialog box, and the small icon in the window caption.
-
-```
-FUNCTION AfxSetWindowIcon (BYVAL hwnd AS HWND, BYVAL nIconType AS LONG, BYVAL hIcon AS HICON) AS HICON
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nIconType* | The type of icon to be set. This parameter can be one of the following values.<br>**ICON_BIG** : Set the large icon for the window.<br>**ICON_SMALL** : Set the small icon for the window. |
-| *hIcon* | A handle to the new large icon. If this parameter is NULL, the icon is removed. |
-
-#### Return value
-
-The return value is a handle to the previous large or small icon, depending on the value of *nIconType*. It is NULL if the window previously had no icon of the type indicated by *nIconType*.
-
-# <a name="AfxSetWindowLocation"></a>AfxSetWindowLocation
-
-Sets the location of the top left corner of the window, in pixels.The location is relative to the upper-left corner of the client area in the parent window.
-
-```
-FUNCTION AfxSetWindowLocation (BYVAL hwnd AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nLeft* | The new position of the left side of the window, in client coordinates. |
-| *nTop* | The new position of the top side of the window, in client coordinates. |
-
-#### Return value
-
-If the function succeeds, the return value is TRUE.
-
-If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
-
-# <a name="AfxSetWindowSize"></a>AfxSetWindowSize
-
-Sets the size of the specified window, in pixels.
-
-```
-FUNCTION AfxSetWindowSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nWidth* | The new width of the window. |
-| *nHeight* | The new height of the window. |
-
-# <a name="AfxSetWindowText"></a>AfxSetWindowText
-
-Sets the text of a window. This function can also be used to set the text of buttons, edit and static controls.
-
-```
-FUNCTION AfxSetWindowText (BYVAL hwnd AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *pwszText* | The text to set. |
-
-#### Return value
-
-If the function succeeds, the return value is TRUE.
-
-If the function fails, the return value is FALSE.
-
-# <a name="AfxShowWindowState"></a>AfxShowWindowState
-
-Sets the specified window's show state.
-
-```
-FUNCTION AfxShowWindowState (BYVAL hwnd AS HWND, BYVAL nShowState AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nShowState* | Controls how the window is to be shown. This parameter is ignored the first time an application calls **AfxShowWindowState**, if the program that launched the application provides a **STARTUPINFO** structure. Otherwise, the first time **AfxShowWindowState** is called, the value should be the value obtained by the **WinMain** function in its *nCmdShow* parameter. In subsequent calls, this parameter can be one of the values listed below. |
-
-| Value      | Maning |
-| ---------- | ----------- |
-| SW_FORCEMINIMIZE | Minimizes a window, even if the thread that owns the window is not responding. This flag should only be used when minimizing windows from a different thread. |
-| SW_HIDE | Hides the window and activates another window. |
-| SW_MAXIMIZE | Maximizes the specified window. |
-| SW_MINIMIZE | Minimizes the specified window and activates the next top-level window in the Z order. |
-| SW_RESTORE | Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window. |
-| SW_SHOW | Activates the window and displays it in its current size and position. |
-| SW_SHOWDEFAULT | Sets the show state based on the SW_ value specified in the **STARTUPINFO** structure passed to the **CreateProcess** function by the program that started the application. |
-| SW_SHOWMAXIMIZED | Activates the window and displays it as a maximized window. |
-| SW_SHOWMINIMIZED | Activates the window and displays it as a minimized window. |
-| SW_SHOWMINNOACTIVE | Displays the window as a minimized window. This value is similar to SW_SHOWMINIMIZED, except the window is not activated. |
-| SW_SHOWNA | Displays the window in its current size and position. This value is similar to SW_SHOW, except that the window is not activated. |
-| SW_SHOWNOACTIVATE | Displays a window in its most recent size and position. This value is similar to SW_SHOWNORMAL, except that the window is not activated. |
-| SW_SHOWNORMAL | Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time. |
-
-#### Return value
-
-If the window was previously visible, the return value is TRUE.
-
-If the window was previously hidden, the return value is FALSE.
-
-#### Remarks
-
-To perform certain special effects when showing or hiding a window, use **AnimateWindow**.
-
-The first time an application calls **AfxShowWindowState**, it should use the **WinMain** function's *nCmdShow* parameter as its *nCmdShow* parameter. Subsequent calls to **AfxShowWindowState** must use one of the values in the given list, instead of the one specified by the **WinMain** function's *nCmdShow* parameter.
-
-As noted in the discussion of the *nCmdShow* parameter, the *nCmdShow* value is ignored in the first call to **AfxShowWindowState** if the program that launched the application specifies startup information in the structure. In this case, **AfxShowWindowState** uses the information specified in the **STARTUPINFO** structure to show the window. On subsequent calls, the application must call **AfxShowWindowState** with *nCmdShow* set to SW_SHOWDEFAULT to use the startup information provided by the program that launched the application. This behavior is designed for the following situations:
-
-* Applications create their main window by calling **CreateWindow** with the WS_VISIBLE flag set.
-* Applications create their main window by calling **CreateWindow** with the WS_VISIBLE flag cleared, and later call **AfxShowWindowState** with the SW_SHOW flag set to make it visible.
-
+---
