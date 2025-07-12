@@ -95,7 +95,7 @@ Public:
    DECLARE FUNCTION IsFirstDayOfMonth () AS BOOLEAN
    DECLARE FUNCTION IsLastDayOfMonth () AS BOOLEAN
    DECLARE FUNCTION DayOfYear (BYVAL nYear AS LONG = 0, BYVAL nMonth AS LONG = 0, BYVAL nDay AS LONG = 0) AS LONG
-'   DECLARE SUB DateDiff(BYREF cpt AS CPowerTime, BYREF nSign AS LONG, BYREF nYears AS LONG, BYREF nMonths AS LONG, BYREF nDays AS LONG)
+   DECLARE SUB DateDiff(BYREF cpt AS CPowerTime, BYREF nSign AS LONG, BYREF nYears AS LONG, BYREF nMonths AS LONG, BYREF nDays AS LONG)
    DECLARE FUNCTION DaysDiff(BYREF cpt AS CPowerTime) AS LONG
    DECLARE FUNCTION DaysDiff (BYVAL nYear1 AS LONG, BYVAL nMonth1 AS LONG, BYVAL nDay1 AS LONG, _
            BYVAL nYear2 AS LONG, BYVAL nMonth2 AS LONG, BYVAL nDay2 AS LONG) AS LONG
@@ -653,7 +653,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CPowerTime.AstroDay (BYVAL nYear AS LONG, BYVAL nMonth AS LONG, BYVAL nDay AS LONG) AS LONG
    DIM y AS DOUBLE = nYear + (nMonth - 2.85) / 12
-   RETURN INT(INT(INT(367 * y) - 1.75 * INT(y) + nDay) - 0.75 * INT(0.01 * y)) + 1721116
+   RETURN INT(INT(INT(367 * y) - 1.75 * INT(y) + nDay) - 0.75 * INT(0.01 * y)) + 1721119
 END FUNCTION
 ' ========================================================================================
 
@@ -710,24 +710,49 @@ END SUB
 ' value is smaller. nSign is 0 if the values are equal. nSign is +1 if the internal value
 ' is larger. The other parameters tell the difference as positive integer values. If
 ' parameters are invalid, an appropriate error code is returned in GetLastError.
-' Note: Works in most cases, but fails in e.g.finding the difference between
-' 2 February 2919 and 25 December 1930 (returns 88 years, 1 month 10 days instead of
-' 88 years, 1 month and 8 days).
+' Usage example:
+'   DIM pt AS CPowerTime
+'   DIM pt2 AS CPowerTime
+'   pt.NewDate(2019, 2, 2)
+'   pt2.NewDate(1930, 12, 25)
+'   DIM AS LONG nSign, nYears, nMonths, nDays
+'   pt.DateDiff(pt2, nSign, nYears, nMonths, nDays)
+'   print nSign, nYears, nMonths, nDays
 ' ========================================================================================
-'PRIVATE SUB CPowerTime.DateDiff (BYREF cpt AS CPowerTime, BYREF nSign AS LONG, BYREF nYears AS LONG, BYREF nMonths AS LONG, BYREF nDays AS LONG)
-'   IF VARPTR(nSign) = NULL OR VARPTR (nYears) = NULL OR VARPTR(nMonths) = NULL OR VARPTR(nDays) = NULL THEN SetLastError(ERROR_INVALID_PARAMETER) : RETURN
-'   DIM n1 AS LONG = this.AstroDay(this.Year, this.Month, this.Day)
-'   DIM n2 AS LONG = this.AstroDay(cpt.Year, cpt.Month, cpt.Day)
-'   IF n1 > n2 THEN nSign = 1 ELSE IF n1 < n2 THEN nSign = -1 ELSE nSign = 0
-'   DIM diff AS LONG = n1 - n2        ' // Days of difference betweenn the two dates
-'   DIM y AS LONG = diff \ 365.2425   ' // Years of difference
-'   diff = diff - (y * 365.2425)      ' // Number of remaining days
-'   DIM m AS LONG = diff \ 30.44      ' // Months of difference
-'   DIM d AS LONG = diff - m * 30.44  ' // Remaining days
-'   nYears = ABS(y)
-'   nMonths = ABS(m)
-'   nDays = ABS(d)
-'END SUB
+PRIVATE SUB CPowerTime.DateDiff (BYREF cpt AS CPowerTime, BYREF nSign AS LONG, BYREF nYears AS LONG, BYREF nMonths AS LONG, BYREF nDays AS LONG)
+   ' // Check for valid parameters
+   IF VARPTR(nSign) = NULL OR VARPTR(nYears) = NULL OR VARPTR(nMonths) = NULL OR VARPTR(nDays) = NULL THEN
+      SetLastError(ERROR_INVALID_PARAMETER)
+      RETURN
+   END IF
+   ' // Get components of internal and external CPowerTime
+   DIM y1 AS LONG = this.Year, m1 AS LONG = this.Month, d1 AS LONG = this.Day
+   DIM y2 AS LONG = cpt.Year, m2 AS LONG = cpt.Month, d2 AS LONG = cpt.Day
+   ' // Determine sign
+   IF y1 > y2 OR (y1 = y2 AND m1 > m2) OR (y1 = y2 AND m1 = m2 AND d1 > d2) THEN
+      nSign = 1
+   ELSEIF y1 < y2 OR (y1 = y2 AND m1 < m2) OR (y1 = y2 AND m1 = m2 AND d1 < d2) THEN
+      nSign = -1
+   ELSE
+      nSign = 0 : nYears = 0 : nMonths = 0 : nDays = 0 : RETURN
+   END IF
+   ' // Normalize so y1,m1,d1 is always the later date
+   IF nSign = -1 THEN SWAP y1, y2 : SWAP m1, m2 : SWAP d1, d2
+   ' // Compute difference
+   nYears = y1 - y2
+   nMonths = m1 - m2
+   nDays = d1 - d2
+   IF nDays < 0 THEN
+      nMonths -= 1
+      DIM prevMonth AS LONG = m1 - 1
+      IF prevMonth < 1 THEN prevMonth = 12 : y1 -= 1
+      nDays += CPowerTime().DaysInMonth(prevMonth, y1)
+   END IF
+   IF nMonths < 0 THEN
+      nYears -= 1
+      nMonths += 12
+   END IF
+END SUB
 ' ========================================================================================
 
 ' ========================================================================================
