@@ -2160,15 +2160,11 @@ Returns the logical height of a font given its point size.
 ```
 FUNCTION AfxGetFontHeight (BYVAL nPointSize AS LONG) AS LONG
 ```
-
 | Parameter  | Description |
 | ---------- | ----------- |
 | *nPointSize* | The point size of the font. |
 
 ---
-
-++++++++++++++++++++++++++++++
-
 
 ## AfxGetFontPointSize
 
@@ -2326,6 +2322,9 @@ To get extended error information call **GetLastError**.
 #### Remarks
 
 The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
+
+++++++++++++++++++++++++++++++
+
 
 ## AfxSetWindowFont
 
