@@ -210,7 +210,7 @@ Assorted Windows procedures.
 | [AfxScaleRatioY](#afxscaleratioy) | Retrieves the desktop vertical scaling ratio. |
 | [AfxScaleX](#afxscalex) | Scales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system. |
 | [AfxScaleY](#afxscaley) | Scales an vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
-| [AfxSetProcessDPIAware](#Afxsetprocessdpiaware) | Sets the current process as dots per inch (dpi) aware. |
+| [AfxSetProcessDPIAware](#afxsetprocessdpiaware) | Sets the current process as dots per inch (dpi) aware. |
 | [AfxUnscaleX](#afxunscalex) | Unscales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system. |
 | [AfxUnscaleY](#afxunscaley) | Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
 | [AfxUseDpiScaling](#afxusedpiscaling) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
@@ -251,9 +251,9 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxCaptureDisplay](#AfxCaptureDisplay) | Captures the display and returns an handle to a bitmap. |
-| [AfxGetBitmapHeight](#AfxGetBitmapHeight) | Retrieves the height of the specified bitmap. |
-| [AfxGetBitmapWidth](#AfxGetBitmapWidth) | Retrieves the width of the specified bitmap. |
+| [AfxCaptureDisplay](#afxcapturedisplay) | Captures the display and returns an handle to a bitmap. |
+| [AfxGetBitmapHeight](#afxgetbitmapheight) | Retrieves the height of the specified bitmap. |
+| [AfxGetBitmapWidth](#afxgetbitmapwidth) | Retrieves the width of the specified bitmap. |
 
 ---
 
@@ -261,7 +261,7 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxCreateDIBSection](#AfxCreateDIBSection) | Creates a DIB section. |
+| [AfxCreateDIBSection](#afxcreatedibsection) | Creates a DIB section. |
 | [AfxDibLoadImage](#AfxDibLoadImage) | Loads a DIB in memory and returns a pointer to it. |
 | [AfxDibSaveImage](#AfxDibSaveImage) | Saves a DIB to a file. |
 
@@ -1819,92 +1819,6 @@ If the function succeeds, the return value is TRUE. If the function fails, the r
 
 ---
 
-## AfxIsProcessDPIAware
-
-Determines whether the current process is dots per inch (dpi) aware such that it adjusts the sizes of UI elements to compensate for the dpi setting.
-
-```
-FUNCTION AfxIsProcessDPIAware () AS BOOLEAN
-```
-
-#### Return value
-
-TRUE if the process is dpi aware; otherwise, FALSE.
-
----
-
-## AfxIsResolutionAtLeast
-
-Determines if screen resolution meets minimum requirements.
-
-```
-FUNCTION AfxIsResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cxMin* | Minimum screen resolution width in relative pixels. |
-| *cyMin* | Minimum screen resolution height in relative pixels. |
-
-#### Return value
-
-TRUE or FALSE.
-
----
-
-## AfxLoadIconMetric
-
-Loads a specified icon resource with a client-specified system metric.
-
-```
-FUNCTION AfxLoadIconMetric (BYVAL hinst AS HINSTANCE, BYVAL pwszName AS WSTRING PTR, _
-   BYVAL lims AS LONG, BYVAL phico AS HICON PTR) AS HRESULT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hinst* | A handle to the module of either a DLL or executable (.exe) file that contains the icon to be loaded. For more information, see **GetModuleHandle**. To load a predefined icon or a standalone icon file, set this parameter to NULL. |
-| *pwszName* | A pointer to a null-terminated, Unicode buffer that contains location information about the icon to load. It is interpreted as follows: If *hinst* is NULL, *pwszName* can specify one of two things.<br>1) The identifier of a predefined icon to load. These identifiers are recognized: IDI_APPLICATION, IDI_INFORMATION, IDI_ERROR, IDI_WARNING, IDI_SHIELD, IDI_QUESTION.<br>To pass these constants to the **AfxLoadIconMetric** function, use the MAKEINTRESOURCE macro. For example, to load the IDI_ERROR icon, pass MAKEINTRESOURCE(IDI_ERROR) as the *pwszName* parameter and NULL as the *hinst* parameter.<br>2) The name of a standalone icon (.ico) file.<br>If hinst is non-null, *pwszName* can specify one of two things.<br>1) The name of the icon resource, if the icon resource is to be loaded by name from the module.<br>2) The icon ordinal, if the icon resource is to be loaded by ordinal from the module. This ordinal must be packaged by using the MAKEINTRESOURCE macro. |
-| *lims* | The desired metric. One of the following values:<br>**LIM_SMALL** : Corresponds to SM_CXSMICON, the recommended pixel width of a small icon.<br>**LIM_LARGE** : Corresponds to SM_CXICON, the default pixel width of an icon. |
-| *phico* | When this function returns, contains a pointer to the handle of the loaded icon. |
-
-#### Return value
-
-Returns S_OK if successful, otherwise an error, including the following value: *E_INVALIDARG* : The contents of the buffer pointed to by pszName do not fit any of the expected interpretations.
-
-#### Remarks
-
-**LoadIconMetric** is similar to **LoadIcon**, but with the capability to specify the icon metric. It is used in place of **LoadIcon** when the calling application wants to ensure a high quality icon. This is particularly useful in high dots per inch (dpi) situations.
-
-Icons are extracted or created as follows.
-
-1) If an exact size match is found in the resource, that icon is used.<br>
-2) If an exact size match cannot be found and a larger icon is available, a new icon is created by scaling the larger version down to the desired size.<br>
-3) If an exact size match cannot be found and no larger icon is available, a new icon is created by scaling a smaller icon up to the desired size.
-
----
-
-## AfxLogPixelsX
-
-Retrieves the number of pixels per logical inch along the screen width. In a system with multiple display monitors, this value is the same for all monitors. Aliases: **AfxGetDpi**, **AfxGetDpiX**.
-
-```
-FUNCTION AfxLogPixelsX () AS LONG
-FUNCTION AfxGetDpi () AS LONG
-FUNCTION AfxGetDpiX () AS LONG
-```
----
-
-## AfxLogPixelsY
-
-Retrieves the number of pixels per logical inch along the screen height. In a system with multiple display monitors, this value is the same for all monitors. Alias: **AfxGetDpiY**.
-
-```
-FUNCTION AfxLogPixelsY () AS LONG
-FUNCTION AfxGetDpiY () AS LONG
-```
----
-
 ## AfxGetMonitorHorizontalScaling
 
 Returns the horizontal scaling of the monitor that the window is currently displayed on.
@@ -1994,6 +1908,211 @@ FUNCTION AfxIsDPIResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS
 
 TRUE or FALSE.
 
+## AfxIsProcessDPIAware
+
+Determines whether the current process is dots per inch (dpi) aware such that it adjusts the sizes of UI elements to compensate for the dpi setting.
+
+```
+FUNCTION AfxIsProcessDPIAware () AS BOOLEAN
+```
+
+#### Return value
+
+TRUE if the process is dpi aware; otherwise, FALSE.
+
+---
+
+## AfxIsResolutionAtLeast
+
+Determines if screen resolution meets minimum requirements.
+
+```
+FUNCTION AfxIsResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cxMin* | Minimum screen resolution width in relative pixels. |
+| *cyMin* | Minimum screen resolution height in relative pixels. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
+
+## AfxLoadIconMetric
+
+Loads a specified icon resource with a client-specified system metric.
+
+```
+FUNCTION AfxLoadIconMetric (BYVAL hinst AS HINSTANCE, BYVAL pwszName AS WSTRING PTR, _
+   BYVAL lims AS LONG, BYVAL phico AS HICON PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hinst* | A handle to the module of either a DLL or executable (.exe) file that contains the icon to be loaded. For more information, see **GetModuleHandle**. To load a predefined icon or a standalone icon file, set this parameter to NULL. |
+| *pwszName* | A pointer to a null-terminated, Unicode buffer that contains location information about the icon to load. It is interpreted as follows: If *hinst* is NULL, *pwszName* can specify one of two things.<br>1) The identifier of a predefined icon to load. These identifiers are recognized: IDI_APPLICATION, IDI_INFORMATION, IDI_ERROR, IDI_WARNING, IDI_SHIELD, IDI_QUESTION.<br>To pass these constants to the **AfxLoadIconMetric** function, use the MAKEINTRESOURCE macro. For example, to load the IDI_ERROR icon, pass MAKEINTRESOURCE(IDI_ERROR) as the *pwszName* parameter and NULL as the *hinst* parameter.<br>2) The name of a standalone icon (.ico) file.<br>If hinst is non-null, *pwszName* can specify one of two things.<br>1) The name of the icon resource, if the icon resource is to be loaded by name from the module.<br>2) The icon ordinal, if the icon resource is to be loaded by ordinal from the module. This ordinal must be packaged by using the MAKEINTRESOURCE macro. |
+| *lims* | The desired metric. One of the following values:<br>**LIM_SMALL** : Corresponds to SM_CXSMICON, the recommended pixel width of a small icon.<br>**LIM_LARGE** : Corresponds to SM_CXICON, the default pixel width of an icon. |
+| *phico* | When this function returns, contains a pointer to the handle of the loaded icon. |
+
+#### Return value
+
+Returns S_OK if successful, otherwise an error, including the following value: *E_INVALIDARG* : The contents of the buffer pointed to by pszName do not fit any of the expected interpretations.
+
+#### Remarks
+
+**LoadIconMetric** is similar to **LoadIcon**, but with the capability to specify the icon metric. It is used in place of **LoadIcon** when the calling application wants to ensure a high quality icon. This is particularly useful in high dots per inch (dpi) situations.
+
+Icons are extracted or created as follows.
+
+1) If an exact size match is found in the resource, that icon is used.<br>
+2) If an exact size match cannot be found and a larger icon is available, a new icon is created by scaling the larger version down to the desired size.<br>
+3) If an exact size match cannot be found and no larger icon is available, a new icon is created by scaling a smaller icon up to the desired size.
+
+---
+
+## AfxLogPixelsX
+
+Retrieves the number of pixels per logical inch along the screen width. In a system with multiple display monitors, this value is the same for all monitors. Aliases: **AfxGetDpi**, **AfxGetDpiX**.
+
+```
+FUNCTION AfxLogPixelsX () AS LONG
+FUNCTION AfxGetDpi () AS LONG
+FUNCTION AfxGetDpiX () AS LONG
+```
+---
+
+## AfxLogPixelsY
+
+Retrieves the number of pixels per logical inch along the screen height. In a system with multiple display monitors, this value is the same for all monitors. Alias: **AfxGetDpiY**.
+
+```
+FUNCTION AfxLogPixelsY () AS LONG
+FUNCTION AfxGetDpiY () AS LONG
+```
+---
+
+## AfxScaleRatioX
+
+Retrieves the desktop horizontal scaling ratio.
+
+```
+FUNCTION AfxScaleRatioX () AS LONG
+```
+---
+
+## AfxScaleRatioY
+
+Retrieves the desktop vertical scaling ratio.
+
+```
+FUNCTION AfxScaleRatioY () AS LONG
+```
+---
+
+## AfxScaleX
+
+Scales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system.
+
+```
+FUNCTION AfxScaleX (BYVAL cx AS SINGLE) AS SINGLE
+```
+
+#### Return value
+
+The scaled coordinate.
+
+---
+
+## AfxScaleY
+
+Scales a vertical coordinate according the DPI (dots per pixel) being used by the operating system.
+
+```
+FUNCTION AfxScaleY (BYVAL cx AS SINGLE) AS SINGLE
+```
+
+#### Return value
+
+The scaled coordinate.
+
+---
+
+## AfxSetProcessDPIAware
+
+Sets the current process as dots per inch (dpi) aware.
+
+Note: **AfxSetProcessDPIAware** is subject to a possible race condition if a DLL caches dpi settings during initialization. For this reason, it is recommended that dpi-aware be set through the application (.exe) manifest rather than by calling **AfxSetProcessDPIAware**.
+
+```
+FUNCTION AfxSetProcessDPIAware () AS BOOLEAN
+```
+
+#### Return value
+
+If the function succeeds, the return value is TRUE. Otherwise, the return value is FALSE.
+
+#### Remarks
+
+DLLs should accept the dpi setting of the host process rather than call **AfxSetProcessDPIAware** themselves. To be set properly, *dpiAware* should be specified as part of the application (.exe) manifest. (*dpiAware* defined in an embedded DLL manifest has no affect.) The following markup shows how to set *dpiAware* as part of an application (.exe) manifest.
+
+```
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" >
+ ...
+  <asmv3:application>
+    <asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
+      <dpiAware>true</dpiAware>
+    </asmv3:windowsSettings>
+  </asmv3:application>
+ ...
+</assembly>
+```
+
+## AfxUnscaleX
+
+Unscales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system.
+
+```
+FUNCTION AfxUnscaleX (BYVAL cx AS SINGLE) AS SINGLE
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cx* | The value of the horizontal coordinate, in pixels. |
+
+#### Return value
+
+The unscaled coordinate.
+
+---
+
+## AfxUnscaleY
+
+Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system.
+
+```
+FUNCTION AfxUnscaleY (BYVAL cx AS SINGLE) AS SINGLE
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cy* | The value of the vertical coordinate, in pixels. |
+
+#### Return value
+
+The unscaled coordinate.
+
+---
+
+## AfxUseDpiScaling
+
+Returns TRUE if the OS uses DPI scaling; FALSE otherwise.
+
+```
+FUNCTION AfxUseDpiScaling () AS BOOLEAN
+```
 ---
 
 ## AfxCreateFont
@@ -2047,6 +2166,9 @@ FUNCTION AfxGetFontHeight (BYVAL nPointSize AS LONG) AS LONG
 | *nPointSize* | The point size of the font. |
 
 ---
+
+++++++++++++++++++++++++++++++
+
 
 ## AfxGetFontPointSize
 
@@ -2376,17 +2498,107 @@ FUNCTION AfxSetClipboardText (BYREF wszText AS WSTRING) AS HANDLE
 
 If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
 
+---
 
-# <a name="AfxSetProcessDPIAware"></a>AfxSetProcessDPIAware
+## AfxCaptureDisplay
 
-Sets the current process as dots per inch (dpi) aware.
+Captures the display and returns an handle to a bitmap.
 
-Note: **AfxSetProcessDPIAware** is subject to a possible race condition if a DLL caches dpi settings during initialization. For this reason, it is recommended that dpi-aware be set through the application (.exe) manifest rather than by calling **AfxSetProcessDPIAware**.
+```
+FUNCTION AfxCaptureDisplay () AS HBITMAP
+```
+
+#### Return value
+
+The handle of a bitmap.
+
+#### Usage example
+
+```
+DIM hBitmap AS HBITMAP = AfxCaptureDisplay
+```
+---
+
+## AfxGetBitmapHeight
+
+Retrieves the height of the specified bitmap.
+
+```
+FUNCTION AfxGetBitmapHeight (BYVAL hBitmap AS HBITMAP) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hBitmap* | Handle to the bitmap. |
+
+#### Return value
+
+The height of the bitmap on success or 0 on failure.
 
 ---
 
-+++++++++++++++++++++++
+## AfxGetBitmapWidth
 
+Retrieves the width of the specified bitmap.
+
+```
+FUNCTION AfxGetBitmapWidth (BYVAL hBitmap AS HBITMAP) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hBitmap* | Handle to the bitmap. |
+
+#### Return value
+
+The width of the bitmap on success or 0 on failure.
+
+---
+
+## AfxCreateDIBSection
+
+Creates a DIB section.
+
+```
+FUNCTION AfxCreateDIBSection (BYVAL hdc AS HDC, BYVAL nWidth AS DWORD, BYVAL nHeight AS DWORD, _
+   BYVAL bpp AS LONG = 0, BYVAL ppvBits AS ANY PTR PTR = NULL) AS HBITMAP
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hdc* | A handle to the device context. |
+| *nWidth* | The width of the bitmap, in pixels. |
+| *nHeight* | The height of the bitmap, in pixels. |
+| *bpp* | The number of bits-per-pixel. If this parameter is 0, the function will use the value returned by GetDeviceCaps(hDC, BITSPIXEL_). |
+| *ppvBits* | Out, optional. A pointer to a variable that receives a pointer to the location of the DIB bit values. Can be NULL. |
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the newly created DIB, and *ppvBits* points to the bitmap bit values.
+
+If the function fails, the return value is NULL, and *ppvBits* is NULL. The function can fail if one or more of the input parameters is invalid.
+
+This function can return the following value: ERROR_INVALID_PARAMETER (One or more of the input parameters is invalid).
+
+#### Remarks
+
+You must delete the returned bitmap handle with **DeleteObject** when no longer needed to avoid memory leaks.
+
+You cannot paste a DIB section from one application into another application.
+
+**AfxCreateDIBSection** does not use the **BITMAPINFOHEADER** parameters *biXPelsPerMeter* or *biYPelsPerMeter* and will not provide resolution information in the **BITMAPINFO** structure.
+
+#### Usage example
+
+```
+DIM hdcWindow AS HDC, hbmp AS HBITMAP, pvBits AS ANY PTR
+hdcWindow = GetWindowDC(hwnd)   ' where hwnd is the handle of the wanted window or control
+hbmp = AfxCreateDIBSection(hdcWindow, 10, 10, @pvBits)
+ReleaseDC(hwnd, hdcWindow)
+```
+
+
+++++++++++++++++++++++
 
 ## AfxCenterWindow
 
@@ -3427,98 +3639,6 @@ FUNCTION AfxTwipsToPixelsY (BYVAL nTwips AS LONG) AS LONG
 
 The number of pixels.
 
-# <a name="AfxCaptureDisplay"></a>AfxCaptureDisplay
-
-Captures the display and returns an handle to a bitmap.
-
-```
-FUNCTION AfxCaptureDisplay () AS HBITMAP
-```
-
-#### Return value
-
-The handle of a bitmap.
-
-#### Usage example
-
-```
-DIM hBitmap AS HBITMAP = AfxCaptureDisplay
-```
-
-# <a name="AfxGetBitmapHeight"></a>AfxGetBitmapHeight
-
-Retrieves the height of the specified bitmap.
-
-```
-FUNCTION AfxGetBitmapHeight (BYVAL hBitmap AS HBITMAP) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hBitmap* | Handle to the bitmap. |
-
-#### Return value
-
-The height of the bitmap on success or 0 on failure.
-
-# <a name="AfxGetBitmapWidth"></a>AfxGetBitmapWidth
-
-Retrieves the width of the specified bitmap.
-
-```
-FUNCTION AfxGetBitmapWidth (BYVAL hBitmap AS HBITMAP) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hBitmap* | Handle to the bitmap. |
-
-#### Return value
-
-The width of the bitmap on success or 0 on failure.
-
-# <a name="AfxCreateDIBSection"></a>AfxCreateDIBSection
-
-Creates a DIB section.
-
-```
-FUNCTION AfxCreateDIBSection (BYVAL hdc AS HDC, BYVAL nWidth AS DWORD, BYVAL nHeight AS DWORD, _
-   BYVAL bpp AS LONG = 0, BYVAL ppvBits AS ANY PTR PTR = NULL) AS HBITMAP
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hdc* | A handle to the device context. |
-| *nWidth* | The width of the bitmap, in pixels. |
-| *nHeight* | The height of the bitmap, in pixels. |
-| *bpp* | The number of bits-per-pixel. If this parameter is 0, the function will use the value returned by GetDeviceCaps(hDC, BITSPIXEL_). |
-| *ppvBits* | Out, optional. A pointer to a variable that receives a pointer to the location of the DIB bit values. Can be NULL. |
-
-#### Return value
-
-If the function succeeds, the return value is a handle to the newly created DIB, and *ppvBits* points to the bitmap bit values.
-
-If the function fails, the return value is NULL, and *ppvBits* is NULL. The function can fail if one or more of the input parameters is invalid.
-
-This function can return the following value: ERROR_INVALID_PARAMETER (One or more of the input parameters is invalid).
-
-#### Remarks
-
-You must delete the returned bitmap handle with **DeleteObject** when no longer needed to avoid memory leaks.
-
-You cannot paste a DIB section from one application into another application.
-
-**AfxCreateDIBSection** does not use the **BITMAPINFOHEADER** parameters *biXPelsPerMeter* or *biYPelsPerMeter* and will not provide resolution information in the **BITMAPINFO** structure.
-
-#### Usage example
-
-```
-DIM hdcWindow AS HDC, hbmp AS HBITMAP, pvBits AS ANY PTR
-hdcWindow = GetWindowDC(hwnd)   ' where hwnd is the handle of the wanted window or control
-hbmp = AfxCreateDIBSection(hdcWindow, 10, 10, @pvBits)
-ReleaseDC(hwnd, hdcWindow)
-```
-
 # <a name="AfxDibLoadImage"></a>AfxDibLoadImage
 
 Loads a DIB in memory and returns a pointer to it.
@@ -3553,106 +3673,3 @@ FUNCTION AfxDibSaveImage (BYVAL pwszFileName AS WSTRING PTR, BYVAL pbmfh AS BITM
 
 TRUE if the DIB has been saved successfully; FALSE otherwise.
 
-```
-FUNCTION AfxSetProcessDPIAware () AS BOOLEAN
-```
-
-#### Return value
-
-If the function succeeds, the return value is TRUE. Otherwise, the return value is FALSE.
-
-#### Remarks
-
-DLLs should accept the dpi setting of the host process rather than call **AfxSetProcessDPIAware** themselves. To be set properly, *dpiAware* should be specified as part of the application (.exe) manifest. (*dpiAware* defined in an embedded DLL manifest has no affect.) The following markup shows how to set *dpiAware* as part of an application (.exe) manifest.
-
-```
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" >
- ...
-  <asmv3:application>
-    <asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
-      <dpiAware>true</dpiAware>
-    </asmv3:windowsSettings>
-  </asmv3:application>
- ...
-</assembly>
-```
-
-# <a name="AfxScaleRatioX"></a>AfxScaleRatioX
-
-Retrieves the desktop horizontal scaling ratio.
-
-```
-FUNCTION AfxScaleRatioX () AS LONG
-```
-
-# <a name="AfxScaleRatioY"></a>AfxScaleRatioY
-
-Retrieves the desktop vertical scaling ratio.
-
-```
-FUNCTION AfxScaleRatioY () AS LONG
-```
-
-# <a name="AfxScaleX"></a>AfxScaleX
-
-Scales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system.
-
-```
-FUNCTION AfxScaleX (BYVAL cx AS SINGLE) AS SINGLE
-```
-
-Return value
-
-The scaled coordinate.
-
-# <a name="AfxScaleY"></a>AfxScaleY
-
-Scales a vertical coordinate according the DPI (dots per pixel) being used by the operating system.
-
-```
-FUNCTION AfxScaleY (BYVAL cx AS SINGLE) AS SINGLE
-```
-
-Return value
-
-The scaled coordinate.
-
-# <a name="AfxUnscaleX"></a>AfxUnscaleX
-
-Unscales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system.
-
-```
-FUNCTION AfxUnscaleX (BYVAL cx AS SINGLE) AS SINGLE
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cx* | The value of the horizontal coordinate, in pixels. |
-
-Return value
-
-The unscaled coordinate.
-
-# <a name="AfxUnscaleY"></a>AfxUnscaleY
-
-Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system.
-
-```
-FUNCTION AfxUnscaleY (BYVAL cx AS SINGLE) AS SINGLE
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cy* | The value of the vertical coordinate, in pixels. |
-
-Return value
-
-The unscaled coordinate.
-
-# <a name="AfxUseDpiScaling"></a>AfxUseDpiScaling
-
-Returns TRUE if the OS uses DPI scaling; FALSE otherwise.
-
-```
-FUNCTION AfxUseDpiScaling () AS BOOLEAN
-```
