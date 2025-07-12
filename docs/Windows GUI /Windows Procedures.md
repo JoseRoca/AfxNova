@@ -237,7 +237,6 @@ Assorted Windows procedures.
 | Name       | Description |
 | ---------- | ----------- |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
-| [AfxGetFileVersion](#afxgetfileversion) | Returns the version of the specified file. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
@@ -325,26 +324,6 @@ Returns TRUE if the Windows Platform is NT; FALSE, otherwise.
 ```
 FUNCTION AfxIsPlatformNT () AS BOOLEAN
 ```
----
-
-## AfxGetFileVersion
-
-Returns the version of the specified file multiplied by 100, e.g. 601 for version 6.01.
-
-```
-FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS LONG
-```
-
-#### Return value
-
-The version of the specified file multiplied by 100, e.g. 601 for version 6.01.
-
-#### Usage example
-```
-DIM ver AS LONG = AfxGetFileVersion("COMCTL32.DLL")
-```
----
-
 ## AfxComCtlVersion
 
 Returns the version of CommCtl32.dll
