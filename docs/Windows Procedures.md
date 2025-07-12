@@ -193,27 +193,27 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxGetDpi](#AfxLogPixelsX) | Retrieves the number of pixels per logical inch. |
-| [AfxGetDpiX](#AfxLogPixelsX) | Retrieves the number of pixels per logical inch along the screen width. |
-| [AfxGetDpiY](#AfxLogPixelsY) | Retrieves the number of pixels per logical inch along the screen height. |
-| [AfxGetMonitorHorizontalScaling](#AfxGetMonitorHorizontalScaling) | Returns the horizontal scaling of the monitor that the window is currently displayed on. |
-| [AfxGetMonitorVerticalScaling](#AfxGetMonitorVerticalScaling) | Returns the vertical scaling of the monitor that the window is currently displayed on. |
-| [AfxGetMonitorLogicalHeight](#AfxGetMonitorLogicalHeight) | Returns the logical height of the monitor that the window is currently displayed on. |
-| [AfxGetMonitorLogicalWidth](#AfxGetMonitorLogicalWidth) | Returns the logical width of the monitor that the window is currently displayed on. |
-| [AfxIsDPIResolutionAtLeast](#AfxIsDPIResolutionAtLeast) | Determines if screen resolution meets minimum requirements in relative pixels. |
-| [AfxIsProcessDPIAware](#AfxIsProcessDPIAware) | Determines whether the current process is dots per inch (dpi) aware. |
-| [AfxIsResolutionAtLeast](#AfxIsResolutionAtLeast) | Determines if screen resolution meets minimum requirements. |
-| [AfxLoadIconMetric](#AfxLoadIconMetric) | Loads a specified icon resource with a client-specified system metric. |
-| [AfxLogPixelsX](#AfxLogPixelsX) | Retrieves the number of pixels per logical inch along the screen width. |
-| [AfxLogPixelsY](#AfxLogPixelsY) | Retrieves the number of pixels per logical inch along the screen height. |
-| [AfxScaleRatioX](#AfxScaleRatioX) | Retrieves the desktop horizontal scaling ratio. |
-| [AfxScaleRatioY](#AfxScaleRatioY) | Retrieves the desktop vertical scaling ratio. |
-| [AfxScaleX](#AfxScaleX) | Scales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system. |
-| [AfxScaleY](#AfxScaleY) | Scales an vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
-| [AfxSetProcessDPIAware](#AfxSetProcessDPIAware) | Sets the current process as dots per inch (dpi) aware. |
-| [AfxUnscaleX](#AfxUnscaleX) | Unscales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system. |
-| [AfxUnscaleY](#AfxUnscaleY) | Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
-| [AfxUseDpiScaling](#AfxUseDpiScaling) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
+| [AfxGetDpi](#afxlogpixelsx) | Retrieves the number of pixels per logical inch. |
+| [AfxGetDpiX](#afxlogpixelsx) | Retrieves the number of pixels per logical inch along the screen width. |
+| [AfxGetDpiY](#afxlogpixelsy) | Retrieves the number of pixels per logical inch along the screen height. |
+| [AfxGetMonitorHorizontalScaling](#afxgetmonitorhorizontalscaling) | Returns the horizontal scaling of the monitor that the window is currently displayed on. |
+| [AfxGetMonitorVerticalScaling](#afxgetmonitorverticalscaling) | Returns the vertical scaling of the monitor that the window is currently displayed on. |
+| [AfxGetMonitorLogicalHeight](#afxgetmonitorlogicalheight) | Returns the logical height of the monitor that the window is currently displayed on. |
+| [AfxGetMonitorLogicalWidth](#afxgetmonitorlogicalwidth) | Returns the logical width of the monitor that the window is currently displayed on. |
+| [AfxIsDPIResolutionAtLeast](#afxisdpiresolutionatleast) | Determines if screen resolution meets minimum requirements in relative pixels. |
+| [AfxIsProcessDPIAware](#afxisprocessdpiaware) | Determines whether the current process is dots per inch (dpi) aware. |
+| [AfxIsResolutionAtLeast](#afxisresolutionatleast) | Determines if screen resolution meets minimum requirements. |
+| [AfxLoadIconMetric](#afxloadiconmetric) | Loads a specified icon resource with a client-specified system metric. |
+| [AfxLogPixelsX](#afxlogpixelsx) | Retrieves the number of pixels per logical inch along the screen width. |
+| [AfxLogPixelsY](#afxlogpixelsy) | Retrieves the number of pixels per logical inch along the screen height. |
+| [AfxScaleRatioX](#afxscaleratiox) | Retrieves the desktop horizontal scaling ratio. |
+| [AfxScaleRatioY](#afxscaleratioy) | Retrieves the desktop vertical scaling ratio. |
+| [AfxScaleX](#afxscalex) | Scales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system. |
+| [AfxScaleY](#afxscaley) | Scales an vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
+| [AfxSetProcessDPIAware](#Afxsetprocessdpiaware) | Sets the current process as dots per inch (dpi) aware. |
+| [AfxUnscaleX](#afxunscalex) | Unscales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system. |
+| [AfxUnscaleY](#afxunscaley) | Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
+| [AfxUseDpiScaling](#afxusedpiscaling) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 
 ---
 
@@ -221,17 +221,17 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxCreateFont](#AfxCreateFont) | Creates a logical font. |
-| [AfxGetFontHeight](#AfxGetFontHeight) | Returns the logical height of a font given its point size. |
-| [AfxGetFontPointSize](#AfxGetFontPointSize) | Returns the point size of a font given its logical height. |
-| [AfxGetWindowFont](#AfxGetWindowFont) | Retrieves the font with which the window or control is currently drawing its text. |
-| [AfxGetWindowFontInfo](#AfxGetWindowFontInfo) | Retrieves information about the font being used by a window or control. |
-| [AfxGetWindowsFontInfo](#AfxGetWindowsFontInfo) | Retrieves information about the fonts used by Windows. |
-| [AfxGetWindowsFontPointSize](#AfxGetWindowsFontPointSize) | Retrieves the point size of the fonts used by Windows. |
-| [AfxModifyFontFaceName](#AfxModifyFontFaceName) | Modifies the face name of the font of a window or control. |
-| [AfxModifyFontHeight](#AfxModifyFontHeight) | Modifies the height of the font used by a window of control. |
-| [AfxModifyFontSettings](#AfxModifyFontSettings) | Modifies settings of the font used by a window of control. |
-| [AfxSetWindowFont](#AfxSetWindowFont) | Sets the font that a control is to use when drawing text. |
+| [AfxCreateFont](#afxcreatefont) | Creates a logical font. |
+| [AfxGetFontHeight](#afxgetfontheight) | Returns the logical height of a font given its point size. |
+| [AfxGetFontPointSize](#afxgetfontpointsize) | Returns the point size of a font given its logical height. |
+| [AfxGetWindowFont](#afxgetwindowfont) | Retrieves the font with which the window or control is currently drawing its text. |
+| [AfxGetWindowFontInfo](#afxgetwindowfontinfo) | Retrieves information about the font being used by a window or control. |
+| [AfxGetWindowsFontInfo](#afxgetwindowsfontinfo) | Retrieves information about the fonts used by Windows. |
+| [AfxGetWindowsFontPointSize](#afxgetwindowsfontpointsize) | Retrieves the point size of the fonts used by Windows. |
+| [AfxModifyFontFaceName](#afxmodifyfontfacename) | Modifies the face name of the font of a window or control. |
+| [AfxModifyFontHeight](#afxmodifyfontheight) | Modifies the height of the font used by a window of control. |
+| [AfxModifyFontSettings](#afxmodifyfontsettings) | Modifies settings of the font used by a window of control. |
+| [AfxSetWindowFont](#afxsetwindowfont) | Sets the font that a control is to use when drawing text. |
 
 ---
 
@@ -1819,6 +1819,418 @@ If the function succeeds, the return value is TRUE. If the function fails, the r
 
 ---
 
+## AfxIsProcessDPIAware
+
+Determines whether the current process is dots per inch (dpi) aware such that it adjusts the sizes of UI elements to compensate for the dpi setting.
+
+```
+FUNCTION AfxIsProcessDPIAware () AS BOOLEAN
+```
+
+#### Return value
+
+TRUE if the process is dpi aware; otherwise, FALSE.
+
+---
+
+## AfxIsResolutionAtLeast
+
+Determines if screen resolution meets minimum requirements.
+
+```
+FUNCTION AfxIsResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cxMin* | Minimum screen resolution width in relative pixels. |
+| *cyMin* | Minimum screen resolution height in relative pixels. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
+
+## AfxLoadIconMetric
+
+Loads a specified icon resource with a client-specified system metric.
+
+```
+FUNCTION AfxLoadIconMetric (BYVAL hinst AS HINSTANCE, BYVAL pwszName AS WSTRING PTR, _
+   BYVAL lims AS LONG, BYVAL phico AS HICON PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hinst* | A handle to the module of either a DLL or executable (.exe) file that contains the icon to be loaded. For more information, see **GetModuleHandle**. To load a predefined icon or a standalone icon file, set this parameter to NULL. |
+| *pwszName* | A pointer to a null-terminated, Unicode buffer that contains location information about the icon to load. It is interpreted as follows: If *hinst* is NULL, *pwszName* can specify one of two things.<br>1) The identifier of a predefined icon to load. These identifiers are recognized: IDI_APPLICATION, IDI_INFORMATION, IDI_ERROR, IDI_WARNING, IDI_SHIELD, IDI_QUESTION.<br>To pass these constants to the **AfxLoadIconMetric** function, use the MAKEINTRESOURCE macro. For example, to load the IDI_ERROR icon, pass MAKEINTRESOURCE(IDI_ERROR) as the *pwszName* parameter and NULL as the *hinst* parameter.<br>2) The name of a standalone icon (.ico) file.<br>If hinst is non-null, *pwszName* can specify one of two things.<br>1) The name of the icon resource, if the icon resource is to be loaded by name from the module.<br>2) The icon ordinal, if the icon resource is to be loaded by ordinal from the module. This ordinal must be packaged by using the MAKEINTRESOURCE macro. |
+| *lims* | The desired metric. One of the following values:<br>**LIM_SMALL** : Corresponds to SM_CXSMICON, the recommended pixel width of a small icon.<br>**LIM_LARGE** : Corresponds to SM_CXICON, the default pixel width of an icon. |
+| *phico* | When this function returns, contains a pointer to the handle of the loaded icon. |
+
+#### Return value
+
+Returns S_OK if successful, otherwise an error, including the following value: *E_INVALIDARG* : The contents of the buffer pointed to by pszName do not fit any of the expected interpretations.
+
+#### Remarks
+
+**LoadIconMetric** is similar to **LoadIcon**, but with the capability to specify the icon metric. It is used in place of **LoadIcon** when the calling application wants to ensure a high quality icon. This is particularly useful in high dots per inch (dpi) situations.
+
+Icons are extracted or created as follows.
+
+1) If an exact size match is found in the resource, that icon is used.<br>
+2) If an exact size match cannot be found and a larger icon is available, a new icon is created by scaling the larger version down to the desired size.<br>
+3) If an exact size match cannot be found and no larger icon is available, a new icon is created by scaling a smaller icon up to the desired size.
+
+---
+
+## AfxLogPixelsX
+
+Retrieves the number of pixels per logical inch along the screen width. In a system with multiple display monitors, this value is the same for all monitors. Aliases: **AfxGetDpi**, **AfxGetDpiX**.
+
+```
+FUNCTION AfxLogPixelsX () AS LONG
+FUNCTION AfxGetDpi () AS LONG
+FUNCTION AfxGetDpiX () AS LONG
+```
+---
+
+## AfxLogPixelsY
+
+Retrieves the number of pixels per logical inch along the screen height. In a system with multiple display monitors, this value is the same for all monitors. Alias: **AfxGetDpiY**.
+
+```
+FUNCTION AfxLogPixelsY () AS LONG
+FUNCTION AfxGetDpiY () AS LONG
+```
+---
+
+## AfxGetMonitorHorizontalScaling
+
+Returns the horizontal scaling of the monitor that the window is currently displayed on.
+
+```
+FUNCTION AfxGetMonitorHorizontalScaling (BYVAL hwnd AS HWND = NULL) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
+
+#### Remarks
+
+If the application to which the window belongs is not DPI aware, a computer using 192 DPI, will return an scaling ratio of 2.
+
+---
+
+## AfxGetMonitorVerticalScaling
+
+Returns the vertical scaling of the monitor that the window is currently displayed on.
+
+```
+FUNCTION AfxGetMonitorVerticalScaling (BYVAL hwnd AS HWND = NULL) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
+
+#### Remarks
+
+If the application to which the window belongs is not DPI aware, a computer using 192 DPI, will return an scaling ratio of 2.
+
+---
+
+## AfxGetMonitorLogicalHeight
+
+Returns the logical height of the monitor that the window is currently displayed on.
+
+```
+FUNCTION AfxGetMonitorLogicalHeight (BYVAL hwnd AS HWND = NULL) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
+
+#### Remarks
+
+If the application to which the window belongs is not DPI aware, a monitor with an height resolution of 1080 pixels in a computer using 192 DPI, will return 540 pixels.
+
+---
+
+## AfxGetMonitorLogicalWidth
+
+Returns the logical width of the monitor that the window is currently displayed on.
+
+```
+FUNCTION AfxGetMonitorLogicalWidth (BYVAL hwnd AS HWND = NULL) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
+
+#### Remarks
+
+If the application to which the window belongs is not DPI aware, a monitor with a width resolution of 1920 pixels in a computer using 192 DPI, will return 960 pixels.
+
+---
+
+## AfxIsDPIResolutionAtLeast
+
+Determines if screen resolution meets minimum requirements in relative pixels, e.g. for a screen resolution of 1920x1080 pixels and a DPI of 192 (scaling ratio = 2), the maximum relative pixels for a DPI aware application is 960x540.
+
+```
+FUNCTION AfxIsDPIResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cxMin* | Minimum screen resolution width in relative pixels. |
+| *cyMin* | Minimum screen resolution height in relative pixels. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
+
+## AfxCreateFont
+
+Creates a logical font.
+
+```
+FUNCTION AfxCreateFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL DPI AS LONG = 96, _
+   BYVAL lWeight AS LONG = 0, BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, _
+   BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS HFONT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFaceName* | The typeface name. |
+| *lPointSize* | The point size. |
+| *DPI* | Dots per inch to calculate scaling. Default value = 96 (no scaling). If you pass -1 and the application is DPI aware, the DPI value used by the operating system will be used. |
+| *lWeight* | Initial weight of the font. If the weight is below 550 (the average of FW_NORMAL, 400, and FW_BOLD, 700), then the Bold property is also initialized to FALSE. If the weight is above 550, the Bold property is set to TRUE.<br>The following values are defined for convenience: FW_DONTCARE (0), FW_THIN (100), FW_EXTRALIGHT (200), FW_ULTRALIGHT (200), FW_LIGHT (300), FW_NORMAL (400), FW_REGULAR (400), FW_MEDIUM (500), FW_SEMIBOLD (600), FW_DEMIBOLD (600), FW_BOLD (700), FW_EXTRABOLD (800), FW_ULTRABOLD (800), FW_HEAVY (900), FW_BLACK (900) |
+| *bItalic* | Italic flag. CTRUE or FALSE. |
+| *bUnderline* | Underline flag. CTRUE or FALSE. |
+| *bStrikeOut* | StrikeOut flag. CTRUE or FALSE |
+| *bCharSet* | Specifies the character set. The following values are predefined:<br>ANSI_CHARSET, BALTIC_CHARSET, CHINESEBIG5_CHARSET, DEFAULT_CHARSET, EASTEUROPE_CHARSET, GB2312_CHARSET, GREEK_CHARSET, HANGUL_CHARSET, MAC_CHARSET, OEM_CHARSET, RUSSIAN_CHARSET, SHIFTJIS_CHARSET, SYMBOL_CHARSET, TURKISH_CHARSET.<br>Korean Windows: JOHAB_CHARSET.<br>Middle-Eastern Windows: HEBREW_CHARSET, ARABIC_CHARSET.<br>Thai Windows: THAI_CHARSET.<br>The OEM_CHARSET value specifies a character set that is operating-system dependent. DEFAULT_CHARSET is set to a value based on the current system locale. For example, when the system locale is English (United States), it is set as ANSI_CHARSET. Fonts with other character sets may exist in the operating system. If an application uses a font with an unknown character set, it should not attempt to translate or interpret strings that are rendered with that font. This parameter is important in the font mapping process. To ensure consistent results, specify a specific character set. If you specify a typeface name in the *wszFaceName* parameter, make sure that the *bCharSet* value matches the character set of the typeface specified in *wszFaceName*. |
+
+#### Return value
+
+The handle of the font or NULL on failure.
+
+#### Remarks
+
+The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
+
+#### Usage examples
+
+```
+hFont = AfxCreateFont("MS Sans Serif", 8, , FW_NORMAL, , , , DEFAULT_CHARSET)
+hFont = AfxCreateFont("Courier New", 10, 96 , FW_BOLD, , , , DEFAULT_CHARSET)
+hFont = AfxCreateFont("Marlett", 8, -1, FW_NORMAL, , , , SYMBOL_CHARSET)
+```
+---
+
+## AfxGetFontHeight
+
+Returns the logical height of a font given its point size.
+
+```
+FUNCTION AfxGetFontHeight (BYVAL nPointSize AS LONG) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nPointSize* | The point size of the font. |
+
+---
+
+## AfxGetFontPointSize
+
+Returns the point size of a font given its logical height.
+
+```
+FUNCTION AfxGetFontPointSize (BYVAL nHeight AS LONG) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nHeight* | The logical height of the font. |
+
+---
+
+## AfxGetWindowFont
+
+Retrieves the font with which the window or control is currently drawing its text.
+
+```
+FUNCTION AfxGetWindowFont (BYVAL hwnd AS HWND) AS HFONT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | A handle to a window or control. |
+
+#### Return value
+
+The handle of the font.
+
+---
+
+## AfxGetWindowFontInfo
+
+Retrieves information about the font being used by a window or control.
+
+```
+FUNCTION AfxGetWindowFontInfo (BYVAL hwnd AS HWND) AS LOGFONTW
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | A handle to a window or control. |
+
+#### Return value
+
+A LOGFONTW structure.
+
+---
+
+## AfxGetWindowsFontInfo
+
+Retrieves information about the fonts used by Windows.
+
+```
+FUNCTION AfxGetWindowsFontInfo (BYVAL nType AS LONG, BYVAL plfw AS LOGFONTW PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nType* | The type of the font: AFX_FONT_CAPTION, AFX_FONT_SMALLCAPTION, AFX_FONT_MENU, AFX_FONT_STATUS, AFX_FONT_MESSAGE. |
+| *plfw* | Pointer to a LOGFONTW structure that receives the font information. |
+
+#### Return value
+
+TRUE on succes or FALSE on failure. To get extended error information, call **GetLastError**.
+
+---
+
+## AfxGetWindowsFontPointSize
+
+Retrieves the point size of the fonts used by Windows.
+
+```
+FUNCTION AfxGetWindowsFontPointSize (BYVAL nType AS LONG) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nType* | The type of the font: AFX_FONT_CAPTION, AFX_FONT_SMALLCAPTION, AFX_FONT_MENU, AFX_FONT_STATUS, AFX_FONT_MESSAGE. |
+
+---
+
+## AfxModifyFontFaceName
+
+Modifies the face name of the font of a window or control.
+
+```
+FUNCTION AfxModifyFontFaceName (BYVAL hwnd AS HWND, BYREF wszNewFaceName AS WSTRING) AS HFONT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window or control. |
+| *wszNewFaceName* | The new face name of the font. |
+
+#### Return value
+
+The handle of the new font on success, or NULL on failure.
+
+To get extended error information call **GetLastError**.
+
+#### Remarks
+
+The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
+
+---
+
+## AfxModifyFontHeight
+
+Modifies the height of the font used by a window of control.
+
+```
+FUNCTION AfxModifyFontHeight (BYVAL hwnd AS HWND, BYVAL nValue AS LONG) AS HFONT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window or control. |
+| *nValue* | The base is 100. To increase the font a 20% pass 120; to reduce it a 20% pass 80%. |
+
+#### Return value
+
+The handle of the new font on success, or NULL on failure.
+
+To get extended error information call **GetLastError**.
+
+#### Remarks
+
+The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
+
+---
+
+## AfxModifyFontSettings
+
+Modifies settings of the font used by a window of control.
+
+```
+FUNCTION AfxModifyFontSettings (BYVAL hwnd AS HWND, BYVAL nSetting AS LONG, BYVAL nValue AS LONG) AS HFONT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window or control. |
+| *nSetting* | One of the AFX_FONT_xxx constants (see below). |
+| *nValue* | Depends of the nSetting value. **AFX_FONT_HEIGHT** : The base is 100. To increase the font a 20% pass 120; to reduce it a 20% pass 80%.<br>**AFX_FONT_WEIGHT** : The weight of the font in the range 0 through 1000. For example, 400 is normal and  700 is bold. If this value is zero, a default weight is used. The following values are defined for convenience. FW_DONTCARE (0), FW_THIN (100), FW_EXTRALIGHT (200), FW_ULTRALIGHT (200), FW_LIGHT (300), FW_NORMAL (400), FW_REGULAR (400), FW_MEDIUM (500), FW_SEMIBOLD (600), FW_DEMIBOLD (600), FW_BOLD (700), FW_EXTRABOLD (800), FW_ULTRABOLD (800), FW_HEAVY (900), FW_BLACK (900)<br>**AFX_FONT_ITALIC** : TRUE or FALSE.<br>**AFX_FONT_UNDERLINE** : TRUE or FALSE.<br>**AFX_FONT_STRIKEOUT** : TRUE or FALSE.<br>**AFX_FONT_CHARSET**: The following values are predefined: ANSI_CHARSET, BALTIC_CHARSET, CHINESEBIG5_CHARSET, DEFAULT_CHARSET, EASTEUROPE_CHARSET, GB2312_CHARSET, GREEK_CHARSET, HANGUL_CHARSET, MAC_CHARSET, OEM_CHARSET, RUSSIAN_CHARSET, SHIFTJIS_CHARSET, SYMBOL_CHARSET, TURKISH_CHARSET, VIETNAMESE_CHARSET, JOHAB_CHARSET (Korean language edition of Windows), ARABIC_CHARSET and HEBREW_CHARSET (Middle East language edition of Windows), THAI_CHARSET (Thai language edition of Windows). The OEM_CHARSET value specifies a character set that is operating-system dependent. DEFAULT_CHARSET is set to a value based on the current system locale. For example, when the system locale is English (United States), it is set as ANSI_CHARSET. |
+
+#### Return value
+
+The handle of the new font on success, or NULL on failure.
+
+To get extended error information call **GetLastError**.
+
+#### Remarks
+
+The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
+
+## AfxSetWindowFont
+
+Sets the font that a control is to use when drawing text.
+
+```
+SUB AfxSetWindowFont (BYVAL hwnd AS HWND, BYVAL hFont AS HFONT, BYVAL fRedraw AS LONG = CTRUE)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window or control. |
+| *hFont* | A handle to the font. If this parameter is NULL, the control uses the default system font to draw text. |
+| *fRedraw* | Optional. Specifies whether the control should be redrawn immediately upon setting the font. If this parameter is CTRUE, the control redraws itself. |
+
+#### Return value
+
+The handle of the new font on success, or NULL on failure.
+
+To get extended error information call **GetLastError**.
+
+#### Remarks
+
+The application should call the **DeleteObject** function to delete the font when it is no longer needed; for example, after it destroys the control.
+
+The size of the control does not change as a result of receiving this message. To avoid clipping text that does not fit within the boundaries of the control, the application should correct the size of the control window before it sets the font.
+
 +++++++++++++++++++++++
 
 
@@ -3126,340 +3538,6 @@ FUNCTION AfxSetClipboardText (BYREF wszText AS WSTRING) AS HANDLE
 
 If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
 
-# <a name="AfxCreateFont"></a>AfxCreateFont
-
-Creates a logical font.
-
-```
-FUNCTION AfxCreateFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL DPI AS LONG = 96, _
-   BYVAL lWeight AS LONG = 0, BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, _
-   BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS HFONT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *wszFaceName* | The typeface name. |
-| *lPointSize* | The point size. |
-| *DPI* | Dots per inch to calculate scaling. Default value = 96 (no scaling). If you pass -1 and the application is DPI aware, the DPI value used by the operating system will be used. |
-| *lWeight* | Initial weight of the font. If the weight is below 550 (the average of FW_NORMAL, 400, and FW_BOLD, 700), then the Bold property is also initialized to FALSE. If the weight is above 550, the Bold property is set to TRUE.<br>The following values are defined for convenience: FW_DONTCARE (0), FW_THIN (100), FW_EXTRALIGHT (200), FW_ULTRALIGHT (200), FW_LIGHT (300), FW_NORMAL (400), FW_REGULAR (400), FW_MEDIUM (500), FW_SEMIBOLD (600), FW_DEMIBOLD (600), FW_BOLD (700), FW_EXTRABOLD (800), FW_ULTRABOLD (800), FW_HEAVY (900), FW_BLACK (900) |
-| *bItalic* | Italic flag. CTRUE or FALSE. |
-| *bUnderline* | Underline flag. CTRUE or FALSE. |
-| *bStrikeOut* | StrikeOut flag. CTRUE or FALSE |
-| *bCharSet* | Specifies the character set. The following values are predefined:<br>ANSI_CHARSET, BALTIC_CHARSET, CHINESEBIG5_CHARSET, DEFAULT_CHARSET, EASTEUROPE_CHARSET, GB2312_CHARSET, GREEK_CHARSET, HANGUL_CHARSET, MAC_CHARSET, OEM_CHARSET, RUSSIAN_CHARSET, SHIFTJIS_CHARSET, SYMBOL_CHARSET, TURKISH_CHARSET.<br>Korean Windows: JOHAB_CHARSET.<br>Middle-Eastern Windows: HEBREW_CHARSET, ARABIC_CHARSET.<br>Thai Windows: THAI_CHARSET.<br>The OEM_CHARSET value specifies a character set that is operating-system dependent. DEFAULT_CHARSET is set to a value based on the current system locale. For example, when the system locale is English (United States), it is set as ANSI_CHARSET. Fonts with other character sets may exist in the operating system. If an application uses a font with an unknown character set, it should not attempt to translate or interpret strings that are rendered with that font. This parameter is important in the font mapping process. To ensure consistent results, specify a specific character set. If you specify a typeface name in the *wszFaceName* parameter, make sure that the *bCharSet* value matches the character set of the typeface specified in *wszFaceName*. |
-
-#### Return value
-
-The handle of the font or NULL on failure.
-
-#### Remarks
-
-The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
-
-#### Usage examples
-
-```
-hFont = AfxCreateFont("MS Sans Serif", 8, , FW_NORMAL, , , , DEFAULT_CHARSET)
-hFont = AfxCreateFont("Courier New", 10, 96 , FW_BOLD, , , , DEFAULT_CHARSET)
-hFont = AfxCreateFont("Marlett", 8, -1, FW_NORMAL, , , , SYMBOL_CHARSET)
-```
-
-# <a name="AfxGetFontHeight"></a>AfxGetFontHeight
-
-Returns the logical height of a font given its point size.
-
-```
-FUNCTION AfxGetFontHeight (BYVAL nPointSize AS LONG) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *nPointSize* | The point size of the font. |
-
-# <a name="AfxGetFontPointSize"></a>AfxGetFontPointSize
-
-Returns the point size of a font given its logical height.
-
-```
-FUNCTION AfxGetFontPointSize (BYVAL nHeight AS LONG) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *nHeight* | The logical height of the font. |
-
-# <a name="AfxGetWindowFont"></a>AfxGetWindowFont
-
-Retrieves the font with which the window or control is currently drawing its text.
-
-```
-FUNCTION AfxGetWindowFont (BYVAL hwnd AS HWND) AS HFONT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | A handle to a window or control. |
-
-#### Return value
-
-The handle of the font.
-
-# <a name="AfxGetWindowFontInfo"></a>AfxGetWindowFontInfo
-
-Retrieves information about the font being used by a window or control.
-
-```
-FUNCTION AfxGetWindowFontInfo (BYVAL hwnd AS HWND) AS LOGFONTW
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | A handle to a window or control. |
-
-#### Return value
-
-A LOGFONTW structure.
-
-# <a name="AfxGetWindowsFontInfo"></a>AfxGetWindowsFontInfo
-
-Retrieves information about the fonts used by Windows.
-
-```
-FUNCTION AfxGetWindowsFontInfo (BYVAL nType AS LONG, BYVAL plfw AS LOGFONTW PTR) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *nType* | The type of the font: AFX_FONT_CAPTION, AFX_FONT_SMALLCAPTION, AFX_FONT_MENU, AFX_FONT_STATUS, AFX_FONT_MESSAGE. |
-| *plfw* | Pointer to a LOGFONTW structure that receives the font information. |
-
-#### Return value
-
-TRUE on succes or FALSE on failure. To get extended error information, call **GetLastError**.
-
-# <a name="AfxGetWindowsFontPointSize"></a>AfxGetWindowsFontPointSize
-
-Retrieves the point size of the fonts used by Windows.
-
-```
-FUNCTION AfxGetWindowsFontPointSize (BYVAL nType AS LONG) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *nType* | The type of the font: AFX_FONT_CAPTION, AFX_FONT_SMALLCAPTION, AFX_FONT_MENU, AFX_FONT_STATUS, AFX_FONT_MESSAGE. |
-
-# <a name="AfxModifyFontFaceName"></a>AfxModifyFontFaceName
-
-Modifies the face name of the font of a window or control.
-
-```
-FUNCTION AfxModifyFontFaceName (BYVAL hwnd AS HWND, BYREF wszNewFaceName AS WSTRING) AS HFONT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window or control. |
-| *wszNewFaceName* | The new face name of the font. |
-
-#### Return value
-
-The handle of the new font on success, or NULL on failure.
-
-To get extended error information call **GetLastError**.
-
-#### Remarks
-
-The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
-
-# <a name="AfxModifyFontHeight"></a>AfxModifyFontHeight
-
-Modifies the height of the font used by a window of control.
-
-```
-FUNCTION AfxModifyFontHeight (BYVAL hwnd AS HWND, BYVAL nValue AS LONG) AS HFONT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window or control. |
-| *nValue* | The base is 100. To increase the font a 20% pass 120; to reduce it a 20% pass 80%. |
-
-#### Return value
-
-The handle of the new font on success, or NULL on failure.
-
-To get extended error information call **GetLastError**.
-
-#### Remarks
-
-The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
-
-# <a name="AfxModifyFontSettings"></a>AfxModifyFontSettings
-
-Modifies settings of the font used by a window of control.
-
-```
-FUNCTION AfxModifyFontSettings (BYVAL hwnd AS HWND, BYVAL nSetting AS LONG, BYVAL nValue AS LONG) AS HFONT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window or control. |
-| *nSetting* | One of the AFX_FONT_xxx constants (see below). |
-| *nValue* | Depends of the nSetting value. **AFX_FONT_HEIGHT** : The base is 100. To increase the font a 20% pass 120; to reduce it a 20% pass 80%.<br>**AFX_FONT_WEIGHT** : The weight of the font in the range 0 through 1000. For example, 400 is normal and  700 is bold. If this value is zero, a default weight is used. The following values are defined for convenience. FW_DONTCARE (0), FW_THIN (100), FW_EXTRALIGHT (200), FW_ULTRALIGHT (200), FW_LIGHT (300), FW_NORMAL (400), FW_REGULAR (400), FW_MEDIUM (500), FW_SEMIBOLD (600), FW_DEMIBOLD (600), FW_BOLD (700), FW_EXTRABOLD (800), FW_ULTRABOLD (800), FW_HEAVY (900), FW_BLACK (900)<br>**AFX_FONT_ITALIC** : TRUE or FALSE.<br>**AFX_FONT_UNDERLINE** : TRUE or FALSE.<br>**AFX_FONT_STRIKEOUT** : TRUE or FALSE.<br>**AFX_FONT_CHARSET**: The following values are predefined: ANSI_CHARSET, BALTIC_CHARSET, CHINESEBIG5_CHARSET, DEFAULT_CHARSET, EASTEUROPE_CHARSET, GB2312_CHARSET, GREEK_CHARSET, HANGUL_CHARSET, MAC_CHARSET, OEM_CHARSET, RUSSIAN_CHARSET, SHIFTJIS_CHARSET, SYMBOL_CHARSET, TURKISH_CHARSET, VIETNAMESE_CHARSET, JOHAB_CHARSET (Korean language edition of Windows), ARABIC_CHARSET and HEBREW_CHARSET (Middle East language edition of Windows), THAI_CHARSET (Thai language edition of Windows). The OEM_CHARSET value specifies a character set that is operating-system dependent. DEFAULT_CHARSET is set to a value based on the current system locale. For example, when the system locale is English (United States), it is set as ANSI_CHARSET. |
-
-#### Return value
-
-The handle of the new font on success, or NULL on failure.
-
-To get extended error information call **GetLastError**.
-
-#### Remarks
-
-The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
-
-# <a name="AfxSetWindowFont"></a>AfxSetWindowFont
-
-Sets the font that a control is to use when drawing text.
-
-```
-SUB AfxSetWindowFont (BYVAL hwnd AS HWND, BYVAL hFont AS HFONT, BYVAL fRedraw AS LONG = CTRUE)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window or control. |
-| *hFont* | A handle to the font. If this parameter is NULL, the control uses the default system font to draw text. |
-| *fRedraw* | Optional. Specifies whether the control should be redrawn immediately upon setting the font. If this parameter is CTRUE, the control redraws itself. |
-
-#### Return value
-
-The handle of the new font on success, or NULL on failure.
-
-To get extended error information call **GetLastError**.
-
-#### Remarks
-
-The application should call the **DeleteObject** function to delete the font when it is no longer needed; for example, after it destroys the control.
-
-The size of the control does not change as a result of receiving this message. To avoid clipping text that does not fit within the boundaries of the control, the application should correct the size of the control window before it sets the font.
-
-# <a name="AfxLogPixelsX"></a>AfxLogPixelsX / AfxGetDpi / AfxGetDpiX
-
-Retrieves the number of pixels per logical inch along the screen width. In a system with multiple display monitors, this value is the same for all monitors.
-
-```
-FUNCTION AfxLogPixelsX () AS LONG
-FUNCTION AfxGetDpi () AS LONG
-FUNCTION AfxGetDpiX () AS LONG
-```
-
-# <a name="AfxLogPixelsY"></a>AfxLogPixelsX / AfxGetDpiY
-
-Retrieves the number of pixels per logical inch along the screen height. In a system with multiple display monitors, this value is the same for all monitors.
-
-```
-FUNCTION AfxLogPixelsY () AS LONG
-FUNCTION AfxGetDpiY () AS LONG
-```
-
-# <a name="AfxGetMonitorHorizontalScaling"></a>AfxGetMonitorHorizontalScaling
-
-Returns the horizontal scaling of the monitor that the window is currently displayed on.
-
-```
-FUNCTION AfxGetMonitorHorizontalScaling (BYVAL hwnd AS HWND = NULL) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
-
-#### Remarks
-
-If the application to which the window belongs is not DPI aware, a computer using 192 DPI, will return an scaling ratio of 2.
-
-# <a name="AfxGetMonitorVerticalScaling"></a>AfxGetMonitorVerticalScaling
-
-Returns the vertical scaling of the monitor that the window is currently displayed on.
-
-```
-FUNCTION AfxGetMonitorVerticalScaling (BYVAL hwnd AS HWND = NULL) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
-
-#### Remarks
-
-If the application to which the window belongs is not DPI aware, a computer using 192 DPI, will return an scaling ratio of 2.
-
-# <a name="AfxGetMonitorLogicalHeight"></a>AfxGetMonitorLogicalHeight
-
-Returns the logical height of the monitor that the window is currently displayed on.
-
-```
-FUNCTION AfxGetMonitorLogicalHeight (BYVAL hwnd AS HWND = NULL) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
-
-#### Remarks
-
-If the application to which the window belongs is not DPI aware, a monitor with an height resolution of 1080 pixels in a computer using 192 DPI, will return 540 pixels.
-
-# <a name="AfxGetMonitorLogicalWidth"></a>AfxGetMonitorLogicalWidth
-
-Returns the logical width of the monitor that the window is currently displayed on.
-
-```
-FUNCTION AfxGetMonitorLogicalWidth (BYVAL hwnd AS HWND = NULL) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Optional. A handle to the window. If NULL, the desktop window handle will be used. |
-
-#### Remarks
-
-If the application to which the window belongs is not DPI aware, a monitor with a width resolution of 1920 pixels in a computer using 192 DPI, will return 960 pixels.
-
-# <a name="AfxIsDPIResolutionAtLeast"></a>AfxIsDPIResolutionAtLeast
-
-Determines if screen resolution meets minimum requirements in relative pixels, e.g. for a screen resolution of 1920x1080 pixels and a DPI of 192 (scaling ratio = 2), the maximum relative pixels for a DPI aware application is 960x540.
-
-```
-FUNCTION AfxIsDPIResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cxMin* | Minimum screen resolution width in relative pixels. |
-| *cyMin* | Minimum screen resolution height in relative pixels. |
-
-#### Return value
-
-TRUE or FALSE.
-
-# <a name="AfxIsResolutionAtLeast"></a>AfxIsResolutionAtLeast
-
-Determines if screen resolution meets minimum requirements.
-
-```
-FUNCTION AfxIsResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cxMin* | Minimum screen resolution width in relative pixels. |
-| *cyMin* | Minimum screen resolution height in relative pixels. |
-
-#### Return value
-
-TRUE or FALSE.
 
 # <a name="AfxSetProcessDPIAware"></a>AfxSetProcessDPIAware
 
@@ -3490,48 +3568,6 @@ DLLs should accept the dpi setting of the host process rather than call **AfxSet
  ...
 </assembly>
 ```
-
-# <a name="AfxIsProcessDPIAware"></a>AfxIsProcessDPIAware
-
-Determines whether the current process is dots per inch (dpi) aware such that it adjusts the sizes of UI elements to compensate for the dpi setting.
-
-```
-FUNCTION AfxIsProcessDPIAware () AS BOOLEAN
-```
-
-#### Return value
-
-TRUE if the process is dpi aware; otherwise, FALSE.
-
-# <a name="AfxLoadIconMetric"></a>AfxLoadIconMetric
-
-Loads a specified icon resource with a client-specified system metric.
-
-```
-FUNCTION AfxLoadIconMetric (BYVAL hinst AS HINSTANCE, BYVAL pwszName AS WSTRING PTR, _
-   BYVAL lims AS LONG, BYVAL phico AS HICON PTR) AS HRESULT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hinst* | A handle to the module of either a DLL or executable (.exe) file that contains the icon to be loaded. For more information, see **GetModuleHandle**. To load a predefined icon or a standalone icon file, set this parameter to NULL. |
-| *pwszName* | A pointer to a null-terminated, Unicode buffer that contains location information about the icon to load. It is interpreted as follows: If *hinst* is NULL, *pwszName* can specify one of two things.<br>1) The identifier of a predefined icon to load. These identifiers are recognized: IDI_APPLICATION, IDI_INFORMATION, IDI_ERROR, IDI_WARNING, IDI_SHIELD, IDI_QUESTION.<br>To pass these constants to the **AfxLoadIconMetric** function, use the MAKEINTRESOURCE macro. For example, to load the IDI_ERROR icon, pass MAKEINTRESOURCE(IDI_ERROR) as the *pwszName* parameter and NULL as the *hinst* parameter.<br>2) The name of a standalone icon (.ico) file.<br>If hinst is non-null, *pwszName* can specify one of two things.<br>1) The name of the icon resource, if the icon resource is to be loaded by name from the module.<br>2) The icon ordinal, if the icon resource is to be loaded by ordinal from the module. This ordinal must be packaged by using the MAKEINTRESOURCE macro. |
-| *lims* | The desired metric. One of the following values:<br>**LIM_SMALL** : Corresponds to SM_CXSMICON, the recommended pixel width of a small icon.<br>**LIM_LARGE** : Corresponds to SM_CXICON, the default pixel width of an icon. |
-| *phico* | When this function returns, contains a pointer to the handle of the loaded icon. |
-
-#### Return value
-
-Returns S_OK if successful, otherwise an error, including the following value: *E_INVALIDARG* : The contents of the buffer pointed to by pszName do not fit any of the expected interpretations.
-
-#### Remarks
-
-**LoadIconMetric** is similar to **LoadIcon**, but with the capability to specify the icon metric. It is used in place of **LoadIcon** when the calling application wants to ensure a high quality icon. This is particularly useful in high dots per inch (dpi) situations.
-
-Icons are extracted or created as follows.
-
-1) If an exact size match is found in the resource, that icon is used.<br>
-2) If an exact size match cannot be found and a larger icon is available, a new icon is created by scaling the larger version down to the desired size.<br>
-3) If an exact size match cannot be found and no larger icon is available, a new icon is created by scaling a smaller icon up to the desired size.
 
 # <a name="AfxScaleRatioX"></a>AfxScaleRatioX
 
