@@ -7,14 +7,6 @@ Assorted file, folder and path procedures.
 
 ---
 
-## Dialogs
-
-| Name       | Description |
-| ---------- | ----------- |
-| [AfxBrowseForFolder](#afxbrowseforfolder) | Displays a dialog box that enables the user to select a folder. |
-
----
-
 ## File and Folder Procedures
 
 | Name       | Description |
@@ -163,59 +155,6 @@ Assorted file, folder and path procedures.
 | [AfxUrlUnescape](#afxurlunescape) | Converts escape sequences back into ordinary characters. |
 | [AfxUrlUnescapeInPlace](#afxurlunescapeinplace) | Converts escape sequences back into ordinary characters and overwrites the original string. |
 
----
-
-## AfxBrowseForFolder
-
-Displays a dialog box that enables the user to select a folder.
-
-```
-FUNCTION AfxBrowseForFolder (BYVAL hwnd AS HWND, BYVAL pwszTitle AS WSTRING PTR = NULL, _
-   BYVAL pwszStartFolder AS WSTRING PTR = NULL, BYVAL nFlags AS LONG = 0) AS DWSTRING
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | The handle to the parent window of the dialog box. This value can be zero. |
-| *pwszTitle* | Optional. A string value that represents the title displayed inside the Browse dialog box. |
-| *pwszStartFolder* | Optional.  The initial folder that the dialog will show. |
-| *nFlags* | Optional. A LONG value that contains the options for the method. This can be zero or a combination of the values listed under the *ulFlags* member of the **BROWSEINFO** structure. |
-
-| Flag       | Description |
-| ---------- | ----------- |
-| BIF_RETURNONLYFSDIRS | Only return file system directories. If the user selects folders that are not part of the file system, the OK button is grayed. |
-| BIF_DONTGOBELOWDOMAIN | Do not include network folders below the domain level in the dialog box's tree view control. |
-| BIF_STATUSTEXT | Include a status area in the dialog box. The callback function can set the status text by sending messages to the dialog box. This flag is not supported when BIF_NEWDIALOGSTYLE is specified. |
-| BIF_RETURNFSANCESTORS | Only return file system ancestors. An ancestor is a subfolder that is beneath the root folder in the namespace hierarchy. If the user selects an ancestor of the root folder that is not part of the file system, the **OK** button is grayed. |
-| BIF_EDITBOX | Version 4.71. Include an edit control in the browse dialog box that allows the user to type the name of an item. |
-| BIF_NEWDIALOGSTYLE | Version 5.0. Use the new user interface. Setting this flag provides the user with a larger dialog box that can be resized. The dialog box has several new capabilities, including: drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders, delete, and other shortcut menu commands. |
-| BIF_USENEWUI | Version 5.0. Use the new user interface, including an edit box. This flag is equivalent to BIF_EDITBOX OR BIF_NEWDIALOGSTYLE. |
-| BIF_UAHINT | Version 6.0. When combined with BIF_NEWDIALOGSTYLE, adds a usage hint to the dialog box, in place of the edit box. BIF_EDITBOX overrides this flag. |
-| BIF_NONEWFOLDERBUTTON | Version 6.0. Do not include the **New Folder** button in the browse dialog box. |
-| BIF_NOTRANSLATETARGETS | Version 6.0. When the selected item is a shortcut, return the PIDL of the shortcut itself rather than its target. |
-| BIF_BROWSEFORCOMPUTER | Only return computers. If the user selects anything other than a computer, the **OK** button is grayed. |
-| BIF_BROWSEFORPRINTER | Only allow the selection of printers. If the user selects anything other than a printer, the **OK** button is grayed. In Windows XP and later systems, the best practice is to use a Windows XP-style dialog, setting the root of the dialog to the Printers and Faxes folder (CSIDL_PRINTERS). |
-| BIF_BROWSEINCLUDEFILES | Version 4.71. The browse dialog box displays files as well as folders. |
-| BIF_SHAREABLE | Version 5.0. The browse dialog box can display shareable resources on remote systems. This is intended for applications that want to expose remote shares on a local system. The BIF_NEWDIALOGSTYLE flag must also be set. |
-| BIF_BROWSEFILEJUNCTIONS | Windows 7 and later. Allow folder junctions such as a library or a compressed file with a .zip file name extension to be browsed. |
-
-#### Notes
-
-If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set, **AfxShellBrowserForFolder** fails if BIF_NEWDIALOGSTYLE or BIF_USENEWUI are passed.
-
-#### Return value
-
-The path of the selected folder.
-
-#### Remarks
-
-If you don't pass any flags, the function will use BIF_RETURNONLYFSDIRS OR BIF_DONTGOBELOWDOMAIN OR BIF_USENEWUI OR BIF_RETURNFSANCESTORS.
-
-#### Usage example
-
-```
-DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
-```
 ---
 
 ## AfxChDir
