@@ -4,6 +4,8 @@ Assorted Windows procedures.
 
 **Include File**: AfxNova/AfxWin.inc.
 
+---
+
 # Window
 
 | Name       | Description |
@@ -37,6 +39,8 @@ Assorted Windows procedures.
 | [AfxSetWindowText](#AfxSetWindowText) | Sets the text of a window. |
 | [AfxShowWindowState](#AfxShowWindowState) | Sets the specified window's show state. |
 
+---
+
 # Messages
 
 | Name       | Description |
@@ -44,6 +48,8 @@ Assorted Windows procedures.
 | [AfxDoEvents](#Afxdoevents) | Processes pending Windows messages. |
 | [AfxForwardSizeMessage](#AfxForwardSizeMessage) | Sends a WM_SIZE message to the specified window. |
 | [AfxPumpMessages](#AfxPumpMessages) | Processes pending Windows messages. |
+
+---
 
 # Handles
 
@@ -53,6 +59,8 @@ Assorted Windows procedures.
 | [AfxGetFormHandle](#AfxGetFormHandle) | Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. |
 | [AfxGetHwndFromPID](#AfxGetHwndFromPID) | Retrieves a window handle given it's process identifier. |
 | [AfxGetPathFromWindowHandle](#AfxGetPathFromWindowHandle) | Retrieves the path of the executable file that created the specified window. |
+
+---
 
 # Window styles
 
@@ -67,6 +75,8 @@ Assorted Windows procedures.
 | [AfxSetWindowExStyle](#AfxSetWindowExStyle) | Sets the extended style(s) of the specified window. |
 | [AfxSetWindowStyle](#AfxSetWindowStyle) | Sets the style(s) of the specified window. |
 
+---
+
 # Display
 
 | Name       | Description |
@@ -77,6 +87,8 @@ Assorted Windows procedures.
 | [AfxGetDisplayPixelsHeight](#AfxGetDisplayPixelsHeight) | Returns the height, in pixels, of the current display device on the computer on which the calling thread is running. |
 | [AfxGetDisplayPixelsWidth](#AfxGetDisplayPixelsWidth) | Returns the width, in pixels, of the current display device on the computer on which the calling thread is running. |
 
+---
+
 # Dialogs
 
 | Name       | Description |
@@ -84,6 +96,8 @@ Assorted Windows procedures.
 | [AfxChooseColorDialog](#AfxChooseColorDialog) | Displays the Windows choose color dialog. |
 | [AfxControlRunDLL](#AfxControlRunDLL) | Launches control panel applications. |
 | [AfxShowSysInfo](#AfxShowSysInfo) | Displays the Windows Information System dialog. |
+
+---
 
 # High DPI
 
@@ -111,6 +125,8 @@ Assorted Windows procedures.
 | [AfxUnscaleY](#AfxUnscaleY) | Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
 | [AfxUseDpiScaling](#AfxUseDpiScaling) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 
+---
+
 # Fonts
 
 | Name       | Description |
@@ -127,6 +143,8 @@ Assorted Windows procedures.
 | [AfxModifyFontSettings](#AfxModifyFontSettings) | Modifies settings of the font used by a window of control. |
 | [AfxSetWindowFont](#AfxSetWindowFont) | Sets the font that a control is to use when drawing text. |
 
+---
+
 # Clipboard
 
 | Name       | Description |
@@ -137,6 +155,8 @@ Assorted Windows procedures.
 | [AfxSetClipboardData](#AfxSetClipboardData) | Places data on the clipboard in a specified clipboard format. |
 | [AfxSetClipboardText](#AfxSetClipboardText) | Places a text string into the clipboard. |
 
+---
+
 # Bitmap
 
 | Name       | Description |
@@ -145,6 +165,8 @@ Assorted Windows procedures.
 | [AfxGetBitmapHeight](#AfxGetBitmapHeight) | Retrieves the height of the specified bitmap. |
 | [AfxGetBitmapWidth](#AfxGetBitmapWidth) | Retrieves the width of the specified bitmap. |
 
+---
+
 # Device Independent Bitmap (DIB)
 
 | Name       | Description |
@@ -152,6 +174,8 @@ Assorted Windows procedures.
 | [AfxCreateDIBSection](#AfxCreateDIBSection) | Creates a DIB section. |
 | [AfxDibLoadImage](#AfxDibLoadImage) | Loads a DIB in memory and returns a pointer to it. |
 | [AfxDibSaveImage](#AfxDibSaveImage) | Saves a DIB to a file. |
+
+---
 
 # Metric conversions
 
@@ -173,6 +197,8 @@ Assorted Windows procedures.
 | [AfxTwipsToPixelsX](#AfxTwipsToPixelsX) | Converts twips to pixels (horizontal resolution). |
 | [AfxTwipsToPixelsY](#AfxTwipsToPixelsY) | Converts twips to pixels (vertical resolution). |
 
+---
+
 # Mail and Internet
 
 | Name       | Description |
@@ -184,6 +210,8 @@ Assorted Windows procedures.
 | [AfxGetDefaultMailClientPath](#AfxGetDefaultMailClientPath) | Retrieves the path of the default mail client application. |
 | [AfxGetInternetExplorerVersion](#AfxGetInternetExplorerVersion) | Returns the Internet Explorer version installed. |
 
+---
+
 # Miscellaneous procedures
 
 | Name       | Description |
@@ -193,24 +221,30 @@ Assorted Windows procedures.
 | [AfxEnviron](#AfxEnviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
 | [AfxExtractResource](#AfxExtractResource) | Extracts resource data and returns it as a string. |
 | [AfxExtractResourceToFile](#AfxExtractResourceToFile) | Extracts resource data and saves it to a file. |
-| [AfxGetComputerName](#AfxGetComputerName) | Retrieves the NetBIOS name of the local computer. |
+| [AfxGetComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
 | [AfxGetMACAddress](#AfxGetMACAddress) | Retrieves the MAC address of a machine's Ethernet card. |
-| [AfxGetUserName](#AfxGetUserName) | Retrieves the name of the user associated with the current thread. |
+| [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
+| [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
 | [AfxMsg](#afxmsg) | Displays an application modal message box. |
 | [AfxSetDlgMsgResult](#AfxSetDlgMsgResult) | Sets the return value of a message processed in the dialog box procedure. |
 | [AfxSetEnviron](#AfxSetEnviron) | Sets the contents of the specified environment variable for the current process. |
 
+---
+
 # Versioning
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxComCtlVersion](#AfxComCtlVersion) | Returns the version of CommCtl32.dll. |
+| [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
+| [AfxGetFileVersion](#afxgetfileversion) | Returns the version of the specified file. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
 | [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
+
+---
 
 ## AfxWindowsVersion
 
@@ -293,12 +327,30 @@ FUNCTION AfxIsPlatformNT () AS BOOLEAN
 ```
 ---
 
-# <a name="AfxComCtlVersion"></a>AfxComCtlVersion
+## AfxGetFileVersion
+
+Returns the version of the specified file multiplied by 100, e.g. 601 for version 6.01.
+
+```
+FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS LONG
+```
+
+#### Return value
+
+The version of the specified file multiplied by 100, e.g. 601 for version 6.01.
+
+#### Usage example
+```
+DIM ver AS LONG = AfxGetFileVersion("COMCTL32.DLL")
+```
+---
+
+## AfxComCtlVersion
 
 Returns the version of CommCtl32.dll
 
 ```
-FUNCTION AfxComCtlVersion () AS LONG
+#define AfxComCtlVersion AfxGetFileVersion("COMCTL32.DLL")
 ```
 
 #### Return value
@@ -329,6 +381,15 @@ FUNCTION AfxMsg (BYVAL hWin AS HWND, BYVAL pwszText AS WSTRING PTR, BYREF wszCap
 | *wszCaption* | Optional. The message box caption. Default title is "Message". |
 | *uType* | Optional. For a list of available types, see the Microsoft documentation for the MessageBoxW function. The MB_APPLMODAL type is always added. |
 
+---
+
+## AfxGetWinDir
+
+Retrieves the path of the Windows directory. This is usually "C:\WINDOWS".
+
+```
+FUNCTION AfxGetWinDir () AS DWSTRING
+```
 ---
 
 ## AfxGetWinErrMsg
@@ -552,12 +613,12 @@ where "#111" is the identifier in the resource file for
 111 RCDATA ".\Resources\VEGA_PAZ_01.jpg"
 ```
 
-# <a name="AfxGetComputerName"></a>AfxGetComputerName
+## AfxGetComputerName
 
 Retrieves the NetBIOS name of the local computer. This name is established at system startup, when the system reads it from the registry.
 
 ```
-FUNCTION AfxGetComputerName () AS CWSTR
+FUNCTION AfxGetComputerName () AS DWSTRING
 ```
 
 #### Return value
@@ -588,12 +649,12 @@ FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
 
 ---
 
-# <a name="AfxGetUserName"></a>AfxGetUserName
+## AfxGetUserName
 
 Retrieves the name of the user associated with the current thread.
 
 ```
-FUNCTION AfxGetUserName () AS CWSTR
+FUNCTION AfxGetUserName () AS DWSTRING
 ```
 
 #### Return value
@@ -603,6 +664,8 @@ The name of the current user associated with the current thread.
 #### Remarks
 
 If the current thread is impersonating another client, the **AfxGetUserName** function returns the user name of the client that the thread is impersonating.
+
+---
 
 # <a name="AfxGetMACAddress"></a>AfxGetMACAddress
 
