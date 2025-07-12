@@ -104,6 +104,7 @@ Assorted Windows procedures.
 | [AfxGetTopEnabledWindow](#afxgettopenabledwindow) | Retrieves the handle of the enabled and visible window at the top of the z-order in an application. |
 | [AfxGetTopLevelParent](#afxgettoplevelparent) | Retrieves the window's top-level parent window. |
 | [AfxGetTopLevelWindow](#afxgettoplevelwindow) | Retrieves the window's top-level parent or owner window. |
+| [AfxGetWindowBounds](#afxgetwindowbounds) | Retrieves the bounds of a window without the drop shadows. |
 | [AfxGetWindowClassName](#afxgetwindowclassname) | Retrieves the name of the class to which the specified window belongs. |
 | [AfxGetWindowClientHeight](#afxgetwindowclientheight) | Returns the height of the client area of window, in pixels. |
 | [AfxGetWindowClientRect](#afxgetwindowclientrect) | Retrieves the coordinates of a window's client area. |
@@ -133,14 +134,14 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxAddWindowExStyle](#AfxAddWindowExStyle) | Adds a new extended style to the specified window. |
-| [AfxAddWindowStyle](#AfxAddWindowStyle) | Adds a new style to the specified window. |
-| [AfxGetWindowExStyle](#AfxGetWindowExStyle) | Retrieves the extended window styles. |
-| [AfxGetWindowStyle](#AfxGetWindowStyle) | Retrieves the window styles. |
-| [AfxRemoveWindowExStyle](#AfxRemoveWindowExStyle) | Removes an extended style from the specified window. |
-| [AfxRemoveWindowStyle](#AfxRemoveWindowStyle) | Removes a style from the specified window. |
-| [AfxSetWindowExStyle](#AfxSetWindowExStyle) | Sets the extended style(s) of the specified window. |
-| [AfxSetWindowStyle](#AfxSetWindowStyle) | Sets the style(s) of the specified window. |
+| [AfxAddWindowExStyle](#afxaddwindowexstyle) | Adds a new extended style to the specified window. |
+| [AfxAddWindowStyle](#afxaddwindowstyle) | Adds a new style to the specified window. |
+| [AfxGetWindowExStyle](#afxgetwindowexstyle) | Retrieves the extended window styles. |
+| [AfxGetWindowStyle](#afxgetwindowstyle) | Retrieves the window styles. |
+| [AfxRemoveWindowExStyle](#afxremovewindowexstyle) | Removes an extended style from the specified window. |
+| [AfxRemoveWindowStyle](#afxremovewindowstyle) | Removes a style from the specified window. |
+| [AfxSetWindowExStyle](#afxsetwindowexstyle) | Sets the extended style(s) of the specified window. |
+| [AfxSetWindowStyle](#afxsetwindowstyle) | Sets the style(s) of the specified window. |
 
 ---
 
@@ -148,11 +149,11 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxForceVisibleDisplay](#AfxForceVisibleDisplay) | Force visibility of an off-screen window. |
-| [AfxGetDisplayBitsPerPixel](#AfxGetDisplayBitsPerPixel) | Returns the color resolution, in bits per pixel, of the display device. |
-| [AfxGetDisplayFrequency](#AfxGetDisplayFrequency) | Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. |
-| [AfxGetDisplayPixelsHeight](#AfxGetDisplayPixelsHeight) | Returns the height, in pixels, of the current display device on the computer on which the calling thread is running. |
-| [AfxGetDisplayPixelsWidth](#AfxGetDisplayPixelsWidth) | Returns the width, in pixels, of the current display device on the computer on which the calling thread is running. |
+| [AfxForceVisibleDisplay](#afxforcevisibledisplay) | Force visibility of an off-screen window. |
+| [AfxGetDisplayBitsPerPixel](#afxgetdisplaybitsperpixel) | Returns the color resolution, in bits per pixel, of the display device. |
+| [AfxGetDisplayFrequency](#afxgetdisplayfrequency) | Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. |
+| [AfxGetDisplayPixelsHeight](#afxgetdisplaypixelsheight) | Returns the height, in pixels, of the current display device on the computer on which the calling thread is running. |
+| [AfxGetDisplayPixelsWidth](#afxgetdisplaypixelswidth) | Returns the width, in pixels, of the current display device on the computer on which the calling thread is running. |
 
 ---
 
@@ -160,9 +161,9 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxDoEvents](#Afxdoevents) | Processes pending Windows messages. |
-| [AfxForwardSizeMessage](#AfxForwardSizeMessage) | Sends a WM_SIZE message to the specified window. |
-| [AfxPumpMessages](#AfxPumpMessages) | Processes pending Windows messages. |
+| [AfxDoEvents](#afxdoevents) | Processes pending Windows messages. |
+| [AfxForwardSizeMessage](#afxforwardsizemMessage) | Sends a WM_SIZE message to the specified window. |
+| [AfxPumpMessages](#afxpumpmessages) | Processes pending Windows messages. |
 
 ---
 
@@ -170,21 +171,21 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxGetControlHandle](#AfxGetControlHandle) | Returns the handle of the control with the specified identifier. |
-| [AfxGetFormHandle](#AfxGetFormHandle) | Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. |
-| [AfxGetHwndFromPID](#AfxGetHwndFromPID) | Retrieves a window handle given it's process identifier. |
-| [AfxGetPathFromWindowHandle](#AfxGetPathFromWindowHandle) | Retrieves the path of the executable file that created the specified window. |
+| [AfxGetControlHandle](#afxgetcontrolhandle) | Returns the handle of the control with the specified identifier. |
+| [AfxGetFormHandle](#afxgetformhandle) | Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. |
+| [AfxGetHwndFromPID](#afxgethwndfrompid) | Retrieves a window handle given it's process identifier. |
+| [AfxGetPathFromWindowHandle](#afxgetpathfromwindowhandle) | Retrieves the path of the executable file that created the specified window. |
 
 ---
 
-# Dialogs
+# Common Dialogs
 
 | Name       | Description |
 | ---------- | ----------- |
 | [AfxBrowseForFolder](#afxbrowseforfolder) | Displays a dialog box that enables the user to select a folder. |
-| [AfxChooseColorDialog](#AfxChooseColorDialog) | Displays the Windows choose color dialog. |
-| [AfxControlRunDLL](#AfxControlRunDLL) | Launches control panel applications. |
-| [AfxShowSysInfo](#AfxShowSysInfo) | Displays the Windows Information System dialog. |
+| [AfxChooseColorDialog](#afxchoosecolordialog) | Displays the Windows choose color dialog. |
+| [AfxControlRunDLL](#afxcontrolrundll) | Launches control panel applications. |
+| [AfxShowSysInfo](#afxshowsysinfo) | Displays the Windows Information System dialog. |
 
 ---
 
@@ -1347,7 +1348,476 @@ Temporary files whose names have been created by this function are not automatic
 
 ---
 
+## AfxAddWindowExStyle
 
+Adds a new extended style to the specified window.
+
+```
+FUNCTION AfxAddWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *dwExStyle* | Extended style to add. |
+
+#### Return value
+
+The previous window extended styles.
+
+#### Usage example
+
+```
+AfxAddWindowExStyle(hwnd, WS_EX_COMPOSITED)
+```
+
+#### Remarks
+
+If the window has a class style of CS_CLASSDC or CS_OWNDC, do not set the extended window styles WS_EX_COMPOSITED or WS_EX_LAYERED.
+
+---
+
+## AfxAddWindowStyle
+
+Adds a new style to the specified window.
+
+```
+FUNCTION AfxAddWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *dwStyle* | Style to add. |
+
+#### Return value
+
+The previous window styles.
+
+#### Usage example
+
+```
+AfxAddWindowStyle(hwnd, WS_HSCROLL)
+```
+
+## AfxGetWindowExStyle
+
+Retrieves the extended window styles.
+
+```
+FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS DWORD
+
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+---
+
+## AfxGetWindowStyle
+
+Retrieves the window styles.
+
+```
+FUNCTION AfxGetWindowStyle (BYVAL hwnd AS HWND) AS DWORD
+
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+---
+
+## AfxRemoveWindowExStyle
+
+Removes an extended style from the specified window.
+
+```
+FUNCTION AfxRemoveWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *dwExStyle* | The extended style to remove. |
+
+#### Return value
+
+The previous extended window styles.
+
+## AfxRemoveWindowStyle
+
+Removes a style from the specified window.
+
+```
+FUNCTION AfxRemoveWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *dwStyle* | The style to remove. |
+
+#### Return value
+
+The previous window styles.
+
+---
+
+## AfxSetWindowExStyle
+
+Sets the extended style(s) of the specified window.
+
+```
+FUNCTION AfxSetWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *dwExStyle* | The extended style(s) to set. |
+
+#### Return value
+
+The previous extended window styles.
+
+---
+
+## AfxSetWindowStyle
+
+Sets the style(s) of the specified window.
+
+```
+FUNCTION AfxSetWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *dwStyle* | The style(s) to set. |
+
+#### Return value
+
+The previous window styles.
+
+---
+
+## AfxForceVisibleDisplay
+
+If you use dual (or even triple/quad) displays then you have undoubtedly encountered the following situation: You change the physical order of your displays, or otherwise reconfigure the logical ordering using your display software. This sometimes has the side-effect of changing your desktop coordinates from zero-based to negative starting coordinates (i.e. the top-left coordinate of your desktop changes from 0,0 to -1024,-768).
+
+This effects many Windows programs which restore their last on-screen position whenever they are started. Should the user reorder their display configuration this can sometimes result in a Windows program subsequently starting in an off-screen position (i.e. at a location that used to be visible) - and is now effectively invisible, preventing the user from closing it down or otherwise moving it back on-screen.
+
+The **AfxForceVisibleDisplay** function can be called at program start-time right after the main window has been created and positioned 'on-screen'. Should the window be positioned in an off-screen position, it is forced back onto the nearest display to its last position. The user will be unaware this is happening and won't even realize to thank you for keeping their user-interface visible, even though they changed their display settings.
+
+Source: Catch-22 web site.
+
+```
+SUB AfxForceVisibleDisplay (BYVAL hwnd AS HWND)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+---
+
+## AfxGetDisplayBitsPerPixel
+
+Returns the color resolution, in bits per pixel, of the display device.
+
+```
+FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
+```
+---
+
+## AfxGetDisplayFrequency
+
+Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. This value is also known as the display device's vertical refresh rate.
+
+```
+FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
+```
+---
+
+## AfxGetDisplayPixelsHeight
+
+Returns the height, in pixels, of the current display device on the computer on which the calling thread is running.
+
+```
+FUNCTION AfxGetDisplayPixelsHeight () AS DWORD
+```
+---
+
+## AfxGetDisplayPixelsWidth
+
+Returns the width, in pixels, of the current display device on the computer on which the calling thread is running.
+
+```
+FUNCTION AfxGetDisplayPixelsWidth () AS DWORD
+```
+
+#### Remarks
+
+Contrarily to **GetSystemMetrics** or **GetDeviceCaps**, it returns the real width even when it is called from an application that is not DPI aware, e.g. an application running virtualized in a monitor 1920 pixels width and a DPI of 192, will return 960 pixels if it calls **GetSystemMetrics** or **GetDeviceCaps**, but will return 1920 pixels calling **AfxGetDisplayPixelsWidth**.
+
+---
+
+## AfxDoEvents
+
+Processes pending Windows messages. Call this procedure if you are performing a tight FOR/NEXT or DO/LOOP and need to allow your application to be responsive to user input.
+
+```
+SUB AfxDoEvents (BYVAL hWin AS HWND = NULL)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Optional. Handle of the window or dialog. If NULL, the window handle to the active window attached to the calling thread's message queue is used. |
+
+---
+
+# <a name="AfxForwardSizeMessage"></a>AfxForwardSizeMessage
+
+Sends a WM_SIZE message to the specified window.
+
+```
+FUNCTION AfxForwardSizeMessage (BYVAL hwnd AS HWND, BYVAL nResizeType AS DWORD, _
+   BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS LRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | A handle to a window. |
+| *nResizeType* | Type of resizing requested. |
+| *nWidth* | The new width of the client area. |
+| *nHeight* | The new height of the client ara. |
+
+| Resizing type  | Description |
+| -------------- | ----------- |
+| SIZE_MAXHIDE | Message is sent to all pop-up windows when some other window is maximized. |
+| SIZE_MAXIMIZED | Maximize the window. |
+| SIZE_MAXSHOW | Message is sent to all pop-up windows when some other window has been restored to its former size. |
+| SIZE_MINIMIZED | Minimize the window. |
+| SIZE_RESTORED | The window has been resized, but neither the SIZE_MINIMIZED nor SIZE_MAXIMIZED value applies. |
+
+#### Remark
+
+If an application processes this message, it should return zero.
+
+---
+
+## AfxPumpMessages
+
+Processes pending Windows messages. Call this procedure if you are performing a tight FOR/NEXT or DO/LOOP and need to allow your application to be responsive to user input.
+
+```
+SUB AfxPumpMessages
+```
+---
+
+## AfxGetControlHandle
+
+Returns the handle of the control with the specified identifier. The reference handle can be the handle of the form or the handle of any other control on the form.
+
+```
+FUNCTION AfxGetControlHandle (BYVAL hwnd AS HWND, BYVAL wCtrlID AS WORD) AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *wCtrlID* | Control identifier. |
+
+#### Return value
+
+Returns the handle of the control or NULL.
+
+---
+
+## AfxGetFormHandle
+
+Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. The reference handle is the handle of any control on the form.
+
+```
+FUNCTION AfxGetFormHandle (BYVAL hwnd AS HWND) AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | A handle to the control. |
+
+#### Return value
+
+Handle of the ancestor window.
+
+---
+
+## AfxGetHwndFromPID
+
+Retrieves a window handle given it's process identifier.
+
+```
+FUNCTION AfxGetHwndFromPID (BYVAL PID AS DWORD) AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *PID* | The process identifier. |
+
+#### Return value
+
+The window handle or NULL.
+
+---
+
+## AfxGetPathFromWindowHandle
+
+Retrieves the path of the executable file that created the specified window.
+
+```
+FUNCTION AfxGetPathFromWindowHandle (BYVAL hwnd AS HWND) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The window handle. |
+
+#### Return value
+
+The path of the executable file.
+
+---
+
+## AfxBrowseForFolder
+
+Displays a dialog box that enables the user to select a folder.
+
+```
+FUNCTION AfxBrowseForFolder (BYVAL hwnd AS HWND, BYVAL pwszTitle AS WSTRING PTR = NULL, _
+   BYVAL pwszStartFolder AS WSTRING PTR = NULL, BYVAL nFlags AS LONG = 0) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle to the parent window of the dialog box. This value can be zero. |
+| *pwszTitle* | Optional. A string value that represents the title displayed inside the Browse dialog box. |
+| *pwszStartFolder* | Optional.  The initial folder that the dialog will show. |
+| *nFlags* | Optional. A LONG value that contains the options for the method. This can be zero or a combination of the values listed under the *ulFlags* member of the **BROWSEINFO** structure. |
+
+| Flag       | Description |
+| ---------- | ----------- |
+| BIF_RETURNONLYFSDIRS | Only return file system directories. If the user selects folders that are not part of the file system, the OK button is grayed. |
+| BIF_DONTGOBELOWDOMAIN | Do not include network folders below the domain level in the dialog box's tree view control. |
+| BIF_STATUSTEXT | Include a status area in the dialog box. The callback function can set the status text by sending messages to the dialog box. This flag is not supported when BIF_NEWDIALOGSTYLE is specified. |
+| BIF_RETURNFSANCESTORS | Only return file system ancestors. An ancestor is a subfolder that is beneath the root folder in the namespace hierarchy. If the user selects an ancestor of the root folder that is not part of the file system, the **OK** button is grayed. |
+| BIF_EDITBOX | Version 4.71. Include an edit control in the browse dialog box that allows the user to type the name of an item. |
+| BIF_NEWDIALOGSTYLE | Version 5.0. Use the new user interface. Setting this flag provides the user with a larger dialog box that can be resized. The dialog box has several new capabilities, including: drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders, delete, and other shortcut menu commands. |
+| BIF_USENEWUI | Version 5.0. Use the new user interface, including an edit box. This flag is equivalent to BIF_EDITBOX OR BIF_NEWDIALOGSTYLE. |
+| BIF_UAHINT | Version 6.0. When combined with BIF_NEWDIALOGSTYLE, adds a usage hint to the dialog box, in place of the edit box. BIF_EDITBOX overrides this flag. |
+| BIF_NONEWFOLDERBUTTON | Version 6.0. Do not include the **New Folder** button in the browse dialog box. |
+| BIF_NOTRANSLATETARGETS | Version 6.0. When the selected item is a shortcut, return the PIDL of the shortcut itself rather than its target. |
+| BIF_BROWSEFORCOMPUTER | Only return computers. If the user selects anything other than a computer, the **OK** button is grayed. |
+| BIF_BROWSEFORPRINTER | Only allow the selection of printers. If the user selects anything other than a printer, the **OK** button is grayed. In Windows XP and later systems, the best practice is to use a Windows XP-style dialog, setting the root of the dialog to the Printers and Faxes folder (CSIDL_PRINTERS). |
+| BIF_BROWSEINCLUDEFILES | Version 4.71. The browse dialog box displays files as well as folders. |
+| BIF_SHAREABLE | Version 5.0. The browse dialog box can display shareable resources on remote systems. This is intended for applications that want to expose remote shares on a local system. The BIF_NEWDIALOGSTYLE flag must also be set. |
+| BIF_BROWSEFILEJUNCTIONS | Windows 7 and later. Allow folder junctions such as a library or a compressed file with a .zip file name extension to be browsed. |
+
+#### Notes
+
+If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set, **AfxShellBrowserForFolder** fails if BIF_NEWDIALOGSTYLE or BIF_USENEWUI are passed.
+
+#### Return value
+
+The path of the selected folder.
+
+#### Remarks
+
+If you don't pass any flags, the function will use BIF_RETURNONLYFSDIRS OR BIF_DONTGOBELOWDOMAIN OR BIF_USENEWUI OR BIF_RETURNFSANCESTORS.
+
+#### Usage example
+
+```
+DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
+```
+---
+
+## AfxChooseColorDialog
+
+Displays the Windows choose color dialog.
+
+```
+FUNCTION AfxChooseColorDialog (BYVAL hwnd AS HWND, BYVAL rgbDefaultColor AS COLORREF = 0, _
+   BYVAL lpCustColors AS COLORREF PTR = NULL) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | A handle to the parent window or NULL. |
+| *rgbDefaultColor* | The color initially selected when the dialog box is created. If the specified color value is not among the available colors, the system selects the nearest solid color available. If *rgbDefaultColor* is zero, the initially selected color is black. |
+| *lpCustColors* | Out. A pointer to an array of 16 values that contain red, green, blue (RGB) values for the custom color boxes in the dialog box. If the user modifies these colors, the system updates the array with the new RGB values. To preserve new custom colors between calls to the **AfxChooseColorDialog** function, you should allocate static memory for the array. To create a COLORREF color value, use the BGR macro. |
+
+#### Return value
+
+The selected color, or -1 if the user has canceled the dialog.
+
+---
+
+## AfxControlRunDLL
+
+Control_RunDLL is an undocumented procedure in the Shell32.dll which can be used to launch control panel applications. You’ve to pass the name of the control panel file (.cpl) and the tool represented by it will be launched. For launching some control panel applications, you’ve to provide a valid windows handle (hwnd parameter) and program instance (*hInst*) parameter).
+
+```
+FUNCTION AfxControlRunDLL (BYVAL hwnd AS HWND, BYVAL hInst AS HINSTANCE, _
+   BYVAL cmd AS WSTRING PTR, BYVAL nCmdShow AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to a window. This parameter can be NULL. |
+| *hInst* | Instance handle. This parameter can be NULL. |
+| *cmd* | The command and parameters. |
+| *nCmdShow* | Controls how the window is to be shown, e.g. SW_SHOWNORMAL. |
+
+| nCmdShow value  | Description |
+| --------------- | ----------- |
+| SW_FORCEMINIMIZE | Minimizes a window, even if the thread that owns the window is not responding. This flag should only be used when minimizing windows from a different thread. |
+| SW_HIDE | Hides the window and activates another window. |
+| SW_MAXIMIZE | Maximizes the specified window. |
+| SW_MINIMIZE | Minimizes the specified window and activates the next top-level window in the Z order. |
+| SW_RESTORE | Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window. |
+| SW_SHOW | Activates the window and displays it in its current size and position. |
+| SW_SHOWDEFAULT | Sets the show state based on the SW_ value specified in the STARTUPINFO structure passed to the **CreateProcess** function by the program that started the application. |
+| SW_SHOWMAXIMIZED | Activates the window and displays it as a maximized window. |
+| SW_SHOWMINIMIZED | Activates the window and displays it as a minimized window. |
+| SW_SHOWMINNOACTIVE | Displays the window as a minimized window. This value is similar to SW_SHOWMINIMIZED, except the window is not activated. |
+| SW_SHOWNA | Displays the window in its current size and position. This value is similar to SW_SHOW, except that the window is not activated. |
+| SW_SHOWNOACTIVATE | Displays a window in its most recent size and position. This value is similar to SW_SHOWNORMAL, except that the window is not activated. |
+| SW_SHOWNORMAL | Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time. |
+
+#### Usage examples
+
+```
+AfxControlRunDLL(0, 0, "", SW_SHOWNORMAL)   ' Opens the control panel
+AfxControlRunDLL(0, 0, "appwiz.cpl", SW_SHOWNORMAL)   ' Opens the applications wizard
+```
+---
+
+# <a name="AfxShowSysInfo"></a>AfxShowSysInfo
+
+Displays the Windows Information System dialog.
+
+```
+FUNCTION AfxShowSysInfo (BYVAL hwnd AS HWND) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | A handle to the parent window or NULL. |
+
+#### Return value
+
+If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE.
+
+---
 
 +++++++++++++++++++++++
 
@@ -1455,6 +1925,23 @@ FUNCTION AfxGetTopLevelWindow (BYVAL hwnd AS HWND) AS HWND
 #### Return value
 
 Handle of the top-level parent or owner window.
+
+---
+
+## AfxGetWindowBounds
+
+Retrieves the bounds of a window without the drop shadows.
+```
+FUNCTION AfxGetWindowBounds (BYVAL hWin AS HWND) AS RECT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+
+#### Remarks
+
+In Windows Vista and later, the Window Rect includes the area occupied by the drop shadow. Calling **GetWindowRect** will have different behavior depending on whether the window has ever been shown or not. If the window has not been shown before, **GetWindowRect** will not include the area of the drop shadow. To get the window bounds excluding the drop shadow, use DwmGetWindowAttribute, specifying DWMWA_EXTENDED_FRAME_BOUNDS. Note that unlike the Window Rect, the DWM Extended Frame Bounds are not adjusted for DPI. Getting the extended frame bounds can only be done after the window has been shown at least once.
 
 ---
 
@@ -2049,186 +2536,6 @@ The MAC address in the following format: MM-MM-MM-SS-SS-SS. The leftmost 6 digit
 This function only supports one NIC card on your PC.
 
 ---
-
-## AfxDoEvents
-
-Processes pending Windows messages. Call this procedure if you are performing a tight FOR/NEXT or DO/LOOP and need to allow your application to be responsive to user input.
-
-```
-SUB AfxDoEvents (BYVAL hWin AS HWND = NULL)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hWin* | Optional. Handle of the window or dialog. If NULL, the window handle to the active window attached to the calling thread's message queue is used. |
-
----
-
-## AfxPumpMessages
-
-Processes pending Windows messages. Call this procedure if you are performing a tight FOR/NEXT or DO/LOOP and need to allow your application to be responsive to user input.
-
-```
-SUB AfxPumpMessages
-```
----
-
-# <a name="AfxForwardSizeMessage"></a>AfxForwardSizeMessage
-
-Sends a WM_SIZE message to the specified window.
-
-```
-FUNCTION AfxForwardSizeMessage (BYVAL hwnd AS HWND, BYVAL nResizeType AS DWORD, _
-   BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS LRESULT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | A handle to a window. |
-| *nResizeType* | Type of resizing requested. |
-| *nWidth* | The new width of the client area. |
-| *nHeight* | The new height of the client ara. |
-
-| Resizing type  | Description |
-| -------------- | ----------- |
-| SIZE_MAXHIDE | Message is sent to all pop-up windows when some other window is maximized. |
-| SIZE_MAXIMIZED | Maximize the window. |
-| SIZE_MAXSHOW | Message is sent to all pop-up windows when some other window has been restored to its former size. |
-| SIZE_MINIMIZED | Minimize the window. |
-| SIZE_RESTORED | The window has been resized, but neither the SIZE_MINIMIZED nor SIZE_MAXIMIZED value applies. |
-
-#### Remark
-
-If an application processes this message, it should return zero.
-
----
-
-## AfxBrowseForFolder
-
-Displays a dialog box that enables the user to select a folder.
-
-```
-FUNCTION AfxBrowseForFolder (BYVAL hwnd AS HWND, BYVAL pwszTitle AS WSTRING PTR = NULL, _
-   BYVAL pwszStartFolder AS WSTRING PTR = NULL, BYVAL nFlags AS LONG = 0) AS DWSTRING
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | The handle to the parent window of the dialog box. This value can be zero. |
-| *pwszTitle* | Optional. A string value that represents the title displayed inside the Browse dialog box. |
-| *pwszStartFolder* | Optional.  The initial folder that the dialog will show. |
-| *nFlags* | Optional. A LONG value that contains the options for the method. This can be zero or a combination of the values listed under the *ulFlags* member of the **BROWSEINFO** structure. |
-
-| Flag       | Description |
-| ---------- | ----------- |
-| BIF_RETURNONLYFSDIRS | Only return file system directories. If the user selects folders that are not part of the file system, the OK button is grayed. |
-| BIF_DONTGOBELOWDOMAIN | Do not include network folders below the domain level in the dialog box's tree view control. |
-| BIF_STATUSTEXT | Include a status area in the dialog box. The callback function can set the status text by sending messages to the dialog box. This flag is not supported when BIF_NEWDIALOGSTYLE is specified. |
-| BIF_RETURNFSANCESTORS | Only return file system ancestors. An ancestor is a subfolder that is beneath the root folder in the namespace hierarchy. If the user selects an ancestor of the root folder that is not part of the file system, the **OK** button is grayed. |
-| BIF_EDITBOX | Version 4.71. Include an edit control in the browse dialog box that allows the user to type the name of an item. |
-| BIF_NEWDIALOGSTYLE | Version 5.0. Use the new user interface. Setting this flag provides the user with a larger dialog box that can be resized. The dialog box has several new capabilities, including: drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders, delete, and other shortcut menu commands. |
-| BIF_USENEWUI | Version 5.0. Use the new user interface, including an edit box. This flag is equivalent to BIF_EDITBOX OR BIF_NEWDIALOGSTYLE. |
-| BIF_UAHINT | Version 6.0. When combined with BIF_NEWDIALOGSTYLE, adds a usage hint to the dialog box, in place of the edit box. BIF_EDITBOX overrides this flag. |
-| BIF_NONEWFOLDERBUTTON | Version 6.0. Do not include the **New Folder** button in the browse dialog box. |
-| BIF_NOTRANSLATETARGETS | Version 6.0. When the selected item is a shortcut, return the PIDL of the shortcut itself rather than its target. |
-| BIF_BROWSEFORCOMPUTER | Only return computers. If the user selects anything other than a computer, the **OK** button is grayed. |
-| BIF_BROWSEFORPRINTER | Only allow the selection of printers. If the user selects anything other than a printer, the **OK** button is grayed. In Windows XP and later systems, the best practice is to use a Windows XP-style dialog, setting the root of the dialog to the Printers and Faxes folder (CSIDL_PRINTERS). |
-| BIF_BROWSEINCLUDEFILES | Version 4.71. The browse dialog box displays files as well as folders. |
-| BIF_SHAREABLE | Version 5.0. The browse dialog box can display shareable resources on remote systems. This is intended for applications that want to expose remote shares on a local system. The BIF_NEWDIALOGSTYLE flag must also be set. |
-| BIF_BROWSEFILEJUNCTIONS | Windows 7 and later. Allow folder junctions such as a library or a compressed file with a .zip file name extension to be browsed. |
-
-#### Notes
-
-If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set, **AfxShellBrowserForFolder** fails if BIF_NEWDIALOGSTYLE or BIF_USENEWUI are passed.
-
-#### Return value
-
-The path of the selected folder.
-
-#### Remarks
-
-If you don't pass any flags, the function will use BIF_RETURNONLYFSDIRS OR BIF_DONTGOBELOWDOMAIN OR BIF_USENEWUI OR BIF_RETURNFSANCESTORS.
-
-#### Usage example
-
-```
-DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
-```
----
-
-# <a name="AfxChooseColorDialog"></a>AfxChooseColorDialog
-
-Displays the Windows choose color dialog.
-
-```
-FUNCTION AfxChooseColorDialog (BYVAL hwnd AS HWND, BYVAL rgbDefaultColor AS COLORREF = 0, _
-   BYVAL lpCustColors AS COLORREF PTR = NULL) AS LONG
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | A handle to the parent window or NULL. |
-| *rgbDefaultColor* | The color initially selected when the dialog box is created. If the specified color value is not among the available colors, the system selects the nearest solid color available. If *rgbDefaultColor* is zero, the initially selected color is black. |
-| *lpCustColors* | Out. A pointer to an array of 16 values that contain red, green, blue (RGB) values for the custom color boxes in the dialog box. If the user modifies these colors, the system updates the array with the new RGB values. To preserve new custom colors between calls to the **AfxChooseColorDialog** function, you should allocate static memory for the array. To create a COLORREF color value, use the BGR macro. |
-
-#### Return value
-
-The selected color, or -1 if the user has canceled the dialog.
-
-# <a name="AfxControlRunDLL"></a>AfxControlRunDLL
-
-Control_RunDLL is an undocumented procedure in the Shell32.dll which can be used to launch control panel applications. You’ve to pass the name of the control panel file (.cpl) and the tool represented by it will be launched. For launching some control panel applications, you’ve to provide a valid windows handle (hwnd parameter) and program instance (*hInst*) parameter).
-
-```
-FUNCTION AfxControlRunDLL (BYVAL hwnd AS HWND, BYVAL hInst AS HINSTANCE, _
-   BYVAL cmd AS WSTRING PTR, BYVAL nCmdShow AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to a window. This parameter can be NULL. |
-| *hInst* | Instance handle. This parameter can be NULL. |
-| *cmd* | The command and parameters. |
-| *nCmdShow* | Controls how the window is to be shown, e.g. SW_SHOWNORMAL. |
-
-| nCmdShow value  | Description |
-| --------------- | ----------- |
-| SW_FORCEMINIMIZE | Minimizes a window, even if the thread that owns the window is not responding. This flag should only be used when minimizing windows from a different thread. |
-| SW_HIDE | Hides the window and activates another window. |
-| SW_MAXIMIZE | Maximizes the specified window. |
-| SW_MINIMIZE | Minimizes the specified window and activates the next top-level window in the Z order. |
-| SW_RESTORE | Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window. |
-| SW_SHOW | Activates the window and displays it in its current size and position. |
-| SW_SHOWDEFAULT | Sets the show state based on the SW_ value specified in the STARTUPINFO structure passed to the **CreateProcess** function by the program that started the application. |
-| SW_SHOWMAXIMIZED | Activates the window and displays it as a maximized window. |
-| SW_SHOWMINIMIZED | Activates the window and displays it as a minimized window. |
-| SW_SHOWMINNOACTIVE | Displays the window as a minimized window. This value is similar to SW_SHOWMINIMIZED, except the window is not activated. |
-| SW_SHOWNA | Displays the window in its current size and position. This value is similar to SW_SHOW, except that the window is not activated. |
-| SW_SHOWNOACTIVATE | Displays a window in its most recent size and position. This value is similar to SW_SHOWNORMAL, except that the window is not activated. |
-| SW_SHOWNORMAL | Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time. |
-
-#### Usage examples
-
-```
-AfxControlRunDLL(0, 0, "", SW_SHOWNORMAL)   ' Opens the control panel
-AfxControlRunDLL(0, 0, "appwiz.cpl", SW_SHOWNORMAL)   ' Opens the applications wizard
-```
-
-# <a name="AfxShowSysInfo"></a>AfxShowSysInfo
-
-Displays the Windows Information System dialog.
-
-```
-FUNCTION AfxShowSysInfo (BYVAL hwnd AS HWND) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | A handle to the parent window or NULL. |
-
-#### Return value
-
-If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE.
 
 # <a name="AfxGetBrowserHandle"></a>AfxGetBrowserHandle
 
@@ -3037,60 +3344,6 @@ The application should call the **DeleteObject** function to delete the font whe
 
 The size of the control does not change as a result of receiving this message. To avoid clipping text that does not fit within the boundaries of the control, the application should correct the size of the control window before it sets the font.
 
-# <a name="AfxForceVisibleDisplay"></a>AfxForceVisibleDisplay
-
-If you use dual (or even triple/quad) displays then you have undoubtedly encountered the following situation: You change the physical order of your displays, or otherwise reconfigure the logical ordering using your display software. This sometimes has the side-effect of changing your desktop coordinates from zero-based to negative starting coordinates (i.e. the top-left coordinate of your desktop changes from 0,0 to -1024,-768).
-
-This effects many Windows programs which restore their last on-screen position whenever they are started. Should the user reorder their display configuration this can sometimes result in a Windows program subsequently starting in an off-screen position (i.e. at a location that used to be visible) - and is now effectively invisible, preventing the user from closing it down or otherwise moving it back on-screen.
-
-The **AfxForceVisibleDisplay** function can be called at program start-time right after the main window has been created and positioned 'on-screen'. Should the window be positioned in an off-screen position, it is forced back onto the nearest display to its last position. The user will be unaware this is happening and won't even realize to thank you for keeping their user-interface visible, even though they changed their display settings.
-
-Source: Catch-22 web site.
-
-```
-SUB AfxForceVisibleDisplay (BYVAL hwnd AS HWND)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-# <a name="AfxGetDisplayBitsPerPixel"></a>AfxGetDisplayBitsPerPixel
-
-Returns the color resolution, in bits per pixel, of the display device.
-
-```
-FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
-```
-
-# <a name="AfxGetDisplayFrequency"></a>AfxGetDisplayFrequency
-
-Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. This value is also known as the display device's vertical refresh rate.
-
-```
-FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
-```
-
-# <a name="AfxGetDisplayPixelsHeight"></a>AfxGetDisplayPixelsHeight
-
-Returns the height, in pixels, of the current display device on the computer on which the calling thread is running.
-
-```
-FUNCTION AfxGetDisplayPixelsHeight () AS DWORD
-```
-
-# <a name="AfxGetDisplayPixelsWidth"></a>AfxGetDisplayPixelsWidth
-
-Returns the width, in pixels, of the current display device on the computer on which the calling thread is running.
-
-```
-FUNCTION AfxGetDisplayPixelsWidth () AS DWORD
-```
-
-#### Remarks
-
-Contrarily to **GetSystemMetrics** or **GetDeviceCaps**, it returns the real width even when it is called from an application that is not DPI aware, e.g. an application running virtualized in a monitor 1920 pixels width and a DPI of 192, will return 960 pixels if it calls **GetSystemMetrics** or **GetDeviceCaps**, but will return 1920 pixels calling **AfxGetDisplayPixelsWidth**.
-
 # <a name="AfxLogPixelsX"></a>AfxLogPixelsX / AfxGetDpi / AfxGetDpiX
 
 Retrieves the number of pixels per logical inch along the screen width. In a system with multiple display monitors, this value is the same for all monitors.
@@ -3359,210 +3612,3 @@ Returns TRUE if the OS uses DPI scaling; FALSE otherwise.
 ```
 FUNCTION AfxUseDpiScaling () AS BOOLEAN
 ```
-
-# <a name="AfxAddWindowExStyle"></a>AfxAddWindowExStyle
-
-Adds a new extended style to the specified window.
-
-```
-FUNCTION AfxAddWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
-```
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *dwExStyle* | Extended style to add. |
-
-#### Return value
-
-The previous window extended styles.
-
-#### Usage example
-
-```
-AfxAddWindowExStyle(hwnd, WS_EX_COMPOSITED)
-```
-
-#### Remarks
-
-If the window has a class style of CS_CLASSDC or CS_OWNDC, do not set the extended window styles WS_EX_COMPOSITED or WS_EX_LAYERED.
-
-# <a name="AfxAddWindowStyle"></a>AfxAddWindowStyle
-
-Adds a new style to the specified window.
-
-```
-FUNCTION AfxAddWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
-```
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *dwStyle* | Style to add. |
-
-#### Return value
-
-The previous window styles.
-
-#### Usage example
-
-```
-AfxAddWindowStyle(hwnd, WS_HSCROLL)
-```
-
-# <a name="AfxGetWindowExStyle"></a>AfxGetWindowExStyle
-
-Retrieves the extended window styles.
-
-```
-FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS DWORD
-
-```
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-# <a name="AfxGetWindowStyle"></a>AfxGetWindowStyle
-
-Retrieves the window styles.
-
-```
-FUNCTION AfxGetWindowStyle (BYVAL hwnd AS HWND) AS DWORD
-
-```
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-
-# <a name="AfxRemoveWindowExStyle"></a>AfxRemoveWindowExStyle
-
-Removes an extended style from the specified window.
-
-```
-FUNCTION AfxRemoveWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *dwExStyle* | The extended style to remove. |
-
-#### Return value
-
-The previous extended window styles.
-
-# <a name="AfxRemoveWindowStyle"></a>AfxRemoveWindowStyle
-
-Removes a style from the specified window.
-
-```
-FUNCTION AfxRemoveWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *dwStyle* | The style to remove. |
-
-#### Return value
-
-The previous window styles.
-
-# <a name="AfxSetWindowExStyle"></a>AfxSetWindowExStyle
-
-Sets the extended style(s) of the specified window.
-
-```
-FUNCTION AfxSetWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *dwExStyle* | The extended style(s) to set. |
-
-#### Return value
-
-The previous extended window styles.
-
-# <a name="AfxSetWindowStyle"></a>AfxSetWindowStyle
-
-Sets the style(s) of the specified window.
-
-```
-FUNCTION AfxSetWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *dwStyle* | The style(s) to set. |
-
-#### Return value
-
-The previous window styles.
-
-# <a name="AfxGetControlHandle"></a>AfxGetControlHandle
-
-Returns the handle of the control with the specified identifier. The reference handle can be the handle of the form or the handle of any other control on the form.
-
-```
-FUNCTION AfxGetControlHandle (BYVAL hwnd AS HWND, BYVAL wCtrlID AS WORD) AS HWND
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *wCtrlID* | Control identifier. |
-
-#### Return value
-
-Returns the handle of the control or NULL.
-
-# <a name="AfxGetFormHandle"></a>AfxGetFormHandle
-
-Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. The reference handle is the handle of any control on the form.
-
-```
-FUNCTION AfxGetFormHandle (BYVAL hwnd AS HWND) AS HWND
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | A handle to the control. |
-
-#### Return value
-
-Handle of the ancestor window.
-
-# <a name="AfxGetHwndFromPID"></a>AfxGetHwndFromPID
-
-Retrieves a window handle given it's process identifier.
-
-```
-FUNCTION AfxGetHwndFromPID (BYVAL PID AS DWORD) AS HWND
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *PID* | The process identifier. |
-
-#### Return value
-
-The window handle or NULL.
-
-# <a name="AfxGetPathFromWindowHandle"></a>AfxGetPathFromWindowHandle
-
-Retrieves the path of the executable file that created the specified window.
-
-```
-FUNCTION AfxGetPathFromWindowHandle (BYVAL hwnd AS HWND) AS DWSTRING
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | The window handle. |
-
-#### Return value
-
-The path of the executable file.
-
----
