@@ -165,7 +165,7 @@ Assorted file, folder and path procedures.
 
 ---
 
-## <a name="AfxBrowseForFolder"></a>AfxBrowseForFolder
+## AfxBrowseForFolder
 
 Displays a dialog box that enables the user to select a folder.
 
@@ -218,7 +218,7 @@ DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
 ```
 ---
 
-## <a name="AfxChDir"></a>AfxChDir / AfxSetCurDir / AfxSetCurrentDirectory
+## AfxChDir / AfxSetCurDir / AfxSetCurrentDirectory
 
 Changes the current directory for the current process.
 
