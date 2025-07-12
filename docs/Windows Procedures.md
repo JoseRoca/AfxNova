@@ -239,11 +239,11 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxClearClipboard](#AfxClearClipboard) | Clears the contents of the clipboard. |
-| [AfxGetClipboardData](#AfxGetClipboardData) | Retrieves data from the clipboard in the specified format. |
-| [AfxGetClipboardText](#AfxGetClipboardText) | Returns a text string from the clipboard. |
-| [AfxSetClipboardData](#AfxSetClipboardData) | Places data on the clipboard in a specified clipboard format. |
-| [AfxSetClipboardText](#AfxSetClipboardText) | Places a text string into the clipboard. |
+| [AfxClearClipboard](#afxclearclipboard) | Clears the contents of the clipboard. |
+| [AfxGetClipboardData](#afxgetclipboarddata) | Retrieves data from the clipboard in the specified format. |
+| [AfxGetClipboardText](#afxgetclipboardtext) | Returns a text string from the clipboard. |
+| [AfxSetClipboardData](#afxsetclipboarddata) | Places data on the clipboard in a specified clipboard format. |
+| [AfxSetClipboardText](#afxsetclipboardtext) | Places a text string into the clipboard. |
 
 ---
 
@@ -2231,6 +2231,160 @@ The application should call the **DeleteObject** function to delete the font whe
 
 The size of the control does not change as a result of receiving this message. To avoid clipping text that does not fit within the boundaries of the control, the application should correct the size of the control window before it sets the font.
 
+## AfxClearClipboard
+
+Clears the contents of the clipboard.
+
+```
+FUNCTION AfxClearClipboard () AS LONG
+```
+
+#### Return value
+
+If the function succeeds, the return value is nonzero. If the function fails, the return value is zero.
+
+---
+
+## AfxGetClipboardData
+
+Retrieves data from the clipboard in the specified format.
+
+```
+FUNCTION AfxGetClipboardData (BYVAL cfFormat AS DWORD) AS HGLOBAL
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cfFormat* | The clipboard format. This parameter can be a registered format or any of the standard clipboard formats. |
+
+Standard clipboard formats:
+
+| Constant/Value  | Description |
+| --------------- | ----------- |
+| CF_BITMAP | A handle to a bitmap. |
+| CF_DIB | A memory object containing a BITMAPINFO structure followed by the bitmap bits. |
+| CF_DIBV5 | A memory object containing a BITMAPV5HEADER structure followed by the bitmap color space information and the bitmap bits. |
+| CF_DIF | Software Arts' Data Interchange Format. |
+| CF_DSPBITMAP | Bitmap display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in bitmap format in lieu of the privately formatted data. |
+| CF_DSPENHMETAFILE | Enhanced metafile display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in enhanced metafile format in lieu of the privately formatted data. |
+| CF_DSPMETAFILEPICT | Metafile-picture display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in metafile-picture format in lieu of the privately formatted data. |
+| CF_DSPTEXT | Text display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in text format in lieu of the privately formatted data. |
+| CF_ENHMETAFILE | A handle to an enhanced metafile. |
+| CF_GDIOBJFIRST | Start of a range of integer values for application-defined GDI object clipboard formats. The end of the range is CF_GDIOBJLAST. Handles associated with clipboard formats in this range are not automatically deleted using the **GlobalFree** function when the clipboard is emptied. Also, when using values in this range, the hMem parameter is not a handle to a GDI object, but is a handle allocated by the **GlobalAlloc** function with the GMEM_MOVEABLE flag. |
+| CF_GDIOBJLAST | See CF_GDIOBJFIRST. |
+| CF_HDROP | A handle that identifies a list of files. An application can retrieve information about the files by passing the handle to the **DragQueryFile** function. |
+| CF_LOCALE | The data is a handle to the locale identifier associated with text in the clipboard. When you close the clipboard, if it contains CF_TEXT data but no CF_LOCALE data, the system automatically sets the CF_LOCALE format to the current input language. You can use the CF_LOCALE format to associate a different locale with the clipboard text.<br>An application that pastes text from the clipboard can retrieve this format to determine which character set was used to generate the text.<br>Note that the clipboard does not support plain text in multiple character sets. To achieve this, use a formatted text data type such as RTF instead.<br>The system uses the code page associated with CF_LOCALE to implicitly convert from CF_TEXT to CF_UNICODETEXT. Therefore, the correct code page table is used for the conversion. |
+| CF_METAFILEPICT | Handle to a metafile picture format as defined by the **METAFILEPICT** structure. When passing a CF_METAFILEPICT handle by means of DDE, the application responsible for deleting hMem should also free the metafile referred to by the CF_METAFILEPICT handle. |
+| CF_OEMTEXT | Text format containing characters in the OEM character set. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
+| CF_OWNERDISPLAY | Owner-display format. The clipboard owner must display and update the clipboard viewer window, and receive the WM_ASKCBFORMATNAME, WM_HSCROLLCLIPBOARD, WM_PAINTCLIPBOARD, WM_SIZECLIPBOARD, and WM_VSCROLLCLIPBOARD messages. The *hMem* parameter must be NULL. |
+| CF_PALETTE | Handle to a color palette. Whenever an application places data in the clipboard that depends on or assumes a color palette, it should place the palette on the clipboard as well.<br>If the clipboard contains data in the CF_PALETTE (logical color palette) format, the application should use the** SelectPalette** and **RealizePalette** functions to realize (compare) any other data in the clipboard against that logical palette.<br>When displaying clipboard data, the clipboard always uses as its current palette any object on the clipboard that is in the CF_PALETTE format. |
+| CF_PENDATA | Data for the pen extensions to the Microsoft Windows for Pen Computing. |
+| CF_PRIVATEFIRST | Start of a range of integer values for private clipboard formats. The range ends with CF_PRIVATELAST. Handles associated with private clipboard formats are not freed automatically; the clipboard owner must free such handles, typically in response to the WM_DESTROYCLIPBOARD message. |
+| CF_PRIVATELAST | See CF_PRIVATEFIRST. |
+| CF_RIFF | Represents audio data more complex than can be represented in a CF_WAVE standard wave format. |
+| CF_SYLK | Microsoft Symbolic Link (SYLK) format. |
+| CF_TEXT | Text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. Use this format for ANSI text. |
+| CF_TIFF | Tagged-image file format. |
+| CF_UNICODETEXT | Unicode text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
+| CF_WAVE | Represents audio data in one of the standard wave formats, such as 11 kHz or 22 kHz PCM. |
+
+#### Return value
+
+If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
+
+## AfxGetClipboardText
+
+Returns a text string from the clipboard.
+
+```
+FUNCTION AfxGetClipboardText () AS DWSTRING
+```
+
+#### Return value
+
+The retrieved text string.
+
+---
+
+## AfxSetClipboardData
+
+Places data on the clipboard in a specified clipboard format.
+
+```
+FUNCTION AfxSetClipboardData (BYVAL cfFormat AS DWORD, BYVAL hData AS HANDLE) AS HANDLE
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cfFormat* | The clipboard format. This parameter can be a registered format or any of the standard clipboard formats. |
+| *hData* | Handle to the data in the specified format. |
+
+Standard clipboard formats:
+
+| Constant/Value  | Description |
+| --------------- | ----------- |
+| CF_BITMAP | A handle to a bitmap. |
+| CF_DIB | A memory object containing a BITMAPINFO structure followed by the bitmap bits. |
+| CF_DIBV5 | A memory object containing a BITMAPV5HEADER structure followed by the bitmap color space information and the bitmap bits. |
+| CF_DIF | Software Arts' Data Interchange Format. |
+| CF_DSPBITMAP | Bitmap display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in bitmap format in lieu of the privately formatted data. |
+| CF_DSPENHMETAFILE | Enhanced metafile display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in enhanced metafile format in lieu of the privately formatted data. |
+| CF_DSPMETAFILEPICT | Metafile-picture display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in metafile-picture format in lieu of the privately formatted data. |
+| CF_DSPTEXT | Text display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in text format in lieu of the privately formatted data. |
+| CF_ENHMETAFILE | A handle to an enhanced metafile. |
+| CF_GDIOBJFIRST | Start of a range of integer values for application-defined GDI object clipboard formats. The end of the range is CF_GDIOBJLAST. Handles associated with clipboard formats in this range are not automatically deleted using the **GlobalFree** function when the clipboard is emptied. Also, when using values in this range, the hMem parameter is not a handle to a GDI object, but is a handle allocated by the **GlobalAlloc** function with the GMEM_MOVEABLE flag. |
+| CF_GDIOBJLAST | See CF_GDIOBJFIRST. |
+| CF_HDROP | A handle that identifies a list of files. An application can retrieve information about the files by passing the handle to the **DragQueryFile** function. |
+| CF_LOCALE | The data is a handle to the locale identifier associated with text in the clipboard. When you close the clipboard, if it contains CF_TEXT data but no CF_LOCALE data, the system automatically sets the CF_LOCALE format to the current input language. You can use the CF_LOCALE format to associate a different locale with the clipboard text.<br>An application that pastes text from the clipboard can retrieve this format to determine which character set was used to generate the text.<br>Note that the clipboard does not support plain text in multiple character sets. To achieve this, use a formatted text data type such as RTF instead.<br>The system uses the code page associated with CF_LOCALE to implicitly convert from CF_TEXT to CF_UNICODETEXT. Therefore, the correct code page table is used for the conversion. |
+| CF_METAFILEPICT | Handle to a metafile picture format as defined by the **METAFILEPICT** structure. When passing a CF_METAFILEPICT handle by means of DDE, the application responsible for deleting hMem should also free the metafile referred to by the CF_METAFILEPICT handle. |
+| CF_OEMTEXT | Text format containing characters in the OEM character set. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
+| CF_OWNERDISPLAY | Owner-display format. The clipboard owner must display and update the clipboard viewer window, and receive the WM_ASKCBFORMATNAME, WM_HSCROLLCLIPBOARD, WM_PAINTCLIPBOARD, WM_SIZECLIPBOARD, and WM_VSCROLLCLIPBOARD messages. The *hMem* parameter must be NULL. |
+| CF_PALETTE | Handle to a color palette. Whenever an application places data in the clipboard that depends on or assumes a color palette, it should place the palette on the clipboard as well.<br>If the clipboard contains data in the CF_PALETTE (logical color palette) format, the application should use the** SelectPalette** and **RealizePalette** functions to realize (compare) any other data in the clipboard against that logical palette.<br>When displaying clipboard data, the clipboard always uses as its current palette any object on the clipboard that is in the CF_PALETTE format. |
+| CF_PENDATA | Data for the pen extensions to the Microsoft Windows for Pen Computing. |
+| CF_PRIVATEFIRST | Start of a range of integer values for private clipboard formats. The range ends with CF_PRIVATELAST. Handles associated with private clipboard formats are not freed automatically; the clipboard owner must free such handles, typically in response to the WM_DESTROYCLIPBOARD message. |
+| CF_PRIVATELAST | See CF_PRIVATEFIRST. |
+| CF_RIFF | Represents audio data more complex than can be represented in a CF_WAVE standard wave format. |
+| CF_SYLK | Microsoft Symbolic Link (SYLK) format. |
+| CF_TEXT | Text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. Use this format for ANSI text. |
+| CF_TIFF | Tagged-image file format. |
+| CF_UNICODETEXT | Unicode text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
+| CF_WAVE | Represents audio data in one of the standard wave formats, such as 11 kHz or 22 kHz PCM. |
+
+#### Return value
+
+If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
+
+#### Remarks
+
+If **AfxSetClipboardData** succeeds, the system owns the object identified by the *hData* parameter. The application may not write to or free the data once ownership has been transferred to the system.
+
+---
+
+## AfxSetClipboardText
+
+Places a text string into the clipboard.
+
+```
+FUNCTION AfxSetClipboardText (BYREF wszText AS WSTRING) AS HANDLE
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszText* | The text to be placed in the clipboard. |
+
+#### Return value
+
+If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
+
+
+# <a name="AfxSetProcessDPIAware"></a>AfxSetProcessDPIAware
+
+Sets the current process as dots per inch (dpi) aware.
+
+Note: **AfxSetProcessDPIAware** is subject to a possible race condition if a DLL caches dpi settings during initialization. For this reason, it is recommended that dpi-aware be set through the application (.exe) manifest rather than by calling **AfxSetProcessDPIAware**.
+
+---
+
 +++++++++++++++++++++++
 
 
@@ -3398,152 +3552,6 @@ FUNCTION AfxDibSaveImage (BYVAL pwszFileName AS WSTRING PTR, BYVAL pbmfh AS BITM
 #### Return value
 
 TRUE if the DIB has been saved successfully; FALSE otherwise.
-
-# <a name="AfxClearClipboard"></a>AfxClearClipboard
-
-Clears the contents of the clipboard.
-
-```
-FUNCTION AfxClearClipboard () AS LONG
-```
-
-#### Return value
-
-If the function succeeds, the return value is nonzero. If the function fails, the return value is zero.
-
-# <a name="AfxGetClipboardData"></a>AfxGetClipboardData
-
-Retrieves data from the clipboard in the specified format.
-
-```
-FUNCTION AfxGetClipboardData (BYVAL cfFormat AS DWORD) AS HGLOBAL
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cfFormat* | The clipboard format. This parameter can be a registered format or any of the standard clipboard formats. |
-
-Standard clipboard formats:
-
-| Constant/Value  | Description |
-| --------------- | ----------- |
-| CF_BITMAP | A handle to a bitmap. |
-| CF_DIB | A memory object containing a BITMAPINFO structure followed by the bitmap bits. |
-| CF_DIBV5 | A memory object containing a BITMAPV5HEADER structure followed by the bitmap color space information and the bitmap bits. |
-| CF_DIF | Software Arts' Data Interchange Format. |
-| CF_DSPBITMAP | Bitmap display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in bitmap format in lieu of the privately formatted data. |
-| CF_DSPENHMETAFILE | Enhanced metafile display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in enhanced metafile format in lieu of the privately formatted data. |
-| CF_DSPMETAFILEPICT | Metafile-picture display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in metafile-picture format in lieu of the privately formatted data. |
-| CF_DSPTEXT | Text display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in text format in lieu of the privately formatted data. |
-| CF_ENHMETAFILE | A handle to an enhanced metafile. |
-| CF_GDIOBJFIRST | Start of a range of integer values for application-defined GDI object clipboard formats. The end of the range is CF_GDIOBJLAST. Handles associated with clipboard formats in this range are not automatically deleted using the **GlobalFree** function when the clipboard is emptied. Also, when using values in this range, the hMem parameter is not a handle to a GDI object, but is a handle allocated by the **GlobalAlloc** function with the GMEM_MOVEABLE flag. |
-| CF_GDIOBJLAST | See CF_GDIOBJFIRST. |
-| CF_HDROP | A handle that identifies a list of files. An application can retrieve information about the files by passing the handle to the **DragQueryFile** function. |
-| CF_LOCALE | The data is a handle to the locale identifier associated with text in the clipboard. When you close the clipboard, if it contains CF_TEXT data but no CF_LOCALE data, the system automatically sets the CF_LOCALE format to the current input language. You can use the CF_LOCALE format to associate a different locale with the clipboard text.<br>An application that pastes text from the clipboard can retrieve this format to determine which character set was used to generate the text.<br>Note that the clipboard does not support plain text in multiple character sets. To achieve this, use a formatted text data type such as RTF instead.<br>The system uses the code page associated with CF_LOCALE to implicitly convert from CF_TEXT to CF_UNICODETEXT. Therefore, the correct code page table is used for the conversion. |
-| CF_METAFILEPICT | Handle to a metafile picture format as defined by the **METAFILEPICT** structure. When passing a CF_METAFILEPICT handle by means of DDE, the application responsible for deleting hMem should also free the metafile referred to by the CF_METAFILEPICT handle. |
-| CF_OEMTEXT | Text format containing characters in the OEM character set. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
-| CF_OWNERDISPLAY | Owner-display format. The clipboard owner must display and update the clipboard viewer window, and receive the WM_ASKCBFORMATNAME, WM_HSCROLLCLIPBOARD, WM_PAINTCLIPBOARD, WM_SIZECLIPBOARD, and WM_VSCROLLCLIPBOARD messages. The *hMem* parameter must be NULL. |
-| CF_PALETTE | Handle to a color palette. Whenever an application places data in the clipboard that depends on or assumes a color palette, it should place the palette on the clipboard as well.<br>If the clipboard contains data in the CF_PALETTE (logical color palette) format, the application should use the** SelectPalette** and **RealizePalette** functions to realize (compare) any other data in the clipboard against that logical palette.<br>When displaying clipboard data, the clipboard always uses as its current palette any object on the clipboard that is in the CF_PALETTE format. |
-| CF_PENDATA | Data for the pen extensions to the Microsoft Windows for Pen Computing. |
-| CF_PRIVATEFIRST | Start of a range of integer values for private clipboard formats. The range ends with CF_PRIVATELAST. Handles associated with private clipboard formats are not freed automatically; the clipboard owner must free such handles, typically in response to the WM_DESTROYCLIPBOARD message. |
-| CF_PRIVATELAST | See CF_PRIVATEFIRST. |
-| CF_RIFF | Represents audio data more complex than can be represented in a CF_WAVE standard wave format. |
-| CF_SYLK | Microsoft Symbolic Link (SYLK) format. |
-| CF_TEXT | Text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. Use this format for ANSI text. |
-| CF_TIFF | Tagged-image file format. |
-| CF_UNICODETEXT | Unicode text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
-| CF_WAVE | Represents audio data in one of the standard wave formats, such as 11 kHz or 22 kHz PCM. |
-
-#### Return value
-
-If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
-
-# <a name="AfxGetClipboardText"></a>AfxGetClipboardText
-
-Returns a text string from the clipboard.
-
-```
-FUNCTION AfxGetClipboardText () AS DWSTRING
-```
-
-#### Return value
-
-The retrieved text string.
-
-# <a name="AfxSetClipboardData"></a>AfxSetClipboardData
-
-Places data on the clipboard in a specified clipboard format.
-
-```
-FUNCTION AfxSetClipboardData (BYVAL cfFormat AS DWORD, BYVAL hData AS HANDLE) AS HANDLE
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cfFormat* | The clipboard format. This parameter can be a registered format or any of the standard clipboard formats. |
-| *hData* | Handle to the data in the specified format. |
-
-Standard clipboard formats:
-
-| Constant/Value  | Description |
-| --------------- | ----------- |
-| CF_BITMAP | A handle to a bitmap. |
-| CF_DIB | A memory object containing a BITMAPINFO structure followed by the bitmap bits. |
-| CF_DIBV5 | A memory object containing a BITMAPV5HEADER structure followed by the bitmap color space information and the bitmap bits. |
-| CF_DIF | Software Arts' Data Interchange Format. |
-| CF_DSPBITMAP | Bitmap display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in bitmap format in lieu of the privately formatted data. |
-| CF_DSPENHMETAFILE | Enhanced metafile display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in enhanced metafile format in lieu of the privately formatted data. |
-| CF_DSPMETAFILEPICT | Metafile-picture display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in metafile-picture format in lieu of the privately formatted data. |
-| CF_DSPTEXT | Text display format associated with a private format. The *hMem* parameter must be a handle to data that can be displayed in text format in lieu of the privately formatted data. |
-| CF_ENHMETAFILE | A handle to an enhanced metafile. |
-| CF_GDIOBJFIRST | Start of a range of integer values for application-defined GDI object clipboard formats. The end of the range is CF_GDIOBJLAST. Handles associated with clipboard formats in this range are not automatically deleted using the **GlobalFree** function when the clipboard is emptied. Also, when using values in this range, the hMem parameter is not a handle to a GDI object, but is a handle allocated by the **GlobalAlloc** function with the GMEM_MOVEABLE flag. |
-| CF_GDIOBJLAST | See CF_GDIOBJFIRST. |
-| CF_HDROP | A handle that identifies a list of files. An application can retrieve information about the files by passing the handle to the **DragQueryFile** function. |
-| CF_LOCALE | The data is a handle to the locale identifier associated with text in the clipboard. When you close the clipboard, if it contains CF_TEXT data but no CF_LOCALE data, the system automatically sets the CF_LOCALE format to the current input language. You can use the CF_LOCALE format to associate a different locale with the clipboard text.<br>An application that pastes text from the clipboard can retrieve this format to determine which character set was used to generate the text.<br>Note that the clipboard does not support plain text in multiple character sets. To achieve this, use a formatted text data type such as RTF instead.<br>The system uses the code page associated with CF_LOCALE to implicitly convert from CF_TEXT to CF_UNICODETEXT. Therefore, the correct code page table is used for the conversion. |
-| CF_METAFILEPICT | Handle to a metafile picture format as defined by the **METAFILEPICT** structure. When passing a CF_METAFILEPICT handle by means of DDE, the application responsible for deleting hMem should also free the metafile referred to by the CF_METAFILEPICT handle. |
-| CF_OEMTEXT | Text format containing characters in the OEM character set. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
-| CF_OWNERDISPLAY | Owner-display format. The clipboard owner must display and update the clipboard viewer window, and receive the WM_ASKCBFORMATNAME, WM_HSCROLLCLIPBOARD, WM_PAINTCLIPBOARD, WM_SIZECLIPBOARD, and WM_VSCROLLCLIPBOARD messages. The *hMem* parameter must be NULL. |
-| CF_PALETTE | Handle to a color palette. Whenever an application places data in the clipboard that depends on or assumes a color palette, it should place the palette on the clipboard as well.<br>If the clipboard contains data in the CF_PALETTE (logical color palette) format, the application should use the** SelectPalette** and **RealizePalette** functions to realize (compare) any other data in the clipboard against that logical palette.<br>When displaying clipboard data, the clipboard always uses as its current palette any object on the clipboard that is in the CF_PALETTE format. |
-| CF_PENDATA | Data for the pen extensions to the Microsoft Windows for Pen Computing. |
-| CF_PRIVATEFIRST | Start of a range of integer values for private clipboard formats. The range ends with CF_PRIVATELAST. Handles associated with private clipboard formats are not freed automatically; the clipboard owner must free such handles, typically in response to the WM_DESTROYCLIPBOARD message. |
-| CF_PRIVATELAST | See CF_PRIVATEFIRST. |
-| CF_RIFF | Represents audio data more complex than can be represented in a CF_WAVE standard wave format. |
-| CF_SYLK | Microsoft Symbolic Link (SYLK) format. |
-| CF_TEXT | Text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. Use this format for ANSI text. |
-| CF_TIFF | Tagged-image file format. |
-| CF_UNICODETEXT | Unicode text format. Each line ends with a carriage return/linefeed (CR-LF) combination. A null character signals the end of the data. |
-| CF_WAVE | Represents audio data in one of the standard wave formats, such as 11 kHz or 22 kHz PCM. |
-
-#### Return value
-
-If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
-
-#### Remarks
-
-If **AfxSetClipboardData** succeeds, the system owns the object identified by the *hData* parameter. The application may not write to or free the data once ownership has been transferred to the system.
-
-# <a name="AfxSetClipboardText"></a>AfxSetClipboardText
-
-Places a text string into the clipboard.
-
-```
-FUNCTION AfxSetClipboardText (BYREF wszText AS WSTRING) AS HANDLE
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *wszText* | The text to be placed in the clipboard. |
-
-#### Return value
-
-If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
-
-
-# <a name="AfxSetProcessDPIAware"></a>AfxSetProcessDPIAware
-
-Sets the current process as dots per inch (dpi) aware.
-
-Note: **AfxSetProcessDPIAware** is subject to a possible race condition if a DLL caches dpi settings during initialization. For this reason, it is recommended that dpi-aware be set through the application (.exe) manifest rather than by calling **AfxSetProcessDPIAware**.
 
 ```
 FUNCTION AfxSetProcessDPIAware () AS BOOLEAN
