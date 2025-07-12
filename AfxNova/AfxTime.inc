@@ -497,6 +497,20 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Calculaates the number of leap years between two years
+' ========================================================================================
+PRIVATE FUNCTION AfxNuberOfLeapYears (BYVAL year1 AS LONG, BYVAL year2 AS LONG) AS LONG
+   ' // Normalize order
+   IF year1 > year2 THEN SWAP year1, year2
+   DIM count AS LONG
+   FOR i AS LONG = year1 TO year2
+      IF (i MOD 4 = 0 AND (i MOD 100 <> 0 OR i MOD 400 = 0)) THEN count += 1
+   NEXT
+   RETURN count
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Returns the number of days in the specified month.
 ' Parameters:
 ' - nMonth: A two digit month (1-12).
