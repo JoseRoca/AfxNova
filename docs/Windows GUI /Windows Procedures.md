@@ -25,6 +25,75 @@ Assorted Windows procedures.
 
 ---
 
+## File and Folder Procedures
+
+| Name       | Description |
+| ---------- | ----------- |
+| [AfxChDir](#afxchdir) | Changes the current directory for the current process. |
+| [AfxCopyFile](#afxcopyfile) | Copies an existing file to a new file. |
+| [AfxCreateDirectory](#afxmakedir) | Creates a new directory. |
+| [AfxCurDir](#afxcurdir) | Retrieves the current directory for the current process. |
+| [AfxDeleteFile](#Afxdeletefile) | Deletes the specified file. |
+| [AfxExePath](#afxexepath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
+| [AfxFileCopy](#Afxcopyfile) | Copies an existing file to a new file. |
+| [AfxFileDateTime](#afxfiledatetime) | Returns the file's last modified date and time as Date Serial. |
+| [AfxFileExists](#afxfileexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
+| [AfxFileReadAllLines](#afxfilereadalllines) | Reads all the lines of the specified file into a safe array. |
+| [AfxFileScan](#afxfilescan) | Scans a text file and returns the number of occurrences of the specified delimiter. |
+| [AfxFolderExists](#afxfolderexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
+| [AfxGetCurDir](#afxcurdir) | Retrieves the current directory for the current process. |
+| [AfxGetCurrentDirectory](#afxcurdir) | Retrieves the current directory for the current process. |
+| [AfxGetDriveType](#afxgetdrivetype) | Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive. |
+| [AfxGetExeFileExt](#afxgetexefileext) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
+| [AfxGetExeFileName](#afxgetexefilename) | Returns the file name of the program which is currently executing. |
+| [AfxGetExeFileNameX](#afxgetexefilenameX) | Returns the file name and extension of the program which is currently executing. |
+| [AfxGetExeFullPath](#afxgetexefullpath) | Returns the complete drive, path, file name, and extension of the program which is currently executing. |
+| [AfxGetExePath](#Afxexepath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
+| [AfxGetExePathName](#afxgetexpathname) | Returns the path of the program which is currently executing. The path has a trailing backslash. |
+| [AfxGetFileCreationTime](#afxgetfilecreationtime) | Returns the time the file was created, in FILETIME format. |
+| [AfxGetFileExt](#Afxgetfileext) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
+| [AfxGetFileLastAccessTime](#afxgetfilelastaccesstime) | Returns the time the file was last accessed, in FILETIME format. |
+| [AfxGetFileLastWriteTime](#Afxgetfilelastwritetime) | Returns the time the file was last written to, truncated, or overwritten, in FILETIME format. |
+| [AfxFileLen](#afxgetfilesize) | Returns the size in bytes of the specified file. |
+| [AfxGetFileName](#afxgetfilename) | Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.). |
+| [AfxGetFileNameX](#afxgetfilenamex) | Parses a path/filename and returns the file name and extension portion. That is the text to the right of the last backslash (\) or colon (:). |
+| [AfxGetFileSize](#afxgetfilesize) | Returns the size in bytes of the specified file. |
+| [AfxGetFileVersion](#afxgetfileversion) | Retrieves the version of the specified file multiplied by 100, e.g. 601 for version 6.01. |
+| [AfxGetFolderName](#afxgetfoldername) | Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name. |
+| [AfxGetKnowFolderPath](#afxgetknowfolderpath) | Retrieves the path of an special folder. Requires Windows Vista/Windows 7 or superior. |
+| [AfxGetLongPathName](#afxgetlongpathname) | Retrieves the short path form of the specified path. |
+| [AfxGetPathName](#afxgetpathname) | Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:). |
+| [AfxGetShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
+| [AfxGetSpecialFolderLocation](#afxgetspecialfolderlocation) | Retrieves the path of an special folder. |
+| [AfxGetSystemDllPath](#afxgetsystemdllpath) | Retrieves the fully qualified path for the file that contains the specified module. |
+| [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
+| [AfxIsCompressedFile](#afxiscompressedfile) | Returns True if the specified file or directory is compressed; False if it is not. |
+| [AfxIsEncryptedFile](#afxisencryptedfile) | Returns True if the specified file or directory is encrypted; False if it is not. |
+| [AfxIsFolder](#afxisfolder) | Returns True if the specified path is a folder; False if it is not. |
+| [AfxIsHiddenFile](#afxishiddenFile) | Returns True if the specified path is a hidden file or directory; False if it is not. |
+| [AfxIsNormalFile](#afxisnormalfile) | Returns True if the specified path is a normal file (a file that does not have other attributes set); False if it is not. |
+| [AfxIsNotContentIndexedFile](#afxisnotcontentindexedfile) | Returns TRUE if the specified file or directory is not to be indexed by the content indexing service; FALSE, otherwise. |
+| [AfxIsOfflineFile](#afxisofflinefile) | Returns TRUE if the specified file file is not available immediately; FALSE, otherwise. |
+| [AfxIsReadOnlyFile](#afxisreadonlyfile) | Returns True if the specified path is a read only file; False if it is not. |
+| [AfxIsReparsePointFile](#afxisreparsepointfile) | Returns TRUE if the specified path is a file or directory that has an associated reparse point, or a file that is a symbolic link.; FALSE, otherwise. |
+| [AfxIsSparseFile](#afxissparsefile) | Returns TRUE if the specified path is a sparse file; FALSE, otherwise. |
+| [AfxIsSystemFile](#afxissystemfile) | Returns True if the specified path is a system file; False if it is not. |
+| [AfxIsTemporaryFile](#afxistemporaryfile) | Returns True if the specified path is a temporary file; False if it is not. |
+| [AfxKill](#afxdeletefile) | Deletes the specified file. |
+| [AfxMakeDir](#afxmakedir) | Creates a new directory. |
+| [AfxMkDir](#afxmakedir) | Creates a new directory. |
+| [AfxMoveFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxName](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxRemoveDirectory](#afxremovedir) | Deletes an existing empty directory. |
+| [AfxRemoveDir](#afxremovedir) | Deletes an existing empty directory. |
+| [AfxRenameFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxRmDir](#afxremovedir) | Deletes an existing empty directory. |
+| [AfxSaveTempFile](#afxsavetempfile) | Saves the contents of a string buffer in a temporary file. |
+| [AfxSetCurDir](#afxchdir) | Changes the current directory for the current process. |
+| [AfxSetCurrentDirectory](#afxchdir) | Changes the current directory for the current process. |
+
+---
+
 # Window
 
 | Name       | Description |
@@ -291,7 +360,7 @@ The number of command line arguments used to call the program.
 Retrieves the contents of the specified variable from the environment block of the calling process.
 
 ```
-FUNCTION AfxEnviron (BYVAL pwszName AS LPCWSTR) AS CWSTR
+FUNCTION AfxEnviron (BYVAL pwszName AS LPCWSTR) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -428,6 +497,858 @@ Returns 0 on success, or -1 on failure.
 
 ---
 
+## AfxChDir
+
+Changes the current directory for the current process. Aliases: **AfxSetCurDir**, **AfxSetCurrentDirectory**.
+
+```
+FUNCTION AfxChDir (BYVAL pwszPathName AS LPCWSTR) AS LONG
+FUNCTION AfxSetCurDir (BYVAL pwszPathName AS LPCWSTR) AS BOOLEAN
+FUNCTION AfxSetCurrentDirectory (BYVAL pwszPathName AS LPCWSTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *lpPathName* | The path to the new current directory. This parameter may specify a relative path or a full path. In either case, the full path of the specified directory is calculated and stored as the current directory. |
+
+#### Return value for AfxChDir:
+
+If the function succeeds, the return value is 0.<br>
+If the function fails, the return value is -1.<br>
+To get extended error information, call **GetLastError**.
+
+**AfxMkDir** is an unicode replacement for Free Basic's **MkDir**.
+
+#### Return value for AfxSetCurDir and AfxSetCurrentDirectory:
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE.<br>
+To get extended error information, call **GetLastError**.
+
+---
+
+## AfxCopyFile
+
+Copies an existing file to a new file. Alias: **AfxFileCopy**.
+
+```
+FUNCTION AfxCopyFile (BYVAL lpExistingFileName AS LPCWSTR, BYVAL lpNewFileName AS LPCWSTR, _
+   BYVAL bFailIfExists AS BOOLEAN = FALSE) AS BOOLEAN
+FUNCTION AfxFileCopy (BYVAL lpExistingFileName AS LPCWSTR, BYVAL lpNewFileName AS LPCWSTR, _
+   BYVAL bFailIfExists AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *lpExistingFileName* | The name of an existing file. To extend the limit of MAX_PATH characters to 32,767 wide characters prepend "\\\\?\\" to the path. If *lpExistingFileName* does not exist, **CopyFile** fails, and **GetLastError** returns ERROR_FILE_NOT_FOUND. |
+| *lpNewFileName* | The name of the new file. To extend the limit of MAX_PATH characters to 32,767 wide characters prepend "\\\\?\\" to the path. |
+| *bFailIfExists* | If this parameter is TRUE and the new file specified by *lpNewFileName* already exists, the function fails. If this parameter is FALSE and the new file already exists, the function overwrites the existing file and succeeds. |
+
+#### Return value
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
+
+#### Rermarks
+
+**AfxFileCopy** is an unicode replacement for Free Basic's **FileCopy** and returns 0 on success, or 1 if an error occurred.
+
+---
+## AfxMkDir
+
+Creates a new directory. Aliases: **AfxMakeDir**, **AfxCreateDirectory**.
+
+```
+FUNCTION AfxMkDir (BYVAL lpPathName AS LPCWSTR) AS LONG
+FUNCTION AfxCreateDirectory (BYVAL lpPathName AS LPCWSTR) AS BOOLEAN
+FUNCTION AfxMakeDir (BYVAL lpPathName AS LPCWSTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *lpPathName* | The path of the directory to be created. To extend the limit to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Return value for AfxMkDir:
+
+If the function succeeds, the return value is 0.<br>
+If the function fails, the return value is -1.<br>
+To get extended error information, call **GetLastError**.
+
+**AfxMkDir** is an unicode replacement for Free Basic's **MkDir**.
+
+#### Return value for AfxCreateDirectory and AfxMakeDir:
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE.<br>
+To get extended error information, call **GetLastError**.
+
+Possible errors include the following.
+
+| Error      | Description |
+| ---------- | ----------- |
+| ERROR_ALREADY_EXISTS | The specified directory already exists. |
+| ERROR_PATH_NOT_FOUND | One or more intermediate directories do not exist; this function will only create the final directory in the path. |
+
+---
+
+## AfxDeleteFile
+
+Deletes the specified file. Alias: **AfxKill**.
+
+```
+FUNCTION AfxDeleteFile (BYVAL pwszFileSpec AS WSTRING PTR) AS BOOLEAN
+FUNCTION AfxKill (BYVAL pwszFileSpec AS WSTRING PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszFileSpec* | The full path and name of the file to delete. To extend the limit to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Return value:
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE.<br>
+To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+If an application attempts to delete a file that does not exist, this function fails with ERROR_FILE_NOT_FOUND. If the file is a read-only file, the function fails with ERROR_ACCESS_DENIED.
+
+**AfxKill** is an unicode replacement for Free Basic's **Kill** and returns 0 on success, or -1 on failure.
+
+---
+
+## AfxFileDateTime
+
+Returns the file's last modified date and time as Date Serial. Unicode replacement for Free Basic's **FileDateTime**.
+
+```
+FUNCTION AfxFileDateTime (BYREF wszFileName AS WSTRING) AS DOUBLE
+```
+
+#### Return value
+
+The date and time as a Date Serial. If it fails, it returns 0.
+
+#### Example
+
+```
+#include "windows.bi"
+#include "vbcompat.bi"
+#include "Afx/AfxWin.bi"
+DIM wszFileName AS WSTRING * MAX_PATH = ExePath & "\c2.bas"
+DIM dt AS DOUBLE = AfxFileDateTime(wszFileName)
+PRINT Format(dt, "yyyy-mm-dd hh:mm AM/PM")
+```
+
+## AfxCurdir
+
+Retrieves the current directory for the current process. Aliases: **AfxGetCurDir**, **AfxGetCurrentDirectory**- Unicode replacement for Free Basic's **CurDir**.
+
+```
+FUNCTION AfxCurDir () AS DWSTRING
+FUNCTION AfxGetCurDir () AS DWSTRING
+FUNCTION AfxGetCurrentDirectory () AS DWSTRING
+```
+
+#### Return value
+
+The name of the current directory for the current process.
+
+---
+
+## AfxMoveFile
+
+Moves an existing file or a directory, including its children. Aliases: **AfxRenameFile**, **AfxMoveFile**. **AfxName** is an unicode replacement for Free Basic's **Name**.
+
+```
+FUNCTION AfxName (BYVAL lpExistingFileName AS LPCWSTR, BYVAL lpNewFileName AS LPCWSTR) AS LONG
+FUNCTION AfxRenameFile (BYVAL lpExistingFileName AS LPCWSTR, BYVAL lpNewFileName AS LPCWSTR) AS BOOLEAN
+FUNCTION AfxMoveFile (BYVAL lpExistingFileName AS LPCWSTR, BYVAL lpNewFileName AS LPCWSTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *lpExistingFileName* | The name of an existing file. To extend the limit to 32,767 wide characters, prepend "\\\\?\\" to the path. If *lpExistingFileName* does not exist, **AfxRenameFile** fails, and **GetLastError** returns ERROR_FILE_NOT_FOUND. |
+| *lpNewFileName* | The name of the new file. To extend the limit to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Return value for AfxName:
+
+If the function succeeds, the return value is 0.<br>
+If the function fails, the return value is -1.<br>
+To get extended error information, call **GetLastError**.
+
+**AfxName** is an unicode replacement for Free Basic's **Name**.
+
+#### Return value for AfxRenameFile and AfxMoveFile:
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE.<br>
+To get extended error information, call **GetLastError**.
+
+---
+
+## AfxRemoveDir 
+
+Deletes an existing empty directory. Aliases: **AfxRemoveDirectory**. **AfxRmDir** is an unicode replacement for Free Basic's **RmDir**.
+
+```
+FUNCTION AfxRmDir (BYVAL lpPathName AS LPCWSTR) AS LONG
+FUNCTION AfxRemoveDir (BYVAL lpPathName AS LPCWSTR) AS BOOLEAN
+FUNCTION AfxRemoveDirectory (BYVAL lpPathName AS LPCWSTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *lpPathName* | The path of the directory to be removed. This path must specify an empty directory, and the calling process must have delete access to the directory. To extend the limit to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Return value for AfxRmDir:
+
+If the function succeeds, the return value is 0.<br>
+If the function fails, the return value is -1.<br>
+To get extended error information, call **GetLastError**.
+
+**AfxRmDir** is an unicode replacement for Free Basic's **RmDir**.
+
+#### Return value for AfxRemoveDir and AfxRemoveDirectory:
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE.<br>
+To get extended error information, call **GetLastError**.
+
+#### Remaks
+
+These functions mark a directory for deletion on close. Therefore, the directory is not removed until the last handle to the directory is closed. To recursively delete the files in a directory, use the **SHFileOperation** function.
+
+---
+
+## AfxFileExists
+
+Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used).
+
+```
+FUNCTION AfxFileExists (BYVAL pwszFileSpec AS WSTRING PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Return value
+
+Boolean. TRUE if the specified file exist or FALSE otherwise.
+
+#### Remarks
+
+Prepending the string "\\\\?\\" does not allow access to the root directory.
+
+On network shares, you can use an pwszFileSpec in the form of the following: "\\\\server\service\\\*". However, you cannot use an pwszFileSpec that points to the share itself; for example, "\\\\server\service" is not valid.
+
+To examine a directory that is not a root directory, use the path to that directory, without a trailing backslash. For example, an argument of "C:\Windows" returns information about the directory "C:\Windows", not about a directory or file in "C:\Windows". To examine the files and directories in "C:\Windows", use an *pwszFileSpec* of "C:\Windows\*".
+
+Be aware that some other thread or process could create or delete a file with this name between the time you query for the result and the time you act on the information. If this is a potential concern for your application, one possible solution is to use the **CreateFile** function with CREATE_NEW (which fails if the file exists) or OPEN_EXISTING (which fails if the file does not exist).
+
+---
+
+## AfxFolderExists
+
+Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used).
+
+```
+FUNCTION AfxFolderExists (BYVAL pwszFileSpec AS WSTRING PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Return value
+
+Boolean. TRUE if the specified file exist or FALSE otherwise.
+
+#### Remarks
+
+Prepending the string "\\\\?\\" does not allow access to the root directory.
+
+On network shares, you can use an *pwszFileSpec* in the form of the following: "\\\\server\service\\\*". However, you cannot use an pwszFileSpec that points to the share itself; for example, "\\\\server\service" is not valid.
+
+To examine a directory that is not a root directory, use the path to that directory, without a trailing backslash. For example, an argument of "C:\Windows" returns information about the directory "C:\Windows", not about a directory or file in "C:\Windows". To examine the files and directories in "C:\Windows", use an pwszFileSpec of "C:\Windows\\\*".
+
+Be aware that some other thread or process could create or delete a file with this name between the time you query for the result and the time you act on the information. If this is a potential concern for your application, one possible solution is to use the **CreateFile** function with CREATE_NEW (which fails if the file exists) or OPEN_EXISTING (which fails if the file does not exist).
+
+---
+
+## AfxGetFileSize
+
+Returns the size in bytes of the specified file. Alias: **AfxFileLen**.
+
+```
+FUNCTION AfxGetFileSize (BYREF wszFileSpec AS WSTRING) AS ULONGLONG
+FUNCTION AfxFileLen (BYREF wszFileSpec AS WSTRING) AS ULONGLONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Return value
+
+The size in bytes of the file on success, or 0 on failure.
+
+---
+
+## AfxExePath
+
+Returns the path of the program which is currently executing. Alias: **AfxGetExePath**.
+
+```
+FUNCTION AfxExePath () AS DWSTRING
+FUNCTION AfxGetExePath () AS DWSTRING
+```
+
+#### Remarks
+
+Unicode replacement for Free Basic's **ExePath** function. The path name has not a trailing backslash, except if it is a drive, e.g. "C:\".
+
+---
+
+## AfxGetExePathName
+
+Returns the path of the program which is currently executing.
+
+```
+FUNCTION AfxGetExePathName () AS DWSTRING
+```
+
+#### Remarks
+
+The path name has a trailing backslash.
+
+---
+
+## AfxGetDriveType
+
+Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
+
+```
+FUNCTION AfxGetDriveType (BYVAL lpRootPathName AS LPCWSTR) as UINT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *lpRootPathName* | The root directory for the drive. A trailing backslash is required. If this parameter is NULL, the function uses the root of the current directory. |
+
+#### Return value
+
+DRIVE_UNKNOWN (0), DRIVE_NO_ROOT_DIR (1), DRIVE_REMOVABLE (2), DRIVE_FIXED(3), DRIVE_REMOTE (4), DRIVE_CDROM (5), DRIVE_RAMDISK (6).
+
+---
+
+## AfxGetExeFileExt
+
+Parses a path/filename and returns the extension portion of the path/file name.
+
+```
+FUNCTION AfxGetExeFileExt () AS DWSTRING
+```
+
+#### Return value
+
+The extension portion of the file name. That is the last period (.) in the string plus the text to the right of it.
+
+---
+
+## AfxGetExeFileName
+
+Returns the file name of the program which is currently executing.
+
+```
+FUNCTION AfxGetExeFileName () AS DWSTRING
+```
+
+## AfxGetExeFileNameX
+
+Returns the file name and extension of the program which is currently executing.
+
+```
+FUNCTION AfxGetExeFileNameX () AS DWSTRING
+```
+---
+
+## AfxGetExeFullPath
+
+Returns the complete drive, path, file name, and extension of the program which is currently executing.
+
+```
+FUNCTION AfxGetExeFullPath () AS DWSTRING
+```
+---
+
+## AfxGetFileExt
+
+Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it.
+
+```
+FUNCTION AfxGetFileExt (BYREF wszPath AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. |
+
+---
+
+## AfxGetFileCreationTime
+
+Returns the time the file was created, in FILETIME format.
+
+```
+FUNCTION AfxGetFileCreationTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BOOLEAN = TRUE) AS FILETIME
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit from MAX_PATH to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+| *bUTC* | Optional. Pass FALSE if you want to get the time in local time (the NTFS file system stores time values in UTC format, so they are not affected by changes in time zone or daylight saving time). **FileTimeToLocalFileTime** uses the current settings for the time zone and daylight saving time. Therefore, if it is daylight saving time, it takes daylight saving time into account, even if the file time you are converting is in standard time. |
+
+---
+
+## AfxGetFileLastAccessTime
+
+Returns the time the file was accessed, in FILETIME format.
+
+```
+FUNCTION AfxGetFileLastAccessTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BOOLEAN = TRUE) AS FILETIME
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit from MAX_PATH to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+| *bUTC* | Optional. Pass FALSE if you want to get the time in local time (the NTFS file system stores time values in UTC format, so they are not affected by changes in time zone or daylight saving time). **FileTimeToLocalFileTime** uses the current settings for the time zone and daylight saving time. Therefore, if it is daylight saving time, it takes daylight saving time into account, even if the file time you are converting is in standard time. |
+
+---
+
+## AfxGetFileLastWriteTime
+
+Returns the time the file was last written to, truncated, or overwritten, in FILETIME format.
+
+```
+FUNCTION AfxGetFileLastWriteTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BOOLEAN = TRUE) AS FILETIME
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The directory or path, and the file name, which can include wildcard characters, for example, an asterisk (\*) or a question mark (?). This parameter should not be NULL, an invalid string (for example, an empty string or a string that is missing the terminating null character), or end in a trailing backslash (\\). If the string ends with a wildcard, period (.), or directory name, the user must have access permissions to the root and all subdirectories on the path. To extend the limit from MAX_PATH to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+| *bUTC* | Optional. Pass FALSE if you want to get the time in local time (the NTFS file system stores time values in UTC format, so they are not affected by changes in time zone or daylight saving time). **FileTimeToLocalFileTime** uses the current settings for the time zone and daylight saving time. Therefore, if it is daylight saving time, it takes daylight saving time into account, even if the file time you are converting is in standard time. |
+
+---
+
+## AfxGetFileName
+
+Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.).
+
+```
+FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. |
+
+---
+
+## AfxGetFileNameX
+
+Parses a path/filename and returns the file name and extension portion. That is the text to the right of the last backslash (\\) or colon (:).
+
+```
+FUNCTION AfxGetFileNameX (BYREF wszPath AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. |
+
+---
+
+## AfxGetFileVersion
+
+Retrieves the version of the specified file multiplied by 100, e.g. 601 for version 6.01.
+
+```
+FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. |
+
+---
+
+
+## AfxGetFolderName
+
+Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name.
+
+```
+FUNCTION AfxGetFolderName (BYREF wszPath AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. |
+
+---
+
+## <AfxGetKnowFolderPath
+
+Retrieves the path of an special folder.
+
+```
+FUNCTION AfxGetKnowFolderPath (BYVAL rfid AS CONST KNOWNFOLDERID CONST PTR, _
+   BYVAL dwFlags AS DWORD = 0, BYVAL hToken AS HANDLE = NULL) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *rfid* | A reference to the KNOWNFOLDERID that identifies the folder. The folders associated with the known folder IDs might not exist on a particular system. |
+| *dwFlags* | Flags that specify special retrieval options. This value can be 0; otherwise, it is one or more of the KNOWN_FOLDER_FLAG values. |
+| *hToken* | An access token used to represent a particular user. This parameter is usually set to NULL, in which case the function tries to access the current user's instance of the folder. However, you may need to assign a value to *hToken* for those folders that can have multiple users but are treated as belonging to a single user. The most commonly used folder of this type is Documents. The calling application is responsible for correct impersonation when *hToken* is non-null. It must have appropriate security privileges for the particular user, including TOKEN_QUERY and TOKEN_IMPERSONATE, and the user's registry hive must be currently mounted. See [Access Control](https://msdn.microsoft.com/en-us/library/windows/desktop/aa374860(v=vs.85).aspx) for further discussion of access control issues.<br>Assigning the *hToken* parameter a value of -1 indicates the Default User. This allows clients of **SHGetKnownFolderIDList** to find folder locations (such as the Desktop folder) for the Default User. The Default User user profile is duplicated when any new user account is created, and includes special folders such as Documents and Desktop. Any items added to the Default User folder also appear in any new user account. Note that access to the Default User folders requires administrator privileges. |
+
+#### Return value
+
+The path of the requested folder on success, or an empty string on failure.
+
+#### Remarks
+
+Requires Windows Vista/Windows 7 or superior.
+
+For a list of KNOWNFOLDERID constants see: [KNOWNFOLDERID](https://msdn.microsoft.com/en-us/library/windows/desktop/dd378457(v=vs.85).aspx)
+
+#### Usage example
+
+```
+AfxGetKnowFolderPath(@FOLDERID_CommonPrograms)
+```
+---
+
+## AfxGetLongPathName
+
+Retrieves the short path form of the specified path.
+```
+FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. To extend the limit of MAX_PATH wode characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxGetPathName
+
+Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:).
+
+```
+FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. |
+
+---
+
+## AfxGetShortPathName
+
+Retrieves the short path form of the specified path.
+
+```
+FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | The path/filename string. To extend the limit of MAX_PATH wode characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxGetSpecialFolderLocation
+
+Retrieves the path of a special folder.
+
+```
+FUNCTION AfxGetSpecialFolderLocation (BYVAL nFolder AS LONG) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nFolder* | A CSIDL value that identifies the folder of interest. |
+
+#### Remarks
+
+For a list of CSIDL values see: [CSIDL](https://msdn.microsoft.com/en-us/library/windows/desktop/bb762494(v=vs.85).aspx)
+
+---
+
+## AfxGetSystemDllPath
+
+Retrieves the fully qualified path for the file that contains the specified module.
+
+```
+FUNCTION AfxGetSystemDllPath (BYREF wszDllName AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszDllName* | The name of the system DLL to find. |
+
+#### Remarks
+
+To locate the file for a module that was loaded by another process, use the **GetModuleFileNameEx** function.
+
+---
+
+## AfxGetWinDir
+
+Retrieves the path of the Windows directory. This path does not end with a backslash unless the Windows directory is the root directory. For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows. If the system was installed in the root directory of drive C, the path retrieved is C:\\.
+
+```
+FUNCTION AfxGetWinDir () AS DWSTRING
+```
+---
+
+## AfxIsCompressedFile
+
+Returns True if the specified file or directory is compressed; False if it is not.
+
+```
+FUNCTION AfxIsCompressedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsEncryptedFile
+
+Returns True if the specified file or directory is encrypted; False if it is not.
+
+```
+FUNCTION AfxIsEncryptedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsFolder
+
+Returns True if the specified path is a folder; False if it is not.
+
+```
+FUNCTION AfxIsFolder (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsHiddenFile
+
+Returns True if the specified path is a hidden file or directory; False if it is not.
+
+```
+FUNCTION AfxIsHiddenFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsNormalFile
+
+Returns True if the specified path is a normal file (a file that does not have other attributes set); False if it is not.
+
+```
+FUNCTION AfxIsNormalFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsNotContentIndexedFile
+
+Returns TRUE if the specified file or directory is not to be indexed by the content indexing service; FALSE, otherwise.
+
+```
+FUNCTION AfxIsNotContentIndexedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsOfflineFile
+
+Returns TRUE if the specified file file is not available immediately; FALSE, otherwise.
+
+```
+FUNCTION AfxIsOfflineFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsReadOnlyFile
+
+Returns True if the specified path is a read only file; False if it is not.
+
+```
+FUNCTION AfxIsReadOnlyFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## <a name="AfxIsReparsePointFile"></a>AfxIsReparsePointFile
+
+Returns TRUE if the specified path is a file or directory that has an associated reparse point, or a file that is a symbolic link.; FALSE, otherwise.
+
+```
+FUNCTION AfxIsReparsePointFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsSparseFile
+
+Returns TRUE if the specified path is a sparse file; FALSE, otherwise.
+
+```
+FUNCTION AfxIsSparseFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsSystemFile
+
+Returns True if the specified path is a system file; False if it is not.
+
+```
+FUNCTION AfxIsSystemFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxIsTemporaryFile
+
+Returns True if the specified path is a temporary file; False if it is not.
+
+```
+FUNCTION AfxIsTemporaryFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileSpec* | The path to a file. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+---
+
+## AfxFileScan
+
+Scans a text file ans returns the number of occurrences of the specified delimiter.
+
+```
+FUNCTION AfxFileScanA (BYREF wszFileName AS WSTRING, BYREF Delimiter AS ZSTRING = CHR(13, 10)) AS DWORD
+FUNCTION AfxFileScanW (BYREF wszFileName AS WSTRING, BYREF Delimiter AS WSTRING = CHR(13, 10)) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileName* | Path of the file to scan. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+| *Delimiter* | Optional. Delimiter to find. Default value is CHR(13, 10), which returns the number of lines. You can use CHR(10) for Linux files, "," for comma delimited cvs files, CHR(9) for spreadshets in tab delimited format, etc. |
+
+#### Remarks
+
+Use **AfxFileScanA** for ansi text files and **AfxFileScanW** for unicode text files.
+
+---
+
+## AfxFileReadAllLines
+
+Reads all the lines of the specified file into a safe array.
+
+```
+FUNCTION AfxFileReadAllLinesA (BYREF wszFileName AS WSTRING, BYREF Delimiter AS ZSTRING = CHR(13, 10)) AS CSafeArray
+FUNCTION AfxFileReadAllLinesW (BYREF wszFileName AS WSTRING, BYREF Delimiter AS WSTRING = CHR(13, 10)) AS CSafeArray
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszFileName* | Path of the file to scan. To extend the limit of MAX_PATH wide characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+| *Delimiter* | Optional. Delimiter to find. Default value is CHR(13, 10), which returns the number of lines. You can use CHR(10) for Linux files, "," for comma delimited cvs files, CHR(9) for spreadshets in tab delimited format, etc. |
+
+#### Remarks
+
+Use **AfxFileReadAllLinesA** for ansi text files and **AfxFileReadAllLinesW** for unicode text files.
+
+Because it returns a safe array, this function is located in the CSafeArray.inc include file.
+
+---
+
+## AfxSaveTempFile
+
+Saves the contents of a string buffer in a temporary file.
+
+```
+FUNCTION AfxSaveTempFile (BYVAL pwszBuffer AS WSTRING PTR, BYREF wszExtension AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszBuffer* | The string buffer to save. |
+| *wszExtension* | Optional. The extension of the file name without a colon (e.g. "bas"). If an empty string is passed, the function will use "tmp" as the extension. |
+
+#### Remarks
+
+Temporary files whose names have been created by this function are not automatically deleted. To delete these files call **AfxDeleteFile**.
+
+---
+
+
+
 +++++++++++++++++++++++
 
 
@@ -542,7 +1463,7 @@ Handle of the top-level parent or owner window.
 Retrieves the name of the class to which the specified window belongs. 
 
 ```
-FUNCTION AfxGetWindowClassName (BYVAL hwnd AS HWND) AS CWSTR
+FUNCTION AfxGetWindowClassName (BYVAL hwnd AS HWND) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1345,7 +2266,7 @@ DIM hwndBrowser AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")   ' // Chrom
 Retrieves the name of the default browser.
 
 ```
-FUNCTION AfxGetDefaultBrowserName () AS CWSTR
+FUNCTION AfxGetDefaultBrowserName () AS DWSTRING
 ```
 
 #### Return value
@@ -1357,7 +2278,7 @@ The retrieved name or an empty string.
 Retrieves the path of the default browser.
 
 ```
-FUNCTION AfxGetDefaultBrowserPath () AS CWSTR
+FUNCTION AfxGetDefaultBrowserPath () AS DWSTRING
 ```
 
 #### Return value
@@ -1369,7 +2290,7 @@ The retrieved path or an empty string.
 Retrieves the name of the default client mail application.
 
 ```
-FUNCTION AfxGetDefaultMailClientName () AS CWSTR
+FUNCTION AfxGetDefaultMailClientName () AS DWSTRING
 ```
 
 #### Return value
@@ -1381,7 +2302,7 @@ The retrieved name or an empty string.
 Retrieves the path of the default client mail application.
 
 ```
-FUNCTION AfxGetDefaultMailClientPath () AS CWSTR
+FUNCTION AfxGetDefaultMailClientPath () AS DWSTRING
 ```
 
 #### Return value
@@ -1823,7 +2744,7 @@ If the function succeeds, the return value is the handle to the data. If the fun
 Returns a text string from the clipboard.
 
 ```
-FUNCTION AfxGetClipboardText () AS CWSTR
+FUNCTION AfxGetClipboardText () AS DWSTRING
 ```
 
 #### Return value
@@ -2633,7 +3554,7 @@ The window handle or NULL.
 Retrieves the path of the executable file that created the specified window.
 
 ```
-FUNCTION AfxGetPathFromWindowHandle (BYVAL hwnd AS HWND) AS CWSTR
+FUNCTION AfxGetPathFromWindowHandle (BYVAL hwnd AS HWND) AS DWSTRING
 ```
 
 | Parameter  | Description |
