@@ -28,7 +28,8 @@ CPowerTime_Week           CPowerTime_Day * 7
 | [AddYears](#addyears) | Adds the specified number of years to this **CPowerTime** object. You can subtract years by using a negative number. |
 | [AstroDay](#astroday) | Returns the Astronomical Day for any given date. |
 | [AstroDayOfWeek](#astrodayofweek) | Returns the Astronomical Day for any given date. |
-| [DateSerial](#dateserial) | Gets/sets the date and time as a FreeBasic date serial. |
+| [DateDiff](#datediff) | Returns the difference between two dates in years, months and days. |
+| [DateSerial](#dateserial) | Gets/sets the date and time as a date serial. |
 | [DateString](#datestring) | Returns the date as a string based on the specified mask, e.g. "dd-MM-yyyy". |
 | [Day](#day) | Returns the Day component of the **CPowerTime** object. It is a  value in the range of 1-31. |
 | [DaysInMonth](#daysinmonth) | Returns the number of days in the specified month. |
@@ -731,9 +732,44 @@ FUNCTION GetAsSystemTime () AS SYSTEMTIME
 ```
 ---
 
+## DateDiff
+
+Returns the difference between two dates in years, months and days.
+
+```
+SUB DateDiff (BYREF cpt AS CPowerTime, BYREF nSign AS LONG, BYREF nYears AS LONG, _
+    BYREF nMonths AS LONG, BYREF nDays AS LONG)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cpt* | IN. The **PowerTime** object to compare. |
+| *nSign* | OUT. Indicates that the internal value is smaller(-1), equal(0) or larger (+1). |
+| *Years* | OUT. The years of difference between the two dates. |
+| *Months* | OUT. The months of difference between the two dates. |
+| *Days* | OUT. The days of difference between the two dates. |
+
+#### Remarks
+
+The date part of the internal **PowerTime** object is compared to the date part of the specified external **PowerTime** object. The time-of-day part of each is ignored. The difference is assigned to the parameter variables you provide. *nSign* is -1 if the internal value is smaller. *nSign* is 0 if the values are equal. *nSign* is +1 if the internal value is larger. The other parameters tell the difference as positive integer values. If parameters are invalid, **GetLastError** will return ERROR_INVALID_PARAMETER.
+
+#### Usage example
+
+```
+DIM cpt1 AS CPowerTime
+DIM cpt2 AS CPowerTime
+cpt1.NewDate(2019, 2, 2)
+cpt2.NewDate(1930, 12, 25)
+DIM AS LONG nSign, nYears, nMonths, nDays
+cpt1.DateDiff(cpt2, nSign, nYears, nMonths, nDays)
+print nSign, nYears, nMonths, nDays
+' Output: 1, 88, 1, 8    ' 88 years, 1 month, 8 days
+```
+---
+
 ## DateSerial
 
-Gets/sets the date and time as a FreeBasic date serial.
+Gets/sets the date and time as a date serial.
 
 ```
 PROPERTY DateSerial () AS DOUBLE
