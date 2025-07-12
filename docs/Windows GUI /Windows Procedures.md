@@ -129,27 +129,6 @@ Assorted Windows procedures.
 
 ---
 
-# Messages
-
-| Name       | Description |
-| ---------- | ----------- |
-| [AfxDoEvents](#Afxdoevents) | Processes pending Windows messages. |
-| [AfxForwardSizeMessage](#AfxForwardSizeMessage) | Sends a WM_SIZE message to the specified window. |
-| [AfxPumpMessages](#AfxPumpMessages) | Processes pending Windows messages. |
-
----
-
-# Handles
-
-| Name       | Description |
-| ---------- | ----------- |
-| [AfxGetControlHandle](#AfxGetControlHandle) | Returns the handle of the control with the specified identifier. |
-| [AfxGetFormHandle](#AfxGetFormHandle) | Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. |
-| [AfxGetHwndFromPID](#AfxGetHwndFromPID) | Retrieves a window handle given it's process identifier. |
-| [AfxGetPathFromWindowHandle](#AfxGetPathFromWindowHandle) | Retrieves the path of the executable file that created the specified window. |
-
----
-
 # Window styles
 
 | Name       | Description |
@@ -174,6 +153,27 @@ Assorted Windows procedures.
 | [AfxGetDisplayFrequency](#AfxGetDisplayFrequency) | Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. |
 | [AfxGetDisplayPixelsHeight](#AfxGetDisplayPixelsHeight) | Returns the height, in pixels, of the current display device on the computer on which the calling thread is running. |
 | [AfxGetDisplayPixelsWidth](#AfxGetDisplayPixelsWidth) | Returns the width, in pixels, of the current display device on the computer on which the calling thread is running. |
+
+---
+
+# Messages
+
+| Name       | Description |
+| ---------- | ----------- |
+| [AfxDoEvents](#Afxdoevents) | Processes pending Windows messages. |
+| [AfxForwardSizeMessage](#AfxForwardSizeMessage) | Sends a WM_SIZE message to the specified window. |
+| [AfxPumpMessages](#AfxPumpMessages) | Processes pending Windows messages. |
+
+---
+
+# Handles
+
+| Name       | Description |
+| ---------- | ----------- |
+| [AfxGetControlHandle](#AfxGetControlHandle) | Returns the handle of the control with the specified identifier. |
+| [AfxGetFormHandle](#AfxGetFormHandle) | Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. |
+| [AfxGetHwndFromPID](#AfxGetHwndFromPID) | Retrieves a window handle given it's process identifier. |
+| [AfxGetPathFromWindowHandle](#AfxGetPathFromWindowHandle) | Retrieves the path of the executable file that created the specified window. |
 
 ---
 
