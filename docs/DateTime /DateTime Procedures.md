@@ -26,6 +26,7 @@ Assorted date and time procedures.
 | [AfxJulianDayOfWeek](#afxjuliandayofweek) | Given a Julian date, returns the day of week. |
 | [AfxJulianToGregorian](#afxjuliantogregorian) | Converts a Julian date to a Gregorian date. |
 | [AfxJulianToGregorianStr](#afxjuliantogregorianstr) | Converts a Julian date to a Gregorian date based on the specified mask, e.g. "dd-MM-yyyy". |
+| [AfxLeapYearsCount](#afxleapyearscount) | Returns the number of leap years between two years. |
 | [AfxLocalDateStr](#afxlocaldatestr) | Returns the current local date based on the specified mask, e.g. "dd-MM-yyyy". |
 | [AfxLocalDay](#afxlocalday) | Returns the current local day. The valid values are 1 through 31. |
 | [AfxLocalDayName](#afxlocaldayname) | Returns the localized name of today. |
@@ -874,6 +875,21 @@ FUNCTION AfxMonthName (BYVAL nMonth AS LONG, BYVAL lcid AS LCID = LOCALE_USER_DE
 | ---------- | ----------- |
 | *nMonth* | Valid values are between 1 and 12. |
 | *lcid* | Optional. The language identifier used for the conversion. Default is LOCALE_USER_DEFAULT. |
+
+---
+
+## AfxNumberOfLeapYears
+
+Returns the number of leaos years between two years.
+
+```
+FUNCTION AfxNumberOfLeapYears (BYVAL year1 AS LONG, BYVAL years2 AS LONG) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *year1* | The starting year. |
+| *year2* | The ending year. |
 
 ---
 
