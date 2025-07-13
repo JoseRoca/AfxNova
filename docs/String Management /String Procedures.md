@@ -110,6 +110,67 @@ const LOW_SURROGATE_END = &hdfff
 
 ---
 
+### Locale information
+
+| Name       | Description |
+| ---------- | ----------- |
+| [DWStrAbbrevDayName](#dwstrabbrevdayname) | Returns the abbreviated native day name for the specified day (1 = Monday, etc.). |
+| [DWStrAbbrevMonthName](#dwstrabbrevmonthname) | Returns the abbreviated native month name for the specified month. |
+| [DWStrCountryName](#dwstrabbrevmonthname) | Returns the full localized name of the country/region. |
+| [DWStrCurrencySymbol](#dwstrcurrencysymbol) | Returns the string used as the local monetary symbol. |
+| [DWStrDateSeparator](#dwstrdateseparator) | Returns the character(s) used for the date separator. |
+| [DWStrDayName](#dwstrdayname) | Returns the native day name for the specified day (1 = Monday, etc.). |
+| [DWStrDecimalSeparator](#dwstrdecimalseparatgor) | Returns the character() used for the decimal separator, for example, "." in "3.14" or "," in "3,14". |
+| [DWStrDigitsGrouping](#dwstrfigitsgrouping) | Returns the sizes for each group of digits to the left of the decimal. |
+| [DWStrDisplayName](#dwstrdisplayname) | Returns the primary language name included in a localized display name. |
+| [DWStrEnglishCountryName](#dwstrenglishcountryname) | Returns the full English name of the country/region. |
+| [DWStrEnglishCurrencyName](#dwstrenglishcurrencyname) | Returns the full English name of the currency associated with the locale. |
+| [DWStrEnglishDisplayName](#dwstrenglishdisplayname) | Returns the display name of the locale in English. |
+| [DWStrEnglishLanguageName](#dwstrenglishlanguagename) | Returns the full English name of the language from ISO Standard 639. |
+| [DWStrInternationalMonetarySymbol](#dwstrinternationalmonetarysymbol) | Returnsthe three characters of the international monetary symbol specified in ISO 4217, followed by the character separating this string from the amount. |
+| [DWStrISO639LanguageName](#dwstriso639languagename) | Returns the abbreviated name of the language based entirely on the ISO Standard 639 values, in lowercase form. |
+| [DWStrISO639LanguageName2](#dwstriso639languagename2) | Returnsthe three-letter ISO language name, in lowercase form (ISO 639-2 three-letter code for the language). |
+| [DWStrISO3166CountryName](#dwstriso3166countryname) | Returns the country/region name, based on ISO Standard 3166. |
+| [DWStrISO3166CountryName2](#dwstriso3166countryname2) | Returns the three-letter ISO region name (ISO 3166 three-letter code for the country/region). |
+| [DWStrLanguageName](#dwstrlanguagename) | Returns the full localized name of the language. |
+| [DWStrListItemsSeparator](#dwstrlistitemsseparator) | Returns the character(s) used to separate list items. |
+| [DWStrLocaleName](#dwstrlocalename) | Returns the locale name, a multi-part tag to uniquely identify the locale. |
+| [DWStrLocalizedCountryName](#dwstrlocalizedcountryname) | Returns the full localized name of the country/region. |
+| [DWStrLocalizedCountryName](#dwstrlocalizedcountryname) | Returns the full localized name of the country/region. |
+| [DWStrLocalizedDisplayName](#dwstrlocalizeddisplayname) | Returns the full localized name of the locale for the user interface language, |
+| [DWStrLocalizedLanguageName](#dwstrlocalizedlanguagename) | Returns the full localized primary name of the user interface language included in a localized display name. |
+| [DWStrLongDateFormatString](#dwstrlongdateformatstring) | Returns the long date formatting string for the locale. |
+| [DWStrMonetaryDecimalSeparator](#dwstrmonetarydecimalseparator) | Returns the character(s) used as the monetary decimal separator. |
+| [DWStrMonetaryGrouping](#dwstrmonetarygroup) | Returns the sizes for each group of monetary digits to the left of the decimal. |
+| [DWStrMonetaryGrouping](#dwstrmonetarygrouping) | Returns the sizes for each group of monetary digits to the left of the decimal. |
+| [DWStrMonetaryThousandsSeparator](#dwstrmonetarygroupingthousansseparator) | Returns the character(s) used as the monetary separator between groups of digits to the left of the decimal. |
+| [DWStrMonthDayFormatString](#dwstrmonthdayformatstring) | Returns the format string for displaying only the month and the day. |
+| [DWStrMonthName](#dwstrmonthname) | Returns the native month name for the specified month. |
+| [DWStrNanString](#dwstrnanstring) | Returns the string value for "Not a number", for example, "Nan" for the English (United States) locale. |
+| [DWStrNativeCountryName](#dwstrnativecountryname) | Returns the native name of the country/region. |
+| [DWStrNativeCurrencyName](#dwstrnativecurrencyname) | Returns the native name of the currency associated with the locale, in the native language of the locale. |
+| [DWStrNativeDigits](#dwstrnativedigits) | Returns the native equivalents of ASCII 0 through 9. |
+| [DWStrNativeDisplayName](#dwstrnativedisplayname) | Returns the display name of the locale in its native language. |
+| [DWStrNativeLanguageName](#dwstrnativelanguagename) | Returns the native name of the language. |
+| [DWStrNegativeInfinityString](#dwstrnativeinfinitystring) | Returns the string value for "negative infinity". |
+| [DWStrNegativeSign](#dwstrnativesign) | Returns the string value for the negative sign. |
+| [DWStrOpenTypeLanguageTag](#dwstropentypelanguagetag) | Returns the OpenType language tag used to retrieve culturally appropriate typographic features from a font. |
+| [DWStrPermilleSymbol](#dwstrpermillesymbol) | Returns the symbol used to indicate the permille (U+2030) symbol, that is, ‰. |
+| [DWStrPositiveInfinityString](#dwstrpositiveinfinitystring) | Returns the string value for "positive infinity". |
+| [DWStrPositiveSign](#dwstrpositivesign) | Returns the string value for the positive sign. |
+| [DWStrScriptsList](#dwstrscriptslist) | Returns a string representing a list of scripts, using the 4-character notation used in ISO 15924. |
+| [DWStreShortDateFormatString](#dwstrshortdateformatstring) | Returns the short date formatting string for the locale. |
+| [DWStrShortestDayName](#dwstrshortestdayname) | Returns the short native name of the specified day of the week. |
+| [DWStrShortTimeFormatString](#dwstrshorttimeformatstring) | Returns the short time formatting string for the locale. |
+| [DWStrSortLocale](#dwstrsortlocale) | Returns the mame of the locale to use for sorting or casing behavior. |
+| [DWStrSortName](#dwstrsortname) | Returns the full localized name of the sort for the specified locale identifier, dependent on the language of the shell. |
+| [DWStrThousandsSeparator](#dwstrthousandsseparator) | Returns the character(s) that are used to separate groups of digits to the left of the decimal. |
+| [DWStrTimeFormatString](#dwstrtimeformatstring) | Returns the time formatting strings for the locale. |
+| [DWStrTimeSeparator](#dwstrtimeseparator) | Returns the character(s) for the time separator. |
+| [DWStrYearMonthFormatString](#dwstryearmonthformatstring) | Returns the year-month formatting string for the locale. |
+
+---
+
 ## DWStrAcode
 
 Translates Unicode chars to ansi bytes.
