@@ -94,7 +94,7 @@ pURLShortcut.Save
 
 ---
 
-# <a name="save1"></a>Save (CShortcut)
+## <a name="save1"></a>Save (CShortcut)
 
 Saves a shortcut object to disk.
 
@@ -112,7 +112,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 
 ---
 
-# <a name="save2"></a>Save (CURLShortcut)
+## <a name="save2"></a>Save (CURLShortcut)
 
 Saves a URL shortcut object to disk.
 
@@ -130,7 +130,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 
 ---
 
-# <a name="getlastresult"></a>GetLastResult
+## <a name="getlastresult"></a>GetLastResult
 
 Returns the last result code.
 
@@ -144,7 +144,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 
 ---
 
-# <a name="arguments"></a>Arguments
+## <a name="arguments"></a>Arguments
 
 Gets/sets the arguments for a shortcut, or identifies a shortcut's arguments.
 
@@ -163,7 +163,7 @@ The arguments of the shortcut.
 
 ---
 
-# <a name="description"></a>Description
+## <a name="description"></a>Description
 
 Returns or sets a shortcut's description.
 
@@ -182,7 +182,7 @@ The description of the shortcut.
 
 ---
 
-# <a name="fullname1"></a>FullName (CShortcut)
+## <a name="fullname1"></a>FullName (CShortcut)
 
 Returns the fully qualified path of the shortcut object's target.
 
@@ -196,7 +196,7 @@ The **FullName** property contains a read-only string value indicating the fully
 
 ---
 
-# <a name="fullname2"></a>FullName (CURLShortcut)
+## <a name="fullname2"></a>FullName (CURLShortcut)
 
 Returns the fully qualified path of the shortcut object's target.
 
@@ -210,7 +210,7 @@ The **FullName** property contains a read-only string value indicating the fully
 
 ---
 
-# <a name="hotkey"></a>Hotkey
+## <a name="hotkey"></a>Hotkey
 
 Assigns a key-combination to a shortcut, or identifies the key-combination assigned to a shortcut.
 
@@ -229,7 +229,7 @@ The hotkey of the shortcut.
 
 ---
 
-# <a name="iconlocation"></a>IconLocation
+## <a name="iconlocation"></a>IconLocation
 
 Assigns a an icon to a shortcut, or identifies the icon assigned to a shortcut.
 
@@ -248,7 +248,7 @@ The location of the icon.
 
 ---
 
-# <a name="relativepath"></a>RelativePath
+## <a name="relativepath"></a>RelativePath
 
 Assigns a relative path to a shortcut.
 
@@ -262,7 +262,7 @@ PROPERTY RelativePath (BYREF wszRelativePath AS WSTRING)
 
 ---
 
-# <a name="targetpath1"></a>TargetPath (CShortcut)
+## <a name="targetpath1"></a>TargetPath (CShortcut)
 
 Gets/sets the path of the shortcut's executable.
 
@@ -281,7 +281,7 @@ The path of the shortcut's executable.
 
 ---
 
-# <a name="targetpath2"></a>TargetPath (CURLShortcut)
+## <a name="targetpath2"></a>TargetPath (CURLShortcut)
 
 Gets/sets the path of the shortcut's executable.
 
@@ -300,7 +300,7 @@ The path of the shortcut's executable.
 
 ---
 
-# <a name="windowstyle"></a>WindowStyle
+## <a name="windowstyle"></a>WindowStyle
 
 Assigns a window style to a shortcut, or identifies the type of window style used by a shortcut.
 
@@ -327,7 +327,7 @@ LONG. The window style.
 
 ---
 
-# <a name="workingdirectory"></a>WorkingDirectory
+## <a name="workingdirectory"></a>WorkingDirectory
 
 Assigns a working directory to a shortcut, or identifies the working directory used by a shortcut.
 
