@@ -1897,3 +1897,364 @@ FUNCTION DWStrLocalizedCountryName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAM
 | *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
 
 ---
+
+## DWStrLocalizedDisplayName
+
+Windows 7 and later: Full localized name of the locale for the user interface language, for example, Deutsch (Deutschland) for German (Germany)" There is no limit on the number of characters allowed for this string. Since this name is based on the localization of the product, it changes for each localized version.
+```
+FUNCTION DWStrLocalizedDisplayName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrLocalizedLanguageName
+
+Full localized primary name of the user interface language included in a localized display name, for example, Deutsch representing German. Since this name is based on the localization of the product, it changes for each localized version.
+```
+FUNCTION DWStrLocalizedLanguageName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrLongDateFormatString
+
+Long date formatting string for the locale. The maximum number of characters allowed for this string is 80, including a terminating null character. The string can consist of a combination of day, month, year, and era format pictures and any string of characters enclosed in single quotes. Characters in single quotes remain as specified. For example, the Spanish (Spain) long date is "dddd, dd' de 'MMMM' de 'yyyy". Locales can define multiple long date formats.
+```
+FUNCTION DWStrLongDateFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrMonetaryDecimalSeparator
+
+Character(s) used as the monetary decimal separator. The maximum number of characters allowed for this string is four, including a terminating null character. For example, if a monetary amount is displayed as "$3.40", just as "three dollars and forty cents" is displayed in the United States, then the monetary decimal separator is ".".
+```
+FUNCTION DWStrMonetaryDecimalSeparator (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrMonetaryGrouping
+
+Sizes for each group of monetary digits to the left of the decimal. The maximum number of characters allowed for this string is ten, including a terminating null character. An explicit size is needed for each group, and sizes are separated by semicolons. If the last value is 0, the preceding value is repeated. For example, to group thousands, specify 3;0. Indic languages group the first thousand and then group by hundreds. For example 12,34,56,789 is represented by 3;2;0.
+```
+FUNCTION DWStrMonetaryGrouping (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrMonetaryThousandsSeparator
+
+Character(s) used as the monetary separator between groups of digits to the left of the decimal. The maximum number of characters allowed for this string is four, including a terminating null character. Typically, the groups represent thousands. However, depending on the value specified for LOCALE_SMONGROUPING, they can represent something else.
+```
+FUNCTION DWStrMonetaryThousandsSeparator (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrMonthDayFormatString
+
+Format string for displaying only the month and the day. The formatting is similar to that defined for LOCALE_SLONGDATE. For example, if the month/day pattern is the full month name followed by the day number with leading zeros, as in "September 03", the format string is "MMMM dd". The string can consist of a combination of day and month format pictures and any string of characters enclosed in single quotes. Characters in single quotes remain as specified, for example, 'de' for Spanish (Spain). A locale can specify only one month/day format.
+```
+DUNCTION DWStrMonthDayFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrMonthName
+
+Returns the native month name for the specified month.
+```
+FUNCTION DWStrMonthName (BYVAL nMonth AS LONG, BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNanString
+
+String value for "Not a number", for example, "Nan" for the English (United States) locale. There is no limit on the number of characters allowed for this string.
+```
+FUNCTION DWStrNanString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNativeCountryName
+
+Native name of the country/region, for example, España for Spain. The maximum number of characters allowed for this string is 80, including a terminating null character.
+```
+FUNCTION DWStrNativeCountryName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNativeCurrencyName
+
+The native name of the currency associated with the locale, in the native language of the locale. There is no limit on the number of characters allowed for this string.
+```
+FUNCTION DWStrNativeCurrencyName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNativeDigits
+
+Native equivalents of ASCII 0 through 9. The maximum number of characters allowed for this string is eleven, including a terminating null character.
+```
+FUNCTION DWStrNativeDigits (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNativeDisplayName
+
+Display name of the locale in its native language, for example, Deutsch (Deutschland) for the locale German (Germany).
+```
+FUNCTION DWStrNativeDisplayName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNativeLanguageName
+
+Native name of the language. The maximum number of characters allowed for this string is 80, including a terminating null character.
+```
+FUNCTION DWStrNativeLanguageName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNegativeInfinityString
+
+String value for "negative infinity", for example, "-Infinity" for the English (United States) locale. There is no limit on the number of characters allowed for this string.
+```
+FUNCTION DWStrNegativeInfinityString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrNegativeSign
+
+String value for the negative sign, for example, "-" for the English (United States) locale. The maximum number of characters allowed for this string is five, including a terminating null character.
+```
+FUNCTION DWStrNegativeSign (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrOpenTypeLanguageTag
+
+OpenType language tag used to retrieve culturally appropriate typographic features from a font.
+```
+FUNCTION DWStrNegativeSign (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrPermilleSymbol
+
+Symbol used to indicate the permille (U+2030) symbol, that is, ‰.
+```
+FUNCTION DWStrPermilleSymbol (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrPositiveInfinityString
+
+Windows Vista and later: String value for "positive infinity", for example, "Infinity" for the English (United States) locale. There is no limit on the number of characters allowed for the string.
+```
+FUNCTION DWStrPositiveInfinityString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrPositiveSign
+
+String value for the positive sign, for example, "+" for the English (United States) locale. The maximum number of characters allowed for this string is five, including a terminating null character.
+```
+FUNCTION DWStrPositiveInfinityString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrScriptsList
+
+A string representing a list of scripts, using the 4-character notation used in ISO 15924. Each script name consists of four Latin characters and the list is arranged in alphabetical order with each name, including the last, followed by a semicolon.
+```
+FUNCTION DWStrScriptsList (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStreShortDateFormatString
+
+Short date formatting string for the locale. The maximum number of characters allowed for this string is 80, including a terminating null character. The string can consist of a combination of day, month, year, and era format pictures. For example, "M/d/yyyy" indicates that September 3, 2004 is written 9/3/2004.
+```
+FUNCTION DWStreShortDateFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrShortestDayName
+
+Short native name of the specified day of the week.
+```
+FUNCTION DWStrShortestDayName (BYVAL nDay AS LONG, BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nDay* | The day number of the week (1 to 7), 1 = Monday, etc. |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrShortTimeFormatString
+
+Short time formatting string for the locale. Patterns are typically derived by removing the "ss" (seconds) value from the long time format pattern. For example, if the long time format is "h:mm:ss tt", the short time format is most likely "h:mm tt". This constant can specify multiple formats in a semicolon-delimited list. However, the preferred short time format should be the first value listed.
+```
+FUNCTION DWStrShortTimeFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrSortLocale
+
+Name of the locale to use for sorting or casing behavior.
+```
+FUNCTION DWStrSortLocale (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrSortName
+
+The full localized name of the sort for the specified locale identifier, dependent on the language of the shell. This constant is used to determine casing and sorting behavior.
+```
+FUNCTION DWStrSortName (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrThousandsSeparator
+
+Characters that are used to separate groups of digits to the left of the decimal. The maximum number of characters allowed for this string is four, including a terminating null character. Typically, these groups represent thousands. However, depending on the value specified for LOCALE_SGROUPING, they can represent something else.
+```
+FUNCTION DWStrThousandsSeparator (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrTimeFormatString
+
+Time formatting strings for the locale. The maximum number of characters allowed for this string is 80, including a terminating null character. The string can consist of a combination of hour, minute, and second format pictures.
+```
+FUNCTION DWStrTimeFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrTimeSeparator
+
+Character(s) for the time separator. The maximum number of characters allowed for this string is four, including a terminating null character.
+```
+FUNCTION DWStrTimeSeparator (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## DWStrYearMonthFormatString
+
+The year-month formatting string for the locale. The maximum number of characters allowed for this string is 80, including a terminating null character. This string shows the proper format for a date string that contains only the year and the month, using format pictures as defined in Day, Month, Year, and Era Format Pictures.
+```
+FUNCTION DWStrYearMonthFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
