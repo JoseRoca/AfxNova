@@ -186,8 +186,6 @@ The user default locale name.
 
 ---
 
----
-
 ## DWStrAcode
 
 Translates Unicode chars to ansi bytes.
