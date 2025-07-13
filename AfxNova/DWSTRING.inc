@@ -29,6 +29,7 @@
 #include once "AfxNova/DWSTRING.bi"
 #include once "AfxNova/BSTRING.inc"
 #include once "AfxNova/DWStrProcs.inc"
+USING AfxNova
 
 NAMESPACE AfxNova
 

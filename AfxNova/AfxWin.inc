@@ -82,26 +82,26 @@ END FUNCTION
 ' The Windows API MessageBox can be used instead.
 ' ========================================================================================
 PRIVATE FUNCTION AfxMsg OVERLOAD (BYREF wszText AS WSTRING, BYREF wszCaption AS WSTRING = "Message", BYVAL uType AS DWORD = 0) AS LONG
-   RETURN MessageBoxW(GetActiveWindow, @wszText, @wszCaption, MB_APPLMODAL OR uType) 
+   RETURN MessageBoxW(GetActiveWindow, @wszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxMsg OVERLOAD (BYVAL pwszText AS WSTRING PTR, BYREF wszCaption AS WSTRING = "Message", BYVAL uType AS DWORD = 0) AS LONG
-   RETURN MessageBoxW(GetActiveWindow, pwszText, @wszCaption, MB_APPLMODAL OR uType) 
+   RETURN MessageBoxW(GetActiveWindow, pwszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxMsg OVERLOAD (BYVAL hWin AS HWND, BYREF wszText AS WSTRING, BYREF wszCaption AS WSTRING = "Message", BYVAL uType AS DWORD = 0) AS LONG
-   RETURN MessageBoxW(hWin, @wszText, @wszCaption, MB_APPLMODAL OR uType) 
+   RETURN MessageBoxW(hWin, @wszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION AfxMsg OVERLOAD (BYVAL hWin AS HWND, BYREF pwszText AS WSTRING PTR, BYREF wszCaption AS WSTRING = "Message", BYVAL uType AS DWORD = 0) AS LONG
-   RETURN MessageBoxW(hWin, pwszText, @wszCaption, MB_APPLMODAL OR uType) 
+PRIVATE FUNCTION AfxMsg OVERLOAD (BYVAL hWin AS HWND, BYVAL pwszText AS WSTRING PTR, BYREF wszCaption AS WSTRING = "Message", BYVAL uType AS DWORD = 0) AS LONG
+   RETURN MessageBoxW(hWin, pwszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Returns command line parameters used to call the program
-' Unicode replacement for FreeBasic Command keyword.
+' Unicode replacement for FreeBasic's Command keyword.
 ' Usage: result = AfxCommand ( [ index ] )
 ' Parameter:
 ' - index : Zero-based index for a particular command-line argument.
@@ -123,7 +123,7 @@ PRIVATE FUNCTION AfxCommand (BYVAL nIndex AS LONG = -1) AS DWSTRING
       FOR i AS LONG = 1 TO nArgs - 1
          dwsArgs += *pArgsList[i] & " "
       NEXT
-      dwsArgs = RTRIM(**dwsArgs)
+      dwsArgs = RTRIM(dwsArgs)
    ELSE
       dwsArgs = *pArgsList[nIndex]
    END IF
@@ -131,7 +131,20 @@ PRIVATE FUNCTION AfxCommand (BYVAL nIndex AS LONG = -1) AS DWSTRING
    RETURN dwsArgs
 END FUNCTION
 ' ========================================================================================
-#define CommandLine AfxCommand
+#define WCommand AfxCommand
+' ========================================================================================
+
+' ========================================================================================
+' Returns the number of command line arguments used to call the program
+' ========================================================================================
+FUNCTION AfxCommandLineCount() AS LONG
+    DIM nArgs AS LONG
+    DIM pArgs AS WSTRING PTR PTR = CommandLineToArgvW(GetCommandLineW, @nArgs)
+    IF pArgs THEN LocalFree CAST(HLOCAL, pArgs)
+    RETURN nArgs
+END FUNCTION
+' ========================================================================================
+#define WCommandArgsc AfxCommandLineCount
 ' ========================================================================================
 
 ' ========================================================================================
@@ -149,8 +162,6 @@ PRIVATE FUNCTION AfxGetWinErrMsg (BYVAL dwError AS DWORD) AS DWSTRING
    END IF
    RETURN dwsMsg
 END FUNCTION
-' ========================================================================================
-#define WindowsGetErrorMessage AfxGetWinErrMsg
 ' ========================================================================================
 
 ' ========================================================================================
@@ -173,8 +184,6 @@ PRIVATE SUB AfxDoEvents (BYVAL hWin AS HWND = NULL)
    WEND
 END SUB
 ' ========================================================================================
-#define WindowsDoEvents AfxDoEvents
-' ========================================================================================
 
 ' ========================================================================================
 ' Processes pending Windows messages.
@@ -190,8 +199,6 @@ PRIVATE SUB AfxPumpMessages
       DispatchMessageW @uMsg
    WEND
 END SUB
-' ========================================================================================
-#define WindowsPumpMessages AfxPumpMessages
 ' ========================================================================================
 
 ' ========================================================================================
@@ -230,8 +237,6 @@ PRIVATE FUNCTION AfxWindowsVersion () AS LONG
    FreeLibrary hLib
 END FUNCTION
 ' ========================================================================================
-#define WindowsGetVersion AfxWindowsVersion
-' ========================================================================================
 
 ' ========================================================================================
 ' * Returns the Windows platform
@@ -251,8 +256,6 @@ PRIVATE FUNCTION AfxWindowsPlatform () AS LONG
    FreeLibrary hLib
 END FUNCTION
 ' ========================================================================================
-#define WindowsGetPlatform AfxWindowsPlatform
-' ========================================================================================
 
 ' ========================================================================================
 ' * Returns the Windows build
@@ -270,8 +273,6 @@ PRIVATE FUNCTION AfxWindowsBuild () AS LONG
    FreeLibrary hLib
 END FUNCTION
 ' ========================================================================================
-#define WindowsGetBuild AfxWindowsBuild
-' ========================================================================================
 
 ' ========================================================================================
 ' * Returns TRUE if the Windows Platform is NT; FALSE, otherwise.
@@ -283,8 +284,6 @@ PRIVATE FUNCTION AfxIsPlatformNT () AS BOOLEAN
    FUNCTION = (VER_PLATFORM_WIN32_NT = osvi.dwPlatformId)
 END FUNCTION
 ' ========================================================================================
-#define WindowsIsPlatformNT AfxIsPlatformNT
-' ========================================================================================
 
 ' ========================================================================================
 ' * Returns the bitness of the operating system.
@@ -295,8 +294,6 @@ PRIVATE FUNCTION AfxWindowsBitness () AS LONG
    GetNativeSystemInfo(@SysInfo)
    RETURN IIF(SysInfo.wProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64, 64, 32)
 END FUNCTION
-' ========================================================================================
-#define WindowsGetBitness AfxWindowsBitness
 ' ========================================================================================
 
 ' ========================================================================================
@@ -323,8 +320,6 @@ PRIVATE FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
    END SELECT
 END FUNCTION
 ' ========================================================================================
-#define SystemGetInfo AfxGetSystemInfo
-' ========================================================================================
 
 ' ========================================================================================
 ' * Returns the version of specified file multiplied by 100, e.g. 601 for version 6.01.
@@ -346,17 +341,7 @@ PRIVATE FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS LONG
    HeapFree(GetProcessHeap, 0, pVerInfo)
 END FUNCTION
 ' ========================================================================================
-#define WindowsGetFileVersion AfxGetFileVersion
-' ========================================================================================
-
-' ========================================================================================
-' * Returns the version of CommCtl32.dll multiplied by 100, e.g. 582 for version 5.82.
-' ========================================================================================
-PRIVATE FUNCTION AfxComCtlVersion () AS LONG
-   FUNCTION = AfxGetFileVersion("COMCTL32.DLL")
-END FUNCTION
-' ========================================================================================
-#define WindowsGetComCtlVersion AfxComCtlVersion
+#define AfxComCtlVersion AfxGetFileVersion("COMCTL32.DLL")
 ' ========================================================================================
 
 ' ========================================================================================
@@ -367,8 +352,6 @@ PRIVATE FUNCTION AfxGetWinDir () AS DWSTRING
    GetWindowsDirectoryW wszWinDir, SIZEOF(wszWinDir)
    RETURN wszWinDir
 END FUNCTION
-' ========================================================================================
-#define WindowsGetWinDir AfxGetWinDir
 ' ========================================================================================
 
 ' ========================================================================================
@@ -381,8 +364,6 @@ PRIVATE FUNCTION AfxGetUserName () AS DWSTRING
    RETURN buffer
 END FUNCTION
 ' ========================================================================================
-#define WindowsGetUserName AfxGetUserName
-' ========================================================================================
 
 ' ========================================================================================
 ' * Retrieves the computer name of the current system.
@@ -394,25 +375,13 @@ PRIVATE FUNCTION AfxGetComputerName () AS DWSTRING
    RETURN buffer
 END FUNCTION
 ' ========================================================================================
-#define WindowsGetComputerName AfxGetComputerName
-' ========================================================================================
 
 ' ========================================================================================
 ' * Returns the path of the program which is currently executing.
 ' The path name has not a trailing backslash, except if it is a drive, e.g. "C:\".
-' ========================================================================================
-PRIVATE FUNCTION AfxGetExePath () AS DWSTRING
-   DIM buffer AS WSTRING * MAX_PATH, p AS LONG
-   GetModuleFileNameW NULL, buffer, SIZEOF(buffer)
-   p = INSTRREV(buffer, ANY ":/\")
-   IF p THEN buffer = AfxPathRemoveBackslash(LEFT(buffer, p))
-   RETURN buffer
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
 ' * Unicode replacement for FreeBasic's ExePath function.
 ' ========================================================================================
-PRIVATE FUNCTION AfxExePath () AS DWSTRING
+PRIVATE FUNCTION AfxGetExePath () AS DWSTRING
    DIM buffer AS WSTRING * MAX_PATH, p AS LONG
    GetModuleFileNameW NULL, buffer, SIZEOF(buffer)
    p = INSTRREV(buffer, ANY ":/\")
@@ -533,9 +502,6 @@ PRIVATE FUNCTION AfxGetCurrentDirectory () AS DWSTRING
    RETURN wszCurDir
 END FUNCTION
 ' ========================================================================================
-#define AfxGetCurDir AfxGetCurrentDirectory
-#define AfxCurDir AfxGetCurrentDirectory
-' ========================================================================================
 
 ' ========================================================================================
 ' * Changes the current directory for the current process.
@@ -551,8 +517,7 @@ PRIVATE FUNCTION AfxSetCurrentDirectory (BYVAL pwszPathName AS LPCWSTR) AS BOOLE
    RETURN SetCurrentDirectoryW(pwszPathName)
 END FUNCTION
 ' ========================================================================================
-#define AfxSetCurDir AfxSetCurrentDirectory
-' ========================================================================================
+
 ' ========================================================================================
 ' * Unicode replacement for Free Basic's ChDir.
 ' Return value: Returns 0 on success or -1 on failure.
@@ -846,10 +811,12 @@ PRIVATE FUNCTION AfxGetBrowserHandle (BYVAL pwszClassName AS WSTRING PTR) AS HWN
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Retrieves the top level window handle of Intenet Explorer.
+' Retrieves the top level window handle of Intenet Exploreror Google Chrome.
 ' ========================================================================================
-PRIVATE FUNCTION AfxGetInternetExplorerHandle () AS HWND
-   RETURN AfxGetBrowserHandle("IEFrame")
+PRIVATE FUNCTION AfxGetChromiumHandle () AS HWND
+   DIM hWin AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")
+   IF hWin = NULL THEN hWin = AfxGetBrowserHandle("Chrome_WidgetWin_2")
+   RETURN  hWin
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -857,13 +824,6 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetFireFoxHandle () AS HWND
    RETURN AfxGetBrowserHandle("MozillaWindowClass")
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-' Retrieves the top level window handle of Google Chrome.
-' ========================================================================================
-PRIVATE FUNCTION AfxGetGoogleChromeHandle () AS HWND
-   RETURN AfxGetBrowserHandle("Chrome_WidgetWin_1")
 END FUNCTION
 ' ========================================================================================
 
@@ -1142,17 +1102,6 @@ END FUNCTION
 ' ########################################################################################
 
 ' ========================================================================================
-' // For compatibility with PowerBasic
-' ========================================================================================
-#define WindowGetHandle(hWin, id) GetDlgItem(hWin, id)
-#define WindowGetID(hWin) GetDlgCtrlID(hWin)
-#define WindowGetParent(hWin) GetParent(hWin)
-#define WindowSetID(hWin, newID) SetWindowLongPtrW(hWin, GWLP_ID, newID)
-#define WindowGetUser(hWin) GetWindowLongPtrW(hWin, GWLP_USERDATA)
-#define WindowSetUser(hWin, newVal) SetWindowLongPtrW(hWin, GWLP_USERDATA, cast(LONG_PTR, newVal))
-' ========================================================================================
-
-' ========================================================================================
 ' * Gets the class name of the specified window
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetWindowClassName (BYVAL hWin AS HWND) AS DWSTRING
@@ -1160,8 +1109,6 @@ PRIVATE FUNCTION AfxGetWindowClassName (BYVAL hWin AS HWND) AS DWSTRING
    GetClassNameW hWin, wszClassName, SIZEOF(wszClassName)
    RETURN wszClassName
 END FUNCTION
-' ========================================================================================
-#define WindowGetClassName AfxGetWindowClassName
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1178,8 +1125,6 @@ PRIVATE FUNCTION AfxGetWindowText (BYVAL hWin AS HWND) AS DWSTRING
    RETURN LEFT(dwsText, nLen)
 END FUNCTION
 ' ========================================================================================
-#define WindowGetText AfxGetWindowText
-' ========================================================================================
 
 ' ========================================================================================
 ' Gets the length of the text of a window.
@@ -1189,26 +1134,6 @@ PRIVATE FUNCTION AfxGetWindowTextLength (BYVAL hWin AS HWND) AS LONG
    FUNCTION = SendMessageW(hWin, WM_GETTEXTLENGTH, 0, 0)
 END FUNCTION
 ' ========================================================================================
-#define WindowGetTextLength AfxGetWindowTextLength
-' ========================================================================================
-
-' ========================================================================================
-' Sets the text of a window. This function can also be used to set the text of buttons,
-' edit and static controls. The return value is TRUE if the text is set or FALSE if it is not.
-' Remarks: The function uses the WM_SETTEXT message because SetWindowText cannot retrieve
-' the text of a window in another application.
-' Usage examples:
-'   DIM wszText AS WSTRING * 260 = "Some text"
-'   AfxSetWindowText(hwnd, @wszText)
-' -or-
-'   AfxSetWindowText(hwnd, "Some text")
-' ========================================================================================
-PRIVATE FUNCTION AfxSetWindowText (BYVAL hWin AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
-   FUNCTION = SendMessageW(hWin, WM_SETTEXT, 0, CAST(LPARAM, pwszText))
-END FUNCTION
-' ========================================================================================
-#define WindowSetText AfxSetWindowText
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the window styles.
@@ -1217,8 +1142,6 @@ PRIVATE FUNCTION AfxGetWindowStyle (BYVAL hWin AS HWND) AS DWORD
    FUNCTION = GetWindowLongPtrW(hWin, GWL_STYLE)
 END FUNCTION
 ' ========================================================================================
-#define WindowGetStyle AfxGetWindowStyle
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the extended window styles.
@@ -1226,8 +1149,6 @@ END FUNCTION
 PRIVATE FUNCTION AfxGetWindowExStyle (BYVAL hWin AS HWND) AS DWORD
    FUNCTION = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
 END FUNCTION
-' ========================================================================================
-#define WindowGetStyleXX AfxGetWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1239,8 +1160,6 @@ PRIVATE FUNCTION AfxSetWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS DWORD) 
    FUNCTION = dwOldStyle
 END FUNCTION
 ' ========================================================================================
-#define WindowSetStyle AfxSetWindowStyle
-' ========================================================================================
 
 ' ========================================================================================
 ' Sets the window extended styles
@@ -1250,8 +1169,6 @@ PRIVATE FUNCTION AfxSetWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS DWO
    SetWindowLongPtrW(hWin, GWL_EXSTYLE, dwExStyle)
    FUNCTION = dwOldExStyle
 END FUNCTION
-' ========================================================================================
-#define WindowSetStyleXX AfxSetWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1267,8 +1184,6 @@ PRIVATE FUNCTION AfxAddWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS DWORD) 
    FUNCTION = dwOldStyle
 END FUNCTION
 ' ========================================================================================
-#define WindowAddStyle AfxAddWindowStyle
-' ========================================================================================
 
 ' ========================================================================================
 ' Adds a new extended style to the specified window.
@@ -1282,8 +1197,6 @@ PRIVATE FUNCTION AfxAddWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS DWO
    SetWindowLongPtrW(hWin, GWL_EXSTYLE, dwOldExStyle OR dwExStyle)
    FUNCTION = dwOldExStyle
 END FUNCTION
-' ========================================================================================
-#define WindowAddStyleXX AfxAddWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1299,8 +1212,6 @@ PRIVATE FUNCTION AfxRemoveWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS DWOR
    FUNCTION = dwOldStyle
 END FUNCTION
 ' ========================================================================================
-#define WindowRemoveStyle AfxRemoveWindowStyle
-' ========================================================================================
 
 ' ========================================================================================
 ' Removes an extended style from the specified window.
@@ -1315,8 +1226,6 @@ PRIVATE FUNCTION AfxRemoveWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS 
    FUNCTION = dwOldEXStyle
 END FUNCTION
 ' ========================================================================================
-#define WindowRemoveStyleXX AfxRemoveWindowExStyle
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the dimensions of the bounding rectangle of the specified window. The dimensions
@@ -1330,8 +1239,6 @@ PRIVATE FUNCTION AfxGetWindowRect (BYVAL hWin AS HWND) AS RECT
    FUNCTION = rc
 END FUNCTION
 ' ========================================================================================
-#define WindowGetRect AfxGetWindowRect
-' ========================================================================================
 
 ' ========================================================================================
 ' Gets the width in pixels of a window.
@@ -1344,8 +1251,6 @@ PRIVATE FUNCTION AfxGetWindowWidth (BYVAL hWin AS HWND) AS LONG
    FUNCTION = rc.Right - rc.Left
 END FUNCTION
 ' ========================================================================================
-#define WindowGetWidth AfxGetWindowWidth
-' ========================================================================================
 
 ' ========================================================================================
 ' Gets the height in pixels of a window.
@@ -1357,8 +1262,6 @@ PRIVATE FUNCTION AfxGetWindowHeight (BYVAL hWin AS HWND) AS LONG
    GetWindowRect(hWin, @rc)
    FUNCTION = rc.Bottom - rc.Top
 END FUNCTION
-' ========================================================================================
-#define WindowGetHeight AfxGetWindowHeight
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1385,8 +1288,6 @@ PRIVATE FUNCTION AfxGetWindowBounds (BYVAL hWin AS HWND) AS RECT
    RETURN rc
 END FUNCTION
 ' ========================================================================================
-#define WindowGetWindowBounds AfxGetWindowBounds
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the coordinates of a window's client area. The client coordinates specify the
@@ -1402,8 +1303,6 @@ PRIVATE FUNCTION AfxGetWindowClientRect (BYVAL hWin AS HWND) AS RECT
    FUNCTION = rc
 END FUNCTION
 ' ========================================================================================
-#define WindowGetClientRect AfxGetWindowClientRect
-' ========================================================================================
 
 ' ========================================================================================
 ' Gets the width in pixels of the client area of a window.
@@ -1416,8 +1315,6 @@ PRIVATE FUNCTION AfxGetWindowClientWidth (BYVAL hWin AS HWND) AS LONG
    FUNCTION = rc.Right - rc.Left
 END FUNCTION
 ' ========================================================================================
-#define WindowGetClientWidth AfxGetWindowClientWidth
-' ========================================================================================
 
 ' ========================================================================================
 ' Gets the height in pixels of the client area of a window.
@@ -1429,8 +1326,6 @@ PRIVATE FUNCTION AfxGetWindowClientHeight (BYVAL hWin AS HWND) AS LONG
    GetClientRect(hWin, @rc)
    FUNCTION = rc.Bottom - rc.Top
 END FUNCTION
-' ========================================================================================
-#define WindowGetClientHeight AfxGetWindowClientHeight
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1490,8 +1385,6 @@ PRIVATE SUB AfxCenterWindow (BYVAL hWin AS HWND = NULL, BYVAL hwndParent AS HWND
 
 END SUB
 ' ========================================================================================
-#define WindowCenter AfxCenterWindow
-' ========================================================================================
 
 ' ========================================================================================
 ' Adjusts the bounding rectangle of a window based on the desired size of the client area.
@@ -1534,8 +1427,6 @@ PRIVATE SUB AfxSetWindowClientSize (BYVAL hWin AS HWND, BYVAL nWidth AS LONG, BY
    SetWindowPos(hWin, NULL, 0, 0, cx, cy, SWP_NOZORDER OR SWP_NOMOVE OR SWP_NOACTIVATE)
 
 END SUB
-' ========================================================================================
-#define WindowSetClientSize AfxSetWindowClientSize
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1595,8 +1486,6 @@ PRIVATE SUB AfxRedrawWindow (BYVAL hWin AS HWND)
    UpdateWindow hWin
 END SUB
 ' ========================================================================================
-#define WindowRedraw AfxRedrawWindow
-' ========================================================================================
 
 ' ========================================================================================
 ' Redraws the non-client area of the specified window.
@@ -1605,8 +1494,6 @@ END SUB
 PRIVATE FUNCTION AfxRedrawNonClientArea (BYVAL hWin AS HWND) AS BOOLEAN
    FUNCTION = SetWindowPos(hWin, 0, 0, 0, 0, 0, SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER OR SWP_NOACTIVATE OR SWP_FRAMECHANGED OR SWP_DRAWFRAME)
 END FUNCTION
-' ========================================================================================
-#define WindowRedrawNonClientArea AfxRedrawNonClientArea
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1622,8 +1509,6 @@ END FUNCTION
 PRIVATE FUNCTION AfxForwardSizeMessage (BYVAL hWin AS HWND, BYVAL nResizeType AS DWORD, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS LRESULT
    FUNCTION = SendMessageW(hWin, WM_SIZE, nResizeType, MAKELONG(nWidth, nHeight))
 END FUNCTION
-' ========================================================================================
-#define WindowForwardSizeMessage AfxForwardSizeMessage
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1641,8 +1526,6 @@ PRIVATE SUB AfxGetWindowLocation (BYVAL hWin AS HWND, BYREF nLeft AS LONG, BYREF
    IF VARPTR(nTop) THEN nTop = rc.Top
 END SUB
 ' ========================================================================================
-#define WindowGetLocation AfxGetWindowLocation
-' ========================================================================================
 
 ' ========================================================================================
 ' Sets the location of the top left corner of the window, in pixels.
@@ -1652,8 +1535,6 @@ END SUB
 PRIVATE FUNCTION AfxSetWindowLocation (BYVAL hWin AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG) AS BOOLEAN
    FUNCTION = SetWindowPos(hWin, 0, nLeft, nTop, 0, 0, SWP_NOSIZE OR SWP_NOZORDER)
 END FUNCTION
-' ========================================================================================
-#define WindowSetLocation AfxSetWindowLocation
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1672,8 +1553,6 @@ PRIVATE FUNCTION AfxGetWindowSize (BYVAL hWin AS HWND, BYREF nWidth AS LONG, BYR
    IF VARPTR(nHeight) THEN nHeight = rc.Bottom - rc.Top
 END FUNCTION
 ' ========================================================================================
-#define WindowGetSize AfxGetWindowSize
-' ========================================================================================
 
 ' ========================================================================================
 ' Sets the size in pixels of the specified window.
@@ -1685,8 +1564,6 @@ END FUNCTION
 PRIVATE FUNCTION AfxSetWindowSize (BYVAL hWin AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
    FUNCTION = SetWindowPos(hWin, NULL, 0, 0, nWidth, nHeight, SWP_NOZORDER OR SWP_NOMOVE)
 END FUNCTION
-' ========================================================================================
-#define WindowSetSize AfxSetWindowSize
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1724,8 +1601,6 @@ PRIVATE FUNCTION AfxShowWindowState (BYVAL hWin AS HWND, BYVAL nShowState AS LON
    FUNCTION = ShowWindow(hWin, nShowState)
 END FUNCTION
 ' ========================================================================================
-#define WindowShowState AfxShowWindowState
-' ========================================================================================
 
 ' ========================================================================================
 ' Associates a new icon with a window. The system displays the large icon in the
@@ -1740,8 +1615,6 @@ END FUNCTION
 PRIVATE FUNCTION AfxSetWindowIcon (BYVAL hWin AS HWND, BYVAL nIconType AS LONG, BYVAL _hIcon AS HICON) AS HICON
    RETURN cast(HICON, SendMessageW(hWin, WM_SETICON, nIconType, CAST(LPARAM, _hIcon)))
 END FUNCTION
-' ========================================================================================
-#define AfxSetIcon AfxSetWindowIcon
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1802,8 +1675,6 @@ PRIVATE SUB AfxForceVisibleDisplay (BYVAL hWin AS HWND)
    SetWindowPos(hWin, 0, rc.left, rc.top, 0, 0, SWP_NOACTIVATE OR SWP_NOZORDER OR SWP_NOSIZE)
 END SUB
 ' ========================================================================================
-#define WindowForceVisibleDisplay AfxForceVisibleDisplay
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the window's top-level parent or owner window.
@@ -1819,8 +1690,6 @@ PRIVATE FUNCTION AfxGetTopLevelWindow (BYVAL hWin AS HWND) AS HWND
    LOOP
    FUNCTION = hWndParent
 END FUNCTION
-' ========================================================================================
-#define WindowGetTopLevelWindow AfxGetTopLevelWindow
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1838,8 +1707,6 @@ PRIVATE FUNCTION AfxGetTopLevelParent (BYVAL hWin AS HWND) AS HWND
    FUNCTION = hWndParent
 END FUNCTION
 ' ========================================================================================
-#define WindowGetTopLevelParent AfxGetTopLevelParent
-' ========================================================================================
 
 ' ========================================================================================
 ' Finds the handle of the top-level window or MDI child window that is the ancestor of the
@@ -1853,8 +1720,6 @@ PRIVATE FUNCTION AfxGetFormHandle (BYVAL hWin AS HWND) AS HWND
    WEND
    FUNCTION = hWin
 END FUNCTION
-' ========================================================================================
-#define WindowGetFormHandle AfxGetFormHandle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1890,8 +1755,6 @@ PRIVATE FUNCTION AfxGetControlHandle (BYVAL hWin AS HWND, BYVAL wCtrlID AS WORD)
    EnumChildWindows(hWin, @AfxGetControlHandle_ChildEnumProc, cast(LPARAM, @hwndChild))
    IF hwndChild = wCtrlID THEN FUNCTION = NULL ELSE FUNCTION = hwndChild
 END FUNCTION
-' ========================================================================================
-#define WindowGetControlHandle AfxGetControlHandle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1929,8 +1792,6 @@ PRIVATE FUNCTION AfxGetTopEnabledWindow () AS HWND
    FUNCTION = hwndTop
 END FUNCTION
 ' ========================================================================================
-#define WindowGetTopEnabled AfxGetTopEnabledWindow
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves a window handle given it's process identifier
@@ -1956,8 +1817,6 @@ PRIVATE FUNCTION AfxGethWndFromPID (BYVAL PID AS DWORD) AS HWND
    WEND
 END FUNCTION
 ' ========================================================================================
-#define WindowGetHandleFromPID AfxGethWndFromPID
-' ========================================================================================
 
 ' ========================================================================================
 ' Sets the return value of a message processed in the dialog box procedure.
@@ -1982,13 +1841,27 @@ PRIVATE FUNCTION AfxSetDlgMsgResult(BYVAL hDlg AS HWND, BYVAL uMsg AS UINT, BYVA
    END IF
 END FUNCTION
 ' ========================================================================================
-'#define SetDlgMsgResult(hwnd,msg,result) (iif((msg)=WM_CTLCOLORMSGBOX orelse (msg)=WM_CTLCOLOREDIT orelse 
-'(msg)=WM_CTLCOLORLISTBOX orelse (msg)=WM_CTLCOLORBTN orelse (msg)=WM_CTLCOLORDLG orelse (msg)=WM_CTLCOLORSCROLLBAR 
-'orelse (msg)=WM_CTLCOLORSTATIC orelse (msg)=WM_COMPAREITEM orelse (msg)=WM_VKEYTOITEM orelse (msg)=WM_CHARTOITEM 
-'orelse (msg)=WM_QUERYDRAGICON orelse (msg)=WM_INITDIALOG, cast(WINBOOL, (result)), 
+'#define SetDlgMsgResult(hwnd,msg,result) (iif((msg)=WM_CTLCOLORMSGBOX orelse (msg)=WM_CTLCOLOREDIT orelse
+'(msg)=WM_CTLCOLORLISTBOX orelse (msg)=WM_CTLCOLORBTN orelse (msg)=WM_CTLCOLORDLG orelse (msg)=WM_CTLCOLORSCROLLBAR
+'orelse (msg)=WM_CTLCOLORSTATIC orelse (msg)=WM_COMPAREITEM orelse (msg)=WM_VKEYTOITEM orelse (msg)=WM_CHARTOITEM
+'orelse (msg)=WM_QUERYDRAGICON orelse (msg)=WM_INITDIALOG, cast(WINBOOL, (result)),
 '(SetWindowLongPtr((hwnd),DWLP_MSGRESULT,cast(LPARAM, cast(LRESULT, result)),TRUE))))
 ' ========================================================================================
 
+' ========================================================================================
+' // For compatibility with PowerBasic
+' ========================================================================================
+#define WindowGetHandle(hWin, id) GetDlgItem(hWin, id)
+#define WindowGetID(hWin) GetDlgCtrlID(hWin)
+#define WindowGetParent(hWin) GetParent(hWin)
+#define WindowGetStyle AfxGetWindowStyle
+#define WindowGetStyleXX AfxGetWindowExStyle
+#define WindowSetID(hWin, newID) SetWindowLongPtrW(hWin, GWLP_ID, newID)
+#define WindowSetStyle AfxSetWindowStyle
+#define WindowSetStyleXX AfxSetWindowExStyle
+#define WindowGetUser(hWin) GetWindowLongPtrW(hWin, GWLP_USERDATA)
+#define WindowSetUser(hWin, newVal) SetWindowLongPtrW(hWin, GWLP_USERDATA, cast(LONG_PTR, newVal))
+' ========================================================================================
 
 ' ########################################################################################
 '                                    *** DESKTOP ***
@@ -2001,8 +1874,6 @@ END FUNCTION
 PRIVATE FUNCTION AfxGetDesktopWindow () AS HWND
    RETURN GetDesktopWindow
 END FUNCTION
-' ========================================================================================
-#define DesktopGetWindow AfxGetDesktopWindow
 ' ========================================================================================
 
 ' ========================================================================================
@@ -2034,10 +1905,6 @@ PRIVATE FUNCTION AfxGetDesktopLocationY () AS LONG
    FUNCTION = SystemParametersInfo(SPI_GETWORKAREA, 0, @rc, 0)
    RETURN rc.Right
 END FUNCTION
-' ========================================================================================
-#define DesktopGetLoc AfxGetDesktopLocation
-#define DesktopGetLocX AfxGetDesktopLocationX
-#define DesktopGetLocY AfxGetDesktopLocationY
 ' ========================================================================================
 
 ' ========================================================================================
@@ -2071,10 +1938,6 @@ PRIVAtE FUNCTION AfxGetDesktopHeight () AS LONG
    RETURN rc.Bottom - rc.Top
 END FUNCTION
 ' ========================================================================================
-#define DesktopGetSize AfxGetDesktopSize
-#define DesktopGetWidth AfxGetDesktopWidth
-#define DesktopGetHeight AfxGetDesktopHeight
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the size of the client area of the desktop, in pixels.
@@ -2106,10 +1969,6 @@ PRIVAtE FUNCTION AfxGetDesktopClientHeight () AS LONG
    IF bRes = FALSE THEN RETURN 0
    RETURN rc.Bottom - rc.Top
 END FUNCTION
-' ========================================================================================
-#define DesktopGetClient AfxGetDesktopClientSize
-#define DesktopGetClientWidth AfxGetDesktopClientWidth
-#define DesktopGetClientHeight AfxGetDesktopClientHeight
 ' ========================================================================================
 
 ' ========================================================================================
@@ -2156,10 +2015,6 @@ PRIVATE FUNCTION CAfxGetDesktopPPIY () AS LONG
    RETURN yPPI
 END FUNCTION
 ' ========================================================================================
-#define DesktopGetPPI AfxGetDesktopPPI
-#define DesktopGetPPIX AfxGetDesktopPPIX
-#define DesktopGetPPIY AfxGetDesktopPPIY
-' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the coordinates of the work area on the primary display monitor expressed in
@@ -2187,10 +2042,11 @@ PRIVATE FUNCTION AfxGetWorkAreaHeight () AS LONG
    FUNCTION = rcWrk.Bottom - rcWrk.Top
 END FUNCTION
 ' ========================================================================================
-#define DesktopGetWorkAreaRect AfxGetWorkAreaRect
-#define DesktopGetWorkAreaWidth AfxGetWorkAreaWidth
-#define DesktopGetWorkAreaHeight AfxGetWorkAreaHeight
-' ========================================================================================
+
+' // For compatibility with PowerBasic
+#define DesktopGetClient AfxGetDesktopClientSize
+#define DesktopGetLoc AfxGetDesktopLocation
+#define DesktopGetSize AfxGetDesktopSize
 
 ' ########################################################################################
 '                                    *** DISPLAY ***
@@ -2211,8 +2067,6 @@ PRIVATE FUNCTION AfxGetDisplayPixelsWidth () AS DWORD
    FUNCTION = dm.dmPelsWidth
 END FUNCTION
 ' ========================================================================================
-#define DisplayGetPixelsWidth AfxGetDisplayPixelsWidth
-' ========================================================================================
 ' ========================================================================================
 ' Returns the height, in pixels, of the current display device on the computer on which the
 ' calling thread is running.
@@ -2224,8 +2078,6 @@ PRIVATE FUNCTION AfxGetDisplayPixelsHeight () AS DWORD
    FUNCTION = dm.dmPelsHeight
 END FUNCTION
 ' ========================================================================================
-#define DisplayGetPixelsHeight AfxGetDisplayPixelsHeight
-' ========================================================================================
 ' ========================================================================================
 ' Returns the color resolution, in bits per pixel, of the display device.
 ' ========================================================================================
@@ -2235,8 +2087,6 @@ PRIVATE FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
    EnumDisplaySettingsW(NULL, ENUM_CURRENT_SETTINGS, @dm)
    FUNCTION = dm.dmBitsPerPel
 END FUNCTION
-' ========================================================================================
-#define DisplayGetBitsPerPixel AfxGetDisplayBitsPerPixel
 ' ========================================================================================
 ' ========================================================================================
 ' Returns the frequency, in hertz (cycles per second), of the display device in a
@@ -2248,8 +2098,6 @@ PRIVATE FUNCTION AfxGetDisplayFrequency () AS DWORD
    EnumDisplaySettingsW(NULL, ENUM_CURRENT_SETTINGS, @dm)
    FUNCTION = dm.dmDisplayFrequency
 END FUNCTION
-' ========================================================================================
-#define DisplayGetFrequency AfxGetDisplayFrequency
 ' ========================================================================================
 
 
@@ -3840,8 +3688,8 @@ END FUNCTION
 ' Example:
 ' #include "windows.bi"
 ' #include "vbcompat.bi"
-' #include "Afx/AfxWin.bi"
-' DIM wszFileName AS WSTRING * MAX_PATH = ExePath & "\c2.bas"
+' #include "AfxNova/AfxWin.inc"
+' DIM wszFileName AS WSTRING * MAX_PATH = ExePath & "\Test.bas"
 ' DIM dt AS DOUBLE = AfxFileDateTime(wszFileName)
 ' PRINT Format(dt, "yyyy-mm-dd hh:mm AM/PM")
 ' ========================================================================================

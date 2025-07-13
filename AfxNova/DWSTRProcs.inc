@@ -1593,5 +1593,59 @@ PRIVATE FUNCTION DWStrChrW (BYVAL codepoint AS UInteger) AS DWSTRING
 END FUNCTION
 ' =====================================================================================
 
+
+' ========================================================================================
+' Retrieves the contents of the specified variable from the environment block of the
+' calling process.
+' - pwszName : The name of the environment variable.
+' Return value: The contents of the specified environment variable.
+' Example: DIM dws AS DWSTRING = AfxEnviron("path")
+' ========================================================================================
+PRIVATE FUNCTION AfxEnviron (BYVAL pwszName AS LPCWSTR) AS DWSTRING
+   DIM wszBuffer AS WSTRING * 32767
+   DIM cb AS DWORD = GetEnvironmentVariableW(pwszName, @wszBuffer, 32767)
+   RETURN LEFT(wszBuffer, cb)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Sets the contents of the specified environment variable for the current process.
+' - pwszName : The name of the environment variable.
+'              The operating system creates the environment variable if it does not exist
+'              and pwszValue is not NULL.
+' - pszValue : The contents of the environment variable.
+'              The maximum size of a user-defined environment variable is 32,767 characters.
+' Return value:
+'   If the function succeeds, the return value is TRUE.
+'   If the function fails, the return value is FALSE.
+'   To get extended error information, call GetLastError.
+' Example: AfxSetEnviron("path", "c:")
+' ========================================================================================
+PRIVATE FUNCTION AfxSetEnviron OVERLOAD (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
+   RETURN SetEnvironmentVariableW(pwszName, pwszValue)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Sets the contents of the specified environment variable for the current process.
+' - varexpr = Name and setting of an environment variable in the following (or equivalent)
+'   form: varname=varstring. (varname being the name of the environment variable, and
+'   varstring being its text value to set).
+' Returns 0 on success, or -1 on failure.
+' Example: AfxSetEnviron "path=c:"
+' ========================================================================================
+PRIVATE FUNCTION AfxSetEnviron OVERLOAD (BYREF varexp AS WSTRING) AS BOOLEAN
+   DIM dwsName AS DWSTRING = DWStrExtract(1, varexp, "=")
+   IF LEN(dwsName) = 0 THEN RETURN TRUE
+   dwsName = TRIM(dwsName)
+   DIM dwsValue AS DWSTRING
+   DIM p AS LONG = INSTR(varexp, "=")
+   IF p = 0 THEN RETURN TRUE
+   dwsValue = MID(varexp, p + 1)
+   dwsValue = TRIM(dwsValue)
+   IF LEN(dwsValue) = 0 THEN RETURN TRUE
+   RETURN NOT SetEnvironmentVariable(dwsName, dwsValue)
+END FUNCTION
+' ========================================================================================
+
+
 END NAMESPACE
 
