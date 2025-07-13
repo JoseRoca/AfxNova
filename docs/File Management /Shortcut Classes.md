@@ -149,7 +149,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 Gets/sets the arguments for a shortcut, or identifies a shortcut's arguments.
 
 ```
-PROPERTY Arguments () AS CBSTR
+PROPERTY Arguments () AS DWSTRING
 PROPERTY Arguments (BYREF wszArguments AS WSTRING)
 ```
 
@@ -168,7 +168,7 @@ The arguments of the shortcut.
 Returns or sets a shortcut's description.
 
 ```
-PROPERTY Description () AS CBSTR
+PROPERTY Description () AS DWSTRING
 PROPERTY Description (BYREF wszDescription AS WSTRING)
 ```
 
