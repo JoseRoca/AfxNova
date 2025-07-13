@@ -114,6 +114,7 @@ const LOW_SURROGATE_END = &hdfff
 
 | Name       | Description |
 | ---------- | ----------- |
+| [DWStrGetUserDefaultLocaleName](#dwstrgetuserdefaultlocalename) | Returns the abbreviated native day name for the specified day (1 = Monday, etc.). |
 | [DWStrAbbrevDayName](#dwstrabbrevdayname) | Returns the abbreviated native day name for the specified day (1 = Monday, etc.). |
 | [DWStrAbbrevMonthName](#dwstrabbrevmonthname) | Returns the abbreviated native month name for the specified month. |
 | [DWStrCountryName](#dwstrabbrevmonthname) | Returns the full localized name of the country/region. |
@@ -168,6 +169,22 @@ const LOW_SURROGATE_END = &hdfff
 | [DWStrTimeFormatString](#dwstrtimeformatstring) | Returns the time formatting strings for the locale. |
 | [DWStrTimeSeparator](#dwstrtimeseparator) | Returns the character(s) for the time separator. |
 | [DWStrYearMonthFormatString](#dwstryearmonthformatstring) | Returns the year-month formatting string for the locale. |
+
+---
+
+## DWStrGetUserDefaultLocaleName
+
+Retrieves the user default locale name.
+
+```
+FUNCTION DWStrGetUserDefaultLocaleName () AS DWSTRING
+```
+
+#### Return value
+
+The user default locale name.
+
+---
 
 ---
 
