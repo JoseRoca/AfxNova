@@ -57,6 +57,7 @@ pURLShortcut.Save
 | ---------- | ----------- |
 | [Save](#save1) | Saves a shortcut object to disk. |
 | [GetLastResult](#getlastresult) | Returns the last result code. |
+| [GetErrorInfo](#geterrorinfo) | Returns a localized description of the specified error code. |
 
 ---
 
@@ -82,6 +83,7 @@ pURLShortcut.Save
 | ---------- | ----------- |
 | [Save](#save2) | Saves a URL shortcut object to disk. |
 | [GetLastResult](#getlastresult) | Returns the last result code. |
+| [GetErrorInfo](#geterrorinfo) | Returns a localized description of the specified error code. |
 
 ---
 
@@ -141,6 +143,16 @@ FUNCTION GetLastResult () AS HRESULT
 #### Return value
 
 HRESULT. S_OK (0) on success, or an error code on failure.
+
+---
+
+### <a name="geterrorinfo"></a>GetErrorInfo
+
+Returns a localized description of the specified error code.
+
+```
+FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+```
 
 ---
 
