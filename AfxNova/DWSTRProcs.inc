@@ -1657,6 +1657,16 @@ END FUNCTION
 #if _WIN32_WINNT = &h0602
 
 ' ========================================================================================
+' Retrieves the user default locale name.
+' ========================================================================================
+PRIVATE FUNCTION DWStrGetUserDefaultLocaleName () AS DWSTRING
+   DIM wszLocaleName AS WSTRING * LOCALE_NAME_MAX_LENGTH
+   DIM res AS LONG = GetUserDefaultLocaleName(@wszLocaleName, LOCALE_NAME_MAX_LENGTH)
+   RETURN wszLocaleName
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Returns the abbreviated native day name for the specified day (1 = Monday, etc.).
 ' ========================================================================================
 PRIVATE FUNCTION DWStrAbbrevDayName (BYVAL nDay AS LONG, BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
