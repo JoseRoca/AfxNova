@@ -12,7 +12,6 @@ Assorted Windows procedures.
 | ---------- | ----------- |
 | [AfxCommand](#afxcommand) | Returns command line parameters used to call the program. |
 | [AfxCommandLineCount](#afxcommandlinecount) | Returns the number of command line arguments used to call the program |
-| [AfxEnviron](#afxenviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
 | [AfxExtractResource](#afxextractresource) | Extracts resource data and returns it as a string. |
 | [AfxExtractResourceToFile](#afxextractresourcetofile) | Extracts resource data and saves it to a file. |
 | [AfxGetComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
@@ -21,7 +20,6 @@ Assorted Windows procedures.
 | [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
 | [AfxMsg](#afxmsg) | Displays an application modal message box. |
-| [AfxSetEnviron](#afxsetenviron) | Sets the contents of the specified environment variable for the current process. |
 
 ---
 
@@ -356,25 +354,6 @@ The number of command line arguments used to call the program.
 
 ---
 
-## AfxEnviron
-
-Retrieves the contents of the specified variable from the environment block of the calling process.
-
-```
-FUNCTION AfxEnviron (BYVAL pwszName AS LPCWSTR) AS DWSTRING
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pwszName* | The name of the environment variable. |
-
-#### Usage example
-
-```
-DIM dws AS DWSTRING = AfxEnviron("path")
-```
----
-
 ## AfxExtractResource
 
 Extracts resource data and returns it as a string.
@@ -450,52 +429,6 @@ AfxExtractResourceToFile(NULL, "#111", "VEGA_PAZ_01.jpg")
 where "#111" is the identifier in the resource file for
 111 RCDATA ".\Resources\VEGA_PAZ_01.jpg"
 ```
----
-
-## AfxSetEnviron
-
-Sets the contents of the specified environment variable for the current process.
-
-```
-FUNCTION AfxSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
-| *pwszValue* | The name of the environment variable. The maximum size of a user-defined environment variable is 32,767 characters. |
-
-#### Return value
-
-If the function succeeds, the return value is TRUE.<br>
-If the function fails, the return value is FALSE.<br>
-To get extended error information, call **GetLastError**.
-
-#### Usage example
-
-```
-AfxSetEnviron("path", "c:")
-```
-
-# AfxSetEnviron (Overload)
-
-Sets the contents of the specified environment variable for the current process.<br>
-Unicode replacement for Free Basic's **SetEnviron** function.
-
-```
-FUNCTION AfxSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
-FUNCTION AfxSetEnviron (BYREF varexp AS WSTRING) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
-| *varexp* | Name and setting of an environment variable in the following (or equivalent) form: varname=varstring (*varname* being the name of the environment variable, and *varstring* being its text value to set).
-
-#### Return value
-
-Returns 0 on success, or -1 on failure.
-
 ---
 
 ## AfxChDir
