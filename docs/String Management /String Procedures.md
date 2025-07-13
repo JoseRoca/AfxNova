@@ -41,6 +41,7 @@ PRINT wszOut
 | [DWStrCSet](#dwstrcset) | Returns a string containing a centered (padded) string. |
 | [DWStrCSetAbs](#dwstrcsetabs) | Returns a string containing a centered string within the space of another string. |
 | [DWStrDelete](#dwstrdelete) | Deletes a specified number of characters from a string expression. |
+| [DEStrEnviron](#dwstrenviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
 | [DWStrEscape](#dwstrescape) | Escapes any potential regex syntax characters in a string. |
 | [DWStrExtract](#dwstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
 | [DWStrFormatByteSize](#dwstrformatbytesize) | Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size. |
@@ -65,6 +66,7 @@ PRINT wszOut
 | [DWStrReverse](#dwstrreverse) | Reverses the contents of a string expression. |
 | [DWStrRSet](#dwstrrset) | Returns a string containing a right justified string. |
 | [DWStrRSetAbs](#dwstrrsetabs) | Right-aligns a string within the space of another string. |
+| [DWStrSetEnviron](#dwstrsetenviron) | Sets the contents of the specified environment variable for the current process. |
 | [DWStrShrink](#dwstrshrink) | Shrinks a string to use a consistent single character delimiter. |
 | [DWStrSplit](#dwstrsplit) | Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. |
 | [DWStrSpn](#dwstrspn) | Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters. |
@@ -108,7 +110,7 @@ const LOW_SURROGATE_END = &hdfff
 
 ---
 
-### <a name="dwstracode"></a>DWStrAcode
+## DWStrAcode
 
 Translates Unicode chars to ansi bytes.
 
@@ -126,7 +128,7 @@ The translated string.
 
 ---
 
-### <a name="dwstrclip"></a>DWStrClip
+## DWStrClip
 
 Returns a string with the specified number of characters removed from the left, middle or right side of the string.
 
@@ -150,7 +152,7 @@ DIM dws AS DWSTRING = DWStrClip("MID", "1234567890", 3, 4)   ' Output: "1237890"
 ```
 ---
 
-### <a name="dwstrcset"></a>DWStrCSet
+## DWStrCSet
 
 Returns a string containing a centered (padded) string.
 
@@ -172,7 +174,7 @@ DIM dws AS DWSTRING = DWStrCSet("FreeBasic", 20, "*")   ' Output: "*****FreeBasi
 ```
 ---
 
-### <a name="dwstrcsetabs"></a>DWStrCSetAbs
+## DWStrCSetAbs
 
 Returns a string containing a centered string within the space of another string.
 
@@ -195,7 +197,7 @@ PRINT DWStrCSetAbs(dwsPad, dws)
 ```
 ---
 
-### <a name="dwstrdelete"></a>DWStrDelete
+## DWStrDelete
 
 Deletes a specified number of characters from a string expression.
 
@@ -216,7 +218,26 @@ DIM dws AS DWSTRING = DWStrDelete("1234567890", 4, 3)   ' Output: "1237890"
 ```
 ---
 
-### <a name="DWStrEscape"></a>DWStrEscape
+## DWStrEnviron
+
+Retrieves the contents of the specified variable from the environment block of the calling process.
+
+```
+FUNCTION DWStrEnviron (BYVAL pwszName AS LPCWSTR) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszName* | The name of the environment variable. |
+
+#### Usage example
+
+```
+DIM dws AS DWSTRING = DWStrEnviron("path")
+```
+---
+
+## DWStrEscape
 
 Escapes any potential regex syntax characters in a pattern string and returns a new string that can be safely used as a literal pattern.
 
@@ -230,7 +251,7 @@ FUNCTION DWStrEscape (BYREF wszStr AS CONST WSTRING) AS DWSTRING
 
 ---
 
-### <a name="DWStrExtract"></a>DWStrExtract
+## DWStrExtract
 
 Extracts characters from a string up to (but not including) a string.
 
@@ -287,7 +308,7 @@ PRINT DWStrExtract(dwsText, "(", ")")   ' Output: "text between parentheses"
 ```
 ---
 
-### <a name="dwstrformatbytesize"></a>DWStrFormatByteSize
+## DWStrFormatByteSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size.
 
@@ -301,7 +322,7 @@ FUNCTION DWStrFormatByteSize (BYVAL ull AS LONGLONG) AS DWSTRING
 
 ---
 
-### <a name="dwstrformatkbsize"></a>DWStrFormatKBSize
+## DWStrFormatKBSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in kilobytes.
 
@@ -315,7 +336,7 @@ FUNCTION DWStrFormatKBSize (BYVAL ull AS LONGLONG) AS DWSTRING
 
 ---
 
-### <a name="dwstrfromtimeinterval"></a>DWStrFromTimeInterval
+## DWStrFromTimeInterval
 
 Converts a time interval, specified in milliseconds, to a string.
 
@@ -341,7 +362,7 @@ Some examples for *digits*:
 
 ---
 
-### <a name="dwstrinsert"></a>DWStrInsert
+## DWStrInsert
 
 Inserts a string at a specified position within another string expression.
 
@@ -363,7 +384,7 @@ DIM dws AS DWSTRING = DWStrInsert("1234567890", "--", 6)
 ```
 ---
 
-### <a name="dwstrisnumeric"></a>DWStrIsNumeric
+## DWStrIsNumeric
 
 Retuns True if the passed string is muneric.
 
@@ -423,7 +444,7 @@ PRINT dws
 ```
 ---
 
-### <a name="dwstrlcase"></a>DWStrLCase
+## DWStrLCase
 
 Returns a lowercased version of a string.
 
@@ -459,7 +480,7 @@ The lowercased string.
 
 ---
 
-### <a name="dwtrlset"></a>DWStrLSet
+## DWStrLSet
 
 Returns a string containing a left justified string.
 
@@ -481,7 +502,7 @@ DIM dws AS DWSTRING = DWStrLSet("FreeBasic", 20, "*")
 ```
 ---
 
-### <a name="dwstrlsetabs"></a>DWStrLSetAbs
+## DWStrLSetAbs
 
 Left-aligns a string within the space of another string. If *wszStr* is empty, the function leaves the padding positions unchanged from their original content, rather than replacing them with spaces as `LSET` does. If *wszStr* is longer than *wszSourceString*, **DWStrLSetAbs** truncates it from the right until it fits in the result string.
 
@@ -502,7 +523,7 @@ PRINT DWStrLSetAbs(dws, "FreeBasic")  ' Output: "FreeBasic=SuperBasic"
 ```
 ---
 
-### <a name="dwstrmcase"></a>DWStrMCase
+## DWStrMCase
 
 Returns a mixed case version of its string argument.
 
@@ -517,7 +538,7 @@ DIM dws AS DWSTRING = strMCase("Cats aren't AL.WAYS good.")
 ```
 ---
 
-### <a name="dwstrparse"></a>DWStrParse 
+## DWStrParse 
 
 Returns a delimited field from a string expression.
 
@@ -541,7 +562,7 @@ DIM dws AS DWSTRING = DWStrParse("1;2,3", 2, ",;")          ' Output: "2"
 ```
 ---
 
-### <a name="DWStrParseCount"></a>DWStrParseCount 
+## DWStrParseCount 
 
 Returns the count of delimited fields from a string expression.
 
@@ -563,7 +584,7 @@ DIM nCount AS LONG = DWStrParseCount("1;2,3", ",;")          ' Output: "3"
 ```
 ---
 
-### <a name="dwstrpathname"></a>DWStrPathName 
+## DWStrPathName 
 
 Parses a path to extract component parts.
 
@@ -585,8 +606,7 @@ FUNCTION DWStrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS W
 
 ---
 
-
-### <a name="dwstrpathscan"></a>DWStrPathScan
+## DWStrPathScan
 
 Searches a path for a file name.
 
@@ -607,7 +627,7 @@ If the file is found, it returns either the full path/file name, or a selected p
 
 ---
 
-### <a name="dwstrremain"></a>DWStrRemain
+## DWStrRemain
 
 Returns the portion of a string following the first occurrence of a character or group of characters. If *wszMatchString* is not present in *wszSourceString* (or is null) then a zero-length empty string is returned.
 
@@ -640,7 +660,7 @@ PRINT dws
 ```
 ---
 
-### <a name="DWStrRemove"></a>DWStrRemove
+## DWStrRemove
 
 Returns a new string with strings removed.
 
@@ -689,7 +709,7 @@ PRINT DWStrRemove(19, dwsText, "(", ")", TRUE)   ' Returns "var2, var3"
 ```
 ---
 
-### <a name="DWStrRepeat"></a>DWStrRepeat
+## DWStrRepeat
 
 Returns a string consisting of multiple copies of the specified string. This function is similar to FreeBasic `STRING`, but `STRING` only makes multiple copies of a single character.
 
@@ -709,7 +729,7 @@ DIM dws AS DWSTRING = DWStrRepeat(5, "Paul")
 ```
 ---
 
-### <a name="dwstrreplace"></a>DWStrReplace
+## DWStrReplace
 
 Replaces all the occurrences of *wszMatchStr* in *wszSourceString* with the contents of *wszReplaceWith*.
 
@@ -734,7 +754,7 @@ DWStrReplace("abacadabra", "[bac]", "*")        ' Output: "*****d**r*"
 ```
 ---
 
-### <a name="DWStrRetain"></a>DWStrRetain
+## DWStrRetain
 
 Returns a string containing only the characters contained in a specified match string. If *wszMatchString* is an empty string, **strRetain** returns an empty string.
 
@@ -771,7 +791,7 @@ PRINT dws
 ```
 ---
 
-### <a name="dwstrreverse"></a>DWStrReverse
+## DWStrReverse
 
 Reverses the contents of a string expression.
 
@@ -790,7 +810,7 @@ DIM dws AS DWSTRING = DWStrReverse("garden")   ' Output: "nedrag"
 ```
 ---
 
-### <a name="dwstrrset"></a>DWStrRSet
+## DWStrRSet
 
 Returns a string containing a right justified string.
 
@@ -812,8 +832,53 @@ DIM dws AS DWSTRING = DWStrRSet("FreeBasic", 20, "*")
 ```
 ---
 
+## DWStrSetEnviron
 
-### <a name="dwtrrsetabs"></a>DWStrRSetAbs
+Sets the contents of the specified environment variable for the current process.
+
+```
+FUNCTION DWStrSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
+| *pwszValue* | The name of the environment variable. The maximum size of a user-defined environment variable is 32,767 characters. |
+
+#### Return value
+
+If the function succeeds, the return value is TRUE.<br>
+If the function fails, the return value is FALSE.<br>
+To get extended error information, call **GetLastError**.
+
+#### Usage example
+
+```
+DWStrSetEnviron("path", "c:")
+```
+
+## DWStrSetEnviron (Overload)
+
+Sets the contents of the specified environment variable for the current process.<br>
+Unicode replacement for Free Basic's **SetEnviron** function.
+
+```
+FUNCTION DWStrSetEnviron (BYVAL pwszName AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS BOOLEAN
+FUNCTION DWStrSetEnviron (BYREF varexp AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszName* | The name of the environment variable. The operating system creates the environment variable if it does not exist and *pwszValue* is not NULL. |
+| *varexp* | Name and setting of an environment variable in the following (or equivalent) form: varname=varstring (*varname* being the name of the environment variable, and *varstring* being its text value to set).
+
+#### Return value
+
+Returns 0 on success, or -1 on failure.
+
+---
+
+## DWStrRSetAbs
 
 Right-aligns a string within the space of another string. If *wszStr* is empty, the function leaves the padding positions unchanged from their original content, rather than replacing them with spaces as `RSET` does. If *wszStr* is longer than *wszSourceString*, **DWStrRSetAbs** truncates it from the right until it fits in the result string.
 
@@ -833,7 +898,7 @@ DIM dws AS DWSTRING = "NameBasic=NameBasic"
 PRINT DWStrRSetAbs(dws, "FreeBasic")  ' Output: "NameBasic=FreeBasic"
 ```
 
-### <a name="DWStrShrink"></a>DWStrShrink
+## DWStrShrink
 
 Shrinks a string to use a consistent single character delimiter.
 
@@ -860,7 +925,7 @@ DIM dws AS DWSTRING = DWStrShrink(",,, one , two     three, four,", " ,")
 ```
 ---
 
-### <a name="DWStrSplit"></a>DWStrSplit
+## DWStrSplit
 
 Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. Each token is added to a DWSTRING (my own dynamic Unicode string data type for FreeBasic) and delimited by a carriage return and line feed. The returned string will be parsed later to get the individual tokens.
 
@@ -894,7 +959,7 @@ PRINT dwsTokens
 ```
 ---
 
-### <a name="dwstrspn"></a>DWStrSpn
+## DWStrSpn
 
 Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters.
 
@@ -923,7 +988,7 @@ The Windows API **StrSpnW** function and the C **wcsspn** function can also be u
 
 ---
 
-### <a name="dwstrtally"></a>DWStrTally
+## DWStrTally
 
 Count the number of occurrences of a string or a list of characters within a string.
 
@@ -960,7 +1025,7 @@ PRINT nCount
 ```
 ---
 
-### <a name="dwstrucase"></a>DWStrUCase
+## DWStrUCase
 
 Returns an uppercased version of a string.
 
@@ -986,7 +1051,7 @@ The string conversion functions available in FreeBasic are not fully suitable fo
 
 For Turkey, use:
 ```
-wstrUcase("karışıklığı", "tr-TR")
+DWStrUcase("karışıklığı", "tr-TR")
 DWStrLCase("KARIŞIKLIĞI", "tr-TR")
 ```
 
@@ -996,7 +1061,7 @@ The uppercased string.
 
 ---
 
-### <a name="dwstrucode"></a>DWStrUCode
+## DWStrUCode
 
 Translates ansi bytes to Unicode chars.
 
@@ -1014,7 +1079,7 @@ The translated string.
 
 ---
 
-### <a name="dwstrunwrap"></a>DWStrUnWrap
+## DWStrUnWrap
 
 Removes paired characters to the beginning and end of a string.
 
@@ -1051,7 +1116,7 @@ DWStrUnWrap("""Paul""") results in Paul
 ```
 ---
 
-### <a name="dwstrverify"></a>DWStrVerify
+## DWStrVerify
 
 Determine whether each character of a string is present in another string.
 
@@ -1081,7 +1146,7 @@ PRINT nPos
 ' Returns "7" since 5 starts it past the first non-digit ("." at position 4)
 ```
 
-### <a name="DWStrWrap"></a>DWStrWrap
+## DWStrWrap
 
 Adds paired characters to the beginning and end of a string.
 
@@ -1118,7 +1183,7 @@ DWStrWrap("Paul") results in "Paul"
 ```
 ---
 
-### <a name="dwstrbase64decodea"></a>DWStrBase64DecodeA
+## DWStrBase64DecodeA
 
 Converts the contents of a Base64 mime encoded string to an ascii string.
 
@@ -1159,7 +1224,7 @@ dws.utf8 = DWStrBase64DecodeA(s)
 ```
 ---
 
-### <a name="dwstrbase64decodew"></a>DWStrBase64DecodeW
+## DWStrBase64DecodeW
 
 Converts the contents of a Base64 mime encoded string to an unicode string.
 
@@ -1183,7 +1248,7 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 
 ---
 
-### <a name="dwstrbase64encodea"></a>DWStrBase64EncodeA
+## DWStrBase64EncodeA
 
 Converts the contents of an ascii string to Base64 mime encoding.
 
@@ -1224,7 +1289,7 @@ dws.utf8 = DWStrBase64DecodeA(s)
 ````
 ---
 
-### <a name="dwstrbase64encodew"></a>DWStrBase64EncodeW
+## DWStrBase64EncodeW
 
 Converts the contents of an unicode string to Base64 mime encoding.
 
@@ -1248,7 +1313,7 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 
 ---
 
-### <a name="dwstrcryptbinarytostring"></a>DWStrCryptBinaryToString
+## DWStrCryptBinaryToString
 
 Converts an array of bytes into a formatted string.
 
@@ -1314,7 +1379,7 @@ With the exception of when **CRYPT_STRING_BINARY** encoding is used, all strings
 
 ---
 
-### <a name="dwstrcryptstringtobinary"></a>DWStrCryptStringToBinary
+## DWStrCryptStringToBinary
 
 Converts a formatted string into an array of bytes.
 
@@ -1383,7 +1448,7 @@ Values available for the *pdwFlags* parameter:
 
 ---
 
-### <a name="dwstrhassurrogates"></a>DWStrHasSurrogates
+## DWStrHasSurrogates
 
 Checks if the specified string has surrogates.
 ```
@@ -1400,7 +1465,7 @@ BOOLEAN. True if the string has rurrogates; False, otherwise.
 
 ---
 
-### <a name="dwstrisvalidsurrogatepair"></a>DWStrIsValidSurrogatePair
+## DWStrIsValidSurrogatePair
 
 Checks whether a UTF-16 encoded string contains valid high-low surrogate pairs.
 ```
@@ -1418,7 +1483,7 @@ BOOLEAN. True if the surrogate pair is valid; False, otherwise.
 
 ---
 
-### <a name="dwstrsurrogatepairtocodepoint"></a>DWStrSurrogatePairToCodePoint
+## DWStrSurrogatePairToCodePoint
 
 Converts a surrogate pair to a Unicode code point.
 ```
@@ -1436,7 +1501,7 @@ BOOLEAN. True if the surrogate pair is valid; False, otherwise.
 
 ---
 
-### <a name="dwstrcodepointtosurrogatpair"></a>DWStrCodePointToSurrogatePair
+## DWStrCodePointToSurrogatePair
 
 Converts a Unicode code point (above U+FFFF) back into its high and low surrogate pair.
 ```
@@ -1454,7 +1519,7 @@ This method does not return a value.
 
 ---
 
-### <a name="dwstrscanforsurrogates"></a>DWStrScanForSurrogates
+## DWStrScanForSurrogates
 
 Scans a UTF-16 buffer (passed as a pointer to WSTRING) in chunks of 64 characters. Returns the 0-based index (relative to *memAddr*) of the first broken surrogate found, or -1 if none is found.
 
@@ -1482,7 +1547,7 @@ Returns the 0-based index (relative to *memAddr*) of the first broken surrogate 
 
 ---
 
-### <a name="dwstrchrw"></a>DWStrChrW
+## DWStrChrW
 
 Returns a wide-character string from a codepoint.
 ```
