@@ -325,7 +325,7 @@ OPERATOR LET (BYVAL pvar AS VARIANT PTR)
 Returns a string consisting of all of the strings in an array, each separated by a delimiter. If the delimiter is a null (zero-length) string then no separators are inserted between the string sections. If the delimiter expression is the 3-byte value of "," which may be expressed in your source code as the string literal """,""" or as Chr(34,44,34) then a leading and trailing double-quote is added to each string section. This ensures that the returned string contains standard comma-delimited quoted fields that can be easily parsed.
 
 ```
-FUNCTION AfxStrJoin (BYREF dsa AS DSAFEARRAY, BYREF wszDelimiter AS WSTRING = " ") AS CWSTR
+FUNCTION AfxStrJoin (BYREF dsa AS DSAFEARRAY, BYREF wszDelimiter AS WSTRING = " ") AS DWSTRING
 ```
 
 | Parameter  | Description |
