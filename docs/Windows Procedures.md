@@ -2323,9 +2323,6 @@ To get extended error information call **GetLastError**.
 
 The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
 
-++++++++++++++++++++++++++++++
-
-
 ## AfxSetWindowFont
 
 Sets the font that a control is to use when drawing text.
@@ -2351,6 +2348,8 @@ To get extended error information call **GetLastError**.
 The application should call the **DeleteObject** function to delete the font when it is no longer needed; for example, after it destroys the control.
 
 The size of the control does not change as a result of receiving this message. To avoid clipping text that does not fit within the boundaries of the control, the application should correct the size of the control window before it sets the font.
+
+---
 
 ## AfxClearClipboard
 
@@ -2595,9 +2594,6 @@ hdcWindow = GetWindowDC(hwnd)   ' where hwnd is the handle of the wanted window 
 hbmp = AfxCreateDIBSection(hdcWindow, 10, 10, @pvBits)
 ReleaseDC(hwnd, hdcWindow)
 ```
-
-
-++++++++++++++++++++++
 
 ## AfxCenterWindow
 
@@ -3114,8 +3110,6 @@ As noted in the discussion of the *nCmdShow* parameter, the *nCmdShow* value is 
 
 ---
 
-++++++++++++++++++++++++++++++++++++++++
-
 ## AfxWindowsVersion
 
 Returns the Windows version.
@@ -3195,6 +3189,8 @@ Returns TRUE if the Windows Platform is NT; FALSE, otherwise.
 ```
 FUNCTION AfxIsPlatformNT () AS BOOLEAN
 ```
+---
+
 ## AfxComCtlVersion
 
 Returns the version of CommCtl32.dll
@@ -3296,7 +3292,7 @@ If the current thread is impersonating another client, the **AfxGetUserName** fu
 
 ---
 
-# <a name="AfxGetMACAddress"></a>AfxGetMACAddress
+## AfxGetMACAddress
 
 Retrieves the MAC address of a machine's Ethernet card.
 
@@ -3314,7 +3310,7 @@ This function only supports one NIC card on your PC.
 
 ---
 
-# <a name="AfxGetBrowserHandle"></a>AfxGetBrowserHandle
+## AfxGetBrowserHandle
 
 Retrieves the handle of the top level window of the web browser.
 
@@ -3345,7 +3341,7 @@ DIM hwndBrowser AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")   ' // Chrom
 
 **AfxGetInternetExplorerHandle**, **AfxGetFireFoxHandle** and **AfxGetGoogleChromeHandle** are wrappers functions that call AfxGetBrowserHandle passing the appropriate class name ("IEFrame", "MozillaWindowClass" and "Chrome_WidgetWin_1").
 
-# <a name="AfxGetDefaultBrowserName"></a>AfxGetDefaultBrowserName
+## AfxGetDefaultBrowserName
 
 Retrieves the name of the default browser.
 
@@ -3357,7 +3353,9 @@ FUNCTION AfxGetDefaultBrowserName () AS DWSTRING
 
 The retrieved name or an empty string.
 
-# <a name="AfxGetDefaultBrowserPath"></a>AfxGetDefaultBrowserPath
+---
+
+## AfxGetDefaultBrowserPath
 
 Retrieves the path of the default browser.
 
@@ -3369,7 +3367,9 @@ FUNCTION AfxGetDefaultBrowserPath () AS DWSTRING
 
 The retrieved path or an empty string.
 
-# <a name="AfxGetDefaultMailClientName"></a>AfxGetDefaultMailClientName
+---
+
+## AfxGetDefaultMailClientName
 
 Retrieves the name of the default client mail application.
 
@@ -3381,7 +3381,9 @@ FUNCTION AfxGetDefaultMailClientName () AS DWSTRING
 
 The retrieved name or an empty string.
 
-# <a name="AfxGetDefaultMailClientPath"></a>AfxGetDefaultMailClientPath
+---
+
+## AfxGetDefaultMailClientPath
 
 Retrieves the path of the default client mail application.
 
@@ -3393,7 +3395,9 @@ FUNCTION AfxGetDefaultMailClientPath () AS DWSTRING
 
 The retrieved path or an empty string.
 
-# <a name="AfxGetInternetExplorerVersion"></a>AfxGetInternetExplorerVersion
+---
+
+## AfxGetInternetExplorerVersion
 
 Returns the Internet Explorer version installed.
 
@@ -3405,7 +3409,9 @@ FUNCTION AfxGetInternetExplorerVersion () AS SINGLE
 
 The Internet Explorer version (major.minor).
 
-# <a name="AfxHiMetricToPixelsX"></a>AfxHiMetricToPixelsX
+---
+
+## AfxHiMetricToPixelsX
 
 Converts from HiMetric to Pixels (horizontal resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3421,7 +3427,7 @@ SUB AfxHiMetricToPixelsX (BYVAL hm AS LONG) AS LONG
 
 The size in pixels.
 
-# <a name="AfxHiMetricToPixelsY"></a>AfxHiMetricToPixelsY
+## AfxHiMetricToPixelsY
 
 Converts from HiMetric to Pixels (vertical resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3437,8 +3443,9 @@ SUB AfxHiMetricToPixelsY (BYVAL hm AS LONG) AS LONG
 
 The size in pixels.
 
+---
 
-# <a name="AfxPixelsToHiMetricX"></a>AfxPixelsToHiMetricX
+## AfxPixelsToHiMetricX
 
 Converts from Pixels to HiMetric (horizontal resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3454,7 +3461,9 @@ SUB AfxPixelsToHiMetricX (BYVAL cx AS LONG) AS LONG
 
 The size in HiMetric units.
 
-# <a name="AfxPixelsToHiMetricY"></a>AfxPixelsToHiMetricY
+---
+
+## AfxPixelsToHiMetricY
 
 Converts from Pixels to HiMetric (vertical resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3470,7 +3479,9 @@ SUB AfxPixelsToHiMetricY (BYVAL cx AS LONG) AS LONG
 
 The size in HiMetric units.
 
-# <a name="AfxPixelsToPointsX"></a>AfxPixelsToPointsX
+---
+
+## AfxPixelsToPointsX
 
 Converts pixels to points size (1/72 of an inch). Horizontal resolution.
 
@@ -3486,7 +3497,9 @@ SUB AfxPixelsToPointsX (BYVAL pix AS LONG) AS LONG
 
 The number of points.
 
-# <a name="AfxPixelsToPointsY"></a>AfxPixelsToPointsY
+---
+
+## AfxPixelsToPointsY
 
 Converts pixels to points size (1/72 of an inch). Vertical resolution.
 
@@ -3502,7 +3515,9 @@ SUB AfxPixelsToPointsY (BYVAL pix AS LONG) AS LONG
 
 The number of points.
 
-# <a name="AfxPixelsToTwipsX"></a>AfxPixelsToTwipsX
+---
+
+## AfxPixelsToTwipsX
 
 Converts pixels to twips. Horizontal resolution.
 
@@ -3518,7 +3533,9 @@ FUNCTION AfxPixelsToTwipsX (BYVAL nPixels AS LONG) AS LONG
 
 The number of twips.
 
-# <a name="AfxPixelsToTwipsY"></a>AfxPixelsToTwipsY
+---
+
+## AfxPixelsToTwipsY
 
 Converts pixels to twips. Vertical resolution.
 
@@ -3534,7 +3551,9 @@ FUNCTION AfxPixelsToTwipsY (BYVAL nPixels AS LONG) AS LONG
 
 The number of twips.
 
-# <a name="AfxPointSizeToDip"></a>AfxPointSizeToDip
+---
+
+## AfxPointSizeToDip
 
 Converts point size to DIP (device independent pixel). DIP is defined as 1/96 of an inch and a point is 1/72 of an inch.
 
@@ -3550,7 +3569,9 @@ FUNCTION AfxPointSizeToDip (BYVAL ptsize AS SINGLE) AS SINGLE
 
 The number of DIP pixels.
 
-# <a name="AfxPointsToPixelsX"></a>AfxPointsToPixelsX
+---
+
+## AfxPointsToPixelsX
 
 Converts a point size (1/72 of an inch) to pixels. Horizontal resolution.
 
@@ -3566,7 +3587,9 @@ FUNCTION AfxPointsToPixelsX (BYVAL pts AS LONG) AS LONG
 
 The number of pixels.
 
-# <a name="AfxPointsToPixelsY"></a>AfxPointsToPixelsY
+---
+
+## AfxPointsToPixelsY
 
 Converts a point size (1/72 of an inch) to pixels. Vertical resolution.
 
@@ -3582,7 +3605,9 @@ FUNCTION AfxPointsToPixelsY (BYVAL pts AS LONG) AS LONG
 
 The number of pixels.
 
-# <a name="AfxTwipsPerPixelX"></a>AfxTwipsPerPixelX
+---
+
+## AfxTwipsPerPixelX
 
 Returns the width of a pixel in twips (horizontal resolution). Pixel dimensions can vary between systems and may not always be square, so separate functions for pixel width and height are required.
 
@@ -3594,7 +3619,9 @@ FUNCTION AfxTwipsPerPixelX () AS LONG
 
 The number of twips per pixel.
 
-# <a name="AfxTwipsPerPixelY"></a>AfxTwipsPerPixelY
+---
+
+## AfxTwipsPerPixelY
 
 Returns the width of a pixel in twips (vertical resolution). Pixel dimensions can vary between systems and may not always be square, so separate functions for pixel width and height are required.
 
@@ -3606,7 +3633,9 @@ FUNCTION AfxTwipsPerPixelY () AS LONG
 
 The number of twips per pixel.
 
-# <a name="AfxTwipsToPixelsX"></a>AfxTwipsToPixelsX
+---
+
+## AfxTwipsToPixelsX
 
 Converts twips to pixels. Horizontal resolution.
 
@@ -3622,7 +3651,9 @@ FUNCTION AfxTwipsToPixelsX (BYVAL nTwips AS LONG) AS LONG
 
 The number of pixels.
 
-# <a name="AfxTwipsToPixelsY"></a>AfxTwipsToPixelsY
+---
+
+## AfxTwipsToPixelsY
 
 Converts twips to pixels. Vertical resolution.
 
@@ -3638,7 +3669,9 @@ FUNCTION AfxTwipsToPixelsY (BYVAL nTwips AS LONG) AS LONG
 
 The number of pixels.
 
-# <a name="AfxDibLoadImage"></a>AfxDibLoadImage
+---
+
+## AfxDibLoadImage
 
 Loads a DIB in memory and returns a pointer to it.
 
@@ -3654,8 +3687,9 @@ FUNCTION AfxDibLoadImage (BYVAL pwszFileName AS WSTRING PTR) AS BITMAPFILEHEADER
 
 A pointer to the bitmap file header. You must release it with **CoTaskMemFree** when no longer needed.
 
+---
 
-# <a name="AfxDibSaveImage"></a>AfxDibSaveImage
+## AfxDibSaveImage
 
 Saves a DIB to a file.
 
@@ -3672,3 +3706,4 @@ FUNCTION AfxDibSaveImage (BYVAL pwszFileName AS WSTRING PTR, BYVAL pbmfh AS BITM
 
 TRUE if the DIB has been saved successfully; FALSE otherwise.
 
+---
