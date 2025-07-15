@@ -286,42 +286,6 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Returns the bitness of the operating system.
-' On a 32-bit operating system, the value is 32 and on a 64-bit operating system it is 64.
-' ========================================================================================
-PRIVATE FUNCTION AfxWindowsBitness () AS LONG
-   DIM SysInfo AS SYSTEM_INFO
-   GetNativeSystemInfo(@SysInfo)
-   RETURN IIF(SysInfo.wProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64, 64, 32)
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' * Retrieves information about the current system.
-' ========================================================================================
-PRIVATE FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
-   DIM sysInfo AS SYSTEM_INFO
-   GetSystemInfo(@sysInfo)
-   SELECT CASE LCASE(metricName)
-      CASE "cpucount"
-         RETURN sysInfo.dwNumberOfProcessors
-      CASE "cpumask"
-         RETURN sysInfo.dwActiveProcessorMask
-      CASE "granularity"
-         RETURN sysInfo.dwAllocationGranularity
-      CASE "maxappaddr"
-         RETURN CAST(LONG_PTR, sysInfo.lpMaximumApplicationAddress)
-      CASE "minappaddr"
-         RETURN CAST(LONG_PTR, sysInfo.lpMinimumApplicationAddress)
-      CASE "pagesize"
-         RETURN sysInfo.dwPageSize
-      CASE ElsE
-         RETURN -1 ' Invalid metric name
-   END SELECT
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' * Returns the version of specified file multiplied by 100, e.g. 601 for version 6.01.
 ' Example: DIM ver AS LONG = AfxGetFileVersion("COMCTL32.DLL")
 ' ========================================================================================
@@ -457,11 +421,11 @@ END FUNCTION
 PRIVATE FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS DWSTRING
    DIM dwsPath AS DWSTRING = wszPath
    DIM p AS LONG
-   p = INSTRREV(**dwsPath, ANY ":/\")
-   IF p THEN dwsPath = MID(**dwsPath, p + 1)
-   p = INSTRREV(**dwsPath, ".")
+   p = INSTRREV(dwsPath, ANY ":/\")
+   IF p THEN dwsPath = MID(dwsPath, p + 1)
+   p = INSTRREV(dwsPath, ".")
    IF p THEN
-      dwsPath = LEFT(**dwsPath, p - 1)
+      dwsPath = LEFT(dwsPath, p - 1)
    ELSE
       dwsPath = ""
    END IF
@@ -476,8 +440,8 @@ END FUNCTION
 PRIVATE FUNCTION AfxGetFileNameX (BYREF wszPath AS WSTRING) AS DWSTRING
    DIM dwsPath AS DWSTRING = wszPath
    DIM p AS LONG
-   p = INSTRREV(**dwsPath, ANY ":/\")
-   IF p THEN RETURN MID(**dwsPath, p + 1) ELSE RETURN dwsPath
+   p = INSTRREV(dwsPath, ANY ":/\")
+   IF p THEN RETURN MID(dwsPath, p + 1) ELSE RETURN dwsPath
 END FUNCTION
 ' ========================================================================================
 
@@ -488,8 +452,8 @@ END FUNCTION
 PRIVATE FUNCTION AfxGetFileExt (BYREF wszPath AS WSTRING) AS DWSTRING
    DIM dwsPath AS DWSTRING = wszPath
    DIM p AS LONG
-   p = INSTRREV(**dwsPath, ".")
-   IF p THEN RETURN MID(**dwsPath, p) ELSE RETURN dwsPath
+   p = INSTRREV(dwsPath, ".")
+   IF p THEN RETURN MID(dwsPath, p) ELSE RETURN dwsPath
 END FUNCTION
 ' ========================================================================================
 
@@ -555,8 +519,8 @@ END FUNCTION
 PRIVATE FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS DWSTRING
    DIM dwsPath AS DWSTRING = wszPath
    DIM p AS LONG
-   p = INSTRREV(**dwsPath, ANY ":\/")
-   IF p THEN RETURN LEFT(**dwsPath, p)
+   p = INSTRREV(dwsPath, ANY ":\/")
+   IF p THEN RETURN LEFT(dwsPath, p)
    RETURN ""
 END FUNCTION
 ' ========================================================================================
@@ -568,12 +532,12 @@ END FUNCTION
 PRIVATE FUNCTION AfxGetFolderName (BYREF wszPath AS WSTRING) AS DWSTRING
    DIM dwsPath AS DWSTRING = wszPath
    DIM p AS LONG
-   IF INSTRREV(**dwsPath, ".") = 0 THEN
-      IF RIGHT(**dwsPath, 1) = "\" THEN dwsPath = LEFT(**dwsPath, LEN(dwsPath) - 1)
+   IF INSTRREV(dwsPath, ".") = 0 THEN
+      IF RIGHT(dwsPath, 1) = "\" THEN dwsPath = LEFT(dwsPath, LEN(dwsPath) - 1)
       RETURN dwsPath
    END IF
-   p = INSTRREV(**dwsPath, ANY "\/")
-   IF p THEN RETURN LEFT(**dwsPath, p - 1)
+   p = INSTRREV(dwsPath, ANY "\/")
+   IF p THEN RETURN LEFT(dwsPath, p - 1)
    RETURN dwsPath
 END FUNCTION
 ' ========================================================================================
@@ -3882,6 +3846,7 @@ PRIVATE FUNCTION AfxFileScanW (BYREF wszFileName AS WSTRING, BYREF wszDelimiter 
 END FUNCTION
 ' ========================================================================================
 
+
 ' ########################################################################################
 '                                     *** SIDs ***
 ' ########################################################################################
@@ -3906,6 +3871,49 @@ PRIVATE FUNCTION AfxIsUserAnAdmin () AS BOOLEAN
       FUNCTION = IsMember
    END IF
    FreeSid(AdministratorsGroup)
+END FUNCTION
+' ========================================================================================
+
+
+' ########################################################################################
+'                              *** SYSTEM INFORMATION ***
+' ########################################################################################
+
+' ========================================================================================
+' * Returns the bitness of the operating system.
+' On a 32-bit operating system, the value is 32 and on a 64-bit operating system it is 64.
+' ========================================================================================
+PRIVATE FUNCTION AfxWindowsBitness () AS LONG
+   DIM SysInfo AS SYSTEM_INFO
+   GetNativeSystemInfo(@SysInfo)
+   RETURN IIF(SysInfo.wProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64, 64, 32)
+END FUNCTION
+' ========================================================================================
+#define AfxGetProcessorAddressWidth AfxWindowsBitness
+' ========================================================================================
+
+' ========================================================================================
+' * Retrieves information about the current system.
+' ========================================================================================
+PRIVATE FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
+   DIM sysInfo AS SYSTEM_INFO
+   GetSystemInfo(@sysInfo)
+   SELECT CASE LCASE(metricName)
+      CASE "cpucount"
+         RETURN sysInfo.dwNumberOfProcessors
+      CASE "cpumask"
+         RETURN sysInfo.dwActiveProcessorMask
+      CASE "granularity"
+         RETURN sysInfo.dwAllocationGranularity
+      CASE "maxappaddr"
+         RETURN CAST(LONG_PTR, sysInfo.lpMaximumApplicationAddress)
+      CASE "minappaddr"
+         RETURN CAST(LONG_PTR, sysInfo.lpMinimumApplicationAddress)
+      CASE "pagesize"
+         RETURN sysInfo.dwPageSize
+      CASE ElsE
+         RETURN -1 ' Invalid metric name
+   END SELECT
 END FUNCTION
 ' ========================================================================================
 
