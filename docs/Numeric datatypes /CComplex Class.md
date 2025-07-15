@@ -263,7 +263,7 @@ OPERATOR ^ (BYREF value AS CComplex, BYVAL power AS DOUBLE) AS CComplex
 
 ```
 DIM cpx1 AS CComplex = CComplex(3, 4)
-DIM cpx2 AS CComplex(5, 6)
+DIM cpx2 AS CComplex = CComplex(5, 6)
 cpx2 = cpx1 + cpx2
 ```
 ```
