@@ -358,10 +358,15 @@ FUNCTION ToVar () AS VARIANT
 
 #### Remarks
 
-Can be used to assign a currency directly to a `VARIANT`.
+Can be used to assign a currency directly to a VT_CY `VARIANT`
 
 ```
 DIM c AS CCUR = 12345.1234
 DIM v AS VARIANT = c.ToVar
+```
+or to a `DVARIANT`
+```
+DIM c AS CCUR = 12345.1234
+DIM dv AS DVARIANT = c.ToVar
 ```
 ---
