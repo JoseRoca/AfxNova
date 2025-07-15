@@ -48,7 +48,6 @@ DIM int96 AS CInt96 = "79228162514264337593543950335"
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Abs_](#abs_) | Returns the absolute value of a decimal data type. |
 | [IsSigned](#issigned) | Returns true if this number is signed or false otherwise. |
 | [IsUnsigned](#isunsigned) | Returns true if this number is unsigned or false otherwise. |
 | [Sign](#sign) | Returns 0 if it is not signed of &h80 (128) if it is signed. |
@@ -166,15 +165,6 @@ The version OPERATOR - (BYREF int96 AS CInt96) AS CInt96 changes the sign of a d
 ```
 DIM int96 AS CInt96 = 123
 int96 = -int96
-```
----
-
-## <a name="abs_"></a>Abs_
-
-Returns the absolute value of a decimal data type.
-
-```
-FUNCTION Abs_ () AS CInt96
 ```
 ---
 
