@@ -18,7 +18,6 @@ print "new scale: ", dec.m_dec.scale  ' --> scale = 4
 Creates a new instance of the **CDEC** class and assigns the values passed to it.
 
 ```
-CONSTRUCTOR CDec
 CONSTRUCTOR CDec (BYVAL lcid AS LCID = 0)
 CONSTRUCTOR CDec (BYREF cSrc AS CDec, BYVAL lcid AS LCID = 0)
 CONSTRUCTOR CDec (BYREF decSrc AS DECIMAL, BYVAL lcid AS LCID = 0)
