@@ -152,7 +152,6 @@ OPERATOR CAST () AS VARIANT
 
 These operators aren't called directly, They perform the conversion when the target is not a CCUR variable. For example, when assigning a `CCUR` variable to an standard numeric variable, the CAST() AS DOUBLE operator is implicity called.
 
-```
 ---
 
 # <a name="operator3"></a>Operator *
