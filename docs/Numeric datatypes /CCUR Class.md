@@ -107,6 +107,8 @@ PRINT "0.0001 added 1,000,000 times = "; cx
 | [Comparison operators](#operator4) | Compares currency numbers. |
 | [Math operators](#operator5) | Add, subtract, multiply or divide currency numbers. |
 
+---
+
 ### Methods
 
 | Name       | Description |
@@ -118,6 +120,8 @@ PRINT "0.0001 added 1,000,000 times = "; cx
 | [Round](#round) | Rounds the currency to a specified number of decimal places. |
 | [SetValues](#setvalues) | Sets the integer and fractional components. |
 | [ToVar](#tovar) | Returns the currency as a VT_CY variant. |
+
+---
 
 ## <a name="operator1"></a>Operator LET (=)
 
@@ -154,7 +158,7 @@ These operators aren't called directly, They perform the conversion when the tar
 
 ---
 
-# <a name="operator3"></a>Operator *
+## <a name="operator3"></a>Operator *
 
 Returns the address of the underlying `CURRENCY` structure.
 
@@ -163,7 +167,7 @@ OPERATOR * (BYREF cur AS CCUR) AS CURRENCY PTR
 ```
 ---
 
-# <a name="operator4"></a>Comparison operators
+## <a name="operator4"></a>Comparison operators
 
 ```
 OPERATOR = (BYREF cur1 AS CCUR, BYREF cur2 AS CCUR) AS BOOLEAN
@@ -186,7 +190,7 @@ IF c = c3 THEN PRINT "equal" ELSE PRINT "different"
 ```
 ---
 
-# <a name="operator5"></a>Math operators
+## <a name="operator5"></a>Math operators
 
 ```
 OPERATOR + (BYREF cur1 AS CCUR, BYREF cur2 AS CCUR) AS CCUR
@@ -233,7 +237,7 @@ Other FreeBasic operators such `AND`, `MOD`, `OR`, `SHL` and `SHR` can also be u
 
 ---
 
-# <a name="formatcurrency"></a>FormatCurrency
+## <a name="formatcurrency"></a>FormatCurrency
 
 Formats a currency into a string form.
 
@@ -266,7 +270,7 @@ PRINT c.FormatCurrency   --> 12.345,12 € (Spain)
 ```
 ---
 
-# <a name="formatnumber"></a>FormatNumber
+## <a name="formatnumber"></a>FormatNumber
 
 Formats a currency into a string form.
 ```
@@ -298,7 +302,7 @@ PRINT c.FormatNumber   --> 12.345,12 (Spain)
 ```
 ---
 
-# <a name="getfraction"></a>GetFraction
+## <a name="getfraction"></a>GetFraction
 
 Returns the fractional component of a currency value.
 
@@ -307,7 +311,7 @@ FUNCTION GetFraction () AS SHORT
 ```
 ---
 
-# <a name="getinteger"></a>GetInteger
+## <a name="getinteger"></a>GetInteger
 
 Returns the integer component of a currency value.
 
@@ -316,7 +320,7 @@ FUNCTION GetInteger () AS LONGLONG
 ```
 ---
 
-# <a name="round"></a>Round
+## <a name="round"></a>Round
 
 Rounds the currency to a specified number of decimal places.
 
@@ -325,7 +329,7 @@ FUNCTION Round (BYVAL nDecimals AS LONG) AS CCUR
 ```
 ---
 
-# <a name="setvalues"></a>SetValues
+## <a name="setvalues"></a>SetValues
 
 Sets the integer and fractional components.
 
@@ -344,7 +348,7 @@ Based on 4 digits. To set .2, pass 2000, to set .0002, pass a 2.
 
 ---
 
-# <a name="tovar"></a>ToVar
+## <a name="tovar"></a>ToVar
 
 Returns the currency as a VT_CY variant.
 
