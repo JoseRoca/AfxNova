@@ -67,7 +67,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' If the passed pointer is a BSTR, it is atached to the class; otherwise, a new BSTR is created. 
+' If the passed pointer is a BSTR, it is atached to the class; otherwise, a new BSTR is created.
 ' It is unsafe because if a BSTRING is passed, the BSTR pointer will attached and two classes
 ' will attempt to release the same pointer. Use the Attach method instead.
 ' ========================================================================================
@@ -320,7 +320,7 @@ END OPERATOR
 ' ========================================================================================
 
 ' ========================================================================================
-' If the passed pointer is a BSTR, it is atached to the class; otherwise, a new BSTR is created. 
+' If the passed pointer is a BSTR, it is atached to the class; otherwise, a new BSTR is created.
 ' It is unsafe because if a BSTRING is assigned, the BSTR pointer will be attached and two classes
 ' will attempt to release the same pointer. Use the Attach method instead.
 ' ========================================================================================
@@ -360,7 +360,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns the address of the CBSTR string data (same as **)
+' Returns the address of the BSTRING string data (same as **)
 ' ========================================================================================
 PRIVATE FUNCTION BSTRING.sptr () AS WSTRING PTR
    BSTRING_DP("sptr")
