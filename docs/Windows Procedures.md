@@ -120,6 +120,7 @@ Assorted Windows procedures.
 | [AfxRedrawNonClientArea](#afxredrawnonclientarea) | Redraws the non-client area of the specified window. |
 | [AfxRedrawWindow](#afxredrawwindow) | Redraws the specified window. |
 | [AfxSetWindowClientSize](#afxsetwindowclientsize) | Adjusts the bounding rectangle of a window based on the desired size of the client area. |
+| [AfxSetWindowClientSizeForDpi](#afxsetwindowclientsizefordpi) | Adjusts the bounding rectangle of a window based on the desired size of the client area. DPI aware. |
 | [AfxSetWindowIcon](#afxsetwindowicon) | Associates a new large icon with a window. |
 | [AfxSetWindowLocation](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. |
 | [AfxSetWindowSize](#afxsetwindowsize) | Sets the size of the specified window, in pixels. |
@@ -2913,6 +2914,22 @@ SUB AfxSetWindowClientSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHei
 | *nHeight* | The new height of the client area of the window. |
 | *rxRatio* | Horizontal scaling ratio. |
 | *ryRatio* | Vertical scaling ratio. |
+
+---
+
+## AfxSetWindowClientSizeForDpi
+
+Adjusts the bounding rectangle of a window based on the desired size of the client area. DPI aware version of AfxSetWindowClientSize.
+
+```
+SUB AfxSetWindowClientSizeForDpi (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *nWidth* | The new width of the client area of the window. |
+| *nHeight* | The new height of the client area of the window. |
 
 ---
 
