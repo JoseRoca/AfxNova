@@ -52,6 +52,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.AnchorControl(IDC_BUTTON, AFX_ANCHOR_BOTTOM_RIGHT)
    ' // Subclas the button
    SetWindowSubclass(hButton, CAST(SUBCLASSPROC, @Button_SubclassProc), IDC_BUTTON, CAST(DWORD_PTR, @pWindow))
+
    ' // Display the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
 
