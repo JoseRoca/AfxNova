@@ -2970,7 +2970,7 @@ If the function fails, the return value is FALSE. To get extended error informat
 
 ---
 
-## SetWindowPosForDpi
+## AfxSetWindowPosForDpi
 
 Changes the size, position, and Z order of a child, pop-up, or top-level window. DPI aware version of the API function **SetWindowPos**.
 
