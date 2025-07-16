@@ -98,6 +98,13 @@ TYPE AFX_ANCHORPROPERTY
    centerY AS LONG
 END TYPE
 
+' // Windows and control colors
+TYPE AFX_WINDOWCOLORS
+   hwnd AS ..HWND
+   foreColor AS COLORREF
+   backColor AS COLORREF
+END TYPE
+
 ' // Controls user data
 TYPE AFX_CTLUSERDATA
    hCtl AS HWND
@@ -139,6 +146,9 @@ Private:
    m_VScrollPos AS LONG                            ' // Vertical scroll position
    m_HorzUnits AS LONG                             ' // Amount, in device units, of horizontal scrolling
    m_VertUnits AS LONG                             ' // Amount, in device units, of vertical scrolling
+
+Public:
+   DIM m_rgColors(ANY) AS AFX_WINDOWCOLORS         ' // Window and controls colors - Array of colors structures
 
 Public:
    DECLARE CONSTRUCTOR (BYREF wszClassName AS CONST WSTRING = "")
@@ -256,6 +266,11 @@ Public:
    DECLARE FUNCTION GetUserDataItem (BYVAL cid AS LONG) AS LONG
    DECLARE FUNCTION ControlSetUser (BYVAL cid AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
    DECLARE FUNCTION ControlGetUser (BYVAL cid AS LONG, BYVAL index AS LONG) AS LONG_PTR
+
+   DECLARE FUNCTION GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
+   DECLARE FUNCTION SetBkgdColor (BYVAL backColor AS COLORREF) AS BOOLEAN
+   DECLARE FUNCTION SetCtlColors (BYVAL hCtl AS ..HWND, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
+   DECLARE FUNCTION SetCtlColors (BYVAL cID AS LONG, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
 
 Private:
    DECLARE STATIC FUNCTION LayoutEnumChildProc (BYVAL hwnd AS HWND, BYVAL lParam AS LPARAM) AS LONG
@@ -405,6 +420,36 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
 '            ' ...
 '            ' ...
 '         END SELECT
+
+      CASE WM_ERASEBKGND
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+            DIM hDC AS ..HDC = CAST(..HDC, wParam)
+            DIM rcClient AS RECT
+            ..GetCLientRect(hwnd, @rcClient)
+            DIM nItem AS LONG = pWindow->GetColorItem(CAST(..HWND, hwnd))
+            IF nItem >= 0 THEN
+               DIM hBrush AS ..HBRUSH = CreateSolidBrush(pWindow->m_rgColors(nItem).backColor)
+               FillRect hDC, @rcClient, hBrush
+               DeleteObject hBrush
+               RETURN CTRUE
+            END IF
+         END IF
+
+      CASE WM_CTLCOLOREDIT, WM_CTLCOLORLISTBOX, WM_CTLCOLORSTATIC
+         ' WM_CTLCOLORBTN does not color a button - use XPBUTTON
+         ' wParam = HDC; lParam = Handle of the control.
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+            DIM nItem AS LONG = pWindow->GetColorItem(CAST(..HWND, lParam))
+            IF nItem >= 0 THEN
+'                  OutputDebugStringW("WM_CTLCOLOR - " & WSTR(HEX(uMsg)) & " - " & WSTR(lParam))
+               SetTextColor(CAST(HDC, wParam), pWindow->m_rgColors(nItem).foreColor)
+               SetBkColor(CAST(HDC, wParam), pWindow->m_rgColors(nItem).backColor)
+               SetDCBrushColor(CAST(HDC, wParam), pWindow->m_rgColors(nItem).backColor)
+               RETURN CAST(LRESULT, GetStockObject(DC_BRUSH))
+            END IF
+         END IF
 
       CASE WM_SIZE
          ' // Adjust anchored controls and redraw the main window
@@ -2151,6 +2196,58 @@ PRIVATE SUB CWindow.OnSize (BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM)
    this.SetupScrollbars
 END SUB
 ' ========================================================================================
+
+' ########################################################################################
+'                         *** CWINDOW AND CONTROLS COLORS ***
+' ########################################################################################
+
+' ========================================================================================
+' Gets the color item
+' Return Value: The array index on success, or -1 on failure.
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
+   FUNCTION = -1
+   FOR i AS LONG = 0 TO UBOUND(m_rgColors)
+      IF m_rgColors(i).hwnd = hwnd THEN FUNCTION = i : EXIT FOR
+   NEXT
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the colors of the control
+' ========================================================================================
+PRIVATE FUNCTION CWindow.SetCtlColors (BYVAL hCtl AS ..HWND, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
+   IF IsWindow(hCtl) = FALSE THEN RETURN FALSE
+   ' // Check if the item already exists
+   DIM nItem AS LONG = this.GetColorItem(hCtl)
+   ' // If it does not exist, make room for it
+   IF nItem = -1 THEN
+      REDIM PRESERVE m_rgColors(UBOUND(m_rgColors) + 1) AS AFX_WINDOWCOLORS
+      nItem = UBOUND(m_rgColors)
+   END IF
+   m_rgColors(nItem).hwnd = hCtl
+   m_rgColors(nItem).foreColor = foreColor
+   m_rgColors(nItem).backColor = backColor
+   '// Redraw the window
+   InvalidateRect hCtl, NULL, CTRUE
+   UpdateWindow hCtl
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.SetCtlColors (BYVAL cID AS LONG, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
+   RETURN this.SetCtlColors(GetDlgItem(m_hwnd, cID), forecolor, backcolor)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the background color of the main window
+' ========================================================================================
+PRIVATE FUNCTION CWindow.SetBkgdColor (BYVAL backColor AS COLORREF) AS BOOLEAN
+   RETURN this.SetCtlColors(m_hwnd, 0, backColor)
+END FUNCTION
+' ========================================================================================
+
 
 ' ########################################################################################
 '                                *** HELPER FUNCTIONS ***
