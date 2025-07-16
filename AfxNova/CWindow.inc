@@ -122,6 +122,7 @@ Private:
    m_wszClassName AS WSTRING * 260                 ' // Class name
    m_DefaultFontSize AS LONG                       ' // Default font size
    m_wszDefaultFontName AS WSTRING * LF_FACESIZE   ' // Default font name
+   m_IsStabilized AS BOOLEAN                       ' // The main window is stabilized (true) or is not stable (false)
    m_hRichEditLib AS HMODULE                       ' // Rich Edit moudle handle
    DIM m_rgUserData(0 TO 99) AS LONG_PTR           ' // User data
    DIM m_rgAccelEntries(ANY) AS ACCEL              ' // Accelerator table
@@ -206,11 +207,10 @@ Public:
    DECLARE SUB GetWorkArea OVERLOAD (BYVAL lpRect AS LPRECT)
    DECLARE FUNCTION GetWorkArea OVERLOAD () AS RECT
    DECLARE FUNCTION ControlHandle (BYVAL cID AS LONG) AS HWND
-'      DECLARE PROPERTY ScrollWindowPtr () AS CScrollWindow PTR
-'      DECLARE PROPERTY ScrollWindowPtr (BYVAL pScrollWindow AS CScrollWindow PTR)
-   DECLARE SUB Resize ()
    DECLARE FUNCTION SetWindowPos (BYVAL hwnd AS HWND, BYVAL hwndInsertAfter AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL uFlags AS UINT) AS BOOLEAN
-   DECLARE FUNCTION MoveWindow (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN) AS BOOLEAN
+   DECLARE FUNCTION MoveWindow (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN = TRUE) AS BOOLEAN
+   DECLARE SUB Resize ()
+   DECLARE SUB ForceVisibleDisplay ()
    DECLARE FUNCTION CreateFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL lWeight AS LONG = 0, _
            BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS HFONT
    DECLARE FUNCTION SetFont (BYREF wszFaceName AS WSTRING, BYVAL lPointSize AS LONG, BYVAL lWeight AS LONG = 0, _
@@ -218,7 +218,15 @@ Public:
    DECLARE FUNCTION AddControl (BYREF wszClassName AS WSTRING, BYVAL hParent AS HWND = NULL, BYVAL cID AS LONG_PTR = 0, _
            BYREF wszTitle AS WSTRING = "", BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, _
            BYVAL nHeight AS LONG = 0, BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0, _
-           BYVAL pWndProc AS WNDPROC = NULL) AS HWND
+           BYVAL pCallbackProc AS WNDPROC = NULL) AS HWND
+   DECLARE FUNCTION SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS ANY PTR) AS BOOLEAN
+   DECLARE FUNCTION SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS DWORD_PTR) AS BOOLEAN
+
+   ' // Main window stabilization
+   DECLARE FUNCTION Stabilize () AS BOOLEAN
+   DECLARE FUNCTION NonStable () AS BOOLEAN
+   DECLARE FUNCTION IsStabilized () AS BOOLEAN
+   DECLARE FUNCTION IsNonStable () AS BOOLEAN
 
    ' // Keyboard accelerators
    DECLARE PROPERTY AccelHandle () AS HACCEL
@@ -374,12 +382,13 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
          pWindow = CAST(CWindow PTR, pCreateStruct->lpCreateParams)
          RETURN CallWindowProcW(pWindow->GetWindowProc, hwnd, uMsg, wParam, lParam)
 
-'      CASE WM_SYSCOMMAND
-'         ' // Capture this message and send a WM_CLOSE message
-'         ' // Note: Needed with some OCXs, that otherwise remain in memory
-'         IF (wParam AND &HFFF0) = SC_CLOSE THEN
-'            SendMessageW hwnd, WM_CLOSE, 0, 0
-'         END IF
+      CASE WM_SYSCOMMAND
+         ' // Trap the SC_CLOSE message sent by Alt+F4 and the X-button
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+         ' // Abort the action
+            IF (wParam AND &hFFF0) = SC_CLOSE AND pWindow->IsStabilized = TRUE THEN RETURN 0
+         END IF
 
 '      CASE WM_COMMAND
 '         SELECT CASE LOWORD(wParam)
@@ -1157,22 +1166,6 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Returns a pointer to the scroll window class
-' =====================================================================================
-'PRIVATE PROPERTY CWindow.ScrollWindowPtr () AS CScrollWindow PTR
-'   PROPERTY = m_pScrollWindow
-'END PROPERTY
-' =====================================================================================
-' =====================================================================================
-' Sets a pointer to the scroll window class
-' =====================================================================================
-'PRIVATE PROPERTY CWindow.ScrollWindowPtr (BYVAL pScrollWindow AS CScrollWindow PTR)
-'   IF m_pScrollWindow THEN Delete m_pScrollWindow
-'   m_pScrollWindow = pScrollWindow
-'END PROPERTY
-' =====================================================================================
-
-' =====================================================================================
 ' Resizes the window
 ' =====================================================================================
 PRIVATE SUB CWindow.Resize
@@ -1184,17 +1177,58 @@ END SUB
 ' Changes the size, position, and Z order of a child, pop-up, or top-level window.
 ' =====================================================================================
 PRIVATE FUNCTION CWindow.SetWindowPos (BYVAL hwnd AS HWND, BYVAL hwndInsertAfter AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL uFlags AS UINT) AS BOOLEAN
-   FUNCTION = ..SetWindowPos(hwnd, hwndInsertAfter, x * m_rx, y * m_ry, cx * m_rx, cy * m_ry, uFlags)
+   IF x <> 0 THEN x = x * m_rx
+   IF y <> 0 THEN y = y * m_ry
+   FUNCTION = ..SetWindowPos(hwnd, hwndInsertAfter, x, y, cx * m_rx, cy * m_ry, uFlags)
 END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
 ' Changes the position and dimensions of the specified window.
 ' =====================================================================================
-PRIVATE FUNCTION CWindow.MoveWindow (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN) AS BOOLEAN
-   FUNCTION = ..MoveWindow(hwnd, x * m_rx, y * m_ry, nWidth * m_rx, nHeight * m_ry, bRepaint)
+PRIVATE FUNCTION CWindow.MoveWindow (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN = TRUE) AS BOOLEAN
+   IF x <> 0 THEN x = x * m_rx
+   IF y <> 0 THEN y = y * m_ry
+   FUNCTION = ..MoveWindow(hwnd, x, y, nWidth * m_rx, nHeight * m_ry, bRepaint)
 END FUNCTION
 ' =====================================================================================
+
+' ========================================================================================
+' If you use dual (or even triple/quad) displays then you have undoubtedly encountered the
+' following situation: You change the physical order of your displays, or otherwise
+' reconfigure the logical ordering using your display software. This sometimes has the
+' side-effect of changing your desktop coordinates from zero-based to negative starting
+' coordinates (i.e. the top-left coordinate of your desktop changes from 0,0 to -1024,-768).
+' This effects many Windows programs which restore their last on-screen position whenever
+' they are started. Should the user reorder their display configuration this can sometimes
+' result in a Windows program subsequently starting in an off-screen position (i.e. at a
+' location that used to be visible) - and is now effectively invisible, preventing the
+' user from closing it down or otherwise moving it back on-screen.
+' The DialogForceVisibility method can be called at program start-time right after the
+' main window has been created and positioned 'on-screen'. Should the window be positioned
+' in an off-screen position, it is forced back onto the nearest display to its last
+' position. The user will be unaware this is happening and won't even realise to thank you
+' for keeping their user-interface visible, even though they changed their display
+' settings.
+' Source: http://www.catch22.net/tuts/tips2
+' ========================================================================================
+PRIVATE SUB CWindow.ForceVisibleDisplay
+   ' // Check if the specified window-rectangle is visible on any display
+   DIM rc AS RECT
+   ..GetWindowRect(m_hwnd, @rc)
+   IF MonitorFromRect(@rc, MONITOR_DEFAULTTONULL) <> NULL THEN EXIT SUB
+   ' // Find the nearest display to the rectangle
+   DIM hMonitor AS HMONITOR
+   DIM mi AS MONITORINFO
+   mi.cbSize = SIZEOF(mi)
+   hMonitor = MonitorFromRect(@rc, MONITOR_DEFAULTTONEAREST)
+   GetMonitorInfoW(hMonitor, @mi)
+   ' // Center window rectangle
+   rc.left = mi.rcWork.left + ((mi.rcWork.right - mi.rcWork.left) - (rc.right-rc.left)) \ 2
+   rc.top = mi.rcWork.top + ((mi.rcWork.bottom - mi.rcWork.top) - (rc.bottom-rc.top)) \ 2
+   ..SetWindowPos(m_hwnd, 0, rc.left, rc.top, 0, 0, SWP_NOACTIVATE OR SWP_NOZORDER OR SWP_NOSIZE)
+END SUB
+' ========================================================================================
 
 ' ========================================================================================
 ' Creates a High DPI aware logical font.
@@ -1322,7 +1356,7 @@ PRIVATE FUNCTION CWindow.AddControl ( _
    BYVAL dwStyle AS LONG = -1, _                          ' // Control style
    BYVAL dwExStyle AS LONG = -1, _                        ' // Extended style
    BYVAL lpParam AS LONG_PTR = 0, _                       ' // Pointer to custom data
-   BYVAL pCtlProc AS WNDPROC = NULL _                     ' // Address of the control callback procedure
+   BYVAL pCallbackProc AS WNDPROC = NULL _                ' // Address of the control callback procedure
    ) AS HWND                                              ' // Control handle
 
    DIM hCtl AS HWND
@@ -1649,6 +1683,72 @@ PRIVATE FUNCTION CWindow.AddControl ( _
    FUNCTION = hCtl
 END FUNCTION
 ' =====================================================================================
+
+' =====================================================================================
+' Installs or updates a control subclass callback.
+' =====================================================================================
+PRIVATE FUNCTION CWindow.SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS ANY PTR) AS BOOLEAN
+   IF hCtl = NULL OR hCtl = m_hwnd THEN RETURN FALSE
+   RETURN SetWindowSubclass(hCtl, CAST(SUBCLASSPROC, pfnSubclass), uIdSubclass, CAST(DWORD_PTR, dwRefData))
+END FUNCTION
+' =====================================================================================
+' =====================================================================================
+PRIVATE FUNCTION CWindow.SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS DWORD_PTR) AS BOOLEAN
+   IF hCtl = NULL OR hCtl = m_hwnd THEN RETURN FALSE
+   RETURN SetWindowSubclass(hCtl, CAST(SUBCLASSPROC, pfnSubclass), uIdSubclass, dwRefData)
+END FUNCTION
+' =====================================================================================
+
+
+' ########################################################################################
+'                            *** CWINDOW stabilization  ***
+' ########################################################################################
+
+' ========================================================================================
+' Makes the main window stabilized (non-closeable).
+' ========================================================================================
+PRIVATE FUNCTION CWindow.Stabilize () AS BOOLEAN
+   ' // Get the system menu handle
+   DIM hMenu AS HMENU = GetSystemMenu(m_hwnd, FALSE)
+   IF hMenu = NULL THEN RETURN FALSE
+   ' // Get the number of menu items
+   DIM cbItems AS LONG = GetMenuItemCount(hMenu)
+   IF cbItems = 0 THEN RETURN FALSE
+   ' // Remove the close menu item
+   IF RemoveMenu(hMenu, cbItems - 1, MF_REMOVE OR MF_BYPOSITION) = 0 THEN RETURN FALSE
+   ' // Remove the separator line
+   IF RemoveMenu(hMenu, cbItems - 2, MF_REMOVE OR MF_BYPOSITION) = 0 THEN RETURN FALSE
+   ' // Redraw the menu (this refreshes the caption bar, dimming the X button)
+   DrawMenuBar(m_hwnd)
+   ' // Flags the dialog as stabilized
+   m_IsStabilized = TRUE
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Makes a dialog non stable (closeable).
+' ========================================================================================
+PRIVATE FUNCTION CWindow.NonStable () AS BOOLEAN
+   GetSystemMenu(m_hwnd, TRUE)
+   DrawMenuBar(m_hwnd)
+   m_IsStabilized = FALSE
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Returns true if the dialog is stabilized; otherwise, false.
+' ========================================================================================
+PRIVATE FUNCTION CWindow.IsStabilized () AS BOOLEAN
+   RETURN m_IsStabilized
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Returns true if the dialog is stabilized; otherwise, false.
+' ========================================================================================
+PRIVATE FUNCTION CWindow.IsNonStable () AS BOOLEAN
+   RETURN NOT m_IsStabilized
+END FUNCTION
+' ========================================================================================
 
 ' ########################################################################################
 '                               *** ACCELERATOR TABLE ***
