@@ -120,10 +120,12 @@ Assorted Windows procedures.
 | [AfxRedrawNonClientArea](#afxredrawnonclientarea) | Redraws the non-client area of the specified window. |
 | [AfxRedrawWindow](#afxredrawwindow) | Redraws the specified window. |
 | [AfxSetWindowClientSize](#afxsetwindowclientsize) | Adjusts the bounding rectangle of a window based on the desired size of the client area. |
-| [AfxSetWindowClientSizeForDpi](#afxsetwindowclientsizefordpi) | Adjusts the bounding rectangle of a window based on the desired size of the client area. DPI aware. |
+| [AfxSetWindowClientSizeForDpi](#afxsetwindowclientsize) | Adjusts the bounding rectangle of a window based on the desired size of the client area. DPI aware. |
 | [AfxSetWindowIcon](#afxsetwindowicon) | Associates a new large icon with a window. |
 | [AfxSetWindowLocation](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. |
+| [AfxSetWindowLocationForDpi](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. DPI aware |
 | [AfxSetWindowSize](#afxsetwindowsize) | Sets the size of the specified window, in pixels. |
+| [AfxSetWindowSizeForDpi](#afxsetwindowsize) | Sets the size of the specified window, in pixels. DPI aware. |
 | [AfxSetWindowText](#afxsetwindowtext) | Sets the text of a window. |
 | [AfxShowWindowState](#afxshowwindowstate) | Sets the specified window's show state. |
 
@@ -2905,6 +2907,7 @@ Adjusts the bounding rectangle of a window based on the desired size of the clie
 ```
 SUB AfxSetWindowClientSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, _
    BYVAL rxRatio AS SINGLE = 1, BYVAL ryRatio AS SINGLE = 1)
+SUB AfxSetWindowClientSizeForDpi (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
 ```
 
 | Parameter  | Description |
@@ -2915,21 +2918,9 @@ SUB AfxSetWindowClientSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHei
 | *rxRatio* | Horizontal scaling ratio. |
 | *ryRatio* | Vertical scaling ratio. |
 
----
+#### Remarks
 
-## AfxSetWindowClientSizeForDpi
-
-Adjusts the bounding rectangle of a window based on the desired size of the client area. DPI aware version of AfxSetWindowClientSize.
-
-```
-SUB AfxSetWindowClientSizeForDpi (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window. |
-| *nWidth* | The new width of the client area of the window. |
-| *nHeight* | The new height of the client area of the window. |
+**AfxSetWindowClientSizeForDpi** if DPI aware version of **AfxSetWindowClientSizeFor**.
 
 ---
 
@@ -2959,6 +2950,7 @@ Sets the location of the top left corner of the window, in pixels.The location i
 
 ```
 FUNCTION AfxSetWindowLocation (BYVAL hwnd AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG) AS BOOLEAN
+FUNCTION AfxSetWindowLocationForDpi (BYVAL hwnd AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG) AS BOOLEAN
 ```
 
 | Parameter  | Description |
@@ -2973,6 +2965,8 @@ If the function succeeds, the return value is TRUE.
 
 If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
 
+**AfxSetWindowLocationForDpi** is a DPI awre version of **AfxSetWindowLocation**.
+
 ---
 
 ## AfxSetWindowSize
@@ -2981,6 +2975,7 @@ Sets the size of the specified window, in pixels.
 
 ```
 FUNCTION AfxSetWindowSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
+FUNCTION AfxSetWindowSizeForDpi (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
 ```
 
 | Parameter  | Description |
@@ -2988,6 +2983,10 @@ FUNCTION AfxSetWindowSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeig
 | *hwnd* | Handle to the window. |
 | *nWidth* | The new width of the window. |
 | *nHeight* | The new height of the window. |
+
+#### Remarks
+
+**AfxSetWindowSizeForDpi** is a DPI aware version of **AfxSetWindowSize**.
 
 ---
 
