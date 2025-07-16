@@ -51,9 +51,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Anchors the button to the bottom and the right side of the main window
    pWindow.AnchorControl(IDC_LABEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
-   ' // Set the main window color
+   ' // Set the main window background color
    pWindow.SetBkgdColor(RGB_GOLD)
-   ' // Set the label color (you can use the handle of the control or its identifier)
+   ' // Set the label colors (you can use the handle of the control or its identifier)
 '   pWindow.SetCtlColors(hLabel, RGB_YELLOW, RGB_GREEN)
    pWindow.SetCtlColors(IDC_LABEL, RGB_YELLOW, RGB_GREEN)
 
