@@ -124,9 +124,9 @@ Assorted Windows procedures.
 | [AfxSetWindowIcon](#afxsetwindowicon) | Associates a new large icon with a window. |
 | [AfxSetWindowLocation](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. |
 | [AfxSetWindowLocationForDpi](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. DPI aware |
-| [AfxSetWindowPosForDpi](#afxsetwindowsizefordpi) | Sets the size of the specified window, in pixels. |
+| [AfxSetWindowPosForDpi](#afxsetwindowposfordpi) | Sets the size of the specified window, in pixels. |
 | [AfxSetWindowSize](#afxsetwindowsize) | Sets the size of the specified window, in pixels. |
-| [AfxSetWindowSizeForDpi](#afxsetwindowsize) | Sets the size of the specified window, in pixels. DPI aware. |
+| [AfxSetWindowSizeForDpi](#afxsetwindowsizefordpi) | Sets the size of the specified window, in pixels. DPI aware. |
 | [AfxSetWindowText](#afxsetwindowtext) | Sets the text of a window. |
 | [AfxShowWindowState](#afxshowwindowstate) | Sets the specified window's show state. |
 
