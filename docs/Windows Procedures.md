@@ -124,6 +124,7 @@ Assorted Windows procedures.
 | [AfxSetWindowIcon](#afxsetwindowicon) | Associates a new large icon with a window. |
 | [AfxSetWindowLocation](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. |
 | [AfxSetWindowLocationForDpi](#afxsetwindowlocation) | Sets the location of the top left corner of the window, in pixels. DPI aware |
+| [AfxSetWindowPosForDpi](#afxsetwindowsizefordpi) | Sets the size of the specified window, in pixels. |
 | [AfxSetWindowSize](#afxsetwindowsize) | Sets the size of the specified window, in pixels. |
 | [AfxSetWindowSizeForDpi](#afxsetwindowsize) | Sets the size of the specified window, in pixels. DPI aware. |
 | [AfxSetWindowText](#afxsetwindowtext) | Sets the text of a window. |
@@ -2968,6 +2969,29 @@ If the function fails, the return value is FALSE. To get extended error informat
 **AfxSetWindowLocationForDpi** is a DPI awre version of **AfxSetWindowLocation**.
 
 ---
+
+## SetWindowPosForDpi
+
+Changes the size, position, and Z order of a child, pop-up, or top-level window. DPI aware version of the API function **SetWindowPos**.
+
+```
+PRIVATE FUNCTION AfxSetWindowPosForDPI (BYVAL hwnd AS HWND, BYVAL hWndInsertAfter AS HWND, _
+   BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, _
+   BYVAL uFlags AS UINT = SWP_NOZORDER) AS BOOLEAN
+
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *hWndInsertAfter* | A handle to the window to precede the positioned window in the Z order. |
+| *x* | The new position of the left side of the window, in client coordinates. |
+| *y* | The new position of the top side of the window, in client coordinates. |
+| *cx* | The new width of the window, in pixels. |
+| *cy* | The new height of the window, in pixels. |
+| *uFlags* | The window sizing and positioning flags. This parameter can be a combination of the following values. |
+
+See: [SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos).
 
 ## AfxSetWindowSize
 
