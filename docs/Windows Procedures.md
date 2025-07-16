@@ -216,7 +216,7 @@ Assorted Windows procedures.
 | [AfxSetProcessDPIAware](#afxsetprocessdpiaware) | Sets the current process as dots per inch (dpi) aware. |
 | [AfxUnscaleX](#afxunscalex) | Unscales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system. |
 | [AfxUnscaleY](#afxunscaley) | Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system. |
-| [AfxUseDpiScaling](#afxusedpiscaling) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
+| [AfxUseDpiScaling](#afxusedpiscaling) | Returns TRUE if the OS uses DPI scaling; FALSE otherwise. |
 
 ---
 
