@@ -50,8 +50,8 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM hButton AS HWND = pWindow.AddControl("Button", hWin, IDC_BUTTON, "&Click me", 270, 155, 75, 30)
    ' // Anchor the button to the bottom and the right side of the main window
    pWindow.AnchorControl(IDC_BUTTON, AFX_ANCHOR_BOTTOM_RIGHT)
-   ' // Subclas the button
-   SetWindowSubclass(hButton, CAST(SUBCLASSPROC, @Button_SubclassProc), IDC_BUTTON, CAST(DWORD_PTR, @pWindow))
+   ' // Subclass the button
+   pWindow.SetControlSubclass(hButton, @Button_SubclassProc, IDC_BUTTON, @pWindow)
 
    ' // Display the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
