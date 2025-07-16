@@ -2989,9 +2989,7 @@ PRIVATE FUNCTION AfxSetWindowPosForDPI (BYVAL hwnd AS HWND, BYVAL hWndInsertAfte
 | *y* | The new position of the top side of the window, in client coordinates. |
 | *cx* | The new width of the window, in pixels. |
 | *cy* | The new height of the window, in pixels. |
-| *uFlags* | The window sizing and positioning flags. This parameter can be a combination of the following values. |
-
-See: [SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos).
+| *uFlags* | The window sizing and positioning flags. This parameter can be a combination of the following values. See: [SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos). |
 
 ## AfxSetWindowSize
 
