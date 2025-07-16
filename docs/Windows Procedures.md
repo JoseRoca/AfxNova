@@ -117,6 +117,7 @@ Assorted Windows procedures.
 | [AfxGetWorkAreaHeight](#afxgetworkareaheight) | Retrieves the height of the work area on the primary display monitor expressed in virtual screen coordinates. |
 | [AfxGetWorkAreaRect](#afxgetworkarearect) | Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates |
 | [AfxGetWorkAreaWidth](#afxgetworkareawidth) | Retrieves the width of the work area on the primary display monitor expressed in virtual screen coordinates. |
+| [AfxMoveWindowForDpi](#afxmovewindowfordpi) | Changes the position and dimensions of the specified window. |
 | [AfxRedrawNonClientArea](#afxredrawnonclientarea) | Redraws the non-client area of the specified window. |
 | [AfxRedrawWindow](#afxredrawwindow) | Redraws the specified window. |
 | [AfxSetWindowClientSize](#afxsetwindowclientsize) | Adjusts the bounding rectangle of a window based on the desired size of the client area. |
@@ -2892,6 +2893,37 @@ If the function fails, the return value is FALSE. To get extended error informat
 
 ---
 
+## AfxMoveWindowForDpi
+
+Changes the position and dimensions of the specified window. For a top-level window, the position and dimensions are relative to the upper-left corner of the screen. For a child window, they are relative to the upper-left corner of the parent window's client area. DPI aware versiomn of the API function **MoveWindow**.
+
+```
+PRIVATE FUNCTION AfxMoveWindowForDPI (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, _
+   BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN = TRUE) AS BOOLEAN
+
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window. |
+| *x* | The new position of the left side of the window. |
+| *y* | The new position of the top side of the window. |
+| *nWidth* | The new width of the window. |
+| *nHeight* | The new height of the window. |
+| *bRepaint* | Indicates whether the window is to be repainted. If this parameter is TRUE, the window receives a message. If the parameter is FALSE, no repainting of any kind occurs. This applies to the client area, the nonclient area (including the title bar and scroll bars), and any part of the parent window uncovered as a result of moving a child window. |
+
+#### Return value
+
+If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+If the *bRepaint* parameter is TRUE, the system sends the WM_PAINT message to the window procedure immediately after moving the window (that is, the **MoveWindow** function calls the **UpdateWindow** function). If *bRepaint* is FALSE, the application must explicitly invalidate or redraw any parts of the window and parent window that need redrawing.
+
+**MoveWindow** sends the WM_WINDOWPOSCHANGING, WM_WINDOWPOSCHANGED, WM_MOVE, WM_SIZE, and WM_NCCALCSIZE messages to the window.
+
+---
+
 ## AfxRedrawWindow
 
 Redraws the specified window.
@@ -2990,6 +3022,8 @@ PRIVATE FUNCTION AfxSetWindowPosForDPI (BYVAL hwnd AS HWND, BYVAL hWndInsertAfte
 | *cx* | The new width of the window, in pixels. |
 | *cy* | The new height of the window, in pixels. |
 | *uFlags* | The window sizing and positioning flags. This parameter can be a combination of the following values. See: [SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos). |
+
+---
 
 ## AfxSetWindowSize
 
