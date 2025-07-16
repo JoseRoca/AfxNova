@@ -3,12 +3,12 @@
 ' Filename: AfxSysInfo.inc
 ' Contents: System information wrapper functions
 ' Compiler: FreeBASIC 32 & 64 bit
-' Copyright (c) 2025 JosÈ Roca
+' Copyright (c) 2025 Jos√© Roca
 '
 ' License: Distributed under the MIT license.
 '
 ' Permission is hereby granted, free of charge, to any person obtaining a copy of this
-' software and associated documentation files (the ìSoftwareî), to deal in the Software
+' software and associated documentation files (the ‚ÄúSoftware‚Äù), to deal in the Software
 ' without restriction, including without limitation the rights to use, copy, modify, merge,
 ' publish, distribute, sublicense, and/or sell copies of the Software, and to permit
 ' persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -16,7 +16,7 @@
 ' The above copyright notice and this permission notice shall be included in all copies or
 ' substantial portions of the Software.
 
-' THE SOFTWARE IS PROVIDED ìAS ISî, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+' THE SOFTWARE IS PROVIDED ‚ÄúAS IS‚Äù, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 ' INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 ' PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
 ' FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
@@ -26,7 +26,6 @@
 
 #pragma once
 #INCLUDE ONCE "windows.bi"
-#INCLUDE ONCE "win/uxtheme.bi"
 #INCLUDE ONCE "AfxNova/AfxWin.inc"
 #INCLUDE ONCE "AfxNova/DWSTRING.inc"
 USING AfxNova
@@ -157,11 +156,11 @@ END FUNCTION
 END NAMESPACE
 
 ' Is there more useful information to be extracted using GetSystemFirmwareTable?
-' Absolutelyóand youíve only scratched the surface by parsing Type 1 (System Info) and
+' Absolutely‚Äîand you‚Äôve only scratched the surface by parsing Type 1 (System Info) and
 ' Type 2 (Baseboard Info) from the SMBIOS table. The real power of GetSystemFirmwareTable
 ' with provider 'RSMB' is that it exposes the entire SMBIOS structure, which contains
 ' dozens of types with rich hardware metadata.
-' Hereís a curated list of notable SMBIOS structure types you can extract for further insight:
+' Here‚Äôs a curated list of notable SMBIOS structure types you can extract for further insight:
 ' Hardware Identity & Configuration
 ' Type	Description	Notable Fields
 ' 0	BIOS Information	Version, Vendor, Release Date
