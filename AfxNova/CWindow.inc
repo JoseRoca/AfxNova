@@ -123,11 +123,21 @@ Private:
    m_DefaultFontSize AS LONG                       ' // Default font size
    m_wszDefaultFontName AS WSTRING * LF_FACESIZE   ' // Default font name
    m_hRichEditLib AS HMODULE                       ' // Rich Edit moudle handle
-'   m_pScrollWindow AS CScrollWindow PTR            ' // Pointer to the scroll window class
    DIM m_rgUserData(0 TO 99) AS LONG_PTR           ' // User data
    DIM m_rgAccelEntries(ANY) AS ACCEL              ' // Accelerator table
    DIM m_rgProps(ANY) AS AFX_ANCHORPROPERTY        ' // Array of anchor property structures
    DIM m_rgCtrlUserData(ANY) AS AFX_CTLUSERDATA    ' // Control's user data
+   ' // Scrollable windows
+   m_IsWindowScrollable AS BOOLEAN                 ' // Window scrollable -True of False
+   m_OrigClientRect AS RECT                        ' // Coordinates of the window original client area
+   m_nHorzInc AS LONG                              ' // Horizontal increment
+   m_nVertInc AS LONG                              ' // Vertical increment
+   m_HScrollMax AS LONG                            ' // Maximum horizontal scroll value
+   m_VScrollMax AS LONG                            ' // Maximum vertical scroll value
+   m_HScrollPos AS LONG                            ' // Horizontal scroll position
+   m_VScrollPos AS LONG                            ' // Vertical scroll position
+   m_HorzUnits AS LONG                             ' // Amount, in device units, of horizontal scrolling
+   m_VertUnits AS LONG                             ' // Amount, in device units, of vertical scrolling
 
 Public:
    DECLARE CONSTRUCTOR (BYREF wszClassName AS CONST WSTRING = "")
@@ -217,6 +227,15 @@ Public:
    DECLARE SUB AddAccelerator OVERLOAD (BYVAL fvirt AS UBYTE, BYREF wszKey AS WSTRING, BYVAL cmd AS WORD)
    DECLARE FUNCTION CreateAcceleratorTable () AS HACCEL
    DECLARE SUB DestroyAcceleratorTable ()
+
+   ' // Scrollable windows
+   DECLARE FUNCTION SetViewPort (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
+   DECLARE FUNCTION IsWindowScrollable () AS BOOLEAN
+   DECLARE SUB ResetScrollBars
+   DECLARE SUB SetupScrollBars
+   DECLARE SUB OnVScroll (BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM)
+   DECLARE SUB OnHScroll (BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM)
+   DECLARE SUB OnSize (BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM)
 
    ' // Layout manager
    DECLARE FUNCTION AnchorControl (BYVAL cID AS LONG, BYVAL nAnchorMode AS LONG) AS BOOLEAN
@@ -355,20 +374,28 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
          pWindow = CAST(CWindow PTR, pCreateStruct->lpCreateParams)
          RETURN CallWindowProcW(pWindow->GetWindowProc, hwnd, uMsg, wParam, lParam)
 
-      CASE WM_SYSCOMMAND
-         ' // Capture this message and send a WM_CLOSE message
-         ' // Note: Needed with some OCXs, that otherwise remain in memory
-         IF (wParam AND &HFFF0) = SC_CLOSE THEN
-            SendMessageW hwnd, WM_CLOSE, 0, 0
-         END IF
+'      CASE WM_SYSCOMMAND
+'         ' // Capture this message and send a WM_CLOSE message
+'         ' // Note: Needed with some OCXs, that otherwise remain in memory
+'         IF (wParam AND &HFFF0) = SC_CLOSE THEN
+'            SendMessageW hwnd, WM_CLOSE, 0, 0
+'         END IF
 
-      CASE WM_COMMAND
-         SELECT CASE LOWORD(wParam)
-            CASE IDCANCEL
-               IF HIWORD(wParam) = BN_CLICKED THEN
-                  SendMessageW hwnd, WM_CLOSE, 0, 0
-               END IF
-         END SELECT
+'      CASE WM_COMMAND
+'         SELECT CASE LOWORD(wParam)
+'            CASE IDCANCEL
+'               IF HIWORD(wParam) = BN_CLICKED THEN
+'                  SendMessageW hwnd, WM_CLOSE, 0, 0
+'               END IF
+'         END SELECT
+
+'      CASE WM_NOTIFY
+'         DIM ptnmhdr AS NMHDR PTR
+'         ptnmhdr = lParam
+'         SELECT CASE @ptnmhdr.idFrom
+'            ' ...
+'            ' ...
+'         END SELECT
 
       CASE WM_SIZE
          ' // Adjust anchored controls and redraw the main window
@@ -380,15 +407,27 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
                   UpdateWindow hwnd
                END IF
             END IF
+            ' // Scrollable window - Setup scrollbars
+            IF pWindow->IsWindowScrollable THEN
+               pWindow->ResetScrollbars
+               pWindow->SetupScrollbars
+            END IF
          END IF
 
-      CASE WM_NOTIFY
-'         DIM ptnmhdr AS NMHDR PTR
-'         ptnmhdr = lParam
-'         SELECT CASE @ptnmhdr.idFrom
-'            ' ...
-'            ' ...
-'         END SELECT
+      CASE WM_HSCROLL
+         ' // Horizontal scrollbar
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+            IF pWindow->IsWindowScrollable THEN pWindow->OnHScroll(wParam, lParam)
+         END IF
+
+      CASE WM_VSCROLL
+         ' // Vertical scrollbar
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+            IF pWindow->IsWindowScrollable THEN pWindow->OnVScroll(wParam, lParam)
+         END IF
+
 
    END SELECT
 
@@ -613,7 +652,7 @@ END SUB
 ' =====================================================================================
 
 ' =====================================================================================
-' Return the Window procedure function pointer
+' Return the user's Window procedure function pointer
 ' =====================================================================================
 PRIVATE FUNCTION CWindow.GetWindowProc () AS WNDPROC
    FUNCTION = m_pUserWndProc
@@ -662,7 +701,7 @@ END PROPERTY
 ' =====================================================================================
 
 ' =====================================================================================
-' Gets the window class style.
+' Sets the window class style.
 ' =====================================================================================
 PRIVATE PROPERTY CWindow.ClassStyle (BYVAL dwStyle AS ULONG_PTR)
    IF m_hwnd = NULL THEN EXIT PROPERTY
@@ -1880,6 +1919,137 @@ PRIVATE FUNCTION CWindow.AdjustControls () AS BOOLEAN
    EnumChildWindows(m_hWnd, CAST(WNDENUMPROC, @LayoutEnumChildProc), CAST(LPARAM, @this))
    RETURN TRUE
 END FUNCTION
+' ========================================================================================
+
+' ########################################################################################
+'                              *** SCROLLABLE WINDOW ***
+' ########################################################################################
+
+' ========================================================================================
+' Makes a window scrollable by shrinking its client area size
+' ========================================================================================
+PRIVATE FUNCTION CWindow.SetViewPort (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
+   ' // Data for optional scrollable dialogs
+   m_HorzUnits = 10
+   m_VertUnits = 10
+   ..GetClientRect(m_hwnd, @m_OrigClientRect)
+   ' // Shrink the client size
+   this.SetClientSize(nWidth, nHeight)
+   m_IsWindowScrollable = TRUE
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.IsWindowScrollable () AS BOOLEAN
+   FUNCTION = m_IsWindowScrollable
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Resets the window scrolling information
+' ========================================================================================
+PRIVATE SUB CWindow.ResetScrollBars
+   ScrollWindow(m_hwnd, m_HScrollPos * m_HorzUnits, 0, NULL, NULL)
+   ScrollWindow(m_hwnd, 0, m_VScrollPos * m_HorzUnits, NULL, NULL)
+   m_HScrollPos = 0
+   m_VScrollPos = 0
+   SetScrollPos(m_hwnd, SB_HORZ, m_HScrollPos, CTRUE)
+   SetScrollPos(m_hwnd, SB_VERT, m_VScrollPos, CTRUE)
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Sets the window scroll information
+' ========================================================================================
+PRIVATE SUB CWindow.SetupScrollBars
+   DIM bMaximized AS LONG, tempRect AS RECT
+   ..GetClientRect(m_hwnd, @tempRect)
+   ' // Calculate how many scrolling increments for the client area
+   m_nHorzInc = ((m_OrigClientRect.Right - m_OrigClientRect.Left) - (tempRect.Right  - tempRect.Left) ) \ m_HorzUnits
+   m_nVertInc = ((m_OrigClientRect.Bottom - m_OrigClientRect.Top) - (tempRect.bottom - tempRect.Top ) ) \ m_VertUnits
+   '// Set the vertical and horizontal scrolling info
+   m_HScrollMax = MAX(0, m_nHorzInc)
+   m_HScrollPos = MIN(m_HScrollPos, m_HScrollMax)
+   SetScrollRange(m_hwnd, SB_HORZ, 0, m_HScrollMax, FALSE)
+   SetScrollPos(m_hwnd, SB_HORZ, m_HScrollPos, CTRUE)
+   m_VScrollMax = MAX(0, m_nVertInc)
+   m_VScrollPos = MIN(m_VScrollPos, m_VScrollMax)
+   SetScrollRange(m_hwnd, SB_VERT, 0, m_VScrollMax, FALSE)
+   SetScrollPos(m_hwnd, SB_VERT, m_VScrollPos, TRUE)
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Handles vertical scrollbar messages
+' WM_VSCROLL
+' nScrollCode = (int) LOWORD(wParam); // scroll bar value
+' nPos = (short int) HIWORD(wParam);  // scroll box position
+' hwndScrollBar = (HWND) lParam;      // handle of scroll bar
+' ========================================================================================
+PRIVATE SUB CWindow.OnVScroll (BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM)
+   DIM nInc AS LONG, iMove AS LONG
+   SELECT CASE LOWORD(wParam)
+      CASE SB_TOP        : nInc = -m_VScrollPos
+      CASE SB_BOTTOM     : nInc = m_VScrollMax - m_VScrollPos
+      CASE SB_LINEUP     : nInc = -1
+      CASE SB_LINEDOWN   : nInc = 1
+      CASE SB_PAGEUP     : nInc = MIN(-1, -m_nVertInc)
+      CASE SB_PAGEDOWN   : nInc = MAX(1, m_nVertInc)
+      CASE SB_THUMBTRACK : nInc = HIWORD(wParam) - m_VScrollPos
+      CASE ELSE
+         nInc = 0
+   END SELECT
+   nInc = MAX(-m_VScrollPos, MIN(nInc, m_VScrollMax - m_VScrollPos))
+   IF nInc THEN
+      m_VScrollPos += nInc
+      iMove = -m_HorzUnits * nInc
+      ScrollWindow(m_hwnd, 0, iMove, NULL, NULL)
+      SetScrollPos(m_hwnd, SB_VERT, m_VScrollPos, CTRUE)
+   END IF
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Handle horizontal scrollbar messages
+' WM_HSCROLL
+' nScrollCode = (int) LOWORD(wParam);  // scroll bar value
+' nPos = (short int) HIWORD(wParam);   // scroll box position
+' hwndScrollBar = (HWND) lParam;       // handle of scroll bar
+' ========================================================================================
+PRIVATE SUB CWindow.OnHScroll (BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM)
+   DIM nInc AS LONG, iMove AS LONG
+   SELECT CASE LOWORD(wParam)
+      CASE SB_TOP        : nInc = -m_HScrollPos
+      CASE SB_BOTTOM     : nInc = m_HScrollMax - m_HScrollPos
+      CASE SB_LINEUP     : nInc = -1
+      CASE SB_LINEDOWN   : nInc = 1
+      CASE SB_PAGEUP     : nInc = -m_HorzUnits
+      CASE SB_PAGEDOWN   : nInc = m_HorzUnits
+      CASE SB_THUMBTRACK : nInc = HIWORD(wParam) - m_HScrollPos
+      CASE ELSE
+         nInc = 0
+   END SELECT
+   nInc = MAX(-m_HScrollPos, MIN(nInc, m_HScrollMax - m_HScrollPos))
+   IF nInc THEN
+      m_HScrollPos += nInc
+      iMove = -m_HorzUnits * nInc
+      ScrollWindow(m_hwnd, iMove, 0, NULL, NULL)
+      SetScrollPos(m_hwnd, SB_HORZ, m_HScrollPos, CTRUE)
+  END IF
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Handles WM_SIZE messges
+' WM_SIZE
+' fwSizeType = wParam;      // resizing flag
+' nWidth = LOWORD(lParam);  // width of client area
+' nHeight = HIWORD(lParam); // height of client area
+' ========================================================================================
+PRIVATE SUB CWindow.OnSize (BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM)
+   this.ResetScrollbars
+   this.SetupScrollbars
+END SUB
 ' ========================================================================================
 
 ' ########################################################################################
