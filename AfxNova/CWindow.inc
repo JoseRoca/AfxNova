@@ -135,6 +135,7 @@ Private:
    DIM m_rgAccelEntries(ANY) AS ACCEL              ' // Accelerator table
    DIM m_rgProps(ANY) AS AFX_ANCHORPROPERTY        ' // Array of anchor property structures
    DIM m_rgCtrlUserData(ANY) AS AFX_CTLUSERDATA    ' // Control's user data
+   DIM m_rgColors(ANY) AS AFX_WINDOWCOLORS         ' // Window and controls colors - Array of colors structures
    ' // Scrollable windows
    m_IsWindowScrollable AS BOOLEAN                 ' // Window scrollable -True of False
    m_OrigClientRect AS RECT                        ' // Coordinates of the window original client area
@@ -146,9 +147,6 @@ Private:
    m_VScrollPos AS LONG                            ' // Vertical scroll position
    m_HorzUnits AS LONG                             ' // Amount, in device units, of horizontal scrolling
    m_VertUnits AS LONG                             ' // Amount, in device units, of vertical scrolling
-
-Public:
-   DIM m_rgColors(ANY) AS AFX_WINDOWCOLORS         ' // Window and controls colors - Array of colors structures
 
 Public:
    DECLARE CONSTRUCTOR (BYREF wszClassName AS CONST WSTRING = "")
@@ -268,6 +266,8 @@ Public:
    DECLARE FUNCTION ControlGetUser (BYVAL cid AS LONG, BYVAL index AS LONG) AS LONG_PTR
 
    DECLARE FUNCTION GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
+   DECLARE FUNCTION GetForeColor (BYVAL nItem AS LONG) AS COLORREF
+   DECLARE FUNCTION GetBkgdColor (BYVAL nItem AS LONG) AS COLORREF
    DECLARE FUNCTION SetBkgdColor (BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL hCtl AS ..HWND, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL cID AS LONG, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
@@ -429,7 +429,7 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
             ..GetCLientRect(hwnd, @rcClient)
             DIM nItem AS LONG = pWindow->GetColorItem(CAST(..HWND, hwnd))
             IF nItem >= 0 THEN
-               DIM hBrush AS ..HBRUSH = CreateSolidBrush(pWindow->m_rgColors(nItem).backColor)
+               DIM hBrush AS ..HBRUSH = CreateSolidBrush(pWindow->GetBkgdColor(nItem))
                FillRect hDC, @rcClient, hBrush
                DeleteObject hBrush
                RETURN CTRUE
@@ -443,10 +443,9 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
          IF pWindow THEN
             DIM nItem AS LONG = pWindow->GetColorItem(CAST(..HWND, lParam))
             IF nItem >= 0 THEN
-'                  OutputDebugStringW("WM_CTLCOLOR - " & WSTR(HEX(uMsg)) & " - " & WSTR(lParam))
-               SetTextColor(CAST(HDC, wParam), pWindow->m_rgColors(nItem).foreColor)
-               SetBkColor(CAST(HDC, wParam), pWindow->m_rgColors(nItem).backColor)
-               SetDCBrushColor(CAST(HDC, wParam), pWindow->m_rgColors(nItem).backColor)
+               SetTextColor(CAST(HDC, wParam), pWindow->GetForeColor(nItem))
+               SetBkColor(CAST(HDC, wParam), pWindow->GetBkgdColor(nItem))
+               SetDCBrushColor(CAST(HDC, wParam), pWindow->GetBkgdColor(nItem))
                RETURN CAST(LRESULT, GetStockObject(DC_BRUSH))
             END IF
          END IF
@@ -2212,7 +2211,20 @@ PRIVATE FUNCTION CWindow.GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
    NEXT
 END FUNCTION
 ' ========================================================================================
-
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetForeColor (BYVAL nItem AS LONG) AS COLORREF
+   IF nItem >= 0 AND nItem <= UBOUND(m_rgColors) THEN
+      RETURN this. m_rgColors(nItem).foreColor
+   END IF
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetBkgdColor (BYVAL nItem AS LONG) AS COLORREF
+   IF nItem >= 0 AND nItem <= UBOUND(m_rgColors) THEN
+      RETURN this. m_rgColors(nItem).backColor
+   END IF
+END FUNCTION
+' ========================================================================================
 ' ========================================================================================
 ' Sets the colors of the control
 ' ========================================================================================
