@@ -28,6 +28,8 @@
 #include once "windows.bi"
 #include once "AfxNova/AfxCtl.inc"
 #include once "AfxNova/AfxWin.inc"
+#include once "AfxNova/AfxMenu.inc"
+#include once "AfxNova/RGB_Colors.bi"
 USING AfxNova
 
 ' ========================================================================================
@@ -265,6 +267,7 @@ Public:
    DECLARE FUNCTION ControlSetUser (BYVAL cid AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
    DECLARE FUNCTION ControlGetUser (BYVAL cid AS LONG, BYVAL index AS LONG) AS LONG_PTR
 
+   ' //  Colors
    DECLARE FUNCTION GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
    DECLARE FUNCTION GetForeColor (BYVAL nItem AS LONG) AS COLORREF
    DECLARE FUNCTION GetBackColor (BYVAL nItem AS LONG) AS COLORREF
@@ -2320,24 +2323,6 @@ END FUNCTION
 '         FUNCTION = CAST(CTabPage PTR, tci.lParam)
 '      END IF
 '   END IF
-'END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Returns a pointer to the CScrollWindow class given the handle of the tab control to which the
-' tab page is associated and the zero-based tab index. If nTabIdx is ommited, the function
-' will return the pointer associated to the selected tab, if any.
-' ========================================================================================
-'PRIVATE FUNCTION AfxScrollTabPagePtr (BYVAL hTab AS HWND, BYVAL idx AS LONG) AS CScrollWindow PTR
-'   FUNCTION = AfxCTabPagePtr(hTab, idx)->ScrollWindowPtr
-'END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Returns a pointer to the CScrollWindow class given the handle of the window attached to it.
-' ========================================================================================
-'PRIVATE FUNCTION AfxScrollWindowPtr (BYVAL hwnd AS HWND) AS CScrollWindow PTR
-'   FUNCTION = cast(CWindow PTR, GetWindowLongPtr(hwnd, 0))->ScrollWindowPtr
 'END FUNCTION
 ' ========================================================================================
 
