@@ -267,8 +267,8 @@ Public:
 
    DECLARE FUNCTION GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
    DECLARE FUNCTION GetForeColor (BYVAL nItem AS LONG) AS COLORREF
-   DECLARE FUNCTION GetBkgdColor (BYVAL nItem AS LONG) AS COLORREF
-   DECLARE FUNCTION SetBkgdColor (BYVAL backColor AS COLORREF) AS BOOLEAN
+   DECLARE FUNCTION GetBackColor (BYVAL nItem AS LONG) AS COLORREF
+   DECLARE FUNCTION SetBackColor (BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL hCtl AS ..HWND, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL cID AS LONG, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
 
@@ -429,7 +429,7 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
             ..GetCLientRect(hwnd, @rcClient)
             DIM nItem AS LONG = pWindow->GetColorItem(CAST(..HWND, hwnd))
             IF nItem >= 0 THEN
-               DIM hBrush AS ..HBRUSH = CreateSolidBrush(pWindow->GetBkgdColor(nItem))
+               DIM hBrush AS ..HBRUSH = CreateSolidBrush(pWindow->GetBackColor(nItem))
                FillRect hDC, @rcClient, hBrush
                DeleteObject hBrush
                RETURN CTRUE
@@ -444,8 +444,8 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
             DIM nItem AS LONG = pWindow->GetColorItem(CAST(..HWND, lParam))
             IF nItem >= 0 THEN
                SetTextColor(CAST(HDC, wParam), pWindow->GetForeColor(nItem))
-               SetBkColor(CAST(HDC, wParam), pWindow->GetBkgdColor(nItem))
-               SetDCBrushColor(CAST(HDC, wParam), pWindow->GetBkgdColor(nItem))
+               SetBkColor(CAST(HDC, wParam), pWindow->GetBackColor(nItem))
+               SetDCBrushColor(CAST(HDC, wParam), pWindow->GetBackColor(nItem))
                RETURN CAST(LRESULT, GetStockObject(DC_BRUSH))
             END IF
          END IF
@@ -2219,7 +2219,7 @@ PRIVATE FUNCTION CWindow.GetForeColor (BYVAL nItem AS LONG) AS COLORREF
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CWindow.GetBkgdColor (BYVAL nItem AS LONG) AS COLORREF
+PRIVATE FUNCTION CWindow.GetBackColor (BYVAL nItem AS LONG) AS COLORREF
    IF nItem >= 0 AND nItem <= UBOUND(m_rgColors) THEN
       RETURN this. m_rgColors(nItem).backColor
    END IF
@@ -2255,7 +2255,7 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the background color of the main window
 ' ========================================================================================
-PRIVATE FUNCTION CWindow.SetBkgdColor (BYVAL backColor AS COLORREF) AS BOOLEAN
+PRIVATE FUNCTION CWindow.SetBackColor (BYVAL backColor AS COLORREF) AS BOOLEAN
    RETURN this.SetCtlColors(m_hwnd, 0, backColor)
 END FUNCTION
 ' ========================================================================================
