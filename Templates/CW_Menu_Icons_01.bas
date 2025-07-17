@@ -71,7 +71,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Creates the main window
    DIM pWindow AS CWindow = "MyClassName"   ' Use the name you wish
-   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - Menu", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - Menu with icons", @WndProc)
    ' // Sizes it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 220)
    ' // Centers the window
