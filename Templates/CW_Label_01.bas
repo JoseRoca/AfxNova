@@ -49,7 +49,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Adds a label
    DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "This is a label", 100, 50, 190, 23)
    ' // Anchors the button to the bottom and the right side of the main window
-   pWindow.AnchorControl(IDC_LABEL, AFX_ANCHOR_BOTTOM_RIGHT)
+   pWindow.AnchorControl(IDC_LABEL, AFX_ANCHOR_BOTTOM_WIDTH)
 
    ' // Set the main window background color
    pWindow.SetBackColor(RGB_GOLD)
