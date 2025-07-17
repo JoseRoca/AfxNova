@@ -146,7 +146,7 @@ HRESULT. S_OK (0) on success, or an error code on failure.
 
 ---
 
-### <a name="geterrorinfo"></a>GetErrorInfo
+## <a name="geterrorinfo"></a>GetErrorInfo
 
 Returns a localized description of the specified error code. If the error is omited, it will return the value returned by **GetLastResult**.
 
