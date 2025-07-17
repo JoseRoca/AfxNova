@@ -45,17 +45,21 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.SetClientSize(400, 220)
    ' // Centers the window
    pWindow.Center
+   ' // Set the main window background color
+   pWindow.SetBackColor(RGB_OLDLACE)
 
    ' // Adds a label
    DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "This is a label", 100, 50, 190, 23)
    ' // Anchors the button to the bottom and the right side of the main window
-   pWindow.AnchorControl(IDC_LABEL, AFX_ANCHOR_BOTTOM_WIDTH)
-
-   ' // Set the main window background color
-   pWindow.SetBackColor(RGB_GOLD)
+   pWindow.AnchorControl(IDC_LABEL, AFX_ANCHOR_WIDTH)
    ' // Set the label colors (you can use the handle of the control or its identifier)
 '   pWindow.SetCtlColors(hLabel, RGB_YELLOW, RGB_GREEN)
    pWindow.SetCtlColors(IDC_LABEL, RGB_YELLOW, RGB_GREEN)
+
+   ' // Adds a button
+   pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 155, 75, 30)
+   ' // Anchors the button to the bottom and the right side of the main window
+   pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
