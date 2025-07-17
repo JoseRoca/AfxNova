@@ -81,6 +81,11 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
                IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN SendMessageW(hwnd, WM_CLOSE, 0, 0)
+            CASE IDC_BUTTON
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
+                  MessageBoxW hwnd, "Button clicked", "", MB_OK
+                  SetFocus GetDlgItem(hwnd, IDC_BUTTON)
+               END IF
          END SELECT
          RETURN 0
 
