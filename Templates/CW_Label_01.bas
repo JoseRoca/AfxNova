@@ -52,7 +52,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.AnchorControl(IDC_LABEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
    ' // Set the main window background color
-   pWindow.SetBkgdColor(RGB_GOLD)
+   pWindow.SetBackColor(RGB_GOLD)
    ' // Set the label colors (you can use the handle of the control or its identifier)
 '   pWindow.SetCtlColors(hLabel, RGB_YELLOW, RGB_GREEN)
    pWindow.SetCtlColors(IDC_LABEL, RGB_YELLOW, RGB_GREEN)
