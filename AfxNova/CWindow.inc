@@ -26,6 +26,7 @@
 
 #pragma once
 #include once "windows.bi"
+#include once "win/uxtheme.bi"
 #include once "AfxNova/AfxCtl.inc"
 #include once "AfxNova/AfxWin.inc"
 #include once "AfxNova/AfxMenu.inc"
