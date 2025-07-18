@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
 ' File: CW_TaskDialog_01.bas
-' Contents: CWindow - Button
+' Contents: CWindow - Task Dialog
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
