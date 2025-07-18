@@ -79,21 +79,6 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
       NEXT
    NEXT
 
-'   ' // Populate the ListView with some data
-'   DIM lvi AS LVITEMW
-'   lvi.mask = LVIF_TEXT
-'   FOR i AS LONG = 0 to 29
-'      lvi.iItem = i
-'      lvi.iSubItem = 0
-'      wszText = "Column 0 Row" + WSTR(i)
-'      lvi.pszText = @wszText
-'      ListView_InsertItem(hListView, @lvi)
-'      FOR x AS LONG = 0 TO 4
-'         wszText = "Column " & WSTR(x) & " Row" + WSTR(i)
-'         ListView_SetItemText(hListView, i, x, @wszText)
-'      NEXT
-'   NEXT
-
    ' // Select the fist item (ListView items are zero based)
    ListView_SelectItem(hListView, 0)
    ' // Set the focus in the ListView
@@ -152,8 +137,6 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                         CASE CDDS_PREPAINT, CDDS_ITEMPREPAINT
                            ' // Tell the list view to send the %CDDS_ITEMPREPAINT OR %CDDS_SUBITEM notification message
                            RETURN CDRF_NOTIFYSUBITEMDRAW
-'                           FUNCTION = CDRF_NOTIFYSUBITEMDRAW
-'                           EXIT FUNCTION
                         CASE CDDS_ITEMPREPAINT OR CDDS_SUBITEM
                            IF pLvCd->iSubItem = 0 THEN
                               ' // Paint the first column with a gray background
@@ -171,8 +154,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                               END IF
                            END IF
                            ' // Tell the list view to draw itself
-                           FUNCTION = CDRF_DODEFAULT
-                           EXIT FUNCTION
+                           RETURN CDRF_DODEFAULT
                      END SELECT
                END SELECT
           END SELECT
