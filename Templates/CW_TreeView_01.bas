@@ -143,21 +143,19 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          RETURN 0
 
       CASE WM_NOTIFY
-         DIM ptnmhdr AS NMHDR PTR = CAST(NMHDR PTR, lParam)
-         SELECT CASE ptnmhdr->idFrom
-            CASE IDC_TREEVIEW
-               IF ptnmhdr->code = NM_DBLCLK THEN
-                  ' // Retrieve the handle of the TreeView
-                  DIM hTreeView AS HWND = GetDlgItem(hwnd, IDC_TREEVIEW)
-                  ' // Retrieve the selected item
-                  DIM hItem AS HTREEITEM = TreeView_GetSelection(hTreeView)
-                  ' // Retrieve the text of the selected item
-                  DIM wszText AS WSTRING * 260
-                  TreeView_GetItemText(hTreeView, hItem, @wszText, 260)
-                  MessageBox hwnd, wszText, "", MB_OK
-                  EXIT FUNCTION
-               END IF
-         END SELECT
+         DIM hdr AS NMHDR
+         CBNMTYPESET(hdr, wParam, lParam)
+         IF hdr.idFrom = IDC_TREEVIEW AND hdr.code = NM_DBLCLK THEN
+            ' // Retrieve the handle of the TreeView
+            DIM hTreeView AS HWND = GetDlgItem(hwnd, IDC_TREEVIEW)
+            ' // Retrieve the selected item
+            DIM hItem AS HTREEITEM = TreeView_GetSelection(hTreeView)
+            ' // Retrieve the text of the selected item
+            DIM wszText AS WSTRING * 260
+            TreeView_GetItemText(hTreeView, hItem, @wszText, 260)
+            MessageBox hwnd, wszText, "Message", MB_OK
+            RETURN 0
+         END IF
 
       CASE WM_DESTROY
          ' // End the application by sending an WM_QUIT message
