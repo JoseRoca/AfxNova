@@ -59,6 +59,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    IF StatusBar_SetParts(hStatusBar, 3, @rgParts(1)) THEN
       StatusBar_Simple(hStatusBar, FALSE)
    END IF
+   ' // Anchor the status bar
    pWindow.AnchorControl(IDC_STATUSBAR, AFX_ANCHOR_BOTTOM_WIDTH)
 
    ' // Displays the window and dispatches the Windows messages
@@ -90,26 +91,14 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          END SELECT
          RETURN 0
 
-'      CASE WM_SIZE
-'         ' // Resizes the status bar and redraws it
-'         DIM hStatusBar AS HWND = GetDlgItem(hwnd, IDC_STATUSBAR)
-'         SendMessageW hStatusBar, WM_SIZE, wParam, lParam
-'         InvalidateRect hStatusBar, NULL, CTRUE
-'         RETURN 0
-
       CASE WM_NOTIFY
          ' // Detect if the user has clicked the mouse in one of the status bar parts
-         DIM ptnmhdr AS NMHDR PTR
-         ptnmhdr = cast(NMHDR PTR, lParam)
-         SELECT CASE ptnmhdr->idFrom
-            CASE IDC_STATUSBAR
-               DIM lpnm AS NMMOUSE PTR
-               IF ptnmhdr->code = NM_CLICK THEN
-                  lpnm = cast(NMMOUSE PTR, lParam)
-                  ' // Display the zero-based index of the section that was clicked.
-                  MessageBoxW hwnd, "You have clicked section " & WSTR(lpnm->dwItemSpec), "", MB_OK
-               END IF
-         END SELECT
+         DIM nmouse AS NMMOUSE
+         CBNMTYPESET(nmouse, wParam, lParam)
+         IF nmouse.hdr.idFrom = IDC_STATUSBAR AND nmouse.hdr.code = NM_CLICK THEN
+            ' // Display the zero-based index of the section that was clicked.
+            MessageBoxW hwnd, "You have clicked section " & WSTR(nmouse.dwItemSpec), "", MB_OK
+         END IF
 
       CASE WM_DESTROY
          ' // End the application by sending an WM_QUIT message
