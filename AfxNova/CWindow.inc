@@ -485,7 +485,6 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
             IF pWindow->IsWindowScrollable THEN pWindow->OnVScroll(wParam, lParam)
          END IF
 
-
    END SELECT
 
    pWindow = AfxCWindowPtr(hwnd)
@@ -493,9 +492,11 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
       IF pWindow->GetWindowProc THEN
          DIM res AS LRESULT = CallWindowProcW(pWindow->GetWindowProc, hwnd, uMsg, wParam, lParam)
          IF res = 0 THEN RETURN 0
+         IF res <> CTRUE OR res <> TRUE THEN RETURN res   ' // notification messages
       END IF
    END IF
 
+   ' // Process unprocesses messages
    RETURN DefWindowProcW(hwnd, uMsg, wParam, lParam)
 
 END FUNCTION
