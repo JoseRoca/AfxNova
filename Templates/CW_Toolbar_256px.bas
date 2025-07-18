@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_Toolbar_64px.bas
+' File: CW_Toolbar_256px.bas
 ' Contents: CWindow with a toolbar
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
@@ -9,7 +9,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-'#RESOURCE "CW_Toolbar_64px.rc"
+'#RESOURCE "CW_Toolbar_256px.rc"
 #define UNICODE
 #INCLUDE ONCE "windows.bi"
 #INCLUDE ONCE "AfxNova/CWindow.inc"
@@ -49,7 +49,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow
    DIM hWin AS HWND = pWindow.Create(NULL, "CWindow with a toolbar", @WndProc)
    ' // Sets the client size
-   pWindow.SetClientSize(400, 220)
+   pWindow.SetClientSize(610, 300)
    ' // Centers the window
    pWindow.Center
 
@@ -58,7 +58,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Creates an image list for the toolbar
    DIM hNormalImageList AS HIMAGELIST
-   hNormalImageList = ImageList_Create(64, 64, ILC_COLOR32 OR ILC_MASK, 4, 0)
+   hNormalImageList = ImageList_Create(256, 256, ILC_COLOR32 OR ILC_MASK, 4, 0)
    IF hNormalImageList THEN
       ImageList_ReplaceIcon(hNormalImageList, -1, AfxGdipImageFromRes(hInstance, "IDI_ARROW_LEFT"))
       ImageList_ReplaceIcon(hNormalImageList, -1, AfxGdipImageFromRes(hInstance, "IDI_ARROW_RIGHT"))
@@ -72,7 +72,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Creates a disabled image list for the toolbar
    DIM hDisabledImageList AS HIMAGELIST
-   hDisabledImageList = ImageList_Create(64, 64, ILC_COLOR32 OR ILC_MASK, 4, 0)
+   hDisabledImageList = ImageList_Create(256, 256, ILC_COLOR32 OR ILC_MASK, 4, 0)
    IF hDisabledImageList THEN
       ImageList_ReplaceIcon(hDisabledImageList, -1, AfxGdipImageFromRes(hInstance, "IDI_ARROW_LEFT", 60, TRUE))
       ImageList_ReplaceIcon(hDisabledImageList, -1, AfxGdipImageFromRes(hInstance, "IDI_ARROW_RIGHT", 60, TRUE))
@@ -97,7 +97,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.AnchorControl(IDC_TOOLBAR, AFX_ANCHOR_WIDTH)
 
    ' // Adds a cancel button
-   pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 155, 75, 30)
+   pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 225, 75, 30)
    ' // Anchors the button to the bottom and the right side of the main window
    pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 

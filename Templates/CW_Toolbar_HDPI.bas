@@ -48,8 +48,6 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    DIM pWindow AS CWindow
    DIM hWin AS HWND = pWindow.Create(NULL, "CWindow with a toolbar", @WndProc)
-   ' // Disables background erasing
-'   pWindow.ClassStyle = CS_DBLCLKS
    ' // Sets the client size
    pWindow.SetClientSize(400, 220)
    ' // Centers the window
