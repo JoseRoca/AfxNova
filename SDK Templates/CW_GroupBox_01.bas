@@ -1,10 +1,10 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_Frame_01.bas
-' Contents: Demonstrates the use of the Frame control.
+' File: CW_GroupBox_01.bas
+' Contents: Demonstrates the use of the GroupBox control.
 ' Comments: Drawn around several controls to indicate a visual association between them.
-' Often used around related radio buttons. Similar to the GroupBox control but without a label.
-' Remarks: The PowerBASIC "Frame" control is a GroupBox.
+' Often used around related radio buttons.
+' Remarks: In PowerBASIC it is mistakenly called "Frame" instead of "Group Box".
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,7 +27,7 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 
 ' // Control identifiers
 ENUM
-   IDC_FRAME = 1001
+   IDC_GROUPBOX = 1001
    IDC_LABEL
    IDC_CHECK3STATE
    IDC_EDIT
@@ -58,7 +58,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.SetBackColor(RGB_OLDLACE)
 
    ' // Adds the controls
-   pWindow.AddControl("Frame", hWin, IDC_FRAME, "Frame", 20, 20, 360, 120)
+   pWindow.AddControl("GroupBox", hWin, IDC_GROUPBOX, "GroupBox", 20, 20, 360, 120)
    pWindow.AddControl("Label", hWin, IDC_LABEL, "Label", 60, 50, 75, 23)
    pWindow.AddControl("Check3State", hWin, IDC_CHECK3STATE, "Click me", 60, 100, 75, 23)
    pWindow.AddControl("Edit", hWin, IDC_EDIT, "", 210, 50, 150, 23)
@@ -66,12 +66,16 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Anchors the controls
    pWindow.AnchorControl(IDC_EDIT, AFX_ANCHOR_WIDTH)
-   pWindow.AnchorControl(IDC_FRAME, AFX_ANCHOR_WIDTH)
+   pWindow.AnchorControl(IDC_GROUPBOX, AFX_ANCHOR_HEIGHT_WIDTH)
 
    ' // Sets the colors of the controls
    pWindow.SetCtlColors(IDC_LABEL, RGB_YELLOW, RGB_VIOLET)
    pWindow.SetCtlColors(IDC_CHECK3STATE, RGB_YELLOW, RGB_LIGHTBLUE)
    pWindow.SetCtlColors(IDC_EDIT, RGB_RED, RGB_YELLOW)
+
+   ' // To set the color of the group box control we need to disable the theme
+   SetWindowTheme GetDlgItem(hWin, IDC_GROUPBOX), "", ""
+   pWindow.SetCtlColors(IDC_GROUPBOX, RGB_YELLOW, RGB_RED)
 
    ' // Adds a button
    pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 305, 165, 75, 30)
