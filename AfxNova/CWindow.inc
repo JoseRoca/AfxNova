@@ -2340,4 +2340,123 @@ END FUNCTION
 'END FUNCTION
 ' ========================================================================================
 
+' ########################################################################################
+'                                *** INPUT BOX DIALOG ***
+' ########################################################################################
+
+' ========================================================================================
+' Input box dialog
+' Parameters:
+' - hParent = Handle of the parent window
+' - x, y = The location on the screen to display the dialog. If both are 0, the dialog
+'   is centered on the screen.
+' - wszCaption = Caption of the window
+' - wszPrompt = Prompt string
+' - wszText = Text to edit
+' - nLen = [opt] Maximum length of the string to edit (default = 260 characters; maximum = 2048 characters)
+' - bPassword = [opt] TRUE or FALSE. Default FALSE. Displays all characters as an
+'     asterisk (*) as they are typed into the edit control.
+'   Note: The maximum length is 2048 characters.
+' ========================================================================================
+' Forward declaration of the callback function
+DECLARE FUNCTION AfxInputBoxWindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+' ========================================================================================
+PRIVATE FUNCTION AfxInputBox (BYVAL hParent AS HWND = NULL, BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, _
+BYREF dwsCaption AS DWSTRING = "", BYREF dwsPrompt AS DWSTRING = "", BYREF dwsText AS DWSTRING = "", _
+BYVAL nLen AS LONG = 260, BYVAL bPassword AS BOOLEAN = FALSE) AS DWSTRING
+
+   ' // Create the window
+   DIM pInputBox AS CWindow
+   DIM dwStyle AS DWORD = WS_CAPTION OR WS_POPUPWINDOW
+   DIM dwExStyle AS DWORD = WS_EX_DLGMODALFRAME OR WS_EX_CONTROLPARENT
+   DIM hInputBox AS HWND = pInputBox.Create(hParent, dwsCaption, @AfxInputBoxWindowProc, x, y, 326, 142, dwStyle, dwExStyle)
+   ' // Center the window
+   IF x = 0 AND y = 0 THEN pInputBox.Center(hInputBox, hParent)
+   ' // Add a label control
+   pInputBox.AddControl("Label", hInputBox, -1, dwsPrompt, 21, 10, 280, 19)
+   ' // Add a TextBox control
+   dwStyle = WS_VISIBLE OR WS_TABSTOP OR ES_LEFT OR ES_AUTOHSCROLL
+   IF bPassWord THEN dwStyle = dwStyle OR ES_PASSWORD
+   DIM hEdit AS HWND = pInputBox.AddControl("Edit", hInputBox, 101, "", 21, 33, 280, 19, dwStyle)
+   ' // Add the buttons
+   DIM hOkButton AS HWND = pInputBox.AddControl("Button", hInputBox, IDOK, "&Ok", 21, 72, 75, 22)
+   DIM hCancelButton AS HWND = pInputBox.AddControl("Button", hInputBox, IDCANCEL, "&Cancel", 226, 72, 75, 22)
+   ' // Localized strings. In the resource file of user32.dll, the OK button has
+   ' // IDS_OK (801) as the identifier and the Cancel button IDS_CANCEL (801).
+   DIM hUser32Instance AS HINSTANCE = GetModuleHandleW("user32.dll")
+   DIM wszOk AS WSTRING * 260
+   DIM cbLen AS LONG = LoadStringW(hUser32Instance, 800, @wszOk, SIZEOF(wszOk))
+   IF cbLen THEN wszOk = "&" & wszOk : SendMessageW(hOkButton, WM_SETTEXT, 0, cast(LPARAM, @wszOk))
+   DIM wszCancel AS WSTRING * 260
+   cbLen = LoadStringW(hUser32Instance, 801, @wszCancel, SIZEOF(wszCancel))
+   IF cbLen THEN wszCancel = "&" & wszCancel : SendMessageW(hCancelButton, WM_SETTEXT, 0, cast(LPARAM, @wszCancel))
+   ' // Set the text and the limit
+   IF nLen = 0 THEN nLen = 260
+   IF nLen < 1 OR nLen > 2048 THEN nLen = 2048
+   SendMessageW hEdit, EM_LIMITTEXT, nLen, 0
+   IF LEN(dwsText) > nLen THEN dwsText = LEFT(dwsText, nLen)
+   SetWindowTextW(hEdit, dwsText)
+   SendMessageW(hEdit, EM_SETSEL, 0, -1)
+   ' // Set the focus in the edit control
+   SetFocus hEdit
+   ' // Pointer to the allocated string to return the result
+   DIM wszOut AS WSTRING * 2049
+   pInputBox.UserData(0) = cast(LONG_PTR, @wszOut)
+   ' // Process Windows messages
+   pInputBox.DoEvents
+   ' // Enable the parent window
+   EnableWindow hParent, CTRUE
+   ' // Return the output string
+   RETURN wszOut
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Input box callback function.
+' ========================================================================================
+PRIVATE FUNCTION AfxInputBoxWindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+
+   SELECT CASE uMsg
+      CASE WM_CREATE
+         ' Disable parent window to make popup window modal
+         EnableWindow GetParent(hwnd), FALSE
+         EXIT FUNCTION
+      CASE WM_COMMAND
+         SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
+            CASE IDCANCEL
+               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+                  SendMessageW hwnd, WM_CLOSE, 0, 0
+                  EXIT FUNCTION
+               END IF
+            CASE IDOK
+               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+                  DIM nLen AS LONG = SendMessageW(GetDlgItem(hwnd, 101), WM_GETTEXTLENGTH, 0, 0)
+                  IF nLen > 2048 THEN nLen = 2048
+'                  nLen = SendMessageW(GetDlgItem(hwnd, 101), WM_GETTEXT, nLen + 1, cast(..LPARAM, pText))
+                  DIM pInputBox AS CWindow PTR = AfxCWindowPtr(hwnd)
+                  IF pInputBox THEN
+                     ' // Pointer to the string buffer
+                     DIM pText AS LONG_PTR = pInputBox->UserData(0)
+                     IF pText THEN nLen = SendMessageW(GetDlgItem(hwnd, 101), WM_GETTEXT, nLen + 1, cast(..LPARAM, pText))
+                  END IF
+                  SendMessageW hwnd, WM_CLOSE, 0, 0
+                  EXIT FUNCTION
+               END IF
+         END SELECT
+      CASE WM_CLOSE
+         ' // Enables parent window keeping parent's zorder
+         EnableWindow GetParent(hwnd), CTRUE
+         ' // Don't exit; let DefWindowProcW perform the default action
+      CASE WM_DESTROY
+         ' // Close the main window
+         PostQuitMessage(0)
+         EXIT FUNCTION
+   END SELECT
+
+   FUNCTION = DefWindowProcW(hwnd, uMsg, wParam, lParam)
+
+END FUNCTION
+' ========================================================================================
+
 END NAMESPACE

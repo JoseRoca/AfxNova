@@ -125,9 +125,6 @@ TYPE AFX_CTLUSERDATA
 END TYPE
 #endif
 
-' Forward declaration of the callback function
-DECLARE FUNCTION AfxInputBoxWindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
-
 ' ========================================================================================
 ' CDialog class
 ' ========================================================================================
@@ -3316,6 +3313,10 @@ END FUNCTION
 '                                *** INPUT BOX DIALOG ***
 ' ########################################################################################
 
+' ########################################################################################
+'                                *** INPUT BOX DIALOG ***
+' ########################################################################################
+
 ' ========================================================================================
 ' Input box dialog
 ' Parameters:
@@ -3330,7 +3331,10 @@ END FUNCTION
 '     asterisk (*) as they are typed into the edit control.
 '   Note: The maximum length is 2048 characters.
 ' ========================================================================================
-PRIVATE FUNCTION AfxInputBox (BYVAL hParent AS HWND = NULL, BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, _
+' Forward declaration of the callback function
+DECLARE FUNCTION DialogInputBoxWindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+' ========================================================================================
+PRIVATE FUNCTION DialogInputBox (BYVAL hParent AS HWND = NULL, BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, _
 BYREF wszCaption AS WSTRING = "", BYREF wszPrompt AS WSTRING = "", BYREF wszText AS WSTRING = "", _
 BYVAL nLen AS LONG = 260, BYVAL bPassword AS BOOLEAN = FALSE) AS DWSTRING
 
@@ -3338,7 +3342,7 @@ BYVAL nLen AS LONG = 260, BYVAL bPassword AS BOOLEAN = FALSE) AS DWSTRING
    DIM dwStyle AS DWORD = WS_VISIBLE OR WS_CAPTION OR WS_POPUPWINDOW OR WS_THICKFRAME
    DIM dwExStyle AS DWORD = WS_EX_WINDOWEDGE
    DIM pDlg AS CDialog = CDialog("Segoe UI", 9)
-   DIM hInputBox AS HWND = pDlg.DialogNewPixels("AfxInputBox", hParent, wszCaption, x, y, 346, 115, dwStyle, dwExStyle)
+   DIM hInputBox AS HWND = pDlg.DialogNewPixels("CDialog_InputBox", hParent, wszCaption, x, y, 346, 115, dwStyle, dwExStyle)
    IF hInputBox = NULL THEN RETURN ""
    ' // Center the dialog
    IF x = 0 AND y = 0 THEN pDlg.DialogCenter(hParent)
@@ -3382,7 +3386,7 @@ BYVAL nLen AS LONG = 260, BYVAL bPassword AS BOOLEAN = FALSE) AS DWSTRING
    pDlg.ControlAnchor(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
    ' // Display the dialog as modal
-   pDlg.DialogShowModal(@AfxInputBoxWindowProc)
+   pDlg.DialogShowModal(@DialogInputBoxWindowProc)
    ' // Return the output string
    RETURN wszOut
 
@@ -3392,7 +3396,7 @@ END FUNCTION
 ' ========================================================================================
 ' Input box callback function.
 ' ========================================================================================
-PRIVATE FUNCTION AfxInputBoxWindowProc (BYVAL hDlg AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+PRIVATE FUNCTION DialogInputBoxWindowProc (BYVAL hDlg AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
    SELECT CASE uMsg
       CASE WM_INITDIALOG
@@ -3409,11 +3413,13 @@ PRIVATE FUNCTION AfxInputBoxWindowProc (BYVAL hDlg AS HWND, BYVAL uMsg AS UINT, 
                IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   DIM nLen AS LONG = SendMessageW(GetDlgItem(hDlg, 101), WM_GETTEXTLENGTH, 0, 0)
                   IF nLen > 2048 THEN nLen = 2048
-                  DIM pDlg AS CDialog PTR = cast(CDialog PTR, GetWindowLongPtrW(hDlg, DWLP_USER))
-                  IF pDlg THEN
-                     DIM pText AS LONG_PTR = pDlg->DialogGetUser(0)
-                     IF pText THEN nLen = SendMessageW(GetDlgItem(hDlg, 101), WM_GETTEXT, nLen + 1, cast(..LPARAM, pText))
-                  END IF
+                  SCOPE
+                     DIM pDlg AS CDialog PTR = cast(CDialog PTR, GetWindowLongPtrW(hDlg, DWLP_USER))
+                     IF pDlg THEN
+                        DIM pText AS LONG_PTR = pDlg->DialogGetUser(0)
+                        IF pText THEN nLen = SendMessageW(GetDlgItem(hDlg, 101), WM_GETTEXT, nLen + 1, cast(..LPARAM, pText))
+                     END IF
+                  END SCOPE
                   SendMessageW(hDlg, WM_CLOSE, 0, 0)
                END IF
          END SELECT
@@ -3422,11 +3428,13 @@ PRIVATE FUNCTION AfxInputBoxWindowProc (BYVAL hDlg AS HWND, BYVAL uMsg AS UINT, 
          ' Set the pointer to the address of the MINMAXINFO structure
          DIM ptmmi AS MINMAXINFO PTR = cast(MINMAXINFO PTR, lParam)
          ' Set the minimum and maximum sizes that can be produced by dragging the borders of the window
-         DIM pDlg AS CDialog PTR = cast(CDialog PTR, GetWindowLongPtrW(hDlg, DWLP_USER))
-         IF pDlg THEN
-            ptmmi->ptMinTrackSize.x = 220 * pDlg->rxRatio
-            ptmmi->ptMinTrackSize.y = 150 * pDlg->ryRatio
-         END IF
+         SCOPE
+            DIM pDlg AS CDialog PTR = cast(CDialog PTR, GetWindowLongPtrW(hDlg, DWLP_USER))
+            IF pDlg THEN
+               ptmmi->ptMinTrackSize.x = 220 * pDlg->rxRatio
+               ptmmi->ptMinTrackSize.y = 150 * pDlg->ryRatio
+            END IF
+         END SCOPE
 
       CASE WM_CLOSE
          ' // End the application
