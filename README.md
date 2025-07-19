@@ -1,5 +1,7 @@
 # AfxNova
+Work in progress.
+
 Windows Framework for FreeBasic
 
-Work in progress.
+Requires Windows 10 or later.
 
