@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_Toolbar_DeopdownMenu.bas
+' File: CW_Toolbar_DropdownMenu.bas
 ' Contents: CWindow with a dropdown menu
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
