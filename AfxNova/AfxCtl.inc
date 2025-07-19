@@ -5208,6 +5208,8 @@ PRIVATE FUNCTION AfxAddTooltip (BYVAL hwnd AS HWND, BYREF wszText AS CONST WSTRI
    FUNCTION = hTooltip
 END FUNCTION
 ' ========================================================================================
+#define Tooltip_Add AfxAddTooltip
+' ========================================================================================
 
 ' ========================================================================================
 ' Sets/replaces the text of a tooltip control
@@ -5244,6 +5246,8 @@ PRIVATE SUB AfxSetTooltipText (BYVAL hTooltip AS HWND, BYVAL hwnd AS HWND, BYREF
    ' // Note: Windows provides the TTM_UPDATETIPTEXT message, but needs Vista or superior.
 END SUB
 ' ========================================================================================
+#define Tooltip_SetText AfxSetTooltipText
+' ========================================================================================
 
 ' ========================================================================================
 ' Removes a tool from a tooltip control.
@@ -5273,6 +5277,8 @@ PRIVATE SUB AfxDeleteTooltip (BYVAL hTooltip AS HWND, BYVAL hwnd AS HWND)
    ' // Remove the tooltip
    SendMessageW(hTooltip, TTM_DELTOOL, 0, CAST(LPARAM, @tti))
 END SUB
+' ========================================================================================
+#define Tooltip_Delete AfxDeleteTooltip
 ' ========================================================================================
 
 

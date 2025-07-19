@@ -52,6 +52,8 @@ USING AfxNova
 #ENDIF
 ' ========================================================================================
 
+#ifndef DDT_CBMACROS
+#define DDT_CBMACROS
 ' // For compatibility with the Power Basic syntax
 #define CBHNDL(wp, lp) cast(HWND, lp)
 #define CBCTL(wp, lp) LOWORD(wp)
@@ -71,9 +73,12 @@ USING AfxNova
 ' print dt.nmhdr.idfrom
 ' print dt.dwFlags
 #define CBNMTYPESET(tp, wp, lp) memcpy @tp, CAST(ANY PTR, lp), SIZEOF(tp)
+#endif
 
 NAMESPACE AfxNova
 
+#ifndef AFX_ANCHORPOINT
+#define AFX_ANCHORPOINT
 ' // Layout manager - Anchor flags
 ENUM AFX_ANCHORPOINT
    AFX_ANCHOR_NONE =  0
@@ -91,7 +96,9 @@ ENUM AFX_ANCHORPOINT
    AFX_ANCHOR_CENTER_VERT_RIGHT
    AFX_ANCHOR_CENTER
 END ENUM
+#endif
 
+#ifndef AFX_ANCHORPROPERTY
 ' // Layout manager - Anchor properties
 TYPE AFX_ANCHORPROPERTY
    hwndCtl AS HWND
@@ -100,19 +107,24 @@ TYPE AFX_ANCHORPROPERTY
    centerX AS LONG
    centerY AS LONG
 END TYPE
+#endif
 
+#ifndef AFX_WINDOWCOLORS
 ' // Windows and control colors
 TYPE AFX_WINDOWCOLORS
    hwnd AS ..HWND
    foreColor AS COLORREF
    backColor AS COLORREF
 END TYPE
+#endif
 
+#ifndef AFX_CTLUSERDATA
 ' // Controls user data
 TYPE AFX_CTLUSERDATA
    hCtl AS HWND
    Values (0 TO 9) AS LONG_PTR
 END TYPE
+#endif
 
 ' ========================================================================================
 ' CWindow class
@@ -492,11 +504,11 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
       IF pWindow->GetWindowProc THEN
          DIM res AS LRESULT = CallWindowProcW(pWindow->GetWindowProc, hwnd, uMsg, wParam, lParam)
          IF res = 0 THEN RETURN 0
-         IF res <> CTRUE OR res <> TRUE THEN RETURN res   ' // notification messages
+         IF res <> CTRUE OR res <> TRUE THEN RETURN res
       END IF
    END IF
 
-   ' // Process unprocesses messages
+   ' // Process unprocessed messages
    RETURN DefWindowProcW(hwnd, uMsg, wParam, lParam)
 
 END FUNCTION
