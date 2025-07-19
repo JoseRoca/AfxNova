@@ -241,7 +241,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets/sets the date and time as a FreeBasic date serial.
+' Gets/sets the date and time as a date serial.
 ' ========================================================================================
 PRIVATE PROPERTY CPowerTime.DateSerial () AS DOUBLE
    DIM ft AS FILETIME
@@ -709,14 +709,14 @@ END SUB
 ' difference is assigned to the parameter variables you provide. nSign is -1 if the internal
 ' value is smaller. nSign is 0 if the values are equal. nSign is +1 if the internal value
 ' is larger. The other parameters tell the difference as positive integer values. If
-' parameters are invalid, an appropriate error code is returned in GetLastError.
+' parameters are invalid, GetLastError will return ERROR_INVALID_PARAMETER.
 ' Usage example:
-'   DIM pt AS CPowerTime
-'   DIM pt2 AS CPowerTime
-'   pt.NewDate(2019, 2, 2)
-'   pt2.NewDate(1930, 12, 25)
+'   DIM cpt1 AS CPowerTime
+'   DIM cpt2 AS CPowerTime
+'   cpt1.NewDate(2019, 2, 2)
+'   cpt2.NewDate(1930, 12, 25)
 '   DIM AS LONG nSign, nYears, nMonths, nDays
-'   pt.DateDiff(pt2, nSign, nYears, nMonths, nDays)
+'   cpt1.DateDiff(cpt2, nSign, nYears, nMonths, nDays)
 '   print nSign, nYears, nMonths, nDays
 ' ========================================================================================
 PRIVATE SUB CPowerTime.DateDiff (BYREF cpt AS CPowerTime, BYREF nSign AS LONG, BYREF nYears AS LONG, BYREF nMonths AS LONG, BYREF nDays AS LONG)
@@ -746,7 +746,7 @@ PRIVATE SUB CPowerTime.DateDiff (BYREF cpt AS CPowerTime, BYREF nSign AS LONG, B
       nMonths -= 1
       DIM prevMonth AS LONG = m1 - 1
       IF prevMonth < 1 THEN prevMonth = 12 : y1 -= 1
-      nDays += CPowerTime().DaysInMonth(prevMonth, y1)
+      nDays += this.DaysInMonth(prevMonth, y1)
    END IF
    IF nMonths < 0 THEN
       nYears -= 1
