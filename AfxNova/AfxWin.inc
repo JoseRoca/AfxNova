@@ -877,6 +877,232 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Creates an Open dialog box that lets the user specify the drive, directory, and the name
+' of a file or set of files to be opened.
+' - hwndOwner: A handle to the window that owns the dialog box. This parameter can be any
+'   valid window handle, or it can be NULL if the dialog box has no owner.
+' - wszTitle: A string to be placed in the title bar of the dialog box. If this member is NULL,
+'   the system uses the default title (that is, Save As or Open).
+' - wszFile: The file name used to initialize the File Name edit control. When the GetOpenFileName
+'   or GetSaveFileName function returns successfully, this buffer contains the drive designator,
+'   path, file name, and extension of the selected file.
+'   If the OFN_ALLOWMULTISELECT flag is set and the user selects multiple files, the buffer
+'   contains the current directory followed by the file names of the selected files. For
+'   Explorer-style dialog boxes, the directory and file name strings are NULL separated,
+'   with an extra NULL character after the last file name. For old-style dialog boxes, the
+'   strings are space separated and the function uses short file names for file names with
+'   spaces. You can use the FindFirstFile function to convert between long and short file
+'   names. If the user selects only one file, the lpstrFile string does not have a separator
+'   between the path and file name.
+' - wszInitialDir: The initial directory.
+' - wszFilter: A buffer containing pairs of "|" separated filter strings. The first string
+'   in each pair is a display string that describes the filter (for example, "Text Files"),
+'   and the second string specifies the filter pattern (for example, "*.TXT"). To specify
+'   multiple filter patterns for a single display string, use a semicolon to separate the
+'   patterns (for example, "*.TXT;*.DOC;*.BAK"). A pattern string can be a combination of
+'   valid file name characters and the asterisk (*) wildcard character. Do not include spaces
+'   in the pattern string.
+'   The system does not change the order of the filters. It displays them in the File Types
+'   combo box in the order specified in wszFilter. If wszFilter is NULL, the dialog box
+'   does not display any filters.
+' - wszDefExt: The default extension. GetOpenFileName and GetSaveFileName append this
+'   extension to the file name if the user fails to type an extension. This string can be
+'   any length, but only the first three characters are appended. The string should not
+'   contain a period (.). If this member is NULL and the user fails to type an extension,
+'   no extension is appended.
+' - pdwFlags: A set of bit flags you can use to initialize the dialog box. When the dialog
+'   box returns, it sets these flags to indicate the user's input. For example, to check
+'   if the user has checked the read only checkbox:
+'   IF (pdwFlags AND OFN_READONLY) = OFN_READONLY THEN ...
+'   This value can be a combination of the following flags:
+'   See complete list and explanations at:
+'   https://msdn.microsoft.com/en-us/library/windows/desktop/ms646839(v=vs.85).aspx
+' - pdwBufLen: The size of the buffer, in charactersm where the names of the selected
+'   files will be returned.
+' Return value:
+'   An string containing a comma separated list of the selected files.
+'   Parse the number of ",". If only one, then the user has selected only a file and the
+'   string contains the full path. If more, The first substring contains the path and the
+'   others the files.
+'   If the user has not selected any file, an empty string is returned.
+'   On failure, an empty string is returned and, if not null, the pdwBufLen parameter will
+'   be filled by the size of the required buffer in characters.
+' Usage example:
+'   DIM wszFile AS WSTRING * 260 = "*.*"
+'   DIM wszInitialDir AS STRING * 260 = CURDIR
+'   DIM wszFilter AS WSTRING * 260 = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
+'   DIM dwFlags AS DWORD = OFN_EXPLORER OR OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_ALLOWMULTISELECT
+'   DIM dws AS DWSTRING = AfxOpenFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags, NULL)
+'   AfxMsg dws
+' ========================================================================================
+PRIVATE FUNCTION AfxOpenFileDialog ( _
+   BYVAL hwndOwner AS HWND _                    ' // Parent window
+ , BYREF wszTitle AS WSTRING _                  ' // Caption
+ , BYREF wszFile AS WSTRING _                   ' // Filename
+ , BYREF wszInitialDir AS WSTRING _             ' // Start directory
+ , BYREF wszFilter AS WSTRING _                 ' // Filename filter
+ , BYREF wszDefExt AS WSTRING _                 ' // Default extension
+ , BYVAL pdwFlags AS DWORD PTR = NULL _         ' // Flags
+ , BYVAL pdwBufLen AS DWORD PTR = NULL _        ' // Buffer length
+ ) AS DWSTRING
+
+   DIM dwFlags AS DWORD, dwBufLen AS DWORD
+   IF pdwFlags THEN dwFlags = *pdwFlags
+   IF pdwBufLen THEN dwBufLen = *pdwBuflen
+
+   ' // Filter is a sequence of WSTRINGs with a final (extra) double null terminator
+   ' // The "|" characters are replaced with nulls
+   DIM wszMarkers AS WSTRING * 4 = "||"
+   IF RIGHT(wszFilter, 1) <> "|" THEN wszMarkers += "|"
+   DIM dwsFilter AS DWSTRING = wszFilter & wszMarkers
+   DIM dwFilterStrSize AS DWORD = LEN(dwsFilter)
+   ' // Replace markers("|") with nulls
+   DIM pchar AS WCHAR PTR = *dwsFilter
+   FOR i AS LONG = 0 TO LEN(dwsFilter) - 1
+      IF pchar[i] = ASC("|") THEN pchar[i] = 0
+   NEXT
+
+   ' // If the initial directory has not been specified, assume the current directory
+   ' // FreeBasic 64 bit fails if we pass an empty string and we try to modify wszInitialDir
+   DIM _wszInitialDir AS WSTRING * MAX_PATH = wszInitialDir
+   IF LEN(_wszInitialDir) = 0 THEN _wszInitialDir = CURDIR
+   ' // The size of the buffer must be at least MAX_PATH characters
+   IF dwBufLen = 0 THEN
+      IF (dwFlags AND OFN_ALLOWMULTISELECT) = OFN_ALLOWMULTISELECT THEN dwBufLen = 32768  ' // 64 Kb buffer
+   END IF
+   IF dwBufLen < 260 THEN dwBufLen = 260   ' // Make room for at least one path
+   ' // Allocate the file name and a marker ("|") to be replaced with a null
+   DIM dwsFile AS DWSTRING = wszFile & "|"
+   ' // Store the position of the marker
+   DIM cbPos AS LONG = LEN(dwsFile) - 1
+   ' // Allocate room for the buffer
+   IF LEN(dwsFile) < dwBufLen THEN dwsFile += WSPACE(dwBufLen - LEN(dwsFile))
+   DIM dwFileStrSize AS DWORD = LEN(dwsFile)
+   ' // The filename must be null terminated (replace the marker with a null)
+   pchar = *dwsFile
+   pchar[cbPos] = 0
+
+   ' // Fill the members of the structure
+   DIM ofn AS OPENFILENAMEW
+   ofn.lStructSize     = SIZEOF(ofn)
+   IF AfxWindowsVersion < 5 THEN ofn.lStructSize = 76
+   ofn.hwndOwner       = hwndOwner
+   ofn.lpstrFilter     = *dwsFilter
+   ofn.nFilterIndex    = 1
+   ofn.lpstrFile       = *dwsFile
+   ofn.nMaxFile        = dwFileStrSize
+   ofn.lpstrInitialDir = @_wszInitialDir
+   IF LEN(wszTitle) THEN ofn.lpstrTitle = @wszTitle
+   ofn.Flags = dwFlags OR OFN_EXPLORER
+   IF LEN(wszDefExt) THEN ofn.lpstrDefExt = @wszDefExt
+
+   ' // Call the open file dialog
+   IF GetOpenFilenameW(@ofn) THEN
+      IF (dwFlags AND OFN_ALLOWMULTISELECT) = OFN_ALLOWMULTISELECT THEN
+         pchar = *dwsFile
+         FOR i AS LONG = 0 TO dwFileStrSize - 1
+            ' // If double null, exit
+            IF pchar[i] = 0 AND pchar[i + 1] = 0 THEN EXIT FOR
+            ' // Replace null with ","
+            IF pchar[i] = 0 THEN pchar[i] = ASC(",")
+         NEXT
+      END IF
+      ' // Trim trailing spaces
+      dwsFile = RTRIM(dwsFile, CHR(32))
+      IF RIGHT(dwsFile, 1) = "," THEN dwsFile = LEFT(dwsFile, LEN(dwsFile) - 1)
+   ELSE
+      ' // Buffer too small
+      IF CommDlgExtendedError = FNERR_BUFFERTOOSMALL THEN
+         dwBufLen = ASC(dwsFile)
+      END IF
+      dwsFile = ""
+   END IF
+
+   ' // Return the retrieved values
+   IF pdwFlags THEN *pdwFlags = ofn.Flags
+   IF pdwBufLen THEN *pdwBufLen = dwBufLen
+   RETURN dwsFile
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' The parameters are the same that for AfxOpenFileDialog, except the optional pdwBufferLen.
+' In the pdwFlags parameter you may add OFN_OVERWRITEPROMPT to be asked if you want to
+' overwrite an existing file.
+' Usage example:
+'   DIM wszFile AS WSTRING * 260 = "*.*"
+'   DIM wszInitialDir AS WSTRING * 260 = CURDIR
+'   DIM wszFilter AS WSTRING * 260 = "BAS files (*.BAS)|*.BAS|" & "All Files (*.*)|*.*|"
+'   DIM dwFlags AS DWORD = OFN_EXPLORER OR OFN_FILEMUSTEXIST OR OFN_HIDEREADONLY OR OFN_OVERWRITEPROMPT
+'   DIM dws AS DWSTRING = AfxSaveFileDialog(hwnd, "", wszFile, wszInitialDir, wszFilter, "BAS", @dwFlags)
+'   AfxMsg dws
+' ========================================================================================
+PRIVATE FUNCTION AfxSaveFileDialog ( _
+   BYVAL hwndOwner AS HWND _                    ' // Parent window
+ , BYREF wszTitle AS WSTRING _                  ' // Caption
+ , BYREF wszFileName AS WSTRING _               ' // Filename
+ , BYREF wszInitialDir AS WSTRING _             ' // Start directory
+ , BYREF wszFilter AS WSTRING _                 ' // Filename filter
+ , BYREF wszDefExt AS WSTRING _                 ' // Default extension
+ , BYVAL pdwFlags AS DWORD PTR = NULL _         ' // Flags
+ ) AS DWSTRING
+
+   DIM dwFlags AS DWORD
+   IF pdwFlags THEN dwFlags = *pdwFlags
+
+   ' // Filter is a sequence of WSTRINGs with a final (extra) double null terminator
+   ' // The "|" characters are replaced with nulls
+   DIM wszMarkers AS WSTRING * 4 = "||"
+   IF RIGHT(wszFilter, 1) <> "|" THEN wszMarkers += "|"
+   DIM dwsFilter AS DWSTRING = wszFilter & wszMarkers
+   DIM dwFilterStrSize AS DWORD = LEN(dwsFilter)
+   ' // Replace markers("|") with nulls
+   DIM pchar AS WCHAR PTR = *dwsFilter
+   DIM i AS LONG
+   FOR i = 0 TO LEN(dwsFilter) - 1
+      IF pchar[i] = ASC("|") THEN pchar[i] = 0
+   NEXT
+
+   ' // If the initial directory has not been specified, assume the current directory
+   ' // FreeBasic 64 bit fails if we pass an empty string and we try to modify wszInitialDir
+   DIM _wszInitialDir AS WSTRING * MAX_PATH = wszInitialDir
+   IF LEN(_wszInitialDir) = 0 THEN _wszInitialDir = CURDIR
+   DIM wszFile AS WSTRING * MAX_PATH = wszFileName
+   DIM dwsFile AS DWSTRING = wszFile & "|"
+   ' // Store the position of the marker
+   DIM cbPos AS LONG = LEN(dwsFile) - 1
+   ' // Allocate room for the buffer
+   IF LEN(dwsFile) < MAX_PATH THEN dwsFile += SPACE(MAX_PATH - LEN(dwsFile))
+   DIM dwFileStrSize AS DWORD = LEN(dwsFile)
+   ' // The filename must be null terminated (replace the marker with a null)
+   pchar = *dwsFile
+   pchar[cbPos] = 0
+
+   ' // Fill the members of the structure
+   DIM ofn AS OPENFILENAMEW
+   ofn.lStructSize     = SIZEOF(ofn)
+   IF AfxWindowsVersion < 5 THEN ofn.lStructSize = 76
+   ofn.lpstrFilter     = *dwsFilter
+   ofn.nFilterIndex    = 1
+   ofn.lpstrFile       = *dwsFile
+   ofn.nMaxFile        = dwFileStrSize
+   ofn.lpstrInitialDir = @_wszInitialDir
+   IF LEN(wszTitle) THEN ofn.lpstrTitle = @wszTitle
+   ofn.Flags = dwFlags OR OFN_EXPLORER
+   IF LEN(wszDefExt) THEN ofn.lpstrDefExt = @wszDefExt
+
+   ' // Call the save filename dialog
+   IF GetSaveFilenameW(@ofn) = 0 THEN dwsFile = ""
+
+   ' // Return the retrieved values
+   IF pdwFlags THEN *pdwFlags = ofn.Flags
+   RETURN dwsFile
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' * Displays Windows System Information.
 ' - hwnd = Handle to the parent window or NULL.
 ' Returns TRUE on success or FALSE on failure.
