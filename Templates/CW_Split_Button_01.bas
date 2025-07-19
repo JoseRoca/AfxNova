@@ -119,6 +119,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                   CASE IDC_MENUCOMMAND3
                      MessageBoxW(hwnd, "You clicked item 3", "Message", MB_OK)
                END SELECT
+               DestroyMenu hSplitMenu
             ELSEIF tDropDown.hdr.code = BCN_HOTITEMCHANGE THEN
                DIM tHotItem AS NMBCHOTITEM
                CBNMTYPESET(tHotItem, wParam, lParam)
