@@ -18,7 +18,7 @@ Other useful methods are **GetKeyNames**, that returns a safe array with the nam
 ### Constructors
 
 ```
-CONSTRUCTOR CIniFIle ((BYREF wszFileName AS WSTRING)
+CONSTRUCTOR CIniFile ((BYREF wszFileName AS WSTRING)
 ```
 
 | Parameter  | Description |
