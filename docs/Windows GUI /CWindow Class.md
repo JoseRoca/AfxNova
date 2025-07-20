@@ -57,6 +57,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [AccelHandle](#accelhandle) | Gets/sets the accelerator table handle. |
 | [AddAccelerator](#addaccelerator) | Adds an accelerator key to the table. |
 | [AddControl](#addcontrol) | Adds a control to the window. |
+| [AnchorControl](#anchorcontrol) | Anchors a window or control to its parent window. |
 | [BigIcon](#bigicon) | Associates a new large icon with the main window. |
 | [Brush](#brush) | Gets/sets the background brush. |
 | [Center](#center) | Centers a window on the screen or over another window. |
@@ -71,7 +72,6 @@ DIM pWindow AS CWindow = "MyClassName"
 | [Create](#create) | Creates a new window. |
 | [CreateAcceleratorTable](#createacceleratortable) | Creates the accelerator table. |
 | [CreateFont](#createfont) | Creates a DPI aware logical font. |
-| [CreateMDIWindow](#createmdiwindow) | Creates a new MDI window. |
 | [DefaultFontSize](#defaultfontsize) | Gets/sets the point size of the default font. |
 | [DestroyAcceleratorTable](#destroyacceleratortable) | Destroys the accelerator table. |
 | [DoEvents](#doevents) | Processes windows messages. |
@@ -95,7 +95,6 @@ DIM pWindow AS CWindow = "MyClassName"
 | [ScaleY](#scaley) | Scales a vertical coordinate according the DPI setting. |
 | [ScreenX](#screenx) | Returns the x-coordinate of the window relative to the screen. |
 | [ScreenY](#screeny) | Returns the y-coordinate of the window relative to the screen. |
-| [ScrollWindowPtr](#scrollwindowptr) | Gets/sets a pointer to the scroll window class. |
 | [SetClientSize](#setclientsize) | Adjusts the bounding rectangle of the window based on the desired size of the client area. |
 | [SetFont](#setfont) | Creates a DPI aware logical font and sets it as the default font. |
 | [SetWindowPos](#setwindowpos) | Changes the size, position, and Z order of a child, pop-up, or top-level window. |
@@ -2591,7 +2590,7 @@ The edited string.
 DIM cws AS CWSTR = AfxInputBox(hwnd, 0, 0, "InputBox test", "What's your name?", "My name is José")
 ```
 
-# <a name="anchorcontrol"></a>AnchorControl
+## AnchorControl
 
 Anchors a window or control to its parent window.
 
@@ -2636,3 +2635,4 @@ pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 pWindow.AnchorControl(IDC_GROUPBOX, AFX_ANCHOR_HEIGHT_RIGHT)
 pWindow.AnchorControl(IDC_COMBOBOX, AFX_ANCHOR_RIGHT)
 ```
+---
