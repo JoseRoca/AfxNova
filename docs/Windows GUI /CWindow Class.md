@@ -2559,24 +2559,24 @@ A pointer to the **CScrollWindow** class or NULL.
 DIM pWindow AS CScrollWindow PTR = AfxScrollWindowPtr(hwnd)
 ```
 
-# <a name="afxinputbox"></a>AfxInputBox
+## AfxInputBox
 
 Input box dialog.
 
 ```
 FUNCTION AfxInputBox (BYVAL hParent AS HWND = NULL, BYVAL x AS LONG = 0, _
-   BYVAL y AS LONG = 0, BYREF cwsCaption AS CWSTR = "", BYREF cwsPrompt AS CWSTR = "", _
-   BYREF cwsText AS CWSTR = "", BYVAL nLen AS LONG = 260, _
-   BYVAL bPassword AS BOOLEAN = FALSE) AS CWSTR
+   BYVAL y AS LONG = 0, BYREF dwsCaption AS DWSRING = "", BYREF dwsPrompt AS DWSTRING = "", _
+   BYREF dwsText AS DWSTRING = "", BYVAL nLen AS LONG = 260, _
+   BYVAL bPassword AS BOOLEAN = FALSE) AS DWSTRING
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hParent* | Optional. The handle of the parent main window. |
 | *x, y* | Optional. The location of the dialog. If both are 0, the dialog is centered. |
-| *cwsCaption* | Optional. The caption of the dialog. |
-| *cwsPrompt* | Optional. The prompt displayed in the dialog. |
-| *cwsText* | Optional. The text to edit. |
+| *dwsCaption* | Optional. The caption of the dialog. |
+| *dwsPrompt* | Optional. The prompt displayed in the dialog. |
+| *dwsText* | Optional. The text to edit. |
 | *nLen* | Optional. Maximum length of the string to edit.<br>The default length is 260 characters.<br>The maximum length is 2048 characters. |
 | *bPassword* | Optional. TRUE or FALSE. Displays all characters as an asterisk (\*) as they are typed into the edit control. |
 
@@ -2587,7 +2587,7 @@ The edited string.
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxInputBox(hwnd, 0, 0, "InputBox test", "What's your name?", "My name is José")
+DIM dws AS DWSTRING = AfxInputBox(hwnd, 0, 0, "InputBox test", "What's your name?", "My name is José")
 ```
 
 ## AnchorControl
