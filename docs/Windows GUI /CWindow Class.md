@@ -49,10 +49,6 @@ DIM pWindow AS CWindow = "MyClassName"
 | [Using PNG icons in toolbars](#topic5) |
 | [Visual style menus](#topic6) |
 | [Keyboard accelerators](#topic7) |
-| [Scrollable windows](#topic8) |
-| [TabPages](#topic9) |
-| [Layout Manager](#topic10) |
-| [MDI WIndows](#topic11) |
 
 ### Methods and Properties
 
@@ -124,31 +120,6 @@ DIM pWindow AS CWindow = "MyClassName"
 | Name       | Description |
 | ---------- | ----------- |
 | [AfxInputBox](#afxinputbox) | Input box dialog. |
-
-# CTabPage Class
-
-Creates a generic window used as a tab page of a tab control.
-
-### Constructor (CTabPage)
-
-Creates a generic window used as a tab page of a tab control.
-
-### Methods
-
-| Name       | Description |
-| ---------- | ----------- |
-| [hTabPage](#htabpage) | Returns the window handle of the tab page. |
-| [InsertPage](#insertpage) | Adds a tab page and creates a generic window that will be associated with the page. |
-
-### Procedures
-
-| Name       | Description |
-| ---------- | ----------- |
-| [AfxCTabPagePtr](#afxctabpageptr) | Returns a pointer to the **CTabPage** class given the handle of the tab control to which the tab page is associated and the zero-based tab index. |
-| [AfxDestroyTabPage](#afxdestroytabpage) | Detroys a tab page. |
-| [AfxDestroyAllTabPages](#afxdestroyalltabpages) | Detroys all the tab pages. |
-| [AfxResizeTabPages](#afxresizetabpages) | Resizes all the tab pages associated with a tab control. |
-| [AfxScrollTabPagePtr](#afxscrolltabpageptr) | Returns a pointer to the CScrollWindow class given the handle of the tab control to which the tab page is associated and the zero-based tab index. |
 
 # Tutorial
 
