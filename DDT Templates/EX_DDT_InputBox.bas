@@ -68,7 +68,7 @@ FUNCTION DlgProc (BYVAL hDlg AS HWND, BYVAL uMsg AS DWORD, BYVAL wParam AS DWORD
                   RETURN TRUE
                END IF
             CASE IDC_OK
-               DIM dwsDate AS DWSTRING = AfxInputBox(hDlg, 0, 0, "Input Box", "Which is your name?", "My name is Nobody")
+               DIM dwsDate AS DWSTRING = DialogInputBox(hDlg, 0, 0, "Input Box", "Which is your name?", "My name is Nobody")
                ' Don't use MsgBox here
                ControlSetText(hDlg, IDC_LABEL, dwsDate)
                RETURN TRUE
