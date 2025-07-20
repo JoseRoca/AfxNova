@@ -385,7 +385,7 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                            BYVAL pwszCmdLine AS WSTRING PTR, _
                            BYVAL nCmdShow AS LONG) AS LONG
 
-   END wWinMain(GetModuleHandleW(NULL), NULL, COMMAND(), SW_NORMAL)
+   END wWinMain(GetModuleHandleW(NULL), NULL, WCOMMAND(), SW_NORMAL)
 
 DECLARE FUNCTION WndProc (BYVAL hWnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 DECLARE FUNCTION PopupWindow (BYVAL hParent AS HWND) AS LONG
@@ -674,7 +674,7 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                            BYVAL pwszCmdLine AS wSTRING PTR, _
                            BYVAL nCmdShow AS LONG) AS LONG
 
-   END wWinMain(GetModuleHandleW(NULL), NULL, COMMAND(), SW_NORMAL)
+   END wWinMain(GetModuleHandleW(NULL), NULL, WCOMMAND(), SW_NORMAL)
 
 CONST IDC_TOOLBAR = 1001
 enum
@@ -725,10 +725,10 @@ END FUNCTION
 ' ========================================================================================
 ' Main
 ' ========================================================================================
-FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
-                  BYVAL hPrevInstance AS HINSTANCE, _
-                  BYVAL szCmdLine AS ZSTRING PTR, _
-                  BYVAL nCmdShow AS LONG) AS LONG
+FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                   BYVAL hPrevInstance AS HINSTANCE, _
+                   BYVAL pwszCmdLine AS WSTRING PTR, _
+                   BYVAL nCmdShow AS LONG) AS LONG
 
    DIM pWindow AS CWindow
    pWindow.Create(NULL, "CWindow with a toolbar", @WndProc)
@@ -848,7 +848,7 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                           BYVAL pwszCmdLine AS WSTRING PTR, _
                           BYVAL nCmdShow AS LONG) AS LONG
 
-   END wWinMain(GetModuleHandleW(NULL), NULL, COMMAND(), SW_NORMAL)
+   END wWinMain(GetModuleHandleW(NULL), NULL, WCOMMAND(), SW_NORMAL)
 
 ' ========================================================================================
 ' Build the menu
@@ -1713,7 +1713,7 @@ FUNCTION DoEvents (BYVAL nCmdShow AS LONG = 0) AS LONG
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nCmdShow* | Optional. Specifies how the window is to be shown. If **DoEvents** is called in the main window, the value should be the value obtained by the WinMain function in its *nCmdShow* parameter. |
+| *nCmdShow* | Optional. Specifies how the window is to be shown. If **DoEvents** is called in the main window, the value should be the value obtained by the wWinMain function in its *nCmdShow* parameter. |
 
 #### Return value
 
