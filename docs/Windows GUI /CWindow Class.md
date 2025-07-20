@@ -1,15 +1,14 @@
 # CWindow Class
 
-`CWindow` is a powerful class to easily create Graphical User Interfaces for Windows applications.
+`CWindow` is a powerful class to easily create Graphical User Interfaces (GUI) for Windows applications.
 
 #### Main features
 
-* Easy creation of Graphical User Interfaces.
+* Easy creation of Graphical User Interfaces (GUI).
 * 100% compatible with the Windows API.
 * Optional default values for window styles and extended styles.
 * High DPI and Unicode support for windows and controls.
 * Support for alpha blended icons and images.
-* Easy management of tab controls and tab pages
 
 #### Remarks
 
@@ -124,7 +123,7 @@ DIM pWindow AS CWindow = "MyClassName"
 
 ### <a name="topic1"></a>Creating the main window
 
-To use `CWindow` you must first include "CWindow.inc" and allow all symbols of its namespace to be accessed adding **USING AfxNoba**.
+To use `CWindow` you must first include "CWindow.inc" and allow all symbols of its namespace to be accessed adding **Noba**.
 
 ```
 #INCLUDE ONCE "AfxNova/CWindow.inc"
@@ -406,7 +405,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.SetClientSize(500, 320)
    pWindow.Center
 
-   ' // Add a button without position or size (it will be resized in the WM_SIZE message).
+   ' // Add a button
    pWindow.AddControl("Button", pWindow.hWindow, IDC_POPUP, "&Popup", 350, 250, 75, 23)
 
    FUNCTION = pWindow.DoEvents(nCmdShow)
@@ -1253,7 +1252,56 @@ This method typically fails for one of the following reasons:
 
 For the "BITMAPBUTTON", "BITMAPLABEL", "ICONBUTTON" and "ICONLABEL" controls you must pass in the *wszTitle* parameter the name of the bitmap in the resource file (.RES). If the image resource uses an integral identifier, the name should begin with a number symbol (#) followed by the identifier in an ASCII format, e.g., "#998". Otherwise, use the text identifier name for the image.
 
-# <a name="bigicon"></a>BigIcon
+---
+
+## AnchorControl
+
+Anchors a window or control to its parent window.
+
+```
+FUNCTION AnchorControl (BYVAL hwndCtl AS HWND, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+```
+```
+FUNCTION AnchorControl (BYVAL cID AS LONG, BYVAL nAnchorMode AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwndCtl* | Handle to the child window or control. |
+| *cID* | Identifier of the child window or control. |
+| *nAnchorMode* | One of the following constants. |
+
+#### Constants
+
+```
+ENUM AFX_ANCHORPOINT
+   AFX_ANCHOR_NONE =  0
+   AFX_ANCHOR_WIDTH
+   AFX_ANCHOR_RIGHT
+   AFX_ANCHOR_CENTER_HORZ
+   AFX_ANCHOR_HEIGHT
+   AFX_ANCHOR_HEIGHT_WIDTH
+   AFX_ANCHOR_HEIGHT_RIGHT
+   AFX_ANCHOR_BOTTOM
+   AFX_ANCHOR_BOTTOM_WIDTH
+   AFX_ANCHOR_BOTTOM_RIGHT
+   AFX_ANCHOR_CENTER_HORZ_BOTTOM
+   AFX_ANCHOR_CENTER_VERT
+   AFX_ANCHOR_CENTER_VERT_RIGHT
+   AFX_ANCHOR_CENTER
+END ENUM
+```
+
+#### Example
+
+```
+pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
+pWindow.AnchorControl(IDC_GROUPBOX, AFX_ANCHOR_HEIGHT_RIGHT)
+pWindow.AnchorControl(IDC_COMBOBOX, AFX_ANCHOR_RIGHT)
+```
+---
+
+## BigIcon
 
 Associates a new large icon with the main window. The system displays the large icon in the ALT+TAB dialog box.
 
@@ -1270,8 +1318,9 @@ PROPERTY BigIcon (BYVAL hIcon AS HICON)
 ```
 pWindow.BigIcon = LoadImage(hInstance, MAKEINTRESOURCE(101), IMAGE_ICON, 48, 48, LR_SHARED)
 ```
+---
 
-# <a name="smallicon"></a>SmallIcon
+## SmallIcon
 
 Associates a new small icon with the main window. The system displays the small icon in the in the window caption.
 
@@ -1288,8 +1337,9 @@ PROPERTY SmallIcon (BYVAL hIcon AS HICON)
 ```
 pWindow.SmallIcon = LoadImage(hInstance, MAKEINTRESOURCE(100), IMAGE_ICON, 32, 32, LR_SHARED)
 ```
+---
 
-# <a name="brush"></a>Brush
+## Brush
 
 Gets/sets the background brush.
 
@@ -1315,8 +1365,9 @@ pWindow.Brush = GetStockObject(WHITE_BRUSH)
 ' // Make the background of the window blue
 pWindow.Brush = CreateSolidBrush(BGR(0, 0, 255))
 ```
+---
 
-# <a name="center"></a>Center
+## Center
 
 Centers a window on the screen or over another window. It also ensures that the placement is done within the work area.
 
@@ -1340,8 +1391,9 @@ pWindow.SetClientSize(500, 320)
 ' // Centers the window
 pWindow.Center
 ```
+---
 
-# <a name="classstyle"></a>ClassStyle
+## ClassStyle
 
 Gets/sets the style of the class.
 
@@ -1378,8 +1430,9 @@ pWindow.Create(NULL, "CWindow test", @WndProc)
 ' // Change the class style
 pWindow.ClassStyle = CS_DBLCLKS
 ```
+---
 
-# <a name="clientheight"></a>ClientHeight
+## ClientHeight
 
 Returns the unscaled client height of the main window.
 
@@ -1392,8 +1445,9 @@ PROPERTY ClientHeight () AS LONG
 ```
 DIM nHeight AS LONG = pWindow.ClientHeight
 ```
+---
 
-# <a name="clientwidth"></a>ClientWidth
+## ClientWidth
 
 Returns the unscaled client width of the main window.
 
@@ -1406,8 +1460,9 @@ PROPERTY ClientWidth () AS LONG
 ```
 DIM nWidth AS LONG = pWindow.ClientWidth
 ```
+---
 
-# <a name="controlclientheight"></a>ControlClientHeight
+## ControlClientHeight
 
 Returns the unscaled client height of the specified window or control.
 
@@ -1424,8 +1479,9 @@ PROPERTY ControlClientHeight (BYVAL hwnd AS HWND) AS LONG
 ```
 DIM nHeight AS LONG = pWindow.ControlClientHeight(hwnd)
 ```
+---
 
-# <a name="controlclientwidth"></a>ControlClientWidth
+## ControlClientWidth
 
 Returns the unscaled client width of the specified window or control.
 
@@ -1442,8 +1498,9 @@ PROPERTY ControlClientWidth (BYVAL hwnd AS HWND) AS LONG
 ```
 DIM nHeight AS LONG = pWindow.ControlClientWidth(hwnd)
 ```
+---
 
-# <a name="controlhandle"></a>ControlHandle
+## ControlHandle
 
 Retrieves a handle to the child control specified by its identifier.
 
@@ -1460,8 +1517,9 @@ FUNCTION ControlHandle (BYVAL cID AS LONG) AS HWND
 ```
 DIM hCtl AS HWND = pWindow.ControlHandle(cID)
 ```
+---
 
-# <a name="controlheight"></a>ControlHeight
+## ControlHeight
 
 Returns the unscaled height of the specified window.
 
@@ -1478,8 +1536,9 @@ FUNCTION ControlHeight (BYVAL hwnd AS HWND) AS LONG
 ```
 DIM nHeight AS LONG = pWindow.ControlHeight(hwnd)
 ```
+---
 
-# <a name="controlwidth"></a>ControlWidth
+## ControlWidth
 
 Returns the unscaled width of the specified window.
 
@@ -1496,8 +1555,9 @@ FUNCTION ControlWidth (BYVAL hwnd AS HWND) AS LONG
 ```
 DIM nWidth AS LONG = pWindow.ControlWidth(hwnd)
 ```
+---
 
-# <a name="create"></a>Create
+## Create
 
 **Create** creates a new window. If you don't specify the window styles, it creates an overlaped window with the styles WS_OVERLAPPEDWINDOW OR WS_CLIPCHILDREN OR WS_CLIPSIBLINGS and the extended styles WS_EX_CONTROLPARENT OR WS_EX_WINDOWEDGE.
 
@@ -1619,8 +1679,9 @@ DIM hwndMain AS HWND = pWindow.Create(NULL, "CWindow Test", @WndProc), 0, 0, 525
 DIM hwndMain AS HWND = pWindow.Create(NULL, "CWindow Test", @WndProc, 0, 0, 525, 395, _
    WS_OVERLAPPEDWINDOW OR WS_CLIPCHILDREN OR WS_CLIPSIBLINGS, WS_EX_CONTROLPARENT OR WS_EX_WINDOWEDGE)
 ```
+---
 
-# <a name="createacceleratortable"></a>CreateAcceleratorTable
+## CreateAcceleratorTable
 
 Creates the accelerator table.
 
@@ -1642,8 +1703,9 @@ pWindow.AddAccelerator FVIRTKEY OR FCONTROL, "H", IDM_HOME ' // Ctrl+H - Home
 pWindow.AddAccelerator FVIRTKEY OR FCONTROL, "S", IDM_SAVE ' // Ctrl+S - Save
 DIM hAccel AS HACCEL = pWindow.CreateAcceleratorTable
 ```
+---
 
-# <a name="createfont"></a>CreateFont
+## CreateFont
 
 Creates a DPI aware logical font.
 
@@ -1675,8 +1737,9 @@ hFont = CWindow.CreateFont("MS Sans Serif", 8, FW_NORMAL, , , , DEFAULT_CHARSET)
 hFont = CWindow.CreateFont("Courier New", 10, FW_BOLD, , , , DEFAULT_CHARSET)
 hFont = CWindow.CreateFont("Marlett", 8, FW_NORMAL, , , , SYMBOL_CHARSET)
 ```
+---
 
-# <a name="defaultfontsize"></a>DefaultFontSize
+## DefaultFontSize
 
 Gets/sets the point size of the default font.
 
@@ -1701,8 +1764,9 @@ DIM nSize AS LONG = pWindow.DefaultFontSize
 ```
 pWindow.DefaultFontSize = 12
 ```
+---
 
-# <a name="dowvents"></a>DoEvents
+## DoEvents
 
 Processes windows messages.
 
@@ -1743,8 +1807,9 @@ CASE WM_GETDLGCODE
 ```
 FUNCTION = pWindow.DoEvents(nCmdShow)
 ```
+---
 
-# <a name="dpi"></a>DPI
+## DPI
 
 Gets/sets the **DPI** (dots per inch) to be used by the application. The main window, controls and fonts will be scaled according this value. Don't change the DPI value once the main window has been created.
 
@@ -1789,8 +1854,9 @@ DIM dpi AS LONG = pWindow.DPI
 ```
 pWindow.DPI = 96
 ```
+---
 
-# <a name="font"></a>Font
+## Font
 
 Gets/sets the font used as default.
 
@@ -1811,8 +1877,9 @@ DIM hFont AS HFONT = pWindow.Font
 ```
 pWindow.Font = hFont
 ```
+---
 
-# <a name="getclientrect"></a>GetClientRect
+## GetClientRect
 
 Retrieves the unscaled coordinates of the main window client area. The client coordinates specify the upper-left and lower-right corners of the client area. Because client coordinates are relative to the upper-left corner of a window's client area, the coordinates of the upper-left corner are (0,0). 
 
@@ -1838,8 +1905,9 @@ pWindow.GetClientRect(@rc)
 ```
 DIM rc AS RECT = pWindow.GetClientRect
 ```
+---
 
-# <a name="getcontrolclientrect"></a>GetControlClientRect
+## GetControlClientRect
 
 Retrieves the unscaled coordinates of a window's client area. The client coordinates specify the upper-left and lower-right corners of the client area. Because client coordinates are relative to the upper-left corner of a window's client area, the coordinates of the upper-left corner are (0,0). 
 
@@ -1868,8 +1936,9 @@ pWindow.GetControlClientRect(hCtl, @rc)
 ```
 DIM rc AS RECT = pWindow.GetControlClientRect(hCtl)
 ```
+---
 
-# <a name="getcontrolwindowrect"></a>GetControlWindowRect
+## GetControlWindowRect
 
 Retrieves the unscaled dimensions of the bounding rectangle of the specified window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
 
@@ -1898,8 +1967,9 @@ pWindow.GetControlWindowRect(hCtl, @rc)
 ```
 DIM rc AS RECT = pWindow.GetControlWindowRect(hCtl)
 ```
+---
 
-# <a name="getwindowrect"></a>GetWindowRect
+## GetWindowRect
 
 Retrieves the unscaled dimensions of the bounding rectangle of the main window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
 
@@ -1928,8 +1998,9 @@ pWindow.GetWindowRect(@rc)
 ```
 DIM rc AS RECT = pWindow.GetWindowRect
 ```
+---
 
-# <a name="getworkarea"></a>GetWorkArea
+## GetWorkArea
 
 Retrieves the unscaled size of the work area on the primary display monitor. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars.
 
@@ -1958,8 +2029,9 @@ pWindow.GetWorkArea(@rc)
 ```
 DIM rc AS RECT = pWindow.GetWorkArea
 ```
+---
 
-# <a name="height"></a>Height
+## Height
 
 Returns the unscaled height of the main window.
 
@@ -1972,8 +2044,9 @@ PROPERTY Height () AS LONG
 ```
 DIM nHeight AS LONG = pWindow.Height
 ```
+---
 
-# <a name="width"></a>Width
+## Width
 
 Returns the unscaled width of the main window.
 
@@ -1986,8 +2059,9 @@ PROPERTY Width () AS LONG
 ```
 DIM nWidth AS LONG = pWindow.Width
 ```
+---
 
-# <a name="screenx"></a>ScreenX
+## ScreenX
 
 Returns the unscaled x-coordinate of the window relative to the screen.
 
@@ -2000,8 +2074,9 @@ PROPERTY ScreenX () AS LONG
 ```
 DIM nLeft AS LONG = pWindow.ScreenX
 ```
+---
 
-# <a name="screeny"></a>ScreenY
+## ScreenY
 
 Returns the unscaled y-coordinate of the window relative to the screen.
 
@@ -2014,8 +2089,9 @@ PROPERTY ScreenY () AS LONG
 ```
 DIM nTop AS LONG = pWindow.ScreenY
 ```
+---
 
-# <a name="hwindow"></a>hWindow
+## hWindow
 
 Gets/sets the main window handle.
 
@@ -2040,22 +2116,9 @@ DIM hwnd AS HWND = pWindow.hWindow
 ```
 pWindow.hWindow = hwnd
 ```
+---
 
-# <a name="hwndclient"></a>hwndClient
-
-Gets the MDI client window handle.
-
-```
-PROPERTY hwndClient () AS HWND
-```
-
-#### Usage example
-
-```
-DIM hwnd AS HWND = pWindow.hwndClient
-```
-
-# <a name="instancehandle"></a>InstanceHandle
+## InstanceHandle
 
 Gets/sets the instance handle.
 
@@ -2080,26 +2143,9 @@ DIM hInstance = pWindow.InstanceHandle
 ```
 pWindow.InstanceHandle = pInstance
 ```
+---
 
-# <a name="mdiclassname"></a>MDICLassName
-
-Sets the class name of the MDI frame window.
-
-```
-PROPERTY MDICLassName (BYREF wszMDIClassName AS WSTRING)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *wszMDIClassName* | The name of the class of the MDI frame window. This property is optional: if you don't set it, **CWindow** assigns a default one, "FBFrameClass". However, you need to set it if you use CWindow to create a GUI outside the main application, for example in a DLL. |
-
-#### Usage example
-
-```
-pWindow.MDIClassName = "MyClassName"
-```
-
-# <a name="movewindow"></a>MoveWindow
+## MoveWindow
 
 Changes the position and dimensions of the specified window. For a top-level window, the position and dimensions are relative to the upper-left corner of the screen. For a child window, they are relative to the upper-left corner of the parent window's client area. This method scales the window by multiplying the size and coordinates according the DPI setting; therefore, you must pass unscaled values to it.
 
@@ -2135,8 +2181,9 @@ If the *bRepaint* parameter is CTRUE, the system sends the WM_PAINT message to t
 pWindow.MoveWindow GetDlgItem(hwnd, IDCANCEL), pWindow.ClientWidth, _
    pWindow-ClientHeight, 75, 23, CTRUE
 ```
+---
 
-# <a name="resize"></a>Resize
+## Resize
 
 Resizes the window sending a WM_SIZE message with the  SIZE_RESTORED value.
 
@@ -2149,8 +2196,9 @@ SUB Resize
 ```
 pWindow.Resize
 ```
+---
 
-# <a name="rxratio"></a>rxRatio
+## rxRatio
 
 Returns the horizontal scaling ratio.
 
@@ -2163,8 +2211,9 @@ PROPERTY rxRatio () AS SINGLE
 ```
 DIM rx AS LONG = pWindow.rxRatio
 ```
+---
 
-# <a name="ryratio"></a>ryRatio
+## ryRatio
 
 Returns the vertical scaling ratio.
 
@@ -2177,8 +2226,9 @@ PROPERTY ryRatio () AS SINGLE
 ```
 DIM ry AS LONG = pWindow.ryRatio
 ```
+---
 
-# <a name="scalex"></a>ScaleX
+## ScaleX
 
 Scales an horizontal coordinate according the DPI setting.
 
@@ -2193,14 +2243,15 @@ PROPERTY ScaleX (BYVAL cx AS SINGLE) AS SINGLE
 #### Usage example
 
 ```
-DIM cx AS LONG = pWindow.ScaleX
+pWindow.ScaleX(cx)
 ```
+---
 
 #### Remarks
 
 A SINGLE datatype is used instead of a long to avoid rounding errors in the calculation.
 
-# <a name="scaley"></a>ScaleY
+## ScaleY
 
 Scales an vertical coordinate according the DPI setting.
 
@@ -2215,7 +2266,7 @@ PROPERTY ScaleY (BYVAL cy AS SINGLE) AS SINGLE
 #### Usage example
 
 ```
-DIM cy AS LONG = pWindow.ScaleY
+pWindow.ScaleY(cy)
 ```
 
 #### Remarks
@@ -2223,29 +2274,7 @@ DIM cy AS LONG = pWindow.ScaleY
 A SINGLE datatype is used instead of a long to avoid rounding errors in the calculation.
 
 
-# <a name="scrollwindowptr"></a>ScrollWindowPtr
-
-Gets/sets a pointer to the scroll window class.
-
-```
-PROPERTY ScrollWindowPtr () AS CScrollWindow PTR
-PROPERTY ScrollWindowPtr (BYVAL pScrollWindow AS CScrollWindow PTR)
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pScrollWindow* | A pointer to the **CScrollWindow** class or NULL. |
-
-#### Usage example
-
-```
-DIM pScrollWindow AS CScrollWindowPtr = pWindow.ScrollWondowPtr
-```
-```
-pWindow.ScrollWondowPtr = pScrollWindow
-```
-
-# <a name="setclientsize"></a>SetClientSize
+## SetClientSize
 
 Adjusts the bounding rectangle of the window based on the desired size of the client area. The sizes are scaled according the DPI seeting.
 
@@ -2263,8 +2292,9 @@ SUB SetClientSize (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
 ```
 pWindow.SetClientSize(400, 250)
 ```
+---
 
-# <a name="setfont"></a>SetFont
+## SetFont
 
 Creates a DPI aware logical font and sets it as the default font.
 
@@ -2296,8 +2326,9 @@ pWindow.SetFont("MS Sans Serif", 8, FW_NORMAL, , , , DEFAULT_CHARSET)
 pWindow.SetFont("Courier New", 10, FW_BOLD, , , , DEFAULT_CHARSET)
 pWindow.SetFont("Marlett", 8, FW_NORMAL, , , , SYMBOL_CHARSET)
 ```
+---
 
-# <a name="setwindowpos"></a>SetWindowPos
+## SetWindowPos
 
 Changes the size, position, and Z order of a child, pop-up, or top-level window. These windows are ordered according to their appearance on the screen. The topmost window receives the highest rank and is the first window in the Z order. The sizes and coordinates are scaled according the DPI setting.
 
@@ -2370,8 +2401,9 @@ To use **SetWindowPos** to bring a window to the top, the process that owns the 
 SetWindowPos(hwnd, NULL, 0, 0, cx, cy, _
    SWP_NOZORDER OR SWP_NOMOVE OR SWP_NOACTIVATE)
 ```
+---
 
-# <a name="unscalex"></a>UnScaleX
+## UnScaleX
 
 Unscales an horizontal coordinate according the DPI setting.
 
@@ -2391,7 +2423,9 @@ A SINGLE datatype is used instead of a long to avoid rounding errors in the calc
 
 DIM cx AS SINGLE = pWindow.UnScaleX(250)
 
-# <a name="unscaley"></a>UnScaleY
+---
+
+## UnScaleY
 
 Unscales a vertical coordinate according the DPI setting.
 
@@ -2411,7 +2445,9 @@ A SINGLE datatype is used instead of a long to avoid rounding errors in the calc
 
 DIM cy AS SINGLE = pWindow.UnScaleY(250)
 
-# <a name="userdata"></a>UserData
+---
+
+## UserData
 
 Gets/sets a value in the user data area of the window.
 
@@ -2433,8 +2469,9 @@ pWindow.UserData(1) = value
 ```
 DIM value AS LONG_PTR = pWindow.UserData(1)
 ```
+---
 
-# <a name="windowexstyle"></a>WindowExStyle
+## WindowExStyle
 
 Gets/sets the window extended styles.
 
@@ -2459,8 +2496,9 @@ DIM dwExStyle AS ULONG_PTR = pWindow.WindowExStyle
 ```
 pWindow.WindowExStyle = WS_EX_CLIENTEDGE
 ```
+---
 
-# <a name="windowstyle"></a>WindowStyle
+## WindowStyle
 
 Gets/sets the window styles.
 
@@ -2485,8 +2523,9 @@ DIM dwStyle AS ULONG_PTR = pWindow.WindowStyle
 ```
 pWindow.WindowStyle = WS_POPUPWINDOW OR WS_CAPTION   ' // Creates a popup window
 ```
+---
 
-# <a name="afxcwindowptr"></a>AfxCWindowPtr
+## AfxCWindowPtr
 
 Returns a pointer to the **CWindow** class given the handle of the main window or the **CREATESTRUCT** structure associated with it. To retrieve it from the handle of any of its child windows or controls, use **AfxCWindowOwnerPtr**.
 
@@ -2514,8 +2553,9 @@ DIM pWindow AS CWindow PTR = AfxCWindowPtr(hwnd)
 ```
 DIM pWindow AS CWindow PTR = AfxCWindowPtr(lParam)
 ```
+---
 
-# <a name="afxcwindowownerptr"></a>AfxCWindowOwnerPtr
+## AfxCWindowOwnerPtr
 
 Returns a pointer to the **CWindow** class given the handle of the window created with it or the handle of any of it's children windows or controls.
 
@@ -2536,28 +2576,7 @@ A pointer to the **CWindow** class or NULL.
 ```
 DIM pWindow AS CWindow PTR = AfxCWindowOwnerPtr(hwnd)
 ```
-
-# <a name="afxscrollwindowptr"></a>AfxScrollWindowPtr
-
-Returns a pointer to the **CScrollWindow** class given the handle of the window attached to it.
-
-```
-FUNCTION AfxScrollWindowPtr (BYVAL hwnd AS HWND) AS CScrollWindow PTR
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window attached to the **CScrollWindow** class. |
-
-#### Return value
-
-A pointer to the **CScrollWindow** class or NULL.
-
-#### Usage example
-
-```
-DIM pWindow AS CScrollWindow PTR = AfxScrollWindowPtr(hwnd)
-```
+---
 
 ## AfxInputBox
 
@@ -2588,51 +2607,5 @@ The edited string.
 
 ```
 DIM dws AS DWSTRING = AfxInputBox(hwnd, 0, 0, "InputBox test", "What's your name?", "My name is José")
-```
-
-## AnchorControl
-
-Anchors a window or control to its parent window.
-
-```
-FUNCTION AnchorControl (BYVAL hwndCtl AS HWND, BYVAL nAnchorMode AS LONG) AS BOOLEAN
-```
-```
-FUNCTION AnchorControl (BYVAL cID AS LONG, BYVAL nAnchorMode AS LONG) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwndCtl* | Handle to the child window or control. |
-| *cID* | Identifier of the child window or control. |
-| *nAnchorMode* | One of the following constants. |
-
-#### Constants
-
-```
-ENUM AFX_ANCHORPOINT
-   AFX_ANCHOR_NONE =  0
-   AFX_ANCHOR_WIDTH
-   AFX_ANCHOR_RIGHT
-   AFX_ANCHOR_CENTER_HORZ
-   AFX_ANCHOR_HEIGHT
-   AFX_ANCHOR_HEIGHT_WIDTH
-   AFX_ANCHOR_HEIGHT_RIGHT
-   AFX_ANCHOR_BOTTOM
-   AFX_ANCHOR_BOTTOM_WIDTH
-   AFX_ANCHOR_BOTTOM_RIGHT
-   AFX_ANCHOR_CENTER_HORZ_BOTTOM
-   AFX_ANCHOR_CENTER_VERT
-   AFX_ANCHOR_CENTER_VERT_RIGHT
-   AFX_ANCHOR_CENTER
-END ENUM
-```
-
-#### Example
-
-```
-pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
-pWindow.AnchorControl(IDC_GROUPBOX, AFX_ANCHOR_HEIGHT_RIGHT)
-pWindow.AnchorControl(IDC_COMBOBOX, AFX_ANCHOR_RIGHT)
 ```
 ---
