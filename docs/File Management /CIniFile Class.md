@@ -28,7 +28,7 @@ CONSTRUCTOR CIniFile ((BYREF wszFileName AS WSTRING)
 #### Example
 
 ```
-#include once "AfxNova/CInifile.inc"
+#include once "AfxNova/CIniFile.inc"
 USING AfxMova
 
 DIM cIni AS CInifile = "Test.ini"
