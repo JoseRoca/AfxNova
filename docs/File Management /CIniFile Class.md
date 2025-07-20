@@ -212,7 +212,13 @@ FUNCTION GetSectionValues (BYREF wszSectionName AS WSTRING, BYREF pDic AS CDicOb
 
 BOOLEAN. True on success or False on failure.
 
-#### Example
+#### Examples
+```
+DIM pDic AS CDicObj
+IF cIni.GetSectionValues("Test", pDic) THEN
+   print pDic.Item("Name")
+END IF
+```
 ```
 DIM pDic AS CDicObj
 IF cIni.GetSectionValues("Test", pDic) THEN
