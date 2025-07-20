@@ -152,7 +152,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CIniFile.GetInt (BYREF wszSectionName AS WSTRING, BYREF wszKeyName AS WSTRING, BYVAL nDefaultValue AS LONG = 0) AS LONG
    IF LEN(wszSectionName) = 0 OR LEN(wszKeyName) = 0 THEN RETURN nDefaultValue
-   RETURN CLNG(GetPrivateProfileInt(wszSectionName, wszKeyName, nDefaultValue, m_path))
+   RETURN CLNG(GetPrivateProfileIntW(wszSectionName, wszKeyName, nDefaultValue, m_path))
 END FUNCTION
 ' ========================================================================================
 
