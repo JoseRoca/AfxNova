@@ -212,6 +212,22 @@ FUNCTION GetSectionValues (BYREF wszSectionName AS WSTRING, BYREF pDic AS CDicOb
 
 BOOLEAN. True on success or False on failure.
 
+#### Example
+```
+DIM pDic AS CDicObj
+IF cIni.GetSectionValues("Test", pDic) THEN
+   ' // Get all the keys and display them
+   DIM dvKeys AS DVARIANT = pDic.Keys
+   FOR i AS LONG = dvKeys.GetLBound TO dvKeys.GetUBound
+      print dvKeys.GetVariantElement(i)
+   NEXT
+   ' // Get all the items and display them
+   DIM dvItems AS DVARIANT = pDic.Items
+   FOR i AS LONG = dvItems.GetLBound TO dvItems.GetUBound
+      print dvItems.GetVariantElement(i)
+   NEXT
+END IF
+```
 ---
 
 ## GetString
