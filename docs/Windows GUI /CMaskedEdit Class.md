@@ -75,7 +75,6 @@ pMaskedEdit.SetText("(123) 123-1212"), TRUE
 ```
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_MaskedEdit_01.bas
 ' Contents: CWindow - Masked Edit Control
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
@@ -124,14 +123,18 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Centers the window
    pWindow.Center
 
-   ' // Adds a button
-   pWindow.AddControl("Button", , IDCANCEL, "&Close", 350, 250, 75, 23)
-
    ' // Add a masked edit control
-   DIM pMaskedEdit AS CMaskedEdit = CMaskedEdit(@pWindow, IDC_MASKED, 10, 30, 280, 23)
+   DIM pMaskedEdit AS CMaskedEdit = CMaskedEdit(@pWindow, IDC_MASKED, 50, 30, 200, 23)
    SetFocus pMaskedEdit.hWindow
    pMaskedEdit.EnableMask(" ddd  ddd dddd", "(___) ___-____", "_")
    pMaskedEdit.SetText("(123) 123-1212"), TRUE
+
+   ' // Adds a button
+   pWindow.AddControl("Button", , IDCANCEL, "&Close", 190, 100, 75, 23)
+
+   ' // Anchor controls
+   pWindow.AnchorControl(IDC_MASKED, AFX_ANCHOR_WIDTH)
+   pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
@@ -153,11 +156,24 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          SELECT CASE CBCTL(wParam, lParam)
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
-               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
+               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF
+            CASE IDC_MASKED
+               IF CBCTLMSG(wPAram, lParam) = EN_CHANGE THEN
+                  DIM hEdit AS HWND = GetDlgItem(hwnd, LOWORD(wParam))
+                  DIM pMaskedEdit AS CMaskedEdit PTR = AfxCMaskedEditPtr(hEdit)
+                  IF pMaskedEdit THEN
+                     DIM dwsText AS DWSTRING
+                     ' // Get the text including the mask
+                     dwsText = pMaskedEdit->GetText(FALSE)
+                     ' // Get the text excluding the mask
+                     dwsText = pMaskedEdit->GetText(TRUE)
+                  END IF
+               END IF
          END SELECT
+
 
     	CASE WM_DESTROY
          ' // Ends the application by sending a WM_QUIT message
