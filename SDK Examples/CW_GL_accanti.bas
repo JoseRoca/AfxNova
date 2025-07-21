@@ -377,8 +377,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                    BYVAL nCmdShow AS LONG) AS LONG
 
    ' // Set process DPI aware
-   ' // The recommended way is to use a manifest file
-   AfxSetProcessDPIAware
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 
    ' // Creates the main window
    DIM pWindow AS CWindow

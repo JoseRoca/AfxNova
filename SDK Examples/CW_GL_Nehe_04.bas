@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_GL_Nehe_02
-' Contents: CWindow OpenGL - NeHe lesson 2
+' File: CW_GL_Nehe_04
+' Contents: CWindow OpenGL - NeHe lesson 4
 ' Compiler: FreeBasic 32 & 64 bit
 ' Translated in 2025 by José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -16,7 +16,7 @@ USING AfxNova
 
 CONST GL_WINDOWWIDTH   = 600               ' Window width
 CONST GL_WINDOWHEIGHT  = 400               ' Window height
-CONST GL_WindowCaption = "NeHe Lesson 2"   ' Window caption
+CONST GL_WindowCaption = "NeHe Lesson 4"   ' Window caption
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                            BYVAL hPrevInstance AS HINSTANCE, _
@@ -37,6 +37,9 @@ TYPE COGL
       m_hDC AS HDC      ' // Device context handle
       m_hRC AS HGLRC    ' // Rendering context handle
       m_hwnd AS HWND    ' // Window handle
+
+      rtri AS SINGLE
+      rquad AS SINGLE
 
    Public:
       DECLARE CONSTRUCTOR (BYVAL hwnd AS HWND, BYVAL nBitsPerPel AS LONG = 32, BYVAL cDepthBits AS LONG = 24)
@@ -175,22 +178,32 @@ SUB COGL.RenderScene
    ' // Reset the view
    glLoadIdentity
 
-   glTranslatef -1.5, 0.0, -6.0          ' Move left 1.5 units and into the screen
+   glTranslatef -1.5, 0.0, -6.0           ' Move left 1.5 units and into the screen
+   glRotatef rtri, 0.0, 1.0, 0.0          ' Rotate the triangle on the Y axis
 
-   glBegin GL_TRIANGLES                  ' Drawing using triangles
-      glVertex3f  0.0, 1.0, 0.0          ' Top
-      glVertex3f  1.0,-1.0, 0.0          ' Bottom right
-      glVertex3f -1.0,-1.0, 0.0          ' Bottom left
-   glEnd                                 ' Finished drawing the triangle
+   glBegin GL_TRIANGLES
+      glColor3f   1.0, 0.0, 0.0           ' Set the color to red
+      glVertex3f  0.0, 1.0, 0.0           ' Top
+      glColor3f   0.0, 1.0, 0.0           ' Set the color to green
+      glVertex3f  1.0,-1.0, 0.0           ' Bottom right
+      glColor3f   0.0, 0.0, 1.0           ' Set the color to blue
+      glVertex3f -1.0,-1.0, 0.0           ' Bottom left
+   glEnd
 
-   glTranslatef 3.0,0.0,0.0              ' Move right 3 units
+   glLoadIdentity
+   glTranslatef 1.5, 0.0, -6.0            ' Move right 1.5 units and into the screen
+   glRotatef rquad, 1.0, 0.0, 0.0         ' Rotate the quad on the X axis
 
-   glBegin GL_QUADS                      ' Draw a quad
-      glVertex3f -1.0, 1.0, 0.0          ' Top left
-      glVertex3f  1.0, 1.0, 0.0          ' Top right
-      glVertex3f  1.0,-1.0, 0.0          ' Bottom right
-      glVertex3f -1.0,-1.0, 0.0          ' Bottom left
-   glEnd                                 ' Done drawing the quad
+   glColor3f 0.5, 0.5, 1.0                ' Set the color to blue one time only
+   glBegin GL_QUADS
+      glVertex3f -1.0, 1.0, 0.0           ' Top left
+      glVertex3f  1.0, 1.0, 0.0           ' Top right
+      glVertex3f  1.0,-1.0, 0.0           ' Bottom right
+      glVertex3f -1.0,-1.0, 0.0           ' Bottom left
+   glEnd
+
+   rtri = rtri + 0.2                      ' Increase the rotation variable for the triangle
+   rquad = rquad - 0.15                   ' Decrease the rotation variable for the quad
 
    ' // Exchange the front and back buffers
    SwapBuffers m_hdc
