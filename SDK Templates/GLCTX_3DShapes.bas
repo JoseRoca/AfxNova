@@ -314,7 +314,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Processes messages for the subclassed Button window.
+' Processes messages for the subclassed graphic control
 ' ========================================================================================
 FUNCTION GraphCtx_SubclassProc ( _
    BYVAL hwnd   AS HWND, _                 ' // Control window handle
