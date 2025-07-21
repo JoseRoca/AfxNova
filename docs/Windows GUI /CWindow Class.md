@@ -2584,7 +2584,7 @@ Input box dialog.
 
 ```
 FUNCTION AfxInputBox (BYVAL hParent AS HWND = NULL, BYVAL x AS LONG = 0, _
-   BYVAL y AS LONG = 0, BYREF dwsCaption AS DWSRING = "", BYREF dwsPrompt AS DWSTRING = "", _
+   BYVAL y AS LONG = 0, BYREF dwsCaption AS DWSTRING = "", BYREF dwsPrompt AS DWSTRING = "", _
    BYREF dwsText AS DWSTRING = "", BYVAL nLen AS LONG = 260, _
    BYVAL bPassword AS BOOLEAN = FALSE) AS DWSTRING
 ```
