@@ -8,7 +8,13 @@ The `CMaskedEdit` class supports a masked edit control, which validates user inp
 | Name | Description |  
 | ---------- | ----------------- |  
 |[Constructors](#constructors1)| Creates an instance of the class and the control. |  
-  
+
+### Functions
+
+| Name | Description |  
+| ---------- | ----------------- |  
+|[AfxCMaskedEditPtr](#afxcmaskededitptr)| Returns a pointer to the **CMaskedEdit** class. |  
+
 ### Public Methods  
   
 | Name | Description |  
@@ -147,7 +153,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          SELECT CASE CBCTL(wParam, lParam)
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF
@@ -347,5 +353,34 @@ pMskEd.EnableMask("  AAAA"), _   ' // Mask string
 ("_")   ' // The default character that replaces the backspace character
 pMskEd.SetValidChars("1234567890ABCDEFabcdef")   ' // Valid string characters
 pMskEd.SetText("0x01AF"), TRUE
+```
+---
+## AfxCMaskedEditPtr
+
+Returns a pointer to the **CMaskedEdit** class given the handle of the masked edit control or the handle of its parent window and its control identifier.
+
+```
+FUNCTION AfxCMaskedEditPtr (BYVAL hMaskedEdit AS HWND) AS CMaskedEdit PTR
+FUNCTION AfxCMaskedEditPtr (BYVAL hParent AS HWND, BYVAL cID AS LONG) AS CMaskedEdit PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMaskedEdit* | Handle of the masked edit control. |
+| *hParent* | Handle of the parent window. |
+| *cID* | Identifier of the control. |
+
+#### Return value
+
+A pointer to the **CMaskedEdit** class or NULL.
+
+#### Usage examples
+
+```
+DIM hMasKedEdit AS HWND = GetDlgItem(hParent, cID)
+DIM pMaskedEdit AS CMaskedEdit PTR = AfxCMaskedEditPtr(hMasKedEdit))
+```
+```
+DIM pMaskedEdit AS CMaskedEdit PTR = AfxCMaskedEditPtr(hParent, cID)
 ```
 ---
