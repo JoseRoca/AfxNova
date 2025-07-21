@@ -305,6 +305,7 @@ PROPERTY hWindow () AS HWND
 #### Return value
 
 The window handle.
+
 ---
 
 ## SetPos
