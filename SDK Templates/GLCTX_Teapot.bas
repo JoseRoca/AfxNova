@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: GLCTX_Teapot.vas
+' File: GLCTX_Teapot.bas
 ' Contents: Graphic Control OpenGL - Teapot
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
