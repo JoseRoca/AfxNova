@@ -123,7 +123,7 @@ DIM pWindow AS CWindow = "MyClassName"
 
 ### <a name="topic1"></a>Creating the main window
 
-To use `CWindow` you must first include "CWindow.inc" and allow all symbols of its namespace to be accessed adding **Noba**.
+To use `CWindow` you must first include "CWindow.inc" and allow all symbols of its namespace to be accessed adding **USING AfxNova**.
 
 ```
 #INCLUDE ONCE "AfxNova/CWindow.inc"
