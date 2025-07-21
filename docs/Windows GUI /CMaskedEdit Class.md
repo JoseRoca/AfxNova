@@ -57,7 +57,7 @@ CONSTRUCTOR CMaskedEdit (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR,  _
   
  
 ### Example  
-The following example demonstrates how to set up a mask (for example a phone number) by using the `EnableMask` method to create the mask for the masked edit control, and `SetText` method to display a prompt in the masked edit control.
+The following example demonstrates how to set up a mask (for example a phone number) by using the **EnableMask** method to create the mask for the masked edit control, and **SetText**method to display a prompt in the masked edit control.
 
 ```
 DIM pMaskedEdit AS CMaskedEdit = CMaskedEdit(@pWindow, IDC_MASKED, 10, 30, 280, 23)
