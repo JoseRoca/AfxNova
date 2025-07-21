@@ -528,7 +528,7 @@ END FUNCTION
 
 ### <a name="topic5"></a>Using PNG icons in toolbars
 
-**AfxGdiplus.inc** provides functions that allow to use alphablended PNG icons in toolbars.
+**AfxGdiplus.inc** provides functions that allow to use alpha-blended PNG icons in toolbars.
 
 **AfxGdipIconFromFile** loads the images from disk and **AfxGdipIconFromRes** from a resource file embedded in the application.
 
@@ -790,7 +790,7 @@ These situations prevent visual style menus from being rendered. Owner-draw menu
 
 **Note**: MFT_BITMAP items do not support PARGB32 bitmaps.
 
-The **AfxAddIconToMenuItem** function included in **AfxMenu.inc** allows to use alphablended icons in visually styled menus.
+The **AfxAddIconToMenuItem** function included in **AfxMenu.inc** allows to use alpha-blended icons in visually styled menus.
 
 ```
 DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 1)
