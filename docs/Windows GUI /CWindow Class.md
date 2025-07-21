@@ -111,7 +111,6 @@ DIM pWindow AS CWindow = "MyClassName"
 | ---------- | ----------- |
 | [AfxCWindowPtr](#afxcwindowptr) | Returns a pointer to the **CWindow** class given the handle of the main window or the CREATESTRUCT structure associated with it. |
 | [AfxCWindowOwnerPtr](#afxcwindowownerptr) | Returns a pointer to the **CWindow** class given the handle of the window created with it or the handle of any of it's children windows or controls. |
-| [AfxScrollWindowPtr](#afxscrollwindowptr) | Returns a pointer to the **CScrollWindow** class given the handle of the window attached to it. |
 
 ### Dialog
 
