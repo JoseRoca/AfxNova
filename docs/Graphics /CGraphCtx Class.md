@@ -37,6 +37,8 @@ CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, _
 | [Example 1](#skeleton) | CWindow Graphic Control Skeleton. |
 | [Example 2](#openglskeleton) | CWindow OpenGL Graphic Control Skeleton. |
 
+---
+
 ### Helper Procedure: AfxCGraphPtr
 
 Returns a pointer to the CGraphCtx class given the handle of its associated window.
