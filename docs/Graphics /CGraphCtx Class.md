@@ -583,28 +583,28 @@ The previous value of the property.
 ```
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_GraphCtxSkeleton.fbtpl
+' File: CW_GraphCtxSkeleton.bas
 ' Contents: CWindow Graphic Control Skeleton
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2016 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
 #define UNICODE
-#INCLUDE ONCE "Afx/CWindow.inc"
-#INCLUDE ONCE "Afx/CGraphCtx.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CWindow.inc"
+#INCLUDE ONCE "AfxNova/CGraphCtx.inc"
+USING AfxNova
 
 CONST IDC_GRCTX = 1001
 
-DECLARE FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
-                          BYVAL hPrevInstance AS HINSTANCE, _
-                          BYVAL szCmdLine AS ZSTRING PTR, _
-                          BYVAL nCmdShow AS LONG) AS LONG
+DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                           BYVAL hPrevInstance AS HINSTANCE, _
+                           BYVAL pwsszCmdLine AS WSTRING PTR, _
+                           BYVAL nCmdShow AS LONG) AS LONG
 
-   END WinMain(GetModuleHandleW(NULL), NULL, COMMAND(), SW_NORMAL)
+   END wWinMain(GetModuleHandleW(NULL), NULL, WCOMMAND(), SW_NORMAL)
 
 ' // Forward declaration
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
@@ -612,13 +612,15 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 ' Main
 ' ========================================================================================
-FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
-                  BYVAL hPrevInstance AS HINSTANCE, _
-                  BYVAL szCmdLine AS ZSTRING PTR, _
-                  BYVAL nCmdShow AS LONG) AS LONG
+FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                   BYVAL hPrevInstance AS HINSTANCE, _
+                   BYVAL pwsszCmdLine AS WSTRING PTR, _
+                   BYVAL nCmdShow AS LONG) AS LONG
 
    ' // Set process DPI aware
-   AfxSetProcessDPIAware
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
+   ' // Enable visual styles without including a manifest file
+   AfxEnableVisualStyles
 
    ' // Create the main window
    DIM pWindow AS CWindow
@@ -627,16 +629,18 @@ FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.Center
 
    ' // Add a graphic control
-   DIM pGraphCtx AS CGraphCtx = CGraphCtx(@pWindow, IDC_GRCTX, "", 0, 0, pWindow.ClientWidth, pWindow.ClientHeight)
+   DIM nWidth AS LONG = pWindow.ClientWidth
+   DIM nHeight AS LONG = pWindow.ClientHeight
+   DIM pGraphCtx AS CGraphCtx = CGraphCtx(@pWindow, IDC_GRCTX, "", 0, 0, nWidth, nHeight)
    pGraphCtx.Clear BGR(255, 255, 255)
+   ' // Anchor the control
+   pWindow.AnchorControl(IDC_GRCTX, AFX_ANCHOR_HEIGHT_WIDTH)
 
    ' // Capture the desktop window and display it in the control
    DIM hBitmap AS HBITMAP = AfxCaptureDisplay
    pGraphCtx.SetVirtualBufferSize(AfxGetBitmapWidth(hBitmap), AfxGetBitmapHeight(hBitmap))
    AfxDrawBitmap(pGraphCtx.GetMemDC, 0, 0, hBitmap)
    DeleteObject hBitmap
-
-   
 
    ' // Dispatch Windows events
    FUNCTION = pWindow.DoEvents(nCmdShow)
@@ -651,6 +655,15 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
    SELECT CASE uMsg
 
+      CASE WM_CREATE
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
       CASE WM_COMMAND
          SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
             CASE IDCANCEL
@@ -660,13 +673,6 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                   EXIT FUNCTION
                END IF
          END SELECT
-
-      CASE WM_SIZE
-         ' // If the window isn't minimized, resize it
-         IF wParam <> SIZE_MINIMIZED THEN
-            DIM pWindow AS CWindow PTR = AfxCWindowPtr(hwnd)
-            IF pWindow THEN pWindow->MoveWindow GetDlgItem(hwnd, IDC_GRCTX), 0, 0, pWindow->ClientWidth, pWindow->ClientHeight, CTRUE
-         END IF
 
     	CASE WM_DESTROY
          ' // End the application
