@@ -39,12 +39,12 @@ CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, _
 
 ---
 
-### Helper Procedure: AfxCGraphPtr
+### Helper Procedure: AfxCGraphCtxPtr
 
-Returns a pointer to the CGraphCtx class given the handle of its associated window.
+Returns a pointer to the `CGraphCtx` class given the handle of its associated window.
 
 ```
-FUNCTION AfxCGraphPtr (BYVAL hwnd AS HWND) AS CGraphCtx PTR
+FUNCTION AfxCGraphCtxPtr (BYVAL hwnd AS HWND) AS CGraphCtx PTR
 ```
 
 | Parameter  | Description |
