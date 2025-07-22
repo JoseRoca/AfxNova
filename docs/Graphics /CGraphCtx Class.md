@@ -4,7 +4,7 @@
 
 This control features persistence and uses a virtual buffer (set initially equal to the size of the control when it is created) to allow to display images bigger than the size of the control. Scrollbars are automatically added when the size of the virtual buffer is bigger than the size of the control and removed when unneeded. It also features keyboard navigation and sends command messages to the parent window when the return or Escape keys are pressed, and notification messages for mouse clicks.
 
-To use the control, include the CGraphCtx.inc file in your program and use the namespace **AfxNova**.
+To use the control, include the **CGraphCtx.inc** file in your program and use the namespace **AfxNova**.
 
 **Include file**: AfxNova/CGraphCtx.inc
 
