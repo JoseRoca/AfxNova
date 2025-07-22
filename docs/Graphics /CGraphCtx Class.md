@@ -683,14 +683,15 @@ END FUNCTION
 ```
 ---
 
-## <a name="openglskeleton"></a>CWindow OpenGL Graphic Control Skeleton
+## <a name="openglskeleton"></a>CWindow OpenGL Graphic Control
 
-The following example demonstrates the use of OpenGL and GDI+ together.
+The following example demonstrates the use of the graphic control, OpenGL and GDI+ classes together.
 
 ```
 ' ########################################################################################
 ' Microsoft Windows
 ' Contents: CWindow OpenGL Graphic Control Skeleton
+' Graphic control, GDI+ classes and OpenGL working together
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2017 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -699,19 +700,19 @@ The following example demonstrates the use of OpenGL and GDI+ together.
 ' ########################################################################################
 
 #define UNICODE
-#INCLUDE ONCE "Afx/CWindow.inc"
-#INCLUDE ONCE "Afx/AfxGdiPlus.inc"
-#INCLUDE ONCE "Afx/CGraphCtx.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/CWindow.inc"
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+#INCLUDE ONCE "AfxNova/CGraphCtx.inc"
+USING AfxNova
 
 CONST IDC_GRCTX = 1001
 
-DECLARE FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
-                          BYVAL hPrevInstance AS HINSTANCE, _
-                          BYVAL szCmdLine AS ZSTRING PTR, _
-                          BYVAL nCmdShow AS LONG) AS LONG
+DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                           BYVAL hPrevInstance AS HINSTANCE, _
+                           BYVAL pwszCmdLine AS WSTRING PTR, _
+                           BYVAL nCmdShow AS LONG) AS LONG
 
-   END WinMain(GetModuleHandleW(NULL), NULL, COMMAND(), SW_NORMAL)
+   END wWinMain(GetModuleHandleW(NULL), NULL, wCOMMAND(), SW_NORMAL)
 
 ' // Forward declaration
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
@@ -722,20 +723,19 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB GDIP_Render (BYVAL hDC AS HDC)
 
-   DIM hStatus AS GpStatus
-   DIM pGraphics AS GpGraphics PTR
-   DIM pPen AS GpPen PTR
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
-   ' // Create a graphics object
-   hStatus = GdipCreateFromHDC(hDC, @pGraphics)
-   ' // Create a Pen
-   hStatus = GdipCreatePen1(GDIP_ARGB(255, 255, 0, 0), AfxScaleX(1), UnitPixel, @pPen)
-   ' // Draw the line
-   GdipDrawLineI pGraphics, pPen, 0, 0, AfxScaleX(200), AfxScaleY(100)
+   ' // Create a Pen object
+   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 15)
 
-   ' // Cleanup
-   IF pPen THEN GdipDeletePen(pPen)
-   IF pGraphics THEN GdipDeleteGraphics(pGraphics)
+   ' // Draw a line
+   graphics.DrawLine(@pen, 0, 0, 200, 100)
 
 END SUB
 ' ========================================================================================
@@ -790,7 +790,7 @@ SUB RenderScene (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
    glTranslatef 3.0!,0.0!,0.0!           ' Move right 3 units
 
    glColor3f 0.5!, 0.5!, 1.0!            ' Set the color to blue one time only
-   glBegin GL_QUADS                     ' Draw a quad
+   glBegin GL_QUADS                      ' Draw a quad
       glVertex3f -1.0!, 1.0!, 0.0!       ' Top left
       glVertex3f  1.0!, 1.0!, 0.0!       ' Top right
       glVertex3f  1.0!,-1.0!, 0.0!       ' Bottom right
@@ -806,26 +806,29 @@ END SUB
 ' ========================================================================================
 ' Main
 ' ========================================================================================
-FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
-                  BYVAL hPrevInstance AS HINSTANCE, _
-                  BYVAL szCmdLine AS ZSTRING PTR, _
-                  BYVAL nCmdShow AS LONG) AS LONG
+FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                   BYVAL hPrevInstance AS HINSTANCE, _
+                   BYVAL pwszCmdLine AS WSTRING PTR, _
+                   BYVAL nCmdShow AS LONG) AS LONG
 
    ' // Set process DPI aware
-   AfxSetProcessDPIAware
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
+   ' // Enable visual styles without including a manifest file
+   AfxEnableVisualStyles
 
    ' // Create the main window
    DIM pWindow AS CWindow
-   pWindow.Create(NULL, "CWindow OpenGL Graphic Control Skeleton", @WndProc)
-   pWindow.Brush = CAST(HBRUSH, COLOR_WINDOW + 1)
+   pWindow.Create(NULL, "CWindow+CGraphCtx+CGdiPlus+OpenGL", @WndProc)
    pWindow.SetClientSize(400, 250)
    pWindow.Center
 
-   ' // Initialize GDI+
-   DIM token AS UINT_PTR = AfxGdipInit
-
    ' // Add a graphic control with OPENGL enabled
    DIM pGraphCtx AS CGraphCtx = CGraphCtx(@pWindow, IDC_GRCTX, "OPENGL", 0, 0, pWindow.ClientWidth, pWindow.ClientHeight)
+   ' // Anchor the control
+   pWindow.AnchorControl(IDC_GRCTX, AFX_ANCHOR_HEIGHT_WIDTH)
+
+   ' // Clear the background
+   pGraphCtx.Clear RGB_WHITE
    ' // Make the control stretchable
    pGraphCtx.Stretchable = TRUE
    ' // Make current the rendering context
@@ -838,9 +841,6 @@ FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Dispatch Windows events
    FUNCTION = pWindow.DoEvents(nCmdShow)
 
-   ' // Shutdown GDI+
-   IF token THEN GdiPlusShutdown token
-
 END FUNCTION
 ' ========================================================================================
 
@@ -852,21 +852,14 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    SELECT CASE uMsg
 
       CASE WM_COMMAND
-         SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
+         SELECT CASE CBCTL(wParam, lParam)
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF
          END SELECT
-
-      CASE WM_SIZE
-         ' // If the window isn't minimized, resize it
-         IF wParam <> SIZE_MINIMIZED THEN
-            DIM pWindow AS CWindow PTR = AfxCWindowPtr(hwnd)
-            IF pWindow THEN pWindow->MoveWindow GetDlgItem(hwnd, IDC_GRCTX), 0, 0, pWindow->ClientWidth, pWindow->ClientHeight, CTRUE
-         END IF
 
     	CASE WM_DESTROY
          ' // End the application
