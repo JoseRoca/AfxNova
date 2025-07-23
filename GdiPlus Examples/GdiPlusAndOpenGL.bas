@@ -42,7 +42,7 @@ SUB GDIP_Render (BYVAL hDC AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_GREEN, 15)
 
    ' // Draw a line
    graphics.DrawLine(@pen, 0, 0, 200, 100)
