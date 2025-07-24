@@ -63,7 +63,9 @@ FUNCTION AfxGdipAddIconFromFile (BYVAL hIml AS HIMAGELIST, BYREF wszFileName AS 
 
 Returns the index of the image if successful, or -1 otherwise.
 
-# <a name="AfxGdipAddIconFromRes"></a>AfxGdipAddIconFromRes
+---
+
+## AfxGdipAddIconFromRes
 
 Loads an image from a resource file, converts it to an icon and adds it to specified image list.
 
@@ -84,7 +86,9 @@ FUNCTION AfxGdipAddIconFromRes (BYVAL hIml AS HIMAGELIST, BYVAL hInstance AS HIN
 
 Returns the index of the image if successful, or -1 otherwise.
 
-# <a name="AfxGdipBitmapFromBuffer"></a>AfxGdipBitmapFromBuffer
+---
+
+## AfxGdipBitmapFromBuffer
 
 Converts an image stored in a buffer into a bitmap and returns the handle.
 
@@ -107,7 +111,9 @@ If the function succeeds, the return value is the handle of the created icon or 
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipBitmapFromFile"></a>AfxGdipBitmapFromFile
+---
+
+## AfxGdipBitmapFromFile
 
 Loads an image from a file, converts it to a bitmap and returns the handle.
 
@@ -129,7 +135,9 @@ If the function succeeds, the return value is the handle of the created bitmap.
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipBitmapFromRes"></a>AfxGdipBitmapFromRes
+---
+
+## AfxGdipBitmapFromRes
 
 Loads an image from a resource, converts it to a bitmap and returns the handle.
 
@@ -152,15 +160,18 @@ If the function succeeds, the return value is the handle of the created bitmap.
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipDllVersion"></a>AfxGdipDllVersion
+---
+
+## AfxGdipDllVersion
 
 Returns the version of Gdiplus.dll, e.g. 601 for version 6.01.
 
 ```
 FUNCTION AfxGdipDllVersion () AS LONG
 ```
+---
 
-# <a name="AfxGdipGetEncoderClsid"></a>AfxGdipGetEncoderClsid
+## AfxGdipGetEncoderClsid
 
 Retrieves the encoder's clsid.
 
@@ -172,7 +183,9 @@ FUNCTION AfxGdipGetEncoderClsid (BYREF wszMimeType AS WSTRING) AS GUID
 | ---------- | ----------- |
 | *wszMimeType* | The mime type. |
 
-# <a name="AfxGdipGetImageSizeFromFile"></a>AfxGdipGetImageSizeFromFile
+---
+
+## AfxGdipGetImageSizeFromFile
 
 Returns the size of the image.
 
@@ -193,7 +206,9 @@ If the function succeeds, it returns Ok, which is an element of the Status enume
 
 If the function fails, it returns one of the other elements of the Status enumeration.
 
-# <a name="AfxGdipIconFromBuffer"></a>AfxGdipIconFromBuffer
+---
+
+## AfxGdipIconFromBuffer
 
 Converts an image stored in a buffer into an icon and returns the handle.
 
@@ -215,7 +230,9 @@ If the function succeeds, the return value is the handle of the created icon.
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipIconFromFile"></a>AfxGdipIconFromFile
+---
+
+## AfxGdipIconFromFile
 
 Loads an image from a file, converts it to an icon and returns the handle.
 
@@ -236,7 +253,9 @@ If the function succeeds, the return value is the handle of the created icon.
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipIconFromRes"></a>AfxGdipIconFromRes
+---
+
+## AfxGdipIconFromRes
 
 Loads an image from a resource, converts it to an icon and returns the handle.
 
@@ -258,7 +277,9 @@ If the function succeeds, the return value is the handle of the created icon.
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipImageFromBuffer"></a>AfxGdipImageFromBuffer
+---
+
+## AfxGdipImageFromBuffer
 
 Converts an image stored in a buffer into an icon or bitmap and returns the handle.
 
@@ -303,8 +324,9 @@ IF pBuffer THEN
    DeAllocate(pBuffer)
 END IF
 ```
+---
 
-# <a name="AfxGdipImageFromFile"></a>AfxGdipImageFromFile
+## AfxGdipImageFromFile
 
 Loads an image from a file, converts it to an icon or bitmap and returns the handle.
 
@@ -328,7 +350,9 @@ If the function succeeds, the return value is the handle of the created icon or 
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipImageFromFile2"></a>AfxGdipImageFromFile2
+---
+
+## AfxGdipImageFromFile2
 
 Loads an image from a file using GDI+, converts it to an icon or bitmap and returns the handle.
 
@@ -356,7 +380,9 @@ If the function fails, the return value is NULL.
 
 A quirk in the GDI+ **GdipLoadImageFromFile** function causes that dim gray images (often used for disabled icons) are converted to darker shades of gray. Therefore, is better to use **AfxGdipImageFromFile**.
 
-# <a name="AfxGdipImageFromRes"></a>AfxGdipImageFromRes
+---
+
+## AfxGdipImageFromRes
 
 Loads an image from a resource, converts it to an icon or bitmap and returns the handle.
 
@@ -381,7 +407,9 @@ If the function succeeds, the return value is the handle of the created icon or 
 
 If the function fails, the return value is NULL.
 
-# <a name="AfxGdipInit"></a>AfxGdipInit
+---
+
+## AfxGdipInit
 
 Initializes GDI+.
 
@@ -397,7 +425,9 @@ FUNCTION AfxGdipInit (BYVAL version AS UINT32 = 1) AS ULONG_PTR
 
 Returns a token on success or 0 in failure. The returned token will be used in the call to GdiplusShutdown when you have finished using GDI+.
 
-# <a name="AfxGdipLoadTexture"></a>AfxGdipLoadTexture
+---
+
+## AfxGdipLoadTexture
 
 Loads an image from disk or a resource an converts it to a texture for use with OpenGL.
 
@@ -432,7 +462,9 @@ ERROR_FILE_NOT_FOUND = File not found.<br>
 ERROR_INVALID_DATA = Bad image size..<br>
 A GdiPlus status value.
 
-# <a name="AfxGdipPrintHBITMAP"></a>AfxGdipPrintHBITMAP
+---
+
+## AfxGdipPrintHBITMAP
 
 Prints a Windows bitmap in the default printer.
 
@@ -451,7 +483,9 @@ FUNCTION AfxGdipPrintHBITMAP (BYVAL hbmp AS HBITMAP, BYVAL bStretch AS BOOLEAN =
 
 Returns TRUE if the bitmap has been printed successfully, or FALSE otherwise.
 
-# <a name="AfxGdipSaveHBITMAPToFile"></a>AfxGdipSaveHBITMAPToFile
+---
+
+## AfxGdipSaveHBITMAPToFile
 
 Saves a Windows bitmap to file.
 
@@ -472,7 +506,9 @@ If the method succeeds, it returns Ok, which is an element of the Status enumera
 
 If the method fails, it returns one of the other elements of the Status enumeration.
 
-# <a name="AfxGdipSaveImageToFile"></a>AfxGdipSaveImageToFile
+---
+
+## AfxGdipSaveImageToFile
 
 Saves a GDI+ image to file.
 
@@ -500,7 +536,9 @@ If the method succeeds, it returns Ok, which is an element of the Status enumera
 
 If the method fails, it returns one of the other elements of the Status enumeration.
 
-# <a name="AfxGdipShutdown"></a>AfxGdipShutdown
+---
+
+## AfxGdipShutdown
 
 Cleans up resources used by Windows GDI+. Each call to **GdiplusStartup** should be paired with a call to **GdiplusShutdown**.
 
@@ -512,7 +550,9 @@ SUB AfxGdipShutdown (BYVAL token AS ULONG_PTR)
 | ---------- | ----------- |
 | *token* | Token returned by a previous call to **GdiplusStartup**. |
 
-# <a name="GDIP_ARGB"></a>GDIP_ARGB
+---
+
+## GDIP_ARGB
 
 Returns an ARGB color value initialized with the specified values for the alpha, red, green, and blue components.
 
@@ -531,7 +571,9 @@ FUNCTION GDIP_ARGB (BYVAL a AS UBYTE, BYVAL r AS UBYTE, BYVAL g AS UBYTE, BYVAL 
 
 The ARGB value.
 
-# <a name="GDIP_BGRA"></a>GDIP_BGRA
+---
+
+## GDIP_BGRA
 
 Returns a BGRA color value initialized with the specified values for the blue, green, red and alpha components.
 
@@ -550,7 +592,9 @@ FUNCTION GDIP_BGRA (BYVAL b AS UBYTE, BYVAL g AS UBYTE, BYVAL r AS UBYTE, BYVAL 
 
 The BGRA value.
 
-# <a name="GDIP_COLOR"></a>GDIP_COLOR
+---
+
+## GDIP_COLOR
 
 Returns an ARGB color value initialized with the specified values for the alpha, red, green, and blue components.
 
@@ -569,7 +613,9 @@ FUNCTION GDIP_COLOR (BYVAL a AS UBYTE, BYVAL r AS UBYTE, BYVAL g AS UBYTE, BYVAL
 
 The ARGB value.
 
-# <a name="GDIP_GetAlpha"></a>GDIP_GetAlpha
+---
+
+## GDIP_GetAlpha
 
 Returns the alpha component of an ARGB color value.
 
@@ -581,7 +627,9 @@ FUNCTION GDIP_GetAlpha (BYVAL argbcolor AS COLORREF) AS BYTE
 | ---------- | ----------- |
 | *argbcolor* | The ARGB color value. |
 
-# <a name="GDIP_GetBlue"></a>GDIP_GetBlue
+---
+
+## GDIP_GetBlue
 
 Returns the blue component of an ARGB color value.
 
@@ -593,7 +641,9 @@ FUNCTION GDIP_GetBlue (BYVAL argbcolor AS COLORREF) AS BYTE
 | ---------- | ----------- |
 | *argbcolor* | The ARGB color value. |
 
-# <a name="GDIP_GetGreen"></a>GDIP_GetGreen
+---
+
+## GDIP_GetGreen
 
 Returns the green component of an ARGB color value.
 
@@ -605,7 +655,9 @@ FUNCTION GDIP_GetGreen (BYVAL argbcolor AS COLORREF) AS BYTE
 | ---------- | ----------- |
 | *argbcolor* | The ARGB color value. |
 
-# <a name="GDIP_GetRed"></a>GDIP_GetRed
+---
+
+## GDIP_GetRed
 
 Returns the red component of an ARGB color value.
 
@@ -617,7 +669,9 @@ FUNCTION GDIP_GetRed (BYVAL argbcolor AS COLORREF) AS BYTE
 | ---------- | ----------- |
 | *argbcolor* | The ARGB color value. |
 
-# <a name="GDIP_POINT"></a>GDIP_POINT
+---
+
+## GDIP_POINT
 
 Returns a GpPoint color value initialized with the specified values for the *x* and *y* coordinates.
 
@@ -630,7 +684,9 @@ FUNCTION GDIP_POINT (BYVAL x AS LONG, BYVAL y AS LONG) AS GpPoint
 | *x* | The x coordinate. |
 | *y* | The y coordinate. |
 
-# <a name="GDIP_POINTF"></a>GDIP_POINTF
+---
+
+## GDIP_POINTF
 
 Returns a GpPointF color value initialized with the specified values for the *x* and *y* coordinates.
 
@@ -643,7 +699,9 @@ FUNCTION GDIP_POINTF (BYVAL x AS SINGLE, BYVAL y AS SINGLE) AS GpPointF
 | *x* | The x coordinate. |
 | *y* | The y coordinate. |
 
-# <a name="GDIP_RGBA"></a>GDIP_RGBA
+---
+
+## GDIP_RGBA
 
 Returns a RGBA color value initialized with the specified values for the red, green, blue and alpha components.
 
@@ -662,9 +720,11 @@ FUNCTION GDIP_RGBA (BYVAL r AS UBYTE, BYVAL g AS UBYTE, BYVAL b AS UBYTE, BYVAL 
 
 The RGBA value.
 
-# <a name="GDIP_RECT"></a>GDIP_RECT
+---
 
-Returns a GpRect structure initialized with the specified values for the x, y, width, and height components.
+## GDIP_RECT
+
+Returns a **GpRect** structure initialized with the specified values for the x, y, width, and height components.
 
 ```
 FUNCTION GDIP_RECT (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS GpRect
@@ -681,9 +741,11 @@ FUNCTION GDIP_RECT (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVA
 
 The filled GpRect structure.
 
-# <a name="GDIP_RECTF"></a>GDIP_RECTF
+---
 
-Returns a GpRectF structure initialized with the specified values for the x, y, width, and height components.
+## GDIP_RECTF
+
+Returns a **GpRectF** structure initialized with the specified values for the x, y, width, and height components.
 
 ```
 FUNCTION GDIP_RECT (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, _
@@ -701,9 +763,11 @@ FUNCTION GDIP_RECT (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE
 
 The filled GpRectF structure.
 
-# <a name="GDIP_XRGB"></a>GDIP_XRGB
+---
 
-Returns a XRGB color value initialized with the specified values for the red, green, and blue components.
+## GDIP_XRGB
+
+Returns a **XRGB** color value initialized with the specified values for the red, green, and blue components.
 
 ```
 FUNCTION GDIP_XRGB (BYVAL r AS UBYTE, BYVAL g AS UBYTE, BYVAL b AS UBYTE) AS COLORREF
@@ -719,13 +783,13 @@ FUNCTION GDIP_XRGB (BYVAL r AS UBYTE, BYVAL g AS UBYTE, BYVAL b AS UBYTE) AS COL
 
 The XRGB value.
 
+---
+
 # INFO: Interoperability Between GDI and GDI+
 
-Microsoft article: http://support.microsoft.com/kb/311221/en-us
-
+Microsoft article
 Article ID: 311221 - Last Review: February 12, 2007 - Revision: 3.4
 INFO: Interoperability Between GDI and GDI+
-This article was previously published under Q311221
 
 SUMMARY
 
