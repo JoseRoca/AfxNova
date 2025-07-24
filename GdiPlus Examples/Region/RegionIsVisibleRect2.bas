@@ -44,7 +44,7 @@ SUB Example_IsVisibleRect (BYVAL hdc AS HDC)
 
    ' // Determine whether the rectangle is visible and, if it is, fill it.
    IF graphics.IsVisible(@visibleRect) THEN
-      graphics.FillRectangle(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 0)), @visibleRect)
+      graphics.FillRectangle(@CGpSolidBrush(ARGB_BLACK), @visibleRect)
    END IF
 
 END SUB
