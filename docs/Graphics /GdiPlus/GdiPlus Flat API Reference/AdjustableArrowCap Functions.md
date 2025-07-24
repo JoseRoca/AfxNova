@@ -1,0 +1,75 @@
+The **AdjustableArrowCap** functions build a line cap that looks like an arrow.
+
+Remarks
+
+The middle inset is the number of units that the midpoint of the base shifts towards the vertex. A middle inset of zero results in no shift —the base is a straight line, giving the arrow a triangular shape. A positive (greater than zero) middle inset results in a shift the specified number of units toward the vertex — the base is an arrow shape that points toward the vertex, giving the arrow cap a V-shape. A negative (less than zero) middle inset results in a shift the specified number of units away from the vertex — the base becomes an arrow shape that points away from the vertex, giving the arrow either a diamond shape (if the absolute value of the middle inset is equal to the height) or distorted diamond shape. If the middle inset is equal to or greater than the height of the arrow cap, the cap does not appear at all. The value of the middle inset affects the arrow cap only if the arrow cap is filled.
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipCreateAdjustableArrowCap(REAL height, REAL width, BOOL isFilled, GpAdjustableArrowCap **cap)
+c++ Wrapper method
+AdjustableArrowCap(IN REAL height, IN REAL width, IN BOOL isFilled = TRUE)
+FB wrapper methods
+CONSTRUCTOR CGpAdjustableArrowCap (BYVAL pAdjustableArrowCap AS CGpAdjustableArrowCap PTR)
+CONSTRUCTOR CGpAdjustableArrowCap (BYVAL nHeight AS SINGLE, BYVAL nWidth AS SINGLE, _
+   BYVAL bIsFilled AS BOOL = CTRUE)
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipGetAdjustableArrowCapHeight (GpAdjustableArrowCap* cap, REAL* height)
+c++ Wrapper method
+REAL GetHeight() const
+FB wrapper method
+FUNCTION GetHeight () AS SINGLE
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipSetAdjustableArrowCapHeight (GpAdjustableArrowCap* cap, REAL height)
+C++ Wrapper method
+Status SetHeight(IN REAL height)
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipSetAdjustableArrowCapWidth (GpAdjustableArrowCap* cap, REAL width)
+Wrapper method
+Status SetWidth(IN REAL width)
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipGetAdjustableArrowCapWidth (GpAdjustableArrowCap* cap, REAL* width)
+Wrapper method
+REAL GetWidth() const
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipSetAdjustableArrowCapMiddleInset (GpAdjustableArrowCap* cap, REAL middleInset)
+Wrapper method
+Status SetMiddleInset(IN REAL middleInset)
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipGetAdjustableArrowCapMiddleInset (GpAdjustableArrowCap* cap, REAL* middleInset)
+Wrapper method
+REAL GetMiddleInset() const
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipSetAdjustableArrowCapFillState (GpAdjustableArrowCap* cap, BOOL fillState)
+Wrapper method
+Status SetFillState(IN BOOL isFilled)
+
+---
+
+Flat function
+GpStatus WINGDIPAPI GdipGetAdjustableArrowCapFillState (GpAdjustableArrowCap* cap, BOOL* fillState)
+Wrapper method
+BOOL IsFilled() const
+
