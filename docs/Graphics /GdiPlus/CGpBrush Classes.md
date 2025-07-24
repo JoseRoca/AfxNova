@@ -155,7 +155,7 @@ Defines a **Brush** object that contains an **Image** object that is used for th
 | [SetWrapMode](#setwrapmodetbrush) | Sets the wrap mode. |
 | [TranslateTransform](#translatetransformtbrush) | Updates this brush's current transformation matrix with the product of itself and a translation matrix. |
 
-## <a name="ConstructorsBrush"></a>Constructors (CGpBrush)
+## <a name="constructorsbrush"></a>Constructors (CGpBrush)
 
 Creates a **Brush** object.
 
@@ -165,7 +165,7 @@ CONSTRUCTOR CGpBrush (BYVAL pBrush AS CGpBrush PTR)
 ```
 ---
 
-## <a name="CloneBrush"></a>Clone (CGpBrush)
+## <a name="clonebrush"></a>Clone (CGpBrush)
 
 Copies the contents of the existing **Brush** object into a new **Brush** object.
 
