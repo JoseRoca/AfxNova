@@ -6,20 +6,33 @@ The middle inset is the number of units that the midpoint of the base shifts tow
 
 ---
 
-Flat function
+| Name       | Description |
+| ---------- | ----------- |
+| [GdipCreateAdjustableArrowCap](#gdipcreateadjustablearrowcap) | Creates an adjustable arrow line cap with the specified height and width. |
 
-GpStatus WINGDIPAPI GdipCreateAdjustableArrowCap(REAL height, REAL width, BOOL isFilled, GpAdjustableArrowCap **cap)
+## GdipCreateAdjustableArrowCap
 
-c++ Wrapper method
+Creates an adjustable arrow line cap with the specified height and width. The arrow line cap can be filled or nonfilled. The middle inset defaults to zero.
 
+C++ Flat function
+```
+GpStatus GdipCreateAdjustableArrowCap (REAL height, REAL width, BOOL isFilled, GpAdjustableArrowCap **cap);
+```
+FB flat function
+```
+function GdipCreateAdjustableArrowCap (byval as REAL, byval as REAL, byval as BOOL, _
+   byval as GpAdjustableArrowCap ptr ptr) as GpStatus
+```
+C++ wrapper method
+```
 AdjustableArrowCap(IN REAL height, IN REAL width, IN BOOL isFilled = TRUE)
-
-FB wrapper methods
-
-CONSTRUCTOR CGpAdjustableArrowCap (BYVAL pAdjustableArrowCap AS CGpAdjustableArrowCap PTR)
-
+```
+FB wrapper method
+```
 CONSTRUCTOR CGpAdjustableArrowCap (BYVAL nHeight AS SINGLE, BYVAL nWidth AS SINGLE, _
    BYVAL bIsFilled AS BOOL = CTRUE)
+```
+
 
 ---
 
