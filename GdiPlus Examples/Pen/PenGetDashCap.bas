@@ -42,7 +42,7 @@ SUB Example_GetDashCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 20)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 20)
 
    ' // Set the dash style for the pen
    pen.SetDashStyle(DashStyleDash)
@@ -57,7 +57,7 @@ SUB Example_GetDashCap (BYVAL hdc AS HDC)
    DIM nDashCap AS DashCap = pen.GetDashCap
 
    ' // Create another pen, and use the same dash cap.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 15)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_GREEN, 15)
    pen2.SetDashStyle(DashStyleDash)
    pen2.SetDashCap(nDashCap)
 
