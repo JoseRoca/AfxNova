@@ -1460,7 +1460,7 @@ This method returns the rasterization limit in dpi.
 
 ---
 
-## <a name="gethenhnetafile"></a>GetHENHMETAFILE (CGpMetafile)
+## <a name="gethenhmetafile"></a>GetHENHMETAFILE (CGpMetafile)
 
 Gets a Windows handle to an Enhanced Metafile (EMF) file.
 
