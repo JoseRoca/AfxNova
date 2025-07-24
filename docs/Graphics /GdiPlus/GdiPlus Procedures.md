@@ -13,35 +13,37 @@ Assorted GDI+ helper procedures.
 | [AfxGdipBitmapFromRes](#afxgdipbitmapfromres) | Loads an image from a resource, converts it to a bitmap and returns the handle. |
 | [AfxGdipDllVersion](#afxgdipdllversion) | Returns the version of Gdiplus.dll, e.g. 601 for version 6.01. |
 | [AfxGdipGetEncoderClsid](#afxgdipgetencoderclsid) | Retrieves the encoder's clsid. |
-| [AfxGdipGetImageSizeFromFile](#AfxGdipGetImageSizeFromFile) | Returns the size of the image. |
-| [AfxGdipIconFromBuffer](#AfxGdipIconFromBuffer) | Converts an image stored in a buffer into an icon and returns the handle. |
-| [AfxGdipIconFromFile](#AfxGdipIconFromFile) | Loads an image from a file, converts it to an icon and returns the handle. |
-| [AfxGdipIconFromRes](#AfxGdipIconFromRes) | Loads an image from a resource, converts it to an icon and returns the handle. |
-| [AfxGdipImageFromBuffer](#AfxGdipImageFromBuffer) | Converts an image stored in a buffer into an icon or bitmap and returns the handle. |
-| [AfxGdipImageFromFile](#AfxGdipImageFromFile) | Loads an image from a file, converts it to an icon or bitmap and returns the handle. |
-| [AfxGdipImageFromFile2](#AfxGdipImageFromFile2) | Loads an image from a file using GDI+, converts it to an icon or bitmap and returns the handle. |
-| [AfxGdipImageFromRes](#AfxGdipImageFromRes) | Loads an image from a resource, converts it to an icon or bitmap and returns the handle. |
-| [AfxGdipInit](#AfxGdipInit) | Initializes GDI+. |
-| [AfxGdipLoadTexture](#AfxGdipLoadTexture) | Loads an image from disk or a resource an converts it to a texture for use with OpenGL. |
-| [AfxGdipPrintHBITMAP](#AfxGdipPrintHBITMAP) | Prints a Windows bitmap in the default printer. |
-| [AfxGdipSaveHBITMAPToFile](#AfxGdipSaveHBITMAPToFile) | Saves a Windows bitmap to file. |
-| [AfxGdipSaveImageToFile](#AfxGdipSaveImageToFile) | Saves a GDI+ image to file. |
-| [AfxGdipShutdown](#AfxGdipShutdown) | Cleans up resources used by Windows GDI+. Each call to **GdiplusStartup** should be paired with a call to **GdiplusShutdown**. |
-| [GDIP_ARGB](#GDIP_ARGB) | Returns an ARGB color value initialized with the specified values for the alpha, red, green, and blue components. |
-| [GDIP_BGRA](#GDIP_BGRA) | Returns a BGRA color value initialized with the specified values for the blue, green, red and alpha components. |
-| [GDIP_COLOR](#GDIP_COLOR) | Returns an ARGB color value initialized with the specified values for the alpha, red, green, and blue components. |
-| [GDIP_GetAlpha](#GDIP_GetAlpha) | Returns the alpha component of an ARGB color value. |
-| [GDIP_GetBlue](#GDIP_GetBlue) | Returns the blue component of an ARGB color value. |
-| [GDIP_GetGreen](#GDIP_GetGreen) | Returns the green component of an ARGB color value. |
-| [GDIP_GetRed](#GDIP_GetRed) | Returns the red component of an ARGB color value. |
-| [GDIP_POINT](#GDIP_POINT) | Returns a GpPoint color value initialized with the specified values for the x and y coordinates. |
-| [GDIP_POINTF](#GDIP_POINTF) | Returns a GpPointF color value initialized with the specified values for the x and y coordinates. |
-| [GDIP_RGBA](#GDIP_RGBA) | Returns a RGBA color value initialized with the specified values for the red, green, blue and alpha components. |
-| [GDIP_RECT](#GDIP_RECT) | Returns a GpRect structure initialized with the specified values for the x, y, width, and height components. |
-| [GDIP_RECTF](#GDIP_RECTF) | Returns a GpRectF structure initialized with the specified values for the x, y, width, and height components. |
-| [GDIP_XRGB](#GDIP_XRGB) | Returns a XRGB color value initialized with the specified values for the red, green, and blue components. |
+| [AfxGdipGetImageSizeFromFile](#afxgdipgetimagesizefromfile) | Returns the size of the image. |
+| [AfxGdipIconFromBuffer](#afxgdipiconfrombuffer) | Converts an image stored in a buffer into an icon and returns the handle. |
+| [AfxGdipIconFromFile](#afxgdipiconfromfile) | Loads an image from a file, converts it to an icon and returns the handle. |
+| [AfxGdipIconFromRes](#afxgdipiconfromres) | Loads an image from a resource, converts it to an icon and returns the handle. |
+| [AfxGdipImageFromBuffer](#afxgdipimagefrombuffer) | Converts an image stored in a buffer into an icon or bitmap and returns the handle. |
+| [AfxGdipImageFromFile](#afxgdipimagefromfile) | Loads an image from a file, converts it to an icon or bitmap and returns the handle. |
+| [AfxGdipImageFromFile2](#afxgdipimagefromfile2) | Loads an image from a file using GDI+, converts it to an icon or bitmap and returns the handle. |
+| [AfxGdipImageFromRes](#afxgdipimagefromres) | Loads an image from a resource, converts it to an icon or bitmap and returns the handle. |
+| [AfxGdipInit](#afxgdipinit) | Initializes GDI+. |
+| [AfxGdipLoadTexture](#afxgdiploadtexture) | Loads an image from disk or a resource an converts it to a texture for use with OpenGL. |
+| [AfxGdipPrintHBITMAP](#afxgdipprinthbitmap) | Prints a Windows bitmap in the default printer. |
+| [AfxGdipSaveHBITMAPToFile](#afxgdipsavehbitmaptofile) | Saves a Windows bitmap to file. |
+| [AfxGdipSaveImageToFile](#afxgdipsaveimagetofile) | Saves a GDI+ image to file. |
+| [AfxGdipShutdown](#afxgdipshutdown) | Cleans up resources used by Windows GDI+. Each call to **GdiplusStartup** should be paired with a call to **GdiplusShutdown**. |
+| [GDIP_ARGB](#gdip_argb) | Returns an ARGB color value initialized with the specified values for the alpha, red, green, and blue components. |
+| [GDIP_BGRA](#gdip_bgra) | Returns a BGRA color value initialized with the specified values for the blue, green, red and alpha components. |
+| [GDIP_COLOR](#gdip_color) | Returns an ARGB color value initialized with the specified values for the alpha, red, green, and blue components. |
+| [GDIP_GetAlpha](#gdip_getalpha) | Returns the alpha component of an ARGB color value. |
+| [GDIP_GetBlue](#gdip_getblue) | Returns the blue component of an ARGB color value. |
+| [GDIP_GetGreen](#gdip_getgreen) | Returns the green component of an ARGB color value. |
+| [GDIP_GetRed](#gdip_getred) | Returns the red component of an ARGB color value. |
+| [GDIP_POINT](#gdip_point) | Returns a GpPoint color value initialized with the specified values for the x and y coordinates. |
+| [GDIP_POINTF](#gdip_pointf) | Returns a GpPointF color value initialized with the specified values for the x and y coordinates. |
+| [GDIP_RGBA](#gdip_rgba) | Returns a RGBA color value initialized with the specified values for the red, green, blue and alpha components. |
+| [GDIP_RECT](#gdip_rect) | Returns a GpRect structure initialized with the specified values for the x, y, width, and height components. |
+| [GDIP_RECTF](#gdip_rectf) | Returns a GpRectF structure initialized with the specified values for the x, y, width, and height components. |
+| [GDIP_XRGB](#gdip_xrgb) | Returns a XRGB color value initialized with the specified values for the red, green, and blue components. |
 
-# <a name="AfxGdipAddIconFromFile"></a>AfxGdipAddIconFromFile
+---
+
+## AfxGdipAddIconFromFile
 
 Loads an image from a file, converts it to an icon and adds it to specified image list.
 
