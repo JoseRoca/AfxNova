@@ -27,6 +27,7 @@
 #pragma once
 #include once "windows.bi"
 #include once "AfxNova/CWindow.inc"     ' // CWindow framework
+#include once "AfxNova/CDialog.inc"     ' // CDialog framework
 #include once "AfxNova/AfxGdiplus.inc"  ' // for GdiPlus support
 #INCLUDE ONCE "GL/windows/glu.bi"       ' // for OpenGL support
 #include once "AfxNova/CMemBmp.inc"     ' // Memory bitmap
@@ -90,7 +91,10 @@ TYPE CGraphCtx
 
       DECLARE CONSTRUCTOR (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
          BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
-         BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0)
+         BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0, BYVAL pCallbackProc AS WNDPROC = NULL)
+      DECLARE CONSTRUCTOR (BYVAL hDlg AS HWND, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
+         BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
+         BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0, BYVAL pCallbackProc AS WNDPROC = NULL)
       DECLARE DESTRUCTOR
       DECLARE FUNCTION hWindow () AS HWND
       DECLARE FUNCTION SetVirtualBufferSize (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS LONG
@@ -136,11 +140,11 @@ END TYPE
 ' ========================================================================================
 
 ' ========================================================================================
-' CGraphCtx class constructor
+' CGraphCtx class constructor - CWindow
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
    BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
-   BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0)
+   BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0, BYVAL pCallbackProc AS WNDPROC = NULL)
 
    ' // Register the class
    DIM wAtom AS ATOM
@@ -184,10 +188,10 @@ PRIVATE CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_P
          IF .GetObjectW(pWindow->Font, SIZEOF(lfw), @lfw) THEN m_hFont = CreateFontIndirectW(@lfw)
       END IF
       ' // Creates a compatible memory device context and bitmap
-      .GetClientRect m_hCtl, @m_coord
-      DIM hDC AS HDC = .GetDC(m_hCtl)
-      m_BitsPerPel = .GetDeviceCaps(hDC, BITSPIXEL_)
-      m_hMemDc = .CreateCompatibleDc(hDC)
+      ..GetClientRect m_hCtl, @m_coord
+      DIM hDC AS HDC = ..GetDC(m_hCtl)
+      m_BitsPerPel = ..GetDeviceCaps(hDC, BITSPIXEL_)
+      m_hMemDc = ..CreateCompatibleDc(hDC)
       DIM bi AS BITMAPINFO
       bi.bmiHeader.biSize = SIZEOF(bi.bmiHeader)
       bi.bmiHeader.biWidth = m_coord.Right - m_coord.Left
@@ -195,10 +199,10 @@ PRIVATE CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_P
       bi.bmiHeader.biPlanes = 1
       bi.bmiHeader.biBitCount = m_BitsPerPel
       bi.bmiHeader.biCompression = BI_RGB
-      m_hBmp = .CreateDIBSection(hDC, @bi, DIB_RGB_COLORS, m_ppvBits, NULL, 0)
-      m_hOldBmp = .SelectObject(m_hMemDc, m_hBmp)
-      FillRect m_hMemDc, @m_coord, CAST(HBRUSH, .GetClassLongPtr(.GetParent(m_hCtl), GCLP_HBRBACKGROUND))
-      ReleaseDc m_hCtl, hDc
+      m_hBmp = ..CreateDIBSection(hDC, @bi, DIB_RGB_COLORS, m_ppvBits, NULL, 0)
+      m_hOldBmp = ..SelectObject(m_hMemDc, m_hBmp)
+      ..FillRect m_hMemDc, @m_coord, CAST(HBRUSH, .GetClassLongPtr(.GetParent(m_hCtl), GCLP_HBRBACKGROUND))
+      ..ReleaseDc m_hCtl, hDc
       ' // Set the virtual size equal to the size of the bitmap
       m_vWidth = m_coord.Right - m_coord.Left
       m_vHeight = m_coord.Bottom - m_coord.Top
@@ -218,18 +222,131 @@ PRIVATE CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_P
       si.fMask = SIF_RANGE
       si.nMin = 0
       si.nMax = m_MaxX - m_coord.Right - m_coord.Left
-      SetScrollInfo m_hCtl, SB_HORZ, @si, 1
+      ..SetScrollInfo m_hCtl, SB_HORZ, @si, 1
       si.nMax = m_MaxY - m_coord.Bottom - m_coord.Top
-      .SetScrollInfo m_hCtl, SB_VERT, @si, 1
+      ..SetScrollInfo m_hCtl, SB_VERT, @si, 1
       ' // Invalidates the window to force redrawing
-      .InvalidateRect m_hCtl, NULL, 0
+      ..InvalidateRect m_hCtl, NULL, 0
    END IF
 
 END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' CPgBar3D class destructor
+' CGraphCtx class constructor - CWindow and CDialog
+' ========================================================================================
+PRIVATE CONSTRUCTOR CGraphCtx (BYVAL hWin AS HWND, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
+   BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
+   BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0, BYVAL pCallbackProc AS WNDPROC = NULL)
+
+   IF hWin = NULL THEN EXIT CONSTRUCTOR
+   DIM pWindow AS CWindow PTR
+   DIM pDialog AS CDialog PTR
+   DIM IsDialog AS BOOLEAN
+   IF GetWindowLongPtrW(hWin, DWLP_USER) <> 0 THEN IsDialog = TRUE
+   IF IsDialog THEN
+      pDialog = CAST(CDialog PTR, GetWindowLongPtrW(hWin, DWLP_USER))
+      IF pDialog = NULL THEN EXIT CONSTRUCTOR
+   ELSE
+      pWindow = CAST(CWindow PTR, GetWindowLongPtrW(hWin, 0))
+      IF pWindow = NULL THEN EXIT CONSTRUCTOR
+   END IF
+
+   ' // Register the class
+   DIM wAtom AS ATOM
+   DIM wcexw AS WNDCLASSEXW
+   DIM wszClassName AS WSTRING * 260 = "AFX_GRAPHCTX"
+   IF .GetClassInfoExW(.GetModuleHandleW(NULL), @wszClassName, @wcexw) = 0 THEN
+      ' // Fill the WNDCLASSEXW structure
+      WITH wcexw
+         .cbSize        = SIZEOF(wcexw)
+         .style         = CS_DBLCLKS OR CS_HREDRAW OR CS_VREDRAW
+         .lpfnWndProc   = @CGraphCtxProc
+         .cbClsExtra    = 0
+         .cbWndExtra    = SIZEOF(HANDLE)   ' // make room to store a pointer to the class
+         .hInstance     = ..GetModuleHandleW(NULL)
+         .hCursor       = ..LoadCursorW(NULL, CAST(LPCWSTR, IDC_ARROW))
+         .hbrBackground = CAST(HBRUSH, WHITE_BRUSH)
+         .lpszMenuName  = NULL
+         .lpszClassName = @wszClassName
+         .hIcon         = NULL
+         .hIconSm       = NULL
+      END WITH
+      wAtom = .RegisterClassExW(@wcexw)
+   END IF
+
+   ' // Create the control
+   IF dwStyle = 0 THEN dwStyle = WS_VISIBLE OR WS_CHILD OR WS_TABSTOP
+   ' OPENGL: Most Common Cause of SetPixelFormat() Failure
+   ' An OpenGL window has its own pixel format. Because of this, only device contexts
+   ' retrieved for the client area of an OpenGL window are allowed to draw into the window.
+   ' As a result, an OpenGL window should be created with the WS_CLIPCHILDREN and
+   ' WS_CLIPSIBLINGS styles. Additionally, the window class attribute should not include
+   ' the CS_PARENTDC style.
+   ' // Make sure that the control has the WS_CHILD, WS_CLIPCHILDREN and WS_CLIPSIBLINGS styles
+   IF wszTitle = "OPENGL" THEN dwStyle = dwStyle OR WS_CLIPCHILDREN OR WS_CLIPSIBLINGS
+   IF IsDialog THEN
+      m_hCtl = pDialog->ControlAdd(wszClassName, cID, wszTitle, x, y, nWidth, nHeight, dwStyle, dwExStyle, lpParam)
+   ELSE
+      m_hCtl = pWindow->AddControl(wszClassName, pWindow->hWindow, cID, wszTitle, x, y, nWidth, nHeight, dwStyle, dwExStyle, lpParam)
+   END IF
+   IF m_hCtl THEN
+      ..SetWindowLongPtrW m_hCtl, 0, CAST(LONG_PTR, @this)
+      ' // Set the same font used by the parent
+      DIM hParentFont AS HFONT = CAST(HFONT, SendMessageW(GetParent(hWin), WM_GETFONT, 0, 0))
+      IF hParentFont THEN
+         DIM lfw AS LOGFONTW
+         IF GetObjectW(hParentFont, SIZEOF(lfw), @lfw) THEN
+            m_hFont = CreateFontIndirectW(@lfw)
+         END IF
+      END IF
+      ' // Creates a compatible memory device context and bitmap
+      ..GetClientRect m_hCtl, @m_coord
+      DIM hDC AS HDC = ..GetDC(m_hCtl)
+      m_BitsPerPel = ..GetDeviceCaps(hDC, BITSPIXEL_)
+      m_hMemDc = ..CreateCompatibleDc(hDC)
+      DIM bi AS BITMAPINFO
+      bi.bmiHeader.biSize = SIZEOF(bi.bmiHeader)
+      bi.bmiHeader.biWidth = m_coord.Right - m_coord.Left
+      bi.bmiHeader.biHeight = m_coord.Bottom - m_coord.Top
+      bi.bmiHeader.biPlanes = 1
+      bi.bmiHeader.biBitCount = m_BitsPerPel
+      bi.bmiHeader.biCompression = BI_RGB
+      m_hBmp = ..CreateDIBSection(hDC, @bi, DIB_RGB_COLORS, m_ppvBits, NULL, 0)
+      m_hOldBmp = ..SelectObject(m_hMemDc, m_hBmp)
+      ..FillRect m_hMemDc, @m_coord, CAST(HBRUSH, .GetClassLongPtr(.GetParent(m_hCtl), GCLP_HBRBACKGROUND))
+      ..ReleaseDc m_hCtl, hDc
+      ' // Set the virtual size equal to the size of the bitmap
+      m_vWidth = m_coord.Right - m_coord.Left
+      m_vHeight = m_coord.Bottom - m_coord.Top
+      ' // Default stretch mode
+      m_StretchMode = HALFTONE
+      ' Add OpenGL support
+      IF UCASE(wszTitle) = "OPENGL" THEN
+         m_bOpenGL = TRUE
+         ' // OpenGL: Set the pixel format and ceate the rendering context
+         IF this.SetPixelFormat(m_BitsPerPel) THEN m_hRC = this.CreateContext
+      END IF
+      ' // Initializes scroll bar ranges
+      m_MaxX = m_coord.Right - m_coord.Left
+      m_MaxY = m_coord.Bottom - m_coord.Top
+      DIM si AS SCROLLINFO
+      si.cbSize = SIZEOF(si)
+      si.fMask = SIF_RANGE
+      si.nMin = 0
+      si.nMax = m_MaxX - m_coord.Right - m_coord.Left
+      ..SetScrollInfo m_hCtl, SB_HORZ, @si, 1
+      si.nMax = m_MaxY - m_coord.Bottom - m_coord.Top
+      ..SetScrollInfo m_hCtl, SB_VERT, @si, 1
+      ' // Invalidates the window to force redrawing
+      ..InvalidateRect m_hCtl, NULL, 0
+   END IF
+
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' CGraphCtx class destructor
 ' ========================================================================================
 PRIVATE DESTRUCTOR CGraphCtx
    ' // Restore the original bitmap
