@@ -1452,7 +1452,7 @@ END SUB
 ```
 ---
 
-# <a name="SetBlendBellShapeLGBrush"></a>SetBlendBellShape (CGpLinearGradientBrush)
+## <a name="setblendbellshapelgbrush"></a>SetBlendBellShape (CGpLinearGradientBrush)
 
 Sets the blend shape of this path gradient brush.
 
@@ -1515,8 +1515,9 @@ SUB Example_SetBlendBellShape (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetBlendTriangularShapeLGBrush"></a>SetBlendTriangularShape (CGpLinearGradientBrush)
+## <a name="setblendtriangularshapelgbrush"></a>SetBlendTriangularShape (CGpLinearGradientBrush)
 
 Sets the blend shape of this path gradient brush.
 
@@ -1579,8 +1580,9 @@ SUB Example_SetBlendTriangularShape (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetGammaCorrectionLGBrush"></a>SetGammaCorrection (CGpLinearGradientBrush)
+## <a name="setgammacorrectionlgbrush"></a>SetGammaCorrection (CGpLinearGradientBrush)
 
 Specifies whether gamma correction is enabled for this linear gradient brush.
 
@@ -1602,7 +1604,9 @@ If the function fails, it returns one of the other elements of the **Status** en
 
 Gamma correction is often done to match the intensity contrast of the gradient to the ability of the human eye to perceive intensity changes.
 
-# <a name="SetGammaCorrectionPGBrush"></a>SetGammaCorrection (CGpPathGradientBrush)
+---
+
+## <a name="setgammacorrectionpgbrush"></a>SetGammaCorrection (CGpPathGradientBrush)
 
 Specifies specifies whether gamma correction is enabled for this path gradient brush.
 
@@ -1624,7 +1628,9 @@ If the function fails, it returns one of the other elements of the **Status** en
 
 Gamma correction is often done to match the intensity contrast of the gradient to the ability of the human eye to perceive intensity changes.
 
-# <a name="SetInterpolationColorsLGBrush"></a>SetInterpolationColors (CGpLinearGradientBrush)
+---
+
+## <a name="setinterpolationcolorslgbrush"></a>SetInterpolationColors (CGpLinearGradientBrush)
 
 Specifies whether gamma correction is enabled for this linear gradient brush.
 
@@ -1677,8 +1683,9 @@ SUB Example_SetInterpolationColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetLinearColors"></a>SetLinearColors (CGpLinearGradientBrush)
+## <a name="setlinearcolors"></a>SetLinearColors (CGpLinearGradientBrush)
 
 Sets the starting color and ending color of this linear gradient brush.
 
@@ -1725,8 +1732,9 @@ SUB Example_SetLinearColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetTransformLGBrush"></a>SetTransform (CGpLinearGradientBrush)
+## <a name="settransformlgbrush"></a>SetTransform (CGpLinearGradientBrush)
 
 Sets the transformation matrix of this linear gradient brush.
 
@@ -1785,8 +1793,9 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetWrapModeLGBrush"></a>SetWrapMode (CGpLinearGradientBrush)
+## <a name="setwrapmodelgbrush"></a>SetWrapMode (CGpLinearGradientBrush)
 
 Sets the wrap mode of this linear gradient brush.
 
@@ -1844,8 +1853,9 @@ SUB Example_SetWrapMode (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="TranslateTransformLGBrush"></a>TranslateTransform (CGpLinearGradientBrush)
+## <a name="translatetransformlgbrush"></a>TranslateTransform (CGpLinearGradientBrush)
 
 Updates this brush's current transformation matrix with the product of itself and a translation matrix.
 
@@ -1907,8 +1917,9 @@ SUB Example_TranslateTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="ConstructorsPGBrush"></a>Constructors (CGpPathGradientBrush)
+# <a name="constructorspgbrush"></a>Constructors (CGpPathGradientBrush)
 
 Creates a **PathGradientBrush** object from another **PathGradientBrush** object.
 
@@ -1943,7 +1954,9 @@ CONSTRUCTOR CGpPathGradientBrush (BYVAL pGraphPath AS CGpGraphicsPath PTR)
 | *nWrapMode* | Optional. Element of the **WrapMode** enumeration that specifies how areas painted with the path gradient brush will be tiled. The default value is **WrapModeClamp**. |
 | *pGraphPath* | Pointer to a **GraphicsPath** object that specifies the boundary path of the path gradient brush. |
 
-# <a name="GetBlendPGBrush"></a>GetBlend (CGpPathGradientBrush)
+---
+
+## <a name="getblendpgbrush"></a>GetBlend (CGpPathGradientBrush)
 
 Gets the blend factors and the corresponding blend positions currently set for this path gradient brush.
 
@@ -2032,8 +2045,9 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetBlendCountPGBrush"></a>GetBlendCount (CGpPathGradientBrush)
+## <a name="getblendcountpgbrush"></a>GetBlendCount (CGpPathGradientBrush)
 
 Gets the number of blend factors currently set for this path gradient brush.
 
@@ -2109,8 +2123,9 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetCenterColor"></a>GetCenterColor (CGpPathGradientBrush)
+## <a name="getcentercolor"></a>GetCenterColor (CGpPathGradientBrush)
 
 Gets the center color of this path gradient brush.
 
@@ -2182,8 +2197,9 @@ SUB Example_GetCenterColor (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetCenterPoint"></a>GetCenterPoint (CGpPathGradientBrush)
+## <a name="getcenterpoint"></a>GetCenterPoint (CGpPathGradientBrush)
 
 Gets the center point of this path gradient brush.
 
@@ -2256,8 +2272,9 @@ SUB Example_GetCenterPoint (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetFocusScales"></a>GetFocusScales (CGpPathGradientBrush)
+## <a name="getfocusscales"></a>GetFocusScales (CGpPathGradientBrush)
 
 Gets the focus scales of this path gradient brush.
 
@@ -2333,8 +2350,9 @@ SUB Example_GetFocusScales (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetGammaCorrectionPGBrush"></a>GetGammaCorrection (CGpPathGradientBrush)
+## <a name="getgammacorrectionpgbrush"></a>GetGammaCorrection (CGpPathGradientBrush)
 
 Determines whether gamma correction is enabled for this path gradient brush.
 
@@ -2346,8 +2364,9 @@ FUNCTION GetGammaCorrection () AS BOOL
 
 If gamma correction is enabled, this method returns TRUE; otherwise, it returns FALSE.
 
+---
 
-# <a name="GetInterpolationColorCountPGBrush"></a>GetInterpolationColorCount (CGpPathGradientBrush)
+## <a name="getinterpolationcolorcountpgbrush"></a>GetInterpolationColorCount (CGpPathGradientBrush)
 
 Gets the number of preset colors currently specified for this path gradient brush.
 
@@ -2367,8 +2386,9 @@ A simple path gradient brush has two colors: a boundary color and a center color
 
 You can obtain the interpolation colors and interpolation positions currently set for a **PathGradientBrush** object by calling the **GetInterpolationColors** method of that **PathGradientBrush** object. Before you call the **GetInterpolationColors** method, you must allocate two buffers: one to hold the array of interpolation colors and one to hold the array of interpolation positions. You can call the **GetInterpolationColorCount** method of the **PathGradientBrush** object to determine the required size of those buffers. The size of the color buffer is the return value of **GetInterpolationColorCount** multiplied by 4. The size of the position buffer is the value of **GetInterpolationColorCount** multiplied by 4 (the size of a single precision number).
 
+---
 
-# <a name="GetInterpolationColorsPGBrush"></a>GetInterpolationColors (CGpPathGradientBrush)
+## <a name="getinterpolationcolorspgbrush"></a>GetInterpolationColors (CGpPathGradientBrush)
 
 Gets preset colors and blend positions currently specified for this path gradient brush.
 
@@ -2443,8 +2463,9 @@ SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetPointCount"></a>GetPointCount (CGpPathGradientBrush)
+## <a name="getpointcount"></a>GetPointCount (CGpPathGradientBrush)
 
 Gets the number of points in the array of points that defines this brush's boundary path.
 
@@ -2456,7 +2477,9 @@ FUNCTION GetPointCount () AS INT_
 
 This method returns the number of points in the array of points that defines this brush's boundary path.
 
-# <a name="GetRectanglePGBrush"></a>GetRectangle (CGpPathGradientBrush)
+---
+
+## <a name="getrectanglepgbrush"></a>GetRectangle (CGpPathGradientBrush)
 
 Gets the smallest rectangle that encloses the boundary path of this path gradient brush.
 
@@ -2513,8 +2536,9 @@ SUB Example_GetRectangle (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetSurroundColorCount"></a>GetSurroundColorCount (CGpPathGradientBrush)
+## <a name="getsurroundcolorcount"></a>GetSurroundColorCount (CGpPathGradientBrush)
 
 Gets the number of colors that have been specified for the boundary path of this path gradient brush.
 
@@ -2571,8 +2595,9 @@ SUB Example_GetSurroundColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetSurroundColors"></a>GetSurroundColors (CGpPathGradientBrush)
+## <a name="getsurroundcolors"></a>GetSurroundColors (CGpPathGradientBrush)
 
 Gets the surround colors currently specified for this path gradient brush.
 
@@ -2640,8 +2665,9 @@ SUB Example_GetSurroundColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetTransformPGBrush"></a>GetTransform (CGpPathGradientBrush)
+## <a name="gettransformpgbrush"></a>GetTransform (CGpPathGradientBrush)
 
 Gets the transformation matrix of this path gradient brush.
 
@@ -2709,7 +2735,9 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
-# <a name="GetWrapModePGBrush"></a>GetWrapMode (CGpPathGradientBrush)
+---
+
+## <a name="getwrapmodepgbrush"></a>GetWrapMode (CGpPathGradientBrush)
 
 Gets the wrap mode currently set for this path gradient brush.
 
@@ -2766,8 +2794,9 @@ SUB Example_GetWrapMode (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="MultiplyTransformPGBrush"></a>MultiplyTransform (CGpPathGradientBrush)
+## <a name="multiplytransformpgbrush"></a>MultiplyTransform (CGpPathGradientBrush)
 
 Updates the brush's transformation matrix with the product of itself and another matrix.
 
@@ -2833,7 +2862,9 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
-# <a name="ResetTransformPGBrush"></a>ResetTransform (CGpPathGradientBrush)
+---
+
+# <a name="resettransformpgbrush"></a>ResetTransform (CGpPathGradientBrush)
 
 Resets the transformation matrix of this path gradient brush to the identity matrix. This means that no transformation will take place.
 
@@ -2890,8 +2921,9 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="RotateTransformPGBrush"></a>RotateTransform (CGpPathGradientBrush)
+## <a name="rotatetransformpgbrush"></a>RotateTransform (CGpPathGradientBrush)
 
 Updates this brush's current transformation matrix with the product of itself and a rotation matrix.
 
@@ -2951,8 +2983,9 @@ SUB Example_RotateTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="ScaleTransformPGBrush"></a>ScaleTransform (CGpPathGradientBrush)
+# <a name="scaletransformpgbrush"></a>ScaleTransform (CGpPathGradientBrush)
 
 Updates this brush's current transformation matrix with the product of itself and a scaling matrix.
 
@@ -3013,8 +3046,9 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetBlendPGBrush"></a>SetBlend (CGpPathGradientBrush)
+## <a name="setblendpgbrush"></a>SetBlend (CGpPathGradientBrush)
 
 Sets the blend factors and the blend positions of this path gradient brush.
 
@@ -3085,8 +3119,9 @@ SUB Example_SetBlend (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetBlendBellShapePGBrush"></a>SetBlendBellShape (CGpPathGradientBrush)
+## <a name="setblendbellshapepgbrush"></a>SetBlendBellShape (CGpPathGradientBrush)
 
 Sets the blend shape of this path gradient brush.
 
@@ -3154,8 +3189,9 @@ SUB Example_SetBlendBellShape (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetBlendTriangularShapePGBrush"></a>SetBlendTriangularShape (CGpPathGradientBrush)
+## <a name="setblendtriangularshapepgbrush"></a>SetBlendTriangularShape (CGpPathGradientBrush)
 
 Sets the blend shape of this path gradient brush.
 
@@ -3223,8 +3259,9 @@ SUB Example_SetBlendTriangularShape (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetCenterColor"></a>SetCenterColor (CGpPathGradientBrush)
+## <a name="setcentercolor"></a>SetCenterColor (CGpPathGradientBrush)
 
 Sets the center color of this path gradient brush. The center color is the color that appears at the brush's center point.
 
@@ -3287,8 +3324,9 @@ SUB Example_SetCenterColor (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetCenterPoint"></a>SetCenterPoint (CGpPathGradientBrush)
+## <a name="setcenterpoint"></a>SetCenterPoint (CGpPathGradientBrush)
 
 Sets the center point of this path gradient brush. By default, the center point is at the centroid of the brush's boundary path, but you can set the center point to any location inside or outside the path.
 
@@ -3350,8 +3388,9 @@ SUB Example_SetCenterPoint (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetFocusScales"></a>SetFocusScales (CGpPathGradientBrush)
+## <a name="setfocusscales"></a>SetFocusScales (CGpPathGradientBrush)
 
 Sets the focus scales of this path gradient brush.
 
@@ -3418,8 +3457,9 @@ SUB Example_SetFocusScales (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetInterpolationColorsPGBrush"></a>SetInterpolationColors (CGpPathGradientBrush)
+## <a name="setinterpolationcolorspgbrush"></a>SetInterpolationColors (CGpPathGradientBrush)
 
 Sets the preset colors and the blend positions of this path gradient brush.
 
@@ -3475,8 +3515,9 @@ SUB Example_SetInterpolationColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetSurroundColors"></a>SetSurroundColors (CGpPathGradientBrush)
+## <a name="setsurroundcolors"></a>SetSurroundColors (CGpPathGradientBrush)
 
 Sets the surround colors of this path gradient brush. The surround colors are colors specified for discrete points on the brush's boundary path.
 
@@ -3537,8 +3578,9 @@ SUB Example_SetSurroundColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetTransformPGBrush"></a>SetTransform (CGpPathGradientBrush)
+## <a name="settransformpgbrush"></a>SetTransform (CGpPathGradientBrush)
 
 Sets the transformation matrix of this path gradient brush.
 
@@ -3603,8 +3645,9 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetWrapModePGBrush"></a>SetWrapMode (CGpPathGradientBrush)
+## <a name="setwrapmodepgbrush"></a>SetWrapMode (CGpPathGradientBrush)
 
 Sets the wrap mode of this path gradient brush.
 
@@ -3663,8 +3706,9 @@ SUB Example_SetWrapMode (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="TranslateTransformPGBrush"></a>TranslateTransform (CGpPathGradientBrush)
+## <a name="translatetransformpgbrush"></a>TranslateTransform (CGpPathGradientBrush)
 
 Updates this brush's current transformation matrix with the product of itself and a translation matrix.
 
@@ -3725,8 +3769,9 @@ SUB Example_TranslateTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ````
+---
 
-# <a name="ConstructorsTBrush"></a>Constructors (CGpTextureBrush)
+## <a name="constructorstbrush"></a>Constructors (CGpTextureBrush)
 
 Creates a texture brush.
 
@@ -3775,7 +3820,9 @@ TextureBrush(@someImage, WrapModeTile, 0, 0, 256, 512)
 
 The brush will have width and height equal to 256 and 512, respectively. The brush will use the entire image instead of a portion of it because the rectangle specifies a starting pixel at coordinates (0, 0) and dimensions identical to those of the image.
 
-# <a name="GetImage"></a>GetImage (CGpTextureBrush)
+---
+
+## <a name="getimage"></a>GetImage (CGpTextureBrush)
 
 Gets a pointer to the Image object that is defined by this texture brush.
 
@@ -3827,8 +3874,9 @@ SUB Example_GetImage (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetTransformTBrush"></a>GetTransform (CGpTextureBrush)
+## <a name="gettransformtbrush"></a>GetTransform (CGpTextureBrush)
 
 Gets the transformation matrix of this texture brush.
 
@@ -3886,8 +3934,9 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetWrapModeTBrush"></a>GetWrapMode (CGpTexturetBrush)
+## <a name="getwrapmodetbrush"></a>GetWrapMode (CGpTexturetBrush)
 
 Gets the wrap mode currently set for this texture brush.
 
@@ -3937,8 +3986,9 @@ SUB Example_WrapMode (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="MultiplyTransformTBrush"></a>MultiplyTransform (CGpTextureBrush)
+## <a name="multiplytransformtbrush"></a>MultiplyTransform (CGpTextureBrush)
 
 Updates the brush's transformation matrix with the product of itself and another matrix.
 
@@ -3989,8 +4039,9 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="ResetTransformTBrush"></a>ResetTransform (CGpTextureBrush)
+## <a name="resettransformtbrush"></a>ResetTransform (CGpTextureBrush)
 
 Resets the transformation matrix of this texture brush to the identity matrix. This means that no transformation takes place.
 
@@ -4039,8 +4090,9 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="RotateTransformTBrush"></a>RotateTransform (CGpTextureBrush)
+## <a name="rotatetransformtbrush"></a>RotateTransform (CGpTextureBrush)
 
 Updates this texture brush's current transformation matrix with the product of itself and a rotation matrix.
 
@@ -4093,8 +4145,9 @@ SUB Example_RotateTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="ScaleTransformTBrush"></a>ScaleTransform (CGpTextureBrush)
+## <a name="scaletransformtbrush"></a>ScaleTransform (CGpTextureBrush)
 
 Updates this texture brush's current transformation matrix with the product of itself and a scaling matrix.
 
@@ -4148,8 +4201,9 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetTransformTBrush"></a>SetTransform (CGpTextureBrush)
+## <a name="settransformtbrush"></a>SetTransform (CGpTextureBrush)
 
 Sets the transformation matrix of this texture brush.
 
@@ -4200,8 +4254,9 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetWrapModeTBrush"></a>SetWrapMode (CGpTextureBrush)
+## <a name="setwrapmodetbrush"></a>SetWrapMode (CGpTextureBrush)
 
 Sets the wrap mode of this texture brush.
 
@@ -4259,8 +4314,9 @@ SUB Example_SetWrapMode (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="TranslateTransformTBrush"></a>TranslateTransform (CGpTextureBrush)
+## <a name="translatetransformtbrush"></a>TranslateTransform (CGpTextureBrush)
 
 Updates this brush's current transformation matrix with the product of itself and a translation matrix.
 
