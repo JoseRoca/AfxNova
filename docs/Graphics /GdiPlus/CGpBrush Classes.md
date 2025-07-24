@@ -429,7 +429,7 @@ END SUB
 ```
 ---
 
-# <a name="GetForegroundColor"></a>GetForegroundColor (CGpHatchBrush)
+## <a name="getforegroundcolor"></a>GetForegroundColor (CGpHatchBrush)
 
 Gets the foreground color of this hatch brush.
 
@@ -491,8 +491,9 @@ SUB Example_HatchBrushGetForegroundColor (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetHatchStyle"></a>GetHatchStyle (CGpHatchBrush)
+## <a name="gethatchstyle"></a>GetHatchStyle (CGpHatchBrush)
 
 Gets the hatch style of this hatch brush.
 
@@ -552,7 +553,9 @@ SUB Example_HatchBrushGetHatchStyle (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
-# <a name="ConstructorsLGBrush"></a>Constructors (CGpLinearGradientBrush)
+---
+
+## <a name="constructorslgbrush"></a>Constructors (CGpLinearGradientBrush)
 
 Creates a **LinearGradientBrush** object from a set of boundary points and boundary colors.
 
@@ -593,7 +596,9 @@ CONSTRUCTOR CGpLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB
 | *angle* | Real number that, if *isAngleScalable* is TRUE, specifies the base angle from which the angle of the directional line is calculated, or that, if *isAngleScalable* is FALSE, specifies the angle of the directional line. The angle is measured from the top of the rectangle that is specified by rect and must be in degrees. The gradient follows the directional line. |
 | *isAngleScalable* | BOOL value that specifies whether the angle is scalable. If *isAngleScalable* is TRUE, the angle of the directional line is scalable; otherwise, the angle is not scalable. |
 
-# <a name="GetBlendLGBrush"></a>GetBlend (CGpLinearGradientBrush)
+---
+
+## <a name="getblendlgbrush"></a>GetBlend (CGpLinearGradientBrush)
 
 Gets the blend factors and their corresponding blend positions from a **LinearGradientBrush** object.
 
@@ -663,8 +668,9 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetBlendCountLGBrush"></a>GetBlendCount (CGpLinearGradientBrush)
+## <a name="getblendcountlgbrush"></a>GetBlendCount (CGpLinearGradientBrush)
 
 Gets the number of blend factors currently set for this **LinearGradientBrush** object.
 
@@ -722,8 +728,9 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetGammaCorrectionLGBrush"></a>GetGammaCorrection (CGpLinearGradientBrush)
+## <a name="getgammacorrectionlgbrush"></a>GetGammaCorrection (CGpLinearGradientBrush)
 
 Gets the focus scales of this path gradient brush.
 
@@ -735,7 +742,9 @@ FUNCTION GetGammaCorrection () AS BOOL
 
 If gamma correction is enabled, this method returns TRUE; otherwise, it returns FALSE.
 
-# <a name="GetInterpolationColorCountLGBrush"></a>GetInterpolationColorCount (CGpLinearGradientBrush)
+---
+
+## <a name="getinterpolationcolorcountlgbrush"></a>GetInterpolationColorCount (CGpLinearGradientBrush)
 
 Gets the number of colors currently set to be interpolated for this linear gradient brush.
 
@@ -808,8 +817,9 @@ SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetInterpolationColorsLGBrush"></a>GetInterpolationColors (CGpLinearGradientBrush)
+## <a name="getinterpolationcolorslgbrush"></a>GetInterpolationColors (CGpLinearGradientBrush)
 
 Gets the blend factors and their corresponding blend positions from a **LinearGradientBrush** object.
 
@@ -885,8 +895,9 @@ SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetLinearColors"></a>GetLinearColors (CGpLinearGradientBrush)
+## <a name="getlinearcolors"></a>GetLinearColors (CGpLinearGradientBrush)
 
 Gets the starting color and ending color of this linear gradient brush.
 
@@ -940,8 +951,9 @@ SUB Example_GetLinearColors (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetRectangleLGBrush"></a>GetRectangle (CGpLinearGradientBrush)
+## <a name="getrectanglelgbrush"></a>GetRectangle (CGpLinearGradientBrush)
 
 Gets the rectangle that defines the boundaries of the gradient.
 
@@ -998,8 +1010,9 @@ SUB Example_GetRectangle (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetTransformLGBrush"></a>GetTransform (CGpLinearGradientBrush)
+## <a name="gettransformlgbrush"></a>GetTransform (CGpLinearGradientBrush)
 
 Gets the transformation matrix of this linear gradient brush. 
 
@@ -1066,8 +1079,9 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="GetWrapModeLGBrush"></a>GetWrapMode (CGpLinearGradientBrush)
+## <a name="getwrapmodelgbrush"></a>GetWrapMode (CGpLinearGradientBrush)
 
 Gets the wrap mode for this brush. The wrap mode determines how an area is tiled when it is painted with a brush.
 
@@ -1121,8 +1135,9 @@ SUB Example_GetWrapMode (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="MultiplyTransformLGBrush"></a>MultiplyTransform (CGpLinearGradientBrush)
+## <a name="multiplytransformlgbrush"></a>MultiplyTransform (CGpLinearGradientBrush)
 
 Updates this brush's transformation matrix with the product of itself and another matrix.
 
@@ -1192,8 +1207,9 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="ResetTransformLGBrush"></a>ResetTransform (CGpLinearGradientBrush)
+## <a name="resettransformlgbrush"></a>ResetTransform (CGpLinearGradientBrush)
 
 Resets the transformation matrix of this linear gradient brush to the identity matrix. This means that no transformation takes place.
 
@@ -1250,8 +1266,9 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="RotateTransformLGBrush"></a>RotateTransform (CGpLinearGradientBrush)
+## <a name="rotatetransformlgbrush"></a>RotateTransform (CGpLinearGradientBrush)
 
 Updates this brush's current transformation matrix with the product of itself and a rotation matrix.
 
@@ -1312,8 +1329,9 @@ SUB Example_RotateTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="ScaleTransformLGBrush"></a>ScaleTransform (CGpLinearGradientBrush)
+## <a name="scaletransformlgbrush"></a>ScaleTransform (CGpLinearGradientBrush)
 
 Updates this brush's current transformation matrix with the product of itself and a scaling matrix.
 
@@ -1375,8 +1393,9 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
-# <a name="SetBlendLGBrush"></a>SetBlend (CGpLinearGradientBrush)
+## <a name="setblendlgbrush"></a>SetBlend (CGpLinearGradientBrush)
 
 Sets the blend factors and the blend positions of this linear gradient brush to create a custom blend.
 
@@ -1431,6 +1450,7 @@ SUB Example_SetBlend (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
 
 # <a name="SetBlendBellShapeLGBrush"></a>SetBlendBellShape (CGpLinearGradientBrush)
 
