@@ -31,6 +31,46 @@ FUNCTION GdipCreateAdjustableArrowCap (BYVAL height AS SINGLE, BYVAL width AS SI
 
 The middle inset is the number of units that the midpoint of the base shifts towards the vertex. A middle inset of zero results in no shift — the base is a straight line, giving the arrow a triangular shape. A positive (greater than zero) middle inset results in a shift the specified number of units toward the vertex — the base is an arrow shape that points toward the vertex, giving the arrow cap a V-shape. A negative (less than zero) middle inset results in a shift the specified number of units away from the vertex — the base becomes an arrow shape that points away from the vertex, giving the arrow either a diamond shape (if the absolute value of the middle inset is equal to the height) or distorted diamond shape. If the middle inset is equal to or greater than the height of the arrow cap, the cap does not appear at all. The value of the middle inset affects the arrow cap only if the arrow cap is filled. The middle inset defaults to zero when an **AdjustableArrowCap** object is constructed.
 
+#### PowerBasic Example
+
+The following example creates two **AdjustableArrowCap objects**, *pArrowCapStart* and *pArrowCapEnd*, and sets the fill mode to TRUE. The code then creates a **Pen** object and assigns *pArrowCapStart* as the starting line cap for this **Pen** object and *pArrowCapEnd* as the ending line cap. Next, draws a line.
+```
+
+SUB GDIP_CreateAdjustableArrowCap (BYVAL hdc AS DWORD)
+
+   LOCAL hStatus AS LONG
+   LOCAL pGraphics AS DWORD
+   LOCAL pArrowPen AS DWORD
+   LOCAL pArrowCapStart AS DWORD
+   LOCAL pArrowCapEnd AS DWORD
+   LOCAL fillstate AS LONG
+
+   hStatus = GdipCreateFromHDC(hdc, pGraphics)
+
+   ' // Create an AdjustableArrowCap that is filled.
+   hStatus = GdipCreateAdjustableArrowCap(10, 10, %TRUE, pArrowCapStart)
+   ' // Create an AdjustableArrowCap that is not filled.
+   hStatus = GdipCreateAdjustableArrowCap(15, 15, %FALSE, pArrowCapEnd)
+
+   ' // Create a Pen.
+   hStatus = GdipCreatePen1(GDIP_ARGB(255, 0, 0, 0), 1.0!, %UnitWorld, pArrowPen)
+
+   ' Assign pArrowStart as the start cap.
+   hStatus = GdipSetPenCustomStartCap(pArrowPen, pArrowCapStart)
+   ' Assign pArrowEnd as the end cap.
+   hStatus = GdipSetPenCustomEndCap(pArrowPen, pArrowCapEnd)
+
+   ' // Draw a line using pArrowPen.
+   hStatus = GdipDrawLineI(pGraphics, pArrowPen, 0, 0, 100, 100)
+
+   ' // Cleanup
+   IF pArrowCapStart THEN GdipDeleteCustomLineCap(pArrowCapStart)
+   IF pArrowCapEnd THEN GdipDeleteCustomLineCap(pArrowCapEnd)
+   IF pArrowPen THEN GdipDeletePen(pArrowPen)
+   IF pGraphics THEN GdipDeleteGraphics(pGraphics)
+
+END SUB
+```
 ---
 
 ## GdipGetAdjustableArrowCapHeight
@@ -122,8 +162,6 @@ SUB GDIP_GetHeight(BYVAL hdc AS DWORD)
 
 END SUB
 ```
----
-
 ---
 
 Flat function
