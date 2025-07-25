@@ -51,19 +51,78 @@ FUNCTION GdipGetAdjustableArrowCapHeight (BYVAL cap AS GpAdjustableArrowCap PTR,
 | *cap* | [in] Pointer to the arrow cap. |
 | *height* | [out] Pointer to a single precision variable that receives a value that indicates the height, in units, of the arrow cap. |
 
+**** C++ Example
+```
+
+VOID Example_GetHeight(HDC hdc)
+{
+   Graphics graphics(hdc);
+
+   // Create an AdjustableArrowCap with a height of 10 pixels.
+   AdjustableArrowCap myArrow(10, 10, true);
+
+   // Create a Pen, and assign myArrow as the end cap.
+   Pen arrowPen(Color(255, 0, 0, 0));
+   arrowPen.SetCustomEndCap(&myArrow);
+   
+   // Draw a line using arrowPen.
+   graphics.DrawLine(&arrowPen, Point(0, 20), Point(100, 20));
+
+   // Create a second arrow cap using the height of the first one.
+   AdjustableArrowCap otherArrow(myArrow.GetHeight(), 20, true);
+
+   // Assign the new arrow cap as the end cap for arrowPen.
+   arrowPen.SetCustomEndCap(&otherArrow);
+
+   // Draw a line using arrowPen.
+   graphics.DrawLine(&arrowPen, Point(0, 55), Point(100, 55));
+}
+```
+**** PowerBasic Example
+```
+
+SUB GDIP_GetHeight(BYVAL hdc AS DWORD)
+
+   LOCAL hStatus AS LONG
+   LOCAL pGraphics AS DWORD
+   LOCAL pArrowPen AS DWORD
+   LOCAL pMyArrowCap AS DWORD
+   LOCAL pOtherArrowCap AS DWORD
+   LOCAL nHeight AS SINGLE
+
+   hStatus = GdipCreateFromHDC(hdc, pGraphics)
+
+   ' // Create an AdjustableArrowCap with a height of 10 pixels.
+   hStatus = GdipCreateAdjustableArrowCap(10, 10, %TRUE, pMyArrowCap)
+
+   ' // Create a Pen, and assign pMyArrowCap as the end cap.
+   hStatus = GdipCreatePen1(GDIP_ARGB(255, 0, 0, 0), 1.0!, %UnitWorld, pArrowPen)
+   hStatus = GdipSetPenCustomEndCap(pArrowPen, pMyArrowCap)
+
+   ' // Draw a line using pArrowPen.
+   hStatus = GdipDrawLineI(pGraphics, pArrowPen, 0, 20, 100, 20)
+
+   ' // Get the height of the arrow cap.
+   hStatus = GdipGetAdjustableArrowCapHeight(pMyArrowCap, nHeight)
+
+   ' // Create a second arrow cap using the height of the first one.
+   hStatus = GdipCreateAdjustableArrowCap(nHeight, 20, %TRUE, pOtherArrowCap)
+
+   ' // Assign the new arrow cap as the end cap for pArrowPen.
+   hStatus = GdipSetPenCustomEndCap(pArrowPen, pOtherArrowCap)
+
+   ' // Draw a line using pArrowPen.
+   hStatus = GdipDrawLineI(pGraphics, pArrowPen, 0, 55, 100, 55)
+
+   ' // Cleanup
+   IF pOtherArrowCap THEN GdipDeleteCustomLineCap(pOtherArrowCap)
+   IF pMyArrowCap THEN GdipDeleteCustomLineCap(pMyArrowCap)
+   IF pArrowPen THEN GdipDeletePen(pArrowPen)
+   IF pGraphics THEN GdipDeleteGraphics(pGraphics)
+
+END SUB
+```
 ---
-
-Flat function
-
-GpStatus WINGDIPAPI GdipGetAdjustableArrowCapHeight (GpAdjustableArrowCap* cap, REAL* height)
-
-c++ Wrapper method
-
-REAL GetHeight() const
-
-FB wrapper method
-
-FUNCTION GetHeight () AS SINGLE
 
 ---
 
