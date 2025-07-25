@@ -51,7 +51,7 @@ FUNCTION GdipGetAdjustableArrowCapHeight (BYVAL cap AS GpAdjustableArrowCap PTR,
 | *cap* | [in] Pointer to the arrow cap. |
 | *height* | [out] Pointer to a single precision variable that receives a value that indicates the height, in units, of the arrow cap. |
 
-**** C++ Example
+#### C++ Example
 ```
 
 VOID Example_GetHeight(HDC hdc)
@@ -78,7 +78,7 @@ VOID Example_GetHeight(HDC hdc)
    graphics.DrawLine(&arrowPen, Point(0, 55), Point(100, 55));
 }
 ```
-**** PowerBasic Example
+#### PowerBasic Example
 ```
 
 SUB GDIP_GetHeight(BYVAL hdc AS DWORD)
