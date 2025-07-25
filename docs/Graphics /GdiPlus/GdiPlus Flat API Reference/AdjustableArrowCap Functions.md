@@ -20,8 +20,8 @@ GpStatus GdipCreateAdjustableArrowCap (REAL height, REAL width, BOOL isFilled, G
 ```
 FB flat function
 ```
-function GdipCreateAdjustableArrowCap (byval as REAL, byval as REAL, byval as BOOL, _
-   byval as GpAdjustableArrowCap ptr ptr) as GpStatus
+FUNCTION GdipCreateAdjustableArrowCap (BYVAL nHeight AS SINGLE, BYVAL nWidth AS SINGLE, _
+   BYVAL isFilled AS BOOL, BYVAL pCap AS GpAdjustableArrowCap PTR PTR) AS GpStatus
 ```
 C++ wrapper method
 ```
