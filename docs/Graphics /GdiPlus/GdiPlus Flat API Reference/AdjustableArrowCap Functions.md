@@ -9,6 +9,7 @@ The middle inset is the number of units that the midpoint of the base shifts tow
 | Name       | Description |
 | ---------- | ----------- |
 | [GdipCreateAdjustableArrowCap](#gdipcreateadjustablearrowcap) | Creates an adjustable arrow line cap with the specified height and width. |
+| [GdipGetAdjustableArrowCapHeight](#gdipgetadjustablearrowcapHeight) | Gets the height of the arrow cap. |
 
 ## GdipCreateAdjustableArrowCap
 
@@ -33,6 +34,31 @@ CONSTRUCTOR CGpAdjustableArrowCap (BYVAL nHeight AS SINGLE, BYVAL nWidth AS SING
    BYVAL bIsFilled AS BOOL = CTRUE)
 ```
 
+## GdipGetAdjustableArrowCapHeight
+
+Gets the height of the arrow cap. The height is the distance from the base of the arrow to its vertex.
+
+C++ Flat function
+```
+GpStatus GdipGetAdjustableArrowCapHeight(GpAdjustableArrowCap* cap, REAL* height);
+```
+FB flat function
+```
+FUNCTION GdipGetAdjustableArrowCapHeight (BYVAL cap AS GpAdjustableArrowCap PTR, _
+   BYVAL height AS SINGLE PTR) AS GpStatus
+```
+C++ wrapper method
+```
+REAL GetHeight() const
+```
+FB wrapper method
+```
+GetHeight () AS SINGLE
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cap* | [in] Pointer to the arrow cap. |
+| *height* | [out] Pointer to a single precision variable that receives a value that indicates the height, in units, of the arrow cap. |
 
 ---
 
