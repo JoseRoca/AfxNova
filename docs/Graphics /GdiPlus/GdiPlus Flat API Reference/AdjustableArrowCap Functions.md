@@ -15,11 +15,17 @@ C++ Flat function
 ```
 GpStatus GdipCreateAdjustableArrowCap (REAL height, REAL width, BOOL isFilled, GpAdjustableArrowCap **cap);
 ```
-FB flat function
+FreeBASIC flat function
 ```
 FUNCTION GdipCreateAdjustableArrowCap (BYVAL height AS SINGLE, BYVAL width AS SINGLE, _
    BYVAL isFilled AS BOOL, BYVAL pCap AS GpAdjustableArrowCap PTR PTR) AS GpStatus
 ```
+PowerBASIC function
+```
+FUNCTION GdipCreateAdjustableArrowCap (BYVAL height AS SINGLE, BYVAL width AS SINGLE, _
+    BYVAL isFilled AS LONG, BYREF cap AS DWORD) AS LONG
+```
+
 | Parameter  | Description |
 | ---------- | ----------- |
 | *height* | [in] Single precision number that specifies the length, in units, of the arrow from its base to its point. |
@@ -81,11 +87,16 @@ C++ Flat function
 ```
 GpStatus GdipGetAdjustableArrowCapHeight(GpAdjustableArrowCap* cap, REAL* height);
 ```
-FB flat function
+FreeBASIC flat function
 ```
 FUNCTION GdipGetAdjustableArrowCapHeight (BYVAL cap AS GpAdjustableArrowCap PTR, _
    BYVAL height AS SINGLE PTR) AS GpStatus
 ```
+PowerBASIC flat Function
+```
+FUNCTION GdipGetAdjustableArrowCapHeight (BYVAL cap AS DWORD, BYREF height AS SINGLE) AS LONG
+```
+
 | Parameter  | Description |
 | ---------- | ----------- |
 | *cap* | [in] Pointer to the arrow cap. |
@@ -119,8 +130,10 @@ VOID Example_GetHeight(HDC hdc)
 }
 ```
 #### PowerBasic Example
-```
 
+The following example creates an AdjustableArrowCap, pMyArrowCap, and sets the height of the cap. The code then creates a Pen, assigns pMyArrowCap as the ending line cap for this Pen, and draws a capped line. Next, the code gets the height of the arrow cap, creates a new arrow cap with height equal to the height of pMyArrowCap, assigns the new arrow cap as the ending line cap for the Pen, and draws another capped line.
+
+```
 SUB GDIP_GetHeight(BYVAL hdc AS DWORD)
 
    LOCAL hStatus AS LONG
@@ -163,6 +176,10 @@ SUB GDIP_GetHeight(BYVAL hdc AS DWORD)
 END SUB
 ```
 ---
+
+
+
+
 
 Flat function
 
