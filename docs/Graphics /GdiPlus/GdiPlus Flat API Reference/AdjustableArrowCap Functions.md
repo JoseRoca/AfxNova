@@ -5,7 +5,10 @@ The **AdjustableArrowCap** functions build a line cap that looks like an arrow.
 | Name       | Description |
 | ---------- | ----------- |
 | [GdipCreateAdjustableArrowCap](#gdipcreateadjustablearrowcap) | Creates an adjustable arrow line cap with the specified height and width. |
+| [GdipGetAdjustableArrowCapFillState](#gdipgetadjustablearrowcapfillstate) | Determines whether the arrow cap is filled. |
 | [GdipGetAdjustableArrowCapHeight](#gdipgetadjustablearrowcapHeight) | Gets the height of the arrow cap. |
+
+---
 
 ## GdipCreateAdjustableArrowCap
 
@@ -77,6 +80,31 @@ SUB GDIP_CreateAdjustableArrowCap (BYVAL hdc AS DWORD)
 
 END SUB
 ```
+---
+
+## GdipGetAdjustableArrowCapFillState
+
+Determines whether the arrow cap is filled.
+
+C++ Flat function
+```
+GpStatus GdipGetAdjustableArrowCapFillState (GpAdjustableArrowCap* cap, BOOL* fillState)
+```
+FreeBASIC flat function
+```
+FUNCTION GdipGetAdjustableArrowCapFillState (BYVAL cap AS GpAdjustableArrowCap PTR, _
+   BYVAL fillState AS BOOL PTR) AS GpStatus
+```
+PowerBASIC function
+```
+FUNCTION GdipGetAdjustableArrowCapFillState (BYVAL cap AS DWORD, BYREF fillState AS LONG) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cap* | [in] Pointer to the arrow cap. |
+| *fillState* | [out] Pointer to a variable that receives a boolean value that indicates if the arrow cap is filled (TRUE) or not (FALSE). |
+
 ---
 
 ## GdipGetAdjustableArrowCapHeight
@@ -179,8 +207,6 @@ END SUB
 
 
 
-
-
 Flat function
 
 GpStatus WINGDIPAPI GdipSetAdjustableArrowCapHeight (GpAdjustableArrowCap* cap, REAL height)
@@ -262,19 +288,5 @@ Status SetFillState(IN BOOL isFilled)
 PB wrapper method
 
 FUNCTION SetFillState (BYVAL bIsFilled AS BOOL) AS GpStatus
-
----
-
-Flat function
-
-GpStatus WINGDIPAPI GdipGetAdjustableArrowCapFillState (GpAdjustableArrowCap* cap, BOOL* fillState)
-
-C++ Wrapper method
-
-BOOL IsFilled() const
-
-PB wrapper method
-
-FUNCTION IsFilled () AS BOOLEAN
 
 ---
