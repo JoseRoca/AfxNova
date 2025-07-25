@@ -47,14 +47,6 @@ FB flat function
 FUNCTION GdipGetAdjustableArrowCapHeight (BYVAL cap AS GpAdjustableArrowCap PTR, _
    BYVAL height AS SINGLE PTR) AS GpStatus
 ```
-C++ wrapper method
-```
-REAL GetHeight() const
-```
-FB wrapper method
-```
-GetHeight () AS SINGLE
-```
 | Parameter  | Description |
 | ---------- | ----------- |
 | *cap* | [in] Pointer to the arrow cap. |
