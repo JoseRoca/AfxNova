@@ -131,7 +131,7 @@ VOID Example_GetHeight(HDC hdc)
 ```
 #### PowerBasic Example
 
-The following example creates an AdjustableArrowCap, pMyArrowCap, and sets the height of the cap. The code then creates a Pen, assigns pMyArrowCap as the ending line cap for this Pen, and draws a capped line. Next, the code gets the height of the arrow cap, creates a new arrow cap with height equal to the height of pMyArrowCap, assigns the new arrow cap as the ending line cap for the Pen, and draws another capped line.
+The following example creates an **AdjustableArrowCap**, *pMyArrowCap*, and sets the height of the cap. The code then creates a Pen, assigns *pMyArrowCap* as the ending line cap for a **Pen**, and draws a capped line. Next, the code gets the height of the arrow cap, creates a new arrow cap with height equal to the height of *pMyArrowCap*, assigns the new arrow cap as the ending line cap for the **Pen**, and draws another capped line.
 
 ```
 SUB GDIP_GetHeight(BYVAL hdc AS DWORD)
