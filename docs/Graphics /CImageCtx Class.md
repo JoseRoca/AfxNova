@@ -255,7 +255,7 @@ SUB Clear
 ```
 ---
 
-## <GetBkColor
+## GetBkColor
 
 Gets the background RGB color used by the `CImageCtx` control.
 
