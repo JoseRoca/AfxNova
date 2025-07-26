@@ -783,3 +783,12 @@ FUNCTION AfxUnCheckMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 The return value specifies the previous state of the menu item (either MF_CHECKED or MF_UNCHECKED). If the menu item does not exist, the return value is -1.
 
 ---
+
+## IsMenuHandle
+
+Unchecks a menu item.
+
+```
+FUNCTION AfxUnCheckMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
+   BYVAL fByPosition AS LONG = FALSE) AS LONG
+```
