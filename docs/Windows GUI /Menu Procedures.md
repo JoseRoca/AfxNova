@@ -33,7 +33,7 @@
 
 ---
 
-# DDT Menu Procedures
+# DDT-like Menu Procedures
 
 These procedures replicate the PowerBASIC's menu procedures and add many more functionality using the same syntax. Contrarily to the *Afx menu* procedures, that use zero-based items, these ones are one-based.
 
