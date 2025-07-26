@@ -1848,12 +1848,35 @@ FUNCTION MenuSetContextHelpId (BYVAL hMenu AS HMENU, BYVAL helpID AS DWORD) AS B
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | A handle to the menu with which to associate the Help context identifier. |
-| *hMenu* | The help context identifier. |
+| *helpID* | The help context identifier. |
 
 #### Return value
 
 Returns nonzero if successful, or zero otherwise.
 
 To retrieve extended error information, call **GetLastError**.
+
+---
+
+## MenuSetDefaultItem
+
+Sets the default menu item for the specified menu.
+
+```
+FUNCTION MenuSetDefaultItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu to set the default item for. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+If the function succeeds, the return value is nonzero.
+
+If the function fails, the return value is zero. To get extended error information, use the **GetLastError** function.
 
 ---
