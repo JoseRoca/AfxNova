@@ -36,13 +36,12 @@ An application can use the **GetSystemMenu** function to create a copy of the de
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AppendMenu] | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
-| [CheckMenuItem] | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
-| [CheckMenuItem]) | Sets the state of the specified menu item's check-mark attribute to either selected or clear. |
-| [CheckMenuRadioItem] | Checks a specified menu item and makes it a radio item. |
-| [CheckMenuRadioItem] | Checks a specified menu item and makes it a radio item. |
-| [CreateMenu] | Creates a menu. |
-| [CreateMenu] | Creates a menu. |
+| **AppendMenu** | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
+| **CheckMenuItem** | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
+| **CheckMenuItem** | Sets the state of the specified menu item's check-mark attribute to either selected or clear. |
+| **CheckMenuRadioItem** | Checks a specified menu item and makes it a radio item. |
+| **CheckMenuRadioItem** | Checks a specified menu item and makes it a radio item. |
+| **CreateMenu** | Creates a menu. |
 
 ---
 
