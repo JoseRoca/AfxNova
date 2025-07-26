@@ -1469,6 +1469,8 @@ FUNCTION MenuGetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
 | *hMenu* | A handle to the menu that contains the item whose identifier is to be retrieved. |
 | *nPos* | The one-based relative position of the menu item whose identifier is to be retrieved. |
 
+#### Return value
+
 The return value is the identifier of the specified menu item. If the menu item identifier is NULL or if the specified item opens a submenu, the return value is -1.
 
 ---
@@ -1524,5 +1526,23 @@ FUNCTION MenuGetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 | **MFS_HILITE** | The item is highlighted. |
 | **MFS_UNCHECKED** | The item is unchecked. |
 | **MFS_UNHILITE** | The item is not highlighted. |
+
+---
+
+## MenuGetSubMenu
+
+Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+
+```
+FUNCTION MenuGetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+| *nPos* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item. If the menu item does not activate a drop-down menu or submenu, the return value is NULL.
 
 ---
