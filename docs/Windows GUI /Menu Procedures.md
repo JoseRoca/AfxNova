@@ -1271,7 +1271,6 @@ FUNCTION MenuFindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT) AS LO
 | *itemID* | The identifier of the menu item. |
 | *itemPos* | A variable of type LONG that received the item position. |
 
-
 #### Return value
 
 The first overloaded function returns TRUE if the function succeeds; FALSE otherwise.
@@ -1279,5 +1278,24 @@ The first overloaded function returns TRUE if the function succeeds; FALSE other
 The second overloaded function returns the item position, or zero if it is not found.
 
 To get extended error information, use the **GetLastError** function.
+
+---
+
+## MenuGetBarInfo
+
+Retrieves information about the specified menu bar.
+
+```
+FUNCTION MenuGetBarInfo (BYVAL hWin AS HWND, BYVAL idObject AS LONG, BYVAL idItem AS LONG) AS MENUBARINFO
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | A handle to the window or dialog that owns the menu bar. |
+| *idObject* | The menu object. This parameter can be one of the following values:<br>OBJID_CLIENT: &hFFFFFFFC - The popup menu associated with the window.<br>OBJID_MENU: &hFFFFFFFD - The menu bar associated with the window<br>OBJID_SYSMENU: &hFFFFFFFF - The system menu associated with the window |
+| *idItem* | The item for which to retrieve information. If this parameter is zero, the function retrieves information about the menu itself. If this parameter is 1, the function retrieves information about the first item on the menu, and so on. |
+
+#### Return value
+
+A *MENUBARINFO* structure.
 
 ---
