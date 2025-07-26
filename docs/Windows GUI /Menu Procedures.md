@@ -1187,3 +1187,48 @@ FUNCTION MenuDestroy OVERLOAD (BYVAL hWin AS HWND) AS BOOLEAN
 #### Return value
 
 Returns TRUE if the function succeeds; FALSE otherwise.
+
+---
+
+## MenuDisableItem
+
+Disables the specified menu item.
+
+```
+FUNCTION MenuDisableItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
+
+#### Remaarks
+
+The application must call the **MenuDrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
+
+## MenuDrawBar
+
+Redraws the menu bar of the specified window or dialog. If the menu bar changes after the system has created the window or dialog, this function must be called to draw the changed menu bar.
+
+```
+FUNCTION MenuDrawBar (BYVAL hWin AS HWND) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+This operation should be performed when a menu is altered dynamically after the dialog has been initially created, without regard to the visible state of the dialog.
+
