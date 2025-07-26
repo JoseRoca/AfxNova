@@ -1007,6 +1007,15 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 The application must call the **MenuDrawBar** statement whenever a menu changes, whether or not the menu is in a displayed dialog.
 
+#### Usage examples
+```
+MenuAddString hPopup1, "&Open", ID_OPEN, MF_ENABLED
+```
+Insert the item before the ID_OPEN item
+```
+MenuAddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, 1, TRUE          ' insert by position
+MenuAddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, ID_OPEN, FALSE   ' insert by identifier
+```
 ---
 
 ## MenuAttach
