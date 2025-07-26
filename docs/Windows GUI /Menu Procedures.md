@@ -1232,3 +1232,52 @@ Returns TRUE if the function succeeds; FALSE otherwise. To get extended error in
 
 This operation should be performed when a menu is altered dynamically after the dialog has been initially created, without regard to the visible state of the dialog.
 
+---
+
+## MenuEnableItem
+
+Enables the specified menu item.
+
+```
+FUNCTION MenuEnableItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
+
+#### Remaarks
+
+The application must call the **MenuDrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
+
+## MenuFindItemPosition
+
+Finds the position of the specified menu item.
+
+```
+FUNCTION MenuFindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF itemPos AS LONG) AS BOOLEAN
+FUNCTION MenuFindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *itemID* | The identifier of the menu item. |
+| *itemPos* | A variable of type LONG that received the item position. |
+
+
+#### Return value
+
+The first overloaded function returns TRUE if the function succeeds; FALSE otherwise.
+
+The second overloaded function returns the item position, or zero if it is not found.
+
+To get extended error information, use the **GetLastError** function.
+
+---
