@@ -152,6 +152,7 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 | [MenuFindItemPosition](#menufinditemposition) | Finds the position of the specified menu item. |
 | [MenuGetBarInfo](#menugetbarinfo) | Retrieves information about the specified menu bar. |
 | [MenuGetCheckMarkHeight](#menugetcheckmarkheight) | Retrieves the height of the default check-mark bitmap. |
+| [MenuGetContextHelpId](#menugetcontexthelpid) | Retrieves the Help context identifier associated with the specified menu. |
 | [MenuGetCheckMarkWidth](#menugetcheckmarkwidth) | Retrieves the dimensions of the default check-mark bitmap. |
 | [MenuGetDefaultItem](#menugetdefaultitem) | Determines the default menu item on the specified menu. |
 | [MenuGetFont](#menugetfont) | Retrieves information about the font used in menu bars. |
@@ -177,7 +178,6 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 | [MenuRestoreCloseOption](#menurestorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [MenuRightJustifyItem](#menurightjustifyitem) | Right justifies a top level menu item. This is usually used to have the Help menu item. |
 | [MenuSetContextHelpId](#menusetcontexthelpid) | Associates a Help context identifier with a menu. |
-| [MenuGetContextHelpId](#menugetcontexthelpid) | Retrieves the Help context identifier associated with the specified menu. |
 | [MenuSetDefaultItem](#menusetdefaultitem) | Sets the default menu item for the specified menu. |
 | [MenuSetItemBitmaps](#MenuSetItemBitmaps) | Associates the specified bitmap with a menu item. Whether the menu item is selected or clear, the system displays the appropriate bitmap next to the menu item. |
 | [MenuSetState](#menusetstate) | Sets the state of the specified menu item. |
