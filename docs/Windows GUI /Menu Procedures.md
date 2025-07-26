@@ -1437,3 +1437,27 @@ If the function succeeds, the return value specifies the number of items in the 
 If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
 
 ---
+
+## MenuGetItemFromPoint
+
+Determines which menu item, if any, is at the specified location.
+
+```
+FUNCTION MenuGetItemFromPoint (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL ptScreen AS POINT) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | A handle to the window containing the menu. If this value is NULL and the hMenu parameter represents a popup menu, the function will find the menu window. |
+| *hMenu* | A handle to the menu containing the menu items to hit test. |
+| *ptScreen* | A structure that specifies the location to test. If *hMenu* specifies a menu bar, this parameter is in window coordinates. Otherwise, it is in client coordinates. |
+
+#### Return value
+
+Returns the zero-based position of the menu item at the specified location or -1 if no menu item is at the specified location.
+
+---
+
+
+If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
+
+---
