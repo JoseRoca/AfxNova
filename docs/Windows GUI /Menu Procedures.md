@@ -1546,3 +1546,20 @@ FUNCTION MenuGetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
 If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item. If the menu item does not activate a drop-down menu or submenu, the return value is NULL.
 
 ---
+
+## MenuGetSubmenusCount
+
+Retrieves the number of submenus of a menu.
+
+```
+FUNCTION MenuGetSubmenusCount(BYVAL hMenu AS HMENU) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+
+#### Return value
+
+The number of submenus.
+
+---
