@@ -1685,3 +1685,53 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 The application must call the **MenuDrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
 
 ---
+
+## MenuHiliteItem
+
+Highlights the specified menu item.
+
+```
+FUNCTION MenuHiliteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **MenuDrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
+
+## MenuItemToggleCheckState
+
+Toggles the checked state of a menu item.
+
+```
+PRIVATE FUNCTION MenuItemToggleCheckState (BYVAL hMenu AS HMENU, _
+   BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **MenuDrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
