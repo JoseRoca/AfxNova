@@ -1472,3 +1472,24 @@ FUNCTION MenuGetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
 The return value is the identifier of the specified menu item. If the menu item identifier is NULL or if the specified item opens a submenu, the return value is -1.
 
 ---
+
+## MenuGetRect
+
+Calculates the size of a menu bar or a drop-down menu.
+
+```
+FUNCTION FUNCTION MenuGetRect OVERLOAD (BYVAL hWin AS HWND, _
+   BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
+FUNCTION MenuGetRect OVERLOAD (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
+| *hmenu* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+| *prcmenu* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+
+#### Return value
+
+If the function succeeds, the return value is 0. If the function fails, the return value is a system error code.
+
+---
