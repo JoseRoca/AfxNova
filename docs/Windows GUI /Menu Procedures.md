@@ -46,8 +46,8 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 | [IsMenuItemGrayed](#ismenuitemgrayed) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
 | [IsMenuItemHighlighted](#ismenuitemghighlighted) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
 | [IsMenuItemSeparator](#ismenuitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
-| [IsMenuItemPopup](#ismenuitempopup) |Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
 | [IsMenuItemOwnerDraw](#ismenuitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
+| [IsMenuItemPopUp](#ismenuitempopup) |Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
 | [MenuAddBitmapToItem](#menuaddbitmaptoitem) | Adds a bitmap to the menu item. |
 | [MenuAddIconToItem](#menuaddicontoitem) | Adds an icon to the menu item. |
 | [MenuAddPopUp](#menuaddpopup) | Adds a popup child menu to an existing menu. |
