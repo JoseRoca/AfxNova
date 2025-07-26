@@ -1811,3 +1811,28 @@ FUNCTION MenuRestoreCloseOption (BYVAL hWin AS HWND) AS BOOLEAN
 TRUE or FALSE. To get extended error information, use the **GetLastError** function.
 
 ---
+
+## MenuRightJustifyItem
+
+Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar.
+
+```
+FUNCTION MenuRightJustifyItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Usage example
+```
+MenuRightJustifyItem(hMenu, ID_EXIT)
+```
+---
