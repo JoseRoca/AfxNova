@@ -1590,8 +1590,8 @@ The retrieved text.
 Returns the lengnth of the text of the specified menu item.
 
 ```
-FUNCTION MenuGetTextLen (BYVAL hMenu AS HMENU, BYVAL item AS LONG, B_
-   YVAL fByPosition AS BOOLEAN = FALSE) AS LONG
+FUNCTION MenuGetTextLen (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fByPosition AS BOOLEAN = FALSE) AS LONG
 ```
 
 | Parameter  | Description |
@@ -1603,5 +1603,24 @@ FUNCTION MenuGetTextLen (BYVAL hMenu AS HMENU, BYVAL item AS LONG, B_
 #### Return value
 
 The length of the text.
+
+---
+
+
+## MenuGetWindowOwner
+
+Retrieves the window owner of the specified menu
+
+```
+FUNCTION MenuGetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+
+#### Return value
+
+The handle of the window that owns the menu.
 
 ---
