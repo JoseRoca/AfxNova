@@ -1793,3 +1793,21 @@ FUNCTION MenuRemoveCloseOptiom (BYVAL hWin AS HWND) AS BOOLEAN
 TRUE or FALSE. To get extended error information, use the **GetLastError** function.
 
 ---
+
+## MenuRestoreCloseOptiom
+
+Restores the system menu close option and enables Alt+F4 and the X button.
+
+```
+FUNCTION MenuRestoreCloseOption (BYVAL hWin AS HWND) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+---
