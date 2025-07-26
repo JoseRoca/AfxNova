@@ -924,7 +924,7 @@ FUNCTION MenuAddIconToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByP
 | ---------- | ----------- |
 | *hMenu* | Handle to the menu that contains the menu item. |
 | *item* | The identifier or position of the menu item to change. The meaning of this parameter depends on the value of *fByPosition*. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 | *hicon* | Handle of the icon to add to the menu. |
 | *fAutoDestroy* | TRUE (the default) or FALSE. If TRUE, **MenuAddIconToItem** destroys the icon before returning. |
 | *phbmp* | Location where the bitmap representation of the icon is stored. Can be NULL. |
@@ -948,7 +948,7 @@ FUNCTION MenuAddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 | ---------- | ----------- |
 | *hMenu* | Handle to the menu that contains the menu item. |
 | *item* | The identifier or position of the menu item to change. The meaning of this parameter depends on the value of *fByPosition*. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 | *hbmp* | The bitmap handle. |
 
 #### Return value
@@ -997,7 +997,7 @@ FUNCTION MenuAddString OVERLOAD (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING,
 | *id* | The unique  identifier for the menu item. When a menu item is selected, *id* is sent to the parent dialog callback function to notify the dialog which option was selected. |
 | *fState* | The initial state of the menu item. It can be one or more of the following, combined together with the OR operator to form a bitmask: <br>MFS_CHECKED: Place a checkmark next to the item.<br>MFS_DEFAULT: The default menu item, displayed in bold.  Only one item may be the default.<br>MFS_DISABLED: Disable the menu item so that it cannot be selected.<br>MFS_ENABLED: Enable the menu item so that it can be selected.<br>MFS_GRAYED: Disable the menu item so that it cannot be selected, and draw it in a "grayed" state to indicate this.<br>MFS_HILITE: Highlight the menu item.<br>MFS_UNCHECKED: Do not place a checkmark next to the item.<br>MFS_UNHILITE: Item is not highlighted.<br>A state value of zero (0) provides MFS_ENABLED, MFS_UNCHECKED, and MFS_UNHILITE. |
 | *item* | Optional position in the parent menu, where the menu item should be inserted. If the *fByPosition* option is used, the menu item is inserted prior to the menu item identifier specified by *item*. Otherwise, the menu item is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 
 #### Return value
 
@@ -1047,7 +1047,7 @@ FUNCTION MenuBoldItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPositi
 | ---------- | ----------- |
 | *hMenu* | Handle to the menu that contains the menu item. |
 | *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 
 #### Return value
 
@@ -1066,7 +1066,7 @@ FUNCTION MenuCheckItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosit
 | ---------- | ----------- |
 | *hMenu* | Handle to the menu that contains the menu item. |
 | *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 
 #### Return value
 
@@ -1088,7 +1088,7 @@ FUNCTION MenuCheckRadioButton (BYVAL hMenu AS HMENU, BYVAL first AS LONG, BYVAL 
 | *first* | The identifier or position of the first menu item in the group. |
 | *last* | The identifier or position of the last menu item in the group. |
 | *check* | The identifier or position of the menu item to check. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 
 #### Return value
 
