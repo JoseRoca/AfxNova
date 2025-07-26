@@ -1296,6 +1296,34 @@ FUNCTION MenuGetBarInfo (BYVAL hWin AS HWND, BYVAL idObject AS LONG, BYVAL idIte
 
 #### Return value
 
-A *MENUBARINFO* structure.
+A **MENUBARINFO** structure.
+
+---
+
+## MenuGetCheckMarkHeight
+
+Retrieves the height of the default check-mark bitmap. The system displays this bitmap next to selected menu items. Before calling the **MenuSetItemBitmaps** function to replace the default check-mark bitmap for a menu item, an application must determine the correct bitmap size by calling **MenuGetCheckMarkWidth** and **MenuGetCheckMarkHeight**.
+
+```
+FUNCTION MenuGetCheckMarkHeight () AS LONG
+```
+
+#### Return value
+
+Returns the height of the default check-mark bitmap.
+
+---
+
+## MenuGetCheckMarkWidth
+
+Retrieves the width of the default check-mark bitmap. The system displays this bitmap next to selected menu items. Before calling the **MenuSetItemBitmaps** function to replace the default check-mark bitmap for a menu item, an application must determine the correct bitmap size by calling **MenuGetCheckMarkWidth** and **MenuGetCheckMarkHeight**.
+
+```
+FUNCTION MenuGetCheckMarkWidth () AS LONG
+```
+
+#### Return value
+
+Returns the width of the default check-mark bitmap.
 
 ---
