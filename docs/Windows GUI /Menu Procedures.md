@@ -1418,3 +1418,22 @@ The return value is a handle to the menu. If the specified window has no menu, t
 **MenuGetHandle** does not work on floating menu bars. Floating menu bars are custom controls that mimic standard menus; they are not menus. To get the handle on a floating menu bar, use the Active Accessibility APIs. The Windows API **GetMenu** function can be used instead of **MenuGetHandle**.
 
 ---
+
+## MenuGetItemCount
+
+Determines the number of items in the specified menu.
+
+```
+FUNCTION MenuGetItemCount (BYVAL hMenu AS HMENU) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu to be examined. |
+
+#### Return value
+
+If the function succeeds, the return value specifies the number of items in the menu.
+
+If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
+
+---
