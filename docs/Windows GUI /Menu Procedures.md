@@ -1014,12 +1014,12 @@ The application must call the **MenuDrawBar** statement whenever a menu changes,
 Attaches a menu to a window or dialog.
 
 ```
-FUNCTION FUNCTION MenuAttach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
+FUNCTION MenuAttach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
 ```
 
 #### Return value
 
-Returns TRUE if the specified menu item is a popup item; FALSE otherwise.
+Returns TRUE if the function succeeds; FALSE otherwise.
 
 #### Remarks
 
@@ -1027,5 +1027,21 @@ The Windows API function **SetMenu** performs the same action.
 
 ---
 
+## MenuBoldItem
+
+Changes the text of a menu item to bold.
+
+```
+FUNCTION MenuBoldItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
