@@ -1064,3 +1064,30 @@ FUNCTION MenuCheckItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosit
 Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
+
+## MenuCheckRadioButton
+
+Checks a specified menu item and makes it a radio item. At the same time, the function clears all other menu items in the associated group and clears the radio-item type flag for those items.
+
+```
+FUNCTION MenuCheckRadioButton (BYVAL hMenu AS HMENU, BYVAL first AS LONG, BYVAL last AS LONG, _
+   BYVAL check AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *first* | The identifier or position of the first menu item in the group. |
+| *last* | The identifier or position of the last menu item in the group. |
+| *check* | The identifier or position of the menu item to check. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+#### Usage example
+```
+MenuCheckRadioButton(hMenu, ID_OPEN, ID_EXIT, ID_EXIT)      ' By item identifier
+MenuCheckRadioButton(GetSubMenu(hMenu, 0), 1, 2, 2, TRUE)   ' By position
+```
+---
