@@ -911,6 +911,30 @@ Returns TRUE if the specified menu item is a popup item; FALSE otherwise.
 
 ---
 
+## MenuAddIconToItem
+
+Converts an icon to a bitmap and adds it to the specified hbmpItem field of HMENU item. The caller is responsible for destroying the bitmap generated. The icon will be destroyed if *fAutoDestroy* is set to true. The *hbmpItem* field of the menu item can be used to keep track of the bitmap by passing NULL to *phbmp*.
+
+```
+FUNCTION MenuAddIconToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN, _
+   BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to change. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *hicon* | Handle of the icon to add to the menu. |
+| *fAutoDestroy* | TRUE (the default) or FALSE. If TRUE, **MenuAddIconToItem** destroys the icon before returning. |
+| *phbmp* | Location where the bitmap representation of the icon is stored. Can be NULL. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
+
+---
+
 ## MenuAddBitmapToItem
 
 Adds a bitmap to the menu item.
@@ -929,6 +953,6 @@ FUNCTION MenuAddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 
 #### Return value
 
-Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
+Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
