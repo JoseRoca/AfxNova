@@ -1362,7 +1362,7 @@ FUNCTION MenuGetDefaultItem (BYVAL hMenu AS HMENU, BYVAL gmdiFlags AS UINT = 0, 
 
 #### Return value
 
-If the function succeeds, the return value is the identifier or position of the menu item. If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
+If the function succeeds, the return value is the identifier or position of the menu item. If the function fails, the return value is 0. To get extended error information, call **GetLastError**.
 
 ---
 
@@ -1491,5 +1491,38 @@ FUNCTION MenuGetRect OVERLOAD (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
 #### Return value
 
 If the function succeeds, the return value is 0. If the function fails, the return value is a system error code.
+
+The second overloaded function returns a **RECT** structure directly.
+
+---
+
+## MenuGetState
+
+Retrieves the state of the specified menu item.
+
+```
+FUNCTION MenuGetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fByPosition AS BOOLEAN = FALSE) AS UINT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+0 on failure or one or more of the following values:
+
+| Value  | Description |
+| ------ | ----------- |
+| **MFS_CHECKED** | The item is checked. |
+| **MFS_DEFAULT** | The menu item is the default. |
+| **MFS_DISABLED** | The item is disabled. |
+| **MFS_ENABLED** | The item is enabled. |
+| **MFS_GRAYED** | The item is grayed. |
+| **MFS_HILITE** | The item is highlighted. |
+| **MFS_UNCHECKED** | The item is unchecked. |
+| **MFS_UNHILITE** | The item is not highlighted. |
 
 ---
