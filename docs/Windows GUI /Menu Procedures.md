@@ -1735,3 +1735,23 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 The application must call the **MenuDrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
 
 ---
+
+## MenuNewBar
+
+Creates a menu.
+
+```
+FUNCTION MenuNewBar () AS HMENU
+```
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the newly created menu.
+
+If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+Instead of **MenuNewBar** you can call the Windows API function **CreateMenu**.
+
+---
