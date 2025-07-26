@@ -134,10 +134,10 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 | [IsMenuItemHighlighted](#ismenuitemghighlighted) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
 | [IsMenuItemSeparator](#ismenuitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
 | [IsMenuItemOwnerDraw](#ismenuitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
-| [IsMenuItemPopUp](#ismenuitempopup) |Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
+| [IsMenuItemPopup](#ismenuitempopup) |Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
 | [MenuAddBitmapToItem](#menuaddbitmaptoitem) | Adds a bitmap to the menu item. |
 | [MenuAddIconToItem](#menuaddicontoitem) | Adds an icon to the menu item. |
-| [MenuAddPopUp](#menuaddpopup) | Adds a popup child menu to an existing menu. |
+| [MenuAddPopup](#menuaddpopup) | Adds a popup child menu to an existing menu. |
 | [MenuAddString](#menuaddstring) | Adds a string or separator to an existing menu. |
 | [MenuAttach](#menuattach) | Attaches a menu to a window or dialog. |
 | [MenuBoldItem](#menubolditem) | Changes the text of a menu item to bold. |
@@ -172,7 +172,7 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 | [MenuHiliteItem](#menuhiliteitem) | Highlights the specified menu item. |
 | [MenuItemToggleCheckState](#menuitemtogglecheckstate) | Retrieves the state of the specified menu item. |
 | [MenuNewBar](#menunewbar) | Creates a new menu bar. |
-| [MenuNewPopUp](#menunewpopup) | Creates a new popup menu. |
+| [MenuNewPopup](#menunewpopup) | Creates a new popup menu. |
 | [MenuRemoveCloseOptiom](#menuremovecloseoptiom) | Removes the system menu close option and disables the X button. |
 | [MenuRestoreCloseOption](#menurestorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [MenuRightJustifyItem](#menurightjustifyitem) | Right justifies a top level menu item. This is usually used to have the Help menu item. |
