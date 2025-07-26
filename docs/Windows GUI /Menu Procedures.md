@@ -1584,3 +1584,24 @@ FUNCTION MenuGetText (BYVAL hMenu AS HMENU, BYVAL item AS LONG, B_
 The retrieved text.
 
 ---
+
+## MenuGetTextLen
+
+Returns the lengnth of the text of the specified menu item.
+
+```
+FUNCTION MenuGetTextLen (BYVAL hMenu AS HMENU, BYVAL item AS LONG, B_
+   YVAL fByPosition AS BOOLEAN = FALSE) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+The length of the text.
+
+---
