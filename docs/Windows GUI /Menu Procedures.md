@@ -1606,7 +1606,6 @@ The length of the text.
 
 ---
 
-
 ## MenuGetWindowOwner
 
 Retrieves the window owner of the specified menu
@@ -1622,5 +1621,42 @@ FUNCTION MenuGetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
 #### Return value
 
 The handle of the window that owns the menu.
+
+---
+
+## MenuGetWindowOwner
+
+Retrieves the window owner of the specified menu.
+
+```
+FUNCTION MenuGetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+
+#### Return value
+
+The handle of the window that owns the menu.
+
+---
+
+## MenuGetSystemMenuHandle
+
+Retrieves the system menu handle.
+
+```
+FUNCTION MenuGetSystemMenuHandle (BYVAL hwnd AS HWND, BYVAL bRevert AS BOOLEAN = FALSE) AS HMENU
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+| *bRevert* | The action to be taken. If this parameter is FALSE, **MenuGetSystemMenuHandle** returns a handle to the copy of the window menu currently in use. The copy is initially identical to the window menu, but it can be modified. If this parameter is TRUE, **MenuGetSystemMenuHandle** resets the window menu back to the default state. The previous window menu, if any, is destroyed. |
+
+#### Return value
+
+If the *bRevert* parameter is FALSE, the return value is a handle to a copy of the window menu. If the *bRevert* parameter is TRUE, the return value is NULL.
 
 ---
