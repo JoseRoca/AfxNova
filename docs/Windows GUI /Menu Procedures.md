@@ -37,6 +37,8 @@
 
 These procedures replicate the PowerBASIC's menu procedures and add many more functionality using the same syntax. Contrarily to the *Afx menu* procedures, that use zero-based items, these ones are one-based.
 
+| Name       | Description |
+| ---------- | ----------- |
 | [IsMenuHandle](#IsMenuHandle) | Determines whether a handle is a menu handle. |
 | [IsMenuItemChecked](#ismenuitemchecked) | Returns TRUE if the specified menu item is checked; FALSE otherwise. |
 | [IsMenuItemEnabled](#ismenuitemenabled) | Returns TRUE if the specified menu item is enabled; FALSE otherwise. |
