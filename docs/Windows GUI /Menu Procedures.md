@@ -33,6 +33,70 @@
 
 ---
 
+# DDT Menu Procedures
+
+These procedures replicate the PowerBASIC's menu procedures and add many more functionality using the same syntax. Contrarily to the *Afx menu* procedures, that use zero-based items, these ones are one-based.
+
+| [IsMenuHandle](#IsMenuHandle) | Determines whether a handle is a menu handle. |
+| [IsMenuItemChecked](#ismenuitemchecked) | Returns TRUE if the specified menu item is checked; FALSE otherwise. |
+| [IsMenuItemEnabled](#ismenuitemenabled) | Returns TRUE if the specified menu item is enabled; FALSE otherwise. |
+| [IsMenuItemDisabled](#ismenuitemdisabled) | Returns TRUE if the specified menu item is disabled; FALSE otherwise. |
+| [IsMenuItemGrayed](#ismenuitemgrayed) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
+| [IsMenuItemHighlighted](#ismenuitemghighlighted) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
+| [IsMenuItemSeparator](#ismenuitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
+| [IsMenuItemPopup](#ismenuitempopup) |Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
+| [IsMenuItemOwnerDraw](#ismenuitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
+| [MenuAddBitmapToItem](#menuaddbitmaptoitem) | Adds a bitmap to the menu item. |
+| [MenuAddIconToItem](#menuaddicontoitem) | Adds an icon to the menu item. |
+| [MenuAddPopUp](#menuaddpopup) | Adds a popup child menu to an existing menu. |
+| [MenuAddString](#menuaddstring) | Adds a string or separator to an existing menu. |
+| [MenuAttach](#menuattach) | Attaches a menu to a window or dialog. |
+| [MenuBoldItem](#menubolditem) | Changes the text of a menu item to bold. |
+| [MenuCheckItem](#menucheckitem) | Checks a menu item. |
+| [MenuCheckRadioButton](#menucheckradiobutton) | ' Checks a specified menu item and makes it a radio item. At the same time, the function clears all other menu items in the associated group and clears the radio-item type flag for those items. |
+| [MenuContext](#MenuContext) | Creates a floating context menu. |
+| [MenuDelete](#menudelete) | Deletes a menu item from an existing menu. |
+| [MenuDestroy](#menudestroy) | Destroys the main menu from the window or dialog. |
+| [MenuDisableItem](#menudisableitem) | Disables the specified menu item. |
+| [MenuDrawBar](#menudrawbar) | Redraws the menu bar of the specified window or dialog. |
+| [MenuEnableItem](#menuenableitem) | Enables the specified menu item. |
+| [MenuFindItemPosition](#menufinditemposition) | Finds the position of the specified menu item. |
+| [MenuGetBarInfo](#menugetbarinfo) | Retrieves information about the specified menu bar. |
+| [MenuGetCheckMarkHeight](#menugetcheckmarkheight) | Retrieves the height of the default check-mark bitmap. |
+| [MenuGetCheckMarkWidth](#menugetcheckmarkwidth) | Retrieves the dimensions of the default check-mark bitmap. |
+| [MenuGetDefaultItem](#menugetdefaultitem) | Determines the default menu item on the specified menu. |
+| [MenuGetFont](#menugetfont) | Retrieves information about the font used in menu bars. |
+| [MenuGetFontPointSize](#menugetfontpointsize) | Retrieves the point size of the font used in menu bars. |
+| [MenuGetHandle](#menugethandle) | Retrieves a handle to the menu assigned to the specified window or dialog.  |
+| [MenuGetItemCount](#menugetitemcount) | Determines the number of items in the specified menu. |
+| [MenuGetItemFromPoint](#menugetitemfrompoint) | Determines which menu item, if any, is at the specified location. |
+| [MenuGetItemID](#menugetitemid) | Retrieves the menu item ID of a menu item located at the specified position in a menu. |
+| [MenuGetRect](#menugetrect) | Calculates the size of a menu bar or a drop-down menu. |
+| [MenuGetState](#menugetstate) | Retrieves the state of the specified menu item. |
+| [MenuGetSubMenu](#menugetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
+| [MenuGetSubmenusCount](#menugetsubmenuscount) | Get the number of submenus of a menu. |
+| [MenuGetText](#menugettext) | Retrieves the text of the specified menu item. |
+| [MenuGetTextLen](#menugettexlLen) | Returns the lengnth of the text of the specified menu item. |
+| [MenuGetWindowOwner](#menugetwindowowner) | Retrieve the window owner of the specified menu. |
+| [MenuGetSytemMenuHandle](#menugetsytemmenuhandle) | Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying.  |
+| [MenuGrayItem](#menugrayitem) | Disables the specified menu item. |
+| [MenuHiliteItem](#menuhiliteitem) | Highlights the specified menu item. |
+| [MenuItemToggleCheckState](#menuitemtogglecheckstate) | Retrieves the state of the specified menu item. |
+| [MenuNewBar](#menunewbar) | Creates a new menu bar. |
+| [MenuNewPopUp](#menunewpopup) | Creates a new popup menu. |
+| [MenuRemoveCloseOptiom](#menuremovecloseoptiom) | Removes the system menu close option and disables the X button. |
+| [MenuRestoreCloseOption](#menurestorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
+| [MenuRightJustifyItem](#menurightjustifyitem) | Right justifies a top level menu item. This is usually used to have the Help menu item. |
+| [MenuSetContextHelpId](#menusetcontexthelpid) | Associates a Help context identifier with a menu. |
+| [MenuGetContextHelpId](#menugetcontexthelpid) | Retrieves the Help context identifier associated with the specified menu. |
+| [MenuSetDefaultItem](#menusetdefaultitem) | Sets the default menu item for the specified menu. |
+| [MenuSetItemBitmaps](#MenuSetItemBitmaps) | Associates the specified bitmap with a menu item. Whether the menu item is selected or clear, the system displays the appropriate bitmap next to the menu item. |
+| [MenuSetState](#menusetstate) | Sets the state of the specified menu item. |
+| [MenuSetText](#menusettext) | Retrieves the text of the specified menu item. |
+| [MenuUnCheckItem](#menuuncheckitem) | Unchecks a menu item. |
+
+---
+
 ## AfxAddIconToMenuItem
 
 Converts an icon handle to a bitmap and adds it to the specified *hbmpItem field* of **HMENU** item.
