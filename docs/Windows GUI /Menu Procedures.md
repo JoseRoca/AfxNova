@@ -1836,3 +1836,24 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 MenuRightJustifyItem(hMenu, ID_EXIT)
 ```
 ---
+
+## MenuSetContextHelpId
+
+Associates a Help context identifier with a menu.
+
+```
+FUNCTION MenuSetContextHelpId (BYVAL hMenu AS HMENU, BYVAL helpID AS DWORD) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu with which to associate the Help context identifier. |
+| *hMenu* | The help context identifier. |
+
+#### Return value
+
+Returns nonzero if successful, or zero otherwise.
+
+To retrieve extended error information, call **GetLastError**.
+
+---
