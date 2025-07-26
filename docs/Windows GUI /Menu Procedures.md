@@ -1101,8 +1101,6 @@ MenuCheckRadioButton(GetSubMenu(hMenu, 0), 1, 2, 2, TRUE)   ' By position
 ```
 ---
 
----
-
 ## MenuContext
 
 Creates a floating context menu.
@@ -1155,3 +1153,20 @@ END IF
 RETURN TRUE
 ```
 ---
+
+## MenuDelete
+
+Deletes a menu item from an existing menu.
+
+```
+FUNCTION MenuDelete (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
