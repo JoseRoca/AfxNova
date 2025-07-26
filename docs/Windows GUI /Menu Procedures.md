@@ -1775,3 +1775,21 @@ If the function fails, the return value is NULL. To get extended error informati
 Instead of **MenuNewPopup** you can call the Windows API function **CreatePopupMenu**.
 
 ---
+
+## MenuRemoveCloseOptiom
+
+Removes the system menu close option and disables the X button.
+
+```
+FUNCTION MenuRemoveCloseOptiom (BYVAL hWin AS HWND) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+---
