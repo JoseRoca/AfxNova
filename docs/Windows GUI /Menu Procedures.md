@@ -32,7 +32,11 @@ When the user chooses a command from the **Window menu**, the system sends a **W
 
 An application can use the **GetSystemMenu** function to create a copy of the default window menu to modify. Any window that does not use the **GetSystemMenu** function to make its own copy of the window menu receives the standard window menu.
 
+See more documentation at [About Menus] (https://learn.microsoft.com/en-us/windows/win32/menurc/about-menus) and [Usibg Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/using-menus)
+
 ## Windows API Menu Procedures
+
+See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu-functions)
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -42,6 +46,42 @@ An application can use the **GetSystemMenu** function to create a copy of the de
 | **CheckMenuRadioItem** | Checks a specified menu item and makes it a radio item. |
 | **CheckMenuRadioItem** | Checks a specified menu item and makes it a radio item. |
 | **CreateMenu** | Creates a menu. |
+| **CreatePopupMenu** | Creates a drop-down menu, submenu, or shortcut menu. |
+| **CreatePopupMenu** | Creates a drop-down menu, submenu, or shortcut menu. |
+| **DeleteMenu** | Deletes an item from the specified menu. |
+| **DestroyMenu** | Destroys the specified menu and frees any memory that the menu occupies. |
+| **DrawMenuBar** | Redraws the menu bar of the specified window. |
+| **EnableMenuItem** | Enables, disables, or grays the specified menu item. |
+| **EndMenu** | Ends the calling thread's active menu. |
+| **GetMenu** | Retrieves a handle to the menu assigned to the specified window. |
+| **GetMenuCheckMarkDimensions** | Retrieves the dimensions of the default check-mark bitmap. |
+| **GetMenuDefaultItem** | Determines the default menu item on the specified menu. |
+| **GetMenuInfo** | Retrieves information about a specified menu. |
+| **GetMenuItemCount** | Determines the number of items in the specified menu. |
+| **GetMenuItemID** | Retrieves the menu item identifier of a menu item located at the specified position in a menu. |
+| **GetMenuItemInfo** | Retrieves information about a menu item. |
+| **GetMenuItemRect** | Retrieves the bounding rectangle for the specified menu item. |
+| **GetMenuState** | Retrieves the menu flags associated with the specified menu item. |
+| **GetMenuString** | Copies the text string of the specified menu item into the specified buffer. |
+| **GetSubMenu** | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
+| **GetSubMenu** | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
+| **GetSystemMenu** |Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying. |
+| **HiliteMenuItem** | Adds or removes highlighting from an item in a menu bar. |
+| **InsertMenu** | Inserts a new menu item into a menu, moving other items down the menu. |
+| **InsertMenuItem** | Inserts a new menu item at the specified position in a menu. |
+| **IsMenu** | Determines whether a handle is a menu handle. |
+| **LoadMenu** | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
+| **LoadMenuIndirect** | Loads the specified menu template in memory. |
+| **MenuItemFromPoint** | Determines which menu item, if any, is at the specified location. |
+| **ModifyMenu** | Changes an existing menu item. |
+| **RemoveMenu** | Deletes a menu item or detaches a submenu from the specified menu. |
+| **SetMenu** | Assigns a new menu to the specified window. |
+| **SetMenuDefaultItem** | Sets the default menu item for the specified menu. |
+| **SetMenuInfo** | Sets information for a specified menu. |
+| **SetMenuItemBitmaps** | Associates the specified bitmap with a menu item. |
+| **SetMenuItemInfo** | Changes information about a menu item. |
+| **TrackPopupMenu** | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
+| **TrackPopupMenuEx** | Displays a shortcut menu at the specified location and tracks the selection of items on the shortcut menu. |
 
 ---
 
