@@ -1457,7 +1457,18 @@ Returns the zero-based position of the menu item at the specified location or -1
 
 ---
 
+## MenuGetItemID
 
-If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
+Retrieves the menu item ID of a menu item located at the specified position in a menu.
+
+```
+FUNCTION MenuGetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the item whose identifier is to be retrieved. |
+| *nPos* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+
+The return value is the identifier of the specified menu item. If the menu item identifier is NULL or if the specified item opens a submenu, the return value is -1.
 
 ---
