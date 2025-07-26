@@ -1327,3 +1327,23 @@ FUNCTION MenuGetCheckMarkWidth () AS LONG
 Returns the width of the default check-mark bitmap.
 
 ---
+
+## MenuGetContextHelpId
+
+Retrieves the Help context identifier associated with the specified menu.
+
+```
+FUNCTION MenuGetCheckMarkHeight () AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu for which the Help context identifier is to be retrieved. |
+
+#### Return value
+
+Returns the Help context identifier if the menu has one, or zero otherwise.
+
+---
+
+
