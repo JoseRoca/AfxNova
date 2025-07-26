@@ -1170,3 +1170,20 @@ FUNCTION MenuDelete (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition
 #### Return value
 
 Returns TRUE if the function succeeds; FALSE otherwise.
+
+---
+
+## MenuDestroy
+
+Destroys the main menu from the window or dialog.
+
+```
+FUNCTION MenuDestroy OVERLOAD (BYVAL hWin AS HWND) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
