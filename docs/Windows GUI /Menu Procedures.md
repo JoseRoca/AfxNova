@@ -107,7 +107,7 @@ See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu
 | [AfxIsMenuItemEnabled](#afxismenuitemenabled) | Returns TRUE if the specified menu item is enabled; FALSE otherwise. |
 | [AfxIsMenuItemGrayed](#afxismenuitemgrayed) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
 | [AfxIsMenuItemHighlighted](#afxismenuitemhighlighted) | Returns TRUE if the specified menu item is highlighted; FALSE otherwise. |
-| [AfxIsMenuItemOwnerDraw](#afxismenuitemownerdraw) | Returns TRUE if the specified menu item is a ownerdraw; FALSE otherwise. |
+| [AfxIsMenuItemOwnerdraw](#afxismenuitemownerdraw) | Returns TRUE if the specified menu item is a ownerdraw; FALSE otherwise. |
 | [AfxIsMenuItemPopup](#afxismenuitempopup) | Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
 | [AfxIsMenuItemSeparator](#afxismenuitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
 | [AfxRemoveCloseMenu](#Afxremoveclosemenu) | Removes the system menu close option and disables the X button. |
@@ -133,7 +133,7 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 | [IsMenuItemGrayed](#ismenuitemgrayed) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
 | [IsMenuItemHighlighted](#ismenuitemghighlighted) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
 | [IsMenuItemSeparator](#ismenuitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
-| [IsMenuItemOwnerDraw](#ismenuitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
+| [IsMenuItemOwnerdraw](#ismenuitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
 | [IsMenuItemPopup](#ismenuitempopup) |Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
 | [MenuAddBitmapToItem](#menuaddbitmaptoitem) | Adds a bitmap to the menu item. |
 | [MenuAddIconToItem](#menuaddicontoitem) | Adds an icon to the menu item. |
@@ -579,12 +579,12 @@ FUNCTION AfxIsMenuItemHighlighted (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemOwnerDraw
+## AfxIsMenuItemOwnerdraw
 
 Returns TRUE if the specified menu item is a ownerdraw; FALSE otherwise.
 
 ```
-FUNCTION AfxIsMenuItemOwnerDraw (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
+FUNCTION AfxIsMenuItemOwnerdraw (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
    BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
 ```
 
