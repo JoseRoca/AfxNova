@@ -1100,3 +1100,58 @@ MenuCheckRadioButton(hMenu, ID_OPEN, ID_EXIT, ID_EXIT)      ' By item identifier
 MenuCheckRadioButton(GetSubMenu(hMenu, 0), 1, 2, 2, TRUE)   ' By position
 ```
 ---
+
+---
+
+## MenuContext
+
+Creates a floating context menu.
+
+```
+FUNCTION MenuContext (BYVAL hWin AS HWND, BYVAL hPopupMenu AS HMENU, BYVAL x AS LONG, _
+   BYVAL y AS LONG, BYVAL flags AS UINT) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the window or dialog that owns the shortcut menu. |
+| *hPopupMenu* | A handle to the shortcut menu to be displayed. The handle can be obtained by calling **MenuAddPopup** to create a new shortcut menu, or by calling **MenuGetSubMenu** to retrieve a handle to a submenu associated with an existing menu item. |
+| *x* | The horizontal location of the shortcut menu, in screen coordinates. |
+| *y* | The vertical location of the shortcut menu, in screen coordinates. |
+| *flags* | May be combined, as appropriate, to specify the characteristics of the context menu.<br>TPM_LEFTBUTTON: Tracks the left button.<br>TPM_RIGHTBUTTON: Tracks the right button.<br>TPM_LEFTALIGN: Left side of the menu is aligned with *x*.<br>TPM_CENTERALIGN: Centers horizontally with *x*.<br>TPM_RIGHTALIGN: Right side of the menu is aligned with *x*.<br>TPM_TOPALIGN: Top of the menu is aligned with *y*.<br>TPM_VCENTERALIGN: Centers vertically with *y*.<br>TPM_BOTTOMALIGN: Bottom of the menu is aligned with *y*. |
+
+#### Return value
+
+If you specify **TPM_RETURNCMD** in the *flags* parameter, the return value is the menu-item identifier of the item that the user selected. If the user cancels the menu without making a selection, or if an error occurs, the return value is zero.
+
+#### Usage example
+
+```
+CASE WM_NOTIFY
+' // Processs notify messages sent by the split button
+DIM tDropDown AS NMBCDROPDOWN
+CBNMTYPESET(tDropDown, wParam, lParam)
+IF tDropDown.hdr.idFrom = IDC_SPLITBUTTON THEN
+   IF tDropDown.hdr.code = BCN_DROPDOWN THEN
+      ' // Get the screen coordinates of the button
+      DIM pt AS POINT = (tDropdown.rcButton.left, tDropDown.rcButton.bottom)
+      ClientToScreen(tDropDown.hdr.hwndFrom, @pt)
+      ' // Create a menu and add items
+      DIM hSplitMenu AS HMENU = MenuNewPopup
+      MenuAddString(hSplitMenu, "Menu item 1", 1, MF_ENABLED)
+      MenuAddString(hSplitMenu, "Menu item 2", 2, MF_ENABLED)
+      MenuAddString(hSplitMenu, "Menu item 3", 3, MF_ENABLED)
+      DIM id AS LONG = MenuContext(hDlg, hSplitMenu, pt.x, pt.y, TPM_LEFTBUTTON)
+      IF id THEN MsgBox(hDlg, "You clicked item " & WSTR(id), MB_OK, "Message")
+   ELSEIF tDropDown.hdr.code = BCN_HOTITEMCHANGE THEN
+      DIM tHotItem AS NMBCHOTITEM
+      CBNMTYPESET(tHotItem, wParam, lParam)
+      IF (tHotItem.dwFlags AND HICF_ENTERING) THEN
+         DialogSetText hDlg, "Mouse entering the button"
+      ELSEIF (tHotItem.dwFlags AND HICF_LEAVING) THEN
+         DialogSetText hDlg, "Mouse leaving the button"
+      END IF
+   END IF
+END IF
+RETURN TRUE
+```
+---
