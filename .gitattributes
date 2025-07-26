@@ -3,9 +3,9 @@
 
 # FreeBASIC source files (need cr/lf line endings)
 *.h         eol=crlf
-*.bi        eol=crlf
-*.bas       eol=crlf
-*.inc       eol=crlf
+*.bi        eol=crlf linguist-language=FreeBASIC
+*.bas       eol=crlf linguist-language=FreeBASIC
+*.inc       eol=crlf linguist-language=FreeBASIC
 *.inl       eol=crlf
 *.bat       eol=crlf
 *.sln       eol=crlf
