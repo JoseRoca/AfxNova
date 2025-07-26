@@ -1397,3 +1397,24 @@ FUNCTION MenuGetFontPointSize () AS LONG
 The point size of the font used in menu bars. If the function fails, the return value is 0.
 
 ---
+
+## MenuGetHandle
+
+Retrieves a handle to the menu assigned to the specified window or dialog. 
+
+```
+FUNCTION MenuGetHandle (BYVAL hWin AS HWND) AS HMENU
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | A handle to the window or dialog whose menu handle is to be retrieved. |
+
+#### Return value
+
+The return value is a handle to the menu. If the specified window has no menu, the return value is NULL. If the window is a child window, the return value is undefined.
+
+#### Remarks
+
+**MenuGetHandle** does not work on floating menu bars. Floating menu bars are custom controls that mimic standard menus; they are not menus. To get the handle on a floating menu bar, use the Active Accessibility APIs. The Windows API **GetMenu** function can be used instead of **MenuGetHandle**.
+
+---
