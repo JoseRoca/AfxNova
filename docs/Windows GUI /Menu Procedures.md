@@ -786,9 +786,149 @@ The return value specifies the previous state of the menu item (either MF_CHECKE
 
 ## IsMenuHandle
 
-Unchecks a menu item.
+Determines whether a handle is a menu handle.
 
 ```
-FUNCTION AfxUnCheckMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
-   BYVAL fByPosition AS LONG = FALSE) AS LONG
+FUNCTION IsMenuHandle (BYVAL hMenu AS HMENU) AS BOOLEAN
 ```
+
+#### Return value
+
+Returns TRUE if the specified handle is a menu handle; FALSE otherwise.
+
+---
+
+## IsMenuItemChecked
+
+Determines whether the specified menu item is checked.
+
+```
+FUNCTION IsMenuItemChecked (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is checked; FALSE otherwise.
+
+---
+
+## IsMenuItemEnabled
+
+Determines whether the specified menu item is enabled.
+
+```
+FUNCTION IsMenuItemEnabled (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is enabled; FALSE otherwise.
+
+---
+
+
+## IsMenuItemDisabled
+
+Determines whether the specified menu item is disabled.
+
+```
+FUNCTION IsMenuItemDisabled (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is disabled; FALSE otherwise.
+
+---
+
+## IsMenuItemGrayed
+
+Determines whether the specified menu item is grayed.
+
+```
+FUNCTION IsMenuItemGrayed (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is grayed; FALSE otherwise.
+
+---
+
+## IsMenuItemHighlighted
+
+Determines whether the specified menu item is highlighted.
+
+```
+FUNCTION IsMenuItemHighlighted (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is highlighted; FALSE otherwise.
+
+---
+
+## IsMenuItemSeparator
+
+Determines whether the specified menu item is a separator.
+
+```
+FUNCTION IsMenuItemSeparator (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is a separator; FALSE otherwise.
+
+---
+
+## IsMenuItemOwnerdraw
+
+Determines whether the specified menu item is ownerdraw.
+
+```
+FUNCTION IsMenuItemOwnerdraw (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise.
+
+---
+
+## IsMenuItemPopup
+
+Determines whether the specified menu item is a popup item.
+
+```
+FUNCTION IsMenuItemPopup (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is a popup item; FALSE otherwise.
+
+---
+
+## MenuAddBitmapToItem
+
+Adds a bitmap to the menu item.
+
+```
+FUNCTION MenuAddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to change. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position. |
+| *hbmp* | The bitmap handle. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
+
+---
