@@ -1008,3 +1008,24 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 The application must call the **MenuDrawBar** statement whenever a menu changes, whether or not the menu is in a displayed dialog.
 
 ---
+
+## MenuAttach
+
+Attaches a menu to a window or dialog.
+
+```
+FUNCTION FUNCTION MenuAttach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified menu item is a popup item; FALSE otherwise.
+
+#### Remarks
+
+The Windows API function **SetMenu** performs the same action.
+
+---
+
+
+---
