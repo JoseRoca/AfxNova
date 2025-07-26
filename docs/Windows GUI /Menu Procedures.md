@@ -956,3 +956,25 @@ FUNCTION MenuAddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
+
+## MenuAddPopup
+
+Adds a popup child menu to an existing menu. A popup menu is a small window that "pops up" when a menu item is highlighted. This allows nesting, and gives the user an opportunity to choose from "sub-menu" items.
+
+```
+FUNCTION MenuAddPopup (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL hPopup AS HMENU, _
+   BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle of the parent menu which holds the popup. |
+| *wszText* | Text displayed in the parent menu. An ampersand (&) may be used in the  to make the following letter into a control accelerator (hot-key). The letter appears underscored to signify that it is an accelerator. |
+| *hPopup* | Handle of the child popup menu to be added. |
+| *fState* | The initial state of the menu item. It can be one of the following:<br>MFS_DISABLED: Disable the item so that it cannot be selected.<br>%MFS_ENABLED:  Enable the item so that it can be selected. |
+| *item* | If the option is included, *item* is a unique numeric identifier for this popup menu. *item* may be used later with a *fByPosition* option to reference this popup. *item* is an integral numeric value in the range of -32768 to +32767. |
+| *fByPosition* | Indicates the position in the parent menu where the popup child menu is to be inserted. If the *fByPosition* option is used, the popup menu is inserted prior to the menu item specified by *item*. Otherwise, the popup menu is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
