@@ -1755,3 +1755,23 @@ If the function fails, the return value is NULL. To get extended error informati
 Instead of **MenuNewBar** you can call the Windows API function **CreateMenu**.
 
 ---
+
+## MenuNewPopup
+
+Creates a drop-down menu, submenu, or shortcut menu.
+
+```
+FUNCTION MenuNewPopup () AS HMENU
+```
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the newly created menu.
+
+If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+Instead of **MenuNewPopup** you can call the Windows API function **CreatePopupMenu**.
+
+---
