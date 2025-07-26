@@ -1365,3 +1365,35 @@ FUNCTION MenuGetDefaultItem (BYVAL hMenu AS HMENU, BYVAL gmdiFlags AS UINT = 0, 
 If the function succeeds, the return value is the identifier or position of the menu item. If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
 
 ---
+
+## MenuGetFont
+
+Retrieves information about the font used in menu bars.
+
+```
+FUNCTION MenuGetFont () AS LOGFONTW
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu for which to retrieve the default menu item. |
+
+#### Return value
+
+A **LOGFONTW** structure that contains information about the font used in menu bars.
+
+---
+
+## MenuGetFontPointSize
+
+Retrieves the point size of the font used in menu bars.
+
+```
+FUNCTION MenuGetFontPointSize () AS LONG
+```
+
+#### Return value
+
+The point size of the font used in menu bars. If the function fails, the return value is 0.
+
+---
