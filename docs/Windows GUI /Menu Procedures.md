@@ -1346,4 +1346,22 @@ Returns the Help context identifier if the menu has one, or zero otherwise.
 
 ---
 
+## MenuGetDefaultItem
 
+Determines the default menu item on the specified menu.
+
+```
+FUNCTION MenuGetDefaultItem (BYVAL hMenu AS HMENU, BYVAL gmdiFlags AS UINT = 0, BYVAL fByPosition AS BOOLEAN = TRUE) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu for which to retrieve the default menu item. |
+| *gmdiFlags* | Indicates how the function should search for menu items. This parameter can be zero or more of the following values.<br>GMDI_GOINTOPOPUPS &H0002 : If the default item is one that opens a submenu, the function is to search recursively in the corresponding submenu. If the submenu has no default item, the return value identifies the item that opens the submenu. By default, the function returns the first default item on the specified menu, regardless of whether it is an item that opens a submenu.<br>GMDI_USEDISABLED &h0001: The function is to return a default item, even if it is disabled. By default, the function skips disabled or grayed items. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+If the function succeeds, the return value is the identifier or position of the menu item. If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
+
+---
