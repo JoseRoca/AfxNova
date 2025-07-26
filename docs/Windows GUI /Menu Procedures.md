@@ -1916,3 +1916,29 @@ The selected and clear bitmaps should be monochrome. The system uses the Boolean
 Use the **GetSystemMetrics** function with the **SM_CXMENUCHECK** and **SM_CYMENUCHECK** values to retrieve the bitmap dimensions.
 
 ---
+
+## MenuSetState
+
+Sets the state of the specified menu item.
+
+```
+FUNCTION MenuSetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fState AS UINT, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | | *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fState* | The menu item state. It can be one or more of these values:<br>MFS_CHECKED: Checks the menu item.<br>MFS_DEFAULT: Specifies that the menu item is the default.<br>MFS_DISABLED: Disables the menu item and grays it so that it cannot be selected.<br>MFS_ENABLED: Enables the menu item so that it can be selected. This is the default state.<br>MFS_GRAYED: Disables the menu item and grays it so that it cannot be selected.<br> MFS_HILITE: Highlights the menu item.<br>MFS_UNCHECKED Unchecks the menu item.<br>MFS_UNHILITE: Removes the highlight from the menu item. This is the default state. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **MenuDrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
