@@ -34,6 +34,17 @@ An application can use the **GetSystemMenu** function to create a copy of the de
 
 See more documentation at [About Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/about-menus) and [Usibg Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/using-menus)
 
+---
+
+## Examples
+
+| Name       | Description |
+| ---------- | ----------- |
+| CWindow Menu](#cwindowmenu) | Build a menu using CWindow. |
+| CDialog Menu](#cdialogmenu) | Build a menu using CDialog. |
+
+---
+
 ## Windows API Menu Procedures
 
 See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu-functions)
@@ -1985,3 +1996,166 @@ FUNCTION MenuUnCheckItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
+
+## CWindow Menu
+
+Build a menu using `CWindow`and the Windows API.
+
+```
+#define UNICODE
+#INCLUDE ONCE "AfxNova/CWindow.inc"
+USING AfxNova
+
+DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                           BYVAL hPrevInstance AS HINSTANCE, _
+                           BYVAL pwszCmdLine AS WSTRING PTR, _
+                           BYVAL nCmdShow AS LONG) AS LONG
+   END wWinMain(GetModuleHandleW(NULL), NULL, wCommand(), SW_NORMAL)
+
+' // Forward declaration
+DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+
+' // Menu identifiers
+ENUM
+   IDM_NEW = 1001     ' New file
+   IDM_OPEN           ' Open file...
+   IDM_SAVE           ' Save file
+   IDM_SAVEAS         ' Save file as...
+   IDM_EXIT           ' Exit
+
+   IDM_UNDO = 2001    ' Undo
+   IDM_CUT            ' Cut
+   IDM_COPY           ' Copy
+   IDM_PASTE          ' Paste
+
+   IDM_TILEH = 3001   ' Tile hosizontal
+   IDM_TILEV          ' Tile vertical
+   IDM_CASCADE        ' Cascade
+   IDM_ARRANGE        ' Arrange icons
+   IDM_CLOSE          ' Close
+   IDM_CLOSEALL       ' Close all
+END ENUM
+
+' ========================================================================================
+' Build the menu
+' ========================================================================================
+FUNCTION BuildMenu () AS HMENU
+
+   DIM hMenu AS HMENU
+   DIM hPopUpMenu AS HMENU
+
+   hMenu = CreateMenu
+   hPopUpMenu = CreatePopUpMenu
+      AppendMenuW hMenu, MF_POPUP OR MF_ENABLED, CAST(UINT_PTR, hPopUpMenu), "&File"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_NEW, "&New" & CHR(9) & "Ctrl+N"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_OPEN, "&Open..." & CHR(9) & "Ctrl+O"
+         AppendMenuW hPopUpMenu, MF_SEPARATOR, 0, ""
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_SAVE, "&Save" & CHR(9) & "Ctrl+S"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_SAVEAS, "Save &As..."
+         AppendMenuW hPopUpMenu, MF_SEPARATOR, 0, ""
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_EXIT, "E&xit" & CHR(9) & "Alt+F4"
+   hPopUpMenu = CreatePopUpMenu
+      AppendMenuW hMenu, MF_POPUP OR MF_ENABLED, CAST(UINT_PTR, hPopUpMenu), "&Edit"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_UNDO, "&Undo" & CHR(9) & "Ctrl+Z"
+         AppendMenuW hPopUpMenu, MF_SEPARATOR, 0, ""
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_CUT, "Cu&t" & CHR(9) & "Ctrl+X"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_COPY, "&Copy" & CHR(9) & "Ctrl+C"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_PASTE, "&Paste" & CHR(9) & "Ctrl+V"
+   hPopUpMenu = CreatePopUpMenu
+      AppendMenuW hMenu, MF_POPUP OR MF_ENABLED, CAST(UINT_PTR, hPopUpMenu), "&Window"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_TILEH, "&Tile Horizontal"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_TILEV, "Tile &Vertical"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_CASCADE, "Ca&scade"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_ARRANGE, "&Arrange &Icons"
+         AppendMenuW hPopUpMenu, MF_SEPARATOR, 0, ""
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_CLOSE, "&Close" & CHR(9) & "Ctrl+F4"
+         AppendMenuW hPopUpMenu, MF_ENABLED, IDM_CLOSEALL, "Close &All"
+   FUNCTION = hMenu
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Main
+' ========================================================================================
+FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                   BYVAL hPrevInstance AS HINSTANCE, _
+                   BYVAL pwszCmdLine AS WSTRING PTR, _
+                   BYVAL nCmdShow AS LONG) AS LONG
+
+   ' // Set process DPI aware
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
+   ' // Enable visual styles without including a manifest file
+   AfxEnableVisualStyles
+
+   ' // Creates the main window
+   DIM pWindow AS CWindow = "MyClassName"   ' Use the name you wish
+   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - Menu", @WndProc)
+   ' // Sizes it by setting the wanted width and height of its client area
+   pWindow.SetClientSize(400, 220)
+   ' // Centers the window
+   pWindow.Center
+
+   ' // Creates the menu
+   DIM hMenu AS HMENU = BuildMenu
+   SetMenu pWindow.hWindow, hMenu
+
+   ' // Set the main window background color
+   pWindow.SetBackColor(RGB_GOLD)
+
+   ' // Adds a button
+   pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 155, 75, 30)
+   ' // Anchors the button to the bottom and the right side of the main window
+   pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
+
+   ' // Displays the window and dispatches the Windows messages
+   FUNCTION = pWindow.DoEvents(nCmdShow)
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Main window procedure
+' ========================================================================================
+FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+
+   SELECT CASE uMsg
+
+      ' // If an application processes this message, it should return zero to continue
+      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // and the CreateWindowExW function returns a NULL handle.
+      CASE WM_CREATE
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      ' // Sent when the user selects a command item from a menu, when a control sends a
+      ' // notification message to its parent window, or when an accelerator keystroke is translated.
+      CASE WM_COMMAND
+         SELECT CASE CBCTL(wParam, lParam)
+            CASE IDCANCEL
+               ' // If ESC key pressed, close the application by sending an WM_CLOSE message
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN SendMessageW(hwnd, WM_CLOSE, 0, 0)
+            CASE IDM_NEW   ' IDM_OPEN, IDM_SAVE, etc.
+               MessageBox hwnd, "New option clicked", "Menu", MB_OK
+               EXIT FUNCTION
+         END SELECT
+         RETURN 0
+
+      CASE WM_DESTROY
+         ' // End the application by sending an WM_QUIT message
+         PostQuitMessage(0)
+         RETURN 0
+
+   END SELECT
+
+   ' // Default processing of Windows messages
+   FUNCTION = DefWindowProcW(hwnd, uMsg, wParam, lParam)
+
+END FUNCTION
+' ========================================================================================
+```
