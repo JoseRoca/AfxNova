@@ -96,7 +96,9 @@ See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu
 
 ---
 
-## Menu Wrappers
+## SDK Style Menu Wrappers
+
+Wwappers to add functionality or convenience of use to the above listed SDK functions.
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -131,7 +133,7 @@ See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu
 
 ---
 
-## DDT-like Menu Wrappers
+## DDT Style Menu Wrappers
 
 These procedures replicate the PowerBASIC's menu procedures and add many more functionality using the same syntax. Contrarily to the *Afx menu* procedures, that use zero-based items, these ones are one-based.
 
