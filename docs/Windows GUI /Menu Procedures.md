@@ -40,8 +40,8 @@ See more documentation at [About Menus](https://learn.microsoft.com/en-us/window
 
 | Name       | Description |
 | ---------- | ----------- |
-| [CWindow Menu](#cwindowmenu) | Build a menu using CWindow. |
-| [CDialog Menu](#cdialogmenu) | Build a menu using CDialog. |
+| [CWindow Menu](#cwindowmenu) | Builds a menu using CWindow. |
+| [CDialog Menu](#cdialogmenu) | Builds a menu using CDialog. |
 
 ---
 
