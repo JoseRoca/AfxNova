@@ -32,7 +32,7 @@ When the user chooses a command from the **Window menu**, the system sends a **W
 
 An application can use the **GetSystemMenu** function to create a copy of the default window menu to modify. Any window that does not use the **GetSystemMenu** function to make its own copy of the window menu receives the standard window menu.
 
-See more documentation at [About Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/about-menus) and [Usibg Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/using-menus)
+See more MSDN documentation:at [About Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/about-menus) and [Using Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/using-menus)
 
 ---
 
