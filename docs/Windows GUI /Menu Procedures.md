@@ -1997,7 +1997,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## CWindow Menu
+## <a name="cwindowmenu"></a>CWindow Menu
 
 Build a menu using `CWindow`and the Windows API.
 
@@ -2159,3 +2159,4 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 END FUNCTION
 ' ========================================================================================
 ```
+---
