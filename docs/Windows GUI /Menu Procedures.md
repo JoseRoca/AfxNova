@@ -4,7 +4,7 @@ A menu is a list of items that specify options or groups of options (a submenu) 
 
 #### Menu Bars and Menus
 
-A menu is arranged in a hierarchy. At the top level of the hierarchy is the *menu bar*; which contains a list of *menus*, which in turn can contain submenus. A menu bar is sometimes called a *top-level menu*, and the menus and submenus are also known as *pop-up menus*.
+A menu is arranged in a hierarchy. At the top level of the hierarchy is the *menu bar*; which contains a list of *menus*, which in turn can contain submenus. A menu bar is sometimaes called a *top-level menu*, and the menus and submenus are also known as *pop-up menus*.
 
 A menu item can either carry out a command or open a submenu. An item that carries out a command is called a *command item* or a *command*.
 
@@ -2162,7 +2162,7 @@ END FUNCTION
 ```
 ---
 
-Builds a menu and an accelerator table using `CWindow`.
+Builds a menu and a keyboard accelerator table using `CWindow`.
 
 ```
 #define UNICODE
