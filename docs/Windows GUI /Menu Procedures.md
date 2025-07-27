@@ -47,6 +47,8 @@ See more documentation at [About Menus](https://learn.microsoft.com/en-us/window
 
 ## Windows API Menu Procedures
 
+Menu functions provided by Windows.
+
 See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu-functions)
 
 | Name       | Description |
