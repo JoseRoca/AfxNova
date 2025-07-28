@@ -381,7 +381,7 @@ END FUNCTION
 '              CASE EC_USERABORT:    ' Handle event
 '              CASE EC_ERRORABORT:   ' Handle event
 '           END SELECT
-'        END WHILE
+'        WEND
 '   The GetEvent method retrieves the event code and the two event parameters.
 '   Event notification and the message loop are both asynchronous, so the queue might hold
 '   more than one event by the time your application responds to the message. Also, the
