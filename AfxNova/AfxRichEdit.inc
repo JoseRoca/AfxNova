@@ -29,6 +29,9 @@
 #include once "win/richedit.bi"
 #include once "win/richole.bi"
 #include once "AfxNova/DWSTRING.inc"
+USING AfxNova
+
+NAMESPACE AfxNova
 
 ' ========================================================================================
 ' Enables or disables automatic detection of URLs by a rich edit control.
@@ -1375,3 +1378,5 @@ PRIVATE FUNCTION RichEdit_GetRtfText (BYVAL hRichEdit AS HWND) AS STRING
 
 END FUNCTION
 ' ========================================================================================
+
+END NAMESPACE

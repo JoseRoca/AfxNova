@@ -10,9 +10,6 @@
 ' ########################################################################################
 
 #pragma once
-#include once "win/control.bi."
-
-NAMESPACE AfxNova
 
 ' // The definition for BSTR in the FreeBASIC headers was inconveniently changed to WCHAR
 #ifndef AFX_BSTR
@@ -232,5 +229,3 @@ END TYPE
 #endif
 
 ' ########################################################################################
-
-END NAMESPACE
