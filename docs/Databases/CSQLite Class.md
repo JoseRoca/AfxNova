@@ -86,7 +86,7 @@ IF pSql.m_hLib = NULL THEN END
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
 DIM dwsDbName AS DWSTRING = AfxGetExePathName & "Test.sdb"
-IF AfxFileExists(cwsDbName) THEN AfxDeleteFile(cwsDbName)
+IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(dwsDbName)
 DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
@@ -149,7 +149,7 @@ IF pDbc.Exec("CREATE TABLE t (xyz text)") <> SQLITE_DONE THEN
 END IF
 
 ' // Prepare the statement
-DIM sql AS CWSTR = "INSERT INTO t (xyz) VALUES (?)"
+DIM sql AS DWSTRING = "INSERT INTO t (xyz) VALUES (?)"
 DIM pStmt AS CSqliteStmt = pDbc.Prepare(sql)
 ' // Bind the text
 pStmt.BindText(1, "fruit")
@@ -984,9 +984,9 @@ IF pSql.m_hLib = NULL THEN END
 
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
-DIM cwsDbName AS DWSTRING = AfxGetExePathName & "TestBlob.sdb"
-IF AfxFileExists(cwsDbName) THEN AfxDeleteFile(cwsDbName)
-DIM pDbc AS CSQLiteDb = cwsDbName
+DIM dwsDbName AS DWSTRING = AfxGetExePathName & "TestBlob.sdb"
+IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(dwsDbName)
+DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
 IF pDbc.Exec("CREATE TABLE t (xyz blob)") <> SQLITE_DONE THEN
@@ -1080,7 +1080,7 @@ IF pSql.m_hLib = NULL THEN END
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
 DIM dwsDbName AS DWSTRING = AfxGetExePathName & "Test.sdb"
-IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(cwsDbName)
+IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(dwsDbName)
 DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
@@ -1307,7 +1307,7 @@ IF pSql.m_hLib = NULL THEN END
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
 DIM dwsDbName AS DWSTRING = AfxGetExePathName & "TestBlob.sdb"
-IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(cwsDbName)
+IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(dwsDbName)
 DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
@@ -1710,8 +1710,8 @@ FUNCTION ColumnCount () AS LONG
 Returns the database name that is the origin of a particular result column in SELECT statement.
 
 ```
-FUNCTION ColumnDatabaseName (BYVAL nCol AS LONG) AS CWSTR
-FUNCTION ColumnDatabaseName (BYREF wszColName AS WSTRING) AS CWSTR
+FUNCTION ColumnDatabaseName (BYVAL nCol AS LONG) AS DWSTRING
+FUNCTION ColumnDatabaseName (BYREF wszColName AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1737,8 +1737,8 @@ If two or more threads call one or more column metadata interfaces for the same 
 Returns the declared data type of a query result.
 
 ```
-FUNCTION ColumnDeclaredType (BYVAL nCol AS LONG) AS CWSTR
-FUNCTION ColumnDeclaredType (BYREF wszColName AS WSTRING) AS CWSTR
+FUNCTION ColumnDeclaredType (BYVAL nCol AS LONG) AS DWSTRING
+FUNCTION ColumnDeclaredType (BYREF wszColName AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1872,7 +1872,7 @@ If a memory allocation error occurs during the evaluation of any of these functi
 Returns the name assigned to a particular column in the result set of a SELECT statement.
 
 ```
-FUNCTION ColumnName (BYVAL nCol AS LONG) AS CWSTR
+FUNCTION ColumnName (BYVAL nCol AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1890,8 +1890,8 @@ The name assigned to the specified column. The name of a result column is the va
 Returns the column name that is the origin of a particular result column in SELECT statement.
 
 ```
-FUNCTION ColumnOriginName (BYVAL nCol AS LONG) AS CWSTR
-FUNCTION ColumnOriginName (BYREF wszColName AS WSTRING) AS CWSTR
+FUNCTION ColumnOriginName (BYVAL nCol AS LONG) AS DWSTRING
+FUNCTION ColumnOriginName (BYREF wszColName AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1917,8 +1917,8 @@ If two or more threads call one or more column metadata interfaces for the same 
 Returns the table name that is the origin of a particular result column in SELECT statement.
 
 ```
-FUNCTION ColumnTableName (BYVAL nCol AS LONG) AS CWSTR
-FUNCTION ColumnTableName (BYREF wszColName AS WSTRING) AS CWSTR
+FUNCTION ColumnTableName (BYVAL nCol AS LONG) AS DWSTRING
+FUNCTION ColumnTableName (BYREF wszColName AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1944,8 +1944,8 @@ If two or more threads call one or more column metadata interfaces for the same 
 Returns the column value as a UTF-16 string.
 
 ```
-FUNCTION ColumnText (BYVAL nCol AS LONG) AS CWSTR
-FUNCTION ColumnText (BYREF wszColName AS WSTRING) AS CWSTR
+FUNCTION ColumnText (BYVAL nCol AS LONG) AS DWSTRING
+FUNCTION ColumnText (BYREF wszColName AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
