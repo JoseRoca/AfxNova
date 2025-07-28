@@ -571,6 +571,7 @@ PRIVATE FUNCTION CSQLite.RefCount (BYVAL bIncrement AS BOOLEAN, BYREF wszDllPath
    IF cRef = 0  THEN
       ' // Free the SQLite library
       IF _hLib THEN FreeLibrary _hLib
+      CSQLITE_DP("FreeLibrary - m_hLib:" & WSTR(m_hLib) & " - cRef: " & WSTR(cRef))
    END IF
    CSQLITE_DP("m_hLib:" & WSTR(m_hLib) & " - cRef: " & WSTR(cRef))
    RETURN cRef
@@ -650,7 +651,7 @@ END FUNCTION
 ' It does not parse the SQL statements thus will not detect syntactically incorrect SQL.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Complete (BYREF wszSql AS CONST WSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP("wszSql")
    IF LEN(wszSql) = 0 THEN RETURN 1
    DIM pProc AS PFNSQLITE3COMPLETE16PROC = _
    cast(PFNSQLITE3COMPLETE16PROC, GetProcAddress(m_hLib, "sqlite3_complete16"))
@@ -677,7 +678,7 @@ END FUNCTION
 ' Example: pSql.CompileOptionUsed(("SQLITE_ENABLE_DBSTAT_VTAB").
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.CompileOptionUsed (BYREF szOptName AS ZSTRING) AS BOOLEAN
-   CSQLITE_DP("")
+   CSQLITE_DP("szOptName")
    IF LEN(szOptName) = 0 THEN RETURN FALSE
    DIM pProc AS PFNSQLITE3COMPILEOPTIONUSEDPROC = _
    cast(PFNSQLITE3COMPILEOPTIONUSEDPROC, GetProcAddress(m_hLib, "sqlite3_compileoption_used"))
@@ -693,7 +694,7 @@ END FUNCTION
 ' Example: pSql.GetCompileOption(0)
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.GetCompileOption (BYVAL nOption AS LONG) AS STRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nOption))
    DIM pProc AS PFNSQLITE3COMPILEOPTIONGETPROC = _
    cast(PFNSQLITE3COMPILEOPTIONGETPROC, GetProcAddress(m_hLib, "sqlite3_compileoption_get"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -708,7 +709,7 @@ END FUNCTION
 ' parameter nBytes to Malloc() is zero or negative then Malloc() returns a NULL pointer.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Malloc (BYVAL nBytes AS LONG) AS ANY PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(WsTR(nBytes))
    DIM pProc AS PFNSQLITE3MALLOCPROC = _
    cast(PFNSQLITE3MALLOCPROC, GetProcAddress(m_hLib, "sqlite3_malloc"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -721,7 +722,7 @@ END FUNCTION
 ' a signed 32-bit integer.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Malloc64 (BYVAL nBytes AS sqlite3_uint64) AS ANY PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nBytes))
    DIM pProc AS PFNSQLITE3MALLOC64PROC = _
    cast(PFNSQLITE3MALLOC64PROC, GetProcAddress(m_hLib, "sqlite3_malloc64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -735,7 +736,7 @@ END FUNCTION
 ' calling Malloc(nBytes).
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Realloc (BYVAL pMem AS ANY PTR, BYVAL nBytes AS LONG) AS ANY PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nBytes))
    DIM pProc AS PFNSQLITE3REALLOCPROC = _
    cast(PFNSQLITE3REALLOCPROC, GetProcAddress(m_hLib, "sqlite3_realloc"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -748,7 +749,7 @@ END FUNCTION
 ' a signed 32-bit integer.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Realloc64 (BYVAL pMem AS ANY PTR, BYVAL nBytes AS sqlite3_uint64) AS ANY PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nBytes))
    DIM pProc AS PFNSQLITE3REALLOCPROC = _
    cast(PFNSQLITE3REALLOCPROC, GetProcAddress(m_hLib, "sqlite3_realloc64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -762,7 +763,7 @@ END FUNCTION
 ' Passing a NULL pointer to Free is harmless.
 ' ========================================================================================
 PRIVATE SUB CSQLite.Free (BYVAL pMem AS ANY PTR)
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(pMem))
    DIM pProc AS PFNSQLITE3FREEPROC = _
    cast(PFNSQLITE3FREEPROC, GetProcAddress(m_hLib, "sqlite3_free"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT SUB
@@ -780,7 +781,7 @@ END SUB
 ' and possibly harmful.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.MemorySize (BYVAL pMem AS ANY PTR) AS sqlite3_uint64
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(pMem))
    DIM pProc AS PFNSQLITE3MSIZEPROC = _
    cast(PFNSQLITE3MSIZEPROC, GetProcAddress(m_hLib, "sqlite3_msize"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -808,7 +809,7 @@ END FUNCTION
 ' by MemoryHighwater(TRUE) is the high-water mark prior to the reset.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.MemoryHighwater (BYVAL resetFlag AS BOOLEAN) AS sqlite3_uint64
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(resetFlag))
    DIM pProc AS PFNSQLITE3MEMORYHIGHWATERPROC = _
    cast(PFNSQLITE3MEMORYHIGHWATERPROC, GetProcAddress(m_hLib, "sqlite3_memory_highwater"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -822,7 +823,7 @@ END FUNCTION
 ' NULL pointer.
 ' ========================================================================================
 PRIVATE SUB CSQLite.Randomness (BYVAL nBytes AS LONG, BYVAL pbuffer AS ANY PTR)
-   CSQLITE_DP("")
+   CSQLITE_DP("bytes: " & WSTR(nBytes) & " - pbuffer: " & WSTR(pbuffer))
    DIM pProc AS PFNSQLITE3RANDOMNESSPROC = _
    cast(PFNSQLITE3RANDOMNESSPROC, GetProcAddress(m_hLib, "sqlite3_randomness"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT SUB
@@ -837,7 +838,7 @@ END SUB
 ' enabled or disabled successfully. An error code is returned otherwise.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.EnableSharedCache (BYVAL bSharing AS BOOLEAN) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(bSharing))
    DIM pProc AS PFNSQLITE3ENABLESHAREDCACHEPROC = _
    cast(PFNSQLITE3ENABLESHAREDCACHEPROC, GetProcAddress(m_hLib, "sqlite3_enable_shared_cache"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -855,7 +856,7 @@ END FUNCTION
 ' SQLITE_ENABLE_MEMORY_MANAGEMENT.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.ReleaseMemory (BYVAL nBytes AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nBytes))
    DIM pProc AS PFNSQLITE3RELEASEMEMORYPROC = _
    cast(PFNSQLITE3RELEASEMEMORYPROC, GetProcAddress(m_hLib, "sqlite3_release_memory"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -870,7 +871,7 @@ END FUNCTION
 ' number of milliseconds of sleep actually requested from the operating system is returned.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Sleep (BYVAL ms AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(ms))
    DIM pProc AS PFNSQLITE3SLEEPPROC = _
    cast(PFNSQLITE3SLEEPPROC, GetProcAddress(m_hLib, "sqlite3_sleep"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -886,7 +887,7 @@ END FUNCTION
 ' can be determined by invoking SoftHeapLimit64 with a negative argument.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.SoftHeapLimit64 (BYVAL nBytes AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nBytes))
    DIM pProc AS PFNSQLITE3SOFTHEAPLIMIT64PROC = _
    cast(PFNSQLITE3SOFTHEAPLIMIT64PROC, GetProcAddress(m_hLib, "sqlite3_soft_heap_limit64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -908,7 +909,7 @@ END FUNCTION
 ' error code on failure.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Status (BYVAL op AS LONG, BYREF pCurrent AS LONG, BYREF pHighwater AS LONG, BYVAL resetFlag AS BOOLEAN = FALSE) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(op))
    DIM pProc AS PFNSQLITE3STATUSPROC = _
    cast(PFNSQLITE3STATUSPROC, GetProcAddress(m_hLib, "sqlite3_status"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -918,7 +919,7 @@ END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.Status64 (BYVAL op AS LONG, BYREF pCurrent AS sqlite3_int64, BYREF pHighwater AS sqlite3_int64, BYVAL resetFlag AS BOOLEAN = FALSE) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(op))
    DIM pProc AS PFNSQLITE3STATUS64PROC = _
    cast(PFNSQLITE3STATUS64PROC, GetProcAddress(m_hLib, "sqlite3_status64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -932,7 +933,7 @@ END FUNCTION
 ' the error message string is managed internally and must not be freed by the application.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.ErrStr (BYVAL nErrorCode AS LONG) AS STRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nErrorCode))
    DIM pProc AS PFNSQLITE3ERRSTRPROC = _
    cast(PFNSQLITE3ERRSTRPROC, GetProcAddress(m_hLib, "sqlite3_errstr"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -948,7 +949,7 @@ END FUNCTION
 ' Note that this method returns zero on a match and non-zero if the strings do not match.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLite.StrGlob (BYREF szGlob AS ZSTRING, BYREF szStr AS ZSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(szGlob & " - " & szStr)
    IF LEN(szGlob) = 0 OR LEN(szStr) = 0 THEN RETURN 1
    DIM pProc AS PFNSQLITE3STRGLOBPROC = _
    cast(PFNSQLITE3STRGLOBPROC, GetProcAddress(m_hLib, "sqlite3_strglob"))
@@ -1093,7 +1094,7 @@ END DESTRUCTOR
 ' argument begins with "file:", then the filename is interpreted as a URI.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLiteDb.OpenDb (BYREF wszFileName AS CONST WSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(wszFileName)
    this.CloseDb   ' // Close the database
    DIM pProc AS PFNSQLITE3OPEN16PROC = _
    cast(PFNSQLITE3OPEN16PROC, GetProcAddress(m_hLib, "sqlite3_open16"))
@@ -1127,7 +1128,7 @@ END PROPERTY
 ' Sets the database handle
 ' ===========================================================================================
 PRIVATE PROPERTY CSQLiteDb.hDbc (BYVAL pDbc AS sqlite3 PTR)
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(pDbc))
    this.CloseDb   ' // Close the database
    m_hDbc = pDbc
 END PROPERTY
@@ -1162,7 +1163,7 @@ END FUNCTION
 ' are disabled by default for historical compatibility.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteDb.ExtendedResultCodes (BYVAL onoff AS BOOLEAN) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(onoff))
    DIM pProc AS PFNSQLITE3EXTENDEDRESULTCODESPROC = _
    cast(PFNSQLITE3EXTENDEDRESULTCODESPROC, GetProcAddress(m_hLib, "sqlite3_extended_result_codes"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1242,7 +1243,7 @@ END SUB
 ' This method allows the size of various constructs to be limited on a connection by connection basis.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLiteDb.Limit (BYVAL id AS LONG, BYVAL newVal AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(id) & " - " & WSTR(newVal))
    DIM pProc AS PFNSQLITE3LIMITPROC = _
    cast(PFNSQLITE3LIMITPROC, GetProcAddress(m_hLib, "sqlite3_limit"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1266,7 +1267,7 @@ END FUNCTION
 ' Creates a new prepared statement object.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLiteDb.Prepare (BYREF wszSql AS WSTRING) AS sqlite3_stmt PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(wszSql)
    IF LEN(wszSql) = 0 THEN RETURN NULL
    DIM pProc AS PFNSQLITE3PREPARE16V2PROC = _
    cast(PFNSQLITE3PREPARE16V2PROC, GetProcAddress(m_hLib, "sqlite3_prepare16_v2"))
@@ -1292,7 +1293,7 @@ END FUNCTION
 ' calling ErrMsg.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLiteDb.Exec (BYREF wszSql AS WSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(wszSql)
    DIM pStmt AS sqlite3_stmt PTR = this.Prepare(wszSql)
    DIM pProc AS PFNSQLITE3STEPPROC = _
    cast(PFNSQLITE3STEPPROC, GetProcAddress(m_hLib, "sqlite3_step"))
@@ -1309,7 +1310,7 @@ END FUNCTION
 ' Returns SQLITE_OK on success and a non-zero error code on failure.
 ' ========================================================================================
 PRIVATE FUNCTION CSQLiteDb.Status (BYVAL op AS LONG, BYREF pCurrent AS LONG, BYREF pHighwater AS LONG, BYVAL resetFlag AS BOOLEAN = FALSE) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(op))
    DIM pProc AS PFNSQLITE3DBSTATUSPROC = _
    cast(PFNSQLITE3DBSTATUSPROC, GetProcAddress(m_hLib, "sqlite3_db_status"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1334,7 +1335,7 @@ END FUNCTION
 ' Callback function prototype: FUNCTION ProgressHandlerCallback (BYVAL pArg AS ANY PTR) AS LONG
 ' ===========================================================================================
 PRIVATE SUB CSQLiteDb.ProgressHandler (BYVAL nOps AS LONG, BYVAL pCallback AS ANY PTR, BYVAL pArg AS ANY PTR)
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nOps))
    DIM pProc AS PFNSQLITE3PROGRESSHANDLERPROC = _
    cast(PFNSQLITE3PROGRESSHANDLERPROC, GetProcAddress(m_hLib, "sqlite3_progress_handler"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT SUB
@@ -1352,7 +1353,7 @@ END SUB
 ' either by committing it or rolling it back.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteDb.UnlockNotify (BYVAL pNotifyCallback AS ANY PTR, BYVAL pNotifyArg AS ANY PTR) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(pNotifyCallback))
    DIM pProc AS PFNSQLITE3UNLOCKNOTIFYPROC = _
    cast(PFNSQLITE3UNLOCKNOTIFYPROC, GetProcAddress(m_hLib, "sqlite3_unlock_notify"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1375,7 +1376,7 @@ END FUNCTION
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteDb.OpenBlob (BYREF szDbName AS ZSTRING, BYREF szTableName AS ZSTRING, _
    BYREF szColumnName AS ZSTRING, BYVAL iRow AS sqlite3_int64, BYVAL flags AS LONG = 0) AS sqlite3_blob PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(szDbName & " - " & WSTR(szTableName) & " - " & WSTR(szColumnName))
    DIM pProc AS PFNSQLITE3BLOBOPENPROC = _
    cast(PFNSQLITE3BLOBOPENPROC, GetProcAddress(m_hLib, "sqlite3_blob_open"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1560,7 +1561,6 @@ END FUNCTION
 ' Note: Named GetRow instead of Step because Step is a reserved Free Basic keyword.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.GetRow () AS LONG
-   CSQLITE_DP("")
    DIM pProc AS PFNSQLITE3STEPPROC = _
    cast(PFNSQLITE3STEPPROC, GetProcAddress(m_hLib, "sqlite3_step"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1569,7 +1569,6 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.Step_ () AS LONG
-   CSQLITE_DP("")
    DIM pProc AS PFNSQLITE3STEPPROC = _
    cast(PFNSQLITE3STEPPROC, GetProcAddress(m_hLib, "sqlite3_step"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1583,7 +1582,6 @@ END FUNCTION
 ' an UPDATE).
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnCount () AS LONG
-   CSQLITE_DP("")
    DIM pProc AS PFNSQLITE3COLUMNCOUNTPROC = _
    cast(PFNSQLITE3COLUMNCOUNTPROC, GetProcAddress(m_hLib, "sqlite3_column_count"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1597,7 +1595,7 @@ END FUNCTION
 ' for that column, if there is an AS clause.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnName (BYVAL nCol AS LONG) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNNAME16PROC = _
    cast(PFNSQLITE3COLUMNNAME16PROC, GetProcAddress(m_hLib, "sqlite3_column_name16"))
@@ -1635,7 +1633,7 @@ END FUNCTION
 ' for that column, if there is an AS clause.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnText (BYVAL nCol AS LONG) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNTEXT16PROC = _
    cast(PFNSQLITE3COLUMNTEXT16PROC, GetProcAddress(m_hLib, "sqlite3_column_text16"))
@@ -1646,7 +1644,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnText (BYREF wszColName AS WSTRING) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    FUNCTION = ""
    IF LEN(wszColName) = 0 THEN EXIT FUNCTION
    DIM pProc AS PFNSQLITE3COLUMNTEXT16PROC = _
@@ -1733,7 +1731,7 @@ END FUNCTION
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindBlob (BYVAL idx AS LONG, BYVAL pValue AS ANY PTR, _
    BYVAL numBytes AS LONG, BYVAL pDestructor AS ANY PTR = NULL) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & WSTR(pValue) & "-" & WSTR(numBytes))
    DIM pProc AS PFNSQLITE3BINDBLOBPROC = _
    cast(PFNSQLITE3BINDBLOBPROC, GetProcAddress(m_hLib, "sqlite3_bind_blob"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1747,7 +1745,7 @@ END FUNCTION
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindBlob64 (BYVAL idx AS LONG, BYVAL pValue AS ANY PTR, _
    BYVAL numBytes AS sqlite3_uint64, BYVAL pDestructor AS ANY PTR = NULL) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & WSTR(pValue) & "-" & WSTR(numBytes))
    DIM pProc AS PFNSQLITE3BINDBLOB64PROC = _
    cast(PFNSQLITE3BINDBLOB64PROC, GetProcAddress(m_hLib, "sqlite3_bind_blob64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1760,7 +1758,7 @@ END FUNCTION
 ' The leftmost SQL parameter has an index of 1.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindDouble (BYVAL idx AS LONG, BYVAL dblValue AS DOUBLE) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & WSTR(dblValue))
    DIM pProc AS PFNSQLITE3BINDDOUBLEPROC = _
    cast(PFNSQLITE3BINDDOUBLEPROC, GetProcAddress(m_hLib, "sqlite3_bind_double"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1773,7 +1771,7 @@ END FUNCTION
 ' The leftmost SQL parameter has an index of 1.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindLong (BYVAL idx AS LONG, BYVAL longValue AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & WSTR(longValue))
    DIM pProc AS PFNSQLITE3BINDINTPROC = _
    cast(PFNSQLITE3BINDINTPROC, GetProcAddress(m_hLib, "sqlite3_bind_int"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1786,7 +1784,7 @@ END FUNCTION
 ' The leftmost SQL parameter has an index of 1.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindLongInt (BYVAL idx AS LONG, BYVAL longintValue AS sqlite3_int64) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & WSTR(longintValue))
    DIM pProc AS PFNSQLITE3BINDINT64PROC = _
    cast(PFNSQLITE3BINDINT64PROC, GetProcAddress(m_hLib, "sqlite3_bind_int64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1799,7 +1797,7 @@ END FUNCTION
 ' The leftmost SQL parameter has an index of 1.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindNull (BYVAL idx AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx))
    DIM pProc AS PFNSQLITE3BINDNULLPROC = _
    cast(PFNSQLITE3BINDNULLPROC, GetProcAddress(m_hLib, "sqlite3_bind_null"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1812,7 +1810,7 @@ END FUNCTION
 ' The leftmost SQL parameter has an index of 1.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindText (BYVAL idx AS LONG, BYREF wszValue AS WSTRING, BYVAL pDestructor AS ANY PTR = NULL) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & wszValue)
    DIM pProc AS PFNSQLITE3BINDTEXT16PROC = _
    cast(PFNSQLITE3BINDTEXT16PROC, GetProcAddress(m_hLib, "sqlite3_bind_text16"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1825,7 +1823,7 @@ END FUNCTION
 ' The leftmost SQL parameter has an index of 1.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindZeroBlob (BYVAL idx AS LONG, BYVAL numBytes AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & WSTR(numBytes))
    DIM pProc AS PFNSQLITE3BINDZEROBLOBPROC = _
    cast(PFNSQLITE3BINDZEROBLOBPROC, GetProcAddress(m_hLib, "sqlite3_bind_zeroblob"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1834,7 +1832,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindZeroBlob64 (BYVAL idx AS LONG, BYVAL numBytes AS sqlite3_uint64) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx) & " - " & WSTR(numBytes))
    DIM pProc AS PFNSQLITE3BINDZEROBLOB64PROC = _
    cast(PFNSQLITE3BINDZEROBLOB64PROC, GetProcAddress(m_hLib, "sqlite3_bind_zeroblob64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1860,7 +1858,7 @@ END FUNCTION
 ' Returns the name of the specified SQL parameter in the prepared statement.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindParameterName (BYVAL idx AS LONG) AS STRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(idx))
    DIM pProc AS PFNSQLITE3BINDPARAMETERNAMEPROC = _
    cast(PFNSQLITE3BINDPARAMETERNAMEPROC, GetProcAddress(m_hLib, "sqlite3_bind_parameter_name"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -1875,7 +1873,7 @@ END FUNCTION
 ' parameter is found.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.BindParameterIndex (BYREF szName AS ZSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(szName)
    IF LEN(szName) = 0 THEN RETURN 0
    DIM pProc AS PFNSQLITE3BINDPARAMETERINDEXPROC = _
    cast(PFNSQLITE3BINDPARAMETERINDEXPROC, GetProcAddress(m_hLib, "sqlite3_bind_parameter_index"))
@@ -1903,7 +1901,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnDatabaseName (BYVAL nCol AS LONG) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNDATABASENAMEPROC = _
    cast(PFNSQLITE3COLUMNDATABASENAMEPROC, GetProcAddress(m_hLib, "sqlite3_column_database_name16"))
@@ -1914,7 +1912,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnDatabaseName (BYREF wszColName AS WSTRING) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    FUNCTION = ""
    IF LEN(wszColName) = 0 THEN EXIT FUNCTION
    DIM pProc AS PFNSQLITE3COLUMNDATABASENAMEPROC = _
@@ -1937,7 +1935,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnTableName (BYVAL nCol AS LONG) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNTABLENAMEPROC = _
    cast(PFNSQLITE3COLUMNTABLENAMEPROC, GetProcAddress(m_hLib, "sqlite3_column_table_name16"))
@@ -1948,7 +1946,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnTableName (BYREF wszColName AS WSTRING) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNTABLENAMEPROC = _
    cast(PFNSQLITE3COLUMNTABLENAMEPROC, GetProcAddress(m_hLib, "sqlite3_column_table_name16"))
@@ -1970,7 +1968,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnOriginName (BYVAL nCol AS LONG) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNORIGINNAMEPROC = _
    cast(PFNSQLITE3COLUMNORIGINNAMEPROC, GetProcAddress(m_hLib, "sqlite3_column_origin_name16"))
@@ -1981,7 +1979,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnOriginName (BYREF wszColName AS WSTRING) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNORIGINNAMEPROC = _
    cast(PFNSQLITE3COLUMNORIGINNAMEPROC, GetProcAddress(m_hLib, "sqlite3_column_origin_name16"))
@@ -2003,7 +2001,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnDeclaredType (BYVAL nCol AS LONG) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNDECLTYPEPROC = _
    cast(PFNSQLITE3COLUMNDECLTYPEPROC, GetProcAddress(m_hLib, "sqlite3_column_decltype16"))
@@ -2014,7 +2012,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnDeclaredType (BYREF wszColName AS WSTRING) AS DWSTRING
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    FUNCTION = ""
    DIM pProc AS PFNSQLITE3COLUMNDECLTYPEPROC = _
    cast(PFNSQLITE3COLUMNDECLTYPEPROC, GetProcAddress(m_hLib, "sqlite3_column_decltype16"))
@@ -2036,7 +2034,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnBlob (BYVAL nCol AS LONG) AS ANY PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    DIM pProc AS PFNSQLITE3COLUMNBLOBPROC = _
    cast(PFNSQLITE3COLUMNBLOBPROC, GetProcAddress(m_hLib, "sqlite3_column_blob"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2045,7 +2043,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnBlob (BYREF wszColName AS WSTRING) AS ANY PTR
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    DIM pProc AS PFNSQLITE3COLUMNBLOBPROC = _
    cast(PFNSQLITE3COLUMNBLOBPROC, GetProcAddress(m_hLib, "sqlite3_column_blob"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2065,7 +2063,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnBytes (BYVAL nCol AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    DIM pProc AS PFNSQLITE3COLUMNBYTESPROC = _
    cast(PFNSQLITE3COLUMNBYTESPROC, GetProcAddress(m_hLib, "sqlite3_column_bytes16"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2074,7 +2072,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnBytes (BYREF wszColName AS WSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    DIM pProc AS PFNSQLITE3COLUMNBYTESPROC = _
    cast(PFNSQLITE3COLUMNBYTESPROC, GetProcAddress(m_hLib, "sqlite3_column_bytes16"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2094,7 +2092,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnDouble (BYVAL nCol AS LONG) AS DOUBLE
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    DIM pProc AS PFNSQLITE3COLUMNDOUBLEPROC = _
    cast(PFNSQLITE3COLUMNDOUBLEPROC, GetProcAddress(m_hLib, "sqlite3_column_double"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2103,7 +2101,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnDouble (BYREF wszColName AS WSTRING) AS DOUBLE
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    DIM pProc AS PFNSQLITE3COLUMNDOUBLEPROC = _
    cast(PFNSQLITE3COLUMNDOUBLEPROC, GetProcAddress(m_hLib, "sqlite3_column_double"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2123,7 +2121,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnLong (BYVAL nCol AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    DIM pProc AS PFNSQLITE3COLUMNINTPROC = _
    cast(PFNSQLITE3COLUMNINTPROC, GetProcAddress(m_hLib, "sqlite3_column_int"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2132,7 +2130,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnLong (BYREF wszColName AS WSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    DIM pProc AS PFNSQLITE3COLUMNINTPROC = _
    cast(PFNSQLITE3COLUMNINTPROC, GetProcAddress(m_hLib, "sqlite3_column_int"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2152,7 +2150,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnLongInt (BYVAL nCol AS LONG) AS LONGINT
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    DIM pProc AS PFNSQLITE3COLUMNINT64PROC = _
    cast(PFNSQLITE3COLUMNINT64PROC, GetProcAddress(m_hLib, "sqlite3_column_int64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2161,7 +2159,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnLongInt (BYREF wszColName AS WSTRING) AS LONGINT
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    DIM pProc AS PFNSQLITE3COLUMNINT64PROC = _
    cast(PFNSQLITE3COLUMNINT64PROC, GetProcAddress(m_hLib, "sqlite3_column_int64"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2181,7 +2179,7 @@ END FUNCTION
 ' The leftmost column of the result set has the index 0.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnType (BYVAL nCol AS LONG) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    DIM pProc AS PFNSQLITE3COLUMNTYPEPROC = _
    cast(PFNSQLITE3COLUMNTYPEPROC, GetProcAddress(m_hLib, "sqlite3_column_type"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2190,7 +2188,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.ColumnType (BYREF wszColName AS WSTRING) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    DIM pProc AS PFNSQLITE3COLUMNTYPEPROC = _
    cast(PFNSQLITE3COLUMNTYPEPROC, GetProcAddress(m_hLib, "sqlite3_column_type"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2209,7 +2207,7 @@ END FUNCTION
 ' Return TRUE if the column has a null value.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.IsColumnNull (BYVAL nCol AS LONG) AS BOOLEAN
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(nCol))
    DIM pProc AS PFNSQLITE3COLUMNTYPEPROC = _
    cast(PFNSQLITE3COLUMNTYPEPROC, GetProcAddress(m_hLib, "sqlite3_column_type"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2218,7 +2216,7 @@ END FUNCTION
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteStmt.IsColumnNull (BYREF wszColName AS WSTRING) AS BOOLEAN
-   CSQLITE_DP("")
+   CSQLITE_DP(wszColName)
    DIM pProc AS PFNSQLITE3COLUMNTYPEPROC = _
    cast(PFNSQLITE3COLUMNTYPEPROC, GetProcAddress(m_hLib, "sqlite3_column_type"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2267,7 +2265,7 @@ END TYPE
 ' Constructor
 ' ===========================================================================================
 PRIVATE CONSTRUCTOR CSQLiteBlob (BYVAL pBlob AS sqlite3_blob PTR)
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(pBlob))
    m_hBlob = pBlob
 END CONSTRUCTOR
 ' ===========================================================================================
@@ -2326,7 +2324,7 @@ END FUNCTION
 ' table. The new row is identified by the rowid value passed as the second argument.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteBlob.Reopen (BYVAL rowId AS sqlite3_int64) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(rowId))
    DIM pProc AS PFNSQLITE3BLOBREOPENPROC = _
    cast(PFNSQLITE3BLOBREOPENPROC, GetProcAddress(m_hLib, "sqlite3_blob_reopen"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2365,7 +2363,7 @@ END FUNCTION
 ' results in undefined and probably undesirable behavior.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteBlob.Read (BYVAL pBuffer AS ANY PTR, BYVAL numBytes AS LONG, BYVAL iOffset AS LONG = 0) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(pBuffer) & " - " & WSTR(numBytes))
    DIM pProc AS PFNSQLITE3BLOBREADPROC = _
    cast(PFNSQLITE3BLOBREADPROC, GetProcAddress(m_hLib, "sqlite3_blob_read"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
@@ -2395,7 +2393,7 @@ END FUNCTION
 ' results in undefined and probably undesirable behavior.
 ' ===========================================================================================
 PRIVATE FUNCTION CSQLiteBlob.Write (BYVAL pBuffer AS ANY PTR, BYVAL numBytes AS LONG, BYVAL iOffset AS LONG = 0) AS LONG
-   CSQLITE_DP("")
+   CSQLITE_DP(WSTR(pBuffer) & " - " & WSTR(numBytes))
    DIM pProc AS PFNSQLITE3BLOBWRITEPROC = _
    cast(PFNSQLITE3BLOBWRITEPROC, GetProcAddress(m_hLib, "sqlite3_blob_write"))
    IF pProc = 0 THEN this.SetResult(GetLastError) : EXIT FUNCTION
