@@ -1,8 +1,8 @@
 # CSQLite Class
 
-SQLite is an embedded SQL database engine. Unlike most other SQL databases, SQLite does not have a separate server process. SQLite reads and writes directly to ordinary disk files. A complete SQL database with multiple tables, indices, triggers, and views, is contained in a single disk file. The database file format is cross-platform - you can freely copy a database between 32-bit and 64-bit systems or between big-endian and little-endian architectures. These features make SQLite a popular choice as an Application File Format.
+`SQLite` is an embedded SQL database engine. Unlike most other SQL databases, SQLite does not have a separate server process. SQLite reads and writes directly to ordinary disk files. A complete SQL database with multiple tables, indices, triggers, and views, is contained in a single disk file. The database file format is cross-platform - you can freely copy a database between 32-bit and 64-bit systems or between big-endian and little-endian architectures. These features make SQLite a popular choice as an Application File Format.
 
-**Include file**: CSQLite.inc
+**Include file**: AfxNova/CSQLite.inc
 
 ### Constructor
 
@@ -20,32 +20,34 @@ CONSTRUCTOR CSQLite (BYREF wszDllPath AS WSTRING = "sqlite3.dll")
 
 | Name       | Description |
 | ---------- | ----------- |
-| [CompileOptionUsed](#CompileOptionUsed) | Determines whether the specified option was defined at compile time. |
-| [Complete](#Complete) | Determines if the currently entered text seems to form a complete SQL statement. |
-| [EnableSharedCache](#EnableSharedCache) | Enables or disables the sharing of the database cache and schema data structures between connections to the same database. |
-| [ErrStr](#ErrStr) | Returns English-language text that describes the result code. |
-| [Free](#Free) | Releases memory previously allocated by **Malloc** or **Realloc**. |
-| [GetCompileOption](#GetCompileOption) | Allows iterating over the list of options that were defined at compile time by returning the N-th compile time option string. |
-| [GetLastResult](#GetLastResult) | Returns the last result code. |
-| [Malloc](#Malloc) | Returns a pointer to a block of memory at least N bytes in length, where N is the parameter. |
-| [MemoryHighwater](#MemoryHighwater) | Returns the maximum value of **MemoryUsed** since the high-water mark was last reset. |
-| [MemorySize](#MemorySize) | Returns the size of that memory allocation in bytes. |
-| [MemoryUsed](#MemoryUsed) | Returns the number of bytes of memory currently outstanding (malloced but not freed). |
-| [Randomness](#Randomness) | Pseudo-random number generator. |
-| [Realloc](#Realloc) | Attempts to resize a prior memory allocation to be at least the specified number of bytes. |
-| [ReleaseMemory](#ReleaseMemory) | Attempts to free the specified number of bytes of heap memory by deallocating non-essential memory allocations held by the database library. |
-| [Sleep](#Sleep) | Causes the current thread to suspend execution for at least a number of milliseconds specified in its parameter. |
-| [SoftHeapLimit64](#SoftHeapLimit64) | Sets and/or queries the soft limit on the amount of heap memory that may be allocated by SQLite. |
-| [SourceID](#SourceID) | Returns the SQLite3 source identifier. |
-| [Status](#Status) | Retrieves runtime status information about the performance of SQLite, and optionally to reset various highwater marks. |
-| [StrGlob](#StrGlob) | The **StrGlob** method returns zero if string *szStr* matches the glob pattern *szGlob*, and it returns non-zero if string *szStr* does not match the glob pattern *szGlob*. This function is case sensitive. |
-| [ThreadSafe](#ThreadSafe) | Returns zero if and only if SQLite was compiled with mutexing code omitted due to the SQLITE_THREADSAFE compile-time option being set to 0. |
-| [Version](#Version) | Returns the SQLite3 version. |
-| [VersionNumber](#VersionNumber) | Returns the SQLite3 version number. |
+| [CompileOptionUsed](#compileoptionused) | Determines whether the specified option was defined at compile time. |
+| [Complete](#complete) | Determines if the currently entered text seems to form a complete SQL statement. |
+| [EnableSharedCache](#enablesharedcache) | Enables or disables the sharing of the database cache and schema data structures between connections to the same database. |
+| [ErrStr](#errstr) | Returns English-language text that describes the result code. |
+| [Free](#free) | Releases memory previously allocated by **Malloc** or **Realloc**. |
+| [GetCompileOption](#setcompileoption) | Allows iterating over the list of options that were defined at compile time by returning the N-th compile time option string. |
+| [GetLastResult](#getlastresult) | Returns the last result code. |
+| [Malloc](#malloc) | Returns a pointer to a block of memory at least N bytes in length, where N is the parameter. |
+| [MemoryHighwater](#memoryhighwater) | Returns the maximum value of **MemoryUsed** since the high-water mark was last reset. |
+| [MemorySize](#memorysize) | Returns the size of that memory allocation in bytes. |
+| [MemoryUsed](#memoryused) | Returns the number of bytes of memory currently outstanding (malloced but not freed). |
+| [Randomness](#randomness) | Pseudo-random number generator. |
+| [Realloc](#realloc) | Attempts to resize a prior memory allocation to be at least the specified number of bytes. |
+| [ReleaseMemory](#releasememory) | Attempts to free the specified number of bytes of heap memory by deallocating non-essential memory allocations held by the database library. |
+| [Sleep](#sleep) | Causes the current thread to suspend execution for at least a number of milliseconds specified in its parameter. |
+| [SoftHeapLimit64](#softheaplimit64) | Sets and/or queries the soft limit on the amount of heap memory that may be allocated by SQLite. |
+| [SourceID](#sourceid) | Returns the SQLite3 source identifier. |
+| [Status](#status) | Retrieves runtime status information about the performance of SQLite, and optionally to reset various highwater marks. |
+| [StrGlob](#strglob) | The **StrGlob** method returns zero if string *szStr* matches the glob pattern *szGlob*, and it returns non-zero if string *szStr* does not match the glob pattern *szGlob*. This function is case sensitive. |
+| [ThreadSafe](#threadsafe) | Returns zero if and only if SQLite was compiled with mutexing code omitted due to the SQLITE_THREADSAFE compile-time option being set to 0. |
+| [Version](#version) | Returns the SQLite3 version. |
+| [VersionNumber](#versionNumber) | Returns the SQLite3 version number. |
+
+---
 
 # CSQLiteDb Class
 
-Inherits from CSQLite.
+Inherits from `CSQLite`.
 
 ### Constructor
 
@@ -63,27 +65,29 @@ CONSTRUCTOR CSQLiteDb (BYREF wszPath AS WSTRING)
 
 The database is opened for reading and writing, and is created if it does not already exist. If the filename is ":memory:", then a private, temporary in-memory database is created for the connection. This in-memory database will vanish when the database connection is closed. If the filename is an empty string, then a private, temporary on-disk database will be created. This private database will be automatically deleted as soon as the database connection is closed. If URI filename interpretation is enabled, and the filename argument begins with "file:", then the filename is interpreted as a URI.
 
+---
+
 #### Basic steps
 
 ```
 ' Basic steps
 '#CONSOLE ON
 #define UNICODE
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CSQLite3.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/AfxWin.inc"
+#INCLUDE ONCE "AfxNova/CSQLite3.inc"
+USING AfxNova
 
 ' // Optional: Specify the DLL path and/or name
 ' // This allows to use a DLL with a different name that sqlite3.dll,
 ' // located anywhere, avoiding the need to have multiple copies of the same dll.
-DIM pSql AS CSQLite = "sqlite3_32.dll"
-print pSql.m_hLib
+DIM pSql AS CSQLite = "sqlite3_64.dll"
+IF pSql.m_hLib = NULL THEN END
 
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
-DIM cwsDbName AS CWSTR = AfxGetExePathName & "Test.sdb"
+DIM dwsDbName AS DWSTRING = AfxGetExePathName & "Test.sdb"
 IF AfxFileExists(cwsDbName) THEN AfxDeleteFile(cwsDbName)
-DIM pDbc AS CSQLiteDb = cwsDbName
+DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
 IF pDbc.Exec("CREATE TABLE t (xyz text)") <> SQLITE_DONE THEN
@@ -116,6 +120,7 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
 #### Memory database
 
@@ -123,15 +128,15 @@ SLEEP
 ' Binding
 '#CONSOLE ON
 #define UNICODE
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CSQLite3.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/AfxWin.inc"
+#INCLUDE ONCE "AfxNova/CSQLite3.inc"
+USING AfxNova
 
 ' // Optional: Specify the DLL path and/or name
 ' // This allows to use a DLL with a different name that sqlite3.dll,
 ' // located anywhere, avoiding the need to have multiple copies of the same dll.
-DIM pSql AS CSQLite = "sqlite3_32.dll"
-print pSql.m_hLib
+DIM pSql AS CSQLite = "sqlite3_64.dll"
+IF pSql.m_hLib = NULL THEN END
 
 ' // Create a new database in memory
 ' // I'm deleting and recreating the database for testing purposes
@@ -162,36 +167,39 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
 ### Methods
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Changes](#Changes) | Returns the number of database rows that were changed or inserted or deleted by the most recently completed SQL statement on the current database connection. |
-| [CloseDb](#CloseDb) | Closes the database. |
-| [ErrCode](#ErrCode) | Returns the numeric result code for the most recent failed sqlite3 call associated with a database connection. |
-| [ErrMsg](#ErrMsg) | Returns English-language text that describes the error. |
-| [Exec](#Exec) | Convenience wrapper for **Prepare** and **Step_**. |
-| [ExtendedErrCode](#ExtendedErrCode) | Gets the extended error code associated with this database connection. |
-| [ExtendedResultCodes](#ExtendedResultCodes) | Enables or disables the extended result codes feature of SQLite. |
-| [hDbc](#hDbc) | Gets/sets the database handle. |
-| [Interrupt](#Interrupt) | This function causes any pending database operation to abort and return at its earliest opportunity. |
-| [LastInsertRowId](#LastInsertRowId) | Returns the rowid of the most recent successful INSERT into the database from the database connection in the first argument. |
-| [Limit](#Limit) | This function allows the size of various constructs to be limited on a connection by connection basis. |
-| [OpenBlob](#OpenBlob) | Opens a handle to a BLOB. |
-| [OpenDb](#OpenDb) | Opens an SQLite database file as specified by the filename argument. |
-| [Prepare](#Prepare) | Creates a new prepared statement object. |
-| [ProgressHandler](#ProgressHandler) | The **ProgressHandler** method causes a callback function to be invoked periodically during long running calls to **Step_** and **GetRow** for a database connection. |
-| [ReleaseMemory](#ReleaseMemory2) | Attempts to free as much heap memory as possible from the specified database connection. |
-| [Status](#Status2) | Retrieves runtime status information about a single database connection. |
-| [TotalChanges](#TotalChanges) | This function returns the number of row changes caused by INSERT, UPDATE or DELETE statements since the database connection was opened. |
-| [UnlockNotify](#UnlockNotify) | Registers a callback that SQLite will invoke when the connection currently holding the required lock relinquishes it. |
+| [Changes](#changes) | Returns the number of database rows that were changed or inserted or deleted by the most recently completed SQL statement on the current database connection. |
+| [CloseDb](#closedb) | Closes the database. |
+| [ErrCode](#errcode) | Returns the numeric result code for the most recent failed sqlite3 call associated with a database connection. |
+| [ErrMsg](#errmsg) | Returns English-language text that describes the error. |
+| [Exec](#exec) | Convenience wrapper for **Prepare** and **Step_**. |
+| [ExtendedErrCode](#extendederrcode) | Gets the extended error code associated with this database connection. |
+| [ExtendedResultCodes](#extendedresultcodes) | Enables or disables the extended result codes feature of SQLite. |
+| [hDbc](#hdbc) | Gets/sets the database handle. |
+| [Interrupt](#interrupt) | This function causes any pending database operation to abort and return at its earliest opportunity. |
+| [LastInsertRowId](#lastinsertrowid) | Returns the rowid of the most recent successful INSERT into the database from the database connection in the first argument. |
+| [Limit](#limit) | This function allows the size of various constructs to be limited on a connection by connection basis. |
+| [OpenBlob](#openblob) | Opens a handle to a BLOB. |
+| [OpenDb](#ppendb) | Opens an SQLite database file as specified by the filename argument. |
+| [Prepare](#prepare) | Creates a new prepared statement object. |
+| [ProgressHandler](#progresshandler) | The **ProgressHandler** method causes a callback function to be invoked periodically during long running calls to **Step_** and **GetRow** for a database connection. |
+| [ReleaseMemory](#releasememory2) | Attempts to free as much heap memory as possible from the specified database connection. |
+| [Status](#status2) | Retrieves runtime status information about a single database connection. |
+| [TotalChanges](#totalchanges) | This function returns the number of row changes caused by INSERT, UPDATE or DELETE statements since the database connection was opened. |
+| [UnlockNotify](#unlocknotify) | Registers a callback that SQLite will invoke when the connection currently holding the required lock relinquishes it. |
+
+---
 
 # CSQLiteStmt Class
 
 Wraps a sqlite3_stmt pointer returned by the **Prepare** method of the **CSQLite** class.
 
-Inherits from CSQLite.
+Inherits from `CSQLite`.
 
 ```
 CONSTRUCTOR CSQLiteStmt (BYVAL pStmt AS sqlite3_stmt PTR)
@@ -205,43 +213,45 @@ CONSTRUCTOR CSQLiteStmt (BYVAL pStmt AS sqlite3_stmt PTR)
 
 | Name       | Description |
 | ---------- | ----------- |
-| [BindBlob](#BindBlob) | Binds a blob with the statement. |
-| [BindDouble](#BindDouble) | Binds a double value with the statement. |
-| [BindLong](#BindLong) | Binds a long value with the statement. |
-| [BindLongInt](#BindLongInt) | Binds a longint value with the statement. |
-| [BindNull](#BindNull) | Binds a null value with the statement. |
-| [BindParameterCount](#BindParameterCount) | This method can be used to find the number of SQL parameters in a prepared statement. |
-| [BindParameterIndex](#BindParameterIndex) | Returns the index of an SQL parameter given its name. |
-| [BindParameterName](#BindParameterName) | Returns the name of the N-th SQL parameter in the prepared statement P. |
-| [BindText](#BindText) | Binds a text value with the statement. |
-| [BindZeroBlob](#BindZeroBlob) | Binds a BLOB that is filled with zeroes. |
-| [Busy](#Busy) | Returns true if the prepared statement has been stepped at least once using **Step_** but has not run to completion and/or has not been reset using **Reset**. |
-| [ClearBindings](#ClearBindings) | Sets all the parameters in the compiled SQL statement to NULL. |
-| [ColumnBlob](#ColumnBlob) | Returns information about a single column of the current result row of a query. |
-| [ColumnBytes](#ColumnBytes) | Returns the number of bytes of the column value. |
-| [ColumnCount](#ColumnCount) | Returns the number of columns in the result set returned by the prepared statement. |
-| [ColumnDatabaseName](#ColumnDatabaseName) | Returns the database name that is the origin of a particular result column in SELECT statement. |
-| [ColumnDeclaredType](#ColumnDeclaredType) | Returns the declared data type of a query result. |
-| [ColumnDouble](#ColumnDouble) | Returns the column value as a double. |
-| [ColumnLong](#ColumnLong) | Returns the column value as a long. |
-| [ColumnLongInt](#ColumnLongInt) | Returns the column value as a quad. |
-| [ColumnName](#ColumnName) | Returns the name assigned to a particular column in the result set of a SELECT statement. |
-| [ColumnOriginName](#ColumnOriginName) | Returns the column name that is the origin of a particular result column in SELECT statement. |
-| [ColumnTableName](#ColumnTableName) | Returns the table name that is the origin of a particular result column in SELECT statement. |
-| [ColumnText](#ColumnText) | Returns the column value as a UTF-16 string. |
-| [ColumnType](#ColumnType) | Returns the column type. |
-| [DataCount](#DataCount) | Returns the number of columns in the result set returned by the prepared statement. |
-| [DbHandle](#DbHandle) | Returns the database connection handle to which a prepared statement belongs. |
-| [Finalize](#Finalize) | Deletes a prepared statement. |
-| [GetRow](#GetRow) | After a prepared statement has been prepared using either Prepare this method must be called one or more times to evaluate the statement. **GetRow** is an alias for **Step_**. |
-| [hStmt](#hStmt) | Gets/sets the connection handle. |
-| [IsColumnNull](#IsColumnNull) | Returns true is the column value is null or false otherwise. |
-| [ReadOnly](#ReadOnly) | Returns true if and only if the prepared statement makes no direct changes to the content of the database file. |
-| [Reset](#Reset) | Resets a prepared statement object back to its initial state, ready to be re-executed. |
-| [Sql](#Sql) | Retrieve a saved copy of the original SQL text used to create a prepared statement if that statement was compiled using **Prepare**. |
-| [Step_](#Step_) | After a prepared statement has been prepared using **Prepare** this method must be called one or more times to evaluate the statement. |
+| [BindBlob](#bindblob) | Binds a blob with the statement. |
+| [BindDouble](#binddouble) | Binds a double value with the statement. |
+| [BindLong](#bindlong) | Binds a long value with the statement. |
+| [BindLongInt](#bindlongint) | Binds a longint value with the statement. |
+| [BindNull](#bindnull) | Binds a null value with the statement. |
+| [BindParameterCount](#bindparametercount) | This method can be used to find the number of SQL parameters in a prepared statement. |
+| [BindParameterIndex](#bindparameterindex) | Returns the index of an SQL parameter given its name. |
+| [BindParameterName](#bindparametername) | Returns the name of the N-th SQL parameter in the prepared statement P. |
+| [BindText](#bindtext) | Binds a text value with the statement. |
+| [BindZeroBlob](#bindzeroblob) | Binds a BLOB that is filled with zeroes. |
+| [Busy](#busy) | Returns true if the prepared statement has been stepped at least once using **Step_** but has not run to completion and/or has not been reset using **Reset**. |
+| [ClearBindings](#clearbindings) | Sets all the parameters in the compiled SQL statement to NULL. |
+| [ColumnBlob](#columnblob) | Returns information about a single column of the current result row of a query. |
+| [ColumnBytes](#columnbytes) | Returns the number of bytes of the column value. |
+| [ColumnCount](#columncount) | Returns the number of columns in the result set returned by the prepared statement. |
+| [ColumnDatabaseName](#columndatabasename) | Returns the database name that is the origin of a particular result column in SELECT statement. |
+| [ColumnDeclaredType](#columndeclaredtype) | Returns the declared data type of a query result. |
+| [ColumnDouble](#columndouble) | Returns the column value as a double. |
+| [ColumnLong](#columnlong) | Returns the column value as a long. |
+| [ColumnLongInt](#columnlongint) | Returns the column value as a quad. |
+| [ColumnName](#columnname) | Returns the name assigned to a particular column in the result set of a SELECT statement. |
+| [ColumnOriginName](#columnoriginname) | Returns the column name that is the origin of a particular result column in SELECT statement. |
+| [ColumnTableName](#columntablename) | Returns the table name that is the origin of a particular result column in SELECT statement. |
+| [ColumnText](#columntext) | Returns the column value as a UTF-16 string. |
+| [ColumnType](#columntype) | Returns the column type. |
+| [DataCount](#datacount) | Returns the number of columns in the result set returned by the prepared statement. |
+| [DbHandle](#dbhandle) | Returns the database connection handle to which a prepared statement belongs. |
+| [Finalize](#finalize) | Deletes a prepared statement. |
+| [GetRow](#getrow) | After a prepared statement has been prepared using either Prepare this method must be called one or more times to evaluate the statement. **GetRow** is an alias for **Step_**. |
+| [hStmt](#hstmt) | Gets/sets the connection handle. |
+| [IsColumnNull](#iscolumnnull) | Returns true is the column value is null or false otherwise. |
+| [ReadOnly](#readonly) | Returns true if and only if the prepared statement makes no direct changes to the content of the database file. |
+| [Reset](#reset) | Resets a prepared statement object back to its initial state, ready to be re-executed. |
+| [Sql](#sql) | Retrieve a saved copy of the original SQL text used to create a prepared statement if that statement was compiled using **Prepare**. |
+| [Step_](#step_) | After a prepared statement has been prepared using **Prepare** this method must be called one or more times to evaluate the statement. |
 
-# <a name="CompileOptionUsed"></a>CompileOptionUsed
+---
+
+## CompileOptionUsed
 
 Returns FALSE or TRUE indicating whether the specified option was defined at compile time. The SQLITE_ prefix may be omitted from the option name passed to **CompileOptionUsed**.
 
@@ -258,8 +268,9 @@ FUNCTION CompileOptionUsed (BYREF szOptName AS ZSTRING) AS BOOLEAN
 ```
 pSql.CompileOptionUsed("SQLITE_ENABLE_DBSTAT_VTAB")
 ```
+---
 
-# <a name="Complete"></a>Complete
+## Complete
 
 Determines if the currently entered text seems to form a complete SQL statement or if additional input is needed before sending the text into SQLite for parsing. 
 
@@ -281,7 +292,9 @@ This method is useful during command-line input to determine if the currently en
 
 This method does not parse the SQL statements thus will not detect syntactically incorrect SQL.
 
-# <a name="EnableSharedCache"></a>EnableSharedCache
+---
+
+## EnableSharedCache
 
 Enables or disables the sharing of the database cache and schema data structures between connections to the same database. Sharing is enabled if the argument is true and disabled if the argument is false.. 
 
@@ -297,7 +310,9 @@ FUNCTION EnableSharedCache (BYVAL bSharing AS BOOLEAN) AS LONG
 
 Returns SQLITE_OK if shared cache was enabled or disabled successfully. An error code is returned otherwise.
 
-# <a name="ErrStr"></a>ErrStr
+---
+
+## ErrStr
 
 Returns English-language text that describes the result code.
 
@@ -313,7 +328,9 @@ FUNCTION ErrStr (BYVAL nErrorCode AS LONG) AS STRING
 
 A string containing a description of the error.
 
-# <a name="Free"></a>Free
+---
+
+## Free
 
 Releases memory previously allocated by Malloc or Realloc.
 
@@ -325,7 +342,9 @@ SUB Free (BYVAL pMem AS ANY PTR)
 | ---------- | ----------- |
 | *pMem* | The pointer returned by Malloc or Realloc. |
 
-# <a name="GetCompileOption"></a>GetCompileOption
+---
+
+## GetCompileOption
 
 Allows iterating over the list of options that were defined at compile time by returning the N-th compile time option string. If nOption is out of range, **GetCompileOption** returns a NULL pointer. The SQLITE_ prefix is omitted from any strings returned by **GetCompileOption**.
 
@@ -342,8 +361,9 @@ FUNCTION GetCompileOption (BYVAL nOption AS LONG) AS STRING
 ```
 pSql.GetCompileOption(0)
 ```
+---
 
-# <a name="GetLastResult"></a>GetLastResult
+## GetLastResult
 
 Returns the last result code.
 
@@ -359,7 +379,9 @@ The result code returned by the last executed method.
 
 The last result code is not global, but bound to each object, and its purpose is to check the failure or success of the last SQLite operation. To get descriptive information about SQLite errors call **ErrStr**.
 
-# <a name="Malloc"></a>Malloc
+---
+
+## Malloc
 
 Returns a pointer to a block of memory at least N bytes in length, where N is the parameter. If Malloc is unable to obtain sufficient free memory, it returns a NULL pointer. If the parameter *nBytes* to Malloc is zero or negative then returns a NULL pointer.
 
@@ -388,7 +410,9 @@ The pointer arguments to **Free** and **Realloc** must be either NULL or else po
 
 The application must not read or write any part of a block of memory after it has been released using **Free** or **Realloc**. 
 
-# <a name="MemoryHighwater"></a>MemoryHighwater
+---
+
+## MemoryHighwater
 
 Returns the maximum value of **MemoryUsed** since the high-water mark was last reset.
 
@@ -408,7 +432,9 @@ The number of bytes of memory currently outstanding (malloced but not freed) sin
 
 The value returned by **MemoryHighwater** include any overhead added by SQLite in its implementation of **Malloc**, but not overhead added by the any underlying system library functions that **Malloc** may call.
 
-# <a name="MemorySize"></a>MemorySize
+---
+
+## MemorySize
 
 Returns the size of that memory allocation in bytes.
 
@@ -424,7 +450,9 @@ FUNCTION MemorySize (BYVAL pMem AS ANY PTR) AS sqlite3_uint64
 
 If *pMem* is a memory allocation previously obtained from **Malloc**, **Malloc64**, **Realloc** or **Realloc64**, then **MemorySize** returns the size of that memory allocation in bytes. The value returned by **MemorySize** might be larger than the number of bytes requested when pMem was allocated. If *pMem* is a NULL pointer then **MemorySize** returns zero. If *pMem* points to something that is not the beginning of memory allocation, or if it points to a formerly valid memory allocation that has now been freed, then the behavior of **MemorySize** is undefined and possibly harmful.
 
-# <a name="MemoryUsed"></a>MemoryUsed
+---
+
+## MemoryUsed
 
 Returns the number of bytes of memory currently outstanding (malloced but not freed).
 
@@ -440,7 +468,9 @@ The number of bytes of memory currently outstanding (malloced but not freed).
 
 The value returned by **MemoryUsed** include any overhead added by SQLite in its implementation of **Malloc**, but not overhead added by the any underlying system library functions that **Malloc** may call.
 
-# <a name="Randomness"></a>Randomness
+---
+
+## Randomness
 
 Pseudo-random number generator.
 
@@ -457,7 +487,9 @@ SUB Randomness (BYVAL nBytes AS LONG, BYVAL pbuffer AS ANY PTR)
 
 SQLite contains a high-quality pseudo-random number generator (PRNG) used to select random ROWIDs when inserting new records into a table that already uses the largest possible ROWID. The PRNG is also used for the build-in random() and randomblob() SQL functions. This method allows applications to access the same PRNG for other purposes.
 
-# <a name="Realloc"></a>Realloc
+---
+
+## Realloc
 
 Attempts to resize a prior memory allocation to be at least *nBytes* bytes. *pMem* is the memory allocation to be resized.
 
@@ -486,7 +518,9 @@ The pointer arguments to **Free** and **Realloc** must be either NULL or else po
 
 The application must not read or write any part of a block of memory after it has been released using **Free** or **Realloc**. 
 
-# <a name="ReleaseMemory"></a>ReleaseMemory
+---
+
+## ReleaseMemory
 
 Attempts to free the specified number of bytes of heap memory by deallocating non-essential memory allocations held by the database library. Memory used to cache database pages to improve performance is an example of non-essential memory. **ReleaseMemory** returns the number of bytes actually freed, which might be more or less than the amount requested. The **ReleaseMemory** method is a no-op returning zero if SQLite is not compiled with SQLITE_ENABLE_MEMORY_MANAGEMENT.
 
@@ -502,7 +536,9 @@ FUNCTION ReleaseMemory (BYVAL nBytes AS LONG) AS LONG
 
 The number of bytes freed.
 
-# <a name="Sleep"></a>Sleep
+---
+
+## Sleep
 
 Causes the current thread to suspend execution for at least a number of milliseconds specified in its parameter.
 
@@ -522,8 +558,9 @@ The number of milliseconds of sleep actually requested from the operating system
 
 If the operating system does not support sleep requests with millisecond time resolution, then the time will be rounded up to the nearest second. The number of milliseconds of sleep actually requested from the operating system is returned.
 
+---
 
-# <a name="SoftHeapLimit64"></a>SoftHeapLimit64
+## SoftHeapLimit64
 
 Sets and/or queries the soft limit on the amount of heap memory that may be allocated by SQLite.
 
@@ -545,7 +582,9 @@ SQLite strives to keep heap memory utilization below the soft heap limit by redu
 
 The circumstances under which SQLite will enforce the soft heap limit may change in future releases of SQLite.
 
-# <a name="SourceID"></a>SourceID
+---
+
+## SourceID
 
 Returns the SQLite3 source identifier.
 
@@ -557,7 +596,9 @@ FUNCTION SourceID () AS STRING
 
 A string containing the SQLite3 identifier, e.g. "2012-06-11 02:05:22 f5b5a13f7394dc143aa136f1d4faba6839eaa6dc".
 
-# <a name="Status"></a>Status
+---
+
+## Status
 
 Retrieves runtime status information about the performance of SQLite, and optionally to reset various highwater marks.
 
@@ -585,7 +626,9 @@ This method is used to retrieve runtime status information about the performance
 
 This function is threadsafe but is not atomic. This function can be called while other threads are running the same or different SQLite interfaces. However the values returned in pCurrent and pHighwater reflect the status of SQLite at different points in time and it is possible that another thread might change the parameter in between the times when *pCurrent* and *pHighwater* are written.
 
-# <a name="StrGlob"></a>StrGlob
+---
+
+## StrGlob
 
 The *StrGlob* method returns zero if string *szStr* matches the glob pattern *szGlob*, and it returns non-zero if string *szStr* does not match the glob pattern *szGlob*. This function is case sensitive.
 
@@ -598,7 +641,9 @@ FUNCTION StrGlob (BYREF szGlob AS ZSTRING, BYREF szStr AS ZSTRING) AS LONG
 | *szGlob* | The glob pattern to compare. |
 | *szStr* | The string to compare. |
 
-# <a name="ThreadSafe"></a>ThreadSafe
+---
+
+## ThreadSafe
 
 Returns zero if and only if SQLite was compiled with mutexing code omitted due to the SQLITE_THREADSAFE compile-time option being set to 0.
 
@@ -618,7 +663,9 @@ Enabling mutexes incurs a measurable performance penalty. So if speed is of utmo
 
 This interface can be used by an application to make sure that the version of SQLite that it is linking against was compiled with the desired setting of the SQLITE_THREADSAFE macro.
 
-# <a name="Version"></a>Version
+---
+
+## Version
 
 Returns the SQLite3 version.
 
@@ -630,7 +677,9 @@ FUNCTION Version () AS STRING
 
 A string containing the SQLite3 version, e.g. "3.7.13".
 
-# <a name="VersionNumber"></a>VersionNumber
+---
+
+## VersionNumber
 
 Returns the SQLite3 version number.
 
@@ -642,7 +691,9 @@ FUNCTION VersionNumber () AS LONG
 
 A long integer containing the SQLite3 version number, e.g. 3007013.
 
-# <a name="Changes"></a>Changes
+---
+
+## Changes
 
 This method returns the number of database rows that were changed or inserted or deleted by the most recently completed SQL statement on the current database connection.
 
@@ -654,7 +705,7 @@ FUNCTION Changes () AS LONG
 
 The number of changes.
 
-#### ks
+#### Remarks
 
 Only changes that are directly specified by the INSERT, UPDATE, or DELETE statement are counted. Auxiliary changes caused by triggers or foreign key actions are not counted. Use the **Changes** method to find the total number of changes including changes caused by triggers and foreign key actions.
 
@@ -672,7 +723,9 @@ Thus, when called from the top level, this function returns the number of change
 
 If a separate thread makes changes on the same database connection while **Changes** is running then the value returned is unpredictable and not meaningful. 
 
-# <a name="CloseDb"></a>CloseDb
+---
+
+## CloseDb
 
 Closes the database.
 
@@ -690,7 +743,9 @@ Applications must finalize all prepared statements and close all BLOB handles as
 
 If **CloseDb** is invoked while a transaction is open, the transaction is automatically rolled back.
 
-# <a name="ErrCode"></a>ErrCode
+---
+
+## ErrCode
 
 Returns the numeric result code for the most recent failed sqlite3 call associated with a database connection. If a prior API call failed but the most recent API call succeeded, the return value from **ErrCode** is undefined.
 
@@ -708,7 +763,9 @@ When the serialized threading mode is in use, it might be the case that a second
 
 If a function fails with SQLITE_MISUSE, that means the function was invoked incorrectly by the application. In that case, the error code and message may or may not be set. 
 
-# <a name="ErrMsg"></a>ErrMsg
+---
+
+## ErrMsg
 
 Returns English-language text that describes the error.
 
@@ -726,7 +783,9 @@ When the serialized threading mode is in use, it might be the case that a second
 
 If a function fails with SQLITE_MISUSE, that means the function was invoked incorrectly by the application. In that case, the error code and message may or may not be set. 
 
-# <a name="Exec"></a>Exec
+---
+
+## Exec
 
 Convenience wrapper for **Prepare** and **Step_**. To be used with queries that don't return result sets, such CREATE, UPDATE and INSERT.
 
@@ -746,15 +805,18 @@ SQLITE_DONE means that the statement has finished executing successfully. **Step
 
 SQLITE_ERROR means that a run-time error (such as a constraint violation) has occurred. Step should not be called again on the virtual machine. More information may be found by calling **ErrMsg**.
 
-# <a name="ExtendedErrCode"></a>ExtendedErrCode
+---
+
+## ExtendedErrCode
 
 Gets the extended error code associated with this database connection.
 
 ```
 FUNCTION ExtendedErrCode () AS LONG
 ```
+---
 
-# <a name="ExtendedResultCodes"></a>ExtendedResultCodes
+## ExtendedResultCodes
 
 Enables or disables the extended result codes feature of SQLite. The extended result codes are disabled by default for historical compatibility.
 
@@ -770,7 +832,9 @@ FUNCTION ExtendedResultCodes (BYVAL onoff AS BOOLEAN) AS LONG
 
 SQLITE_OK (0) or an error code.
 
-# <a name="hDbc"></a>hDbc
+---
+
+## hDbc
 
 Gets/sets the database handle.
 
@@ -787,7 +851,9 @@ PROPERTY hDbc (pDbc AS sqlite3 PTR)
 
 The database handle.
 
-# <a name="Interrupt"></a>Interrupt
+---
+
+## Interrupt
 
 This function causes any pending database operation to abort and return at its earliest opportunity. This function is typically called in response to a user action such as pressing "Cancel" or Ctrl-C where the user wants a long query operation to halt immediately.
 
@@ -807,7 +873,9 @@ The **Interrupt** call is in effect until all currently running SQL statements o
 
 If the database connection closes while **Interrupt** is running then bad things will likely happen.
 
-# <a name="LastInsertRowId"></a>LastInsertRowId
+---
+
+## LastInsertRowId
 
 Returns the rowid of the most recent successful INSERT into the database from the database connection in the first argument.
 
@@ -835,7 +903,9 @@ This function is accessible to SQL statements via the **last_insert_rowid** SQL 
 
 If a separate thread performs a new INSERT on the same database connection while the **LastInsertRowid** function is running and thus changes the last insert rowid, then the value returned by **LastInsertRowid** is unpredictable and might not equal either the old or the new last insert rowid. 
 
-# <a name="Limit"></a>Limit
+---
+
+## Limit
 
 This function allows the size of various constructs to be limited on a connection by connection basis.
 
@@ -862,7 +932,9 @@ Run-time limits are intended for use in applications that manage both their own 
 
 New run-time limit categories may be added in future releases.
 
-# <a name="OpenBlob"></a>OpenBlob
+---
+
+## OpenBlob
 
 This function opens a handle to the BLOB located in row *iRow*, column *szColumnName*, table *szTableName* in database *szDbName*; in other words, the same BLOB that would be selected by:
 
@@ -900,19 +972,19 @@ To avoid a resource leak, every open BLOB handle should eventually be released b
 ' Blob
 '#CONSOLE ON
 #define UNICODE
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CSQLite3.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/AfxWin.inc"
+#INCLUDE ONCE "AfxNova/CSQLite3.inc"
+USING AfxNova
 
 ' // Optional: Specify the DLL path and/or name
 ' // This allows to use a DLL with a different name that sqlite3.dll,
 ' // located anywhere, avoiding the need to have multiple copies of the same dll.
-DIM pSql AS CSQLite = "sqlite3_32.dll"
-print pSql.m_hLib
+DIM pSql AS CSQLite = "sqlite3_64.dll"
+IF pSql.m_hLib = NULL THEN END
 
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
-DIM cwsDbName AS CWSTR = AfxGetExePathName & "TestBlob.sdb"
+DIM cwsDbName AS DWSTRING = AfxGetExePathName & "TestBlob.sdb"
 IF AfxFileExists(cwsDbName) THEN AfxDeleteFile(cwsDbName)
 DIM pDbc AS CSQLiteDb = cwsDbName
 
@@ -923,7 +995,7 @@ IF pDbc.Exec("CREATE TABLE t (xyz blob)") <> SQLITE_DONE THEN
 END IF
 
 ' // Prepare the statement
-DIM sql AS CWSTR = "INSERT INTO t (xyz) VALUES (?)"
+DIM sql AS DWSTRING = "INSERT INTO t (xyz) VALUES (?)"
 DIM pStmt AS CSqliteStmt = pDbc.Prepare(sql)
 ' // Bind the blob
 DIM fakeBlob AS STRING
@@ -947,8 +1019,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="OpenDb"></a>OpenDb
+## OpenDb
 
 Opens an SQLite database file as specified by the filename argument.
 
@@ -970,7 +1043,9 @@ If the filename is ":memory:", then a private, temporary in-memory database is c
 
 If the filename is an empty string, then a private, temporary on-disk database will be created. This private database will be automatically deleted as soon as the database connection is closed.
 
-# <a name="Prepare"></a>Prepare
+---
+
+## Prepare
 
 Creates a new prepared statement object.
 
@@ -992,21 +1067,21 @@ An sqlite3_stmt pointer.
 ' Binding
 '#CONSOLE ON
 #define UNICODE
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CSQLite3.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/AfxWin.inc"
+#INCLUDE ONCE "AfxNova/CSQLite3.inc"
+USING AfxNova
 
 ' // Optional: Specify the DLL path and/or name
 ' // This allows to use a DLL with a different name that sqlite3.dll,
 ' // located anywhere, avoiding the need to have multiple copies of the same dll.
-DIM pSql AS CSQLite = "sqlite3_32.dll"
-print pSql.m_hLib
+DIM pSql AS CSQLite = "sqlite3_64.dll"
+IF pSql.m_hLib = NULL THEN END
 
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
-DIM cwsDbName AS CWSTR = AfxGetExePathName & "Test.sdb"
-IF AfxFileExists(cwsDbName) THEN AfxDeleteFile(cwsDbName)
-DIM pDbc AS CSQLiteDb = cwsDbName
+DIM dwsDbName AS DWSTRING = AfxGetExePathName & "Test.sdb"
+IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(cwsDbName)
+DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
 IF pDbc.Exec("CREATE TABLE t (xyz text)") <> SQLITE_DONE THEN
@@ -1015,7 +1090,7 @@ IF pDbc.Exec("CREATE TABLE t (xyz text)") <> SQLITE_DONE THEN
 END IF
 
 ' // Prepare the statement
-DIM sql AS CWSTR = "INSERT INTO t (xyz) VALUES (?)"
+DIM sql AS DWSTRING = "INSERT INTO t (xyz) VALUES (?)"
 DIM pStmt AS CSqliteStmt = pDbc.Prepare(sql)
 ' // Bind the text
 pStmt.BindText(1, "fruit")
@@ -1033,8 +1108,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="ProgressHandler"></a>ProgressHandler
+## ProgressHandler
 
 The **ProgressHandler** method causes a callback function to be invoked periodically during long running calls to **Step_** and **GetRow** for a database connection. An example use for this interface is to keep a GUI updated during a large query.
 
@@ -1061,7 +1137,9 @@ If the progress callback returns non-zero, the operation is interrupted. This fe
 
 The progress handler callback must not do anything that will modify the database connection that invoked the progress handler. Note that **Prepare** and **Step_** both modify their database connections for the meaning of "modify" in this paragraph.
 
-# <a name="ReleaseMemory2"></a>ReleaseMemory
+---
+
+## ReleaseMemory
 
 Attempts to free as much heap memory as possible from the specified database connection. Unlike **ReleaseMemory**, this function is effect even when then SQLITE_ENABLE_MEMORY_MANAGEMENT compile-time option is omitted.
 
@@ -1073,7 +1151,9 @@ FUNCTION ReleaseMemory () AS LONG
 
 The number of bytes freed.
 
-# <a name="Status2"></a>Status
+---
+
+## Status
 
 Retrieves runtime status information about a single database connection.
 
@@ -1107,7 +1187,9 @@ SQLITE_DBSTATUS_CACHE_WRITE         = 9
 
 SQLITE_OK (0) on success and a non-zero error code on failure.
 
-# <a name="TotalChanges"></a>TotalChanges
+---
+
+## TotalChanges
 
 This function returns the number of row changes caused by INSERT, UPDATE or DELETE statements since the database connection was opened.
 
@@ -1127,7 +1209,9 @@ See also the **Changes** interface, the **count_changes pragma**, and the **Chan
 
 If a separate thread makes changes on the same database connection while **Changes** is running then the value returned is unpredictable and not meaningful.
 
-# <a name="UnlockNotify"></a>UnlockNotify
+---
+
+## UnlockNotify
 
 When running in shared-cache mode, a database operation may fail with an SQLITE_LOCKED error if the required locks on the shared-cache or individual tables within the shared-cache cannot be obtained. This API may be used to register a callback that SQLite will invoke when the connection currently holding the required lock relinquishes it. This API is only available if the library was compiled with the SQLITE_ENABLE_UNLOCK_NOTIFY C-preprocessor symbol defined.
 
@@ -1176,7 +1260,9 @@ When a call to **Step_** returns SQLITE_LOCKED, it is almost always appropriate 
 
 One way around this problem is to check the extended error code returned by an **Step_** call. If there is a blocking connection, then the extended error code is set to SQLITE_LOCKED_SHAREDCACHE. Otherwise, in the special "DROP TABLE/INDEX" case, the extended error code is just SQLITE_LOCKED.
 
-# <a name="BindBlob"></a>BindBlob
+---
+
+## BindBlob
 
 Binds a blob with the statement.
 
@@ -1208,21 +1294,21 @@ Bindings are not cleared by the **Reset** function. Unbound parameters are inter
 ' Blob
 '#CONSOLE ON
 #define UNICODE
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CSQLite3.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/AfxWin.inc"
+#INCLUDE ONCE "AfxNova/CSQLite3.inc"
+USING AfxNova
 
 ' // Optional: Specify the DLL path and/or name
 ' // This allows to use a DLL with a different name that sqlite3.dll,
 ' // located anywhere, avoiding the need to have multiple copies of the same dll.
-DIM pSql AS CSQLite = "sqlite3_32.dll"
-print pSql.m_hLib
+DIM pSql AS CSQLite = "sqlite3_642.dll"
+IF pSql.m_hLib = NULL THEN END
 
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
-DIM cwsDbName AS CWSTR = AfxGetExePathName & "TestBlob.sdb"
-IF AfxFileExists(cwsDbName) THEN AfxDeleteFile(cwsDbName)
-DIM pDbc AS CSQLiteDb = cwsDbName
+DIM dwsDbName AS DWSTRING = AfxGetExePathName & "TestBlob.sdb"
+IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(cwsDbName)
+DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
 IF pDbc.Exec("CREATE TABLE t (xyz blob)") <> SQLITE_DONE THEN
@@ -1231,7 +1317,7 @@ IF pDbc.Exec("CREATE TABLE t (xyz blob)") <> SQLITE_DONE THEN
 END IF
 
 ' // Prepare the statement
-DIM sql AS CWSTR = "INSERT INTO t (xyz) VALUES (?)"
+DIM sql AS DWSTRING = "INSERT INTO t (xyz) VALUES (?)"
 DIM pStmt AS CSqliteStmt = pDbc.Prepare(sql)
 ' // Bind the blob
 DIM fakeBlob AS STRING
@@ -1255,8 +1341,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="BindDouble"></a>BindDouble
+## BindDouble
 
 Binds a double value with the statement.
 
@@ -1277,7 +1364,9 @@ SQLITE_OK on success or an error code if anything goes wrong. SQLITE_RANGE is re
 
 Bindings are not cleared by the **Reset** function. Unbound parameters are interpreted as NULL.
 
-# <a name="BindLong"></a>BindLong
+---
+
+## BindLong
 
 Binds a long integer value with the statement.
 
@@ -1298,7 +1387,9 @@ SQLITE_OK on success or an error code if anything goes wrong. SQLITE_RANGE is re
 
 Bindings are not cleared by the **Reset** function. Unbound parameters are interpreted as NULL.
 
-# <a name="BindLongInt"></a>BindLongInt
+---
+
+## BindLongInt
 
 Binds a longint value with the statement.
 
@@ -1319,7 +1410,9 @@ SQLITE_OK on success or an error code if anything goes wrong. SQLITE_RANGE is re
 
 Bindings are not cleared by the **Reset** function. Unbound parameters are interpreted as NULL.
 
-# <a name="BindNull"></a>BindNull
+---
+
+## BindNull
 
 Binds a null value with the statement.
 
@@ -1339,7 +1432,9 @@ SQLITE_OK on success or an error code if anything goes wrong. SQLITE_RANGE is re
 
 Bindings are not cleared by the **Reset** function. Unbound parameters are interpreted as NULL.
 
-# <a name="BindParameterCount"></a>BindParameterCount
+---
+
+## BindParameterCount
 
 This method can be used to find the number of SQL parameters in a prepared statement. SQL parameters are tokens of the form "?", "?NNN", ":AAA", "$AAA", or "@AAA" that serve as placeholders for values that are bound to the parameters at a later time.
 
@@ -1355,7 +1450,9 @@ The number of SQL parameters in a prepared statement.
 
 This function actually returns the index of the largest (rightmost) parameter. For all forms except ?NNN, this will correspond to the number of unique parameters. If parameters of the ?NNN form are used, there may be gaps in the list.
 
-# <a name="BindParameterIndex"></a>BindParameterIndex
+---
+
+## BindParameterIndex
 
 Returns the index of an SQL parameter given its name. The index value returned is suitable for use as the second parameter to the **Bind_\*** methods. A zero is returned if no matching parameter is found.
 
@@ -1371,7 +1468,9 @@ FUNCTION BindParameterIndex (BYREF szName AS ZSTRING) AS LONG
 
 The index of the parameter.
 
-# <a name="BindParameterName"></a>BindParameterName
+---
+
+## BindParameterName
 
 Returns the name of the N-th SQL parameter in the prepared statement P. SQL parameters of the form "?NNN" or ":AAA" or "@AAA" or "$AAA" have a name which is the string "?NNN" or ":AAA" or "@AAA" or "$AAA" respectively. In other words, the initial ":" or "$" or "@" or "?" is included as part of the name. Parameters of the form "?" without a following integer have no name and are referred to as "nameless" or "anonymous parameters".
 
@@ -1387,7 +1486,9 @@ FUNCTION BindParameterName (BYVAL idx AS LONG) AS STRING
 
 If the value *idx* is out of range or if the idx-th parameter is nameless, then NULL is returned. The returned string is always in UTF-8 encoding even if the named parameter was originally specified as UTF-16 in Prepare.
 
-# <a name="BindText"></a>BindText
+---
+
+## BindText
 
 Binds a text value with the statement.
 
@@ -1418,21 +1519,21 @@ Bindings are not cleared by the Reset function. Unbound parameters are interpret
 ' Binding
 '#CONSOLE ON
 #define UNICODE
-#INCLUDE ONCE "Afx/AfxWin.inc"
-#INCLUDE ONCE "Afx/CSQLite3.inc"
-USING Afx
+#INCLUDE ONCE "AfxNova/AfxWin.inc"
+#INCLUDE ONCE "AfxNova/CSQLite3.inc"
+USING AfxNova
 
 ' // Optional: Specify the DLL path and/or name
 ' // This allows to use a DLL with a different name that sqlite3.dll,
 ' // located anywhere, avoiding the need to have multiple copies of the same dll.
 DIM pSql AS CSQLite = "sqlite3_32.dll"
-print pSql.m_hLib
+IF pSql.m_hLib = NULL THEN END
 
 ' // Create a new database
 ' // I'm deleting and recreating the database for testing purposes
-DIM cwsDbName AS CWSTR = AfxGetExePathName & "Test.sdb"
-IF AfxFileExists(cwsDbName) THEN AfxDeleteFile(cwsDbName)
-DIM pDbc AS CSQLiteDb = cwsDbName
+DIM dwsDbName AS DWSTRING = AfxGetExePathName & "Test.sdb"
+IF AfxFileExists(dwsDbName) THEN AfxDeleteFile(dwsDbName)
+DIM pDbc AS CSQLiteDb = dwsDbName
 
 ' // Create a table
 IF pDbc.Exec("CREATE TABLE t (xyz text)") <> SQLITE_DONE THEN
@@ -1441,7 +1542,7 @@ IF pDbc.Exec("CREATE TABLE t (xyz text)") <> SQLITE_DONE THEN
 END IF
 
 ' // Prepare the statement
-DIM sql AS CWSTR = "INSERT INTO t (xyz) VALUES (?)"
+DIM sql AS DWSTRING = "INSERT INTO t (xyz) VALUES (?)"
 DIM pStmt AS CSqliteStmt = pDbc.Prepare(sql)
 ' // Bind the text
 pStmt.BindText(1, "fruit")
@@ -1459,8 +1560,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="BindZeroBlob"></a>BindZeroBlob
+## BindZeroBlob
 
 Binds a BLOB of length *numBytes* that is filled with zeroes.
 
@@ -1484,7 +1586,9 @@ The **BindZeroblob** function binds a BLOB of length *numBytes* that is filled w
 
 Bindings are not cleared by the **Reset** function. Unbound parameters are interpreted as NULL.
 
-# <a name="Busy"></a>Busy
+---
+
+## Busy
 
 Returns true if the prepared statement has been stepped at least once using **Step_** but has not run to completion and/or has not been reset using **Reset**.
 
@@ -1496,7 +1600,9 @@ FUNCTION Busy () AS BOOLEAN
 
 TRUE or FALSE.
 
-# <a name="ClearBindings"></a>ClearBindings
+---
+
+## ClearBindings
 
 Sets all the parameters in the compiled SQL statement to NULL. Contrary to the intuition of many, **Reset** does not reset the bindings on a prepared statement. Use this function to reset all host parameters to NULL. 
 
@@ -1508,7 +1614,9 @@ FUNCTION ClearBindings () AS LONG
 
 SQLITE_OK on success or an error code if anything goes wrong.
 
-# <a name="ColumnBlob"></a>ColumnBlob
+---
+
+## ColumnBlob
 
 Returns information about a single column of the current result row of a query.
 
@@ -1546,7 +1654,9 @@ The pointer returned is valid until **Step_** or **Reset** or **Finalize** is ca
 
 If a memory allocation error occurs during the evaluation of any of these functions, a default value is returned. The default value is a NULL pointer. Subsequent calls to **ErrCode** will return SQLITE_NOMEM. 
 
-# <a name="ColumnBytes"></a>ColumnBytes
+---
+
+## ColumnBytes
 
 Returns the number of bytes of the column value.
 
@@ -1584,15 +1694,18 @@ The pointers returned are valid until a type conversion occurs as described abov
 
 If a memory allocation error occurs during the evaluation of any of these functions, a default value is returned. The default value is 0. Subsequent calls to **ErrCode** will return SQLITE_NOMEM. 
 
-# <a name="ColumnCount"></a>ColumnCount
+---
+
+## ColumnCount
 
 Returns the number of columns in the result set returned by the prepared statement. This function returns 0 if pStmt is an SQL statement that does not return data (for example an UPDATE).
 
 ```
 FUNCTION ColumnCount () AS LONG
 ```
+---
 
-# <a name="ColumnDatabaseName"></a>ColumnDatabaseName
+## ColumnDatabaseName
 
 Returns the database name that is the origin of a particular result column in SELECT statement.
 
@@ -1617,7 +1730,9 @@ If two or more threads call this function against the same prepared statement an
 
 If two or more threads call one or more column metadata interfaces for the same prepared statement and result column at the same time then the results are undefined. 
 
-# <a name="ColumnDeclaredType"></a>ColumnDeclaredType
+---
+
+## ColumnDeclaredType
 
 Returns the declared data type of a query result.
 
@@ -1642,7 +1757,9 @@ If two or more threads call this function against the same prepared statement an
 
 If two or more threads call one or more column metadata interfaces for the same prepared statement and result column at the same time then the results are undefined. 
 
-# <a name="ColumnDouble"></a>ColumnDouble
+---
+
+## ColumnDouble
 
 Returns the column value as a double.
 
@@ -1676,7 +1793,9 @@ The table above makes reference to standard C library functions **atoi**() and *
 
 If a memory allocation error occurs during the evaluation of any of these functions, a default value is returned. The default value is the floating point number 0.0. Subsequent calls to **ErrCode** will return SQLITE_NOMEM. 
 
-# <a name="ColumnLong"></a>ColumnLong
+---
+
+## ColumnLong
 
 Returns the column value as a long.
 
@@ -1710,7 +1829,9 @@ The table above makes reference to standard C library function **atoi**(). SQLit
 
 If a memory allocation error occurs during the evaluation of any of these functions, a default value is returned. The default value is the floating point number 0.0. Subsequent calls to **ErrCode** will return SQLITE_NOMEM. 
 
-# <a name="ColumnLongInt"></a>ColumnLongInt
+---
+
+## ColumnLongInt
 
 Returns the column value as a longint.
 
@@ -1744,7 +1865,9 @@ The table above makes reference to standard C library function **atoi**(). SQLit
 
 If a memory allocation error occurs during the evaluation of any of these functions, a default value is returned. The default value is the floating point number 0.0. Subsequent calls to **ErrCode** will return SQLITE_NOMEM. 
 
-# <a name="ColumnName"></a>ColumnName
+---
+
+## ColumnName
 
 Returns the name assigned to a particular column in the result set of a SELECT statement.
 
@@ -1760,7 +1883,9 @@ FUNCTION ColumnName (BYVAL nCol AS LONG) AS CWSTR
 
 The name assigned to the specified column. The name of a result column is the value of the "AS" clause for that column, if there is an AS clause. If there is no AS clause then the name of the column is unspecified and may change from one release of SQLite to the next.
 
-# <a name="ColumnOriginName"></a>ColumnOriginName
+---
+
+## ColumnOriginName
 
 Returns the column name that is the origin of a particular result column in SELECT statement.
 
@@ -1785,7 +1910,9 @@ If two or more threads call this function against the same prepared statement an
 
 If two or more threads call one or more column metadata interfaces for the same prepared statement and result column at the same time then the results are undefined. 
 
-# <a name="ColumnTableName"></a>ColumnTableName
+---
+
+## ColumnTableName
 
 Returns the table name that is the origin of a particular result column in SELECT statement.
 
@@ -1810,7 +1937,9 @@ If two or more threads call this function against the same prepared statement an
 
 If two or more threads call one or more column metadata interfaces for the same prepared statement and result column at the same time then the results are undefined. 
 
-# <a name="ColumnText"></a>ColumnText
+---
+
+## ColumnText
 
 Returns the column value as a UTF-16 string.
 
@@ -1855,7 +1984,9 @@ In other words, you should call **ColumnText** or **ColumnBlob** first to force 
 
 If a memory allocation error occurs during the evaluation of any of these functions, a default value is returned. The default value is either the integer 0, the floating point number 0.0, or a NULL pointer. Subsequent calls to **ErrCode** will return SQLITE_NOMEM. 
 
-# <a name="ColumnType"></a>ColumnType
+---
+
+## ColumnType
 
 Returns the column type.
 
@@ -1924,7 +2055,9 @@ In other words, you should call **ColumnText** or **ColumnBlob** first to force 
 
 If a memory allocation error occurs during the evaluation of any of these functions, a default value is returned. The default value is either the integer 0, the floating point number 0.0, or a NULL pointer. Subsequent calls to **ErrCode** will return SQLITE_NOMEM. 
 
-# <a name="DataCount"></a>DataCount
+---
+
+## DataCount
 
 Returns the number of columns in the result set returned by the prepared statement. This function returns 0 if pStmt is an SQL statement that does not return data (for example an UPDATE).
 
@@ -1936,7 +2069,9 @@ FUNCTION DataCount () AS LONG
 
 The number of columns in the result set returned by the prepared statement.
 
-# <a name="DbHandle"></a>DbHandle
+---
+
+## DbHandle
 
 Returns the database connection handle to which a prepared statement belongs. The database connection returned by **DbHandle** is the same database connection that was the first argument to the **Prepare** call that was used to create the statement in the first place. 
 
@@ -1948,7 +2083,9 @@ FUNCTION DbHandle () AS sqlite3 PTR
 
 The database connection handle to which a prepared statement belongs.
 
-# <a name="Finalize"></a>Finalize
+---
+
+## Finalize
 
 Deletes a prepared statement.
 
@@ -1968,7 +2105,9 @@ Invoking **Finalize** on a NULL pointer is a harmless no-op.
 
 The application must finalize every prepared statement in order to avoid resource leaks. It is a grievous error for the application to try to use a prepared statement after it has been finalized. Any use of a prepared statement after it has been finalized can result in undefined and undesirable behavior such as segfaults and heap corruption.
 
-# <a name="GetRow"></a>GetRow
+---
+
+## GetRow
 
 After a prepared statement has been prepared using either **Prepare** this method must be called one or more times to evaluate the statement. **GetRow** is an alias for **Step_**.
 
@@ -1992,7 +2131,9 @@ If the SQL statement being executed returns any data, then **SQLITE_ROW** is ret
 
 For all versions of SQLite up to and including 3.6.23.1, a call to **Reset** was required after **Step_** returned anything other than SQLITE_ROW before any subsequent invocation of Step_. Failure to reset the prepared statement using **Reset** would result in an SQLITE_MISUSE return from **Step_**. But after version 3.6.23.1, **Step_** began calling **Reset** automatically in this circumstance rather than returning SQLITE_MISUSE. This is not considered a compatibility break because any application that ever receives an SQLITE_MISUSE error is broken by definition. The SQLITE_OMIT_AUTORESET compile-time option can be used to restore the legacy behavior.
 
-# <a name="hStmt"></a>hStmt
+---
+
+## hStmt
 
 Gets/sets the connection handle.
 
@@ -2005,7 +2146,9 @@ PROPERTY hStmt (BYVAL pStmt AS sqlite3_stmt PTR)
 | ---------- | ----------- |
 | *pStmt* | The statement handle. |
 
-# <a name="IsColumnNull"></a>IsColumnNull
+---
+
+## IsColumnNull
 
 Returns true is the column value is null or false otherwise.
 
@@ -2017,7 +2160,9 @@ FUNCTION IsColumnNull () AS BOOLEAN
 
 TRUE or FALSE.
 
-# <a name="ReadOnly"></a>ReadOnly
+---
+
+## ReadOnly
 
 Returns true if and only if the prepared statement makes no direct changes to the content of the database file.
 
@@ -2029,7 +2174,9 @@ FUNCTION ReadOnly () AS BOOLEAN
 
 TRUE or FALSE.
 
-# <a name="Reset"></a>Reset
+---
+
+## Reset
 
 Resets a prepared statement object back to its initial state, ready to be re-executed. Any SQL statement variables that had values bound to them using the **Bind_\***() methods retain their values. Use **ClearBindings** to reset the bindings.
 
@@ -2043,7 +2190,9 @@ If the most recent call to **Step_** for the prepared statement returned SQLITE_
 
 If the most recent call to **Step_** for the prepared statement indicated an error, then **Reset** returns an appropriate error code.
 
-# <a name="Sql"></a>Sql
+---
+
+## Sql
 
 Retrieves a saved copy of the original SQL text used to create a prepared statement if that statement was compiled using **Prepare**.
 
@@ -2055,7 +2204,9 @@ FUNCTIOn Sql () AS STRING
 
 The SQL string associated with a prepared statement.
 
-# <a name="Step_"></a>Step_
+---
+
+## Step_
 
 After a prepared statement has been prepared using either **Prepare** this method must be called one or more times to evaluate the statement. **GetRow** is an alias for **Step_**.
 
@@ -2078,3 +2229,5 @@ If the SQL statement being executed returns any data, then **SQLITE_ROW** is ret
 #### Remarks
 
 For all versions of SQLite up to and including 3.6.23.1, a call to **Reset** was required after **Step_** returned anything other than SQLITE_ROW before any subsequent invocation of Step_. Failure to reset the prepared statement using **Reset** would result in an SQLITE_MISUSE return from **Step_**. But after version 3.6.23.1, **Step_** began calling **Reset** automatically in this circumstance rather than returning SQLITE_MISUSE. This is not considered a compatibility break because any application that ever receives an SQLITE_MISUSE error is broken by definition. The SQLITE_OMIT_AUTORESET compile-time option can be used to restore the legacy behavior.
+
+---
