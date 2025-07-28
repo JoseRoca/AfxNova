@@ -455,7 +455,7 @@ FUNCTION Organization (BYREF wszOrganization AS WSTRING) AS HRESULT
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *wszOrganization* | The **Organization** property is used for the Network News Transfer Protocol (NNTP) Organization header field. This field supplies a short phrase that meaningfully describes the sender's organization, such as "Sample Corporation, Payroll Department". A phrase such as this can be easier to recognize than a cryptic messaging address like `"Q1006453@example.com"`.<br><br>The default value of the **Organization** property is an empty string. |
+| *wszOrganization* | The **Organization** property is used for the Network News Transfer Protocol (NNTP) Organization header field. This field supplies a short phrase that meaningfully describes the sender's organization, such as "Sample Corporation, Payroll Department". A phrase such as this can be easier to recognize than a cryptic messaging address like `"Q1006453@example.com"`<br><br>The default value of the **Organization** property is an empty string. |
 
 #### Return value
 
@@ -491,7 +491,7 @@ FUNCTION Recipients (BYVAL wszRecipients AS WSTRING) AS HRESULT
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *wszRecipients* | The string in the **Recipients** property can represent a single recipient or multiple recipients. For example, each of the following qualifies as a full messaging address:<br><br>"User Address" \<example@example.com><br>\<example@example.com><br>example@example.com<br><br>In lists with multiple recipients, addresses are separated by commas:<br><br>"User 1" \<example1@example.com>, example2@example.com, \<example3@example.com><br><br>A comma is not allowed in any part of a messaging address unless it is contained within quotation marks.<br><br>The default value of the **Recipients** property is an empty string. |
+| *wszRecipients* | The string in the **Recipients** property can represent a single recipient or multiple recipients. For example, each of the following qualifies as a full messaging address:<br><br>"User Address" `<example@example.com>`<br>`<example@example.com>`<br>`example@example.com`<br><br>In lists with multiple recipients, addresses are separated by commas:<br><br>"User 1" `<example1@example.com>`, `example2@example.com`, `<example3@example.com>`<br><br>A comma is not allowed in any part of a messaging address unless it is contained within quotation marks.<br><br>The default value of the **Recipients** property is an empty string. |
 
 #### Return value
 
