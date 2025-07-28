@@ -274,7 +274,7 @@ pMsg.ConfigUpdate
 ```
 ---
 
-## <DSNOptions
+## DSNOptions
 
 Includes a request for a return report on the delivery status of the message.
 
