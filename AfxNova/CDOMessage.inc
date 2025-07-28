@@ -111,91 +111,25 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns a description of the last result code.
+' Returns the description of the most recent OLE error in the current logical thread and
+' clears the error state for the thread. It should be called as soon as possible after
+' calling a method of an Automation interface and will only succeed if the object supports
+' the IErrorInfo interface.
 ' ========================================================================================
 PRIVATE FUNCTION CDOMessage.GetErrorInfo () AS DWSTRING
-   DIM dws AS DWSTRING = "Error &h" & HEX(m_Result, 8)
-   SELECT CASE UCASE(HEX(m_Result, 8))
-      CASE "80040201" : dws += ": Uncaught exception"
-      CASE "80040202" : dws += ": No data source has been opened for the object."
-      CASE "80040203" : dws += ": The object does not support this type of data source"
-      CASE "80040204" : dws += ": he object does not support the requested property name or namespace"
-      CASE "80040205" : dws += ": The object does not support the requested property"
-      CASE "80040206" : dws += ": The object is not active. It may have been deleted or it may not have been opened"
-      CASE "80040207" : dws += ": The object does not support storing persistent state information for objects"
-      CASE "80040208" : dws += ": The requested property or feature, while supported, is not available at this time or in this context"
-      CASE "80040209" : dws += ": No default drop directory has been configured for this server"
-      CASE "8004020A" : dws += ": The SMTP server name is required, and was not found in the configuration source"
-      CASE "8004020B" : dws += ": The NNTP server name is required, and was not found in the configuration source"
-      CASE "8004020C" : dws += ": At least one recipient is required, but none were found"
-      CASE "8004020D" : dws += ": At least one of the From or Sender fields is required, and neither was found"
-      CASE "8004020E" : dws += ": The server rejected the sender address"
-      CASE "8004020F" : dws += ": The server rejected one or more recipient addresses"
-      CASE "80040210" : dws += ": The message could not be posted to the NNTP server"
-      CASE "80040211" : dws += ": The message could not be sent to the SMTP server"
-      CASE "80040212" : dws += ": The transport lost its connection to the server"
-      CASE "80040213" : dws += ": The transport failed to connect to the server"
-      CASE "80040214" : dws += ": The Subject, From, and Newsgroup fields are all required, and one or more was not found"
-      CASE "80040215" : dws += ": The server rejected the logon attempt due to authentication failure"
-      CASE "80040216" : dws += ": The content type was not valid in this context"
-      CASE "80040216" : dws += ": The content type was not valid in this context"
-      CASE "80040217" : dws += ": The transport was unable to log on to the server"
-      CASE "80040218" : dws += ": The requested resource could not be found"
-      CASE "80040219" : dws += ": Access to the requested resource is denied"
-      CASE "8004021A" : dws += ": The HTTP request failed"
-      CASE "8004021B" : dws += ": This is a multipart body part. It has no content other than the body parts contained within it"
-      CASE "8004021C" : dws += ": Multipart body parts must be encoded as 7bit, 8bit, or binary"
-      CASE "8004021D" : dws += ": Unsafe operation"
-      CASE "8004021E" : dws += ": The requested property was not found"
-      CASE "80040220" : dws += ": The 'SendUsing' configuration value is invalid"
-      CASE "80040221" : dws += ": The 'postUsing' configuration value is invalid"
-      CASE "80040222" : dws += ": The pickup directory path is required and was not specified"
-      CASE "80040223" : dws += ": One or more messages could not be deleted"
-      CASE "80040224" : dws += ": The requested operation is not available on the underlying object"
-      CASE "80040227" : dws += ": The property is read-only"
-      CASE "80040228" : dws += ": The property cannot be deleted"
-      CASE "80040229" : dws += ": Data  written to the object are inconsistent or invalid"
-      CASE "8004022A" : dws += ": The requested property is not in the mail header namespace"
-      CASE "8004022B" : dws += ": The requested character set is not installed on the computer"
-      CASE "8004022C" : dws += ": The ADO stream has not been opened"
-      CASE "8004022D" : dws += ": The content properties are missing"
-      CASE "8004022E" : dws += ": Content properties XML must be encoded using UTF-8"
-      CASE "8004022F" : dws += ": Failed to parse content properties XML"
-      CASE "80040230" : dws += ": Failed to convert a property from XML to a requested type"
-      CASE "80040231" : dws += ": No directories were specified for resolution"
-      CASE "80040232" : dws += ": Failed to resolve against one or more of the specified directories"
-      CASE "80040233" : dws += ": Could not find the Sender's mailbox"
-      CASE "80040234" : dws += ": Binding to self is not allowed"
-      CASE "80040235" : dws += ": Data of the Attendees in the object are inconsistent or invalid"
-      CASE "80040236" : dws += ": No more roles of the desired type are available - maxed out"
-      CASE "80040237" : dws += ": The task with its current task type does not permit a call on Assign. Please call CreateUnassignedCopy instead."
-      CASE "80040238" : dws += ": The task is not assigned to the current user"
-      CASE "80040239" : dws += ": The item being accessed or manipulated is out of date"
-      CASE "80044000" : dws += ": The first argument is invalid"
-      CASE "80044001" : dws += ": The second argument is invalid"
-      CASE "80044002" : dws += ": The third argument is invalid"
-      CASE "80044003" : dws += ": The fourth argument is invalid"
-      CASE "80044004" : dws += ": The fifth argument is invalid"
-      CASE "800CCE05" : dws += ": The requested body part was not found in this message"
-      CASE "800CCE1D" : dws += ": The content encoding type is invalid"
-      CASE ELSE
-         DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, dwsMsg AS DWSTRING
-         cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
-                 FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
-                 NULL, m_Result, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
-                 cast(LPWSTR, @pBuffer), 0, NULL)
-         IF cbLen THEN
-            dwsMsg = *pBuffer
-            LocalFree pBuffer
-         END IF
-         IF m_Result = 0 THEN
-            dws = dwsMsg
-         ELSE
-            dws += " " & dwsMsg
-         END IF
-   END SELECT
-   RETURN dws
+   DIM pErrorInfo AS IErrorInfo PTR, dwsInfo AS DWSTRING
+   DIM hr AS HRESULT = ..GetErrorInfo(0, @pErrorInfo)
+   IF hr <> S_OK THEN RETURN ""
+   DIM bstrDescription AS AFX_BSTR
+   hr = pErrorInfo->lpvtbl->GetDescription(pErrorInfo, @bstrDescription)
+   IF hr = S_OK THEN
+      dwsInfo = *bstrDescription
+      SysFreeString bstrDescription
+      AfxSafeRelease(pErrorInfo)
+   END IF
+   RETURN dwsInfo
 END FUNCTION
+' ========================================================================================
 
 ' ========================================================================================
 ' Sets the value of the specified property.
