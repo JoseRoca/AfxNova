@@ -36,6 +36,44 @@ Delete List
 
 ---
 
+# DVarList
+
+`DWStrList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data.
+
+#### Usage example:
+
+```
+' // Build the linked list
+DIM List AS DVarList PTR = NEW DVarList
+List->Add("Result 1")
+List->Add("Result 2")
+List->Add("Result 3")
+List->Insert(1, "New string")
+List->Replace(2, "Replaced string")
+
+' // Retrieve and print the results
+FOR i AS LONG = 1 TO List->Count
+   PRINT List->Item(i)
+NEXT
+
+' // Delete the list
+Delete List
+```
+---
+
+## Methods
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Add](#add2) | Appends an item to the list. |
+| [Clear](#clear2) | Empties the entire list. |
+| [Count](#count2) | Returns the number of items in the list. |
+| [Insert](#insert2) | Inserts an item at the specific index. |
+| [Item](#item2) | Retrieves the item at the specified index. |
+| [Remove](#remove2) | Removes the specified item from the list. |
+
+---
+
 ## <a name="add"></a>Add (DWStrList)
 
 Appends a string to the list.
@@ -128,44 +166,6 @@ FUNCTION Remove (BYVAL idx AS LONG) AS BOOLEAN
 #### Return value
 
 If the method succeeds, it returns TRUE; otherwise, FALSE.
-
----
-
-# DVarList
-
-`DWStrList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data.
-
-#### Usage example:
-
-```
-' // Build the linked list
-DIM List AS DVarList PTR = NEW DVarList
-List->Add("Result 1")
-List->Add("Result 2")
-List->Add("Result 3")
-List->Insert(1, "New string")
-List->Replace(2, "Replaced string")
-
-' // Retrieve and print the results
-FOR i AS LONG = 1 TO List->Count
-   PRINT List->Item(i)
-NEXT
-
-' // Delete the list
-Delete List
-```
----
-
-## Methods
-
-| Name       | Description |
-| ---------- | ----------- |
-| [Add](#add2) | Appends an item to the list. |
-| [Clear](#clear2) | Empties the entire list. |
-| [Count](#count2) | Returns the number of items in the list. |
-| [Insert](#insert2) | Inserts an item at the specific index. |
-| [Item](#item2) | Retrieves the item at the specified index. |
-| [Remove](#remove2) | Removes the specified item from the list. |
 
 ---
 
