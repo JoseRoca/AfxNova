@@ -38,7 +38,7 @@ Delete List
 
 # DVarList
 
-`DWStrList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data.
+`DVarList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data.
 
 #### Usage example:
 
