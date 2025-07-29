@@ -4,6 +4,7 @@
 
 #### Usage example:
 
+```
 ' // Build the linked list
 DIM List AS DWStrList PTR = NEW DWStrList
 List->Add("Result 1")
@@ -19,7 +20,7 @@ NEXT
 
 ' // Delete the list
 Delete List
-
+```
 ---
 
 ## Methods
