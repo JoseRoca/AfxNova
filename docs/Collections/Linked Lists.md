@@ -113,7 +113,6 @@ FUNCTION Item (BYVAL idx AS LONG) AS BOOLEAN
 If the method succeeds, it returns TRUE; otherwise, FALSE.
 
 ---
----
 
 ## <a name="remove"></a>Remove (DWStrList)
 
