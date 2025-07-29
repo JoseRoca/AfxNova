@@ -94,7 +94,6 @@ FUNCTION Insert (BYVAL idx AS LONG) AS BOOLEAN
 If the method succeeds, it returns TRUE; otherwise, FALSE.
 
 ---
----
 
 ## <a name="item"></a>Item (DWStrList)
 
