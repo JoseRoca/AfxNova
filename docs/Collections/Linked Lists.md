@@ -1,6 +1,6 @@
 # DWStrList
 
-`DWStrList`implements an indexed double-linked list for the `DWSTRING` (Unicode dynamic string) data type
+`DWStrList`implements an indexed double-linked list for the `DWSTRING` (Unicode dynamic string) data type. `DWStrList`has not a constructor, so it has to be created with the `NEW`keyword and freed with `DELETE`. 
 
 #### Usage example:
 
@@ -38,7 +38,7 @@ Delete List
 
 # DVarList
 
-`DVarList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data.
+`DVarList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data. `DVarList`has not a constructor, so it has to be created with the `NEW`keyword and freed with `DELETE`. 
 
 #### Usage example:
 
