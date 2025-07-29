@@ -2248,5 +2248,170 @@ END FUNCTION
 
 #endif
 
+
+' ########################################################################################
+'                                      LINKED LIST
+' ########################################################################################
+
+' Usage example:
+' // Build the linked list
+' DIM List AS DWStrList PTR = NEW DWStrList
+' List->Add("Result 1")
+' List->Add("Result 2")
+' List->Add("Result 3")
+' List->Insert(1, "New string")
+' List->Replace(2, "Replaced string")
+' // Retrieve and print the results
+' FOR i AS LONG = 1 TO List->Count
+'    PRINT List->Item(i)
+' NEXT
+' // Delete the list
+' Delete List
+
+TYPE DWStrNode
+   dws AS DWSTRING
+   pNext AS DWStrNode PTR
+   pPrev AS DWStrNode PTR
+   DECLARE DESTRUCTOR
+END TYPE
+
+DESTRUCTOR DWStrNode
+'   OutputDebugStringW "DWStrNode destructor"
+END DESTRUCTOR
+
+TYPE DWStrList
+   head AS DWStrNode PTR
+   tail AS DWStrNode PTR
+   nodes AS LONG ' number of nodes
+   DIM rgIdx(ANY) AS DWStrNode PTR ' array for indexed access
+   DECLARE DESTRUCTOR
+   DECLARE FUNCTION Add (BYREF dws AS DWSTRING) AS LONG
+   DECLARE FUNCTION Count () AS LONG
+   DECLARE FUNCTION Item (BYVAL idx AS LONG) AS DWSTRING
+   DECLARE FUNCTION Remove (BYVAL idx AS LONG) AS BOOLEAN
+   DECLARE FUNCTION Insert (BYVAL idx AS LONG, BYREF dws AS DWSTRING) AS BOOLEAN
+   DECLARE FUNCTION Replace (BYVAL idx AS LONG, BYREF dws AS DWSTRING) AS BOOLEAN
+   DECLARE SUB Clear
+END TYPE
+
+PRIVATE DESTRUCTOR DWStrList
+'   OutputDebugStringW "DWStrList destructor"
+   ' // Delete all the nodes
+   FOR i AS LONG = LBOUND(rgIdx) TO UBOUND(rgIdx)
+      Delete rgIdx(i)
+   NEXT
+   ' // Erase array of indexes
+   ERASE rgIdx
+END DESTRUCTOR
+
+PRIVATE SUB DWStrList.Clear
+'   OutputDebugStringW "DWStrList Clear"
+   FOR i AS LONG = LBOUND(rgIdx) TO UBOUND(rgIdx)
+      Delete rgIdx(i)
+   NEXT
+   ERASE rgIdx
+   head = NULL
+   tail = NULL
+   nodes = 0
+END SUB
+
+   ' Add a new DWSTRING to the list
+PRIVATE FUNCTION DWStrList.Add (BYREF dws AS DWSTRING) AS LONG
+   DIM newNode AS DWStrNode PTR = NEW DWStrNode
+   newNode->dws = dws
+   newNode->pNext = NULL
+   newNode->pPrev = tail ' Link new node to the current tail
+   IF tail <> NULL THEN
+      tail->pNext = newNode
+   ELSE
+      head = newNode
+   END IF
+   tail = newNode
+   ' Update rgIdx
+   nodes += 1
+   REDIM PRESERVE rgIdx(nodes - 1)
+   rgIdx(nodes - 1) = newNode
+   RETURN nodes
+END FUNCTION
+
+' Get the number of nodes
+PRIVATE FUNCTION DWStrList.Count () AS LONG
+   RETURN nodes
+END FUNCTION
+
+PRIVATE FUNCTION DWStrList.Item (BYVAL idx AS LONG) AS DWSTRING
+   idx -= 1   ' make it one-based
+   IF idx >= 0 AND idx < nodes THEN
+      RETURN rgIdx(idx)->dws
+   END IF
+   RETURN ""
+END FUNCTION
+
+' Remove a node by index
+PRIVATE FUNCTION DWStrList.Remove (BYVAL idx AS LONG) AS BOOLEAN
+   idx -= 1   ' make it one-based
+   IF idx < 0 OR idx >= nodes THEN RETURN FALSE ' Prevent out-of-bounds deletion
+   DIM current AS DWStrNode PTR = rgIdx(idx) ' Get node from rgIdx array
+   IF current = NULL THEN RETURN FALSE ' Invalid rgIdx
+   ' Adjust pointers for linked list integrity
+   IF current->pPrev <> NULL THEN
+      current->pPrev->pNext = current->pNext
+   ELSE
+      head = current->pNext ' Update head if first node is removed
+   END IF
+   IF current->pNext <> NULL THEN
+      current->pNext->pPrev = current->pPrev
+   ELSE
+      tail = current->pPrev ' Update tail if last node is removed
+   END IF
+   ' Remove from rgIdx array
+   FOR i AS INTEGER = idx TO nodes - 2
+      rgIdx(i) = rgIdx(i + 1) ' Shift elements down
+   NEXT
+   REDIM PRESERVE rgIdx(nodes - 2) ' Resize rgIdx array
+   nodes -= 1
+   DELETE current ' Free memory
+   RETURN TRUE
+END FUNCTION
+
+PRIVATE FUNCTION DWStrList.Replace (BYVAL idx AS LONG, BYREF dws AS DWSTRING) AS BOOLEAN
+   idx -= 1   ' make it one-based
+   IF idx >= 0 AND idx < nodes THEN
+      rgIdx(idx)->dws = dws
+      RETURN TRUE
+   END IF
+   RETURN FALSE
+END FUNCTION
+
+PRIVATE FUNCTION DWStrList.Insert (BYVAL idx AS LONG, BYREF dws AS DWSTRING) AS BOOLEAN
+   idx -= 1
+   IF idx < 0 OR idx > nodes THEN RETURN FALSE ' Out of bounds
+   DIM newNode AS DWStrNode PTR = NEW DWStrNode
+   newNode->dws = dws
+   IF idx = nodes THEN
+      this.Add(dws) ' Insert at tail behaves like Add
+      RETURN TRUE
+   END IF
+   DIM current AS DWStrNode PTR = rgIdx(idx)
+   newNode->pNext = current
+   newNode->pPrev = current->pPrev
+   IF current->pPrev <> NULL THEN
+      current->pPrev->pNext = newNode
+   ELSE
+      head = newNode ' Inserting at head
+   END IF
+   current->pPrev = newNode
+   ' Update rgIdx array
+   REDIM PRESERVE rgIdx(nodes)
+   FOR i AS LONG = nodes TO idx + 1 STEP -1
+      rgIdx(i) = rgIdx(i - 1)
+   NEXT
+   rgIdx(idx) = newNode
+   nodes += 1
+   RETURN TRUE
+END FUNCTION
+' ########################################################################################
+
+
 END NAMESPACE
 
