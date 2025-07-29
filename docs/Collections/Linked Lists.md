@@ -130,3 +130,136 @@ FUNCTION Remove (BYVAL idx AS LONG) AS BOOLEAN
 If the method succeeds, it returns TRUE; otherwise, FALSE.
 
 ---
+
+# DVarList
+
+`DWStrList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data.
+
+#### Usage example:
+
+```
+' // Build the linked list
+DIM List AS DVarList PTR = NEW DVarList
+List->Add("Result 1")
+List->Add("Result 2")
+List->Add("Result 3")
+List->Insert(1, "New string")
+List->Replace(2, "Replaced string")
+
+' // Retrieve and print the results
+FOR i AS LONG = 1 TO List->Count
+   PRINT List->Item(i)
+NEXT
+
+' // Delete the list
+Delete List
+```
+---
+
+## Methods
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Add](#add2) | Appends an item to the list. |
+| [Clear](#clear2) | Empties the entire list. |
+| [Count](#count2) | Returns the number of items in the list. |
+| [Insert](#insert2) | Inserts an item at the specific index. |
+| [Item](#item2) | Retrieves the item at the specified index. |
+| [Remove](#remove2) | Removes the specified item from the list. |
+
+---
+
+## <a name="add2"></a>Add (DVarList)
+
+Appends a VARIANT to the list.
+
+```
+FUNCTION Add (BYREF dv AS DVARIANT) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dv* | The VARIANT to append. |
+
+#### Return value
+
+Returns the number of items in the list.
+
+---
+
+## <a name="clear2"></a>Clear (DVarList)
+
+Empties the entire list.
+
+```
+SUB Clear
+```
+---
+
+## <a name="count2"></a>Count (DVarList)
+
+Returns the number of items in the list.
+
+```
+FUNCTION Count () AS LONG
+```
+
+#### Return value
+
+Returns the number of items in the list.
+
+---
+
+## <a name="insert2"></a>Insert (DVarList)
+
+Inserts an item at the specific index.
+
+```
+FUNCTION Insert (BYVAL idx AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *idx* | The one-based index where to insert the item. |
+
+#### Return value
+
+If the method succeeds, it returns TRUE; otherwise, FALSE.
+
+---
+
+## <a name="item2"></a>Item (DVarList)
+
+Retrieves the item at the specified index.
+
+```
+FUNCTION Item (BYVAL idx AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *idx* | The one-based index of the item to retrieve. |
+
+#### Return value
+
+If the method succeeds, it returns TRUE; otherwise, FALSE.
+
+---
+
+## <a name="remove2"></a>Remove (DVarList)
+
+Removes the specified item from the list. Indexes are one-based.
+
+```
+FUNCTION Remove (BYVAL idx AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *idx* | The one-based index of the item to remove. |
+
+#### Return value
+
+If the method succeeds, it returns TRUE; otherwise, FALSE.
+
+---
