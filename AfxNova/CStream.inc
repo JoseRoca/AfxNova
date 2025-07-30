@@ -2,7 +2,7 @@
 ' Platform: Microsoft Windows
 ' Filename: CStream.inc
 ' Purpose:  Classes to work with streams.
-' Compiler: Wrapper class for Microsoft WinHTTP Services, version 5.1
+' Compiler: FreeBasic 32 & 64-bit
 ' Copyright (c) 2025 José Roca
 '
 ' License: Distributed under the MIT license.
