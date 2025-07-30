@@ -4,7 +4,9 @@
 
 When the class is destroyed, the array descriptor and all of the data in the array is destroyed. If objects are stored in the array, **IUnknown_Release** is called on each object in the array. Safe arrays of variants will have **VariantClear** called on each member and safe arrays of **BSTR** will have **SysFreeString** called on each element. **IRecordInfo.RecordClear** will be called to release object references and other values of a record without deallocating the record.
 
-**Include file**: DSafeArray.inc.
+**Include file**: AfxNova/DSafeArray.inc.
+
+---
 
 # Structures and VARTYPE
 
@@ -13,6 +15,8 @@ When the class is destroyed, the array descriptor and all of the data in the arr
 | [SAFEARRAY](#safearray) | Represents a safe array. |
 | [SAFEARRAYBOUND](#safearraybound) | Represents the bounds of one dimension of the array. |
 | [VARTYPE](#vartype) | Safe array VARIANT type. |
+
+---
 
 # Constructors
 
@@ -23,12 +27,16 @@ When the class is destroyed, the array descriptor and all of the data in the arr
 | [Constructor (SAFEARRAY PTR)](#constructor3) | Creates a DSAFEARRAY from a safe array. |
 | [Constructor (VARIANT PTR)](#constructor4) | Creates a DSAFEARRAY from a VARIANT of type VT_ARRAY. |
 
+---
+
 # Operators
 
 | Name       | Description |
 | ---------- | ----------- |
 | [Operator \*](#operator1) | Returns a pointer to the safe array descriptor. |
 | [Operator LET](#operator2) | Assigns a DSAFEARRAY, a safe array or a VARIANT. |
+
+---
 
 # Methods
 
@@ -79,6 +87,8 @@ When the class is destroyed, the array descriptor and all of the data in the arr
 | [UBound](#ubound) | Returns the upper bound for any dimension of a safe array. |
 | [UnaccessData](#unaccessdata) | Decrements the lock count of an array, and invalidates the pointer retrieved by AccessData. |
 
+---
+
 # Helper Procedures
 
 | Name       | Description |
@@ -86,7 +96,9 @@ When the class is destroyed, the array descriptor and all of the data in the arr
 | [AfxStrJoin](#AfxStrJoin) | Returns a string consisting of all of the strings in an array, each separated by a delimiter. |
 | [AfxStrSplit](#AfxStrSplit) | Splits a string into tokens. |
 
-### <a name="safearray"></a>SAFEARRAY Structure
+---
+
+## <a name="safearray"></a>SAFEARRAY Structure
 
 Represents a safe array.
 
@@ -139,7 +151,9 @@ All public static members of the SAFEARRAY data type are thread safe. Instance m
 
 For example, consider an application that uses the SafeArrayLock and SafeArrayUnlock functions. If these functions are called concurrently from different threads on the same SAFEARRAY data type instance, an inconsistent lock count may be created. This will eventually cause the SafeArrayUnlock function to return E_UNEXPECTED. You can prevent this by providing your own synchronization code.
 
-### <a name="safearraybound"></a>SAFEARRAYBOUND Structure
+---
+
+## <a name="safearraybound"></a>SAFEARRAYBOUND Structure
 
 Represents the bounds of one dimension of the array. The lower bound of the dimension is represented by **lLbound**, and **cElements** represents the number of elements in the dimension. The structure is defined as follows:
 
@@ -182,7 +196,9 @@ The base type of the array (the VARTYPE of each element of the array). The VARTY
 | VT_UNKNOWN | IUnknown pointer | IUnknown PTR | "UNKNOWN" |
 | VT_DISPATCH | IDispatch pointer | IDispatch PTR | "DISPATCH" |
 
-### <a name="constructor1"></a>Constructor (SAFEARRAYBOUND)
+---
+
+## <a name="constructor1"></a>Constructor (SAFEARRAYBOUND)
 
 Creates a DSAFEARRAY.
 
@@ -252,8 +268,9 @@ DIM dsa AS DSAFEARRAY = DSAFEARRAY(VT_VARIANT)
 ' // One-dimensional array of VT_BSTR with 5 elements and a lower-bound of 1
 DIM dsa AS DSAFEARRAY = DSAFEARRAY(VT_BSTR, 5, 1)
 ```
+---
 
-### <a name="constructor2"></a>Constructor (SAFEARRAYBOUND)
+## <a name="constructor2"></a>Constructor (SAFEARRAYBOUND)
 
 Creates a DSAFEARRAY from another DSAFEARRAY.
 
@@ -265,7 +282,9 @@ CONSTRUCTOR DSAFEARRAY (BYREF dsa AS DSAFEARRAY)
 | ---------- | ----------- |
 | *dsa* | A DSAFEARRAY object. |
 
-### <a name="constructor3"></a>CConstructor (SAFEARRAY PTR)
+---
+
+## <a name="constructor3"></a>CConstructor (SAFEARRAY PTR)
 
 Creates a DSAFEARRAY from a safe array.
 ```
@@ -278,7 +297,9 @@ CONSTRUCTOR DSAFEARRAY (BYVAL psa AS SAFEARRAY PTR, BYVAL fAttach AS BOOLEAN)
 | *psa* | Pointer to a safe array. |
 | *fAttach* | If TRUE, the safe array is attached, else a copy is made. |
 
-### <a name="constructor4"></a>Constructor (VARIANT PTR)
+---
+
+## <a name="constructor4"></a>Constructor (VARIANT PTR)
 
 Creates a DSAFEARRAY from a Variant of type VT_ARRAY.
 
@@ -290,7 +311,9 @@ CONSTRUCTOR DSAFEARRAY (BYVAL pvar AS VARIANT PTR)
 | ---------- | ----------- |
 | *pvar* | Pointer to the VARIANT. |
 
-### <a name="operator1"></a>Operator * (GetPtr)
+---
+
+## <a name="operator1"></a>Operator * (GetPtr)
 
 Returns a pointer to the underlying safe array descriptor.
 
@@ -302,7 +325,9 @@ OPERATOR * () AS ANY PTR
 
 You can also call the **GetPtr** method.
 
-### <a name="operator2"></a>Operator LET ( = )
+---
+
+## <a name="operator2"></a>Operator LET ( = )
 
 Assigns a DSAFEARRAY to another DSAFEARRAY.<br>
 Assigns a safe array to a DSAFEARRAY.<br>
@@ -320,7 +345,9 @@ OPERATOR LET (BYVAL pvar AS VARIANT PTR)
 | *psa* | A safe array pointer. |
 | *pvar* | Pointer to a VARIANT. |
 
-### <a name="afxstrjoin"></a>AfxStrJoin
+---
+
+## <a name="afxstrjoin"></a>AfxStrJoin
 
 Returns a string consisting of all of the strings in an array, each separated by a delimiter. If the delimiter is a null (zero-length) string then no separators are inserted between the string sections. If the delimiter expression is the 3-byte value of "," which may be expressed in your source code as the string literal """,""" or as Chr(34,44,34) then a leading and trailing double-quote is added to each string section. This ensures that the returned string contains standard comma-delimited quoted fields that can be easily parsed.
 
@@ -347,8 +374,9 @@ dsa.PutStr(3, "Three")
 DIM dws AS DWSTRING = AfxStrJoin(dsa, ",")
 PRINT dws   ' ouput: One,Two,Three
 ```
+---
 
-### <a name="afxstrsplit"></a>AfxStrSplit
+## <a name="afxstrsplit"></a>AfxStrSplit
 
 Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters.
 
@@ -374,8 +402,9 @@ FOR i AS LONG = dsa.LBound TO dsa.UBound
   PRINT dsa.GetStr(i)
 NEXT
 ```
+---
 
-### <a name="accessdata"></a>AccessData
+## <a name="accessdata"></a>AccessData
 
 Retrieves a pointer to the array data and increments the lock count of an array.
 
@@ -387,7 +416,9 @@ FUNCTION AccessData () AS ANY PTR
 
 IF it succeeds, it returns a pointer to the array data. If it fails, it returns a null pointer.
 
-### <a name="append"></a>Append
+---
+
+## <a name="append"></a>Append
 
 Appends a value to the end of the one-dimensional safe array.
 
@@ -463,7 +494,9 @@ S_OK (0) on success or an HREUSLT code on failure.
 | E_OUTOFMEMORY | Memory could not be allocated for the element. |
 | E_FAIL | Failure. The array descriptor is null. |
 
-### <a name="attach"></a>Attach
+---
+
+## <a name="attach"></a>Attach
 
 Attaches a safe array to a DSAFEARRAY object.
 
@@ -475,7 +508,9 @@ FUNCTION Attach (BYVAL psaSrc AS SAFEARRAY PTR) AS HRESULT
 
 S_OK (0) on success or an HREUSLT code.
 
-### <a name="destroydata"></a>DestroyData / Clear / Erase / Reset
+---
+
+## <a name="destroydata"></a>DestroyData / Clear / Erase / Reset
 
 Destroys all the data in a safe array.
 
@@ -491,7 +526,9 @@ S_OK (0) on success or an HREUSLT code  on failure.
 | ---------- | ----------- |
 | DISP_E_ARRAYISLOCKED | The array is locked. |
 
-### <a name="copy"></a>Copy
+---
+
+## <a name="copy"></a>Copy
 
 Creates a copy of the safe array.
 
@@ -503,7 +540,9 @@ FUNCTION Copy () AS SAFEARRAY PTR
 
 Pointer of the new array descriptor. You must free this pointer calling the API function **SafeArrayDestroy**.
 
-### <a name="copydata"></a>CopyData
+---
+
+## <a name="copydata"></a>CopyData
 
 Copies the source array to the target array after releasing any resources in the target array. This is similar to **Copy**, except that the target array has to be set up by the caller. The target is not allocated or reallocated.
 
@@ -522,7 +561,9 @@ S_OK (0) on success or an HREUSLT code.
 | E_INVALIDARG | The dimensions or the number of dimensions don't match. |
 | E_OUTOFMEMORY | Insufficient memory to create the copy. |
 
-### <a name="copyfrom"></a>CopyFrom
+---
+
+## <a name="copyfrom"></a>CopyFrom
 
 Copies the contents of the passed safe array.
 
@@ -537,8 +578,9 @@ S_OK (0) on success or an HREUSLT code on failure.
 
 **CopyFrom** calls the string or variant manipulation functions if the array to copy contains either of these data types. If the array being copied contains object references, the reference counts for the objects are incremented.
 
+---
 
-### <a name="copyfromvariant"></a>CopyFromVariant
+## <a name="copyfromvariant"></a>CopyFromVariant
 
 Copies the contents of a VARIANT of type VT_ARRAY to the object. The VARIANT remains unaltered.
 
@@ -555,7 +597,9 @@ S_OK (0) on success or an HREUSLT code on failure.
 
 **CopyFromVariant** calls the string or variant manipulation functions if the array to copy contains either of these data types. If the array being copied contains object references, the reference counts for the objects are incremented.
 
-### <a name="copytovariant"></a>CopyToVariant
+---
+
+## <a name="copytovariant"></a>CopyToVariant
 
 Copies the safe array to the passed variant.
 
@@ -568,7 +612,9 @@ FUNCTION CopyToVariant (BYVAL pvar AS VARIANT PTR) AS HRESULT
 
 S_OK (0) on success or an HREUSLT code on failure.
 
-### <a name="count"></a>Count
+---
+
+## <a name="count"></a>Count
 
 Returns the number of elements in the specified dimension of the array.
 
@@ -582,7 +628,9 @@ The optional nDim parameter is the array dimension for which to get the number o
 
 S_OK (0) on success or an HREUSLT code on failure.
 
-### <a name="create"></a>Create
+---
+
+## <a name="create"></a>Create
 
 Creates a safe array from the given VARTYPE, number of dimensions and bounds.
 
@@ -629,7 +677,9 @@ FUNCTION Create (BYVAL vt AS VARTYPE, BYVAL cElements1 AS ULONG, BYVAL lLBound1 
 
 S_OK (0) on success or an HREUSLT code on failure.
 
-### <a name="createex"></a>CreateEx
+---
+
+## <a name="createex"></a>CreateEx
 
 Creates a safe array from the given VARTYPE, number of dimensions and bounds.
 
@@ -681,7 +731,9 @@ FUNCTION CreateEx (BYVAL vt AS VARTYPE, BYVAL cElements1 AS ULONG, BYVAL lLBound
 
 S_OK (0) on success or an HRESULT code on failure.
 
-### <a name="createvector"></a>CreateVector
+---
+
+## <a name="createvector"></a>CreateVector
 
 Creates a fixed size safe array from the given VARTYPE, lower bound and number of elements.
 
@@ -705,7 +757,9 @@ S_OK (0) on success or an HRESULT code on failure.
 
 A safe array created with CreateVector is allocated as a single block of memory. Both the SafeArray descriptor and the array data block are allocated contiguously in one allocation, which speeds up array allocation. However, a user can allocate the descriptor and data area separately using the **SafeArrayAllocDescriptor** and **SafeArrayAllocData*** calls.
 
-### <a name="createvectorex"></a>CreateVectorEx
+---
+
+## <a name="createvectorex"></a>CreateVectorEx
 
 Creates a fixed size safe array from the given VARTYPE, lower bound and number of elements.
 
@@ -725,7 +779,9 @@ FUNCTION CreateVectorEx (BYVAL vt AS VARTYPE, BYVAL cElements AS ULONG, BYVAL lL
 
 S_OK (0) on success or an HRESULT code on failure.
 
-### <a name="destroy"></a>Destroy
+---
+
+## <a name="destroy"></a>Destroy
 
 Destroys an existing array descriptor and all of the data in the array. If objects are stored in the array, Release is called on each object in the array.
 
@@ -742,7 +798,9 @@ S_OK (0) on success or an HRESULT code on failure.
 | E_INVALIDARG | The dimensions or the number of dimensions don't match. |
 | DISP_E_ARRAYISLOCKED | The array is currently locked. |
 
-### <a name="detach"></a>Detach
+---
+
+## <a name="detach"></a>Detach
 
 Detaches the safe array descriptor from the DSAFEARRAY.
 
@@ -758,7 +816,9 @@ Returns a pointer to a SAFEARRAY descriptor.
 
 The caller takes ownership of it and must destroy it when no longer needed.
 
-### <a name="elemsize"></a>ElemSize
+---
+
+## <a name="elemsize"></a>ElemSize
 
 Returns the size of an element.
 
@@ -770,15 +830,18 @@ FUNCTION ElemSize () AS UINT
 
 Returns the size (in bytes) of an element in a safe array. Does not include size of pointed-to data.
 
-### <a name="features"></a>Features / Flags
+---
+
+## <a name="features"></a>Features / Flags
 
 Returns the flags used by the safe array. This is the same that the **Flags** method.
 
 ```
 FUNCTION Features () AS USHORT
 ```
+---
 
-### <a name="find"></a>Find
+## <a name="find"></a>Find
 
 Scans the array to search for the specified string.
 
@@ -805,8 +868,9 @@ dsa.InsertStr(2, "12345.67")
 DIM nPos AS LONG = dsa.Find("Test string 2")
 PRINT nPos
 ```
+---
 
-### <a name="get"></a>Get / GetStr / GetVar
+## <a name="get"></a>Get / GetStr / GetVar
 
 Retrieves a single element of the array.
 
@@ -951,7 +1015,9 @@ The string or variant element.
 
 This method calls **SafearrayLock** and **SafearrayUnlock** automatically, before and after retrieving the element. The caller must provide a storage area of the correct size to receive the data. If the data element is a string, object, or variant, the function copies the element in the correct way.
 
-### <a name="getiid"></a>GetIID
+---
+
+## <a name="getiid"></a>GetIID
 
 Returns the GUID of the interface contained within a given safe array.
 
@@ -963,7 +1029,9 @@ FUNCTION GetIID () AS GUID
 
 The GUID of the interface, on success, or a null guid on failure.
 
-### <a name="getrecordinfo"></a>GetRecordInfo
+---
+
+## <a name="getrecordinfo"></a>GetRecordInfo
 
 Retrieves the IRecordInfo interface of a UDT contained in a given safe array.
 
@@ -971,15 +1039,18 @@ Retrieves the IRecordInfo interface of a UDT contained in a given safe array.
 FUNCTION GetRecordInfo () AS IRecordInfo PTR
 ```
 
-### <a name="gettype"></a>GetType
+---
+
+## <a name="gettype"></a>GetType
 
 Returns the VARTYPE stored in the given safe array.
 
 ```
 FUNCTION GetType () AS VARTYPE
 ```
+---
 
-### <a name="insert"></a>Insert
+## <a name="insert"></a>Insert
 
 Inserts a value at the specified position of the safe array.
 
@@ -1050,8 +1121,9 @@ print dvOut
 dsa.Get(3, dvOut)
 print dvOut
 ```
+---
 
-### <a name="isresizable"></a>IsResizable
+## <a name="isresizable"></a>IsResizable
 
 Tests if the safe array can be resized.
 
@@ -1063,7 +1135,9 @@ FUNCTION IsResizable () AS BOOLEAN
 
 TRUE if the array can be resized; FALSE, otherwise.
 
-### <a name="lbound"></a>LBound
+---
+
+## <a name="lbound"></a>LBound
 
 Returns the lower bound for any dimension of a safe array.
 
@@ -1075,7 +1149,9 @@ FUNCTION LBound (BYVAL nDim AS UINT = 1) AS LONG
 | ---------- | ----------- |
 | *nDim* | Optional. The array dimension for which to get the lower bound. You don't need to pass this parameter if it is a one-dimensional array. |
 
-### <a name="ubound"></a>UBound
+---
+
+## <a name="ubound"></a>UBound
 
 Returns the upper bound for any dimension of a safe array.
 
@@ -1087,15 +1163,18 @@ FUNCTION UBound (BYVAL nDim AS UINT = 1) AS LONG
 | ---------- | ----------- |
 | *nDim* | Optional. The array dimension for which to get the upper bound. You don't need to pass this parameter if it is a one-dimensional array. |
 
-### <a name="lockscount"></a>LocksCount
+---
+
+## <a name="lockscount"></a>LocksCount
 
 Returns the number of times the array has been locked without the corresponding unlock.
 
 ```
 FUNCTION LocksCount () AS UINT
 ```
+---
 
-### <a name="movefromvariant"></a>MoveFromVariant
+## <a name="movefromvariant"></a>MoveFromVariant
 
 Transfers ownership of the safe array contained in the variant parameter to this object. The variant is then changed to VT_EMPTY.
 
@@ -1111,7 +1190,9 @@ FUNCTION MoveFromVariant (BYVAL pvar AS VARIANT PTR) AS HRESULT
 
 S_OK (0) on success or an HRESULT code on failure.
 
-### <a name="movetovariant"></a>MoveToVariant
+---
+
+## <a name="movetovariant"></a>MoveToVariant
 
 Transfers ownership of the safe array to a variant and detaches it from the class.
 
@@ -1146,15 +1227,18 @@ VariantClear @v
 
 S_OK (0) on success or an HRESULT code on failure.
 
-### <a name="numdims"></a>NumDims
+---
+
+## <a name="numdims"></a>NumDims
 
 Returns the number of dimensions in the array.
 
 ```
 FUNCTION NumDims () AS UINT
 ```
+---
 
-### <a name="ptrofindex"></a>PtrOfIndex
+## <a name="ptrofindex"></a>PtrOfIndex
 
 Returns a pointer to an array element.
 
@@ -1189,7 +1273,9 @@ FUNCTION PtrOfIndex (BYVAL cElem AS LONG, BYVAL cDim AS LONG) AS HRESULT
 | *cElem* | Index of the element. |
 | *cDim* | Dimension number of the array. |
 
-### <a name="put"></a>Put
+---
+
+## <a name="put"></a>Put
 
 Stores the data element at a given location in the array.
 
@@ -1260,7 +1346,9 @@ This function automatically calls **SAfeArrayLock** and **SafeArrayUnlock**  bef
 
 Multiple locks can be on an array. Elements can be put into an array while the array is locked by other operations.
 
-### <a name="redim"></a>Redim
+---
+
+## <a name="redim"></a>Redim
 
 Changes the right-most (least significant) bound of a safe array.
 
@@ -1335,7 +1423,9 @@ S_OK (0) on success or an HRESULT code on failure.
 | E_INVALIDARG | Invalid safe array descriptor. |
 | E_FAIL | Failure. The array descriptor is null. |
 
-### <a name="remove"></a>Remove
+---
+
+## <a name="remove"></a>Remove
 
 Removes the specified array element.
 
@@ -1360,7 +1450,9 @@ S_OK (0) on success or an HRESULT code on failure.
 | E_OUTOFMEMORY | Memory could not be allocated for the element. |
 | E_FAIL | Failure. The array descriptor is null. |
 
-### <a name="setiid"></a>SetIID
+---
+
+## <a name="setiid"></a>SetIID
 
 Sets the IID (a GUID) of the interface contained within a given safe array.
 
@@ -1381,7 +1473,9 @@ S_OK (0) on success or an HRESULT code on failure.
 | E_INVALIDARG | If the array descriptor does not have the FADF_HAVEIID flag set. |
 | E_FAIL | Failure. The array descriptor is null. |
 
-### <a name="setrecordinfo"></a>SetRecordInfo
+---
+
+## <a name="setrecordinfo"></a>SetRecordInfo
 
 Sets the IRecordInfo interface of the UDT contained in a given safe array.
 
@@ -1401,7 +1495,9 @@ S_OK (0) on success or an HRESULT code on failure.
 | E_INVALIDARG | If the array descriptor does not have the FADF_RECORD flag set. |
 | E_FAIL | Failure. The array descriptor is null. |
 
-### <a name="sort"></a>Sort
+---
+
+## <a name="sort"></a>Sort
 
 Sorts a one-dimensional VT_BSTR DSAFEARRAY calling the C **qsort** function.
 
@@ -1442,8 +1538,9 @@ print bsVal
 bsVal = dsa.GetStr(3)
 print bsVal
 ```
+---
 
-### <a name="unaccessdata"></a>UnaccessData
+## <a name="unaccessdata"></a>UnaccessData
 
 Decrements the lock count of an array, and invalidates the pointer retrieved by **AccessData**.
 
@@ -1454,3 +1551,5 @@ FUNCTION UnaccessData () AS HRESULT
 #### Return value
 
 S_OK (0) on success or an HRESULT code on failure.
+
+---
