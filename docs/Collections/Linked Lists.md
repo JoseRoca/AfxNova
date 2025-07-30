@@ -1,6 +1,6 @@
 # DWStrList
 
-`DWStrList`implements an indexed double-linked list for the `DWSTRING` (Unicode dynamic string) data type. `DWStrList`has not a constructor, so it has to be created with the `NEW`keyword and freed with `DELETE`. 
+`DWStrList`implements an indexed doubly-linked list for the `DWSTRING` (Unicode dynamic string) data type. `DWStrList`has not a constructor, so it has to be created with the `NEW`keyword and freed with `DELETE`. 
 
 #### Usage example:
 
