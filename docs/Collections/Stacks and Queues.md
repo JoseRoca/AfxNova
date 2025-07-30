@@ -88,6 +88,7 @@ Returns the number of elements in the collection.
 ```
 FUNCTION Count () AS UINT
 ```
+---
 
 ## <a name="clear"></a>Clear (CStack)
 
