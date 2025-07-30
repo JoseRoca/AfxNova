@@ -2791,46 +2791,186 @@ END FUNCTION
 
 NAMESPACE AfxNova
 
+' // Doubly-linked list
+
+'TYPE DVarNode
+'   dv AS DVARIANT
+'   pNext AS DVarNode PTR
+'   pPrev AS DVarNode PTR
+'   DECLARE DESTRUCTOR
+'END TYPE
+
+'DESTRUCTOR DVarNode
+''   OutputDebugStringW "DVarNode destructor"
+'END DESTRUCTOR
+
+'TYPE DVarList
+'   head AS DVarNode PTR
+'   tail AS DVarNode PTR
+'   nodes AS LONG ' number of nodes
+'   DIM rgIdx(ANY) AS DVarNode PTR ' array for indexed access
+'   DECLARE DESTRUCTOR
+'   DECLARE FUNCTION Add (BYREF dv AS DVARIANT) AS LONG
+'   DECLARE FUNCTION Count () AS LONG
+'   DECLARE FUNCTION Item (BYVAL idx AS LONG) AS DVARIANT
+'   DECLARE FUNCTION Remove (BYVAL idx AS LONG) AS BOOLEAN
+'   DECLARE FUNCTION Insert (BYVAL idx AS LONG, BYREF dws AS DVARIANT) AS BOOLEAN
+'   DECLARE FUNCTION Replace (BYVAL idx AS LONG, BYREF dws AS DVARIANT) AS BOOLEAN
+'   DECLARE SUB Clear
+'END TYPE
+
+'PRIVATE DESTRUCTOR DVarList
+''   OutputDebugStringW "DVarList destructor"
+'   ' // Delete all the nodes
+'   FOR i AS LONG = LBOUND(rgIdx) TO UBOUND(rgIdx)
+'      Delete rgIdx(i)
+'   NEXT
+'   ' // Erase array of indexes
+'   ERASE rgIdx
+'END DESTRUCTOR
+
+'PRIVATE SUB DVarList.Clear
+''   OutputDebugStringW "DVarList.Clear"
+'   FOR i AS LONG = LBOUND(rgIdx) TO UBOUND(rgIdx)
+'      Delete rgIdx(i)
+'   NEXT
+'   ERASE rgIdx
+'   head = NULL
+'   tail = NULL
+'   nodes = 0
+'END SUB
+
+'PRIVATE FUNCTION DVarList.Add (BYREF dv AS DVARIANT) AS LONG
+'   DIM newNode AS DVarNode PTR = NEW DVarNode
+'   newNode->dv = dv
+'   newNode->pNext = NULL
+'   newNode->pPrev = tail
+'   IF tail <> NULL THEN
+'      tail->pNext = newNode
+'   ELSE
+'      head = newNode
+'   END IF
+'   tail = newNode
+'   nodes += 1
+'   REDIM PRESERVE rgIdx(nodes - 1)
+'   rgIdx(nodes - 1) = newNode
+'   RETURN nodes
+'END FUNCTION
+
+
+'' Get the number of nodes
+'PRIVATE FUNCTION DVarList.Count () AS LONG
+'   RETURN nodes
+'END FUNCTION
+
+'PRIVATE FUNCTION DVarList.Item (BYVAL idx AS LONG) AS DVARIANT
+'   idx -= 1
+'   IF idx >= 0 AND idx < nodes THEN
+'      RETURN rgIdx(idx)->dv
+'   END IF
+'   RETURN DVARIANT("") ' or empty variant
+'END FUNCTION
+
+'' Remove a node by index
+'PRIVATE FUNCTION DVarList.Remove (BYVAL idx AS LONG) AS BOOLEAN
+'   idx -= 1   ' make it one-based
+'   IF idx < 0 OR idx >= nodes THEN RETURN FALSE ' Prevent out-of-bounds deletion
+'   DIM current AS DVarNode PTR = rgIdx(idx) ' Get node from rgIdx array
+'   IF current = NULL THEN RETURN FALSE ' Invalid rgIdx
+'   ' Adjust pointers for linked list integrity
+'   IF current->pPrev <> NULL THEN
+'      current->pPrev->pNext = current->pNext
+'   ELSE
+'      head = current->pNext ' Update head if first node is removed
+'   END IF
+'   IF current->pNext <> NULL THEN
+'      current->pNext->pPrev = current->pPrev
+'   ELSE
+'      tail = current->pPrev ' Update tail if last node is removed
+'   END IF
+'   ' Remove from rgIdx array
+'   FOR i AS INTEGER = idx TO nodes - 2
+'      rgIdx(i) = rgIdx(i + 1) ' Shift elements down
+'   NEXT
+'   REDIM PRESERVE rgIdx(nodes - 2) ' Resize rgIdx array
+'   nodes -= 1
+'   DELETE current ' Free memory
+'   RETURN TRUE
+'END FUNCTION
+
+'PRIVATE FUNCTION DVarList.Replace (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS BOOLEAN
+'   idx -= 1
+'   IF idx >= 0 AND idx < nodes THEN
+'      rgIdx(idx)->dv = dv
+'      RETURN TRUE
+'   END IF
+'   RETURN FALSE
+'END FUNCTION
+
+
+'PRIVATE FUNCTION DVarList.Insert (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS BOOLEAN
+'   idx -= 1
+'   IF idx < 0 OR idx > nodes THEN RETURN FALSE
+'   DIM newNode AS DVarNode PTR = NEW DVarNode
+'   newNode->dv = dv
+'   IF idx = nodes THEN
+'      this.Add(dv)
+'      RETURN TRUE
+'   END IF
+'   DIM current AS DVarNode PTR = rgIdx(idx)
+'   newNode->pNext = current
+'   newNode->pPrev = current->pPrev
+'   IF current->pPrev <> NULL THEN
+'      current->pPrev->pNext = newNode
+'   ELSE
+'      head = newNode
+'   END IF
+'   current->pPrev = newNode
+'   REDIM PRESERVE rgIdx(nodes)
+'   FOR i AS LONG = nodes TO idx + 1 STEP -1
+'      rgIdx(i) = rgIdx(i - 1)
+'   NEXT
+'   rgIdx(idx) = newNode
+'   nodes += 1
+'   RETURN TRUE
+'END FUNCTION
+
+' // Singly-linked list
+
 TYPE DVarNode
    dv AS DVARIANT
    pNext AS DVarNode PTR
-   pPrev AS DVarNode PTR
    DECLARE DESTRUCTOR
 END TYPE
 
 DESTRUCTOR DVarNode
-'   OutputDebugStringW "DVarNode destructor"
 END DESTRUCTOR
 
 TYPE DVarList
    head AS DVarNode PTR
    tail AS DVarNode PTR
-   nodes AS LONG ' number of nodes
-   DIM rgIdx(ANY) AS DVarNode PTR ' array for indexed access
+   nodes AS LONG
+   DIM rgIdx(ANY) AS DVarNode PTR
    DECLARE DESTRUCTOR
    DECLARE FUNCTION Add (BYREF dv AS DVARIANT) AS LONG
    DECLARE FUNCTION Count () AS LONG
    DECLARE FUNCTION Item (BYVAL idx AS LONG) AS DVARIANT
    DECLARE FUNCTION Remove (BYVAL idx AS LONG) AS BOOLEAN
-   DECLARE FUNCTION Insert (BYVAL idx AS LONG, BYREF dws AS DVARIANT) AS BOOLEAN
-   DECLARE FUNCTION Replace (BYVAL idx AS LONG, BYREF dws AS DVARIANT) AS BOOLEAN
+   DECLARE FUNCTION Insert (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS BOOLEAN
+   DECLARE FUNCTION Replace (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS BOOLEAN
    DECLARE SUB Clear
 END TYPE
 
 PRIVATE DESTRUCTOR DVarList
-'   OutputDebugStringW "DVarList destructor"
-   ' // Delete all the nodes
    FOR i AS LONG = LBOUND(rgIdx) TO UBOUND(rgIdx)
-      Delete rgIdx(i)
+      DELETE rgIdx(i)
    NEXT
-   ' // Erase array of indexes
    ERASE rgIdx
 END DESTRUCTOR
 
 PRIVATE SUB DVarList.Clear
-'   OutputDebugStringW "DVarList.Clear"
    FOR i AS LONG = LBOUND(rgIdx) TO UBOUND(rgIdx)
-      Delete rgIdx(i)
+      DELETE rgIdx(i)
    NEXT
    ERASE rgIdx
    head = NULL
@@ -2842,7 +2982,6 @@ PRIVATE FUNCTION DVarList.Add (BYREF dv AS DVARIANT) AS LONG
    DIM newNode AS DVarNode PTR = NEW DVarNode
    newNode->dv = dv
    newNode->pNext = NULL
-   newNode->pPrev = tail
    IF tail <> NULL THEN
       tail->pNext = newNode
    ELSE
@@ -2855,8 +2994,6 @@ PRIVATE FUNCTION DVarList.Add (BYREF dv AS DVARIANT) AS LONG
    RETURN nodes
 END FUNCTION
 
-
-' Get the number of nodes
 PRIVATE FUNCTION DVarList.Count () AS LONG
    RETURN nodes
 END FUNCTION
@@ -2866,34 +3003,7 @@ PRIVATE FUNCTION DVarList.Item (BYVAL idx AS LONG) AS DVARIANT
    IF idx >= 0 AND idx < nodes THEN
       RETURN rgIdx(idx)->dv
    END IF
-   RETURN DVARIANT("") ' or empty variant
-END FUNCTION
-
-' Remove a node by index
-PRIVATE FUNCTION DVarList.Remove (BYVAL idx AS LONG) AS BOOLEAN
-   idx -= 1   ' make it one-based
-   IF idx < 0 OR idx >= nodes THEN RETURN FALSE ' Prevent out-of-bounds deletion
-   DIM current AS DVarNode PTR = rgIdx(idx) ' Get node from rgIdx array
-   IF current = NULL THEN RETURN FALSE ' Invalid rgIdx
-   ' Adjust pointers for linked list integrity
-   IF current->pPrev <> NULL THEN
-      current->pPrev->pNext = current->pNext
-   ELSE
-      head = current->pNext ' Update head if first node is removed
-   END IF
-   IF current->pNext <> NULL THEN
-      current->pNext->pPrev = current->pPrev
-   ELSE
-      tail = current->pPrev ' Update tail if last node is removed
-   END IF
-   ' Remove from rgIdx array
-   FOR i AS INTEGER = idx TO nodes - 2
-      rgIdx(i) = rgIdx(i + 1) ' Shift elements down
-   NEXT
-   REDIM PRESERVE rgIdx(nodes - 2) ' Resize rgIdx array
-   nodes -= 1
-   DELETE current ' Free memory
-   RETURN TRUE
+   RETURN DVARIANT("")
 END FUNCTION
 
 PRIVATE FUNCTION DVarList.Replace (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS BOOLEAN
@@ -2905,25 +3015,40 @@ PRIVATE FUNCTION DVarList.Replace (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS B
    RETURN FALSE
 END FUNCTION
 
+PRIVATE FUNCTION DVarList.Remove (BYVAL idx AS LONG) AS BOOLEAN
+   idx -= 1
+   IF idx < 0 OR idx >= nodes THEN RETURN FALSE
+   DIM current AS DVarNode PTR = rgIdx(idx)
+   IF head = current THEN
+      head = current->pNext
+      IF tail = current THEN tail = NULL
+   ELSE
+      rgIdx(idx - 1)->pNext = current->pNext
+      IF tail = current THEN tail = rgIdx(idx - 1)
+   END IF
+   DELETE current
+   FOR i AS LONG = idx TO nodes - 2
+      rgIdx(i) = rgIdx(i + 1)
+   NEXT
+   REDIM PRESERVE rgIdx(nodes - 2)
+   nodes -= 1
+   RETURN TRUE
+END FUNCTION
 
 PRIVATE FUNCTION DVarList.Insert (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS BOOLEAN
    idx -= 1
    IF idx < 0 OR idx > nodes THEN RETURN FALSE
    DIM newNode AS DVarNode PTR = NEW DVarNode
    newNode->dv = dv
-   IF idx = nodes THEN
-      this.Add(dv)
-      RETURN TRUE
-   END IF
+   IF idx = nodes THEN RETURN (Add(dv) > 0)
+   DIM prevNode AS DVarNode PTR = IIF(idx > 0, rgIdx(idx - 1), NULL)
    DIM current AS DVarNode PTR = rgIdx(idx)
    newNode->pNext = current
-   newNode->pPrev = current->pPrev
-   IF current->pPrev <> NULL THEN
-      current->pPrev->pNext = newNode
+   IF prevNode <> NULL THEN
+      prevNode->pNext = newNode
    ELSE
       head = newNode
    END IF
-   current->pPrev = newNode
    REDIM PRESERVE rgIdx(nodes)
    FOR i AS LONG = nodes TO idx + 1 STEP -1
       rgIdx(i) = rgIdx(i - 1)
@@ -2932,5 +3057,7 @@ PRIVATE FUNCTION DVarList.Insert (BYVAL idx AS LONG, BYREF dv AS DVARIANT) AS BO
    nodes += 1
    RETURN TRUE
 END FUNCTION
+
+' ########################################################################################
 
 END NAMESPACE
