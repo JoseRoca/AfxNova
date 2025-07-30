@@ -1,8 +1,27 @@
 # DWStrList
 
-`DWStrList`implements an indexed doubly-linked list for the `DWSTRING` (Unicode dynamic string) data type.
+`DWStrList`implements an indexed singly-linked list for the `DWSTRING` (Unicode dynamic string) data type.
 
-#### Usage example:
+#### Usage examples
+
+Using the dotted syntax:
+
+```
+' // Build the linked list
+DIM List AS DWStrList
+List.Add("Result 1")
+List.Add("Result 2")
+List.Add("Result 3")
+List.Insert(1, "New string")
+List.Replace(2, "Replaced string")
+
+' // Retrieve and print the results
+FOR i AS LONG = 1 TO List.Count
+   PRINT List.Item(i)
+NEXT
+```
+
+Using NEW and the pointer syntax:
 
 ```
 ' // Build the linked list
@@ -38,9 +57,28 @@ Delete List
 
 # DVarList
 
-`DVarList`implements an indexed double-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data (if you pass it as the input it willbe converted to a unicode dynamic stiong).
+`DVarList`implements an indexed singly-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data (if you pass it as the input it will be converted to a unicode dynamic string).
 
-#### Usage example:
+#### Usage examples
+
+Using the dotted syntax:
+
+```
+' // Build the linked list
+DIM List AS DVarList
+List.Add("Result 1")
+List.Add("Result 2")
+List.Add("Result 3")
+List.Insert(1, "New string")
+List.Replace(2, "Replaced string")
+
+' // Retrieve and print the results
+FOR i AS LONG = 1 TO List.Count
+   PRINT List.Item(i)
+NEXT
+```
+
+Using NEW and the pointer syntax:
 
 ```
 ' // Build the linked list
