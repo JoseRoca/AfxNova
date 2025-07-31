@@ -2375,21 +2375,21 @@ TYPE tagSPTEXTSELECTIONINFO
    cchSelection AS ULONG
 END TYPE
 
-TYPE tagSTATSTG
-   ' // Documentation string: Afx_ISpStreamFormat Interface
-   ' // Number of members: 11
-   pwcsName AS WSTRING PTR
-   Type AS ULONG
-   cbSize AS ULONG
-   mtime AS ULONG
-   ctime AS ULONG
-   atime AS ULONG
-   grfMode AS ULONG
-   grfLocksSupported AS ULONG
-   clsid AS ULONG
-   grfStateBits AS ULONG
-   reserved AS ULONG
-END TYPE
+'TYPE tagSTATSTG
+'   ' // Documentation string: Afx_ISpStreamFormat Interface
+'   ' // Number of members: 11
+'   pwcsName AS WSTRING PTR
+'   Type AS ULONG
+'   cbSize AS ULONG
+'   mtime AS ULONG
+'   ctime AS ULONG
+'   atime AS ULONG
+'   grfMode AS ULONG
+'   grfLocksSupported AS ULONG
+'   clsid AS ULONG
+'   grfStateBits AS ULONG
+'   reserved AS ULONG
+'END TYPE
 
 TYPE WaveFormatEx
    ' // Documentation string: Afx_ISpStreamFormat Interface
