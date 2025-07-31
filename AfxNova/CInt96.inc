@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
-' Filename: CIniFile.inc
-' Contents: Class to work with Windows .ini files
+' Filename: CInt96.inc
+' Contents: Wrapper class for the DECIMAL data type.
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
 '
