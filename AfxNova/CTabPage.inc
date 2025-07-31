@@ -46,8 +46,8 @@ TYPE CTabPage EXTENDS CWindow
       DECLARE FUNCTION InsertPage (BYVAL hTab AS HWND, BYVAL nPage AS LONG, BYREF wszTitle AS WSTRING = "", _
          BYVAL nImage AS LONG = -1, BYVAL lpfnWndProc AS WNDPROC = NULL, _
          BYVAL dwStyle AS DWORD = WS_CLIPSIBLINGS OR WS_CLIPCHILDREN, BYVAL dwExStyle AS DWORD = 0) AS HWND
-      DECLARE FUNCTION ResizePage (BYVAL hTab AS HWND = NULL) AS BOOLEAN
-      DECLARE FUNCTION ResizePages (BYVAL hTab AS HWND = NULL) AS BOOLEAN
+      DECLARE FUNCTION ResizePage () AS BOOLEAN
+      DECLARE FUNCTION ResizePages () AS BOOLEAN
 
 END TYPE
 ' ========================================================================================
@@ -147,15 +147,15 @@ END PROPERTY
 ' ========================================================================================
 
 ' =====================================================================================
-' Resizes all the tab pages associated with a tab control
+' Resizes the active selected tab page
 ' =====================================================================================
-PRIVATE FUNCTION CTabPage.ResizePage (BYVAL hTab AS HWND = NULL) AS BOOLEAN
+PRIVATE FUNCTION CTabPage.ResizePage () AS BOOLEAN
    DIM pTabPage AS CTabPage PTR
    ' // Ask to return the value of the lParam member
    DIM tci AS TCITEMW
    tci.mask = TCIF_PARAM
    ' // Get the handle of the tab control
-   IF hTab = NULL THEN hTab = ..GetParent(m_hTabPage)
+   DIM hTab AS HWND = ..GetParent(m_hTabPage)
    IF hTab = NULL THEN RETURN FALSE
    ' // Get information of the item
    DIM curTab AS LONG = TabCtrl_GetCurSel(hTab)
@@ -182,9 +182,9 @@ END FUNCTION
 ' =====================================================================================
 ' Resizes all the tab pages associated with a tab control
 ' =====================================================================================
-PRIVATE FUNCTION CTabPage.ResizePages (BYVAL hTab AS HWND = NULL) AS BOOLEAN
+PRIVATE FUNCTION CTabPage.ResizePages () AS BOOLEAN
    ' // Get the handle of the tab control
-   IF hTab = NULL THEN hTab = ..GetParent(m_hTabPage)
+   DIM hTab AS HWND = ..GetParent(m_hTabPage)
    IF hTab = NULL THEN RETURN FALSE
    ' // Get the number of items
    DIM nCount AS LONG = .SendMessageW(hTab, TCM_GETITEMCOUNT, 0, 0)
