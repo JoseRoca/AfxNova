@@ -134,7 +134,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          ' // Get a pointer to the tab page
          DIM pTabPage AS CTabPage PTR = AfxCTabPagePtr(hTab, -1)
          ' // Resize the tab pages
-         IF pTabPage THEN pTabPage->ResizePages hTab
+         IF pTabPage THEN pTabPage->ResizePages
          RETURN 0
 
       CASE WM_NOTIFY
