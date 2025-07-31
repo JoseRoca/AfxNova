@@ -20,8 +20,6 @@
 #include once "win/ole2.bi"
 #include once "win/unknwnbase.bi"
 
-NAMESPACE AfxNova
-
 ' // The definition for BSTR in the FreeBASIC headers was inconveniently changed to WCHAR
 #ifndef AFX_BSTR
    #define AFX_BSTR WSTRING PTR
@@ -495,5 +493,3 @@ END TYPE
 TYPE AFX_LPSCRIPTENCODER AS Afx_IScriptEncoder PTR
 
 #endif
-
-END NAMESPACE
