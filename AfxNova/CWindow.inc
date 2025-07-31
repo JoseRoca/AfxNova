@@ -2460,6 +2460,6 @@ END FUNCTION
 
 
 ' // Tab control pages
-#include once "AfxNova/CTabCtrl.inc"
+#include once "AfxNova/CTabPage.inc"
 
 END NAMESPACE
