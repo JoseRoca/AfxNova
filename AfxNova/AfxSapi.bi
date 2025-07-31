@@ -22,8 +22,6 @@
 #include once "AfxNova/AfxSpError.bi"
 #include once "AfxNova/AfxCOM.inc"
 
-NAMESPACE AfxNova
-
 ' // The definition for BSTR in the FreeBASIC headers was inconveniently changed to WCHAR
 #ifndef AFX_BSTR
    #define AFX_BSTR WSTRING PTR
@@ -4950,5 +4948,3 @@ TYPE Afx_ISpTranscript_ EXTENDS Afx_IUnknown
 END TYPE
 
 #endif
-
-END NAMESPACE

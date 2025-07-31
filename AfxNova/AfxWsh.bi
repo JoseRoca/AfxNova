@@ -12,8 +12,6 @@
 #pragma once
 #include once "AfxNova/AfxScrRun.bi"
 
-NAMESPACE AfxNova
-
 ' // The definition for BSTR in the FreeBASIC headers was inconveniently changed to WCHAR
 #ifndef AFX_BSTR
    #define AFX_BSTR WSTRING PTR
@@ -370,5 +368,3 @@ END TYPE
 #endif
 
 ' ########################################################################################
-
-END NAMESPACE
