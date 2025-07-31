@@ -2458,4 +2458,8 @@ PRIVATE FUNCTION AfxInputBoxWindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, 
 END FUNCTION
 ' ========================================================================================
 
+
+' // Tab control pages
+#include once "AfxNova/CTabCtrl.inc"
+
 END NAMESPACE
