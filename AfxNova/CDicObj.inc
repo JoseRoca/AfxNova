@@ -30,6 +30,7 @@
 #include once "AfxNova/AfxScrRun.bi"
 #include once "AfxNova/DWSTRING.inc"
 #include once "AfxNova/DVARIANT.inc"
+USING AfxNova
 
 NAMESPACE AfxNova
 
