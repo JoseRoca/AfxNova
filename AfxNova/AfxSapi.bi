@@ -19,8 +19,10 @@
 ' ########################################################################################
 
 #pragma once
+#include once "win/mmsystem.bi"
 #include once "AfxNova/AfxSpError.bi"
 #include once "AfxNova/AfxCOM.inc"
+USING AfxNova
 
 ' // The definition for BSTR in the FreeBASIC headers was inconveniently changed to WCHAR
 #ifndef AFX_BSTR
@@ -2391,17 +2393,17 @@ END TYPE
 '   reserved AS ULONG
 'END TYPE
 
-TYPE WaveFormatEx
-   ' // Documentation string: Afx_ISpStreamFormat Interface
-   ' // Number of members: 7
-   wFormatTag AS USHORT
-   nChannels AS USHORT
-   nSamplesPerSec AS ULONG
-   nAvgBytesPerSec AS ULONG
-   nBlockAlign AS USHORT
-   wBitsPerSample AS USHORT
-   cbSize AS USHORT
-END TYPE
+'TYPE WaveFormatEx
+'   ' // Documentation string: Afx_ISpStreamFormat Interface
+'   ' // Number of members: 7
+'   wFormatTag AS USHORT
+'   nChannels AS USHORT
+'   nSamplesPerSec AS ULONG
+'   nAvgBytesPerSec AS ULONG
+'   nBlockAlign AS USHORT
+'   wBitsPerSample AS USHORT
+'   cbSize AS USHORT
+'END TYPE
 
 
 ' // Interfaces - Forward references
