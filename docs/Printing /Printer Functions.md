@@ -57,7 +57,7 @@
 | [AfxGetPrinterTrueType](#afxgetprintertruetype) | Retrieves the abilities of the driver to use TrueType fonts. |
 | [AfxOpenPrintersFolder](#afxopenprinterfolder) | Opens an instance of Explorer with the Printers and Faxes folder selected. |
 | [AfxPrinterDialog](#afxprinterdialog) | Displays the printer dialog. Returns TRUE or FALSE. |
-| [AfxSetPrinterCollageStatus](#afxsetprintercollagestatus) | Specifies whether collation should be used when printing multiple copies. |
+| [AfxSetPrinterCollateStatus](#afxsetprintercollatestatus) | Specifies whether collation should be used when printing multiple copies. |
 | [AfxSetPrinterColorMode](#afxsetprintercolormode) | Switches between color and monochrome on color printers. |
 | [AfxSetPrinterCopies](#afxsetprintercopies) | Selects the number of copies printed if the device supports multiple-page copies. |
 | [AfxSetPrinterDuplexMode](#afxsetprinterduplexmode) | Sets the printer duplex mode. |
@@ -985,19 +985,21 @@ END IF
 ```
 ---
 
-## AfxGetPrinterCollateStatus
+## AfxSetPrinterCollateStatus
 
-Returns the printer collate status.
+Specifies whether collation should be used when printing multiple copies.
 
 ```
-FUNCTION AfxGetPrinterCollateStatus (BYREF wszPrinterName AS WSTRING) AS LONG
+FUNCTION AfxSetPrinterCollateStatus (BYREF wszPrinterName AS WSTRING, BYVAL nMode AS LONG) AS BOOLEAN
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+| *nMode* | ' The following are the possible values: DMCOLLATE_TRUE, DMCOLLATE_FALSE. |
 
 #### Return value
 
-The return value can be one or more of the following:
-
-* DMCOLLATE_FALSE = Collate is turned off
-* DMCOLLATE_TRUE = Collate is turned on
+TRUE or FALSE.
 
 ---
