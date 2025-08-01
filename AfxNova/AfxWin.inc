@@ -1617,8 +1617,6 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the text of a window. This function can also be used to retrieve the text of buttons,
 ' and edit and static controls.
-' Remarks: The function uses the WM_GETTEXT message because GetWindowText cannot retrieve
-' the text of a window in another application.
 ' Example: DIM dws AS DWSTRING = AfxGetWindowText(hwnd)
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetWindowText (BYVAL hWin AS HWND) AS DWSTRING
@@ -1627,6 +1625,8 @@ PRIVATE FUNCTION AfxGetWindowText (BYVAL hWin AS HWND) AS DWSTRING
    GetWindowTextW(hWin, dwsText, nLen +  1)
    RETURN LEFT(dwsText, nLen)
 END FUNCTION
+' ========================================================================================
+#define AfxSetWindowText SetWindowTextW
 ' ========================================================================================
 
 ' ========================================================================================
