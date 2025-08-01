@@ -934,3 +934,17 @@ The return value can be one or more of the following:
 If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
 
 ---
+
+## AfxOpenPrintersFolder
+
+Opens an instance of Explorer with the Printers and Faxes folder selected.
+
+```
+FUNCTION AfxOpenPrintersFolder () AS HINSTANCE
+```
+
+#### Return value
+
+If the function succeeds, it returns a value greater than 32. If the function fails, it returns an error value that indicates the cause of the failure. The return value is cast as an HINSTANCE for backward compatibility with 16-bit Windows applications. It is not a true HINSTANCE, however. It can be cast only to an INT_PTR and compared to either 32 or the following error codes: See [ShellExecuteW](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecutew).
+
+---
