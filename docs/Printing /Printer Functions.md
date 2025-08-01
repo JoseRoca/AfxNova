@@ -860,3 +860,35 @@ FUNCTION AfxGetPrinterScalingFactorY (BYREF wszPrinterName AS WSTRING) AS LONG
 The scaling factor for the y-axis of the printer.
 
 ---
+
+## AfxGetPrinterTray
+
+Returns the paper source.
+
+```
+FUNCTION AfxGetPrinterTray (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The paper saurce. Can be one of the following values:
+
+* DMBIN_UPPER = 1
+* DMBIN_LOWER = 2
+*  DMBIN_MIDDLE = 3
+* DMBIN_MANUAL = 4
+* DMBIN_ENVELOPE = 5
+* DMBIN_ENVMANUAL = 6
+* DMBIN_AUTO = 7
+* DMBIN_TRACTOR = 8
+* DMBIN_SMALLFMT = 9
+* DMBIN_LARGEFMT = 10
+* DMBIN_LARGECAPACITY = 11
+* DMBIN_CASSETTE = 14
+* DMBIN_FORMSOURCE = 15
+
+---
