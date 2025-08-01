@@ -47,8 +47,8 @@
 | [AfxGetPrinterPPIY](#afxgetprinterppiy) | Retrieves the number of pixels per inch of the specified host printer page (vertical resolution). |
 | [AfxGetPrinterQuality](#afxgetprinterquality) | Returns the printer print quality mode. |
 | [AfxGetPrinterRate](#afxgetprinterrate) | Returns the printer's print rate. |
-| [AfxGetPrinterRateUnit](#afxgetprinterrateunit) | Returns the printer's rate unit. |
 | [AfxGetPrinterRatePPM](#afxgetprinterrateppm) | Returns the printer's print rate, in pages per minute. |
+| [AfxGetPrinterRateUnit](#afxgetprinterrateunit) | Returns the printer's rate unit. |
 | [AfxGetPrinterScale](#afxgetprinterscale) | Returns the factor by which the printed output is to be scaled. |
 | [AfxGetPrinterScalingFactorX](#afxgetprinterscalingfactorx) | Returns the scaling factor for the x-axis of the printer. |
 | [AfxGetPrinterScalingFactorY](#afxgetprinterscalingfactory) | Returns the scaling factor for the y-axis of the printer. |
@@ -802,5 +802,25 @@ The printer's print rate. Can be one of the following values:
 * PRINTRATEUNIT_PPM   Pages per minute.
 
 If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
+
+---
+
+## AfxGetPrinterScale
+
+Returns the factor by which the printed output is to be scaled.
+
+```
+FUNCTION AfxGetPrinterScale (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The factor by which the printed output is to be scaled.
+
+The apparent page size is scaled from the physical page size by a factor of dmScale /100. For example, a letter-sized page with a dmScale value of 50 would contain as much data as a page of 17- by 22-inches because the output text and graphics would be half their original height and width.
 
 ---
