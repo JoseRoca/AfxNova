@@ -1003,3 +1003,41 @@ FUNCTION AfxSetPrinterCollateStatus (BYREF wszPrinterName AS WSTRING, BYVAL nMod
 TRUE or FALSE.
 
 ---
+
+## AfxSetPrinterColorMode
+
+Switches between color and monochrome on color printers.
+
+```
+FUNCTION AfxSetPrinterColorMode (BYREF wszPrinterName AS WSTRING, BYVAL nMode AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+| *nMode* | ' The following are the possible values: DMCOLOR_COLOR, DMCOLOR_MONOCHROME. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
+
+## AfxSetPrinterCopies
+
+Selects the number of copies printed if the device supports multiple-page copies.
+
+```
+FUNCTION AfxSetPrinterCopies (BYREF wszPrinterName AS WSTRING, BYVAL nCopies AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+| *nCopies* | ' The number of copies. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
