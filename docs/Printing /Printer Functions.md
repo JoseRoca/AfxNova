@@ -879,7 +879,7 @@ The paper saurce. Can be one of the following values:
 
 * DMBIN_UPPER = 1
 * DMBIN_LOWER = 2
-*  DMBIN_MIDDLE = 3
+* DMBIN_MIDDLE = 3
 * DMBIN_MANUAL = 4
 * DMBIN_ENVELOPE = 5
 * DMBIN_ENVMANUAL = 6
@@ -890,5 +890,47 @@ The paper saurce. Can be one of the following values:
 * DMBIN_LARGECAPACITY = 11
 * DMBIN_CASSETTE = 14
 * DMBIN_FORMSOURCE = 15
+
+---
+
+## AfxGetPrinterTrayNames
+
+Returns a list with the names of the printer's paper bins.
+
+```
+FUNCTION AfxGetPrinterTrayNames (BYREF wszPrinterName AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+Returns a list with the names of the printer's paper bins. The names are separated by a carriage return and a line feed characters.
+
+---
+
+## AfxGetPrinterTrueType
+
+Retrieves the abilities of the driver to use TrueType fonts.
+
+```
+FUNCTION AfxGetPrinterTrueType (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The return value can be one or more of the following:
+
+* DCTT_BITMAP   Device can print TrueType fonts as graphics.
+* DCTT_DOWNLOAD Device can download TrueType fonts.
+* DCTT_SUBDEV   Device can substitute device fonts for TrueType fonts.
+
+If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
 
 ---
