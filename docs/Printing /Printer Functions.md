@@ -959,6 +959,17 @@ FUNCTION AfxPrinterDialog (BYVAL hwndOwner AS HWND, BYREF flags AS DWORD, _
    BYREF nMinPage AS WORD, BYREF nMaxPage AS WORD) AS BOOLEAN
 ```
 
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwndOwner* | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
+| *flags* | Initializes the Print dialog box. When the dialog box returns, it sets these flags to indicate the user's input. See [PRINTDLGW structure](https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-printdlgw). |
+| *hdc* | A handle to a device context or an information context, depending on whether the Flags member specifies the PD_RETURNDC or PC_RETURNIC flag. If neither flag is specified, the value of this member is undefined. If both flags are specified, PD_RETURNDC has priority. |
+| *nCopies* | The number of copies. |
+| *nFromPage* | The initial page. |
+| *nToPage* | The final page. |
+| *nMinPage* | The minimum value for the page range specified in the From and To page edit controls. If nMinPage equals nMaxPage, the Pages radio button and the starting and ending page edit controls are disabled. |
+| *nMaxPage* | The maximum value for the page range specified in the From and To page edit controls. |
+
 #### Return value
 
 Returns TRUE or FALSE. The caller is resposible of deleting the returned HDC handle with **DeleteDC**.
