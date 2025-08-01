@@ -9,7 +9,7 @@
 | Name       | Description |
 | ---------- | ----------- |
 | [AfxEnumLocalPrinterPorts](#afxenumlocalprinterports) | Returns a list with port names of the locally installed printers. |
-| [AfxEnumPrinterNames](#afxenumpriinternames) | Returns a list with the available printers, print servers, domains, or print providers. |
+| [AfxEnumPrinterNames](#afxenumprinternames) | Returns a list with the available printers, print servers, domains, or print providers. |
 | [AfxEnumPrinterPorts](#afxenumprinterports) | Returns a list with the ports that available for printing on a specified server. |
 | [AfxGetDefaultPrinter](#afxgetdefaultprinter) | Retrieves the name of the default printer. |
 | [AfxGetDefaultPrinterDriver](#afxgetdefaultprinterdriver) | Retrieves the name of the default printer driver. |
