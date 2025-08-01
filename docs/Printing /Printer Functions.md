@@ -512,3 +512,129 @@ The printer orientation degrees:
 If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
 
 ---
+
+## AfxGetPrinterPaperLength
+
+Returns the paper length.
+
+```
+FUNCTION AfxGetPrinterPaperLength (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The paper length.
+
+---
+
+## AfxGetPrinterPaperWidth
+
+Returns the paper width.
+
+```
+FUNCTION AfxGetPrinterPaperWidth (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The paper width.
+
+---
+
+## AfxGetPrinterPaperNames
+
+Returns a list of supported paper names (for example, Letter or Legal).
+
+```
+FUNCTION AfxGetPrinterPaperNames (BYREF wszPrinterName AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+A list of papernames are separated by a carriage return and a line feed characters.
+
+---
+
+## AfxGetPrinterPaperSizes
+
+Returns a list of supported paper sizes, in tenths of a millimeter.
+
+```
+FUNCTION AfxGetPrinterPaperSizes (BYREF wszPrinterName AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+A list of papernames. Each entry if formatted as "<width> x <height>" and separated by a carriage return and a line feed characters.
+
+---
+
+## AfxGetPrinterPhysicalHeight
+
+Returns the height of the physical page, in device units.
+
+```
+FUNCTION AfxGetPrinterPhysicalHeight (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The height of the physical page, in device units. For example, a printer set to print at 600 dpi on 8.5-by-11-inch paper has a physical height value of 6600 device units. Note that the physical page is almost always greater than the printable area of the page, and never smaller.
+
+---
+
+## AfxGetPrinterPhysicalOffsetX
+
+Returns the distance from the left edge of the physical page to the left edge of the printable area, in device units.
+
+```
+FUNCTION AfxGetPrinterPhysicalOffsetX (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The distance from the left edge of the physical page to the left edge of the printable area, in device units. For example, a printer set to print at 600 dpi on 8.5-by-11-inch paper, that cannot print on the leftmost 0.25-inch of paper, has a horizontal physical offset of 150 device units.
+
+---
+
+## AfxGetPrinterPhysicalOffsetY
+
+Returns the distance from the left edge of the physical page to the left edge of the printable area, in device units.
+
+```
+FUNCTION AfxGetPrinterPhysicalOffsetY (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The distance from the top edge of the physical page to the top edge of the printable area, in device units. For example, a printer set to print at 600 dpi on 8.5-by-11-inch paper, that cannot print on the topmost 0.5-inch of paper, has a vertical physical offset of 300 device units.
+
+---
