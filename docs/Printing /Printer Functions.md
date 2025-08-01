@@ -984,3 +984,20 @@ IF AfxPrinterDialog(hwnd, flags, hdc, nCopies, nFromPage, nToPage, nMinPage, nMa
 END IF
 ```
 ---
+
+## AfxGetPrinterCollateStatus
+
+Returns the printer collate status.
+
+```
+FUNCTION AfxGetPrinterCollateStatus (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+#### Return value
+
+The return value can be one or more of the following:
+
+* DMCOLLATE_FALSE = Collate is turned off
+* DMCOLLATE_TRUE = Collate is turned on
+
+---
