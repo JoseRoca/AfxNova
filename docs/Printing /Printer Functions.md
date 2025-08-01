@@ -638,3 +638,21 @@ FUNCTION AfxGetPrinterPhysicalOffsetY (BYREF wszPrinterName AS WSTRING) AS LONG
 The distance from the top edge of the physical page to the top edge of the printable area, in device units. For example, a printer set to print at 600 dpi on 8.5-by-11-inch paper, that cannot print on the topmost 0.5-inch of paper, has a vertical physical offset of 300 device units.
 
 ---
+
+## AfxGetPrinterPhysicalWidth
+
+Returns the width of the physical page, in device units.
+
+```
+FUNCTION AfxGetPrinterPhysicalWidth (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The width of the physical page, in device units. For example, a printer set to print at 600 dpi on 8.5-x11-inch paper has a physical width value of 5100 device units. Note that the physical page is almost always greater than the printable area of the page, and never smaller.
+
+---
