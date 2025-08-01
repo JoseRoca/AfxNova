@@ -24,12 +24,12 @@
 | [AfxGetPrinterDuplexMode](#afxgetprinterduplexname) | If the printer supports duplex printing, returns the current duplex mode. |
 | [AfxGetPrinterFromPort](#afxgetprinterfromport) | Returns the printer name for a given port name. |
 | [AfxGetPrinterHorizontalResolution](#afxgetprinterhorizontalresolution) | Returns the width, in pixels, of the printable area of the page. |
-| [AfxGetPrinterVorizontalResolution](#afxgetprintervorizontalresolution) | Returns the Height, in pixels, of the printable area of the page. |
+| [AfxGetPrinterVerticalResolution](#afxgetprinterverticalresolution) | Returns the Height, in pixels, of the printable area of the page. |
 | [AfxGetPrinterMaxCopies](#afxgetprintermaxcopies) | Returns the maximum number of copies the device can print. |
-| [AfxGetPrinterMaxPaperHeight](#afxgetprintermaxpaperheight) | Returns the maximum paper width in tenths of a millimeter. |
+| [AfxGetPrinterMaxPaperHeight](#afxgetprintermaxpaperheight) | Returns the maximum paper height in tenths of a millimeter. |
 | [AfxGetPrinterMaxPaperWidth](#afxgetprintermaxpaperwidth) | Returns the maximum paper width in tenths of a millimeter. |
 | [AfxGetPrinterMediaReady](#afxgetprintermediaready) | Retrieves the names of the paper forms that are currently available for use. |
-| [AfxGetPrinterMinPaperHeight](#afxgetprinterminpaperheight) | Returns the minimum paper width in tenths of a millimeter. |
+| [AfxGetPrinterMinPaperHeight](#afxgetprinterminpaperheight) | Returns the minimum paper height in tenths of a millimeter. |
 | [AfxGetPrinterMinPaperWidth](#afxgetprinterminpaperWidth) | Returns the minimum paper width in tenths of a millimeter. |
 | [AfxGetPrinterOrientation](#afxgetprinterorientation) | Returns the printer orientation. |
 | [AfxGetPrinterOrientationDegrees](#afxgetprinterorientationdegrees) | Returns the relationship between portrait and landscape orientations for a device, in terms of the number of degrees that portrait orientation is rotated counterclockwise to produce landscape orientation. |
@@ -358,3 +358,111 @@ The height, in pixels, of the printable area of the page.
 
 ---
 
+## AfxGetPrinterMaxCopies
+
+Returns the maximum number of copies the device can print.
+
+```
+FUNCTION AfxGetPrinterMaxCopies (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The maximum number of copies the device can print.
+
+---
+
+## AfxGetPrinterMaxPaperHeight
+
+Returns the maximum paper width in tenths of a millimeter.
+
+```
+FUNCTION AfxGetPrinterMaxPaperHeight (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The maximum paper height in tenths of a millimeter.
+
+---
+
+## AfxGetPrinterMaxPaperWidth
+
+Returns the maximum paper width in tenths of a millimeter.
+
+```
+FUNCTION AfxGetPrinterMaxPaperWidth (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The maximum paper width in tenths of a millimeter.
+
+---
+
+## AfxGetPrinterMediaReady
+
+Retrieves the names of the paper forms that are currently available for use.
+
+```
+FUNCTION AfxGetPrinterMediaReady (BYREF wszPrinterName AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The names of the paper forms that are currently available for use.
+
+---
+
+## AfxGetPrinterMinPaperHeight
+
+Returns the minimum paper height in tenths of a millimeter.
+
+```
+FUNCTION AfxGetPrinterMinPaperHeight (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The minimum paper height in tenths of a millimeter. If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
+
+
+---
+
+## AfxGetPrinterMinPaperWidth
+
+Returns the minimum paper width in tenths of a millimeter.
+
+```
+FUNCTION AfxGetPrinterMinPaperHeight (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The minimum paper width in tenths of a millimeter. If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
+
+---
