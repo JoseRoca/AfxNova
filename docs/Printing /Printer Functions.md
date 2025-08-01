@@ -824,3 +824,39 @@ The factor by which the printed output is to be scaled.
 The apparent page size is scaled from the physical page size by a factor of dmScale /100. For example, a letter-sized page with a dmScale value of 50 would contain as much data as a page of 17- by 22-inches because the output text and graphics would be half their original height and width.
 
 ---
+
+## AfxGetPrinterScalingFactorX
+
+Returns the scaling factor for the x-axis of the printer.
+
+```
+FUNCTION AfxGetPrinterScalingFactorX (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The scaling factor for the x-axis of the printer.
+
+---
+
+## AfxGetPrinterScalingFactorY
+
+Returns the scaling factor for the y-axis of the printer.
+
+```
+FUNCTION AfxGetPrinterScalingFactorY (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The scaling factor for the y-axis of the printer.
+
+---
