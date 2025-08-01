@@ -80,8 +80,9 @@ DIM pDisp AS CDispInvoke = CWmiServices( _
 DIM dvRes AS DVARIANT = pDisp.Invoke("SetDefaultPrinter")
 print "Result: ", VAL(dvRes)
 ```
+---
 
-# <a name="Constructor2"></a>Constructor(Server)
+## <a name="Constructor2"></a>Constructor(Server)
 
 Connects to the namespace that is specified on the *wszNamespace* parameter on the computer that is specified in the *wszServer* parameter. The target computer can be either local or remote, but it must have WMI installed.
 
@@ -117,7 +118,9 @@ The *ConnectServer* method is often used when connecting to an account with a di
 
 Using an IPv4 address to connect to a remote server may result in unexpected behavior. The likely cause is stale DNS entries in your environment. In these circumstances, the stale PTR entry for the machine will be used, with unpredictable results. To avoid this behavior, you can append a period (".") to the IP address before calling *ConnectServer*. This causes the reverse DNS lookup to fail, but may allow the *ConnectServer* call to succeed on the correct machine.
 
-# <a name="ExecQuery"></a>ExecQuery
+---
+
+## ExecQuery
 
 Executes a query to retrieve objects. These objects are available through the retrieved **SWbemObjectSet** collection.
 
@@ -341,8 +344,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="Get"></a>Get
+## Get
 
 Retrieves an object, that is either a class definition or an instance, based on the object path. This method retrieves only objects from the namespace that is associated with the current **SWbemServices** object.
 
@@ -435,8 +439,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="GetErrorCodeText"></a>GetErrorCodeText
+## GetErrorCodeText
 
 Returns the text string description associated with the WMI error code.
 
@@ -452,7 +457,9 @@ FUNCTION GetErrorCodeText (BYVAL hRes AS HRESULT) AS DWSTRING
 
 The localized text string description associated with the WMI error code.
 
-# <a name="GetFacilityCodeText"></a>GetFacilityCodeText
+---
+
+## GetFacilityCodeText
 
 Returns the name of the subsystem where the error occurred, such as "Windows", "WBEM", "SSPI", or "RPC".
 
@@ -468,15 +475,18 @@ FUNCTION GetFacilityCodeText (BYVAL hRes AS HRESULT) AS DWSTRING
 
 The name of the subsystem where the error occurred.
 
-# <a name="GetLastResult"></a>GetLastResult
+---
+
+## GetLastResult
 
 Returns the result code returned by the last executed method.
 
 ```
 FUNCTION GetLastResult () AS HRESULT
 ```
+---
 
-# <a name="GetNamedProperties"></a>GetNamedProperties
+## GetNamedProperties
 
 Retrieves a named collection of the properties for the current class or instance.
 
@@ -570,8 +580,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="InstancesOf"></a>InstancesOf
+## InstancesOf
 
 Creates an enumerator that returns the instances of a specified class according to the user-specified selection criteria. This method implements a simple query. More complex queries may require the use of the **ExecQuery** method. By default, the method is called in the semisynchronous mode.
 
@@ -627,8 +638,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="NewEnum"></a>NewEnum
+## NewEnum
 
 Retrieves an enumerator for the collection.
 
@@ -642,7 +654,9 @@ FUNCTION NewEnum () AS BOOLEAN
 
 TRUE if the enumerator has been retrieved or FALSE otherwise.
 
-# <a name="NextObject"></a>NextObject
+---
+
+## NextObject
 
 Retrieves the next item in the enumeration sequence.
 
@@ -714,8 +728,9 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+---
 
-# <a name="ObjectsCount"></a>ObjectsCount
+## ObjectsCount
 
 Returns the number of objects in the collection.
 
@@ -727,31 +742,36 @@ FUNCTION ObjectsCount () AS LONG
 
 If **ExecQuery** has been called without the *wbemFlagReturnWhenComplete* flag, this method will return 0 because the operation has not been completed.
 
-# <a name="ObjectSetPtr"></a>ObjectSetPtr
+---
+
+## ObjectSetPtr
 
 Returns a pointer to the **ISWbemObjectSet** interface. Don't call **IUnknown_Release** on it.
 
 ```
 FUNCTION ObjectSetPtr () AS ANY PTR
 ```
+---
 
-# <a name="PropertySetPtr"></a>PropertySetPtr
+## PropertySetPtr
 
 Returns a pointer to the **ISWbemPropertySet** interface. Don't call **IUnknown_Release** on it.
 
 ```
 FUNCTION PropertySetPtr () AS ANY PTR
 ```
+---
 
-# <a name="PropsCount"></a>PropsCount
+## PropsCount
 
 Returns the number of objects in the property set collection.
 
 ```
 FUNCTION PropsCount () AS LONG
 ```
+---
 
-# <a name="PropValue"></a>PropValue
+## PropValue
 
 Gets/sets the variant value of the WMI property.
 
@@ -765,7 +785,9 @@ PROPERTY PropValue (BYREF wszName AS WSTRING, BYREF dvValue AS DVARIANT)
 | *wszName* | Name of the property to retrieve. |
 | *dvValue* | The variant value to set. |
 
-# <a name="ResetEnum"></a>ResetEnum
+---
+
+## ResetEnum
 
 Resets the enumeration sequence to the beginning.
 
@@ -777,7 +799,9 @@ FUNCTION ResetEnum () AS BOOLEAN
 
 TRUE if the enumerator has been reset or FALSE otherwise.
 
-# <a name="ServicesObj"></a>ServicesObj
+---
+
+## ServicesObj
 
 Returns a counted reference of the underlying dispatch pointer. You must release it, e.g. calling call **IUnknown_Release** or the function **AfxSafeRelease** when no longer need it.
 
@@ -789,15 +813,18 @@ FUNCTION ServicesObj () AS ANY PTR
 
 A counted reference to the **ISWbemServices** interface. Because it is a an addrefered pointer, you must release it when no longer needed.
 
-# <a name="ServicesPtr"></a>ServicesPtr
+---
+
+## ServicesPtr
 
 Returns a pointer to the **ISWbemServices** interface. Don't call IUnknown_Release on it.
 
 ```
 FUNCTION ServicesPtr () AS ANY PTR
 ```
+---
 
-# <a name="WmiDateToStr"></a>WmiDateToStr
+## WmiDateToStr
 
 Converts a date and time value in the CIM DATETIME format to a string containing the date based on the specified mask, e.g. "dd-MM-yyyy".
 
@@ -847,7 +874,9 @@ The following table defines the format types used to represent years:
 
 The formatted date as a string.
 
-# <a name="WmiTimeToFileTime"></a>WmiTimeToFileTime
+---
+
+## WmiTimeToFileTime
 
 Converts a date and time value in the CIM DATETIME format to the FILETIME format.
 
@@ -864,7 +893,9 @@ FUNCTION WmiTimeToFileTime (BYVAL pwszDateTime AS WSTRING PTR, BYVAL bIsLocal AS
 
 The date and time value as a **FILETIME** structure.
 
-# <a name="WmiTimeToStr"></a>WmiTimeToStr
+---
+
+## WmiTimeToStr
 
 Converts a date and time value in the CIM DATETIME format to a string containing the date based on the specified mask, e.g. "hh':'mm':'ss tt".
 
