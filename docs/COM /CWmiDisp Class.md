@@ -149,8 +149,9 @@ Using an enumerator (the standard **IEnumVARIANT** interface) to retrieve the in
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
+
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
@@ -178,8 +179,8 @@ If the query returns more than one object, then we will use a loop:
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -214,8 +215,8 @@ To improve enumeration performance set the *iFlags* parameter if the **ExecQuery
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -243,8 +244,8 @@ If there are several objects in the collection, we can use a loop:
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -274,8 +275,8 @@ Calling the **GetNamedProperties** method after executing the query. **GetNamedP
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -309,8 +310,8 @@ Using a loop:
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -375,8 +376,8 @@ May return one of the error codes in the following list:
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
@@ -404,8 +405,8 @@ Example
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNpva/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 'DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
@@ -503,8 +504,8 @@ May return one of the error codes in the following list:
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -538,8 +539,8 @@ Using a loop:
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -600,8 +601,8 @@ S_OK on success or an error code.
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
@@ -659,8 +660,9 @@ Te retrieved object.
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
+
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
@@ -688,8 +690,8 @@ To improve enumeration performance set the iFlags parameter if the **ExecQuery**
 
 ```
 #include "windows.bi"
-#include "Afx/CWmiDisp.inc"
-using Afx
+#include "AfxNova/CWmiDisp.inc"
+USING AfxNova
 
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
