@@ -710,3 +710,97 @@ FUNCTION AfxGetPrinterPPIY (BYREF wszPrinterName AS WSTRING) AS LONG
 The number of pixels per inch of the specified host printer page (vertical resolution).
 
 ---
+
+## AfxGetPrinterQuality
+
+Returns the printer print quality mode.
+
+```
+FUNCTION AfxGetPrinterQuality (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The printer print quality mode.
+
+There are four predefined device-independent values:
+
+* DMRES_DRAFT  = Draft
+* DMRES_LOW    = Low
+* DMRES_MEDIUM = Medium
+* DMRES_HIGH   = High
+
+If a positive value is returned, it specifies the number of dots per inch (DPI) and is therefore device dependent.
+
+---
+
+## AfxGetPrinterRate
+
+Returns the printer's print rate.
+
+```
+FUNCTION AfxGetPrinterRate (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The printer's print rate.
+
+If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
+
+---
+
+---
+
+## AfxGetPrinterRatePPM
+
+Returns the printer's print rate, in pages per minute.
+
+```
+FUNCTION AfxGetPrinterRatePPM (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The printer's print rate, in pages per minute.
+
+If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
+
+---
+
+## AfxGetPrinterRateUnit
+
+Returns the printer's print rate.
+
+```
+FUNCTION AfxGetPrinterRateUnit (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The printer's print rate. Can be one of the following values:
+
+* PRINTRATEUNIT_CPS   Characters per second.
+* PRINTRATEUNIT_IPM   Inches per minute.
+* PRINTRATEUNIT_LPM   Lines per minute.
+* PRINTRATEUNIT_PPM   Pages per minute.
+
+If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
+
+---
