@@ -466,3 +466,24 @@ FUNCTION AfxGetPrinterMinPaperHeight (BYREF wszPrinterName AS WSTRING) AS LONG
 The minimum paper width in tenths of a millimeter. If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
 
 ---
+
+## AfxGetPrinterOrientation
+
+Returns the printer orientation.
+
+```
+FUNCTION AfxGetPrinterOrientation (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The printer orientation:
+
+* DMORIENT_PORTRAIT = Portrait
+* DMORIENT_LANDSCAPE = Landscape
+
+---
