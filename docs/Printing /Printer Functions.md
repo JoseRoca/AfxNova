@@ -61,7 +61,6 @@
 | [AfxSetPrinterColorMode](#afxsetprintercolormode) | Switches between color and monochrome on color printers. |
 | [AfxSetPrinterCopies](#afxsetprintercopies) | Selects the number of copies printed if the device supports multiple-page copies. |
 | [AfxSetPrinterDuplexMode](#afxsetprinterduplexmode) | Sets the printer duplex mode. |
-| [AfxSetPrinterInfo](#afxsetprinterinfo) | Sets data for a specified printer. |
 | [AfxSetPrinterOrientation](#afxsetprinterorientation) | Sets the printer orientation. |
 | [AfxSetPrinterPaperSize](#afxsetprinterpapersize) | Sets the printer paper size. |
 | [AfxSetPrinterQuality](#afxsetprinterquality) | Specifies the print quality mode. |
@@ -1055,6 +1054,25 @@ FUNCTION AfxSetPrinterDuplexMode (BYREF wszPrinterName AS WSTRING, _
 | ---------- | ----------- |
 | *wszPrinterName* | The printer name. |
 | *nDuplexMode* | One of these values:<br>DMDUP_SIMPLEX = Single sided printing.<br>DMDUP_VERTICAL = Page flipped on the vertical edge.<br>DMDUP_HORIZONTAL = Page flipped on the horizontal edge. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
+
+## AfxSetPrinterOrientation
+
+Sets the printer orientation.
+
+```
+FUNCTION AfxSetPrinterOrientation (BYREF wszPrinterName AS WSTRING, BYVAL nOrientation AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+| *nOrientation* | One of these values:<br>DMORIENT_PORTRAIT = Portrait.<br>DMORIENT_LANDSCAPE = Landscape. |
 
 #### Return value
 
