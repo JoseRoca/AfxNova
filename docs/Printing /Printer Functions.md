@@ -14,7 +14,6 @@
 | [AfxGetDefaultPrinter](#afxgetdefaultprinter) | Retrieves the name of the default printer. |
 | [AfxGetDefaultPrinterDriver](#afxgetdefaultprinterdriver) | Retrieves the name of the default printer driver. |
 | [AfxGetDefaultPrinterPort](#afxgetdefaultprinterport) | Retrieves the name of the default printer port. |
-| [AfxGetDocumentProperties](#afxgetdocumentproperties) | Retrieves printer initialization information. |
 | [AfxGetPrinterCollate](#afxgetprintercollate) | If the printer supports collating, the return value is TRUE; otherwise, the return value is FALSE. |
 | [AfxGetPrinterCollateStatus](#afxgetprintercollatestatus) | Returns the printer collate status. |
 | [AfxGetPrinterColorMode](#afxgetprintercolormode) | If the printer supports color printing, the return value is TRUE; otherwise, the return value is FALSE. |
@@ -115,5 +114,87 @@ FUNCTION AfxEnumPrinterPorts (BYVAL pwszServerName AS WSTRING PTR = NULL) AS DWS
 #### Return value
 
 A list of port names. Names are separated with a carriage return and a line feed characters.
+
+---
+
+## AfxGetDefaultPrinter
+
+Retrieves the name of the default printer.
+
+```
+FUNCTION AfxGetDefaultPrinter () AS DWSTRING
+```
+
+#### Return value
+
+The name of the default printer.
+
+---
+
+## AfxGetDefaultPrinterDriver
+
+Retrieves the name of the default printer driver.
+
+```
+FUNCTION AfxGetDefaultPrinterDriver () AS DWSTRING
+```
+
+#### Return value
+
+The name of the default printer driver.
+
+---
+
+## AfxGetDefaultPrinterPort
+
+Retrieves the name of the default printer port. Use **AfxGetPrinterPort** to retrieve the port name for a named printer.
+
+```
+FUNCTION AfxGetDefaultPrinterPort () AS DWSTRING
+```
+
+#### Return value
+
+The name of the default printer port.
+
+---
+
+## AfxGetPrinterCollate
+
+If the printer supports collating, the return value is TRUE; otherwise, the return value is FALSE.
+
+```
+FUNCTION AfxGetPrinterCollate (BYREF wszPrinterName AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+TRUE or FALSE.
+
+#### Remarks
+
+If TRUE, the pages that are printed should be collated. To collate is to print out the entire document before printing the next copy, as opposed to printing out each page of the document the required number of times.
+
+---
+
+## AfxGetPrinterCollateStatus
+
+Returns the printer collate status.
+
+```
+FUNCTION AfxGetPrinterCollateStatus (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The printer collate status. It can be one of the following: DMCOLLATE_FALSE = Collate is turned off; DMCOLLATE_TRUE = Collate is turned on.
 
 ---
