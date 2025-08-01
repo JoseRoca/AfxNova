@@ -948,3 +948,28 @@ FUNCTION AfxOpenPrintersFolder () AS HINSTANCE
 If the function succeeds, it returns a value greater than 32. If the function fails, it returns an error value that indicates the cause of the failure. The return value is cast as an HINSTANCE for backward compatibility with 16-bit Windows applications. It is not a true HINSTANCE, however. It can be cast only to an INT_PTR and compared to either 32 or the following error codes: See [ShellExecuteW](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecutew).
 
 ---
+
+## AfxPrinterDialog
+
+Displays the printer dialog. Returns TRUE or FALSE.
+
+```
+FUNCTION AfxPrinterDialog (BYVAL hwndOwner AS HWND, BYREF flags AS DWORD, _
+   BYREF hdc AS HDC, BYREF nCopies AS WORD, BYREF nFromPage AS WORD, BYREF nToPage AS WORD, _
+   BYREF nMinPage AS WORD, BYREF nMaxPage AS WORD) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE or FALSE. The caller is resposible of deleting the returned HDC handle with **DeleteDC**.
+
+#### Usage example
+```
+DIM flags AS DWORD = PD_RETURNDC, hdc AS HDC, nCopies AS WORD
+DIM nFromPage AS WORD, nToPage AS WORD, nMinPage AS WORD, nMaxPage AS WORD
+IF AfxPrinterDialog(hwnd, flags, hdc, nCopies, nFromPage, nToPage, nMinPage, nMaxPage) THEN
+  ' // do printing
+  IF hdc THEN DeleteDC hdc
+END IF
+```
+---
