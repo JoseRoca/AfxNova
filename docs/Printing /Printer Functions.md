@@ -266,3 +266,44 @@ FUNCTION AfxGetPrinterDriverVersion (BYREF wszPrinterName AS WSTRING) AS LONG
 The version number of the Windows-based printer driver. The version numbers are created and maintained by the driver manufacturer.
 
 ---
+
+## AfxGetPrinterDuplex
+
+Retrieves if the printer supports duplex printing.
+
+```
+FUNCTION AfxGetPrinterDuplex (BYREF wszPrinterName AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+If the printer supports duplex printing, the return value is TRUE; otherwise, the return value is FALSE.
+
+---
+
+## AfxGetPrinterDuplexMode
+
+If the printer supports duplex printing, returns the current duplex mode
+
+```
+FUNCTION AfxGetPrinterDuplex (BYREF wszPrinterName AS WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+* DMDUP_SIMPLEX = 1 (Single sided printing)
+* DMDUP_VERTICAL = 2 (Page flipped on the vertical edge)
+* DMDUP_HORIZONTAL = 3 (Page flipped on the horizontal edge)
+
+---
+
+
+---
