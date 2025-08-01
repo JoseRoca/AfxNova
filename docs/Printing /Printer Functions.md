@@ -220,3 +220,49 @@ If the printer supports color printing, the return value is TRUE; otherwise, the
 Some color printers have the capability to print using true black instead of a combination of cyan, magenta, and yellow (CMY). This usually creates darker and sharper text for documents. This option is only useful for color printers that support true black printing.
 
 ---
+
+## AfxGetPrinterCopies
+
+Returns the number of copies to print if the device supports multiple-page copies.
+
+```
+FUNCTION AfxGetPrinterCopies (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The number of copies to print.
+
+---
+
+## AfxGetPrinterDC
+
+Returns the handle of the default printer device context.
+
+```
+FUNCTION AfxGetPrinterDC () AS HDC
+```
+
+#### Return value
+
+The handle of the default printer device context.
+
+---
+
+## AfxGetPrinterDriverVersion
+
+Returns the version number of the Windows-based printer driver.
+
+```
+FUNCTION AfxGetPrinterDriverVersion (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+#### Return value
+
+The version number of the Windows-based printer driver. The version numbers are created and maintained by the driver manufacturer.
+
+---
