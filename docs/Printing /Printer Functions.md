@@ -213,6 +213,10 @@ FUNCTION AfxGetPrinterColorMode (BYREF wszPrinterName AS WSTRING) AS BOOLEAN
 
 #### Return value
 
-If the printer supports color printing, the return value is TRUE; otherwise, the return value is FALSE. Some color printers have the capability to print using true black instead of a combination of cyan, magenta, and yellow (CMY). This usually creates darker and sharper text for documents. This option is only useful for color printers that support true black printing.
+If the printer supports color printing, the return value is TRUE; otherwise, the return value is FALSE.
+
+#### Remarks
+
+Some color printers have the capability to print using true black instead of a combination of cyan, magenta, and yellow (CMY). This usually creates darker and sharper text for documents. This option is only useful for color printers that support true black printing.
 
 ---
