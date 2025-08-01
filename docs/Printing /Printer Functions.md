@@ -1124,3 +1124,26 @@ There are four predefined device-independent values:
 TRUE or FALSE.
 
 ---
+
+## AfxSetPrinterScale
+
+Specifies the factor by which the printed output is to be scaled.
+
+```
+FUNCTION AfxSetPrinterScale (BYREF wszPrinterName AS WSTRING, BYVAL nScale AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+| *nScale* | The scale value. |
+
+#### Return value
+
+TRUE or FALSE.
+
+#### Remarks
+
+The apparent page size is scaled from the physical page size by a factor of dmScale /100. For example, a letter-sized page with a dmScale value of 50 would contain as much data as a page of 17- by 22-inches because the output text and graphics would be half their original height and width.
+
+---
