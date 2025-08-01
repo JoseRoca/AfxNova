@@ -656,3 +656,57 @@ FUNCTION AfxGetPrinterPhysicalWidth (BYREF wszPrinterName AS WSTRING) AS LONG
 The width of the physical page, in device units. For example, a printer set to print at 600 dpi on 8.5-x11-inch paper has a physical width value of 5100 device units. Note that the physical page is almost always greater than the printable area of the page, and never smaller.
 
 ---
+
+## AfxGetPrinterPort
+
+Returns the port name for a given printer name.
+
+```
+FUNCTION AfxGetPrinterPort (BYREF wszPrinterName AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The port name.
+
+---
+
+## AfxGetPrinterPPIX
+
+Retrieves the number of pixels per inch of the specified host printer page (horizontal resolution).
+
+```
+FUNCTION AfxGetPrinterPPIX (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The number of pixels per inch of the specified host printer page (horizontal resolution).
+
+---
+
+## AfxGetPrinterPPIY
+
+Retrieves the number of pixels per inch of the specified host printer page (vertical resolution).
+
+```
+FUNCTION AfxGetPrinterPPIY (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The number of pixels per inch of the specified host printer page (vertical resolution).
+
+---
