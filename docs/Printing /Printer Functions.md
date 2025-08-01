@@ -1098,3 +1098,29 @@ FUNCTION AfxSetPrinterPaperSize (BYREF wszPrinterName AS WSTRING, BYVAL nSize AS
 TRUE or FALSE.
 
 ---
+
+## AfxSetPrinterQuality
+
+Specifies the print quality mode.
+
+```
+FUNCTION AfxSetPrinterQuality (BYREF wszPrinterName AS WSTRING, BYVAL nMode AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+| *nMode* | The printer qauality. |
+
+There are four predefined device-independent values:
+
+* DMRES_DRAFT  = Draft
+* DMRES_LOW    = Low
+* DMRES_MEDIUM = Medium
+* DMRES_HIGH   = High
+
+#### Return value
+
+TRUE or FALSE.
+
+---
