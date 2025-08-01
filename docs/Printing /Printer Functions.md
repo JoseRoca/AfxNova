@@ -1034,7 +1034,27 @@ FUNCTION AfxSetPrinterCopies (BYREF wszPrinterName AS WSTRING, BYVAL nCopies AS 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszPrinterName* | The printer name. |
-| *nCopies* | ' The number of copies. |
+| *nCopies* | The number of copies. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
+
+## AfxSetPrinterDuplexMode
+
+Sets the printer duplex mode.
+
+```
+FUNCTION AfxSetPrinterDuplexMode (BYREF wszPrinterName AS WSTRING, _
+   BYVAL nDuplexMode AS LONG) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+| *nDuplexMode* | One of these values:<br>DMDUP_SIMPLEX = Single sided printing.<br>DMDUP_VERTICAL = Page flipped on the vertical edge.<br>DMDUP_HORIZONTAL = Page flipped on the horizontal edge. |
 
 #### Return value
 
