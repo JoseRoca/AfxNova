@@ -487,3 +487,28 @@ The printer orientation:
 * DMORIENT_LANDSCAPE = Landscape
 
 ---
+
+## AfxGetPrinterOrientationDegrees
+
+Returns the relationship between portrait and landscape orientations for a device, in terms of the number of degrees that portrait orientation is rotated counterclockwise to produce landscape orientation.
+
+```
+FUNCTION AfxGetPrinterOrientationDegrees (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The printer orientation degrees:
+
+*   0  No landscape orientation.
+*  90  Portrait is rotated 90 degrees to produce landscape.
+* 180  Portrait is rotated 180 degrees to produce landscape.
+* 270  Portrait is rotated 270 degrees to produce landscape.
+
+If the function returns -1, this may mean either that the capability is not supported or there was a general function failure.
+
+---
