@@ -305,5 +305,20 @@ FUNCTION AfxGetPrinterDuplex (BYREF wszPrinterName AS WSTRING) AS BOOLEAN
 
 ---
 
+## AfxGetPrinterFromPort
+
+Returns the printer name for a given port name.
+
+```
+FUNCTION AfxGetPrinterFromPort (BYREF wszPortName AS WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPortName* | The port name. |
+
+#### Return value
+
+The printer nme.
 
 ---
