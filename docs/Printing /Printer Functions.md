@@ -23,7 +23,6 @@
 | [AfxGetPrinterDuplex](#afxgetprinterduplex) | If the printer supports duplex printing, the return value is TRUE; otherwise, the return value is FALSE. |
 | [AfxGetPrinterDuplexMode](#afxgetprinterduplexname) | If the printer supports duplex printing, returns the current duplex mode. |
 | [AfxGetPrinterFromPort](#afxgetprinterfromport) | Returns the printer name for a given port name. |
-| [AfxGetPrinterFromPort](#afxgetprinterfromport) | Returns the printer name for a given port name. |
 | [AfxGetPrinterHorizontalResolution](#afxgetprinterhorizontalresolution) | Returns the width, in pixels, of the printable area of the page. |
 | [AfxGetPrinterVorizontalResolution](#afxgetprintervorizontalresolution) | Returns the Height, in pixels, of the printable area of the page. |
 | [AfxGetPrinterMaxCopies](#afxgetprintermaxcopies) | Returns the maximum number of copies the device can print. |
@@ -319,6 +318,43 @@ FUNCTION AfxGetPrinterFromPort (BYREF wszPortName AS WSTRING) AS DWSTRING
 
 #### Return value
 
-The printer nme.
+The printer name.
 
 ---
+
+## AfxGetPrinterHorizontalResolution
+
+Returns the width, in pixels, of the printable area of the page.
+
+```
+FUNCTION AfxGetPrinterHorizontalResolution (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The width, in pixels, of the printable area of the page.
+
+---
+
+## AfxGetPrinterVerticalResolution
+
+Returns the height, in pixels, of the printable area of the page.
+
+```
+FUNCTION AfxGetPrinterVerticalResolution (BYREF wszPrinterName AS WSTRING) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPrinterName* | The printer name. |
+
+#### Return value
+
+The height, in pixels, of the printable area of the page.
+
+---
+
