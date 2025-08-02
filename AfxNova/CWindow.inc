@@ -283,7 +283,9 @@ Public:
    ' //  Colors
    DECLARE FUNCTION GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
    DECLARE FUNCTION GetForeColor (BYVAL nItem AS LONG) AS COLORREF
+   DEClARE FUNCTION GetForeColor (BYVAL hCtl AS HWND) AS COLORREF
    DECLARE FUNCTION GetBackColor (BYVAL nItem AS LONG) AS COLORREF
+   DECLARE FUNCTION GetBackColor (BYVAL hCtl AS HWND) AS COLORREF
    DECLARE FUNCTION SetBackColor (BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL hCtl AS ..HWND, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL cID AS LONG, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
@@ -1632,7 +1634,8 @@ PRIVATE FUNCTION CWindow.AddControl ( _
          bSetFont = FALSE
       CASE "RICHEDIT", "RICHEDIT50W"
          IF dwStyle = -1 THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR ES_LEFT OR WS_HSCROLL OR WS_VSCROLL OR ES_AUTOHSCROLL OR ES_AUTOVSCROLL OR ES_MULTILINE OR ES_WANTRETURN OR ES_NOHIDESEL OR ES_SAVESEL
-         IF dwExStyle = -1 THEN dwExStyle = WS_EX_CLIENTEDGE
+'         IF dwExStyle = -1 THEN dwExStyle = WS_EX_CLIENTEDGE
+         IF dwExStyle = -1 THEN dwExStyle = 0
          wsClassName = "RichEdit50W"
          IF m_hRichEditLib = 0 THEN m_hRichEditLib = CAST(HMODULE, LoadLibraryW("MSFTEDIT.DLL"))
    END SELECT
@@ -1803,7 +1806,7 @@ PRIVATE FUNCTION CWindow.IsStabilized () AS BOOLEAN
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Returns true if the dialog is stabilized; otherwise, false.
+' Returns true if the dialog is non stable; otherwise, false.
 ' ========================================================================================
 PRIVATE FUNCTION CWindow.IsNonStable () AS BOOLEAN
    RETURN NOT m_IsStabilized
@@ -1903,7 +1906,7 @@ PRIVATE FUNCTION CWindow.ControlSetUser (BYVAL cID AS LONG, BYVAL index AS LONG,
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Sets the colors of the control
+' Gets the control's user data
 ' ========================================================================================
 PRIVATE FUNCTION CWindow.ControlGetUser (BYVAL cID AS LONG, BYVAL index AS LONG) AS LONG_PTR
    IF index < 0 OR index > 9 THEN RETURN FALSE
@@ -2235,7 +2238,23 @@ PRIVATE FUNCTION CWindow.GetForeColor (BYVAL nItem AS LONG) AS COLORREF
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
+PRIVATE FUNCTION CWindow.GetForeColor (BYVAL hCtl AS HWND) AS COLORREF
+   DIM nItem AS LONG = this.GetColorItem(hCtl)
+   IF nItem >= 0 AND nItem <= UBOUND(m_rgColors) THEN
+      RETURN this. m_rgColors(nItem).foreColor
+   END IF
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
 PRIVATE FUNCTION CWindow.GetBackColor (BYVAL nItem AS LONG) AS COLORREF
+   IF nItem >= 0 AND nItem <= UBOUND(m_rgColors) THEN
+      RETURN this. m_rgColors(nItem).backColor
+   END IF
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetBackColor (BYVAL hCtl AS HWND) AS COLORREF
+   DIM nItem AS LONG = this.GetColorItem(hCtl)
    IF nItem >= 0 AND nItem <= UBOUND(m_rgColors) THEN
       RETURN this. m_rgColors(nItem).backColor
    END IF
