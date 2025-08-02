@@ -1511,12 +1511,6 @@ Each control has a user data area consisting of ten LONG_PTR values which may be
 
 ---
 
-#### Return value
-
-Returns the LONG_PTR data value stored in the nominated user data index.
-
----
-
 ## ControlHandle
 
 Retrieves a handle to the child control specified by its identifier.
