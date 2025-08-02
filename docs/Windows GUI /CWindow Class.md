@@ -789,16 +789,6 @@ AfxAddIconToMenuItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInst, "IDI_ARROW_LEF
 The following code uses the same resource file that the one for the "Using PNG icons in toolbars example" to demonstrate that we can use just one set of icons for both toolbars and menus.
 
 ```
-' ########################################################################################
-' Microsoft Windows
-' Contents: CWindow with a menu
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
-' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
-' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-' ########################################################################################
-
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "windows.bi"
 #INCLUDE ONCE "win/uxtheme.bi"
@@ -1068,8 +1058,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 END FUNCTION
 ' ========================================================================================
 ```
+---
 
-# <a name="accelhandle"></a>AccelHandle
+## AccelHandle
 
 Gets/sets the accelerator table handle.
 
@@ -1096,8 +1087,9 @@ You can destroy the current accelerator table by setting the property with a nul
 
 DIM hAccel AS HACCEL = pWindow.AccelHandle
 
+---
 
-# <a name="addaccelerator"></a>AddAccelerator
+## AddAccelerator
 
 Adds an accelerator key to the table.
 
@@ -1125,8 +1117,9 @@ pWindow.AddAccelerator FVIRTKEY OR FCONTROL, "H", IDM_HOME ' // Ctrl+H - Home
 pWindow.AddAccelerator FVIRTKEY OR FCONTROL, "S", IDM_SAVE ' // Ctrl+S - Save
 pWindow.CreateAcceleratorTable
 ```
+---
 
-# <a name="addcontrol"></a>AddControl
+## AddControl
 
 Adds a control to the window.
 
