@@ -98,6 +98,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [ScaleY](#scaley) | Scales a vertical coordinate according the DPI setting. |
 | [ScreenX](#screenx) | Returns the x-coordinate of the window relative to the screen. |
 | [ScreenY](#screeny) | Returns the y-coordinate of the window relative to the screen. |
+| [SetBackColor](#setbackcolor) | Sets the background color of a `CWindow`. |
 | [SetClientSize](#setclientsize) | Adjusts the bounding rectangle of the window based on the desired size of the client area. |
 | [SetControlSubclass](#setcontrolsubclass) | Installs or updates a control subclass callback. |
 | [SetFont](#setfont) | Creates a DPI aware logical font and sets it as the default font. |
@@ -2296,11 +2297,11 @@ PROPERTY ScaleX (BYVAL cx AS SINGLE) AS SINGLE
 ```
 pWindow.ScaleX(cx)
 ```
----
-
 #### Remarks
 
 A SINGLE datatype is used instead of a long to avoid rounding errors in the calculation.
+
+---
 
 ## ScaleY
 
@@ -2324,6 +2325,20 @@ pWindow.ScaleY(cy)
 
 A SINGLE datatype is used instead of a long to avoid rounding errors in the calculation.
 
+---
+
+## SetBackColor
+
+Sets the background color of a `CWindow`.
+
+```
+FUNCTION SetBackColor (BYVAL backColor AS COLORREF) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *backColor* | An RGB color value. |
+
+---
 
 ## SetClientSize
 
