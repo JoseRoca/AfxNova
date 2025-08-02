@@ -84,8 +84,9 @@ DIM pWindow AS CWindow = "MyClassName"
 | [Height](#height) | Returns the unscaled height of the main window. |
 | [hWindow](#hwindow) | Gets/sets the main window handle. |
 | [InstanceHandle](#instancehandle) | Gets/sets the instance handle. |
-| [IsNonStable](#isnonstable) | Returns true if the main window is stabilized; otherwise, false. |
-| [IsStabilized](#isstabilized) | Returns true if the main window is stabilized; otherwise, false. |
+| [IsNonStable](#isnonstable) | Returns true if the `CWindow` is stabilized; otherwise, false. |
+| [IsStabilized](#isstabilized) | Returns true if the `CWindow` is stabilized; otherwise, false. |
+| [IsWindowScrollable](#iswindowscrollable) | Returns true if the `CWindow` is scrollable; otherwise, false. |
 | [MoveWindow](#movewindow) | Changes the position and dimensions of the specified window. |
 | [NonStable](#nonstable) | Makes a `CWindow` non stable (closeable). |
 | [Resize](#resize) | Resizes the window sending a WM_SIZE message with the  SIZE_RESTORED value. |
@@ -2108,7 +2109,7 @@ pWindow.InstanceHandle = pInstance
 
 ## IsNonStable
 
-Returns true if the dialog is non stable; otherwise, false.
+Returns true if the `CWindow` is non stable; otherwise, false.
 
 ```
 FUNCTION IsNonStable () AS BOOLEAN
@@ -2117,10 +2118,19 @@ FUNCTION IsNonStable () AS BOOLEAN
 
 ## IsStabilized
 
-Returns true if the dialog is stabilized; otherwise, false.
+Returns true if the `CWindow` is stabilized; otherwise, false.
 
 ```
 FUNCTION IsStabilized () AS BOOLEAN
+```
+---
+
+## IsWindowScrollable
+
+Returns true if the `CWindow` is scrollable; otherwise, false.
+
+```
+FUNCTION IsWindowScrollable () AS BOOLEAN
 ```
 ---
 
