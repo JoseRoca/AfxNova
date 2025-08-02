@@ -78,10 +78,11 @@ DIM pWindow AS CWindow = "MyClassName"
 | [DoEvents](#doevents) | Processes windows messages. |
 | [DPI](#dpi) | Gets/sets the DPI (dots per inch) to be used by the application. |
 | [Font](#font) | Gets/sets the font used as default. |
+| [GetBackColor](#getbackcolor) | Gets the background color of a control. |
 | [GetClientRect](#getclientrect) | Retrieves the unscaled coordinates of the main window client area. |
 | [GetControlClientRect](#getcontrolclientrect) | Retrieves the unscaled coordinates of a window's client area. |
 | [GetControlWindowRect](#getcontrolwindowrect) | Retrieves the unscaled dimensions of the bounding rectangle of the specified window. |
-| [GetForeColor](#getforecolor) | Gets the foreground color of a control. |
+| [GetForeColor](#getforecolor) | Gets the foreground color of `CWindow`or control. |
 | [GetWindowRect](#getwindowrect) | Retrieves the unscaled dimensions of the bounding rectangle of the main window. |
 | [GetWorkArea](#getworkarea) | Retrieves the unscaled size of the work area on the primary display monitor. |
 | [Height](#height) | Returns the unscaled height of the main window. |
@@ -2407,6 +2408,32 @@ FUNCTION SetCtlColors (BYVAL hCtl AS HWND, BYVAL foreColor AS COLORREF, _
 | *hCtl* | The handle of the control. |
 | *foreColor* | The foreground color of the control. |
 | *backColor* | The background color of the control. |
+
+---
+
+## GetBackColor
+
+Gets the background color of a `CWindow`or control.
+
+```
+FUNCTION GetBackColor (BYVAL hCtl AS HWND) AS COLORREF
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hCtl* | The handle of the `CWindow`or control. |
+
+---
+
+## GetForeColor
+
+Gets the foreground color of a control.
+
+```
+FUNCTION GetForeColor (BYVAL hCtl AS HWND) AS COLORREF
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hCtl* | The handle of the `CWindow`or control. |
 
 ---
 
