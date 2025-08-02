@@ -83,10 +83,11 @@ DIM pWindow AS CWindow = "MyClassName"
 | [GetWorkArea](#getworkarea) | Retrieves the unscaled size of the work area on the primary display monitor. |
 | [Height](#height) | Returns the unscaled height of the main window. |
 | [hWindow](#hwindow) | Gets/sets the main window handle. |
-| [hwndClient](#hwndclient) | Gets the MDI client window handle. |
 | [InstanceHandle](#instancehandle) | Gets/sets the instance handle. |
-| [MDIClassName](#mdiclassname) | Sets the class name of the MDI frame window. |
+| [IsNonStable](#isnonstable) | Returns true if the main window is stabilized; otherwise, false. |
+| [IsStabilized](#isstabilized) | Returns true if the main window is stabilized; otherwise, false. |
 | [MoveWindow](#movewindow) | Changes the position and dimensions of the specified window. |
+| [NonStable](#nonstable) | Makes a `CWindow` non stable (closeable). |
 | [Resize](#resize) | Resizes the window sending a WM_SIZE message with the  SIZE_RESTORED value. |
 | [rxRatio](#rxratio) | Returns the horizontal scaling ratio. |
 | [ryRatio](#ryratio) | Returns the vertical scaling ratio. |
@@ -99,6 +100,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [SetFont](#setfont) | Creates a DPI aware logical font and sets it as the default font. |
 | [SetWindowPos](#setwindowpos) | Changes the size, position, and Z order of a child, pop-up, or top-level window. |
 | [SmallIcon](#smallicon) | Associates a new small icon with the main window. |
+| [Stabilize](#stabilize) | Makes the `CWindow` window stabilized (non-closeable). |
 | [UnScaleX](#unscalex) | Unscales an horizontal coordinate according the DPI setting. |
 | [UnScaleY](#unscaley) | Unscales a vertical coordinate according the DPI setting. |
 | [UserData](#userdata) | Gets/sets a value in the user data area of the window. |
@@ -2104,6 +2106,24 @@ pWindow.InstanceHandle = pInstance
 ```
 ---
 
+## IsNonStable
+
+Returns true if the dialog is non stable; otherwise, false.
+
+```
+FUNCTION IsNonStable () AS BOOLEAN
+```
+---
+
+## IsStabilized
+
+Returns true if the dialog is stabilized; otherwise, false.
+
+```
+FUNCTION IsStabilized () AS BOOLEAN
+```
+---
+
 ## MoveWindow
 
 Changes the position and dimensions of the specified window. For a top-level window, the position and dimensions are relative to the upper-left corner of the screen. For a child window, they are relative to the upper-left corner of the parent window's client area. This method scales the window by multiplying the size and coordinates according the DPI setting; therefore, you must pass unscaled values to it.
@@ -2140,6 +2160,23 @@ If the *bRepaint* parameter is CTRUE, the system sends the WM_PAINT message to t
 pWindow.MoveWindow GetDlgItem(hwnd, IDCANCEL), pWindow.ClientWidth, _
    pWindow-ClientHeight, 75, 23, CTRUE
 ```
+---
+
+## NonStable
+
+Makes a `CWindow` non stable (closeable).
+
+```
+FUNCTION NonStable () AS BOOLEAN
+```
+#### Return value
+
+If the function succeeds, the function returns true; otherwise, false.
+
+#### Remarks
+
+The window is made non-stable, meaning that it can be closed by the user. If there is a system menu, the close option and the close box are enabled. The ALT-F4 close key is also enabled. This is the default mode of operation.
+
 ---
 
 ## Resize
@@ -2392,6 +2429,23 @@ To use **SetWindowPos** to bring a window to the top, the process that owns the 
 SetWindowPos(hwnd, NULL, 0, 0, cx, cy, _
    SWP_NOZORDER OR SWP_NOMOVE OR SWP_NOACTIVATE)
 ```
+---
+
+## Stabilize
+
+Makes the`CWindow` stabilized (non-closeable by the user).
+
+```
+FUNCTION Stabilize () AS BOOLEAN
+```
+#### Return value
+
+If the function succeeds, the function returns true; otherwise, false.
+
+#### Remarks
+
+If there is a system menu, the close option and the close box are grayed. The ALT-F4 close key is disabled.  This allows you to be certain that your operations on can be completed. When a `CWindow` is stabilized, only program termination will close it.
+
 ---
 
 ## UnScaleX
