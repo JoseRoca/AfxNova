@@ -42,7 +42,7 @@ USING AfxNova
    #define _CGDIP_DP_ 1
    #MACRO CGDIP_DP(st)
       #IF (_CGDIP_DEBUG_ = 1)
-         OutputDebugStringW(st)
+         OutputDebugStringW(__FUNCTION__ + ": " + st)
       #ENDIF
    #ENDMACRO
 #ENDIF
