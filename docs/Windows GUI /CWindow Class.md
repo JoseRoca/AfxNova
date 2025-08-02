@@ -2366,6 +2366,20 @@ pWindow.SetFont("Marlett", 8, FW_NORMAL, , , , SYMBOL_CHARSET)
 ```
 ---
 
+## SetViewPort
+
+Makes a `CWindow` scrollable by shrinking its client area size.
+
+```
+FUNCTION SetViewPort (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nWidth* | The new width of the client area of the control. |
+| *nHeight* | The new height of the client area of the control. |
+
+---
+
 ## SetWindowPos
 
 Changes the size, position, and Z order of a child, pop-up, or top-level window. These windows are ordered according to their appearance on the screen. The topmost window receives the highest rank and is the first window in the Z order. The sizes and coordinates are scaled according the DPI setting.
