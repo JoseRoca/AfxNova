@@ -325,13 +325,8 @@ For a list of predefined class names and styles, see the **AddControl** method.
 
 If the application is DPI aware, controls created with the **AddControl** method are scaled according to the DPI setting.
 
+---
 
-The second way uses the API function **SetWindowSubclass**. Besides passing the address of the callback procedure, it allows to pass the identifier of the control and a pointer to the **CWindow** class.
-
-```
-pWindow.AddControl("Button", pWindow.hWindow, IDC_BUTTON, "Click me", 350, 250, 75, 23, , , , _
-   CAST(WNDPROC, @Button_SubclassProc), IDC_BUTTON, CAST(DWORD_PTR, @pWindow))
-```
 ### <a name="topic4"></a>Popup windows
 
 To create a popup window you simply create a new instance of the `CWindow` class and, in the **Create** method, you make it child of the main window and use the WS_POPUPWINDOW style.
@@ -360,17 +355,6 @@ CASE WM_CLOSE
 #### Example
 
 ```
-' ########################################################################################
-' Microsoft Windows
-' File: CW_PopupWindow.fbtpl
-' Contents: CWindow with a modal popup window
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
-' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
-' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-' ########################################################################################
-
 #INCLUDE ONCE "windows.bi"
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 USING AfxNova
@@ -649,22 +633,12 @@ IDI_SAVE             RCDATA ".\Resources\save_48.png"
 #### Example
 
 ```
-' ########################################################################################
-' Microsoft Windows
-' Contents: CWindow with a toolbar
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2016 José Roca. Freeware. Use at your own risk.
-' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
-' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-' ########################################################################################
-
 #define unicode
 #INCLUDE ONCE "windows.bi"
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 #INCLUDE ONCE "AfxNova/AfxCtl.inc"
 #INCLUDE ONCE "AfxNova/AfxGdiplus.inc"
-USING Afx
+USING AfxNova
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                            BYVAL hPrevInstance AS HINSTANCE, _
@@ -971,16 +945,6 @@ pWindow.CreateAcceleratorTable
 The following example creates a menu and an accelerator table.
 
 ```
-' ########################################################################################
-' Microsoft Windows
-' Contents: CWindow with a menu
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
-' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
-' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-' ########################################################################################
-
 #INCLUDE ONCE "windows.bi"
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 #INCLUDE ONCE "AfxNova/AfxMenu.inc"
