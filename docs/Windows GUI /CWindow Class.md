@@ -81,6 +81,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [GetClientRect](#getclientrect) | Retrieves the unscaled coordinates of the main window client area. |
 | [GetControlClientRect](#getcontrolclientrect) | Retrieves the unscaled coordinates of a window's client area. |
 | [GetControlWindowRect](#getcontrolwindowrect) | Retrieves the unscaled dimensions of the bounding rectangle of the specified window. |
+| [GetForeColor](#getforecolor) | Gets the foreground color of a control. |
 | [GetWindowRect](#getwindowrect) | Retrieves the unscaled dimensions of the bounding rectangle of the main window. |
 | [GetWorkArea](#getworkarea) | Retrieves the unscaled size of the work area on the primary display monitor. |
 | [Height](#height) | Returns the unscaled height of the main window. |
@@ -101,6 +102,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [SetBackColor](#setbackcolor) | Sets the background color of a `CWindow`. |
 | [SetClientSize](#setclientsize) | Adjusts the bounding rectangle of the window based on the desired size of the client area. |
 | [SetControlSubclass](#setcontrolsubclass) | Installs or updates a control subclass callback. |
+| [SetCtlColors](#setctlcolors) | Sets the colors of the control |
 | [SetFont](#setfont) | Creates a DPI aware logical font and sets it as the default font. |
 | [SetWindowPos](#setwindowpos) | Changes the size, position, and Z order of a child, pop-up, or top-level window. |
 | [SmallIcon](#smallicon) | Associates a new small icon with the main window. |
@@ -2389,6 +2391,22 @@ Subclass callbacks are identified by the combination of the callback address and
 Each callback can store a single DWORD_PTR of reference data, which is passed to the callback function when it is called to filter messages. No reference counting is performed for the callback; it may repeatedly call **SetControlSubclass** to alter the value of its reference data element.
 
 **Warning**: You cannot use the subclassing helper functions to subclass a window across threads.
+
+---
+
+## SetCtlColors
+
+Sets the colors of the control.
+
+```
+FUNCTION SetCtlColors (BYVAL hCtl AS HWND, BYVAL foreColor AS COLORREF, _
+   BYVAL backColor AS COLORREF) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hCtl* | The handle of the control. |
+| *foreColor* | The foreground color of the control. |
+| *backColor* | The background color of the control. |
 
 ---
 
