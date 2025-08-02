@@ -270,6 +270,8 @@ Each instance of the `CWindow` class has an user data area consisting in an arra
 
 These values are set and retrieved using the **UserData** property and an index from 0 to 99.
 
+---
+
 ### <a name="topic2"></a>Getting a pointer to the CWindow class
 
 At any time, you can get a pointer to the **CWindow** class by using:
@@ -299,6 +301,7 @@ CASE WM_CREATE
 CASE WM_CREATE
    DIM pWindow AS CWindow PTR = AfxCWindowPtr(lParam)
 ```
+---
 
 ### <a name="topic3"></a>Adding controls
 
@@ -508,6 +511,7 @@ FUNCTION PopupWndProc (BYVAL hWnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS W
 END FUNCTION
 ' ========================================================================================
 ```
+---
 
 ### <a name="topic5"></a>Using PNG icons in toolbars
 
@@ -742,6 +746,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 END FUNCTION
 ' ========================================================================================
 ```
+---
 
 ### <a name="topic6"></a>Visual style menus
 
@@ -884,7 +889,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                    BYVAL nCmdShow AS LONG) AS LONG
 
    ' // Set process DPI aware
-   AfxSetProcessDPIAware
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 
    DIM pWindow AS CWindow
    pWindow.Create(NULL, "CWindow with a menu", @WndProc)
@@ -914,6 +919,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 END FUNCTION
 ' ========================================================================================
 ```
+---
 
 ### <a name="topic7"></a>Keyboard Accelerators
 
@@ -1027,7 +1033,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                    BYVAL nCmdShow AS LONG) AS LONG
 
    ' // Set process DPI aware
-   AfxSetProcessDPIAware
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 
    DIM pWindow AS CWindow
    pWindow.Create(NULL, "CWindow with a menu", @WndProc)
@@ -1782,11 +1788,9 @@ PROPERTY DPI (BYVAL nDPI AS SINGLE)
 
 #### Remarks
 
-To make the application DPI aware with Windows Vista/Windows 7 it's needed a call to the API function **SetProcessDPIAware** or set it through the application manifest.
+To make the application DPI aware with Windows 10 or superior it's needed a call to the API function **SetProcessDpiAwareness** or set it through the application manifest.
 
-**Note**: **SetProcessDPIAware** is subject to a possible race condition if a DLL caches dpi settings during initialization. For this reason, it is recommended that dpi-aware be set through the application (.exe) manifest rather than by calling **SetProcessDPIAware**.
-
-DLLs should accept the dpi setting of the host process rather than call **SetProcessDPIAware** themselves. To be set properly, *dpiAware* should be specified as part of the application (.exe) manifest. (*dpiAware* defined in an embedded DLL manifest has no affect.) The following markup shows how to set dpiAware as part of an application (.exe) manifest.
+DLLs should accept the dpi setting of the host process rather than call **SetProcessDpiAwareness** themselves. To be set properly, *dpiAware* should be specified as part of the application (.exe) manifest. (*dpiAware* defined in an embedded DLL manifest has no affect.) The following markup shows how to set *dpiAware* as part of an application (.exe) manifest.
 
 ```
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" >
@@ -1799,8 +1803,6 @@ DLLs should accept the dpi setting of the host process rather than call **SetPro
  ...
 </assembly>
 ```
-
-**Note**: CWindow.inc provides the wrapper function **AfxSetProcessDPIAware**, that dynamically loads "user32.dll" and retrieves the address of the API function **SetProcessDPIAware**. This allows to write applications that can run in any Windows version. If the function **SetProcessDPIAware** is not available in the operating system (Windows XP and below), the call won't have effect but the application won't fail. You can still use scaling in these Windows versions passing the wanted value using the DPI property.
 
 #### Usage examples
 
