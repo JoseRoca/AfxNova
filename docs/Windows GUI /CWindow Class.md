@@ -95,6 +95,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [ScreenX](#screenx) | Returns the x-coordinate of the window relative to the screen. |
 | [ScreenY](#screeny) | Returns the y-coordinate of the window relative to the screen. |
 | [SetClientSize](#setclientsize) | Adjusts the bounding rectangle of the window based on the desired size of the client area. |
+| [SetControlSubclass](#setcontrolsubclass) | Installs or updates a control subclass callback. |
 | [SetFont](#setfont) | Creates a DPI aware logical font and sets it as the default font. |
 | [SetWindowPos](#setwindowpos) | Changes the size, position, and Z order of a child, pop-up, or top-level window. |
 | [SmallIcon](#smallicon) | Associates a new small icon with the main window. |
@@ -2250,6 +2251,38 @@ SUB SetClientSize (BYVAL nWidth AS LONG, BYVAL nHeight AS LONG)
 ```
 pWindow.SetClientSize(400, 250)
 ```
+---
+
+## SetControlSubclass
+
+Installs or updates a control subclass callback.
+
+```
+FUNCTION SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, _
+   BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS ANY PTR) AS BOOLEAN
+FUNCTION SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, _
+   BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS DWORD_PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hCtl* | The handle of the control being subclassed. |
+| *pfnSubclass* | A pointer to a window procedure. This pointer and the subclass ID uniquely identify this subclass callback. |
+| *uIdSubclass* | The subclass ID. This ID together with the subclass procedure uniquely identify a subclass. To remove a subclass, pass the subclass procedure and this value to the **RemoveWindowSubclass** function. This value is passed to the subclass procedure in the *uIdSubclass* parameter. |
+| *dwRefData* | DWORD_PTR to reference data. The meaning of this value is determined by the calling application. This value is passed to the subclass procedure in the *dwRefData* parameter. A different *dwRefData* is associated with each combination of window handle, subclass procedure and *uIdSubclass*. |
+
+#### Return value
+
+TRUE if the subclass callback was successfully installed; otherwise, FALSE.
+
+#### Remarks
+
+Subclass callbacks are identified by the combination of the callback address and the caller-defined subclass ID. If the callback address and ID pair have not yet been installed, then this function installs the subclass. If the pair has already been installed, then this function just updates the reference data.
+
+Each callback can store a single DWORD_PTR of reference data, which is passed to the callback function when it is called to filter messages. No reference counting is performed for the callback; it may repeatedly call **SetControlSubclass** to alter the value of its reference data element.
+
+**Warning**: You cannot use the subclassing helper functions to subclass a window across threads.
+
 ---
 
 ## SetFont
