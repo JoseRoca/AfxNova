@@ -2433,7 +2433,7 @@ FUNCTION GetForeColor (BYVAL hCtl AS HWND) AS COLORREF
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
-| *hCtl* | The handle of the `CWindow`or control. |
+| *hCtl* | The handle of the control. |
 
 ---
 
