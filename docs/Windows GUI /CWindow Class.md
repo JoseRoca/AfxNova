@@ -65,8 +65,10 @@ DIM pWindow AS CWindow = "MyClassName"
 | [ClientWidth](#clientwidth) | Returns the unscaled client width of the window. |
 | [ControlClientHeight](#controlclientheight) | Returns the unscaled client height of the specified window. |
 | [ControlClientWidth](#controlclientwidth) | Returns the unscaled client width of the specified window. |
+| [ControlGetUser](#controlgetuser) | Gets the control's user data |
 | [ControlHandle](#controlhandle) | Retrieves a handle to the child control specified by its identifier. |
 | [ControlHeight](#controlheight) | Returns the unscaled height of the specified window. |
+| [ControlSetUser](#controlsetuser) | Sets the control's user data |
 | [ControlWidth](#controlwidth) | Returns the unscaled width of the specified window. |
 | [Create](#create) | Creates a new window. |
 | [CreateAcceleratorTable](#createacceleratortable) | Creates the accelerator table. |
@@ -1464,6 +1466,55 @@ PROPERTY ControlClientWidth (BYVAL hwnd AS HWND) AS LONG
 ```
 DIM nHeight AS LONG = pWindow.ControlClientWidth(hwnd)
 ```
+---
+
+## ControlGetUser
+
+Gets the control's user data.
+
+```
+FUNCTION ControlGetUser (BYVAL cID AS LONG, BYVAL index AS LONG) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cID* | The control identifier. |
+| *index* | The index number of the user data value to retrieve, in the range 0 to 9 inclusive. |
+
+#### Remarks
+
+Each control has a user data area consisting of ten LONG_PTR values which may be used at the programmer's discretion to save relevant data. **ControlGetUser** allows one of the values to be retrieved, based upon the index parameter value (0 through 9).
+
+#### Return value
+
+Returns the LONG_PTR data value stored in the nominated user data index.
+
+---
+
+## ControlSetUser
+
+Sets the control's user data.
+
+```
+FUNCTION ControlSetUser (BYVAL cID AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cID* | The control identifier. |
+| *index* | The index number of the user data value to set, in the range 0 to 9 inclusive. |
+| *userValue* | The LONG_PTR data value to store in the user data area. |
+
+#### Remarks
+
+Each control has a user data area consisting of ten LONG_PTR values which may be used at the programmer's discretion to save relevant data. **ControlSetUser** allows one of the values to be set, based upon the index parameter value (0 through 9).
+
+---
+
+#### Return value
+
+Returns the LONG_PTR data value stored in the nominated user data index.
+
 ---
 
 ## ControlHandle
