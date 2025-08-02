@@ -102,7 +102,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [SetBackColor](#setbackcolor) | Sets the background color of a `CWindow`. |
 | [SetClientSize](#setclientsize) | Adjusts the bounding rectangle of the window based on the desired size of the client area. |
 | [SetControlSubclass](#setcontrolsubclass) | Installs or updates a control subclass callback. |
-| [SetCtlColors](#setctlcolors) | Sets the colors of the control |
+| [SetCtlColors](#setctlcolors) | Sets the colors of a control |
 | [SetFont](#setfont) | Creates a DPI aware logical font and sets it as the default font. |
 | [SetWindowPos](#setwindowpos) | Changes the size, position, and Z order of a child, pop-up, or top-level window. |
 | [SmallIcon](#smallicon) | Associates a new small icon with the main window. |
@@ -2396,7 +2396,7 @@ Each callback can store a single DWORD_PTR of reference data, which is passed to
 
 ## SetCtlColors
 
-Sets the colors of the control.
+Sets the colors of a and edit, listbox or static control.
 
 ```
 FUNCTION SetCtlColors (BYVAL hCtl AS HWND, BYVAL foreColor AS COLORREF, _
