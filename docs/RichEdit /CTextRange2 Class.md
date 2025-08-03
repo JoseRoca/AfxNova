@@ -1505,6 +1505,7 @@ SUB PrintNumbers (BYVAL pRange AS ITextRange2 PTR)
    WEND
 END SUB
 ```
+---
 
 ## MoveStartUntil
 
