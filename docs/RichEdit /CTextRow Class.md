@@ -129,7 +129,7 @@ DESTRUCTOR CTextRow
 Assignment operator. The assigned pointer must be an "addrefed" one.
 
 ```
-OPERATOR CTextRow.LET (BYVAL pTextRow AS ITextRow PTR)
+OPERATOR LET (BYVAL pTextRow AS ITextRow PTR)
 ```
 ---
 
@@ -138,7 +138,7 @@ OPERATOR CTextRow.LET (BYVAL pTextRow AS ITextRow PTR)
 Cast operator.
 
 ```
-OPERATOR CTextRow.CAST () AS ITextRow PTR
+OPERATOR CAST () AS ITextRow PTR
 ```
 ---
 
@@ -147,7 +147,7 @@ OPERATOR CTextRow.CAST () AS ITextRow PTR
 Returns a pointer to the underlying **ITextRow** interface
 
 ```
-FUNCTION CTextRow.TextRowPtr () AS ITextRow PTR
+FUNCTION TextRowPtr () AS ITextRow PTR
 ```
 ---
 
@@ -156,7 +156,7 @@ FUNCTION CTextRow.TextRowPtr () AS ITextRow PTR
 Attaches an **ITextRow** interface pointer to the class.
 
 ```
-FUNCTION CTextRow.Attach (BYVAL pTextRow AS ITextRow PTR, BYVAL fAddRef AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION Attach (BYVAL pTextRow AS ITextRow PTR, BYVAL fAddRef AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -171,7 +171,7 @@ FUNCTION CTextRow.Attach (BYVAL pTextRow AS ITextRow PTR, BYVAL fAddRef AS BOOLE
 Detaches the interface pointer from the class
 
 ```
-FUNCTION CTextRow.Detach () AS ITextRow PTR
+FUNCTION Detach () AS ITextRow PTR
 ```
 ---
 
@@ -180,7 +180,7 @@ FUNCTION CTextRow.Detach () AS ITextRow PTR
 Returns the last result code
 
 ```
-FUNCTION CTextRow.GetLastResult () AS HRESULT
+FUNCTION GetLastResult () AS HRESULT
 ```
 ---
 
@@ -189,7 +189,7 @@ FUNCTION CTextRow.GetLastResult () AS HRESULT
 Sets the last result code.
 
 ```
-FUNCTION CTextRow.SetResult (BYVAL Result AS HRESULT) AS HRESULT
+FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -232,7 +232,7 @@ END FUNCTION
 Gets the horizontal alignment of a row.
 
 ```
-FUNCTION CTextRow.GetAlignment () AS LONG
+FUNCTION GetAlignment () AS LONG
 ```
 
 #### Return value
@@ -256,7 +256,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the horizontal alignment of a row.
 
 ```
-FUNCTION CTextRow.SetAlignment (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetAlignment (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -280,7 +280,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the count of cells in this row.
 
 ```
-FUNCTION CTextRow.GetCellCount () AS LONG
+FUNCTION GetCellCount () AS LONG
 ```
 
 #### Return value
@@ -298,7 +298,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the count of cells in a row.
 
 ```
-FUNCTION CTextRow.SetCellCount (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellCount (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -316,7 +316,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the count of cells cached for this row.
 
 ```
-FUNCTION CTextRow.GetCellCountCache () AS LONG
+FUNCTION GetCellCountCache () AS LONG
 ```
 
 #### Return value
@@ -334,7 +334,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the count of cells cached for a row.
 
 ```
-FUNCTION CTextRow.SetCellCountCache (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellCountCache (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -356,7 +356,7 @@ If all cells are identical, properties need to be cached only for the cell with 
 Gets the index of the active cell to get or set parameters for.
 
 ```
-FUNCTION CTextRow.GetCellIndex () AS LONG
+FUNCTION GetCellIndex () AS LONG
 ```
 
 #### Return value
@@ -374,10 +374,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the index of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellIndex (BYVAL Value AS LONG) AS HRESULT
-   this.SetResult(m_pTextRow->lpvtbl->SetCellIndex(m_pTextRow, Value))
-   RETURN m_Result
-END FUNCTION
+FUNCTION SetCellIndex (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -401,7 +398,7 @@ If the cell index is greater than the cell count, and the cell index is less tha
 Gets the cell margin of this row.
 
 ```
-FUNCTION CTextRow.GetCellMargin () AS LONG
+FUNCTION GetCellMargin () AS LONG
 ```
 
 #### Return value
@@ -419,7 +416,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the cell margin of a row.
 
 ```
-FUNCTION CTextRow.SetCellMargin (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellMargin (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -437,7 +434,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the height of the row.
 
 ```
-FUNCTION CTextRow.GetHeight () AS LONG
+FUNCTION GetHeight () AS LONG
 ```
 
 #### Return value
@@ -455,7 +452,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the cell margin of a row.
 
 ```
-FUNCTION CTextRow.SetHeight (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetHeight (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -473,7 +470,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the indent of this row.
 
 ```
-FUNCTION CTextRow.GetIndent () AS LONG
+FUNCTION GetIndent () AS LONG
 ```
 
 #### Return value
@@ -491,7 +488,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the indent of a row.
 
 ```
-FUNCTION CTextRow.SetIndent (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetIndent (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -509,7 +506,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets whether this row is allowed to be broken across pages.
 
 ```
-FUNCTION CTextRow.GetKeepTogether () AS LONG
+FUNCTION GetKeepTogether () AS LONG
 ```
 
 #### Return value
@@ -527,7 +524,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets whether this row is allowed to be broken across pages.
 
 ```
-FUNCTION CTextRow.SetKeepTogether (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetKeepTogether (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -545,7 +542,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets whether this row is allowed to be broken across pages.
 
 ```
-FUNCTION CTextRow.GetKeepWithNext () AS LONG
+FUNCTION GetKeepWithNext () AS LONG
 ```
 
 #### Return value
@@ -563,7 +560,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the nest level of a table.
 
 ```
-FUNCTION CTextRow.GetNestLevel () AS LONG
+FUNCTION GetNestLevel () AS LONG
 ```
 
 | Parameter | Description |
@@ -585,7 +582,7 @@ The nest level of the table is identified by the associated **ITextRange2** obje
 Gets whether this row has right-to-left orientation.
 
 ```
-FUNCTION CTextRow.GetRTL () AS LONG
+FUNCTION GetRTL () AS LONG
 ```
 
 #### Return value
@@ -603,7 +600,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets whether this row has right-to-left orientation.
 
 ```
-FUNCTION CTextRow.SetRTL (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetRTL (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -627,7 +624,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the vertical alignment of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellAlignment () AS LONG
+FUNCTION GetCellAlignment () AS LONG
 ```
 
 #### Return value
@@ -645,7 +642,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the vertical alignment of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellAlignment (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellAlignment (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -663,7 +660,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the background color of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellColorBack () AS LONG
+FUNCTION GetCellColorBack () AS LONG
 ```
 
 #### Return value
@@ -681,7 +678,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the background color of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellColorBack (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellColorBack (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -703,7 +700,7 @@ See **GetCellShading** to see how the background color is used together with the
 Gets the foreground color of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellColorFore () AS LONG
+FUNCTION GetCellColorFore () AS LONG
 ```
 
 #### Return value
@@ -721,7 +718,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the foreground color of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellColorFore (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellColorFore (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -743,7 +740,7 @@ See **GetCellShading** to see how the foreground color is used together with the
 Gets the merge flags of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellMergeFlags () AS LONG
+FUNCTION GetCellMergeFlags () AS LONG
 ```
 
 #### Return value
@@ -768,7 +765,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the merge flags of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellMergeFlags (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellMergeFlags (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -793,7 +790,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the shading of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellShading () AS LONG
+FUNCTION GetCellShading () AS LONG
 ```
 
 #### Return value
@@ -815,7 +812,7 @@ The shading is given in hundredths of a percent, so full shading is given by the
 Sets the shading of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellShading (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellShading (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -839,7 +836,7 @@ Gets the vertical-text setting of the active cell.
 This property is not currently implemented.
 
 ```
-FUNCTION CTextRow.GetCellVerticalText () AS LONG
+FUNCTION GetCellVerticalText () AS LONG
 ```
 
 #### Return value
@@ -859,7 +856,7 @@ Sets the vertical-text setting of the active cell.
 This property is not currently implemented.
 
 ```
-FUNCTION CTextRow.SetCellVerticalText (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellVerticalText (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -873,7 +870,7 @@ FUNCTION CTextRow.SetCellVerticalText (BYVAL Value AS LONG) AS HRESULT
 Gets the width of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellWidth () AS LONG
+FUNCTION GetCellWidth () AS LONG
 ```
 
 #### Return value
@@ -895,7 +892,7 @@ The width of the cell, and/or the entire row, must be less than 22 inches (1440 
 Sets the active cell width in twips.
 
 ```
-FUNCTION CTextRow.SetCellWidth (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCellWidth (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -913,7 +910,7 @@ The total width of the entire row must be less than 22 inches, or 1440×22.
 Gets the border colors of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellBorderColors (BYVAL pcrLeft AS LONG PTR, BYVAL pcrTop AS LONG PTR, _
+FUNCTION GetCellBorderColors (BYVAL pcrLeft AS LONG PTR, BYVAL pcrTop AS LONG PTR, _
    BYVAL pcrRight AS LONG PTR, BYVAL pcrBottom AS LONG PTR) AS HRESULT
 ```
 
@@ -935,7 +932,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the border widths of the active cell.
 
 ```
-FUNCTION CTextRow.GetCellBorderWidths (BYVAL pduLeft AS LONG PTR, BYVAL pduTop AS LONG PTR, _
+FUNCTION GetCellBorderWidths (BYVAL pduLeft AS LONG PTR, BYVAL pduTop AS LONG PTR, _
    BYVAL pduRight AS LONG PTR, BYVAL pduBottom AS LONG PTR) AS HRESULT
 ```
 
@@ -957,7 +954,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Sets the border colors of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellBorderColors (BYVAL crLeft AS LONG, BYVAL crTop AS LONG, _
+FUNCTION SetCellBorderColors (BYVAL crLeft AS LONG, BYVAL crTop AS LONG, _
    BYVAL crRight AS LONG, BYVAL crBottom AS LONG) AS HRESULT
 ```
 
@@ -979,7 +976,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Sets the border widths of the active cell.
 
 ```
-FUNCTION CTextRow.SetCellBorderWidths (BYVAL duLeft AS LONG, BYVAL duTop AS LONG, _
+FUNCTION SetCellBorderWidths (BYVAL duLeft AS LONG, BYVAL duTop AS LONG, _
    BYVAL duRight AS LONG, BYVAL duBottom AS LONG) AS HRESULT
 ```
 
@@ -1001,7 +998,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Applies the formatting attributes of this text row object to the specified rows in the associated **ITextRange2**.
 
 ```
-FUNCTION CTextRow.Apply (BYVAL cRow AS LONG, BYVAL Flags AS LONG) AS HRESULT
+FUNCTION Apply (BYVAL cRow AS LONG, BYVAL Flags AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1025,7 +1022,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Determines whether changes can be made to this row.
 
 ```
-FUNCTION CTextRow.CanChange () AS LONG
+FUNCTION CanChange () AS LONG
 ```
 
 #### Return value
@@ -1043,7 +1040,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the value of the specified property.
 
 ```
-FUNCTION CTextRow.GetProperty (BYVAL nType AS LONG) AS LONG
+FUNCTION GetProperty (BYVAL nType AS LONG) AS LONG
 ```
 
 | Parameter | Description |
@@ -1065,7 +1062,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Inserts a row, or rows, at the location identified by the associated **ITextRange2** object.
 
 ```
-FUNCTION CTextRow.Insert (BYVAL cRow AS LONG) AS HRESULT
+FUNCTION Insert (BYVAL cRow AS LONG) AS HRESULT
 ```
 
 #### Return value
@@ -1079,7 +1076,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Compares two table rows to determine if they have the same properties.
 
 ```
-FUNCTION CTextRow.IsEqual (BYVAL pRow AS ITextRow PTR) AS LONG
+FUNCTION IsEqual (BYVAL pRow AS ITextRow PTR) AS LONG
 ```
 
 | Parameter | Description |
@@ -1101,7 +1098,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Resets a row.
 
 ```
-FUNCTION CTextRow.Reset (BYVAL Value AS LONG = tomRowUpdate) AS HRESULT
+FUNCTION Reset (BYVAL Value AS LONG = tomRowUpdate) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1124,7 +1121,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns one
 Sets the value of the specified property.
 
 ```
-FUNCTION CTextRow.SetProperty (BYVAL nType AS LONG, BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetProperty (BYVAL nType AS LONG, BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
