@@ -236,7 +236,7 @@ FUNCTION GetErrorInfo () AS DWSTRING
 ```
 ---
 
-## <GetText
+## GetText
 
 Gets the text in this range according to the specified conversion flags.
 
