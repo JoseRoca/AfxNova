@@ -141,23 +141,25 @@ The RichEdit procedures provides detailed descriptions of various procedures rel
 | [RichEdit_StreamOut](#richedit_streamout) | Causes a rich edit control to pass its contents to an application–defined EditStreamCallback callback function. |
 | [RichEdit_Undo](#richedit_undo) | This message undoes the last edit control operation in the control's undo queue. |
 
+---
+
 # RichEdit Helper Procedures
 
 | Name       | Description |
 | ---------- | ----------- |
-| [RichEdit_GetRtfText](#RichEdit_GetRtfText) | Retrieves formatted text from a Rich Edit control |
-| [RichEdit_LoadRtfFromFile](#RichEdit_LoadRtfFromFile) | Loads a Rich Text File into a Rich Edit control. |
-| [RichEdit_LoadRtfFromResource](#RichEdit_LoadRtfFromResource) | Loads a Rich Text Resource File into a Rich Edit control. |
-| [RichEdit_SetFont](#RichEdit_SetFont) | Sets the font used by a rich edit control. |
+| [RichEdit_GetRtfText](#richedit_getrtftext) | Retrieves formatted text from a Rich Edit control |
+| [RichEdit_LoadRtfFromFile](#richedit_loadrtffromfile) | Loads a Rich Text File into a Rich Edit control. |
+| [RichEdit_LoadRtfFromResource](#richedit_loadrtffromresource) | Loads a Rich Text Resource File into a Rich Edit control. |
+| [RichEdit_SetFont](#richedit_setfont) | Sets the font used by a rich edit control. |
 
-# <a name="RichEdit_AutoUrlDetect"></a>RichEdit_AutoUrlDetect
+---
+
+## RichEdit_AutoUrlDetect
 
 Enables or disables automatic detection of URLs by a rich edit control.
 
 ```
 FUNCTION RichEdit_AutoUrlDetect (BYVAL hRichEdit AS HWND, BYVAL fUrlDetect AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_AUTOURLDETECT, fUrlDetect, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -207,14 +209,14 @@ When automatic link detection is enabled, the rich edit control removes the **CF
 
 A rich edit control sends the [EN_LINK](https://learn.microsoft.com/en-us/windows/win32/controls/en-link) notification when it receives various messages while the mouse pointer is over text that has the **CFE_LINK** effect. 
 
-# <a name="RichEdit_CallAutocorrectProc"></a>RichEdit_CallAutocorrectProc
+---
+
+## RichEdit_CallAutocorrectProc
 
 Calls the autocorrect callback function that is stored by the **RichEdit_SetAutocorrectProc** message, provided that the text preceding the insertion point is a candidate for autocorrection.
 
 ```
 FUNCTION RichEdit_CallAutocorrectProc (BYVAL hRichEdit AS HWND, BYVAL char AS WCHAR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_CALLAUTOCORRECTPROC, char, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -226,14 +228,14 @@ END FUNCTION
 
 The return value is zero if the message succeeds, or nonzero if an error occurs.
 
-# <a name="RichEdit_CanPaste"></a>RichEdit_CanPaste
+---
+
+## RichEdit_CanPaste
 
 Determines whether a rich edit control can paste a specified clipboard format.
 
 ```
 FUNCTION RichEdit_CanPaste (BYVAL hRichEdit AS HWND, BYVAL clipformat AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_CANPASTE, clipformat, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -246,14 +248,14 @@ If the clipboard format can be pasted, the return value is a nonzero value.
 
 If the clipboard format cannot be pasted, the return value is zero.
 
-# <a name="RichEdit_CanRedo"></a>RichEdit_CanRedo
+---
+
+## RichEdit_CanRedo
 
 Determines whether there are any actions in the rich control redo queue.
 
 ```
 FUNCTION RichEdit_CanRedo (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_CANREDO, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -265,14 +267,14 @@ If there are actions in the control redo queue, the return value is a nonzero va
 
 If the redo queue is empty, the return value is zero.
 
-# <a name="RichEdit_CanUndo"></a>RichEdit_CanUndo
+---
+
+## RichEdit_CanUndo
 
 Determines whether there are any actions in the rich edit control undo queue.
 
 ```
 FUNCTION RichEdit_CanUndo (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_CANUNDO, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -284,14 +286,14 @@ If there are actions in the control's undo queue, the return value is nonzero.
 
 If the undo queue is empty, the return value is zero.
 
-# <a name="RichEdit_CharFromPos"></a>RichEdit_CharFromPos
+---
+
+## RichEdit_CharFromPos
 
 Gets information about the character closest to a specified point in the client area of a rich edit control.
 
 ```
 FUNCTION RichEdit_CharFromPos (BYVAL hRichEdit AS HWND, BYVAL lppl AS POINTL PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_CHARFROMPOS, 0, cast(LPARAM, lppl))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -302,14 +304,14 @@ END FUNCTION
 
 The return value specifies the zero-based character index of the character nearest the specified point. The return value indicates the last character in the edit control if the specified point is beyond the last character in the control.
 
-# <a name="RichEdit_DisplayBand"></a>RichEdit_DisplayBand
+---
+
+## RichEdit_DisplayBand
 
 Displays a portion of the contents of a rich edit control, as previously formatted for a device using the [EM_FORMATRANGE]([url](https://learn.microsoft.com/en-us/windows/win32/controls/em-formatrange)) message.
 
 ```
 FUNCTION RichEdit_DisplayBand (BYVAL hRichEdit AS HWND, BYVAL lprc AS RECT PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_DISPLAYBAND, 0, cast(LPARAM, lprc))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -328,27 +330,27 @@ Text and Component Object Model (COM) objects are clipped by the rectangle. The 
 
 Banding is the process by which a single page of output is generated using one or more separate rectangles, or bands. When all bands are placed on the page, a complete image results. This approach is often used by raster printers that do not have sufficient memory or ability to image a full page at one time. Banding devices include most dot matrix printers as well as some laser printers.
 
-# <a name="RichEdit_EmptyUndoBuffer"></a>RichEdit_EmptyUndoBuffer
+---
+
+## RichEdit_EmptyUndoBuffer
 
 Resets the undo flag of an edit control. The undo flag is set whenever an operation within the edit control can be undone.
 
 ```
 SUB RichEdit_EmptyUndoBuffer (BYVAL hRichEdit AS HWND)
-   SendMessageW hRichEdit, EM_EMPTYUNDOBUFFER, 0, 0
-END SUB
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hRichEdit* | The handle of the rich edit control. |
 
-# <a name="RichEdit_ExGetSel"></a>RichEdit_ExGetSel
+---
+
+## RichEdit_ExGetSel
 
 Retrieves the starting and ending character positions of the selection in a rich edit control.
 
 ```
 SUB RichEdit_ExGetSel (BYVAL hRichEdit AS HWND, BYVAL lpchr AS CHARRANGE PTR)
-   SendMessageW hRichEdit, EM_EXGETSEL, 0, cast(LPARAM, lpchr)
-END SUB
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -374,15 +376,14 @@ type CHARRANGE as _charrange
 DIM chrRange AS CHARRANGE
 RichEdit_ExGetSel(hRichEdit, @chrRange)
 ```
+---
 
-# <a name="RichEdit_ExLimitText"></a>RichEdit_ExLimitText
+## RichEdit_ExLimitText
 
 Sets an upper limit to the amount of text the user can type or paste into a rich edit control.
 
 ```
 SUB RichEdit_ExLimitText (BYVAL hRichEdit AS HWND, BYVAL dwLimit AS DWORD)
-   SendMessageW hRichEdit, EM_EXLIMITTEXT, 0, dwLimit
-END SUB
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -395,14 +396,14 @@ The text limit set by the **RichEdit_ExLimitText** message does not limit the am
 
 Before **RichEdit_ExLimitText** is called, the default limit to the amount of text a user can enter is 32,767 characters.
 
-# <a name="RichEdit_ExLineFromChar"></a>RichEdit_ExLineFromChar
+---
+
+## RichEdit_ExLineFromChar
 
 Determines which line contains the specified character in a rich edit control.
 
 ```
 FUNCTION RichEdit_ExLineFromChar (BYVAL hRichEdit AS HWND, BYVAL iIndex AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_EXLINEFROMCHAR, 0, iIndex)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -413,14 +414,14 @@ END FUNCTION
 
 Returns the zero-based index of the line.
 
-# <a name="RichEdit_ExSetSel"></a>RichEdit_ExSetSel
+---
+
+## RichEdit_ExSetSel
 
 Selects a range of characters or Component Object Model (COM) objects in a Microsoft Rich Edit control.
 
 ```
 FUNCTION RichEdit_ExSetSel (BYVAL hRichEdit AS HWND, BYVAL lpcr AS CHARRANGE PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_EXSETSEL, 0, cast(LPARAM, lpcr))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -451,15 +452,14 @@ The return value is the selection that is actually set.
 DIM chrRange AS CHARRANGE = TYPE<CHARRANGE>(3, 12)
 RichEdit_ExSetSel(hRichEdit, @chrRange)
 ```
+---
 
-# <a name="RichEdit_FindText"></a>RichEdit_FindText
+## RichEdit_FindText
 
 Finds text within a rich edit control.
 
 ```
 FUNCTION RichEdit_FindText (BYVAL hRichEdit AS HWND, BYVAL fOptions AS DWORD, BYVAL lpft AS FINDTEXTW PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_FINDTEXTW, fOptions, cast(LPARAM, lpft))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -471,14 +471,14 @@ END FUNCTION
 
 If the target string is found, the return value is the zero-based position of the first character of the match. If the target is not found, the return value is -1.
 
-# <a name="RichEdit_FindTextEx"></a>RichEdit_FindTextEx
+---
+
+## RichEdit_FindTextEx
 
 Finds Unicode text within a rich edit control.
 
 ```
 FUNCTION RichEdit_FindTextEx (BYVAL hRichEdit AS HWND, BYVAL fOptions AS DWORD, BYVAL lpftexw AS FINDTEXTEXW PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_FINDTEXTEXW, fOptions, cast(LPARAM, lpftexw))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -494,7 +494,9 @@ If the target string is found, the return value is the zero-based position of th
 
 **RichEdit_FindTextEx** uses the [FINDTEXTEXW](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-findtextexw) structure, while **RichEdit_FindText** uses the [FINDTEXTW](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-findtextw) structure. The difference is that EM_FINDTEXTEXW reports the range of text that was found.
 
-# <a name="RichEdit_FindWordBreak"></a>RichEdit_FindWordBreak
+---
+
+## RichEdit_FindWordBreak
 
 Finds the next word break before or after the specified character position or retrieves information about the character at that position.
 
@@ -525,14 +527,14 @@ If *fOperation* is **WB_LEFT** and **WB_RIGHT**, the word-break procedure finds 
 
 For information about character classes and word-break flags, see [Word and Line Breaks](https://learn.microsoft.com/en-us/windows/win32/controls/use-word-and-line-break-information).
 
-# <a name="RichEdit_FormatRange"></a>RichEdit_FormatRange
+---
+
+## RichEdit_FormatRange
 
 Formats a range of text in a rich edit control for a specific device.
 
 ```
 FUNCTION RichEdit_FormatRange (BYVAL hRichEdit AS HWND, BYVAL fRender AS LONG, BYVAL lpfr AS FORMATRANGE PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_FORMATRANGE, fRender, cast(LPARAM, lpfr))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -550,28 +552,28 @@ This message is typically used to format the content of rich edit control for an
 
 After using this message to format a range of text, it is important that you free cached information by sending **EM_FORMATRANGE** again, but with lParam set to **NULL**; otherwise, a memory leak will occur. Also, after using this message for one device, you must free cached information before using it again for a different device.
 
-# <a name="RichEdit_GetAutoCorrectProc"></a>RichEdit_GetAutoCorrectProc
+---
+
+## RichEdit_GetAutoCorrectProc
 
 Gets a pointer to the application-defined [AutoCorrectProc](https://learn.microsoft.com/en-us/windows/win32/api/richedit/nc-richedit-autocorrectproc) callback function.
 
 ```
 FUNCTION RichEdit_GetAutoCorrectProc (BYVAL hRichEdit AS HWND) AS LONG_PTR
-   FUNCTION = SendMessageW(hRichEdit, EM_GETAUTOCORRECTPROC, 0, 0)
-END FUNCTION
 ```
 
 #### Return value
 
 Returns a pointer to the application-defined [AutoCorrectProc](https://learn.microsoft.com/en-us/windows/win32/api/richedit/nc-richedit-autocorrectproc) callback function.
 
-# <a name="RichEdit_GetAutoUrlDetect"></a>RichEdit_GetAutoUrlDetect
+---
+
+## RichEdit_GetAutoUrlDetect
 
 Indicates whether the auto URL detection is turned on in the rich edit control.
 
 ```
 FUNCTION RichEdit_GetAutoUrlDetect (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETAUTOURLDETECT, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -602,7 +604,9 @@ When auto URL detection is on, Microsoft Rich Edit is constantly checking typed 
 
 Rich Edit also recognizes standard path names that start with \\\. When Rich Edit locates a URL, it changes the URL text color, underlines the text, and notifies the client using [EN_LINK](https://learn.microsoft.com/en-us/windows/win32/controls/en-link).
 
-# <a name="RichEdit_GetBidiOptions"></a>RichEdit_GetBidiOptions
+---
+
+## RichEdit_GetBidiOptions
 
 Indicates the current state of the bidirectional options in the rich edit control.
 
@@ -620,14 +624,14 @@ END SUB
 
 This message sets the values of the **wMask** and **wEffects** members to the value of the current state of the bidirectional options in the rich edit control.
 
-# <a name="RichEdit_GetCharFormat"></a>RichEdit_GetCharFormat
+---
+
+## RichEdit_GetCharFormat
 
 Determines the character formatting in a rich edit control.
 
 ```
 FUNCTION RichEdit_GetCharFormat (BYVAL hRichEdit AS HWND, BYVAL fOption AS DWORD, BYVAL lpcf AS CHARFORMATW PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETCHARFORMAT, fOption, cast(LPARAM, lpcf))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -639,7 +643,9 @@ END FUNCTION
 
 This message returns the value of the **dwMask** member of the [CHARFORMAT](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformata) structure.
 
-# <a name="RichEdit_GetCTFModeBias"></a>RichEdit_GetCTFModeBias
+---
+
+## RichEdit_GetCTFModeBias
 
 Retrieves the Text Services Framework mode bias values for a Microsoft Rich Edit control.
 
@@ -660,14 +666,14 @@ The current Text Services Framework mode bias value.
 
 To get the IME mode bias, call **RichEdit_GetIMEModeBias**.
 
-# <a name="RichEdit_GetCTFOpenStatus"></a>RichEdit_GetCTFOpenStatus
+---
+
+## RichEdit_GetCTFOpenStatus
 
 Determines if the Text Services Framework (TSF) keyboard is open or closed.
 
 ```
 FUNCTION RichEdit_GetCTFOpenStatus (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETCTFOPENSTATUS, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -677,14 +683,14 @@ END FUNCTION
 
 If the TSF keyboard is open, the return value is **TRUE**. Otherwise, it is **FALSE**.
 
-# <a name="RichEdit_GetEditStyle"></a>RichEdit_GetEditStyle
+---
+
+## RichEdit_GetEditStyle
 
 Retrieves the current edit style flags.
 
 ```
 FUNCTION RichEdit_GetEditStyle (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETEDITSTYLE, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -727,14 +733,14 @@ Returns the current edit style flags, which can include one or more of the follo
 | **SES_USECTF** | **Windows XP with SP1**: Turns on TSF support. (default: 0). |
 | **SES_XLTCRCRLFTOCR** | Turns on translation of CRCRLFs to CRs. When this bit is on and a file is read in, all instances of CRCRLF will be converted to hard CRs internally. This will affect the text wrapping. Note that if such a file is saved as plain text, the CRs will be replaced by CRLFs. This is the .txt standard for plain text (default: 0, which deletes CRCRLFs on input). |
 
-# <a name="RichEdit_GetEditStyleEx"></a>RichEdit_GetEditStyleEx
+---
+
+## RichEdit_GetEditStyleEx
 
 Retrieves the current extended edit style flags.
 
 ```
 FUNCTION RichEdit_GetEditStyleEx (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETEDITSTYLEEX, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -755,14 +761,14 @@ Returns the extended edit style flags, which can include one or more of the foll
 | **SES_HIDETEMPFORMAT** | Hide temporary formatting that is created when **ITextFont.Reset** is called with **tomApplyTmp**. For example, such formatting is used by spell checkers to display a squiggly underline under possibly misspelled words. |
 | **SES_EX_USEMOUSEWPARAM** | Use *wParam* when handling the **WM_MOUSEMOVE** message and do not call **GetAsyncKeyState**. |
 
-# <a name="RichEdit_GetEllipsisMode"></a>RichEdit_GetEllipsisMode
+---
+
+## RichEdit_GetEllipsisMode
 
 Retrieves the current ellipsis mode. When enabled, an ellipsis ( ) is displayed for text that doesn't fit in the display window. The ellipsis is only used when the control is not active. When active, scroll bars are used to reveal text that doesn't fit into the display window.
 
 ```
 FUNCTION RichEdit_GetEllipsisMode (BYVAL hRichEdit AS HWND, BYVAL pmode AS DWORD PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETELLIPSISMODE, 0, cast(LPARAM, pMode))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -773,14 +779,14 @@ END FUNCTION
 
 If *pmode* is not NULL, the return value equals TRUE; otherwise, the return value equals FALSE.
 
-# <a name="RichEdit_GetEllipsisState"></a>RichEdit_GetEllipsisState
+---
+
+## RichEdit_GetEllipsisState
 
 Retrieves the current ellipsis state.
 
 ```
 FUNCTION RichEdit_GetEllipsisState (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETELLIPSISSTATE, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -790,14 +796,14 @@ END FUNCTION
 
 The return value is **TRUE** if an ellipsis is being displayed and **FALSE** otherwise.
 
-# <a name="RichEdit_GetEventMask"></a>RichEdit_GetEventMask
+---
+
+## RichEdit_GetEventMask
 
 Retrieves the event mask for a rich edit control. The event mask specifies which notification messages the control sends to its parent window.
 
 ```
 FUNCTION RichEdit_GetEventMask (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETEVENTMASK, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -807,14 +813,14 @@ END FUNCTION
 
 This message returns the event mask for the rich edit control.
 
-# <a name="RichEdit_GetFirstVisibleLine"></a>RichEdit_GetFirstVisibleLine
+---
+
+## RichEdit_GetFirstVisibleLine
 
 Retrieves the zero-based index of the uppermost visible line in a multiline edit control. You can send this message to either an edit control or a rich edit control.
 
 ```
 FUNCTION RichEdit_GetFirstVisibleLine (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETFIRSTVISIBLELINE, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -826,28 +832,28 @@ The return value is the zero-based index of the uppermost visible line in a mult
 
 For single-line rich edit controls, the return value is zero.
 
-# <a name="RichEdit_GetHyphenateInfo"></a>RichEdit_GetHyphenateInfo
+---
+
+## RichEdit_GetHyphenateInfo
 
 Retrieves information about hyphenation for a Microsoft Rich Edit control.
 
 ```
 SUB RichEdit_GetHyphenateInfo (BYVAL hRichEdit AS HWND, BYVAL lphi AS HYPHENATEINFO PTR)
-   SendMessageW hRichEdit, EM_GETHYPHENATEINFO, cast(WPARAM, lphi), 0
-END SUB
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hRichEdit* | The handle of the rich edit control. |
 | *lphi* | A pointer to a [HYPHENATEINFO](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-hyphenateinfo) structure. |
 
-# <a name="RichEdit_GetIMEColor"></a>RichEdit_GetIMEColor
+---
+
+## RichEdit_GetIMEColor
 
 Retrieves the Input Method Editor (IME) composition color. This message is available only in Asian-language versions of the operating system.
 
 ```
 FUNCTION RichEdit_GetIMEColor (BYVAL hRichEdit AS HWND, BYVAL rgCmpclr AS COMPCOLOR PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETIMECOLOR, 0, cast(LPARAM, rgCmpclr))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -860,14 +866,14 @@ If the operation succeeds, the return value is a nonzero value.
 
 If the operation fails, the return value is zero.
 
-# <a name="RichEdit_GetIMECompMode"></a>RichEdit_GetIMECompMode
+---
+
+## RichEdit_GetIMECompMode
 
 Retrieves the current Input Method Editor (IME) mode for a rich edit control.
 
 ```
 FUNCTION RichEdit_GetIMECompMode (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETIMECOMPMODE, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -885,14 +891,14 @@ The return value is one of the following values.
 | **ICM_LEVEL2_5** | Level 2.5. |
 | **ICM_LEVEL2_SUI** | Special UI. |
 
-# <a name="RichEdit_GetIMECompText"></a>RichEdit_GetIMECompText
+---
+
+## RichEdit_GetIMECompText
 
 Retrieves the Input Method Editor (IME) composition text.
 
 ```
 FUNCTION RichEdit_GetIMECompText (BYVAL hRichEdit AS HWND, BYVAL lpict AS IMECOMPTEXT PTR, BYVAL buffer AS ANY PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETIMECOMPTEXT, cast(WPARAM, lpict), cast(LPARAM, buffer))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -910,14 +916,14 @@ This message only takes Unicode strings.
 
 **Security Warning**: Be sure to have a buffer sufficient for the size of the input. Failure to do so could cause problems for your application.
 
-# <a name="RichEdit_GetIMEModeBias"></a>RichEdit_GetIMEModeBias
+---
+
+## RichEdit_GetIMEModeBias
 
 Retrieves the Input Method Editor (IME) mode bias for a Microsoft Rich Edit control.
 
 ```
 FUNCTION RichEdit_GetIMEModeBias (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETIMEMODEBIAS, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -933,14 +939,14 @@ To get the Text Services Framework mode bias, use **RichEdit_GetCTFModeBias**.
 
 The application should call **RichEdit_IsIME** before calling this function.
 
-# <a name="RichEdit_GetIMEOptions"></a>RichEdit_GetIMEOptions
+---
+
+## RichEdit_GetIMEOptions
 
 Retrieves the current Input Method Editor (IME) options. This message is available only in Asian-language versions of the operating system.
 
 ```
 FUNCTION RichEdit_GetIMEOptions (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETIMEOPTIONS, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -950,14 +956,14 @@ END FUNCTION
 
 This message returns one or more of the IME option flag values described in the **RichEdit_SetIMEOptions** message.
 
-# <a name="RichEdit_GetIMEProperty"></a>RichEdit_GetIMEProperty
+---
+
+## RichEdit_GetIMEProperty
 
 Retrieves the property and capabilities of the Input Method Editor (IME) associated with the current input locale.
 
 ```
 FUNCTION RichEdit_GetIMEProperty (BYVAL hRichEdit AS HWND, BYVAL figp AS DWORD) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETIMEPROPERTY, figp, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1023,14 +1029,14 @@ If *figp* is **IGP_GETIMEVERSION**, it returns one or more of the following valu
 
 This message is similar to **ImmGetProperty**, except that it uses the current input locale. The application should call **RichEdit_IsIME** before calling this function.
 
-# <a name="RichEdit_GetLangOptions"></a>RichEdit_GetLangOptions
+---
+
+## RichEdit_GetLangOptions
 
 Retrieves a rich edit control's option settings for Input Method Editor (IME) and Asian language support.
 
 ```
 FUNCTION RichEdit_GetLangOptions (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETLANGOPTIONS, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1060,14 +1066,14 @@ Returns the IME and Asian language settings, which can be zero or more of the fo
 
 The **IMF_AUTOFONT** flag is set by default. The **IMF_AUTOKEYBOARD** and **IMF_IMECANCELCOMPLETE** flags are cleared by default.
 
-# <a name="RichEdit_GetLimitText"></a>RichEdit_GetLimitText
+---
+
+## RichEdit_GetLimitText
 
 Retrieves the current text limit for an edit control. You can send this message to either an edit control or a rich edit control.
 
 ```
 FUNCTION RichEdit_GetLimitText (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETLIMITTEXT, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1081,16 +1087,14 @@ The return value is the text limit.
 
 The text limit is the maximum amount of text, in characters, that the control can contain. For ANSI text, this is the number of bytes; for Unicode text, this is the number of characters. Two documents with the same character limit will yield the same text limit, even if one is ANSI and the other is Unicode.
 
-# <a name="RichEdit_GetLine"></a>RichEdit_GetLine
+---
+
+## RichEdit_GetLine
 
 Copies a line of text from a rich edit control.
 
 ```
 FUNCTION RichEdit_GetLine (BYVAL hRichEdit AS HWND, BYVAL which AS DWORD) AS CWSTR
-   DIM buffer AS CWSTR = MKI(32765) + STRING(32765, 0)
-   DIM n AS LONG = SendMessageW(hRichEdit, EM_GETLINE, which, cast(LPARAM, *buffer))
-   RETURN LEFT(**buffer, n)
-END FUNCTION
 ```
 **Note**: Before sending the EM_GETLINE message, the first word of the buffer has to be set to the size, in characters, of the buffer. The size in the first word is overwritten by the copied line.
 
@@ -1103,14 +1107,14 @@ END FUNCTION
 
 A copy of the line.
 
-# <a name="RichEdit_GetLineCount"></a>RichEdit_GetLineCount
+---
+
+## RichEdit_GetLineCount
 
 Retrieves the number of lines in a multiline rich edit control.
 
 ```
 FUNCTION RichEdit_GetLineCount (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETLINECOUNT, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1126,14 +1130,14 @@ The **EM_GETLINECOUNT** message retrieves the total number of text lines, not ju
 
 If the Wordwrap feature is enabled, the number of lines can change when the dimensions of the editing window change.
 
-# <a name="RichEdit_GetModify"></a>RichEdit_GetModify
+---
+
+## RichEdit_GetModify
 
 Retrieves the state of a rich edit control's modification flag. The flag indicates whether the contents of the rich edit control have been modified.
 
 ```
 FUNCTION RichEdit_GetModify (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETMODIFY, 0, 0)
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1147,14 +1151,14 @@ If the contents of edit control have been modified, the return value is nonzero;
 
 The system automatically clears the modification flag to zero when the control is created. If the user changes the control's text, the system sets the flag to nonzero. You can send the **RichEdit_SetModify** message to the edit control to set or clear the flag.
 
-# <a name="RichEdit_GetOleInterface"></a>RichEdit_GetOleInterface
+---
+
+## RichEdit_GetOleInterface
 
 Retrieves an **IRichEditOle** object that a client can use to access a rich edit control's Component Object Model (COM) functionality.
 
 ```
 FUNCTION RichEdit_GetOleInterface (BYVAL hRichEdit AS HWND, BYVAL ppObject AS IUnknown PTR PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETOLEINTERFACE, 0, cast(LPARAM, ppObject))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1167,14 +1171,14 @@ If the operation succeeds, the return value is a nonzero value.
 
 If the operation fails, the return value is zero.
 
-# <a name="RichEdit_GetOptions"></a>RichEdit_GetOptions
+---
+
+## RichEdit_GetOptions
 
 Retrieves rich edit control options.
 
 ```
 FUNCTION RichEdit_GetOptions (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETOPTIONS, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1185,14 +1189,14 @@ END FUNCTION
 
 This message returns a combination of the current option flag values described in the **RichEdit_SetOptions** message.
 
-# <a name="RichEdit_GetPageRotate"></a>RichEdit_GetPageRotate
+---
+
+## RichEdit_GetPageRotate
 
 Deprecated. Retrieves the text layout for a Microsoft Rich Edit control.
 
 ```
 FUNCTION RichEdit_GetPageRotate (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETPAGEROTATE, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1203,14 +1207,14 @@ END FUNCTION
 
 The current text layout. For a list of possible text layout values, see **RichEdit_SetPageRotate**.
 
-# <a name="RichEdit_GetParaFormat"></a>RichEdit_GetParaFormat
+---
+
+## RichEdit_GetParaFormat
 
 Retrieves the paragraph formatting of the current selection in a rich edit control.
 
 ```
 FUNCTION RichEdit_GetParaFormat (BYVAL hRichEdit AS HWND, BYVAL pParaFmt AS PARAFORMAT PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETPARAFORMAT, 0, cast(LPARAM, pParaFmt))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1222,14 +1226,14 @@ END FUNCTION
 
 This message returns the value of the **dwMask** member of the [PARAFORMAT](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-paraformat) structure.
 
-# <a name="RichEdit_GetPasswordChar"></a>RichEdit_GetPasswordChar
+---
+
+## RichEdit_GetPasswordChar
 
 Retrieves the password character that a rich edit control displays when the user enters text.
 
 ```
 FUNCTION RichEdit_GetPasswordChar (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETPASSWORDCHAR, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1244,14 +1248,14 @@ The return value specifies the character to be displayed in place of any charact
 
 If an edit control is created with the **ES_PASSWORD** style, the default password character is set to an asterisk (*). If an edit control is created without the **ES_PASSWORD** style, there is no password character. To change the password character, send the **RichEdit_SetPasswordChar** message.
 
-# <a name="RichEdit_GetPunctuation"></a>RichEdit_GetPunctuation
+---
+
+## RichEdit_GetPunctuation
 
 Retrieves the current punctuation characters for the rich edit control.
 
 ```
 FUNCTION RichEdit_GetPunctuation (BYVAL hRichEdit AS HWND, BYVAL punctype AS DWORD, BYVAL lppunct AS PUNCTUATION PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETPUNCTUATION, punctype, cast(LPARAM, lppunct))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1266,14 +1270,14 @@ If the operation succeeds, the return value is a nonzero value.
 
 If the operation fails, the return value is zero.
 
-# <a name="RichEdit_GetRect"></a>RichEdit_GetRect
+---
+
+## RichEdit_GetRect
 
 Retrieves the formatting rectangle of an edit control. The formatting rectangle is the limiting rectangle into which the control draws the text. The limiting rectangle is independent of the size of the edit-control window.
 
 ```
 SUB RichEdit_GetRect (BYVAL hRichEdit AS HWND, BYVAL prc AS RECT PTR)
-   SendMessageW hRichEdit, EM_GETRECT, 0, cast(LPARAM, prc)
-END SUB
 ```
 
 | Parameter  | Description |
@@ -1289,14 +1293,14 @@ Under certain conditions, **RichEdit_GetRect** might not return the exact values
 
 The formatting rectangle does not include the selection bar, which is an unmarked area to the left of each paragraph. When clicked, the selection bar selects the line.
 
-# <a name="RichEdit_GetRedoName"></a>RichEdit_GetRedoName
+---
+
+## RichEdit_GetRedoName
 
 Retrieves the type of the next action, if any, in the rich edit control's redo queue.
 
 ```
 FUNCTION RichEdit_GetRedoName (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETREDONAME, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1325,14 +1329,14 @@ If there are no redoable actions or the type of the next redoable action is unkn
 
 The types of actions that can be undone or redone include typing, delete, drag-drop, cut, and paste operations. This information can be useful for applications that provide an extended user interface for undo and redo operations, such as a drop-down list box of redoable actions.
 
-# <a name="RichEdit_GetScrollPos"></a>RichEdit_GetScrollPos
+---
+
+## RichEdit_GetScrollPos
 
 Retrieves the current scroll position of the edit control.
 
 ```
 FUNCTION RichEdit_GetScrollPos (BYVAL hRichEdit AS HWND, BYVAL lppt AS POINT PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETSCROLLPOS, 0, cast(LPARAM, lppt))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1344,14 +1348,14 @@ END FUNCTION
 
 The values returned in the [POINT](https://learn.microsoft.com/en-us/windows/win32/api/windef/ns-windef-point) structure are 16-bit values (even in the 32-bit wide fields).
 
-# <a name="RichEdit_GetSel"></a>RichEdit_GetSel
+---
+
+## RichEdit_GetSel
 
 Retrieves the starting and ending character positions of the current selection in a rich edit control.
 
 ```
 FUNCTION RichEdit_GetSel (BYVAL hRichEdit AS HWND, BYVAL pdwStartPos AS DWORD PTR, BYVAL pdwEndPos AS DWORD PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETSEL, cast(WPARAM, pdwStartPos), cast(LPARAM, pdwEndPos))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1372,20 +1376,14 @@ If there is no selection, the starting and ending values are both the position o
 
 You can also use the **EM_EXGETSEL** message to retrieve the same information. **EM_EXGETSEL** also returns starting and ending character positions as 32-bit values. A combination of the use of **EM_EXGETSEL** and **EM_GETSELTEXT** are used in the **RichEdit_GetSelText** function to retrieve the selected text as a **CWSTR**.
 
-# <a name="RichEdit_GetSelText"></a>RichEdit_GetSelText
+---
+
+## RichEdit_GetSelText
 
 Retrieves the currently selected text in a rich edit control.
 
 ```
-FUNCTION RichEdit_GetSelText (BYVAL hRichEdit AS HWND) AS CWSTR
-   DIM dwStartPos AS DWORD, dwEndPos AS DWORD, cr AS CHARRANGE
-   SendMessageW(hRichEdit, EM_EXGETSEL, 0, cast(LPARAM, @cr))
-   DIM cbLen AS DWORD = ABS(cr.cpMax - cr.cpMin)
-   IF cbLen < 1 THEN RETURN ""
-   DIM cwsText AS CWSTR = cbLen + 1
-   cbLen = SendMessageW(hRichEdit, EM_GETSELTEXT, 0, cast(LPARAM, *cwsText))
-   RETURN LEFT(**cwsText, cbLen)
-END FUNCTION
+FUNCTION RichEdit_GetSelText (BYVAL hRichEdit AS HWND) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1394,16 +1392,16 @@ END FUNCTION
 
 #### Return value
 
-The selected text as a **CWSTR** (dynamic unicode string).
+The selected text as a **DWSTRING** (dynamic unicode string).
 
-# <a name="RichEdit_GetStoryType"></a>RichEdit_GetStoryType
+---
+
+## RichEdit_GetStoryType
 
 Gets the story type.
 
 ```
 FUNCTION RichEdit_GetStoryTpe (BYVAL hRichEdit AS HWND, BYVAL Index AS DWORD) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETSTORYTYPE, Index, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1433,14 +1431,15 @@ Returns the story type, which can be a client-defined custom value, or one of th
 | **tomTextFrameStory** | 5 | The story used for a text box. |
 | **tomUnknownStory** | 0 | No special type. |
 
-# <a name="RichEdit_GetTableParams"></a>RichEdit_GetTableParams
+---
+
+## RichEdit_GetTableParams
 
 Retrieves the table parameters for a table row and the cell parameters for the specified number of cells.
 
 ```
-FUNCTION RichEdit_GetTableParams (BYVAL hRichEdit AS HWND, BYVAL lptp AS TABLEROWPARMS PTR, BYVAL lptcp AS TABLECELLPARMS PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTABLEPARMS, cast(WPARAM, lptp), cast(LPARAM, lptcp))
-END FUNCTION
+FUNCTION RichEdit_GetTableParams (BYVAL hRichEdit AS HWND, BYVAL lptp AS TABLEROWPARMS PTR, _
+   BYVAL lptcp AS TABLECELLPARMS PTR) AS DWORD
 ```
 
 | Parameter  | Description |
@@ -1465,18 +1464,14 @@ This message gets the table parameters for the row at the character position spe
 
 The character position specified by the **cpStartRow** member of the **TABLEROWPARMS** structure should be at the start of the table row, or at the end delimiter of the table row. If **cpStartRow** is set to 1, the character position is given by the current selection. In this case, position the selection at the end of the row (between the cell mark and the end delimiter of the table row), or select the row.
 
-# <a name="RichEdit_GetText"></a>RichEdit_GetText
+---
+
+## RichEdit_GetText
 
 Retrieves the text from a rich edit control.
 
 ```
-FUNCTION RichEdit_GetText (BYVAL hRichEdit AS HWND) AS CWSTR
-   DIM cbLen AS DWORD = SendMessageW(hRichEdit, WM_GETTEXTLENGTH, 0, 0)
-   IF cbLen < 1 THEN RETURN ""
-   DIM cwsText AS CWSTR = cbLen + 1
-   cbLen = SendMessageW(hRichEdit, WM_GETTEXT, cbLen + 1, cast(LPARAM, *cwsText))
-   RETURN LEFT(**cwsText, cbLen)
-END FUNCTION
+FUNCTION RichEdit_GetText (BYVAL hRichEdit AS HWND) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1487,14 +1482,14 @@ END FUNCTION
 
 The Windows API function **GetWindowTextW** can also be used to retrive the text of a rich edit control, but it cannot retrieve the text of a control in another application.
 
-# <a name="RichEdit_GetTextEx"></a>RichEdit_GetTextEx
+---
+
+## RichEdit_GetTextEx
 
 Retrieves all of the text from the rich edit control in any particular code base you want.
 
 ```
 FUNCTION RichEdit_GetTextEx (BYVAL hRichEdit AS HWND, BYVAL lpgtex AS GETTEXTEX PTR, BYVAL buffer AS ANY PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTEXTEX, cast(WPARAM, lpgtex), cast(LPARAM, buffer))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1511,14 +1506,14 @@ The return value is the number of characters copied into the output buffer, not 
 
 If the size of the output buffer is less than the size of the text in the control, the edit control will copy text from its beginning and place it in the buffer until the buffer is full. A terminating null character will still be placed at the end of the buffer.
 
-# <a name="RichEdit_GetTextLength"></a>RichEdit_GetTextLength
+---
+
+## RichEdit_GetTextLength
 
 Retrieves the length of all text in a rich edit control.
 
 ```
 FUNCTION RichEdit_GetTextLength (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, WM_GETTEXTLENGTH, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1535,14 +1530,14 @@ When the **WM_GETTEXTLENGTH** message is sent, the **DefWindowProc** function re
 
 To retrieve the text, you can also use the **AfxGetWindowText** function, the **WM_GETTEXT** message, or the Windows API **GetWindowTextW** function.
 
-# <a name="RichEdit_GetTextLengthEx"></a>RichEdit_GetTextLengthEx
+---
+
+## RichEdit_GetTextLengthEx
 
 Calculates text length in various ways. It is usually called before creating a buffer to receive the text from the control.
 
 ```
 FUNCTION RichEdit_GetTextLengthEx (BYVAL hRichEdit AS HWND, BYVAL lpgtex AS GETTEXTLENGTHEX PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTEXTLENGTHEX, cast(WPARAM, lpgtex), 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1558,14 +1553,14 @@ The message returns the number of characters in the edit control, depending on t
 
 This message is a fast and easy way to determine the number of characters in the Unicode version of the rich edit control. However, for a non-Unicode target code page you will potentially be converting to a combination of single-byte and double-byte characters.
 
-# <a name="RichEdit_GetTextMode"></a>RichEdit_GetTextMode
+---
+
+## RichEdit_GetTextMode
 
 Retrieves the current text mode and undo level of a rich edit control.
 
 ```
 FUNCTION RichEdit_GetTextMode (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTEXTMODE, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1587,14 +1582,14 @@ The return value is one or more values from the [TEXTMODE](https://learn.microso
 | **TM_SINGLECODEPAGE** |  16   | The control only allows the English keyboard and a keyboard corresponding to the default character set. For example, you could have Greek and English. Note that this prevents Unicode text from entering the control. For example, use this value if a Rich Edit control must be restricted to ANSI text. |
 | **TM_MULTICODEPAGE** |  32   | The control allows multiple code pages and Unicode text into the control. This is the default setting. |
 
-# <a name="RichEdit_GetTextRange"></a>RichEdit_GetTextRange
+---
+
+## RichEdit_GetTextRange
 
 Retrieves a specified range of characters from a rich edit control.
 
 ```
 FUNCTION RichEdit_GetTextRange (BYVAL hRichEdit AS HWND, BYVAL lptrg AS TEXTRANGEW PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTEXTRANGE, 0, cast(LPARAM, lptrg))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1606,14 +1601,14 @@ END FUNCTION
 
 The message returns the number of characters copied, not including the terminating null character.
 
-# <a name="RichEdit_GetThumb"></a>RichEdit_GetThumb
+---
+
+## RichEdit_GetThumb
 
 Retrieves the position of the scroll box (thumb) in the vertical scroll bar of a multiline edit control.
 
 ```
 FUNCTION RichEdit_GetThumb (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTHUMB, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1624,14 +1619,14 @@ END FUNCTION
 
 The return value is the position of the scroll box.
 
-# <a name="RichEdit_GetTouchOptions"></a>RichEdit_GetTouchOptions
+---
+
+## RichEdit_GetTouchOptions
 
 Retrieves the touch options that are associated with a rich edit control.
 
 ```
 FUNCTION RichEdit_GetTouchOptions (BYVAL hRichEdit AS HWND, BYVAL Options AS LONG PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTOUCHOPTIONS, cast(WPARAM, Options), 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1648,14 +1643,14 @@ END FUNCTION
 
 Returns the value of the option specified by the *Options* parameter. It is nonzero if *Options* is **RTO_SHOWHANDLES** and the touch grippers are visible; zero, otherwise.
 
-# <a name="RichEdit_GetTypographyOptions"></a>RichEdit_GetTypographyOptions
+---
+
+## RichEdit_GetTypographyOptions
 
 Returns the current state of the typography options of a rich edit control.
 
 ```
 FUNCTION RichEdit_GetTypographyOptions (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETTYPOGRAPHYOPTIONS, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1670,14 +1665,14 @@ Returns the current typography options. For a list of options, see [EM_SETTYPOGR
 
 You can turn on advanced line breaking by sending the **RichEdit_SetTypographyOPtions** message. Advanced and normal line breaking may also be turned on automatically by the rich edit control if it is needed for certain languages.
 
-# <a name="RichEdit_GetUndoName"></a>RichEdit_GetUndoName
+---
+
+## RichEdit_GetUndoName
 
 Retrieves the type of the next undo action, if any.
 
 ```
 FUNCTION RichEdit_GetUndoName (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETUNDONAME, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1706,14 +1701,14 @@ If there are no actions that can be undone or the type of the next undo action i
 
 The types of actions that can be undone or redone include typing, delete, drag, drop, cut, and paste operations. This information can be useful for applications that provide an extended user interface for undo and redo operations, such as a drop-down list box of actions that can be undone.
 
-# <a name="RichEdit_GetWordBreakProc"></a>RichEdit_GetWordBreakProc
+---
+
+## RichEdit_GetWordBreakProc
 
 Retrieves the address of the current Wordwrap function.
 
 ```
 FUNCTION RichEdit_GetWordBreakProc (BYVAL hRichEdit AS HWND) AS LONG_PTR
-   FUNCTION = SendMessageW(hRichEdit, EM_GETWORDBREAKPROC, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1728,14 +1723,14 @@ The return value specifies the address of the application-defined Wordwrap funct
 
 A Wordwrap function scans a text buffer that contains text to be sent to the display, looking for the first word that does not fit on the current display line. The wordwrap function places this word at the beginning of the next line on the display. A Wordwrap function defines the point at which the system should break a line of text for multiline edit controls, usually at a space character that separates two words.
 
-# <a name="RichEdit_GetWordBreakProcEx"></a>RichEdit_GetWordBreakProcEx
+---
+
+## RichEdit_GetWordBreakProcEx
 
 Retrieves the address of the currently registered extended word-break procedure.
 
 ```
 FUNCTION RichEdit_GetWordBreakProcEx (BYVAL hRichEdit AS HWND) AS LONG_PTR
-   FUNCTION = SendMessageW(hRichEdit, EM_GETWORDBREAKPROCEX, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1746,14 +1741,14 @@ END FUNCTION
 
 The message returns the address of the currently registered extended word-break procedure.
 
-# <a name="RichEdit_GetWordWrapMode"></a>RichEdit_GetWordWrapMode
+---
+
+## RichEdit_GetWordWrapMode
 
 Retrieves the current word wrap and word-break options for the rich edit control.
 
 ```
 FUNCTION RichEdit_GetWordWrapMode (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_GETWORDWRAPMODE, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1768,14 +1763,14 @@ The message returns the current word wrap and word-break options.
 
 This message is supported only in Asian-language versions of Microsoft Rich Edit 1.0. It is not supported in any later versions of Rich Edit. This message must not be sent by the application-defined, word-break procedure.
 
-# <a name="RichEdit_GetZoom"></a>RichEdit_GetZoom
+---
+
+## RichEdit_GetZoom
 
 Retrieves the current zoom ratio, which is always between 1/64 and 64.
 
 ```
 FUNCTION RichEdit_GetZoom (BYVAL hRichEdit AS HWND, BYVAL pzNum AS DWORD PTR, BYVAL pzDen AS DWORD PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_GETZOOM, cast(WPARAM, pzNum), cast(LPARAM, pzDen))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1787,14 +1782,14 @@ END FUNCTION
 #### Return value
 The message returns **TRUE** if message is processed, which it will be if both *pzNum* and *pzDen* are not **NULL**.
 
-# <a name="RichEdit_HideSelection"></a>RichEdit_HideSelection
+---
+
+## RichEdit_HideSelection
 
 Hides or shows the selection in a rich edit control.
 
 ```
 SUB RichEdit_HideSelection (BYVAL hRichEdit AS HWND, BYVAL fHide AS DWORD)
-   SendMessageW hRichEdit, EM_HIDESELECTION, fHide, 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -1802,14 +1797,14 @@ END SUB
 | *hRichEdit* | The handle of the rich edit control. |
 | *fHide* | Value specifying whether to hide or show the selection. If this parameter is zero, the selection is shown. Otherwise, the selection is hidden. |
 
-# <a name="RichEdit_InsertImage"></a>RichEdit_InsertImage
+---
+
+## RichEdit_InsertImage
 
 Replaces the selection with a blob that displays an image.
 
 ```
 FUNCTION RichEdit_InsertImage (BYVAL hRichEdit AS HWND, BYVAL lpip AS RICHEDIT_IMAGE_PARAMETERS PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_INSERTIMAGE, 0, cast(LPARAM, lpip))
-END FUNCTION
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1826,14 +1821,15 @@ Returns S_OK if successful, or one of the following error codes.
 | **E_INVALIDARG** | The *lpip* parameter is NULL or points to an invalid image. |
 | **E_OUTOFMEMORY** | Insufficient memory is available. |
 
-# <a name="RichEdit_InsertTable"></a>RichEdit_InsertTable
+---
+
+## RichEdit_InsertTable
 
 Inserts one or more identical table rows with empty cells.
 
 ```
-FUNCTION RichEdit_InsertTable (BYVAL hRichEdit AS HWND, BYVAL lptp AS TABLEROWPARMS PTR, BYVAL lptcp AS TABLECELLPARMS PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_INSERTTABLE, cast(WPARAM, lptp), cast(LPARAM, lptcp))
-END FUNCTION
+FUNCTION RichEdit_InsertTable (BYVAL hRichEdit AS HWND, BYVAL lptp AS TABLEROWPARMS PTR, _
+   BYVAL lptcp AS TABLECELLPARMS PTR) AS DWORD
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1851,14 +1847,14 @@ If the **cpStartRow** member of the **TABLEROWPARMS** is –1, this message dele
 
 A Microsoft Rich Edit table consists of a sequence of table rows which, in turn, consist of sequences of paragraphs. A table row starts with the special two-character delimiter paragraph U+FFF9 U+000D and ends with the two-character delimiter paragraph U+FFFB U+000D. Each cell is terminated by the cell mark U+0007, which is treated as a hard end-of-paragraph mark just as U+000D (CR) is. The table row and cell parameters are treated as special paragraph formatting of the table-row delimiters. The formatting contains the information in the **TABLEROWPARMS** structure. The cell parameters given by the **TABLECELLPARMS** structure are stored in an expanded version of the tabs array. This format allows tables to be nested within other tables, up to fifteen levels deep.
 
-# <a name="RichEdit_IsIME"></a>RichEdit_IsIME
+---
+
+## RichEdit_IsIME
 
 Determines if current input locale is an East Asian locale.
 
 ```
 FUNCTION RichEdit_IsIME (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_ISIME, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1869,14 +1865,14 @@ END FUNCTION
 
 Returns **TRUE** if it is an East Asian locale. Otherwise, it returns **FALSE**.
 
-# <a name="RichEdit_LimitText"></a>RichEdit_LimitText
+---
+
+## RichEdit_LimitText
 
 Sets the text limit of a rich edit control. The text limit is the maximum amount of text, in characters, that the user can type into the edit control.
 
 ```
 SUB RichEdit_LimitText (BYVAL hRichEdit AS HWND, BYVAL chMax AS DWORD)
-   SendMessageW hRichEdit, EM_LIMITTEXT, chMax, 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -1896,14 +1892,14 @@ The **RichEdit_LimitText** message limits only the text the user can enter. It d
 
 **RichEdit_LimitText** ad **RichEdit_SetLimitText** are the same message.
 
-# <a name="RichEdit_LineFromChar"></a>RichEdit_LineFromChar
+---
+
+## RichEdit_LineFromChar
 
 Retrieves the index of the line that contains the specified character index in a multiline rich edit control.
 
 ```
 FUNCTION RichEdit_LineFromChar (BYVAL hRichEdit AS HWND, BYVAL index AS DWORD) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_LINEFROMCHAR, index, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1915,14 +1911,14 @@ END FUNCTION
 
 The return value is the zero-based line number of the line containing the character index specified by *index*.
 
-# <a name="RichEdit_LineIndex"></a>RichEdit_LineIndex
+---
+
+## RichEdit_LineIndex
 
 Retrieves the character index of the first character of a specified line in a multiline rich edit control.
 
 ```
 FUNCTION RichEdit_LineIndex (BYVAL hRichEdit AS HWND, BYVAL nLine AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_LINEINDEX, nLine, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1934,14 +1930,14 @@ END FUNCTION
 
 The return value is the character index of the line specified in the *nLine* parameter, or it is -1 if the specified line number is greater than the number of lines in the edit control.
 
-# <a name="RichEdit_LineLength"></a>RichEdit_LineLength
+---
+
+## RichEdit_LineLength
 
 Retrieves the length, in characters, of a line in a rich edit control.
 
 ```
 FUNCTION RichEdit_LineLength (BYVAL hRichEdit AS HWND, BYVAL index AS DWORD) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_LINELENGTH, index, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1953,14 +1949,14 @@ END FUNCTION
 
 If *index* is greater than the number of characters in the control, the return value is zero.
 
-# <a name="RichEdit_LineScroll"></a>RichEdit_LineScroll
+---
+
+## RichEdit_LineScroll
 
 Scrolls the text in a multiline rich edit control.
 
 ```
 FUNCTION RichEdit_LineScroll (BYVAL hRichEdit AS HWND, BYVAL y AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_LINESCROLL, 0, y)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -1976,7 +1972,9 @@ END FUNCTION
 
 The control does not scroll vertically past the last line of text in the edit control. If the current line plus the number of lines specified by the *y* parameter exceeds the total number of lines in the edit control, the value is adjusted so that the last line of the edit control is scrolled to the top of the edit-control window.
 
-# <a name="RichEdit_PasteSpecial"></a>RichEdit_PasteSpecial
+---
+
+## RichEdit_PasteSpecial
 
 Pastes a specific clipboard format in a rich edit control.
 
@@ -1992,14 +1990,14 @@ END SUB
 | *clpfmt* | Specifies the [ Clipboard Formats](https://learn.microsoft.com/en-us/windows/win32/dataxchg/clipboard-formats). |
 | *lprps* | Pointer to a [REPASTESPECIAL](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-repastespecial) structure or **NULL**. If an object is being pasted, the [REPASTESPECIAL](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-repastespecial) structure is filled in with the desired display aspect. If *clpfmt* is **NULL** or the *dwAspect* member is zero, the display aspect used will be the contents of the object descriptor. |
 
-# <a name="RichEdit_PosFromChar"></a>RichEdit_PosFromChar
+---
+
+## RichEdit_PosFromChar
 
 Retrieves the client area coordinates of a specified character in a rich edit control.
 
 ```
 SUB RichEdit_PosFromChar (BYVAL hRichEdit AS HWND, BYVAL pt AS POINTL PTR, BYVAL index as DWORD)
-   SendMessageW(hRichEdit, EM_POSFROMCHAR, cast(WPARAM, pt), index)
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2014,14 +2012,14 @@ A returned coordinate can be a negative value if the specified character is not 
 
 If the character is a line delimiter, the returned coordinates indicate a point just beyond the last visible character in the line. If the specified index is greater than the index of the last character in the control, the control returns -1.
 
-# <a name="RichEdit_Reconversion"></a>RichEdit_Reconversion
+---
+
+## RichEdit_Reconversion
 
 Invokes the Input Method Editor (IME) reconversion dialog box.
 
 ```
 FUNCTION RichEdit_Reconversion (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_RECONVERSION, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2032,14 +2030,14 @@ END FUNCTION
 
 This message always returns zero.
 
-# <a name="RichEdit_Redo"></a>RichEdit_Redo
+---
+
+## RichEdit_Redo
 
 Redoes the next action in the control's redo queue.
 
 ```
 FUNCTION RichEdit_Redo (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_REDO, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2056,14 +2054,14 @@ If the **Redo** operation fails, the return value is zero.
 
 To determine whether there are any actions in the control's redo queue, send the **RichEdit_CanRedo** message.
 
-# <a name="RichRichEdit_ReplaceSel"></a>RichEdit_ReplaceSel
+---
+
+## RichEdit_ReplaceSel
 
 Replaces the current selection in a rich edit control with the specified text.
 
 ```
 SUB RichEdit_ReplaceSel (BYVAL hRichEdit AS HWND, BYVAL bCanBeUndone AS LONG, BYVAL pwszText AS WSTRING PTR)
-   SendMessageW hRichEdit, EM_REPLACESEL, bCanBeUndone, cast(LPARAM, pwszText)
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2080,14 +2078,14 @@ If there is no selection, the replacement text is inserted at the caret.
 
 In a rich edit control, the replacement text takes the formatting of the character at the caret or, if there is a selection, of the first character in the selection.
 
-# <a name="RichEdit_RequestResize"></a>RichEdit_RequestResize
+---
+
+## RichEdit_RequestResize
 
 Forces a rich edit control to send an **EN_REQUESTRESIZE** notification message to its parent window.
 
 ```
 SUB RichEdit_RequestResize (BYVAL hRichEdit AS HWND)
-   SendMessageW hRichEdit, EM_REQUESTRESIZE, 0, 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2098,14 +2096,14 @@ END SUB
 
 This message is useful during **WM_SIZE** processing for the parent of a bottomless rich edit control.
 
-# <a name="RichEdit_Scroll"></a>RichEdit_Scroll
+---
+
+## RichEdit_Scroll
 
 Scrolls the text vertically in a multiline rich edit control.
 
 ```
 FUNCTION RichEdit_Scroll (BYVAL hRichEdit AS HWND, BYVAL nAction AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SCROLL, nAction, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2121,14 +2119,14 @@ If the message is successful, the **HIWORD** of the return value is **TRUE**, an
 
 To scroll to a specific line or character position, use the **RichEdit_LineScroll** message. To scroll the caret into view, use the **RichEdit_ScrollCaret** message.
 
-# <a name="RichEdit_ScrollCaret"></a>RichEdit_ScrollCaret
+---
+
+## RichEdit_ScrollCaret
 
 Scrolls the caret into view in a rich edit control.
 
 ```
 SUB RichEdit_ScrollCaret (BYVAL hRichEdit AS HWND)
-   SendMessageW hRichEdit, EM_SCROLLCARET, 0, 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2139,14 +2137,14 @@ END SUB
 
 The return value is not meaningful.
 
-# <a name="RichEdit_SelectionType"></a>RichEdit_SelectionType
+---
+
+## RichEdit_SelectionType
 
 Determines the selection type for a rich edit control.
 
 ```
 FUNCTION RichEdit_SelectionType (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SELECTIONTYPE, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2168,14 +2166,14 @@ If the selection is not empty, the return value is a set of flags containing one
 
 This message is useful during **WM_SIZE** processing for the parent of a bottomless rich edit control.
 
-# <a name="RichEdit_SetAutoCorrectProc"></a>RichEdit_SetAutoCorrectProc
+---
+
+## RichEdit_SetAutoCorrectProc
 
 Sets a pointer to the application-defined [AutoCorrectProc](https://learn.microsoft.com/en-us/windows/win32/api/richedit/nc-richedit-autocorrectproc) callback function.
 
 ```
 FUNCTION RichEdit_SetAutoCorrectProc (BYVAL hRichEdit AS HWND, BYVAL pfn AS LONG_PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETAUTOCORRECTPROC, 0, cast(LPARAM, pfn))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2187,14 +2185,14 @@ END FUNCTION
 
 If the operation succeeds, the return value is zero. If the operation fails, the return value is a nonzero value.
 
-# <a name="RichEdit_SetBidiOptions"></a>RichEdit_SetBidiOptions
+---
+
+## RichEdit_SetBidiOptions
 
 Sets the current state of the bidirectional options in the rich edit control.
 
 ```
 SUB RichEdit_SetBidiOptions (BYVAL hRichEdit AS HWND, BYVAL pOptions AS BIDIOPTIONS PTR)
-   SendMessageW(hRichEdit, EM_SETBIDIOPTIONS, 0, cast(LPARAM, pOptions))
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2210,14 +2208,14 @@ In plain text controls, **RichEdit_SetBidiOptions** automatically determines the
 
 **RichEdit_SetBidiOptions** only switches the default paragraph format to RTL (right to left) if it finds an RTL character.
 
-# <a name="RichEdit_SetBkgndColor"></a>RichEdit_SetBkgndColor
+---
+
+## RichEdit_SetBkgndColor
 
 Sets the background color for a rich edit control.
 
 ```
 FUNCTION RichEdit_SetBkgndColor (BYVAL hRichEdit AS HWND, BYVAL pSysColor AS DWORD, BYVAL pBkColor AS DWORD) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETBKGNDCOLOR, pSysColor, pBkColor)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2230,14 +2228,14 @@ END FUNCTION
 
 This message returns the original background color.
 
-# <a name="RichEdit_SetCharFormat"></a>RichEdit_SetCharFormat
+---
+
+## RichEdit_SetCharFormat
 
 Sets character formatting in a rich edit control.
 
 ```
 FUNCTION RichEdit_SetCharFormat (BYVAL hRichEdit AS HWND, BYVAL chfmt AS DWORD, BYVAL lpcf AS CHARFORMATW PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETCHARFORMAT, chfmt, cast (LPARAM, lpcf))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2273,14 +2271,14 @@ If the operation fails, the return value is zero.
 
 If this message is sent more than once with the same parameters, the effect on the text is toggled. That is, sending the message once produces the effect, sending the message twice cancels the effect, and so forth.
 
-# <a name="RichEdit_SetCTFModeBias"></a>RichEdit_SetCTFModeBias
+---
+
+## RichEdit_SetCTFModeBias
 
 Sets the Text Services Framework (TSF) mode bias for a rich edit control.
 
 ```
 FUNCTION RichEdit_SetCTFModeBias (BYVAL hRichEdit AS HWND, BYVAL nModeBias AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETCTFMODEBIAS, nModeBias, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2314,14 +2312,14 @@ When a Microsoft Rich Edit application uses TSF, it can select the TSF mode bias
 
 To get the mode bias for the Input Method Editor (IME), use **RichEdit_GetModeBias**.
 
-# <a name="RichEdit_SetCTFOpenStatus"></a>RichEdit_SetCTFOpenStatus
+---
+
+## RichEdit_SetCTFOpenStatus
 
 Opens or closes the Text Services Framework (TSF) keyboard.
 
 ```
 FUNCTION RichEdit_SetCTFOpenStatus (BYVAL hRichEdit AS HWND, BYVAL fTSFkbd AS LONG) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETCTFOPENSTATUS, fTSFkbd, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2333,14 +2331,14 @@ END FUNCTION
 
 If successful, this message returns **TRUE**. If unsuccessful, this message returns **FALSE**.
 
-# <a name="RichEdit_SetEditStyle"></a>RichEdit_SetEditStyle
+---
+
+## RichEdit_SetEditStyle
 
 Sets the current edit style flags.
 
 ```
 FUNCTION RichEdit_SetEditStyle (BYVAL hRichEdit AS HWND, BYVAL fStyle AS LONG, BYVAL fMask AS LONG) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETEDITSTYLE, fStyle, fMask)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2353,14 +2351,14 @@ END FUNCTION
 
 The return value is the state of the edit style flags after the rich edit control has attempted to implement your edit style changes. The edit style flags are a set of flags that indicate the current edit style.
 
-# <a name="RichEdit_SetEditStyleEx"></a>RichEdit_SetEditStyleEx
+---
+
+## RichEdit_SetEditStyleEx
 
 Sets the current edit style flags for a rich edit control.
 
 ```
 FUNCTION RichEdit_SetEditStyleEx (BYVAL hRichEdit AS HWND, BYVAL fStyle AS LONG, BYVAL fMask AS LONG) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETEDITSTYLEEX, fStyle, fMask)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2384,14 +2382,14 @@ END FUNCTION
 
 The return value is the state of the edit style flags after the rich edit control has attempted to implement your edit style changes. The edit style flags are a set of flags that indicate the current edit style.
 
-# <a name="RichEdit_SetEllipsisMode"></a>RichEdit_SetEllipsisMode
+---
+
+## RichEdit_SetEllipsisMode
 
 Sets the current ellipsis mode. When enabled, an ellipsis ( ) is displayed for text that doesn't fit in the display window. The ellipsis is only used when the control isn't active. When active, scroll bars are used to reveal text that doesn't fit into the display window.
 
 ```
 FUNCTION RichEdit_SetElipsisMode (BYVAL hRichEdit AS HWND, BYVAL fMode AS DWORD) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETELLIPSISMODE, 0, fMode)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2407,14 +2405,14 @@ END FUNCTION
 
 The bits for these values all fit in the **ELLIPSIS_MASK**.
 
-# <a name="RichEdit_SetEventMask"></a>RichEdit_SetEventMask
+---
+
+## RichEdit_SetEventMask
 
 Sets the event mask for a rich edit control.
 
 ```
 FUNCTION RichEdit_SetEventMask (BYVAL hRichEdit AS HWND, BYVAL fMask AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETEVENTMASK, 0, fMask)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2456,14 +2454,14 @@ This message returns the previous event mask.
 
 The default event mask is **ENM_NONE** in which case no notifications are sent to the parent window. You can retrieve and set the event mask for a rich edit control by using the **RichEdit_GetEvenMask** and **RichEdit_SetEventMask** messages.
 
-# <a name="RichEdit_SetFontSize"></a>RichEdit_SetFontSize
+---
+
+## RichEdit_SetFontSize
 
 Sets the font size for the selected text.
 
 ```
 FUNCTION RichEdit_SetFontSize (BYVAL hRichEdit AS HWND, BYVAL ptsize AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETFONTSIZE, ptsize, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2512,14 +2510,14 @@ Additional examples are shown in the following table.
 | 80 | 1 | 90 |
 | 80 | -1 | 72 |
 
-# <a name="RichEdit_SetHyphenateInfo"></a>RichEdit_SetHyphenateInfo
+---
+
+## RichEdit_SetHyphenateInfo
 
 Sets the way a Microsoft Rich Edit control does hyphenation.
 
 ```
 SUB RichEdit_SetHyphenateInfo (BYVAL hRichEdit AS HWND, BYVAL phinfo AS HYPHENATEINFO PTR)
-   SendMessageW hRichEdit, EM_SETHYPHENATEINFO, cast(WPARAM, phinfo), 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2527,14 +2525,14 @@ END SUB
 | *hRichEdit* | The handle of the rich edit control. |
 | *phinfo* | Pointer to a [HYPHENATEINFO](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-hyphenateinfo) structure. |
 
-# <a name="RichEdit_SetIMEColor"></a>RichEdit_SetIMEColor
+---
+
+## RichEdit_SetIMEColor
 
 Sets the Input Method Editor (IME) composition color.
 
 ```
 FUNCTION RichEdit_SetIMEColor (BYVAL hRichEdit AS HWND, BYVAL pcompcolor AS COMPCOLOR PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETIMECOLOR, 0, cast(LPARAM, pcompcolor))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2552,14 +2550,14 @@ If the operation fails, the return value is zero.
 
 This message is supported only in Asian-language versions of Microsoft Rich Edit 1.0. It is not supported in any later versions.
 
-# <a name="RichEdit_SetIMEModeBias"></a>RichEdit_SetIMEModeBias
+---
+
+## RichEdit_SetIMEModeBias
 
 Sets the Input Method Editor (IME) mode bias for a Microsoft Rich Edit control.
 
 ```
 FUNCTION RichEdit_SetIMEModeBias (BYVAL hRichEdit AS HWND, BYVAL nModeBias AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit,EM_SETIMEMODEBIAS, nModeBias, nModeBias)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2579,14 +2577,14 @@ To set the Text Services Framework (TSF) mode bias, use **RichEdit_SetCTFModeBia
 
 The application should call **RichEdit_IsIME** before calling this function.
 
-# <a name="RichEdit_SetIMEOptions"></a>RichEdit_SetIMEOptions
+---
+
+## RichEdit_SetIMEOptions
 
 Sets the Input Method Editor (IME) options.
 
 ```
 FUNCTION RichEdit_SetIMEOptions (BYVAL hRichEdit AS HWND, BYVAL fCoop AS LONG, BYVAL fOptions AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETIMEOPTIONS, fCoop, fOptions)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2605,14 +2603,14 @@ If the operation fails, the return value is zero.
 
 This message is supported only in Asian-language versions of Microsoft Rich Edit 1.0. It is not supported in any later versions.
 
-# <a name="RichEdit_SetLangOptions"></a>RichEdit_SetLangOptions
+---
+
+## RichEdit_SetLangOptions
 
 Sets options for Input Method Editor (IME) and Asian language support in a rich edit control.
 
 ```
 FUNCTION RichEdit_SetLangOptions (BYVAL hRichEdit AS HWND, BYVAL lgoptions AS LONG) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETLANGOPTIONS, 0, lgoptions)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2638,14 +2636,14 @@ The **RichEdit_SetLangOptions** message controls the following:
 
 This message sets the values of all language option flags. To change a subset of the flags, send the **RichEdit-GetLangOptions** message to get the current option flags, change the flags that you need to change, and then send the **RichEdit_SetLangOptions** message with the result.
 
-# <a name="RichEdit_SetLimitText"></a>RichEdit_SetLimitText
+---
+
+## RichEdit_SetLimitText
 
 Sets the text limit of a rich edit control. The text limit is the maximum amount of text, in characters, that the user can type into the edit control.
 
 ```
 SUB RichEdit_SetLimitText (BYVAL hRichEdit AS HWND, BYVAL chMax AS DWORD)
-   SendMessageW hRichEdit, EM_LIMITTEXT, chMax, 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2661,14 +2659,14 @@ The **RichEdit_SetLimitText** message limits only the text the user can enter. I
 
 **RichEdit_SetLimitText** ad **RichEdit_LimitText** are the same message.
 
-# <a name="RichEdit_SetMargins"></a>RichEdit_SetMargins
+---
+
+## RichEdit_SetMargins
 
 Sets the widths of the left and right margins for a rich edit control. The message redraws the control to reflect the new margins.
 
 ```
 PRIVATE SUB RichEdit_SetMargins (BYVAL hRichEdit AS HWND, BYVAL nMargins AS LONG, BYVAL nWidth AS LONG)
-   SendMessageW(hRichEdit, EM_SETMARGINS, nMargins, nWidth)
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2679,14 +2677,14 @@ END SUB
 
 **RichEdit_SetLimitText** ad **RichEdit_LimitText** are the same message.
 
-# <a name="RichEdit_SetModify"></a>RichEdit_SetModify
+---
+
+## RichEdit_SetModify
 
 Sets or clears the modification flag for a rich edit control. The modification flag indicates whether the text within the rich edit control has been modified.
 
 ```
 SUB RichEdit_SetModify (BYVAL hRichEdit AS HWND, BYVAL fModify AS LONG)
-   SendMessageW hRichEdit, EM_SETMODIFY, fModify, 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2700,14 +2698,14 @@ The system automatically clears the modification flag to zero when the control i
 
 Rich Edit 1.0: Objects created without the **REO_DYNAMICSIZE** flag will lock in their extents when the modify flag is set to **FALSE**.
 
-# <a name="RichEdit_SetOleCallback"></a>RichEdit_SetOleCallback
+---
+
+## RichEdit_SetOleCallback
 
 Gives a rich edit control an **IRichEditOleCallback** object that the control uses to get OLE-related resources and information from the client.
 
 ```
 FUNCTION RichEdit_SetOleCallback (BYVAL hRichEdit AS HWND, BYVAL pCallback AS ANY PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETOLECALLBACK, 0, cast(LPARAM, pCallback))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2721,14 +2719,14 @@ If the operation succeeds, the return value is a nonzero value.
 
 If the operation fails, the return value is zero.
 
-# <a name="RichEdit_SetOptions"></a>RichEdit_SetOptions
+---
+
+## RichEdit_SetOptions
 
 Sets the options for a rich edit control.
 
 ```
 FUNCTION RichEdit_SetOptions (BYVAL hRichEdit AS HWND, BYVAL fCoop AS LONG, BYVAL fOptions AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETOPTIONS, fCoop, fOptions)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2741,14 +2739,14 @@ END FUNCTION
 
 This message returns the current options of the edit control.
 
-# <a name="RichEdit_SetPageRotate"></a>RichEdit_SetPageRotate
+---
+
+## RichEdit_SetPageRotate
 
 Deprecated. Sets the text layout for a Microsoft Rich Edit control.
 
 ```
 FUNCTION RichEdit_SetPageRotate (BYVAL hRichEdit AS HWND, BYVAL txtlayout AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETPAGEROTATE, txtlayout, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2764,14 +2762,14 @@ Return value is the new text layout value.
 
 This message sets the text layout for the entire document. However, embedded contents are not rotated and must be rotated separately by the application.
 
-# <a name="RichEdit_SetPalette"></a>RichEdit_SetPalette
+---
+
+## RichEdit_SetPalette
 
 Changes the palette that a rich edit control uses for its display window.
 
 ```
 SUB RichEdit_SetPalette (BYVAL hRichEdit AS HWND, BYVAL newPalette AS HPALETTE)
-   SendMessageW hRichEdit, EM_SETPALETTE, cast(WPARAM, newPalette), 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2783,14 +2781,14 @@ END SUB
 
 The rich edit control does not check whether the new palette is valid.
 
-# <a name="RichEdit_SetParaFormat"></a>RichEdit_SetParaFormat
+---
+
+## RichEdit_SetParaFormat
 
 Sets the paragraph formatting for the current selection in a rich edit control.
 
 ```
 FUNCTION RichEdit_SetParaFormat (BYVAL hRichEdit AS HWND, BYVAL pfmt AS PARAFORMAT PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETPARAFORMAT, 0, cast(LPARAM, pfmt))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2804,14 +2802,14 @@ If the operation succeeds, the return value is a nonzero value.
 
 If the operation fails, the return value is zero.
 
-# <a name="RichEdit_SetPasswordChar"></a>RichEdit_SetPasswordChar
+---
+
+## RichEdit_SetPasswordChar
 
 Sets or removes the password character for a rich edit control. When a password character is set, that character is displayed in place of the characters typed by the user.
 
 ```
 SUB RichEdit_SetPasswordChar (BYVAL hRichEdit AS HWND, BYVAL dwchar AS DWORD)
-   SendMessageW hRichEdit, EM_SETPASSWORDCHAR, dwchar, 0
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2833,14 +2831,14 @@ If an edit control is created with the **ES_PASSWORD** style, the default passwo
 
 **Rich Edit**: Supported in Microsoft Rich Edit 2.0 and later. Both single-line and multiline edit controls support the password style and messages.
 
-# <a name="RichEdit_SetPunctuation"></a>RichEdit_SetPunctuation
+---
+
+## RichEdit_SetPunctuation
 
 Sets the punctuation characters for a rich edit control.
 
 ```
 FUNCTION RichEdit_SetPunctuation (BYVAL hRichEdit AS HWND, BYVAL punctype AS LONG, BYVAL ppunct AS PUNCTUATION PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETPUNCTUATION, punctype, cast(LPARAM, ppunct))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2859,14 +2857,14 @@ If the operation fails, the return value is zero.
 
 This message is supported only in Asian-language versions of Microsoft Rich Edit 1.0. It is not supported in any later versions.
 
-# <a name="RichEdit_SetReadOnly"></a>RichEdit_SetReadOnly
+---
+
+## RichEdit_SetReadOnly
 
 Sets or removes the read-only style (**ES_READONLY**) of a rich edit control.
 
 ```
 FUNCTION RichEdit_SetReadOnly (BYVAL hRichEdit AS HWND, BYVAL fReadOnly AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETREADONLY, fReadOnly, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2888,14 +2886,14 @@ To determine whether an edit control has the **ES_READONLY** style, use the Wind
 
 **Rich Edit**: Supported in Microsoft Rich Edit 1.0 and later.
 
-# <a name="RichEdit_SetRect"></a>RichEdit_SetRect
+---
+
+## RichEdit_SetRect
 
 Sets the formatting rectangle of a multiline rich edit control.
 
 ```
 SUB RichEdit_SetRect (BYVAL hRichEdit AS HWND, BYVAL fCoord AS LONG, BYVAL prect AS RECT PTR)
-   SendMessageW hRichEdit, EM_SETRECT, fCoord, cast(LPARAM, prect)
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2918,7 +2916,9 @@ If the edit control contains a border, the formatting rectangle is reduced by th
 
 **Rich Edit**: Supported in Microsoft Rich Edit 1.0 and later. The formatting rectangle does not include the selection bar, which is an unmarked area to the left of each paragraph. When the user clicks in the selection bar, the corresponding line is selected.
 
-# <a name="RichEdit_SetRectNP"></a>RichEdit_SetRectNP
+---
+
+## RichEdit_SetRectNP
 
 Sets the formatting rectangle of a multiline rich edit control. The **EM_SETRECTNP** message is identical to the **EM_SETRECT** message, except that **EM_SETRECTNP** does not redraw the edit control window.
 
@@ -2928,8 +2928,6 @@ This message is processed only by multiline edit controls. You can send this mes
 
 ```
 SUB RichEdit_SetRectNP (BYVAL hRichEdit AS HWND, BYVAL fCoord AS LONG, BYVAL prect AS RECT PTR)
-   SendMessageW hRichEdit, EM_SETRECTNP, fCoord, cast(LPARAM, prect)
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2939,16 +2937,17 @@ END SUB
 | *prect* | A pointer to a [RECT](https://learn.microsoft.com/en-us/windows/win32/api/windef/ns-windef-rect) structure that specifies the new dimensions of the rectangle. If this parameter is **NULL**, the formatting rectangle is set to its default values. |
 
 #### Remarks
+
 **Rich Edit**: Supported in Microsoft Rich Edit 3.0 and later.
 
-# <a name="RichEdit_SetScrollPos"></a>RichEdit_SetScrollPos
+---
+
+## RichEdit_SetScrollPos
 
 Scrolls the contents of a rich edit control to the specified point.
 
 ```
 FUNCTION RichEdit_SetScrollPos (BYVAL hRichEdit AS HWND, BYVAL pt AS POINT PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETSCROLLPOS, 0, cast(LPARAM, pt))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -2960,14 +2959,14 @@ END FUNCTION
 
 This message always returns 1.
 
-# <a name="RichEdit_SetSel"></a>RichEdit_SetSel
+---
+
+## RichEdit_SetSel
 
 Selects a range of characters in an edit control.
 
 ```
 SUB RichEdit_SetSel (BYVAL hRichEdit AS HWND, BYVAL nStart AS LONG, BYVAL nEnd AS LONG)
-   SendMessageW hRichEdit, EM_SETSEL, nStart, nEnd
-END SUB
 ```
 
 | Parameter  | Description |
@@ -2990,14 +2989,14 @@ If the start is 0 and the end is -1, all the text in the edit control is selecte
 
 If the edit control has the **ES_NOHIDESEL** style, the selected text is highlighted regardless of whether the control has focus. Without the **ES_NOHIDESEL** style, the selected text is highlighted only when the edit control has the focus.
 
-# <a name="RichEdit_SetStoryType"></a>RichEdit_SetStoryType
+---
+
+## RichEdit_SetStoryType
 
 Sets the story type.
 
 ```
 FUNCTION RichEdit_SetStoryType (BYVAL hRichEdit AS HWND, BYVAL Index AS LONG, BYVAL dwType AS DWORD) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETSTORYTYPE, Index, dwType)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3028,14 +3027,15 @@ END FUNCTION
 
 The story type that was set.
 
-# <a name="RichEdit_SetTableParams"></a>RichEdit_SetTableParams
+---
+
+## RichEdit_SetTableParams
 
 Changes the parameters of rows in a table.
 
 ```
-FUNCTION RichEdit_SetTableParams (BYVAL hRichEdit AS HWND, BYVAL lptp AS TABLEROWPARMS PTR, BYVAL lptcp AS TABLECELLPARMS PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETTABLEPARMS, cast(WPARAM, lptp), cast(LPARAM, lptcp))
-END FUNCTION
+FUNCTION RichEdit_SetTableParams (BYVAL hRichEdit AS HWND, BYVAL lptp AS TABLEROWPARMS PTR, _
+   BYVAL lptcp AS TABLECELLPARMS PTR) AS DWORD
 ```
 
 | Parameter  | Description |
@@ -3058,14 +3058,14 @@ Returns **S_OK** if successful, or one of the following error codes.
 
 This message changes the parameters of the number of rows specified by the **cRow** member of the **TABLEROWPARMS** structure, if the table has that many consecutive rows. If **cRow** is less than 0, the message iterates until the end of the table. If the new cell count differs from the current cell count by +1 or 1, it inserts or deletes the cell at the index specified by the **iCell** member of **TABLEROWPARMS**. The starting table row is identified by a character position. This position is specified by **cpStartRow** members with values that are greater than or equal to zero. The position should be inside the table row, but not inside a nested table, unless you want to change that table s parameters. If the **cpStartRow** member is 1, the character position is given by the current selection. For this, position the selection anywhere inside the table row, or select the row with the active end of the selection at the end of the table row.
 
-# <a name="RichEdit_SetTabStops"></a>RichEdit_SetTabStops
+---
+
+## RichEdit_SetTabStops
 
 Sets the tab stops in a multiline rich edit control. The **EM_SETTABSTOPS** message sets the tab stops in a multiline edit control. When text is copied to the control, any tab character in the text causes space to be generated up to the next tab stop. This message is processed only by multiline edit controls.
 
 ```
 FUNCTION RichEdit_SetTabStops (BYVAL hRichEdit AS HWND, BYVAL nTabs AS LONG, BYVAL rgTabStops AS LONG_PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETTABSTOPS, nTabs, cast(LPARAM, rgTabStops))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3088,14 +3088,14 @@ The values specified in the array are in dialog template units, which are the de
 
 **Rich Edit**: Supported in Microsoft Rich Edit 3.0 and later. A rich edit control can have the maximum number of tab stops specified by **MAX_TAB_STOPS**.
 
-# <a name="RichEdit_SetTargetDevice"></a>RichEdit_SetTargetDevice
+---
+
+## RichEdit_SetTargetDevice
 
 Sets the target device and line width used for WYSIWYG formatting in a rich edit control.
 
 ```
 FUNCTION RichEdit_SetTargetDevice (BYVAL hRichEdit AS HWND, BYVAL hDC AS HDC, BYVAL lnwidth AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETTARGETDEVICE, cast(WPARAM, hDC), lnwidth)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3124,14 +3124,14 @@ END IF
 
 If *lnwidth* is zero, no line breaks are created.
 
-# <a name="RichEdit_SetText"></a>RichEdit_SetText
+---
+
+## RichEdit_SetText
 
 Sets the text of an edit control.
 
 ```
 FUNCTION RichEdit_SetText (BYVAL hRichEdit AS HWND, BYVAL pwszText AS WSTRING PTR) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, WM_SETTEXT, 0, cast(LPARAM, pwszText))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3143,14 +3143,14 @@ END FUNCTION
 
 The return value is **TRUE** if the text is set.
 
-# <a name="RichEdit_SetTextExW"></a>RichEdit_SetTextExW
+---
+
+## RichEdit_SetTextExW
 
 Sets the text of an edit control. Combines the functionality of the **WM_SETTEXT** and **EM_REPLACESEL** messages, and adds the ability to set text using a code page and to use either rich text or plain text.
 
 ```
 FUNCTION RichEdit_SetTextExW (BYVAL hRichEdit AS HWND, BYVAL pstex AS SETTEXTEX PTR, BYVAL pwszText AS WSTRING PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETTEXTEX, cast(WPARAM, pstex), cast(LPARAM, pwszText))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3167,14 +3167,14 @@ If the operation is setting the selection and succeeds, the return value is the 
 
 If the operation fails, the return value is zero.
 
-# <a name="RichEdit_SetTextMode"></a>RichEdit_SetTextMode
+---
+
+## RichEdit_SetTextMode
 
 Sets the text mode or undo level of a rich edit control. The message fails if the control contains any text.
 
 ```
 FUNCTION RichEdit_SetTextMode (BYVAL hRichEdit AS HWND, BYVAL pvalues AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETTEXTMODE, 0, pvalues)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3219,14 +3219,14 @@ In rich text mode, a rich edit control has standard rich edit functionality. How
 
 The control must contain no text when it receives the **RichEdit_SetText** message. To ensure there is no text, send a **RichEdit_SetText** message with an empty string ("").
 
-# <a name="RichEdit_SetTouchOptions"></a>RichEdit_SetTouchOptions
+---
+
+## RichEdit_SetTouchOptions
 
 Sets the touch options associated with a rich edit control.
 
 ```
 SUB RichEdit_SetTouchOptions (BYVAL hRichEdit AS HWND, BYVAL Options AS LONG, BYVAL fEnable AS LONG)
-   SendMessageW(hRichEdit, EM_SETTOUCHOPTIONS, Options, fEnable)
-END SUB
 ```
 
 | Parameter  | Description |
@@ -3240,14 +3240,14 @@ END SUB
 | **RTO_SHOWHANDLES** | Show or hide the touch gripper handles, depending on the value of *Options*. |
 | **RTO_DISABLEHANDLES** | Enable or disable the touch gripper handles, depending on the value of *Options*. When handles are disabled, they are hidden if they are visible and remain hidden until an **RichEdit_SetTouchOptions** message changes their status. |
 
-# <a name="RichEdit_SetTypographyOptions"></a>RichEdit_SetTypographyOptions
+---
+
+## RichEdit_SetTypographyOptions
 
 Sets the current state of the typography options of a rich edit control.
 
 ```
 FUNCTION RichEdit_SetTypographyOptions (BYVAL hRichEdit AS HWND, BYVAL pto AS LONG, BYVAL fMask AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETTYPOGRAPHYOPTIONS, pto, fMask)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3264,14 +3264,14 @@ Returns **TRUE** if *pto* is valid, otherwise **FALSE**.
 
 Advanced line breaking is turned on automatically by the rich edit control when needed, such as for handling complex scripts like Arabic and Hebrew, and for mathematics. It s also needed for justified paragraphs, hyphenation, and other typographic features.
 
-# <a name="RichEdit_SetUIAName"></a>RichEdit_SetUIAName
+---
+
+## RichEdit_SetUIAName
 
 Sets the name of a rich edit control for UI Automation (UIA).
 
 ```
 FUNCTION RichEdit_SetUIAName (BYVAL hRichEdit AS HWND, BYVAL pwszName AS WTRING PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETUIANAME, 0, cast(LPARAM, pwszName))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3283,14 +3283,14 @@ END FUNCTION
 
 **TRUE** if the name for UIA is successfully set, otherwise **FALSE**.
 
-# <a name="RichEdit_SetUndoLimit"></a>RichEdit_SetUndoLimit
+---
+
+## RichEdit_SetUndoLimit
 
 Sets the maximum number of actions that can stored in the undo queue of a rich edit control.
 
 ```
 FUNCTION RichEdit_SetUndoLimit (BYVAL hRichEdit AS HWND, BYVAL maxactions AS DWORD) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_SETUNDOLIMIT, maxactions, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3308,14 +3308,14 @@ By default, the maximum number of actions in the undo queue is 100. If you incre
 
 Setting the limit to zero disables the **Undo** feature.
 
-# <a name="RichEdit_SetWordBreakProc"></a>RichEdit_SetWordBreakProc
+---
+
+## RichEdit_SetWordBreakProc
 
 Replaces a rich edit control's default Wordwrap function with an application-defined Wordwrap function.
 
 ```
 SUB RichEdit_SetWordBreakProc (BYVAL hRichEdit AS HWND, BYVAL pfn AS LONG_PTR)
-   SendMessageW(hRichEdit, EM_SETWORDBREAKPROC, 0, cast(LPARAM, pfn))
-END SUB
 ```
 
 | Parameter  | Description |
@@ -3331,14 +3331,14 @@ A Wordwrap function defines the point at which the system should break a line of
 
 **Rich Edit**: Supported in Microsoft Rich Edit 1.0 and later.
 
-# <a name="RichEdit_SetWordBreakProcEx"></a>RichEdit_SetWordBreakProcEx
+---
+
+## RichEdit_SetWordBreakProcEx
 
 Sets the extended word-break procedure.
 
 ```
 FUNCTION RichEdit_SetWordBreakProcEx (BYVAL hRichEdit AS HWND, BYVAL pfn AS LONG_PTR) AS LONG_PTR
-   FUNCTION = SendMessageW(hRichEdit, EM_SETWORDBREAKPROCEX, 0, cast(LPARAM, pfn))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3350,14 +3350,14 @@ END FUNCTION
 
 This message returns the address of the previous extended word-break procedure.
 
-# <a name="RichEdit_SetWordWrapMode"></a>RichEdit_SetWordWrapMode
+---
+
+## RichEdit_SetWordWrapMode
 
 Sets the word-wrapping and word-breaking options for a rich edit control.
 
 ```
 FUNCTION RichEdit_SetWordWrapMode (BYVAL hRichEdit AS HWND, BYVAL values AS LONG) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETWORDWRAPMODE, values, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3382,14 +3382,14 @@ This message returns the current word-wrapping and word-breaking options.
 
 This message must not be sent by the application defined word breaking procedure.
 
-# <a name="RichEdit_SetZoom"></a>RichEdit_SetZoom
+---
+
+## RichEdit_SetZoom
 
 Sets the zoom ratio for a multiline edit control or a rich edit control. The ratio must be a value between 1/64 and 64. The edit control needs to have the **ES_EX_ZOOMABLE** extended style set, for this message to have an effect, see [Edit Control Extended Styles](https://learn.microsoft.com/en-us/windows/win32/controls/edit-control-window-extended-styles).
 
 ```
 FUNCTION RichEdit_SetZoom (BYVAL hRichEdit AS HWND, BYVAL zNum AS DWORD, BYVAL zDen AS DWORD) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_SETZOOM, zNum, zDen)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3409,14 +3409,14 @@ If the new zoom setting is accepted, the return value is **TRUE**.
 
 If the new zoom setting is not accepted, the return value is **FALSE**.
 
-# <a name="RichEdit_ShowScrollBar"></a>RichEdit_ShowScrollBar
+---
+
+## RichEdit_ShowScrollBar
 
 Shows or hides one of the scroll bars in the host window of a rich edit control.
 
 ```
 SUB RichEdit_ShowScrollBar (BYVAL hRichEdit AS HWND, BYVAL nScrollBar AS DWORD, BYVAL fShow AS LONG)
-   SendMessageW hRichEdit, EM_SHOWSCROLLBAR, nScrollBar, fShow
-END SUB
 ```
 
 | Parameter  | Description |
@@ -3429,14 +3429,14 @@ END SUB
 
 This message is only valid when the control is in-place active. Calls made while the control is inactive may fail.
 
-# <a name="RichEdit_StopGroupTyping"></a>RichEdit_StopGroupTyping
+---
+
+## RichEdit_StopGroupTyping
 
 Stops a rich edit control from collecting additional typing actions into the current undo action. The control stores the next typing action, if any, into a new action in the undo queue.
 
 ```
 FUNCTION RichEdit_StopGroupTyping (BYVAL hRichEdit AS HWND) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_STOPGROUPTYPING, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3458,14 +3458,14 @@ A rich edit control groups consecutive typing actions, including characters dele
 
 You can send the **RichEdit_StopGroupTyping** message to break consecutive typing actions into smaller undo groups. For example, you could send **RichEdit_StopGroupTyping** after each character or at each word break.
 
-# <a name="RichEdit_StreamIn"></a>RichEdit_StreamIn
+---
+
+## RichEdit_StreamIn
 
 Replaces the contents of a rich edit control with a stream of data provided by an application defined [EditStreamCallback](https://learn.microsoft.com/en-us/windows/win32/api/richedit/nc-richedit-editstreamcallback) callback function.
 
 ```
 FUNCTION RichEdit_StreamIn (BYVAL hRichEdit AS HWND, BYVAL psf AS LONG, BYVAL pedst AS EDITSTREAM PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_STREAMIN, psf, cast(LPARAM, pedst))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3498,14 +3498,14 @@ This message returns the number of characters read.
 
 When you send an **RichEdit_StreamIn** message, the rich edit control makes repeated calls to the **EditStreamCallback** function specified by the **pfnCallback** member of the [EDITSTREAM](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-editstream) structure. Each time the callback function is called, it fills a buffer with data to read into the control. This continues until the callback function indicates that the stream-in operation has been completed or an error occurs.
 
-# <a name="RichEdit_StreamOut"></a>RichEdit_StreamOut
+---
+
+## RichEdit_StreamOut
 
 Causes a rich edit control to pass its contents to an application defined [EditStreamCallback](https://learn.microsoft.com/en-us/windows/win32/api/richedit/nc-richedit-editstreamcallback) callback function. The callback function can then write the stream of data to a file or any other location that it chooses.
 
 ```
 FUNCTION RichEdit_StreamOut (BYVAL hRichEdit AS HWND, BYVAL psf AS LONG, BYVAL pedst AS EDITSTREAM PTR) AS DWORD
-   FUNCTION = SendMessageW(hRichEdit, EM_STREAMOUT, psf, cast(LPARAM, pedst))
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3542,14 +3542,14 @@ This message returns the number of characters written to the data stream.
 
 When you send an **RichEdit_StreamOut** message, the rich edit control makes repeated calls to the **EditStreamCallback** function specified by the **pfnCallback** member of the [EDITSTREAM](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-editstream) structure.  Each time it calls the callback function, the control passes a buffer containing a portion of the contents of the control. This process continues until the control has passed all its contents to the callback function, or until an error occurs.
 
-# <a name="RichEdit_Undo"></a>RichEdit_Undo
+---
+
+## RichEdit_Undo
 
 This message undoes the last edit control operation in the control's undo queue.
 
 ```
 FUNCTION RichEdit_Undo (BYVAL hRichEdit AS HWND) AS LONG
-   FUNCTION = SendMessageW(hRichEdit, EM_UNDO, 0, 0)
-END FUNCTION
 ```
 
 | Parameter  | Description |
@@ -3570,7 +3570,9 @@ For a multiline edit control, the return value is **TRUE** if the undo operation
 
 **Rich Edit**: Supported in Microsoft Rich Edit 1.0 and later.
 
-# <a name="RichEdit_SetFont"></a>RichEdit_SetFont
+---
+
+## RichEdit_SetFont
 
 Sets the font used by a rich edit control.
 
@@ -3590,62 +3592,9 @@ If the operation succeeds, the return value is a nonzero value.
 
 If the operation fails, the return value is zero.
 
-#### Implementation
+---
 
-```
-' ========================================================================================
-' Enumerates font families. Used by the RichEdit_SetFont function.
-' ========================================================================================
-PRIVATE FUNCTION RichEdit_EnumFontFamProcW ( _
-   BYVAL lpelf    AS ENUMLOGFONTW PTR, _     ' // Address of ENUMLOGFONT structure
-   BYVAL lpntm    AS NEWTEXTMETRICW PTR, _   ' // Address of NEWTEXTMETRIC structure
-   BYVAL FontType AS LONG, _                 ' // Font type
-   BYVAL lplf     AS LOGFONTW PTR _          ' // Address of LOGFONT struct
-   ) AS LONG
-
-   lplf->lfCharSet        = lpelf->elfLogFont.lfCharSet
-   lplf->lfPitchAndFamily = lpelf->elfLogFont.lfPitchAndFamily
-   lplf->lfFaceName       = lpelf->elfLogFont.lfFaceName
-
-   FUNCTION = FALSE
-
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Sets the font used by a rich edit control.
-' ========================================================================================
-PRIVATE FUNCTION RichEdit_SetFont ( _
-   BYVAL hRichEdit AS HWND, _             ' // Handle to the RichEdit control
-   BYREF wszFaceName AS WSTRING, _        ' // Font name
-   BYVAL ptsize AS LONG _                 ' // Font size in points
-   ) AS LRESULT
-
-   DIM lResult AS LRESULT                 ' // Result code
-   DIM hDC AS HDC                         ' // Handle of the device context
-   DIM tlf AS LOGFONTW                    ' // LOGFONT structure
-   DIM tcf AS CHARFORMATW                 ' // CHARFORMATW structure
-
-   hDC = GetDC(NULL)
-   EnumFontFamiliesW(hDC, wszFaceName, cast(FONTENUMPROCW, @RichEdit_EnumFontFamProcW), cast(LPARAM, @tlf))
-   ReleaseDC NULL, hDC
-   tcf.cbSize = SIZEOF(tcf)
-   tcf.dwMask = CFM_BOLD OR CFM_ITALIC OR CFM_UNDERLINE OR CFM_STRIKEOUT OR _
-                CFM_FACE OR CFM_CHARSET OR CFM_SIZE
-   tcf.yHeight = ptsize * 20   ' // Expects it in 20ths of a point
-   tcf.bCharSet = tlf.lfCharSet
-   tcf.bPitchAndFamily = tlf.lfPitchAndFamily
-   tcf.szFaceName = tlf.lfFaceName
-   lResult = SendMessageW(hRichEdit, EM_SETCHARFORMAT, SCF_ALL, cast(LPARAM, @tcf))
-   ' // Specify which notifications the control sends to its parent window
-   IF lResult <> 0 THEN lResult = SendMessageW(hRichEdit, EM_SETEVENTMASK, 0, ENM_CHANGE)
-   FUNCTION = lResult
-
-END FUNCTION
-' ========================================================================================
-```
-
-# <a name="RichEdit_LoadRtfFromFile"></a>RichEdit_LoadRtfFromFile
+## RichEdit_LoadRtfFromFile
 
 Loads the contents of a RTF file into a Rich Edit control.
 
@@ -3664,57 +3613,15 @@ If the operation succeeds, the return value is **TRUE**.
 
 If the operation fails, the return value is **FALSE**.
 
-#### Implementation
+---
 
-```
-' ========================================================================================
-' Callback function used by the RichEdit_LoadRtfFromFileW function.
-' Transfers a stream of data into a rich edit control.
-' ========================================================================================
-FUNCTION RichEdit_LoadRtfFromFileCallback ( _
-   BYVAL hFile AS HANDLE _                  ' // Value of the dwCookie member of the EDITSTREAM structure.
- , BYVAL lpBuff AS BYTE PTR _               ' // Pointer to a buffer to write to
- , BYVAL cb AS LONG _                       ' // Maximum number of bytes to read
- , BYVAL pcb AS LONG PTR _                  ' // Number of bytes actually read
- ) AS UINT                                  ' // 0 for success, or an error code
-
-   IF ReadFile(hFile, lpBuff, cb, pcb, NULL) = 0 THEN FUNCTION = GetLastError
-
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-FUNCTION RichEdit_LoadRtfFromFileW ( _
-   BYVAL hRichEdit AS HWND _                ' // Handle of the Rich Edit control
- , BYREF wszFileName AS WSTRING _           ' // Name of the file to load
- ) AS BOOLEAN                               ' // TRUE or FALSE
-
-   DIM hFile AS HANDLE                      ' // File handle
-   DIM eds AS EDITSTREAM                    ' // EDITSTREAM structure
-
-   ' // Checks the validity of the parameters
-   IF hRichEdit = 0 THEN EXIT FUNCTION
-   IF LEN(wszFileName) = 0 THEN EXIT FUNCTION
-
-   ' // Opens the file and sends the message
-   hFile = CreateFileW(wszFileName, GENERIC_READ, FILE_SHARE_READ, _
-                       NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL)
-   IF hFile = INVALID_HANDLE_VALUE THEN EXIT FUNCTION
-   eds.dwCookie = cast(DWORD_PTR, hFile)
-   eds.pfnCallback = cast(EDITSTREAMCALLBACK, @RichEdit_LoadRtfFromFileCallback)
-   IF SendMessageW(hRichEdit, EM_STREAMIN, SF_RTF, cast(LPARAM, @eds)) > 0 AND eds.dwError = 0 THEN FUNCTION = TRUE
-   CloseHandle hFile
-
-END FUNCTION
-' ========================================================================================
-```
-
-# <a name="RichEdit_LoadRtfFromResource"></a>RichEdit_LoadRtfFromResource
+## RichEdit_LoadRtfFromResource
 
 Loads a RTF resource file into a Rich Edit control.
 
 ```
-FUNCTION RichEdit_LoadRtfFromResourceW (BYVAL hRichEdit AS HWND, BYVAL hInstance AS HINSTANCE, BYREF wszResourceName AS WSTRING) AS BOOLEAN
+FUNCTION RichEdit_LoadRtfFromResourceW (BYVAL hRichEdit AS HWND, BYVAL hInstance AS HINSTANCE, _
+   BYREF wszResourceName AS WSTRING) AS BOOLEAN
 ```
 
 | Parameter  | Description |
@@ -3729,92 +3636,9 @@ If the operation succeeds, the return value is **TRUE**.
 
 If the operation fails, the return value is **FALSE**.
 
-#### Implementation
+---
 
-```
-' ========================================================================================
-' Custom structure used by the RichEdit_LoadRtfFromResource function.
-' ========================================================================================
-TYPE AFX_RICHEDIT_CUSTOMDATA
-   pData  AS BYTE PTR
-   nLen   AS LONG
-   curPos AS LONG
-END TYPE
-' ========================================================================================
-
-' ========================================================================================
-' Callback function used by the RichEdit_LoadRtfFromResource function.
-' Transfers a stream of data into a rich edit control.
-' ========================================================================================
-PRIVATE FUNCTION RichEdit_LoadRtfFromResourceCallback ( _
-   BYVAL pCustData AS AFX_RICHEDIT_CUSTOMDATA PTR _   ' // Value of the dwCookie member of the EDITSTREAM structure.
- , BYVAL lpBuff AS BYTE PTR _                         ' // Pointer to a buffer to write to.
- , BYVAL cb AS LONG _                                 ' // Number of bytes to write.
- , BYVAL pcb AS LONG PTR _                            ' // Number of bytes actually written.
- ) AS DWORD                                           ' // 0 for success, or an error code
-
-   DIM nBytes AS LONG
-   IF pCustData->nLen - pCustData->curPos > cb THEN nBytes = cb ELSE nBytes = pCustData->nLen - pCustData->curPos
-   IF nBytes THEN
-      CopyMemory(lpBuff, pCustData->pData + pCustData->curPos, nBytes)
-      pCustData->curPos = pCustData->curPos + nBytes
-      FUNCTION = 0
-   ELSE
-      FUNCTION = 1
-   END IF
-   *pcb = nBytes
-
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Loads a RTF resource file into a Rich Edit control.
-' The EM_STREAMIN message replaces the contents of a rich edit control with a stream of
-' data provided by an application defined EditStreamCallback callback function.
-' ========================================================================================
-PRIVATE FUNCTION RichEdit_LoadRtfFromResource ( _
-   BYVAL hRichEdit AS HWND _                ' // Handle of the Rich Edit control
- , BYVAL hInstance AS HINSTANCE _           ' // Instance handle
- , BYREF wszResourceName AS WSTRING _       ' // Name of the resource to load
- ) AS BOOLEAN                               ' // TRUE or FALSE
-
-   DIM hResInfo AS HRSRC                        ' // Resource handle
-   DIM pResData AS LPVOID                       ' // Pointer to the resource data
-   DIM eds AS EDITSTREAM                        ' // EDITSTREAM structure
-   DIM rtfCustData AS AFX_RICHEDIT_CUSTOMDATA   ' // AFX_RICHEDIT_CUSTOMDATA structure
-
-   ' // Checks the validity of the parameters
-   IF hRichEdit = NULL OR hInstance = NULL THEN EXIT FUNCTION
-   IF LEN(wszResourceName) = 0 THEN EXIT FUNCTION
-
-   ' // Loads the resource
-   hResInfo = FindResourceW(hInstance, wszResourceName, RT_RCDATA)
-   IF hResInfo = NULL THEN EXIT FUNCTION
-
-   ' // Loads and locks the resource
-   ' // Note  LockResource does not actually lock memory; it is just used to obtain
-   ' // a pointer to the memory containing the resource data.
-   pResData = LockResource(LoadResource(hInstance, hResInfo))
-   IF pResData = NULL THEN EXIT FUNCTION
-   DIM cbSize AS LONG = SizeofResource(hInstance, hResInfo)
-   DIM buffer AS STRING = SPACE(cbSize)
-   CopyMemory(STRPTR(buffer), pResData, cbSize)
-
-   ' // Sends the message
-   rtfCustData.pData = STRPTR(buffer)
-   rtfCustData.nLen = cbSize
-   rtfCustData.curPos = 0
-   eds.dwCookie = cast(DWORD_PTR, @rtfCustData)
-   eds.pfnCallback = cast(EDITSTREAMCALLBACK, @RichEdit_LoadRtfFromResourceCallback)
-   IF SendMessageW(hRichEdit, EM_STREAMIN, SF_RTF, cast(LPARAM, @eds)) > 0 AND eds.dwError = 0 THEN
-      FUNCTION = TRUE
-   END IF
-
-END FUNCTION
-' ========================================================================================
-```
-
-# <a name="RichEdit_GetRtfText"></a>RichEdit_GetRtfText
+## RichEdit_GetRtfText
 
 Retrieves RTF formatted text from a Rich Edit control.
 
@@ -3830,43 +3654,4 @@ FUNCTION RichEdit_GetRtfText (BYVAL hRichEdit AS HWND) AS STRING
 
 Returns the retrieved text or a null string.
 
-#### Implementation
-
-```
-' ========================================================================================
-' Callback used by the RichEdit_GetRtfText function.
-' ========================================================================================
-PRIVATE FUNCTION RichEdit_GetTextCallback ( _
-   BYVAL dwCookie AS DWORD_PTR _                      ' // Value of the dwCookie member of the EDITSTREAM structure.
- , BYVAL pbBuff AS BYTE PTR _                         ' // Pointer to the buffer to read from.
- , BYVAL cb AS LONG _                                 ' // Number of bytes to read.
- , BYVAL pcb AS LONG PTR _                            ' // Number of bytes actually read.
- ) AS DWORD                                           ' // 0 for success, or an error code
-
-   DIM pcws AS CWSTR PTR = cast(CWSTR PTR, dwCookie)
-   pcws->AppendBuffer(pbBuff, cb)
-   *pcb = cb
-   FUNCTION = 0
-
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Retrieves RTF formatted text from a Rich Edit control
-' - hRichEdit = Handle of the Rich Edit control.
-' Returns the retrieved text or a null string.
-' ========================================================================================
-PRIVATE FUNCTION RichEdit_GetRtfText (BYVAL hRichEdit AS HWND) AS STRING
-
-   DIM eds AS EDITSTREAM, cws AS CWSTR
-   eds.dwCookie = cast(DWORD_PTR, @cws)
-   eds.pfnCallBack = cast(EDITSTREAMCALLBACK, @RichEdit_GetTextCallback)
-   SendMessageW hRichEdit, EM_STREAMOUT, SF_RTF, cast(LPARAM, @eds)
-   ' // Copy the ansi contents of the CWSTR to a STRING
-   DIM s AS STRING = SPACE(cws.m_BufferLen - 2)   ' // -2 to remove the ending nulls
-   IF LEN(s) THEN CopyMemory(STRPTR(s), cws.m_pBuffer, cws.m_BufferLen - 2)
-   RETURN s
-
-END FUNCTION
-' ========================================================================================
-```
+---
