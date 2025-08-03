@@ -4887,7 +4887,7 @@ The first 16 index values are for special underline colors. If an index between 
 Gets the name of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION GetGenerator () AS CBSTR
+FUNCTION GetGenerator () AS DWSTRING
 ```
 
 #### Return value
