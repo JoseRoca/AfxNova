@@ -4,7 +4,7 @@ Class that wraps all the methods of the **ITextRow** interface.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [CONSTRUCTOR](#constructor) | Called when a class variable is created. |
+| [CONSTRUCTORS](#constructors) | Called when a class variable is created. |
 | [DESTRUCTOR](#destructor) | Called automatically when a class variable goes out of scope or is destroyed. |
 | [LET](#let) | Assignment operator. |
 | [CAST](#cast) | Cast operator. |
