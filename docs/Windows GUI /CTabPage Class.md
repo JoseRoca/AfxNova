@@ -1,6 +1,6 @@
 # CTabPage Class
 
-The `CTabPage` class extends the `CWindow` class and allows to create generic windows used as a tab pages of a tab control.
+The `CTabPage` class extends the `CWindow` class and allows to create generic windows used as a tab pages of a tab control. Each page works as an independent `CWindow`, with all its methods and properties, and its own callback procedure. This allows to use the tab control to develop tabbed interfaces.
 
 ### Constructor (CTabPage)
 
@@ -29,17 +29,6 @@ Creates a generic window used as a tab page of a tab control.
 #### Example
 
 ```
-' ########################################################################################
-' Microsoft Windows
-' File: CW_TabCtrl_01.bas
-' Contents: CWindow - Tab control
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
-' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
-' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-' ########################################################################################
-
 #define UNICODE
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 USING AfxNova
