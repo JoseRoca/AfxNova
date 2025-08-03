@@ -789,6 +789,8 @@ If the high nibble of *Value* is **tomCharRepFromLcid**, set the *charrep* from 
 
 To set the BCP-47 language tag, such as "en-US", call **SetText2** and set the **tomLanguageTag** and *bstr* with the language tag.
 
+---
+
 ## Name
 
 Gets/sets the font name.
