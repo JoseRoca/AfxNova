@@ -395,7 +395,6 @@ Gets the character at the specified offset from the end of this range.
 
 ```
 FUNCTION GetChar2 (BYVAL Offset AS LONG) AS LONG
-END FUNCTION
 ```
 
 | Parameter | Description |
