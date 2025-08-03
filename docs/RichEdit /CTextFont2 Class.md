@@ -1147,6 +1147,8 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 This property corresponds to the **CFE_STRIKEOUT** effect described in the [CHARFORMAT2](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformat2w_1) structure.
 
+---
+
 ## Subscript
 
 Gets/sets whether characters are displayed as subscript.
@@ -1189,6 +1191,8 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 #### Remarks
 
 This property corresponds to the **CFE_SUBSCRIPT** effect described in the [CHARFORMAT2](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformat2w_1) structure.
+
+---
 
 ## Superscript
 
