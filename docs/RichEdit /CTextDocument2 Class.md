@@ -114,7 +114,7 @@ Some **ITextDocument2** methods used with the IME need access to the current win
 
 ---
 
-### Methods inherited from CTOMBase Class
+### Methods inherited from CTextObjectBase Class
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -150,26 +150,12 @@ pCTextDocument2.Attach(pTextDocument2)
 
 ```
 CONSTRUCTOR CTextDocument2 (BYVAL hRichEdit AS HWND)
-   IF hRichEdit = 0 THEN EXIT CONSTRUCTOR
-   ' // Retrieve a pointer to a IRichEditOle object of the Rich Edit control
-   DIM pUnk AS IUnknown PTR
-   m_Result = SendMessageW(hRichEdit, EM_GETOLEINTERFACE, 0, cast(LPARAM, @pUnk))
-   ' // Retrieve a pointer to its ITextDocument2 interface
-   IF pUnk THEN
-      DIM IID_ITextDocument2_ AS IID = AfxGuid(AFX_IID_ITextDocument2)
-      m_Result = IUnknown_QueryInterface(pUnk, @IID_ITextDocument2_, @m_pTextDocument2)
-      IUnknown_Release(pUnk)
-   END IF
-END CONSTRUCTOR
 ```
 
 ## CONSTRUCTOR (ITextDocument2 PTR)
 
 ```
 CONSTRUCTOR CTextDocument2 (BYVAL pTextDocument2 AS ITextDocument2 PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
-   IF fAddRef THEN pTextDocument2->lpvtbl->AddRef(pTextDocument2)
-   m_pTextDocument2 = pTextDocument2
-END CONSTRUCTOR
 ```
 
 | Parameter | Description |
@@ -222,63 +208,43 @@ Called automatically when a class variable goes out of scope or is destroyed.
 
 ```
 DESTRUCTOR CTextDocument2
-   ' // Release the ITextDocument2 interface
-   IF m_pTextDocument2 THEN m_pTextDocument2->lpvtbl->Release(m_pTextDocument2)
-END DESTRUCTOR
 ```
+---
 
-# <a name="LET"></a>LET
+## LET
 
 Assignment operator.  The assigned pointer must be an "addrefed" one.
 
 ```
 OPERATOR CTextDocument2.LET (BYVAL pTextDocument2 AS ITextDocument2 PTR)
-   m_Result = 0
-   IF pTextDocument2 = NULL THEN m_Result = E_INVALIDARG : EXIT OPERATOR
-   ' // Release the interface
-   IF m_pTextDocument2 THEN m_pTextDocument2->lpvtbl->Release(m_pTextDocument2)
-   ' // Attach the passed interface pointer to the class
-   m_pTextDocument2 = pTextDocument2
-END OPERATOR
 ```
+---
 
-# <a name="CAST"></a>CAST
+## CAST
 
 Cast operator.
 
 ```
 OPERATOR CTextDocument2.CAST () AS ITextDocument2 PTR
-   m_Result = 0
-   OPERATOR = m_pTextDocument2
-END OPERATOR
 ```
+---
 
-# <a name="TextDocumentPtr"></a>TextDocumentPtr
+## TextDocumentPtr
 
 Returns a pointer to the underlying **ITextDocument2** interface
 
 ```
 FUNCTION CTextDocument2.TextDocumentPtr () AS ITextDocument2 PTR
-   m_Result = 0
-   RETURN m_pTextDocument2
-END FUNCTION
 ```
+---
 
-# <a name="Attach"></a>Attach
+## Attach
 
 Attaches an **ITextDocument2** interface pointer to the class.
 
 ```
-FUNCTION CTextDocument2.Attach (BYVAL pTextDocument2 AS ITextDocument2 PTR, BYVAL fAddRef AS BOOLEAN = FALSE) AS HRESULT
-   m_Result = 0
-   IF pTextDocument = NULL THEN m_Result = E_INVALIDARG : RETURN m_Result
-   ' // Release the interface
-   IF m_pTextDocument2 THEN m_Result = m_pTextDocument2->lpvtbl->Release(m_pTextDocument2)
-   ' // Attach the passed interface pointer to the class
-   IF fAddRef THEN pTextDocument2->lpvtbl->AddRef(pTextDocument2)
-   m_pTextDocument2 = pTextDocument2
-   RETURN m_Result
-END FUNCTION
+FUNCTION CTextDocument2.Attach (BYVAL pTextDocument2 AS ITextDocument2 PTR, _
+   BYVAL fAddRef AS BOOLEAN = FALSE) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -286,74 +252,55 @@ END FUNCTION
 | *pTextDocument2* | The **ITextDocument2** interface pointer to attach. |
 | *fAddRef* | **TRUE** to increment the reference count of the object. Default is FALSE. |
 
-# <a name="Detach"></a>Detach
+---
+
+## Detach
 
 Detaches the underlying **ITextDocument2** interface pointer from the class
 
 ```
 FUNCTION CTextDocument2.Detach () AS ITextDocument2 PTR
-   m_Result = 0
-   DIM pTextDocument2 AS ITextDocument2 PTR = m_pTextDocument2
-   m_pTextDocument2 = NULL
-   RETURN pTextDocument2
-END FUNCTION
 ```
+---
 
-# <a name="GetLastResult"></a>GetLastResult
+## GetLastResult
 
 Returns the last result code
 
 ```
-FUNCTION CTOMBase.GetLastResult () AS HRESULT
-   RETURN m_Result
-END FUNCTION
+FUNCTION CTextObjectBase.GetLastResult () AS HRESULT
 ```
+---
 
-# <a name="SetResult"></a>SetResult
+## SetResult
 
 Sets the last result code.
 
 ```
-FUNCTION CTOMBase.SetResult (BYVAL Result AS HRESULT) AS HRESULT
-   m_Result = Result
-   RETURN m_Result
-END FUNCTION
+FUNCTION CTextObjectBase.SetResult (BYVAL Result AS HRESULT) AS HRESULT
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
 | *Result* | The **HRESULT** error code returned by the methods. |
 
-# <a name="GetErrorInfo"></a>GetErrorInfo
+---
+
+## GetErrorInfo
 
 Returns a description of the last result code.
 
 ```
-PRIVATE FUNCTION CTOMBase.GetErrorInfo (BYVAL nError AS LONG = -1) AS CWSTR
-   IF nError = -1 THEN nError = m_Result
-   DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, cwsMsg AS CWSTR
-   cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
-           FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
-           NULL, nError, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
-           cast(LPWSTR, @pBuffer), 0, NULL)
-   IF cbLen THEN
-      cwsMsg = *pBuffer
-      LocalFree pBuffer
-   END IF
-   IF nError THEN cwsMsg = "Error &h" & HEX(nError) & CHR(13, 10) & cwsMsg
-   RETURN cwsMsg
-END FUNCTION
+PRIVATE FUNCTION CTextObjectBase.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
 ```
-# <a name="GetName"></a>GetName
+---
+
+## GetName
 
 Gets the file name of this document. This is the **ITextDocument** default property.
 
 ```
-FUNCTION CTextDocument2.GetName () AS CBSTR
-   DIM pName AS AFX_BSTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetName(m_pTextDocument2, @pName))
-   RETURN pName
-END FUNCTION
+FUNCTION CTextDocument2.GetName () AS DWSTRING
 ```
 #### Return value
 
@@ -369,16 +316,14 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 | **E_INVALIDARG** | Invalid argument. |
 | **E_OUTOFMEMORY** | Insufficient memory for output string. |
 
-# <a name="GetSelection"></a>GetSelection
+---
+
+## GetSelection
 
 Gets the active selection.
 
 ```
 FUNCTION CTextDocument2.GetSelection () AS ITextSelection PTR
-   DIM pSelection AS ITextSelection PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetSelection(m_pTextDocument2, @pSelection))
-   RETURN pSelection
-END FUNCTION
 ```
 #### Return value
 
@@ -393,16 +338,14 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 | **S_FALSE** | Indicates no active selection. |
 | **E_INVALIDARG** | Invalid argument. |
 
-# <a name="GetStoryCount"></a>GetStoryCount
+---
+
+## GetStoryCount
 
 Gets the count of stories in this document.
 
 ```
 FUNCTION CTextDocument2.GetStoryCount () AS LONG
-   DIM nCount AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetStoryCount(m_pTextDocument2, @nCount))
-   RETURN nCount
-END FUNCTION
 ```
 #### Return value
 
@@ -416,16 +359,14 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 | ----------- | ----------- |
 | **E_INVALIDARG** | Invalid argument. |
 
-# <a name="GetStoryRanges"></a>GetStoryRanges
+---
+
+## GetStoryRanges
 
 Gets the story collection object used to enumerate the stories in a document.
 
 ```
 FUNCTION CTextDocument2.GetStoryRanges () AS ITextStoryRanges PTR
-   DIM pStoryRanges AS ITextStoryRanges PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetStoryRanges(m_pTextDocument2, @pStoryRanges))
-   RETURN pStoryRanges
-END FUNCTION
 ```
 #### Return value
 
@@ -443,16 +384,14 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 
 Invoke this method only if **GetStoryCount** returns a value greater than 1.
 
-# <a name="GetSaved"></a>GetSaved
+---
+
+## GetSaved
 
 Gets a value that indicates whether changes have been made since the file was last saved.
 
 ```
 FUNCTION CTextDocument2.GetSaved () AS LONG
-   DIM Value AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetSaved(m_pTextDocument2, @Value))
-   RETURN Value
-END FUNCTION
 ```
 #### Return value
 
@@ -466,15 +405,14 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 | ----------- | ----------- |
 | **E_INVALIDARG** | Invalid argument. |
 
-# <a name="SetSaved"></a>SetSaved
+---
+
+## SetSaved
 
 Sets the document **Saved** property.
 
 ```
 FUNCTION CTextDocument2.SetSaved (BYVAL Value AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetSaved(m_pTextDocument2, Value))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -485,16 +423,14 @@ END FUNCTION
 
 The return value is **S_OK**.
 
-# <a name="GetDefaultTabStop"></a>GetDefaultTabStop
+---
+
+## GetDefaultTabStop
 
 Gets the default tab width.
 
 ```
 FUNCTION CTextDocument2.GetDefaultTabStop () AS SINGLE
-   DIM Value AS SINGLE
-   this.SetResult(m_pTextDocument2->lpvtbl->GetDefaultTabStop(m_pTextDocument2, @Value))
-   RETURN Value
-END FUNCTION
 ```
 
 #### Return value
@@ -509,15 +445,14 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 | ----------- | ----------- |
 | **E_INVALIDARG** | Invalid argument. |
 
-# <a name="SetDefaultTabStop"></a>SetDefaultTabStop
+---
+
+## SetDefaultTabStop
 
 Sets the default tab stop, which is used when no tab exists beyond the current display position.
 
 ```
 FUNCTION CTextDocument2.SetDefaultTabStop (BYVAL Value AS SINGLE = 36.0) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetDefaultTabStop(m_pTextDocument2, Value))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -535,15 +470,14 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 | **E_INVALIDARG** | Invalid argument. |
 | **E_OUTOFMEMORY** | Insufficient memory. |
 
-# <a name="New_"></a>New_
+---
+
+## New_
 
 Opens a new document.
 
 ```
 FUNCTION CTextDocument2.New_ () AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->New_(m_pTextDocument2))
-   RETURN m_Result
-END FUNCTION
 ```
 
 #### Return value
@@ -554,15 +488,15 @@ If the method succeeds, it returns S_OK.
 
 If another document is open, this method saves any current changes and closes the current document before opening a new one.
 
-# <a name="Open"></a>Open
+---
+
+## Open
 
 Opens a specified document. There are parameters to specify access and sharing privileges, creation and conversion of the file, as well as the code page for the file.
 
 ```
-FUNCTION CTextDocument2.Open (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG = 0, BYVAL CodePage AS LONG = 0) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->Open(m_pTextDocument2, pVar, Flags, CodePage))
-   RETURN m_Result
-END FUNCTION
+FUNCTION CTextDocument2.Open (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG = 0, _
+   BYVAL CodePage AS LONG = 0) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -570,7 +504,6 @@ END FUNCTION
 | *pVar* | A **VARIANT** that specifies the name of the file to open. |
 | *Flags* | **tomRTF**: Open as RTF. **tomText**: Open as text ANSI or Unicode. |
 | *CodePage* | The code page to use for the file. Zero (the default value) means **CP_ACP** (ANSI code page) unless the file begins with a Unicode BOM 0xfeff, in which case the file is considered to be Unicode. Note that code page 1200 is Unicode, **CP_UTF8** is UTF-8. |
-
 
 #### Return value
 
@@ -583,15 +516,15 @@ The return value can be an **HRESULT** value that corresponds to a system error 
 | **E_OUTOFMEMORY** | Insufficient memory. |
 | **E_NOTIMPL** | Feature not implemented. |
 
-# <a name="Save"></a>Save
+---
+
+## Save
 
 Saves the document.
 
 ```
-FUNCTION CTextDocument2.Save (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG, BYVAL CodePage AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->Save(m_pTextDocument2, pVar, Flags, CodePage))
-   RETURN m_Result
-END FUNCTION
+FUNCTION CTextDocument2.Save (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG, _
+   BYVAL CodePage AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -621,16 +554,14 @@ If *pVar* specifies a file name, that name should replace the current Name prope
 
 Unicode plain-text files should be saved with the Unicode byte-order mark (0xFEFF) as the first character. This character should be removed when the file is read in; that is, it is only used for import/export to identify the plain text as Unicode and to identify the byte order of that text. Microsoft Notepad adopted this convention, which is now recommended by the Unicode standard.
 
-# <a name="Freeze"></a>Freeze
+---
+
+## Freeze
 
 Increments the freeze count.
 
 ```
 FUNCTION CTextDocument2.Freeze () AS LONG
-   DIM Count AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->Freeze(m_pTextDocument2, @Count))
-   RETURN Count
-END FUNCTION
 ```
 
 #### Return value
@@ -645,16 +576,14 @@ If the count is nonzero, **GetLastResult** returns **S_OK**. If the count is zer
 
 If the freeze count is nonzero, screen updating is disabled. This allows a sequence of editing operations to be performed without the performance loss and flicker of screen updating. To decrement the freeze count, call the **Unfreeze** method.
 
-# <a name="Unfreeze"></a>Unfreeze
+---
+
+## Unfreeze
 
 Decrements the freeze count.
 
 ```
 FUNCTION CTextDocument2.Unfreeze () AS LONG
-   DIM nCount AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->Unfreeze(m_pTextDocument2, @nCount))
-   RETURN nCount
-END FUNCTION
 ```
 
 #### Return value
@@ -671,15 +600,14 @@ If the freeze count goes to zero, screen updating is enabled. This method cannot
 
 Note, if edit collection is active, screen updating is suppressed, even if the freeze count is zero.
 
-# <a name="BeginEditCollection"></a>BeginEditCollection
+---
+
+## BeginEditCollection
 
 Turns on edit collection (also called *undo grouping*).
 
 ```
 FUNCTION CTextDocument2.BeginEditCollection () AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->BeginEditCollection(m_pTextDocument2))
-   RETURN m_Result
-END FUNCTION
 ```
 
 #### Return value
@@ -696,15 +624,14 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns one
 
 A single **Undo** command undoes all changes made while edit collection is turned on.
 
-# <a name="EndEditCollection"></a>EndEditCollection
+---
+
+## EndEditCollection
 
 Turns off edit collection (also called *undo grouping*).
 
 ```
 FUNCTION CTextDocument2.EndEditCollection () AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->EndEditCollection(m_pTextDocument2))
-   RETURN m_Result
-END FUNCTION
 ```
 
 #### Return value
@@ -720,16 +647,14 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns a C
 
 The screen is unfrozen unless the freeze count is nonzero.
 
-# <a name="Undo"></a>Undo
+---
+
+## Undo
 
 Performs a specified number of undo operations.
 
 ```
 FUNCTION CTextDocument2.Undo (BYVAL Count AS LONG) AS LONG
-   DIM nCount AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->Undo(m_pTextDocument2, Count, n@Count))
-   RETURN nCount
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -744,16 +669,14 @@ The actual count of undo operations performed.
 
 If all of the *Count* undo operations were performed, **GetLastResult** returns **S_OK**. If the method fails, it returns **S_FALSE**, indicating that less than *Count* undo operations were performed.
 
-# <a name="Redo"></a>Redo
+---
+
+## Redo
 
 Performs a specified number of redo operations.
 
 ```
 FUNCTION CTextDocument2.Redo (BYVAL Count AS LONG) AS LONG
-   DIM nCount AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->Redo(m_pTextDocument2, Count, @nCount))
-   RETURN nCount
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -773,16 +696,14 @@ If the method succeeds **GetLastResult** returns **S_OK**. If the method fails, 
 | **S_OK** | Method succeeds. |
 | **S_FALSE** | Less than Count redo operations were performed. |
 
-# <a name="Range"></a>Range
+---
+
+## Range
 
 Retrieves a text range object for a specified range of content in the active story of the document.
 
 ```
 FUNCTION CTextDocument2.Range (BYVAL cpActive AS LONG = 0, BYVAL cpAnchor AS LONG = 0) AS ITextRange PTR
-   DIM pTextRange AS ITextRange PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->Range(m_pTextDocument2, cpActive, cpAnchor, @pTextRange))
-   RETURN pTextRange
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -794,16 +715,14 @@ END FUNCTION
 
 Pointer to a **ITextRange** interface to the specified text range.
 
-# <a name="RangeFromPoint"></a>RangeFromPoint
+---
+
+## RangeFromPoint
 
 Retrieves a range for the content at or nearest to the specified point on the screen.
 
 ```
 FUNCTION CTextDocument2.RangeFromPoint (BYVAL x AS LONG, BYVAL y AS LONG) AS ITextRange PTR
-   DIM pTextRange AS ITextRange PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->RangeFromPoint(m_pTextDocument2, x, y, @pTextRange))
-   RETURN pTextRange
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -825,16 +744,14 @@ If the method succeeds **GetLastResult** returns **S_OK**. If the method fails, 
 | **E_INVALIDARG** | Invalid argument. |
 | **E_OUTOFMEMORY** | Insufficient memory. |
 
-# <a name="GetCaretType"></a>GetCaretType
+---
+
+## GetCaretType
 
 Gets the caret type.
 
 ```
 FUNCTION CTextDocument2.GetCaretType () AS LONG
-   DIM Value AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetCaretType(m_pTextDocument2, @Value))
-   RETURN Value
-END FUNCTION
 ```
 
 ### Return value
@@ -851,15 +768,14 @@ The caret type. It can be one of the following values:
 
 If the method succeeds **GetLastResult** returns **S_OK**. If the method fails, it returns an **HRESULT** error code.
 
-# <a name="SetCaretType"></a>SetCaretType
+---
+
+## SetCaretType
 
 Sets the caret type.
 
 ```
 FUNCTION CTextDocument2.SetCaretType (BYVAL Value AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetCaretType(m_pTextDocument2, Value))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -876,16 +792,14 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetDisplays"></a>GetDisplays
+---
+
+## GetDisplays
 
 Gets the displays collection for this Text Object Model (TOM) engine instance.
 
 ```
 FUNCTION CTextDocument2.GetDisplays () AS ITextDisplays PTR
-   DIM pTextDisplays AS ITextDisplays PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetDisplays(m_pTextDocument2, @pTextDisplays))
-   RETURN pTextDisplays
-END FUNCTION
 ```
 
 ### Return value
@@ -900,16 +814,14 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 
 The rich edit control doesn't implement this method.
 
-# <a name="GetDocumentFont"></a>GetDocumentFont
+---
+
+## GetDocumentFont
 
 Gets an object that provides the default character format information for this instance of the Text Object Model (TOM) engine.
 
 ```
 FUNCTION CTextDocument2.GetDocumentFont () AS ITextFont2 PTR
-   DIM pITextFont2 AS ITextFont2 PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetDocumentFont(m_pTextDocument2, @pITextFont2))
-   RETURN pITextFont2
-END FUNCTION
 ```
 
 ### Return value
@@ -920,15 +832,14 @@ A pointer to the **ITextFont2** interface.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SetDocumentFont"></a>SetDocumentFont
+---
+
+## SetDocumentFont
 
 Sets the default character formatting for this instance of the Text Object Model (TOM) engine.
 
 ```
 FUNCTION CTextDocument2.SetDocumentFont (BYVAL pFont AS ITextFont2 PTR) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetDocumentFont(m_pTextDocument2, pFont))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -943,16 +854,14 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 
 You can also set the default character formatting by calling the **Reset** method of the **ITextFont** interface with a value of **tomDefault**.
 
-# <a name="GetDocumentPara"></a>GetDocumentPara
+---
+
+## GetDocumentPara
 
 Gets an object that provides the default paragraph format information for this instance of the Text Object Model (TOM) engine.
 
 ```
 FUNCTION CTextDocument2.GetDocumentPara () AS ITextPara2 PTR
-   DIM pITextPara2 AS ITextPara2 PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetDocumentPara(m_pTextDocument2, @pITextPara2))
-   RETURN pITextPara2
-END FUNCTION
 ```
 
 #### Return value
@@ -963,15 +872,14 @@ A pointer to the **ITextPara2** interface.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SetDocumentPara"></a>SetDocumentPara
+---
+
+## SetDocumentPara
 
 Sets the default paragraph formatting for this instance of the Text Object Model (TOM) engine.
 
 ```
 FUNCTION CTextDocument2.SetDocumentPara (BYVAL pPara AS ITextPara2 PTR) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetDocumentPara(m_pTextDocument2, pPara))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -986,16 +894,14 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 
 You can also set the default character formatting by calling the **Reset** method of the **ITextFont** interface with a value of **tomDefault**.
 
-# <a name="GetEastAsianFlags"></a>GetEastAsianFlags
+---
+
+## GetEastAsianFlags
 
 Gets an object that provides the default paragraph format information for this instance of the Text Object Model (TOM) engine.
 
 ```
 FUNCTION CTextDocument2.GetEastAsianFlags () AS LONG
-   DIM Flags AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetEastAsianFlags(m_pTextDocument2, @Flags))
-   RETURN Flags
-END FUNCTION
 ```
 
 #### Return value
@@ -1019,16 +925,14 @@ The East Asian flags. This parameter can be a combination of the following value
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetGenerator"></a>GetGenerator
+---
+
+## GetGenerator
 
 Gets the name of the Text Object Model (TOM) engine.
 
 ```
 FUNCTION CTextDocument2.GetGenerator () AS CBSTR
-   DIM bstr AS AFX_BSTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetGenerator(m_pTextDocument2, @bstr))
-   RETURN bstr
-END FUNCTION
 ```
 
 #### Return value
@@ -1039,15 +943,14 @@ The name of the TOM engine.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SetIMEInProgress"></a>SetIMEInProgress
+---
+
+## SetIMEInProgress
 
 Sets the state of the Input Method Editor (IME) in-progress flag.
 
 ```
 FUNCTION CTextDocument2.SetIMEInProgress (BYVAL Value AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetIMEInProgress(m_pTextDocument2, Value))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1058,16 +961,14 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetNotificationMode"></a>GetNotificationMode
+---
+
+## GetNotificationMode
 
 Gets the notification mode.
 
 ```
 FUNCTION CTextDocument2.GetNotificationMode () AS LONG
-   DIM Value AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetNotificationMode(m_pTextDocument2, @Value))
-   RETURN Value
-END FUNCTION
 ```
 
 #### Return value
@@ -1078,15 +979,14 @@ The notification mode. This parameter is set to **tomTrue** if notifications are
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SetNotificationMode"></a>SetNotificationMode
+---
+
+## SetNotificationMode
 
 Sets the notification mode.
 
 ```
 FUNCTION CTextDocument2.SetNotificationMode (BYVAL Value AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetNotificationMode(m_pTextDocument2, Value))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1097,16 +997,14 @@ END FUNCTION
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetSelection2"></a>GetSelection2
+---
+
+## GetSelection2
 
 Gets the active selection.
 
 ```
 FUNCTION CTextDocument2.GetSelection2 () AS ITextSelection2 PTR
-   DIM pSel AS ITextSelection2 PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetSelection2(m_pTextDocument2, @pSel))
-   RETURN pSel
-END FUNCTION
 ```
 
 #### Return value
@@ -1117,16 +1015,14 @@ A pointer to the **ITextSelection2** interface of the selection. This pointer is
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetStoryRanges2"></a>GetStoryRanges2
+---
+
+## GetStoryRanges2
 
 Gets an object for enumerating the stories in a document.
 
 ```
 FUNCTION CTextDocument2.GetStoryRanges2 () AS ITextStoryRanges2 PTR
-   DIM pStories AS ITextStoryRanges2 PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetStoryRanges2(m_pTextDocument2, @pStories))
-   RETURN pStories
-END FUNCTION
 ```
 
 #### Return value
@@ -1137,21 +1033,18 @@ A pointer to the **ITextStoryRanges2** interface used for enumerating stories.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-
 #### Remarks
 
 Call this method only if the **GetStoryCount** method returns a value that is greater than one.
 
-# <a name="GetTypographyOptions"></a>GetTypographyOptions
+---
+
+## GetTypographyOptions
 
 Gets the typography options.
 
 ```
 FUNCTION CTextDocument2.GetTypographyOptions () AS LONG
-   DIM Options AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetTypographyOptions(m_pTextDocument2, @Options))
-   RETURN Options
-END FUNCTION
 ```
 
 #### Return value
@@ -1167,16 +1060,14 @@ A combination of the following typography options.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetVersion"></a>GetVersion
+---
+
+## GetVersion
 
 Gets the version number of the Text Object Model (TOM) engine.
 
 ```
 FUNCTION CTextDocument2.GetVersion () AS LONG
-   DIM Value AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetVersion(m_pTextDocument2, @Value))
-   RETURN Value
-END FUNCTION
 ```
 
 #### Return value
@@ -1187,16 +1078,14 @@ The version number. Byte 3 gives the major version number, byte 2 the minor vers
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetWindow"></a>GetWindow
+---
+
+## GetWindow
 
 Gets the handle of the window that the Text Object Model (TOM) engine is using to display output.
 
 ```
 FUNCTION CTextDocument2.GetWindow () AS __int64
-   DIM pHwnd AS __int64
-   this.SetResult(m_pTextDocument2->lpvtbl->GetWindow(m_pTextDocument2, @pHwnd))
-   RETURN pHwnd
-END FUNCTION
 ```
 
 #### Return value
@@ -1213,15 +1102,14 @@ A rich edit control doesn't need to own the window that the TOM engine is using.
 
 The Input Method Editor (IME) needs the handle of the window that is receiving keyboard messages. This method retrieves that handle.
 
-# <a name="AttachMsgFilter"></a>AttachMsgFilter
+---
+
+## AttachMsgFilter
 
 Attaches a new message filter to the edit instance. All window messages that the edit instance receives are forwarded to the message filter.
 
 ```
 FUNCTION CTextDocument2.AttachMsgFilter (BYVAL pFilter AS IUnknown PTR) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->AttachMsgFilter(m_pTextDocument2, pFilter))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1236,16 +1124,14 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 
 The message filter must be bound to the document before it can be used.
 
-# <a name="CheckTextLimit"></a>CheckTextLimit
+---
+
+## CheckTextLimit
 
 Checks whether the number of characters to be added would exceed the maximum text limit.
 
 ```
 FUNCTION CTextDocument2.CheckTextLimit (BYVAL cch AS LONG) AS LONG
-   DIM pcch AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->CheckTextLimit(m_pTextDocument2, cch, @pcch))
-   RETURN pcch
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1260,16 +1146,14 @@ The number of characters that exceed the maximum text limit. This parameter is 0
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetCallManager"></a>GetCallManager
+---
+
+## GetCallManager
 
 Gets the call manager.
 
 ```
 FUNCTION CTextDocument2.GetCallManager () AS IUnknown PTR
-   DIM pVoid AS IUnknown PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetCallManager(m_pTextDocument2, @pVoid))
-   RETURN pVoid
-END FUNCTION
 ```
 
 #### Return value
@@ -1284,16 +1168,15 @@ If the method succeeds,**GetLastResult** returns **NOERROR**. Otherwise, it retu
 
 The call manager object is opaque to the caller. The Text Object Model (TOM) engine uses the object to handle internal notifications for particular scenarios.
 
-# <a name="GetClientRect"></a>GetClientRect
+---
+
+## GetClientRect
 
 Retrieves the client rectangle of the rich edit control.
 
 ```
 FUNCTION CTextDocument2.GetClientRect (BYVAL nType AS LONG, BYVAL pLeft AS LONG PTR, _
-BYVAL pTop AS LONG PTR, BYVAL pRight AS LONG PTR, BYVAL pBottom AS LONG PTR) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->GetClientRect(m_pTextDocument2, nType, pLeft, pTop, pRight, pBottom))
-   RETURN m_Result
-END FUNCTION
+   BYVAL pTop AS LONG PTR, BYVAL pRight AS LONG PTR, BYVAL pBottom AS LONG PTR) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1308,16 +1191,14 @@ END FUNCTION
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetEffectColor"></a>GetEffectColor
+---
+
+## GetEffectColor
 
 Retrieves the color used for special text attributes.
 
 ```
 FUNCTION CTextDocument2.GetEffectColor (BYVAL Index AS LONG) AS ULONG
-   DIM pcr AS ULONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetEffectColor(m_pTextDocument2, Index, @pcr))
-   RETURN pcr
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1352,18 +1233,16 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 
 The first 16 index values are for special underline colors. If an index between 1 and 16 hasn't been defined by a call to the **GetEffectColor** method, **GetEffectColor** returns the corresponding Microsoft Word default color.
 
-# <a name="GetPreferredFont"></a>GetPreferredFont
+---
+
+## GetPreferredFont
 
 Retrieves the preferred font for a particular character repertoire and character position.
 
 ```
 FUNCTION CTextDocument2.GetPreferredFont (BYVAL cp AS LONG, BYVAL CodePage AS LONG, _
-BYVAL Options AS LONG, BYVAL curCodepage AS LONG, BYVAL curFontSize AS LONG, BYVAL pbstr AS BSTR PTR, _
-BYVAL pPitchAndFamily AS LONG PTR, BYVAL pNewFontSize AS LONG PTR) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->GetPreferredFont(m_pTextDocument2, cp, CodePage, _
-   Options, curCodePage, curFontSize, pbstr, pPitchAndFamily, pNewFontSize))
-   RETURN m_Result
-END FUNCTION
+   BYVAL Options AS LONG, BYVAL curCodepage AS LONG, BYVAL curFontSize AS LONG, BYVAL pbstr AS BSTR PTR, _
+   BYVAL pPitchAndFamily AS LONG PTR, BYVAL pNewFontSize AS LONG PTR) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1380,16 +1259,14 @@ END FUNCTION
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetImmContext"></a>GetImmContext
+---
+
+## GetImmContext
 
 Gets the Input Method Manager (IMM) input context from the Text Object Model (TOM) host.
 
 ```
 FUNCTION CTextDocument2.GetImmContext () AS __int64
-   DIM Context AS __int64
-   this.SetResult(m_pTextDocument2->lpvtbl->GetImmContext(m_pTextDocument2, @Context))
-   RETURN Context
-END FUNCTION
 ```
 
 #### Return value
@@ -1400,16 +1277,14 @@ The IMM input context.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetProperty"></a>GetProperty
+---
+
+## GetProperty
 
 Retrieves the value of a property.
 
 ```
 FUNCTION CTextDocument2.GetProperty (BYVAL nType AS LONG) AS LONG
-   DIM Value AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetProperty(m_pTextDocument2, nType, @Value))
-   RETURN Value
-END FUNCTION
 ```
 | Parameter | Description |
 | --------- | ----------- |
@@ -1423,31 +1298,28 @@ The value of the property.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetStrings"></a>GetStrings
+---
+
+## GetStrings
 
 Gets a collection of rich-text strings.
 
 ```
 FUNCTION CTextDocument2.GetStrings () AS ITextStrings PTR
-   DIM pStrs AS ITextStrings PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetStrings(m_pTextDocument2, @pStrs))
-   RETURN pStrs
-END FUNCTION
 ```
 
 #### Return value
 
 A pointer to the **ITextStrings** interface of the collection of rich-text strings.
 
-# <a name="Notify"></a>Notify
+---
+
+## Notify
 
 Notifies the Text Object Model (TOM) engine client of particular Input Method Editor (IME) events.
 
 ```
 FUNCTION CTextDocument2.Notify (BYVAL nNotify AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->Notify(m_pTextDocument2, nNotify))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1458,16 +1330,14 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="Range2"></a>Range2
+---
+
+## Range2
 
 Retrieves a new text range for the active story of the document.
 
 ```
 FUNCTION CTextDocument2.Range2 (BYVAL cpActive AS LONG = 0, BYVAL cpAnchor AS LONG = 0) AS ITextRange2 PTR
-   DIM pRange2 AS ITextRange2 PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->Range2(m_pTextDocument2, cpActive, cpAnchor, @pRange2))
-   RETURN pRange2
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1483,16 +1353,14 @@ The new text range.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="RangeFromPoint2"></a>RangeFromPoint2
+---
+
+## RangeFromPoint2
 
 Retrieves the degenerate range at (or nearest to) a particular point on the screen.
 
 ```
 FUNCTION CTextDocument2.RangeFromPoint2 (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nType AS LONG) AS ITextRange2 PTR
-   DIM pRange2 AS ITextRange2 PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->RangeFromPoint2(m_pTextDocument2, x, y, nType, @pRange2))
-   RETURN pRange2
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1505,15 +1373,14 @@ END FUNCTION
 
 If the method succeeds, **GetLastResult^^ returns **NOERROR**. Otherwise, it returns an **HRESUL** error code.
 
-# <a name="ReleaseCallManager"></a>ReleaseCallManager
+---
+
+## ReleaseCallManager
 
 Releases the call manager.
 
 ```
 FUNCTION CTextDocument2.ReleaseCallManager (BYVAL pVoid AS IUnknown PTR) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->ReleaseCallManager(m_pTextDocument2, pVoid))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1524,15 +1391,14 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="ReleaseImmContext"></a>ReleaseImmContext
+---
+
+## ReleaseImmContext
 
 Releases an Input Method Manager (IMM) input context.
 
 ```
 FUNCTION CTextDocument2.ReleaseImmContext (BYVAL Context AS __int64) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->ReleaseImmContext(m_pTextDocument2, Context))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1543,7 +1409,9 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SetEffectColor"></a>SetEffectColor
+---
+
+## SetEffectColor
 
 Specifies the color to use for special text attributes.
 
@@ -1587,15 +1455,14 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 
 The first 16 index values are for special underline colors. If an index between 1 and 16 hasn't been defined by a call to the **SetEffectColor** method of the **ITextDocument2** interface, the corresponding Microsoft Word default color is used.
 
-# <a name="SetProperty"></a>SetProperty
+---
+
+## SetProperty
 
 Specifies a new value for a property.
 
 ```
 FUNCTION CTextDocument2.SetProperty (BYVAL nType AS LONG, BYVAL Value AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetProperty(m_pTextDocument2, nType, Value))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1607,15 +1474,14 @@ END FUNCTION
 
 If the method succeeds, it returns *NOERRO*. Otherwise, it returns an *HRESULT* error code.
 
-# <a name="SetTypographyOptions"></a>SetTypographyOptions
+---
+
+## SetTypographyOptions
 
 Specifies the typography options for the document.
 
 ```
 FUNCTION CTextDocument2.SetTypographyOptions (BYVAL Options AS LONG, BYVAL Mask AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetTypographyOptions(m_pTextDocument2, Options, Mask))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1634,30 +1500,28 @@ Typography options.
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SysBeep"></a>SysBeep
+---
+
+## SysBeep
 
 Generates a system beep.
 
 ```
 FUNCTION CTextDocument2.SysBeep () AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SysBeep(m_pTextDocument2))
-   RETURN m_Result
-END FUNCTION
 ```
 
 #### Return value
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="Update"></a>Update
+---
+
+## Update
 
 Updates the selection and caret.
 
 ```
 FUNCTION CTextDocument2.Update (BYVAL Value AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->Update(m_pTextDocument2, Value))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1668,31 +1532,28 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="UpdateWindow"></a>UpdateWindow
+---
+
+## UpdateWindow
 
 Notifies the client that the view has changed and the client should update the view if the Text Object Model (TOM) engine is in-place active.
 
 ```
 FUNCTION CTextDocument2.UpdateWindow () AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->UpdateWindow(m_pTextDocument2))
-   RETURN m_Result
-END FUNCTION
 ```
 
 #### Return value
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetMathProperties"></a>GetMathProperties
+---
+
+## GetMathProperties
 
 Gets the math properties for the document.
 
 ```
 FUNCTION CTextDocument2.GetMathProperties () AS LONG
-   DIM Options AS LONG
-   this.SetResult(m_pTextDocument2->lpvtbl->GetMathProperties(m_pTextDocument2, @Options))
-   RETURN Options
-END FUNCTION
 ```
 
 #### Return value
@@ -1733,15 +1594,14 @@ A combination of the following math properties:
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SetMathProperties"></a>SetMathProperties
+---
+
+## SetMathProperties
 
 Sets the math properties for the document.
 
 ```
 FUNCTION CTextDocument2.SetMathProperties (BYVAL Options AS LONG, BYVAL Mask AS LONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetMathProperties(m_pTextDocument2, Options, Mask))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1783,16 +1643,14 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetActiveStory"></a>GetActiveStory
+---
+
+## GetActiveStory
 
 Gets the active story; that is, the story that receives keyboard and mouse input.
 
 ```
 FUNCTION CTextDocument2.GetActiveStory () AS ITextStory PTR
-   DIM pStory AS ITextStory PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetActiveStory(m_pTextDocument2, @pStory))
-   RETURN pStory
-END FUNCTION
 ```
 
 #### Return value
@@ -1803,15 +1661,14 @@ A pointer to the **ITextStory** interface of the active story.
 
 If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="SetActiveStory"></a>SetActiveStory
+---
+
+## SetActiveStory
 
 Sets the active story; that is, the story that receives keyboard and mouse input.
 
 ```
 FUNCTION CTextDocument2.SetActiveStory (BYVAL pStory AS ITextStory PTR) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetActiveStory(m_pTextDocument2, pStory))
-   RETURN m_Result
-END FUNCTION
 ```
 
 | Parameter | Description |
@@ -1822,16 +1679,14 @@ END FUNCTION
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetMainStory"></a>GetMainStory
+---
+
+## GetMainStory
 
 Gets the main story.
 
 ```
 FUNCTION CTextDocument2.GetMainStory () AS ITextStory PTR
-   DIM pStory AS ITextStory PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetMainStory(m_pTextDocument2, @pStory))
-   RETURN pStory
-END FUNCTION
 ```
 
 #### Return value
@@ -1846,16 +1701,14 @@ If this method succeeds, **GetLastResult** returns **S_OK**. Otherwise, it retur
 
 A rich edit control automatically includes the main story; a call to the **GetNewStory** method is not required.
 
-# <a name="GetNewStory"></a>GetNewStory
+---
+
+## GetNewStory
 
 Gets a new story. Not implemented.
 
 ```
 FUNCTION CTextDocument2.GetNewStory () AS ITextStory PTR
-   DIM pStory AS ITextStory PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetNewStory(m_pTextDocument2, @pStory))
-   RETURN pStory
-END FUNCTION
 ```
 
 #### Return value
@@ -1866,16 +1719,14 @@ A pointer to the **ITextStory** interface of the new story.
 
 If this method succeeds, **GetLastResult** returns **S_OK**. Otherwise, it returns an **HRESULT** error code.
 
-# <a name="GetStory"></a>GetStory
+---
+
+## GetStory
 
 Retrieves the story that corresponds to a particular index.
 
 ```
 FUNCTION CTextDocument2.GetStory (BYVAl Index AS LONG) AS ITextStory PTR
-   DIM pStory AS ITextStory PTR
-   this.SetResult(m_pTextDocument2->lpvtbl->GetStory(m_pTextDocument2, Index, @pStory))
-   RETURN pStory
-END FUNCTION
 ```
 
 | Parameter | Description |
