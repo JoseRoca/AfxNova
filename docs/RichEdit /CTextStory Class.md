@@ -60,7 +60,7 @@ DECLARE CONSTRUCTOR (BYVAL pTextStory AS ITextStory PTR, BYVAL fAddRef AS BOOLEA
 
 ## CONSTRUCTOR (Empty)
 
-Can be used, for example, when we have an **ITextStory** interface pointer returned by a function and we want to attach it to a new instance of the `CTextStory` class.
+Can be used, for example, when we have an **ITextStory** interface pointer returned by a function and we want to attach it to a new instance of the `CTextStory` class. To get a pointer to the **ITextStory** interface call the **GetStory** method of the **CRichEditCtx** class.
 
 ```
 DIM pCTextStory AS CTextStory
