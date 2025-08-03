@@ -1241,7 +1241,7 @@ Retrieves the preferred font for a particular character repertoire and character
 
 ```
 FUNCTION CTextDocument2.GetPreferredFont (BYVAL cp AS LONG, BYVAL CodePage AS LONG, _
-   BYVAL Options AS LONG, BYVAL curCodepage AS LONG, BYVAL curFontSize AS LONG, BYVAL pbstr AS BSTR PTR, _
+   BYVAL Options AS LONG, BYVAL curCodepage AS LONG, BYVAL curFontSize AS LONG, BYREF dwsFontName AS DWSTRING, _
    BYVAL pPitchAndFamily AS LONG PTR, BYVAL pNewFontSize AS LONG PTR) AS HRESULT
 ```
 
@@ -1252,8 +1252,9 @@ FUNCTION CTextDocument2.GetPreferredFont (BYVAL cp AS LONG, BYVAL CodePage AS LO
 | *Options* | The preferred font options. The low-order word can be a combination of the following values.<br>**tomIgnoreCurrentFont**, **tomMatchCharRep**, **tomMatchFontSignature**, **tomMatchAscii**, **tomGetHeightOnly**, **tomMatchMathFont**. If the high-order word of Options is tomUseTwips, the font heights are given in twips. |
 | *curCharRep* | The index of the current character repertoire. |
 | *curFontSize* | The current font size. |
-| *pPitchAndFamily* | The font pitch and family. |
-| *pNewFontSize* | The new font size. |
+| *dwsFontName* | [OUT] The font name. |
+| *pPitchAndFamily* | [OUT] The font pitch and family. |
+| *pNewFontSize* | [OUT] The new font size. |
 
 #### Return value
 
