@@ -1094,7 +1094,7 @@ The text limit is the maximum amount of text, in characters, that the control ca
 Copies a line of text from a rich edit control.
 
 ```
-FUNCTION RichEdit_GetLine (BYVAL hRichEdit AS HWND, BYVAL which AS DWORD) AS CWSTR
+FUNCTION RichEdit_GetLine (BYVAL hRichEdit AS HWND, BYVAL which AS DWORD) AS DWSTRING
 ```
 **Note**: Before sending the EM_GETLINE message, the first word of the buffer has to be set to the size, in characters, of the buffer. The size in the first word is overwritten by the copied line.
 
@@ -1374,7 +1374,7 @@ It is better to use the values returned in *pdwStartPos* and *pdwEndPos* because
 
 If there is no selection, the starting and ending values are both the position of the caret.
 
-You can also use the **EM_EXGETSEL** message to retrieve the same information. **EM_EXGETSEL** also returns starting and ending character positions as 32-bit values. A combination of the use of **EM_EXGETSEL** and **EM_GETSELTEXT** are used in the **RichEdit_GetSelText** function to retrieve the selected text as a **CWSTR**.
+You can also use the **EM_EXGETSEL** message to retrieve the same information. **EM_EXGETSEL** also returns starting and ending character positions as 32-bit values. A combination of the use of **EM_EXGETSEL** and **EM_GETSELTEXT** are used in the **RichEdit_GetSelText** function to retrieve the selected text as a **DWSTRING**.
 
 ---
 
