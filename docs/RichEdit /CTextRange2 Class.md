@@ -1237,6 +1237,8 @@ If *Unit* specifies characters (**tomCharacter**), the Text Object Model (TOM) u
 
 See also the **MoveStart** and **MoveEnd** methods, which move the range Start or End position *Count  Units*, respectively.
 
+---
+
 ## MoveStart
 
 Moves the start position of the range the specified number of units in the specified direction.
