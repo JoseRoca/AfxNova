@@ -4,7 +4,7 @@ Class that wraps all the methods of the **ITextRow** interface.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [CONSTRUCTORS](#constructors) | Called when a class variable is created. |
+| [CONSTRUCTOR](#constructor) | Called when a class variable is created. |
 | [DESTRUCTOR](#destructor) | Called automatically when a class variable goes out of scope or is destroyed. |
 | [LET](#let) | Assignment operator. |
 | [CAST](#cast) | Cast operator. |
@@ -71,13 +71,13 @@ The **ITextRow** interface inherits from the **IDispatch** interface. **ITextRow
 
 ---
 
-### Methods inherited from CTOMBase Class
+### Methods inherited from CTextObjectBase Class
 
 | Name       | Description |
 | ---------- | ----------- |
-| [GetLastResult](#GetLastResult) | Returns the last result code |
-| [SetResult](#SetResult) | Sets the last result code. |
-| [GetErrorInfo](#GetErrorInfo) | Returns a description of the last result code. |
+| [GetLastResult](#getlastresult) | Returns the last result code |
+| [SetResult](#setresult) | Sets the last result code. |
+| [GetErrorInfo](#geterrorinfo) | Returns a description of the last result code. |
 
 ---
 
@@ -92,7 +92,7 @@ DECLARE CONSTRUCTOR (BYVAL pTextRow AS ITextRow PTR, BYVAL fAddRef AS BOOLEAN = 
 
 ## CONSTRUCTOR (Empty)
 
-Can be used, for example, when we have an **ITextRow** interface pointer returned by a function and we want to attach it to a new instance of the **CTextRow** class.
+Can be used, for example, when we have an **ITextRow** interface pointer returned by a function and we want to attach it to a new instance of the **CTextRow** class. To get a pointer to the **ITextRow** interface call the **GetRow** method of the **CTextDocument2** class.
 
 ```
 DIM pCTextRow AS CTextRow
