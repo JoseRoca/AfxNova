@@ -1,4 +1,4 @@
-# CRichEditCtrl Class
+# CRichEditCtx Class
 
 Provides the functionality of the rich edit control.
 
@@ -12,7 +12,7 @@ A "rich edit control" is a window in which the user can enter and edit text. The
 | [ScalingRatio](#scalingratio) | Gets/sets the scaling ratio. |
 | [SetWysiwygPrint](#setwysiwygprint) | Sets the target printer device and line width used for "what you see is what you get" (WYSIWYG) formatting in a rich edit control. |
 | [RestoreTargetDevice](#restoretargetdevice) | Sets the target device to the device context of the rich edit control. |
-| [AfxCRichEditCtrlPtr](#afxcricheditctrlptr) | Overloaded function that retrieves a pointer to the `CRichEditCtrl`class from the handle of the rich edit control or from the handle of its parent window and the control's identifier. |
+| [AfxCRichEditCtxPtr](#afxcricheditctxptr) | Overloaded function that retrieves a pointer to the `CRichEditCtx`class from the handle of the rich edit control or from the handle of its parent window and the control's identifier. |
 
 ## Methods inherited from CTextObjectBase
 
@@ -24,7 +24,7 @@ A "rich edit control" is a window in which the user can enter and edit text. The
 
 ---
 
-## CRichEditCtrl Properties
+## CRichEditCtx Properties
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -74,7 +74,7 @@ A "rich edit control" is a window in which the user can enter and edit text. The
 | [WordWrap](#wordwrap) | Enables/disables word wrap. |
 | [WordWrapMode](#wordwrapmode) | Sets the word-wrapping and word-breaking options for the rich edit control. |
 
-## CRichEditCtrl Methods
+## CRichEditCtx Methods
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -236,12 +236,12 @@ A "rich edit control" is a window in which the user can enter and edit text. The
 
 ---
 
-## <a name="afxcricheditctrlptr"></a>AfxCRichEditCtrlPtr
+## <a name="afxcricheditctxptr"></a>AfxCRichEditCtxPtr
 
-Overloaded function that retrieves a pointer to the `CRichEditCtrl`class from the handle of the rich edit control or from the handle of its parent window and the control's identifier.
+Overloaded function that retrieves a pointer to the `CRichEditCtx`class from the handle of the rich edit control or from the handle of its parent window and the control's identifier.
 ```
-FUNCTION AfxCRichEditCtrlPtr OVERLOAD (BYVAL hRichEdit AS HWND) AS CRichEditCtrl PTR
-FUNCTION AfxCRichEditCtrlPtr OVERLOAD (BYVAL hParent AS HWND, BYVAL cID AS LONG) AS CRichEditCtrl PTR
+FUNCTION AfxCRichEditCtxPtr OVERLOAD (BYVAL hRichEdit AS HWND) AS CRichEditCtx PTR
+FUNCTION AfxCRichEditCtxPtr OVERLOAD (BYVAL hParent AS HWND, BYVAL cID AS LONG) AS CRichEditCtx PTR
 ```
 | Parameter | Description |
 | --------- | ----------- |
@@ -254,7 +254,7 @@ FUNCTION AfxCRichEditCtrlPtr OVERLOAD (BYVAL hParent AS HWND, BYVAL cID AS LONG)
 
 #### Return value
 
-A pointer to the `CRichEditCtrl` class.
+A pointer to the `CRichEditCtx` class.
 
 ---
 
@@ -263,7 +263,7 @@ A pointer to the `CRichEditCtrl` class.
 Creates an instance of the rich edit control.
 
 ```
-CONSTRUCTOR CRichEditCtrl (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
+CONSTRUCTOR CRichEditCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
    BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
    BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0)
 ```
@@ -282,12 +282,12 @@ CONSTRUCTOR CRichEditCtrl (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, 
 
 #### Usage example (dotted syntax)
 ```
-DIM pRichEdit AS CRichEditCtrl = CRichEditCtrl(@pWindow, IDC_RICHEDIT, _
+DIM pRichEdit AS CRichEditCtx = CRichEditCtx(@pWindow, IDC_RICHEDIT, _
     "Rich Edit box", 100, 50, 300, 200)
 ```
 #### Usage example (pointer syntax)
 ```
-DIM pRichEdit AS CRichEditCtrl PTR = NEW CRichEditCtrl(@pWindow, IDC_RICHEDIT, _
+DIM pRichEdit AS CRichEditCtx PTR = NEW CRichEditCtx(@pWindow, IDC_RICHEDIT, _
     "Rich Edit box", 100, 50, 300, 200)
 
 ```
@@ -298,7 +298,7 @@ DIM pRichEdit AS CRichEditCtrl PTR = NEW CRichEditCtrl(@pWindow, IDC_RICHEDIT, _
 
 Called automatically when a class variable goes out of scope or is destroyed.
 ```
-DESTRUCTOR CRichEditCtrl
+DESTRUCTOR CRichEditCtx
 ```
 
 ---
@@ -308,12 +308,12 @@ DESTRUCTOR CRichEditCtrl
 Returns the handle of the rich edit control.
 
 ```
-FUNCTION CRichEditCtrl.hRichEdit () AS HWND
+FUNCTION hRichEdit () AS HWND
 ```
 #### Usage example
 ```
-' // Create an instance of the CRichEditCtrl class
-DIM pRichEdit AS CRichEditCtrl = CRichEditCtrl(@pWindow, IDC_RICHEDIT, "RichEditbox", 100, 50, 300, 200)
+' // Create an instance of the CRichEditCtx class
+DIM pRichEdit AS CRichEditCtx = CRichEditCtx(@pWindow, IDC_RICHEDIT, "RichEditbox", 100, 50, 300, 200)
 ' // Set the focus in the control
 DIM hRichEdit AS HWND = pRichEdit.hRichEdit
 ```
@@ -1509,7 +1509,7 @@ To retrieve the text, you can also use the **AfxGetWindowText** function, the **
 
 ## <a name="textlengthex"></a>TextLengthEx
 
-Calculates text length in various ways. It is usually called before creating a buffer to receive the text from the control. Since this `CRichEditCtrl` class uses unicode, it is easier to use the simplified second overloaded function.
+Calculates text length in various ways. It is usually called before creating a buffer to receive the text from the control. Since this `CRichEditCtx` class uses unicode, it is easier to use the simplified second overloaded function.
 
 ```
 FUNCTION TextLengthEx (BYREF gtex AS .GETTEXTLENGTHEX) AS LONG
@@ -2168,7 +2168,7 @@ The return value specifies the zero-based character index of the character neare
 Gets the Input Method Editor (IME) composition color. This message is available only in Asian-language versions of the operating system.
 
 ```
-FUNCTION CRichEditCtrl.GetIMEColor (BYVAL rgCmpclr AS .COMPCOLOR PTR) AS LONG
+FUNCTION GetIMEColor (BYVAL rgCmpclr AS .COMPCOLOR PTR) AS LONG
    RETURN this.SetResult(SendMessageW(m_hRichEdit, EM_GETIMECOLOR, 0, cast(LPARAM, rgCmpclr)))
 END FUNCTION
 ```
@@ -3047,7 +3047,7 @@ Additional examples are shown in the following table.
 
 Sets the Input Method Editor (IME) composition color. This message is available only in Asian-language versions of the operating system.
 ```
-FUNCTION CRichEditCtrl.SetIMEColor (BYVAL pcompcolor AS .COMPCOLOR PTR) AS LONG
+FUNCTION SetIMEColor (BYVAL pcompcolor AS .COMPCOLOR PTR) AS LONG
    RETURN this.SetResult(SendMessageW(m_hRichEdit, EM_SETIMECOLOR, 0, cast(LPARAM, pcompcolor)))
 END FUNCTION
 ```
@@ -4945,7 +4945,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Retrieves the preferred font for a particular character repertoire and character position.
 
 ```
-PRIVATE FUNCTION CRichEditCtrl.GetPreferredFont (BYVAL cp AS LONG, BYVAL CharRep AS LONG, _
+PRIVATE FUNCTION GetPreferredFont (BYVAL cp AS LONG, BYVAL CharRep AS LONG, _
    BYVAL nOptions AS LONG, BYVAL curCharRep AS LONG, BYVAL curFontSize AS LONG, _
    BYVAL fontName AS AFX_BSTR PTR, BYREF PitchAndFamily AS LONG, BYREF NewFontSize AS LONG) AS HRESULT
 ```
