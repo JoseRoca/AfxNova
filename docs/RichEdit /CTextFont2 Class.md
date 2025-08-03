@@ -1344,6 +1344,8 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 | **E_ACCESSDENIED** | Write access is denied. |
 | **E_OUTOFMEMORY** | Insufficient memory. |
 
+---
+
 ## Count
 
 Gets the count of extra properties in this character formatting collection.
