@@ -1,6 +1,8 @@
 # CTextRange2 Class
 
-Class that wraps the methods of the **ITextRange**, **ITextSelection** and **ITextRange2** interfaces.
+Class that wraps the methods of the **ITextRange2** interface.
+
+The **ITextSelection2 interface" inherits from **ITextRange2" and contains no methods other than those inherited from that interface. The difference is that with **ITextRange2** you have to select the range of text and **ITextSelection2** works with selected text. To get a pointer to the **ITextSelection2** interface call the **GetSelection" method of the **CTextDocument2** class.
 
 | Name       | Description |
 | ---------- | ----------- |
