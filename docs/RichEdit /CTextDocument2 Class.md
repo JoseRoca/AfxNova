@@ -180,7 +180,7 @@ SCOPE
    ' // Get the 0-based range of all the text
    DIM pCRange2 AS CTextRange2 = pCTextDoc.Range2(0, numChars)
    ' // Get the text
-   DIM cbsText AS CBSTR = pCRange2.GetText2(0)
+   DIM dwsText AS DWSTRING = pCRange2.GetText2(0)
    ' // The CTextDocument2 class and the CTextRange2 class will be destroyed when the scope ends
 END SCOPE
 ```
@@ -195,7 +195,7 @@ DIM numChars AS LONG = RichEdit_GetTextLength(hRichEdit)
 ' // Get the 0-based range of all the text
 DIM pCRange2 AS CTextRange2 = pCTextDoc->Range2(0, numChars)
 ' // Get the text
-DIM cbsText AS CBSTR = pCRange2->GetText2(0)
+DIM dwsText AS DWSTRING = pCRange2->GetText2(0)
 ' // Delete the range
 Delete pCRange2
 ' // Delete the class
@@ -932,7 +932,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the name of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.GetGenerator () AS CBSTR
+FUNCTION CTextDocument2.GetGenerator () AS DWSTRING
 ```
 
 #### Return value
