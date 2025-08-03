@@ -216,7 +216,7 @@ DESTRUCTOR CTextDocument2
 Assignment operator.  The assigned pointer must be an "addrefed" one.
 
 ```
-OPERATOR CTextDocument2.LET (BYVAL pTextDocument2 AS ITextDocument2 PTR)
+OPERATOR LET (BYVAL pTextDocument2 AS ITextDocument2 PTR)
 ```
 ---
 
@@ -225,7 +225,7 @@ OPERATOR CTextDocument2.LET (BYVAL pTextDocument2 AS ITextDocument2 PTR)
 Cast operator.
 
 ```
-OPERATOR CTextDocument2.CAST () AS ITextDocument2 PTR
+OPERATOR CAST () AS ITextDocument2 PTR
 ```
 ---
 
@@ -234,7 +234,7 @@ OPERATOR CTextDocument2.CAST () AS ITextDocument2 PTR
 Returns a pointer to the underlying **ITextDocument2** interface
 
 ```
-FUNCTION CTextDocument2.TextDocumentPtr () AS ITextDocument2 PTR
+FUNCTION TextDocumentPtr () AS ITextDocument2 PTR
 ```
 ---
 
@@ -243,7 +243,7 @@ FUNCTION CTextDocument2.TextDocumentPtr () AS ITextDocument2 PTR
 Attaches an **ITextDocument2** interface pointer to the class.
 
 ```
-FUNCTION CTextDocument2.Attach (BYVAL pTextDocument2 AS ITextDocument2 PTR, _
+FUNCTION Attach (BYVAL pTextDocument2 AS ITextDocument2 PTR, _
    BYVAL fAddRef AS BOOLEAN = FALSE) AS HRESULT
 ```
 
@@ -259,7 +259,7 @@ FUNCTION CTextDocument2.Attach (BYVAL pTextDocument2 AS ITextDocument2 PTR, _
 Detaches the underlying **ITextDocument2** interface pointer from the class
 
 ```
-FUNCTION CTextDocument2.Detach () AS ITextDocument2 PTR
+FUNCTION Detach () AS ITextDocument2 PTR
 ```
 ---
 
@@ -268,7 +268,7 @@ FUNCTION CTextDocument2.Detach () AS ITextDocument2 PTR
 Returns the last result code
 
 ```
-FUNCTION CTextObjectBase.GetLastResult () AS HRESULT
+FUNCTION GetLastResult () AS HRESULT
 ```
 ---
 
@@ -277,7 +277,7 @@ FUNCTION CTextObjectBase.GetLastResult () AS HRESULT
 Sets the last result code.
 
 ```
-FUNCTION CTextObjectBase.SetResult (BYVAL Result AS HRESULT) AS HRESULT
+FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -291,7 +291,7 @@ FUNCTION CTextObjectBase.SetResult (BYVAL Result AS HRESULT) AS HRESULT
 Returns a description of the last result code.
 
 ```
-PRIVATE FUNCTION CTextObjectBase.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+PRIVATE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
 ```
 ---
 
@@ -300,7 +300,7 @@ PRIVATE FUNCTION CTextObjectBase.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWS
 Gets the file name of this document. This is the **ITextDocument** default property.
 
 ```
-FUNCTION CTextDocument2.GetName () AS DWSTRING
+FUNCTION GetName () AS DWSTRING
 ```
 #### Return value
 
@@ -323,7 +323,7 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 Gets the active selection.
 
 ```
-FUNCTION CTextDocument2.GetSelection () AS ITextSelection PTR
+FUNCTION GetSelection () AS ITextSelection PTR
 ```
 #### Return value
 
@@ -345,7 +345,7 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 Gets the count of stories in this document.
 
 ```
-FUNCTION CTextDocument2.GetStoryCount () AS LONG
+FUNCTION GetStoryCount () AS LONG
 ```
 #### Return value
 
@@ -366,7 +366,7 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 Gets the story collection object used to enumerate the stories in a document.
 
 ```
-FUNCTION CTextDocument2.GetStoryRanges () AS ITextStoryRanges PTR
+FUNCTION GetStoryRanges () AS ITextStoryRanges PTR
 ```
 #### Return value
 
@@ -391,7 +391,7 @@ Invoke this method only if **GetStoryCount** returns a value greater than 1.
 Gets a value that indicates whether changes have been made since the file was last saved.
 
 ```
-FUNCTION CTextDocument2.GetSaved () AS LONG
+FUNCTION GetSaved () AS LONG
 ```
 #### Return value
 
@@ -412,7 +412,7 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 Sets the document **Saved** property.
 
 ```
-FUNCTION CTextDocument2.SetSaved (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetSaved (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -430,7 +430,7 @@ The return value is **S_OK**.
 Gets the default tab width.
 
 ```
-FUNCTION CTextDocument2.GetDefaultTabStop () AS SINGLE
+FUNCTION GetDefaultTabStop () AS SINGLE
 ```
 
 #### Return value
@@ -452,7 +452,7 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 Sets the default tab stop, which is used when no tab exists beyond the current display position.
 
 ```
-FUNCTION CTextDocument2.SetDefaultTabStop (BYVAL Value AS SINGLE = 36.0) AS HRESULT
+FUNCTION SetDefaultTabStop (BYVAL Value AS SINGLE = 36.0) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -477,7 +477,7 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 Opens a new document.
 
 ```
-FUNCTION CTextDocument2.New_ () AS HRESULT
+FUNCTION New_ () AS HRESULT
 ```
 
 #### Return value
@@ -495,8 +495,7 @@ If another document is open, this method saves any current changes and closes th
 Opens a specified document. There are parameters to specify access and sharing privileges, creation and conversion of the file, as well as the code page for the file.
 
 ```
-FUNCTION CTextDocument2.Open (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG = 0, _
-   BYVAL CodePage AS LONG = 0) AS HRESULT
+FUNCTION Open (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG = 0, BYVAL CodePage AS LONG = 0) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -523,8 +522,7 @@ The return value can be an **HRESULT** value that corresponds to a system error 
 Saves the document.
 
 ```
-FUNCTION CTextDocument2.Save (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG, _
-   BYVAL CodePage AS LONG) AS HRESULT
+FUNCTION Save (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG, BYVAL CodePage AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -561,7 +559,7 @@ Unicode plain-text files should be saved with the Unicode byte-order mark (0xFEF
 Increments the freeze count.
 
 ```
-FUNCTION CTextDocument2.Freeze () AS LONG
+FUNCTION Freeze () AS LONG
 ```
 
 #### Return value
@@ -583,7 +581,7 @@ If the freeze count is nonzero, screen updating is disabled. This allows a seque
 Decrements the freeze count.
 
 ```
-FUNCTION CTextDocument2.Unfreeze () AS LONG
+FUNCTION Unfreeze () AS LONG
 ```
 
 #### Return value
@@ -607,7 +605,7 @@ Note, if edit collection is active, screen updating is suppressed, even if the f
 Turns on edit collection (also called *undo grouping*).
 
 ```
-FUNCTION CTextDocument2.BeginEditCollection () AS HRESULT
+FUNCTION BeginEditCollection () AS HRESULT
 ```
 
 #### Return value
@@ -631,7 +629,7 @@ A single **Undo** command undoes all changes made while edit collection is turne
 Turns off edit collection (also called *undo grouping*).
 
 ```
-FUNCTION CTextDocument2.EndEditCollection () AS HRESULT
+FUNCTION EndEditCollection () AS HRESULT
 ```
 
 #### Return value
@@ -654,7 +652,7 @@ The screen is unfrozen unless the freeze count is nonzero.
 Performs a specified number of undo operations.
 
 ```
-FUNCTION CTextDocument2.Undo (BYVAL Count AS LONG) AS LONG
+FUNCTION Undo (BYVAL Count AS LONG) AS LONG
 ```
 
 | Parameter | Description |
@@ -676,7 +674,7 @@ If all of the *Count* undo operations were performed, **GetLastResult** returns 
 Performs a specified number of redo operations.
 
 ```
-FUNCTION CTextDocument2.Redo (BYVAL Count AS LONG) AS LONG
+FUNCTION Redo (BYVAL Count AS LONG) AS LONG
 ```
 
 | Parameter | Description |
@@ -703,7 +701,7 @@ If the method succeeds **GetLastResult** returns **S_OK**. If the method fails, 
 Retrieves a text range object for a specified range of content in the active story of the document.
 
 ```
-FUNCTION CTextDocument2.Range (BYVAL cpActive AS LONG = 0, BYVAL cpAnchor AS LONG = 0) AS ITextRange PTR
+FUNCTION Range (BYVAL cpActive AS LONG = 0, BYVAL cpAnchor AS LONG = 0) AS ITextRange PTR
 ```
 
 | Parameter | Description |
@@ -722,7 +720,7 @@ Pointer to a **ITextRange** interface to the specified text range.
 Retrieves a range for the content at or nearest to the specified point on the screen.
 
 ```
-FUNCTION CTextDocument2.RangeFromPoint (BYVAL x AS LONG, BYVAL y AS LONG) AS ITextRange PTR
+FUNCTION RangeFromPoint (BYVAL x AS LONG, BYVAL y AS LONG) AS ITextRange PTR
 ```
 
 | Parameter | Description |
@@ -751,7 +749,7 @@ If the method succeeds **GetLastResult** returns **S_OK**. If the method fails, 
 Gets the caret type.
 
 ```
-FUNCTION CTextDocument2.GetCaretType () AS LONG
+FUNCTION GetCaretType () AS LONG
 ```
 
 ### Return value
@@ -775,7 +773,7 @@ If the method succeeds **GetLastResult** returns **S_OK**. If the method fails, 
 Sets the caret type.
 
 ```
-FUNCTION CTextDocument2.SetCaretType (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetCaretType (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -799,7 +797,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the displays collection for this Text Object Model (TOM) engine instance.
 
 ```
-FUNCTION CTextDocument2.GetDisplays () AS ITextDisplays PTR
+FUNCTION GetDisplays () AS ITextDisplays PTR
 ```
 
 ### Return value
@@ -821,7 +819,7 @@ The rich edit control doesn't implement this method.
 Gets an object that provides the default character format information for this instance of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.GetDocumentFont () AS ITextFont2 PTR
+FUNCTION GetDocumentFont () AS ITextFont2 PTR
 ```
 
 ### Return value
@@ -839,7 +837,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the default character formatting for this instance of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.SetDocumentFont (BYVAL pFont AS ITextFont2 PTR) AS HRESULT
+FUNCTION SetDocumentFont (BYVAL pFont AS ITextFont2 PTR) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -861,7 +859,7 @@ You can also set the default character formatting by calling the **Reset** metho
 Gets an object that provides the default paragraph format information for this instance of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.GetDocumentPara () AS ITextPara2 PTR
+FUNCTION GetDocumentPara () AS ITextPara2 PTR
 ```
 
 #### Return value
@@ -879,7 +877,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the default paragraph formatting for this instance of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.SetDocumentPara (BYVAL pPara AS ITextPara2 PTR) AS HRESULT
+FUNCTION SetDocumentPara (BYVAL pPara AS ITextPara2 PTR) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -901,7 +899,7 @@ You can also set the default character formatting by calling the **Reset** metho
 Gets an object that provides the default paragraph format information for this instance of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.GetEastAsianFlags () AS LONG
+FUNCTION GetEastAsianFlags () AS LONG
 ```
 
 #### Return value
@@ -932,7 +930,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the name of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.GetGenerator () AS DWSTRING
+FUNCTION GetGenerator () AS DWSTRING
 ```
 
 #### Return value
@@ -950,7 +948,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the state of the Input Method Editor (IME) in-progress flag.
 
 ```
-FUNCTION CTextDocument2.SetIMEInProgress (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetIMEInProgress (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -968,7 +966,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the notification mode.
 
 ```
-FUNCTION CTextDocument2.GetNotificationMode () AS LONG
+FUNCTION GetNotificationMode () AS LONG
 ```
 
 #### Return value
@@ -986,7 +984,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the notification mode.
 
 ```
-FUNCTION CTextDocument2.SetNotificationMode (BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetNotificationMode (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1004,7 +1002,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the active selection.
 
 ```
-FUNCTION CTextDocument2.GetSelection2 () AS ITextSelection2 PTR
+FUNCTION GetSelection2 () AS ITextSelection2 PTR
 ```
 
 #### Return value
@@ -1022,7 +1020,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets an object for enumerating the stories in a document.
 
 ```
-FUNCTION CTextDocument2.GetStoryRanges2 () AS ITextStoryRanges2 PTR
+FUNCTION GetStoryRanges2 () AS ITextStoryRanges2 PTR
 ```
 
 #### Return value
@@ -1044,7 +1042,7 @@ Call this method only if the **GetStoryCount** method returns a value that is gr
 Gets the typography options.
 
 ```
-FUNCTION CTextDocument2.GetTypographyOptions () AS LONG
+FUNCTION GetTypographyOptions () AS LONG
 ```
 
 #### Return value
@@ -1067,7 +1065,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the version number of the Text Object Model (TOM) engine.
 
 ```
-FUNCTION CTextDocument2.GetVersion () AS LONG
+FUNCTION GetVersion () AS LONG
 ```
 
 #### Return value
@@ -1085,7 +1083,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the handle of the window that the Text Object Model (TOM) engine is using to display output.
 
 ```
-FUNCTION CTextDocument2.GetWindow () AS __int64
+FUNCTION GetWindow () AS __int64
 ```
 
 #### Return value
@@ -1109,7 +1107,7 @@ The Input Method Editor (IME) needs the handle of the window that is receiving k
 Attaches a new message filter to the edit instance. All window messages that the edit instance receives are forwarded to the message filter.
 
 ```
-FUNCTION CTextDocument2.AttachMsgFilter (BYVAL pFilter AS IUnknown PTR) AS HRESULT
+FUNCTION AttachMsgFilter (BYVAL pFilter AS IUnknown PTR) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1131,7 +1129,7 @@ The message filter must be bound to the document before it can be used.
 Checks whether the number of characters to be added would exceed the maximum text limit.
 
 ```
-FUNCTION CTextDocument2.CheckTextLimit (BYVAL cch AS LONG) AS LONG
+FUNCTION CheckTextLimit (BYVAL cch AS LONG) AS LONG
 ```
 
 | Parameter | Description |
@@ -1153,7 +1151,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the call manager.
 
 ```
-FUNCTION CTextDocument2.GetCallManager () AS IUnknown PTR
+FUNCTION GetCallManager () AS IUnknown PTR
 ```
 
 #### Return value
@@ -1175,7 +1173,7 @@ The call manager object is opaque to the caller. The Text Object Model (TOM) eng
 Retrieves the client rectangle of the rich edit control.
 
 ```
-FUNCTION CTextDocument2.GetClientRect (BYVAL nType AS LONG, BYVAL pLeft AS LONG PTR, _
+FUNCTION GetClientRect (BYVAL nType AS LONG, BYVAL pLeft AS LONG PTR, _
    BYVAL pTop AS LONG PTR, BYVAL pRight AS LONG PTR, BYVAL pBottom AS LONG PTR) AS HRESULT
 ```
 
@@ -1198,7 +1196,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Retrieves the color used for special text attributes.
 
 ```
-FUNCTION CTextDocument2.GetEffectColor (BYVAL Index AS LONG) AS ULONG
+FUNCTION GetEffectColor (BYVAL Index AS LONG) AS ULONG
 ```
 
 | Parameter | Description |
@@ -1240,7 +1238,7 @@ The first 16 index values are for special underline colors. If an index between 
 Retrieves the preferred font for a particular character repertoire and character position.
 
 ```
-FUNCTION CTextDocument2.GetPreferredFont (BYVAL cp AS LONG, BYVAL CodePage AS LONG, _
+FUNCTION GetPreferredFont (BYVAL cp AS LONG, BYVAL CodePage AS LONG, _
    BYVAL Options AS LONG, BYVAL curCodepage AS LONG, BYVAL curFontSize AS LONG, BYREF dwsFontName AS DWSTRING, _
    BYVAL pPitchAndFamily AS LONG PTR, BYVAL pNewFontSize AS LONG PTR) AS HRESULT
 ```
@@ -1267,7 +1265,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets the Input Method Manager (IMM) input context from the Text Object Model (TOM) host.
 
 ```
-FUNCTION CTextDocument2.GetImmContext () AS __int64
+FUNCTION GetImmContext () AS __int64
 ```
 
 #### Return value
@@ -1285,7 +1283,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Retrieves the value of a property.
 
 ```
-FUNCTION CTextDocument2.GetProperty (BYVAL nType AS LONG) AS LONG
+FUNCTION GetProperty (BYVAL nType AS LONG) AS LONG
 ```
 | Parameter | Description |
 | --------- | ----------- |
@@ -1306,7 +1304,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Gets a collection of rich-text strings.
 
 ```
-FUNCTION CTextDocument2.GetStrings () AS ITextStrings PTR
+FUNCTION GetStrings () AS ITextStrings PTR
 ```
 
 #### Return value
@@ -1320,7 +1318,7 @@ A pointer to the **ITextStrings** interface of the collection of rich-text strin
 Notifies the Text Object Model (TOM) engine client of particular Input Method Editor (IME) events.
 
 ```
-FUNCTION CTextDocument2.Notify (BYVAL nNotify AS LONG) AS HRESULT
+FUNCTION Notify (BYVAL nNotify AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1338,7 +1336,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Retrieves a new text range for the active story of the document.
 
 ```
-FUNCTION CTextDocument2.Range2 (BYVAL cpActive AS LONG = 0, BYVAL cpAnchor AS LONG = 0) AS ITextRange2 PTR
+FUNCTION Range2 (BYVAL cpActive AS LONG = 0, BYVAL cpAnchor AS LONG = 0) AS ITextRange2 PTR
 ```
 
 | Parameter | Description |
@@ -1361,7 +1359,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Retrieves the degenerate range at (or nearest to) a particular point on the screen.
 
 ```
-FUNCTION CTextDocument2.RangeFromPoint2 (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nType AS LONG) AS ITextRange2 PTR
+FUNCTION RangeFromPoint2 (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nType AS LONG) AS ITextRange2 PTR
 ```
 
 | Parameter | Description |
@@ -1381,7 +1379,7 @@ If the method succeeds, **GetLastResult^^ returns **NOERROR**. Otherwise, it ret
 Releases the call manager.
 
 ```
-FUNCTION CTextDocument2.ReleaseCallManager (BYVAL pVoid AS IUnknown PTR) AS HRESULT
+FUNCTION ReleaseCallManager (BYVAL pVoid AS IUnknown PTR) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1399,7 +1397,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Releases an Input Method Manager (IMM) input context.
 
 ```
-FUNCTION CTextDocument2.ReleaseImmContext (BYVAL Context AS __int64) AS HRESULT
+FUNCTION ReleaseImmContext (BYVAL Context AS __int64) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1417,10 +1415,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Specifies the color to use for special text attributes.
 
 ```
-FUNCTION CTextDocument2.SetEffectColor (BYVAL Index AS LONG, BYVAL Value AS ULONG) AS HRESULT
-   this.SetResult(m_pTextDocument2->lpvtbl->SetEffectColor(m_pTextDocument2, Index, Value))
-   RETURN m_Result
-END FUNCTION
+FUNCTION SetEffectColor (BYVAL Index AS LONG, BYVAL Value AS ULONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1463,7 +1458,7 @@ The first 16 index values are for special underline colors. If an index between 
 Specifies a new value for a property.
 
 ```
-FUNCTION CTextDocument2.SetProperty (BYVAL nType AS LONG, BYVAL Value AS LONG) AS HRESULT
+FUNCTION SetProperty (BYVAL nType AS LONG, BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1482,7 +1477,7 @@ If the method succeeds, it returns *NOERRO*. Otherwise, it returns an *HRESULT* 
 Specifies the typography options for the document.
 
 ```
-FUNCTION CTextDocument2.SetTypographyOptions (BYVAL Options AS LONG, BYVAL Mask AS LONG) AS HRESULT
+FUNCTION SetTypographyOptions (BYVAL Options AS LONG, BYVAL Mask AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1508,7 +1503,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Generates a system beep.
 
 ```
-FUNCTION CTextDocument2.SysBeep () AS HRESULT
+FUNCTION SysBeep () AS HRESULT
 ```
 
 #### Return value
@@ -1522,7 +1517,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Updates the selection and caret.
 
 ```
-FUNCTION CTextDocument2.Update (BYVAL Value AS LONG) AS HRESULT
+FUNCTION Update (BYVAL Value AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1540,7 +1535,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Notifies the client that the view has changed and the client should update the view if the Text Object Model (TOM) engine is in-place active.
 
 ```
-FUNCTION CTextDocument2.UpdateWindow () AS HRESULT
+FUNCTION UpdateWindow () AS HRESULT
 ```
 
 #### Return value
@@ -1554,7 +1549,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the math properties for the document.
 
 ```
-FUNCTION CTextDocument2.GetMathProperties () AS LONG
+FUNCTION GetMathProperties () AS LONG
 ```
 
 #### Return value
@@ -1602,7 +1597,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the math properties for the document.
 
 ```
-FUNCTION CTextDocument2.SetMathProperties (BYVAL Options AS LONG, BYVAL Mask AS LONG) AS HRESULT
+FUNCTION SetMathProperties (BYVAL Options AS LONG, BYVAL Mask AS LONG) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1651,7 +1646,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the active story; that is, the story that receives keyboard and mouse input.
 
 ```
-FUNCTION CTextDocument2.GetActiveStory () AS ITextStory PTR
+FUNCTION GetActiveStory () AS ITextStory PTR
 ```
 
 #### Return value
@@ -1669,7 +1664,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Sets the active story; that is, the story that receives keyboard and mouse input.
 
 ```
-FUNCTION CTextDocument2.SetActiveStory (BYVAL pStory AS ITextStory PTR) AS HRESULT
+FUNCTION SetActiveStory (BYVAL pStory AS ITextStory PTR) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -1687,7 +1682,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Gets the main story.
 
 ```
-FUNCTION CTextDocument2.GetMainStory () AS ITextStory PTR
+FUNCTION GetMainStory () AS ITextStory PTR
 ```
 
 #### Return value
@@ -1709,7 +1704,7 @@ A rich edit control automatically includes the main story; a call to the **GetNe
 Gets a new story. Not implemented.
 
 ```
-FUNCTION CTextDocument2.GetNewStory () AS ITextStory PTR
+FUNCTION GetNewStory () AS ITextStory PTR
 ```
 
 #### Return value
@@ -1727,7 +1722,7 @@ If this method succeeds, **GetLastResult** returns **S_OK**. Otherwise, it retur
 Retrieves the story that corresponds to a particular index.
 
 ```
-FUNCTION CTextDocument2.GetStory (BYVAl Index AS LONG) AS ITextStory PTR
+FUNCTION GetStory (BYVAl Index AS LONG) AS ITextStory PTR
 ```
 
 | Parameter | Description |
