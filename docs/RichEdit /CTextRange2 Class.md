@@ -2895,6 +2895,8 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 
 When that character is not a start delimiter, the character and column parameters are set to 0, the count is set to the 0-based argument index, and the other parameters are set according to the active-end character properties of the innermost inline object argument.
 
+---
+
 ## GetProperty
 
 Gets the value of a property.
