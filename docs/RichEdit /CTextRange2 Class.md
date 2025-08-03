@@ -1583,12 +1583,12 @@ For more information, see **Move**.
 Searches up to *Count* characters for the text given by *cbs*. The starting position and direction are also specified by *Count*, and the matching criteria are given by *Flags*.
 
 ```
-FUNCTION FindText (BYREF cbs AS CBSTR, BYVAL Count AS LONG = tomForward, BYVAL Flags AS LONG = 0) AS LONG
+FUNCTION FindText (BYREF wszText AS WSTRING, BYVAL Count AS LONG = tomForward, BYVAL Flags AS LONG = 0) AS LONG
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *cbs* | String to find. |
+| *wszText* | String to find. |
 | *Count* | Maximum number of characters to search. It can be one of the following.<br>- *tomForward*. Searches to the end of the story. This is the default value.<br>- *n* (greater than 0). Searches forward for *n* chars, starting from *cpFirst*. If the range itself matches *cbs*, another search is attempted from *cpFirst* + 1.<br>- *n* (less than 0). Searches backward for *n* chars, starting from *cpLim*. If the range itself matches *cbs*, another search is attempted from *cpLim*– 1.<br>- *0* (degenerate range). Search begins after the range.<br>- *0* (nondegenerate range)	Search is limited to the range.<br>In all cases, if a string is found, the range limits are changed to be those of the matched string and the method returns the length of the string. If the string is not found, the range remains unchanged and the method returns zero. |
 | *Flags* | Flags governing comparisons. It can be 0 (the default) or any combination of the following values. |
 
@@ -1687,12 +1687,12 @@ To do this for all such occurrences, change the IF into a WHILE/WEND loop in the
 Searches up to *Count* characters for the string, *cbs*, starting at the range's Start *cp (cpFirst)*. The search is subject to the comparison parameter, *Flags*. If the string is found, the Start *cp* is changed to the matched string, and the method returns the length of the string. If the string is not found, the range is unchanged, and the method returns zero.
 
 ```
-FUNCTION FindTextStart (BYREF cbs AS CBSTR, BYVAL Count AS LONG = tomForward, BYVAL Flags AS LONG = 0) AS LONG
+FUNCTION FindTextStart (BYREF wszText AS WSTRING, BYVAL Count AS LONG = tomForward, BYVAL Flags AS LONG = 0) AS LONG
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *cbs* | The string to search for. |
+| *wszText* | The string to search for. |
 | *Count* | Maximum number of characters to search. It can be one of the following.<br>- *tomForward*. Searches to the end of the story. This is the default value.<br>- *n* (greater than 0). Searches forward for *n* chars, starting from *cpFirst*. If the range itself matches *cbs*, another search is attempted from *cpFirst* + 1.<br>- *n* (less than 0). Searches backward for *n* chars, starting from *cpLim*. |
 | *Flags* | Flags governing the comparisons. It can be zero (the default) or any combination of the following values. |
 
@@ -1715,12 +1715,12 @@ If the method succeeds, **GetLastResult** returns **S_OK**. If the method fails,
 Searches up to *Count* characters for the string, *cbs*, starting from the range's End *cp*. The search is subject to the comparison parameter, *Flags*. If the string is found, the End *cp* is changed to be the end of the matched string, and the method returns the length of the string. If the string is not found, the range is unchanged and the method returns zero.
 
 ```
-FUNCTION FindTextEnd (BYREF cbs AS CBSTR, BYVAL Count AS LONG = tomForward, BYVAL Flags AS LONG = 0) AS LONG
+FUNCTION FindTextEnd (BYREF wszText AS WSTRING, BYVAL Count AS LONG = tomForward, BYVAL Flags AS LONG = 0) AS LONG
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *cbs* | The string to search for. |
+| *wszText* | The string to search for. |
 | *Count* | Maximum number of characters to search. It can be one of the following.<br>- *tomForward*. Searches to the end of the story. This is the default value.<br>- *n* (greater than 0). Searches forward for *n* chars, starting from *cpFirst*. If the range itself matches *cbs*, another search is attempted from *cpFirst* + 1.<br>- *n* (less than 0). Searches backward for *n* chars, starting from *cpLim*. |
 | *Flags* | Flags governing the comparisons. It can be zero (the default) or any combination of the following values. |
 
@@ -2426,12 +2426,12 @@ The **HomeKey** and **EndKey** methods are logical methods like the **Move** met
 Types the string given by *cbs* at this selection as if someone typed it. This is similar to the underlying **SetText** method, but is sensitive to the Insert/Overtype key state and UI settings like AutoCorrect and smart quotes.
 
 ```
-FUNCTION TypeText (BYREF cbs AS CBSTR) AS HRESULT
+FUNCTION TypeText (BYREF wszText AS WSTRING) AS HRESULT
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *cbs* | String to type into this selection. |
+| *wszText* | String to type into this selection. |
 
 #### Return value
 
@@ -2646,7 +2646,7 @@ If the method succeeds, **GetLastResult** returns **NOERROR**. Otherwise, it ret
 Returns the URL text associated with a range.
 
 ```
-FUNCTION GetURL () AS CBSTR
+FUNCTION GetURL () AS DWSTRING
 ```
 
 #### Return value
@@ -2664,7 +2664,7 @@ If the method succeeds, **GetLastResult** returns **S_OK**. Otherwise, it return
 Sets the text in this range to that of the specified URL.
 
 ```
-FUNCTION SetURL (BYREF cbs AS CBSTR) AS HRESULT
+FUNCTION SetURL (BYREF wszUrl AS WSTRING) AS HRESULT
 ```
 
 | Parameter | Description |
@@ -3178,12 +3178,12 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 Retrieves the math function type associated with the specified math function name.
 
 ```
-FUNCTION GetMathFunctionType (BYREF cbs AS CBSTR) AS LONG
+FUNCTION GetMathFunctionType (BYREF wszName AS WSTRING) AS LONG
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *cbs* | The math function name that is checked to determine the math function type. |
+| *wszName* | The math function name that is checked to determine the math function type. |
 
 #### Return value
 
