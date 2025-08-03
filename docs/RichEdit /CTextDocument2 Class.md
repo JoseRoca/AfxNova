@@ -132,7 +132,7 @@ Called when a `CTextDocument2` class variable is created.
 DECLARE CONSTRUCTOR
 DECLARE CONSTRUCTOR (BYVAL hRichEdit AS HWND)
 DECLARE CONSTRUCTOR (BYVAL pTextDocument2 AS ITextDocument2 PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
----
+```
 
 ## CONSTRUCTOR (Empty)
 
