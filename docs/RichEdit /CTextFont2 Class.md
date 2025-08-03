@@ -7,6 +7,8 @@ Class that wraps all the methods of the **ITextFont2** interface.
 | [CONSTRUCTOR](#constructor) | Called when a class variable is created. |
 | [DESTRUCTOR](#destructor) | Called automatically when a class variable goes out of scope or is destroyed. |
 
+---
+
 ### Inherited ITextFont Properties
 
 | Name       | Description |
@@ -41,6 +43,8 @@ Class that wraps all the methods of the **ITextFont2** interface.
 | [Underline](#underline) | Gets/sets the type of underlining for the characters in a range. |
 | [Weight](#weight) | Gets/sets the font weight for the characters in a range. |
 
+---
+
 ### ITextFont2 Interface
 
 In the Text Object Model (TOM), applications access text-range attributes by using a pair of dual interfaces, **ITextFont** and **ITextPara**.
@@ -73,6 +77,8 @@ The **ITextFont2** interface extends **ITextFont**, providing the programming eq
 | [SpaceExtension](#spaceextension) | Gets/sets the East Asian space extension value. |
 | [UnderlinePositionMode](#underlinepositionmode) | Gets/sets the underline position mode. |
 
+---
+
 ### Methods inherited from CTextObjectBase Class
 
 | Name       | Description |
@@ -81,9 +87,11 @@ The **ITextFont2** interface extends **ITextFont**, providing the programming eq
 | [SetResult](#setresult) | Sets the last result code. |
 | [GetErrorInfo](#geterrorinfo) | Returns a description of the last result code. |
 
-## <a name="constructor"></a>CONSTRUCTOR
+---
 
-Called when a **CTextFont2** class variable is created.
+## CONSTRUCTOR
+
+Called when a `CTextFont2` class variable is created.
 
 ```
 CONSTRUCTOR (BYVAL pTextFont2 AS ITextFont2 PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
@@ -99,7 +107,7 @@ A pointer to the new instance of the class.
 
 ---
 
-## <a name="destructor"></a>DESTRUCTOR
+## DESTRUCTOR
 
 Called automatically when a class variable goes out of scope or is destroyed.
 
@@ -108,7 +116,7 @@ DESTRUCTOR CTextFont2
 ```
 ---
 
-## <a name="getlastresult"></a>GetLastResult
+## GetLastResult
 
 Returns the last result code
 
@@ -117,7 +125,7 @@ FUNCTION GetLastResult () AS HRESULT
 ```
 ---
 
-## <a name="setresult"></a>SetResult
+## SetResult
 
 Sets the last result code.
 
@@ -131,7 +139,7 @@ FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 
 ---
 
-## <a name="geterrorinfo"></a>GetErrorInfo
+## GetErrorInfo
 
 Returns a description of the last result code.
 
@@ -140,7 +148,7 @@ FUNCTION GetErrorInfo () AS CWSTR
 ```
 ---
 
-## <a name="duplicate"></a>Duplicate
+## Duplicate
 
 Gets/sets a duplicate of this range object. In this implementation of the class, **Duplicate** and **Duplicate2** are the same method.
 
@@ -186,7 +194,7 @@ Values with the **tomUndefined** attribute have no effect.
 
 ---
 
-## <a name="canchange"></a>CanChange
+## CanChange
 
 Determines whether the font can be changed.
 
@@ -208,7 +216,7 @@ This method returns **tomTrue** only if the font can be changed. That is, no par
 
 ---
 
-## <a name="isequal"></a>IsEqual
+## IsEqual
 
 Determines whether this text font object has the same properties as the specified text font object.
 
@@ -231,7 +239,7 @@ The text font objects are equal only if *pFont* belongs to the same Text Object 
 
 ---
 
-## <a name="Reset"></a>Reset
+## Reset
 
 Resets the character formatting to the specified values.
 
@@ -273,7 +281,7 @@ Calling **Reset** with **tomUndefined** sets all properties to undefined values.
 
 ---
 
-## <a name="style"></a>Style
+## Style
 
 Gets/sets the character style handle of the characters in a range.
 
@@ -313,7 +321,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns one
 
 ---
 
-## <a name="allcaps"></a>AllCaps
+## AllCaps
 
 Gets/sets whether the characters are all uppercase.
 
@@ -357,7 +365,7 @@ This property corresponds to the **CFE_ALLCAPS** effect described in the [CHARFO
 
 ---
 
-## <a name="animation"></a>Animation
+## Animation
 
 Gets/sets the animation type.
 
@@ -403,7 +411,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="backcolor"></a>BackColor
+## BackColor
 
 Gets/sets the text background (highlight) color.
 
@@ -446,7 +454,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="bold"></a>Bold
+## Bold
 
 Gets/sets whether the characters are bold.
 
@@ -486,7 +494,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-# <a name="emboss"></a>Emboss
+# Emboss
 
 Gets/sets whether the characters are embossed.
 
@@ -531,7 +539,7 @@ This property corresponds to the **CFE_EMBOSS** effect described in the [CHARFOR
 
 ---
 
-## <a name="forecolor"></a>ForeColor
+## ForeColor
 
 Gets/sets the foreground, or text, color.
 
@@ -574,7 +582,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="hidden"></a>Hidden
+## Hidden
 
 Gets/sets whether characters are hidden.
 
@@ -617,7 +625,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 This property corresponds to the **CFE_HIDDEN** effect described in the [CHARFORMAT2](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformat2w_1) structure.
 
-## <a name="engrave"></a>Engrave
+## Engrave
 
 Gets/sets whether characters are displayed as imprinted characters.
 
@@ -662,7 +670,7 @@ This property corresponds to the **CFE_IMPRINT** effect described in the [CHARFO
 
 ---
 
-## <a name="italic"></a>Italic
+## Italic
 
 Gets/sets whether characters are in italics.
 
@@ -703,7 +711,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="kerning"></a>Kerning
+## Kerning
 
 Gets/sets the minimum font size at which kerning occurs.
 
@@ -738,7 +746,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="languageid"></a>LanguageID
+## LanguageID
 
 Gets/sets the language ID or language code identifier (LCID).
 
@@ -779,7 +787,7 @@ If the high nibble of *Value* is **tomCharRepFromLcid**, set the *charrep* from 
 
 To set the BCP-47 language tag, such as "en-US", call **SetText2** and set the **tomLanguageTag** and *bstr* with the language tag.
 
-## <a name="name"></a>Name
+## Name
 
 Gets/sets the font name.
 
@@ -814,7 +822,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="outline"></a>Outline
+## Outline
 
 Gets/sets whether characters are displayed as outlined characters.
 
@@ -855,7 +863,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="position"></a>Position
+## Position
 
 Gets/sets the amount that characters are offset vertically relative to the baseline.
 
@@ -893,7 +901,7 @@ Displayed text typically has a zero value for this property. Positive values rai
 
 ---
 
-## <a name="protected"></a>Protected
+## Protected
 
 Gets/sets whether characters are protected against attempts to modify them.
 
@@ -936,7 +944,7 @@ In general, Text Object Model (TOM) methods that attempt to change the formattin
 
 ---
 
-## <a name="shadow"></a>Shadow
+## Shadow
 
 Gets/sets whether characters are displayed as shadowed characters.
 
@@ -981,7 +989,7 @@ This property corresponds to the **CFE_SHADOW** effect described in the [CHARFOR
 
 ---
 
-## <a name="size"></a>Size
+## Size
 
 Gets/sets the font size.
 
@@ -1015,7 +1023,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="smallcaps"></a>SmallCaps
+## SmallCaps
 
 Gets/sets whether characters are in small capital letters.
 
@@ -1056,7 +1064,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="spacing"></a>Spacing
+## Spacing
 
 Gets/sets the amount of horizontal spacing between characters.
 
@@ -1093,7 +1101,7 @@ Displayed text typically has an intercharacter spacing value of zero. Positive v
 
 ---
 
-## <a name="strikethrough"></a>StrikeThrough
+## StrikeThrough
 
 Gets/sets whether characters are displayed with a horizontal line through the center.
 
@@ -1135,7 +1143,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 This property corresponds to the **CFE_STRIKEOUT** effect described in the [CHARFORMAT2](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformat2w_1) structure.
 
-## <a name="subscript"></a>Subscript
+## Subscript
 
 Gets/sets whether characters are displayed as subscript.
 
@@ -1178,7 +1186,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 This property corresponds to the **CFE_SUBSCRIPT** effect described in the [CHARFORMAT2](https://learn.microsoft.com/en-us/windows/win32/api/richedit/ns-richedit-charformat2w_1) structure.
 
-## <a name="superscript"></a>Superscript
+## Superscript
 
 Gets/sets whether characters are displayed as superscript.
 
@@ -1229,7 +1237,7 @@ This property corresponds to the **CFE_SUPERSCRIPT** effect described in the [CH
 
 ---
 
-## <a name="underline"></a>Underline
+## Underline
 
 Gets/sets the type of underlining for the characters in a range.
 
@@ -1283,7 +1291,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 
 ---
 
-## <a name="weight"></a>Weight
+## Weight
 
 Gets/sets the font weight for the characters in a range.
 
@@ -1328,7 +1336,7 @@ If the method succeeds, it returns **S_OK**. If the method fails, it returns the
 | **E_ACCESSDENIED** | Write access is denied. |
 | **E_OUTOFMEMORY** | Insufficient memory. |
 
-## <a name="Count"></a>Count
+## Count
 
 Gets the count of extra properties in this character formatting collection.
 
@@ -1344,7 +1352,9 @@ The count of extra properties in this collection.
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-## <a name="autoligatures"></a>AutoLigatures
+---
+
+## AutoLigatures
 
 Gets/sets whether support for automatic ligatures is active.
 
@@ -1376,7 +1386,9 @@ A **tomBool** value that can be one of the ones listed above.
 
 If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESULT** error code.
 
-## <a name="autospacealpha"></a>AutospaceAlpha
+---
+
+## AutospaceAlpha
 
 Gets/sets the East Asian "autospace alphabetics" state.
 
@@ -1410,7 +1422,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 
 ---
 
-## <a name="autospacenumeric"></a>AutospaceNumeric
+## AutospaceNumeric
 
 Gets/sets the East Asian "autospace numeric" state.
 
@@ -1444,7 +1456,7 @@ If the method succeeds, it returns **NOERROR**. Otherwise, it returns an **HRESU
 
 ---
 
-## <a name="autospaceparens"></a>AutospaceParens
+## AutospaceParens
 
 Gets/sets the East Asian "autospace parentheses" state.
 
