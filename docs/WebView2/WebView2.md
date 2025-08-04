@@ -62,6 +62,73 @@ The owner of the `CoreWebView2` object that provides support for resizing, showi
 
 ---
 
+# ICoreWebView2 interface
+
+`WebView2` enables you to host web content using the latest Microsoft Edge browser and web technology.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [add_ContainsFullScreenElementChanged](#add_containsfullscreenelementchanged) | Adds an event handler for the AcceleratorKeyPressed event. |
+| [add_ContentLoading](#add_contentloading) | Add an event handler for the ContentLoading event. |
+| [add_DocumentTitleChanged](#add_documenttitlechanged) | Add an event handler for the DocumentTitleChanged event. |
+| [add_FrameNavigationCompleted](#add_framenavigationcompleted) | Add an event handler for the FrameNavigationCompleted event. |
+| [add_FrameNavigationStarting](#add_framenavigationstarting) | Add an event handler for the FrameNavigationStarting event. |
+| [add_HistoryChanged](#add_historychanged) | Add an event handler for the HistoryChanged event. |
+| [add_NavigationCompleted](#add_navigationcompleted) | Add an event handler for the NavigationCompleted event. |
+| [add_NavigationStarting](#add_navigationstarting) | Add an event handler for the NavigationStarting event. |
+| [add_NewWindowRequested](#add_newWindowrequested) | Add an event handler for the NewWindowRequested event. |
+| [add_PermissionRequested](#add_permissionrequested) | Add an event handler for the PermissionRequested event. |
+| [add_ProcessFailed](#add_processfailed) | Add an event handler for the ProcessFailed event. |
+| [add_ScriptDialogOpening](#add_scriptdialogopening) | Add an event handler for the ScriptDialogOpening event. |
+| [add_SourceChanged](#add_sourcechanged) | Add an event handler for the SourceChanged event. |
+| [add_WebMessageReceived](#add_webmessagereceived) | Add an event handler for the WebMessageReceived event. |
+| [add_WebResourceRequested](#add_webresourcerequested) | Add an event handler for the WebResourceRequested event. |
+| [add_WindowCloseRequested](#add_windowcloserequested) | Add an event handler for the WindowCloseRequested event. |
+| [AddHostObjectToScript](#addhostobjecttoscript) | Add the provided host object to script running in the WebView with the specified name. |
+| [AddScriptToExecuteOnDocumentCreated](#addscripttoexecuteondocumentcreated) | Add the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run. |
+| [AddWebResourceRequestedFilter](#addwebresourcerequestedfilter) | Warning: This method is deprecated and does not behave as expected for iframes. |
+| [CallDevToolsProtocolMethod](#calldevtoolsprotocolmethod) | Runs an asynchronous DevToolsProtocol method. |
+| [CapturePreview](#capturepreview) | Capture an image of what WebView is displaying. |
+| [ExecuteScript](#executescript) | Run JavaScript code from the javascript parameter in the current top-level document rendered in the WebView. |
+| [get_BrowserProcessId](#get_browserprocessid) | The process ID of the browser process that hosts the WebView. |
+| [get_CanGoBack](#get_cangoback) | TRUE if the WebView is able to navigate to a previous page in the navigation history. |
+| [get_CanGoForward](#get_cangoforward) | TRUE if the WebView is able to navigate to a next page in the navigation history. |
+| [get_ContainsFullScreenElement](#get_containsfullscreenelement) | TRUE if the WebView is able to navigate to a next page in the navigation history. |
+| [get_DocumentTitle](#get_documenttitle) | The title for the current top-level document. |
+| [get_Settings](#get_settings) | The ICoreWebView2Settings object contains various modifiable settings for the running WebView. |
+| [get_Source](#get_source) | The ICoreWebView2Settings object contains various modifiable settings for the running WebView. |
+| [GetDevToolsProtocolEventReceiver](#getdevtoolsprotocoleventreceiver) | Get a DevTools Protocol event receiver that allows you to subscribe to a DevTools Protocol event. |
+| [GoBack](#goBbck) | Navigates the WebView to the previous page in the navigation history. |
+| [GoForward](#goforward) | Navigates the WebView to the next page in the navigation history. |
+| [Navigate](#navigate) | Cause a navigation of the top-level document to run to the specified URI. |
+| [NavigateToString](#navigatetostring) | Initiates a navigation to htmlContent as source HTML of a new document. |
+| [OpenDevToolsWindow](#opendevtoolswindow) | Opens the DevTools window for the current document in the WebView. |
+| [PostWebMessageAsJson](#postwebmessageAsjson) | Post the specified webMessage to the top level document in this WebView. |
+| [PostWebMessageAsString](#postwebmessageasstring) | Posts a message that is a simple string rather than a JSON string representation of a JavaScript object. |
+| [remove_ContainsFullScreenElementChanged](#remove_containsfullscreenelementchanged) | Remove an event handler previously added with add_ContainsFullScreenElementChanged. |
+| [remove_ContentLoading](#remove_contentloading) | Remove an event handler previously added with add_ContentLoading. |
+| [remove_DocumentTitleChanged](#remove_documenttitlechanged) | Remove an event handler previously added with add_DocumentTitleChanged. |
+| [remove_FrameNavigationCompleted](#remove_framenavigationcompleted) | Remove an event handler previously added with add_FrameNavigationCompleted. |
+| [remove_FrameNavigationStarting](#remove_framenavigationstarting) | Remove an event handler previously added with add_FrameNavigationStarting. |
+| [remove_HistoryChanged](#remove_HistoryChanged) | Remove an event handler previously added with add_HistoryChanged. |
+| [remove_NavigationCompleted](#remove_navigationcompleted) | Remove an event handler previously added with add_NavigationCompleted. |
+| [remove_NavigationCompleted](#remove_navigationcompleted) | Remove an event handler previously added with add_NavigationCompleted. |
+| [remove_NavigationStarting](#remove_navigationstarting) | Remove an event handler previously added with add_NavigationStarting. |
+| [remove_NewWindowRequested](#remove_newwindowrequested) | Remove an event handler previously added with add_NewWindowRequested. |
+| [remove_PermissionRequested](#remove_permissionrequested) | Remove an event handler previously added with add_PermissionRequested. |
+| [remove_ProcessFailed](#remove_processfailed) | Remove an event handler previously added with add_ProcessFailed. |
+| [remove_ScriptDialogOpening](#remove_scriptdialogopening) | Remove an event handler previously added with add_ScriptDialogOpening. |
+| [remove_SourceChanged](#remove_sourcechanged) | Remove an event handler previously added with add_SourceChanged. |
+| [remove_WebMessageReceived](#remove_webmessagereceived) | Remove an event handler previously added with add_WebMessageReceived. |
+| [remove_WebResourceRequested](#remove_webresourceeequested) | Remove an event handler previously added with add_WebResourceRequested. |
+| [remove_WindowCloseRequested](#remove_windowclosetequested) | Remove an event handler previously added with add_WindowCloseRequested. |
+| [RemoveHostObjectFromScript](#removehostobjectfromscript) | Remove the host object specified by the name so that it is no longer accessible from JavaScript code in the WebView. |
+| [RemoveScriptToExecuteOnDocumentCreated](#removescripttoexecuteondocumentcreated) | Remove the corresponding JavaScript added using AddScriptToExecuteOnDocumentCreated with the specified script ID. |
+| [RemoveWebResourceRequestedFilter](#removewebresourcerequestedfilter) | Warning: This method and AddWebResourceRequestedFilter are deprecated. |
+| [Stop](stop) | Stop all navigations and pending resource fetches. Does not stop scripts. |
+
+---
+
 ## add_NewBrowserVersionAvailable
 
 Add an event handler for the NewBrowserVersionAvailable event.
