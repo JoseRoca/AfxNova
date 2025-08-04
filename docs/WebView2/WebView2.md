@@ -1547,3 +1547,413 @@ For more details and considerations on the target WebView to be supplied at the 
         nullptr));
 ```
 ---
+
+## add_PermissionRequested
+
+Add an event handler for the PermissionRequested event.
+```
+public HRESULT add_PermissionRequested(ICoreWebView2PermissionRequestedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+PermissionRequested runs when content in a WebView requests permission to access some privileged resources.
+
+If a deferral is not taken on the event args, the subsequent scripts are blocked until the event handler returns. If a deferral is taken, the scripts are blocked until the deferral is completed.
+
+```
+// Register a handler for the PermissionRequested event.
+    // This handler prompts the user to allow or deny the request, and remembers
+    // the user's choice for later.
+    CHECK_FAILURE(m_webView->add_PermissionRequested(
+        Callback<ICoreWebView2PermissionRequestedEventHandler>(
+            this, &SettingsComponent::OnPermissionRequested)
+            .Get(),
+        &m_permissionRequestedToken));
+```
+```
+HRESULT SettingsComponent::OnPermissionRequested(
+    ICoreWebView2* sender, ICoreWebView2PermissionRequestedEventArgs* args)
+{
+    // Obtain a deferral for the event so that the CoreWebView2
+    // doesn't examine the properties we set on the event args until
+    // after we call the Complete method asynchronously later.
+    wil::com_ptr<ICoreWebView2Deferral> deferral;
+    CHECK_FAILURE(args->GetDeferral(&deferral));
+
+    // Do not save state to the profile so that the PermissionRequested event is
+    // always raised and the app is in control of all permission requests. In
+    // this example, the app listens to all requests and caches permission on
+    // its own to decide whether to show custom UI to the user.
+    wil::com_ptr<ICoreWebView2PermissionRequestedEventArgs3> extended_args;
+    CHECK_FAILURE(args->QueryInterface(IID_PPV_ARGS(&extended_args)));
+    CHECK_FAILURE(extended_args->put_SavesInProfile(FALSE));
+
+    // Do the rest asynchronously, to avoid calling MessageBox in an event handler.
+    m_appWindow->RunAsync(
+        [this, deferral, args = wil::com_ptr<ICoreWebView2PermissionRequestedEventArgs>(args)]
+        {
+            wil::unique_cotaskmem_string uri;
+            COREWEBVIEW2_PERMISSION_KIND kind = COREWEBVIEW2_PERMISSION_KIND_UNKNOWN_PERMISSION;
+            BOOL userInitiated = FALSE;
+            CHECK_FAILURE(args->get_Uri(&uri));
+            CHECK_FAILURE(args->get_PermissionKind(&kind));
+            CHECK_FAILURE(args->get_IsUserInitiated(&userInitiated));
+
+            COREWEBVIEW2_PERMISSION_STATE state = COREWEBVIEW2_PERMISSION_STATE_DEFAULT;
+
+            auto cached_key = std::make_tuple(std::wstring(uri.get()), kind, userInitiated);
+            auto cached_permission = m_cached_permissions.find(cached_key);
+            if (cached_permission != m_cached_permissions.end())
+            {
+                state =
+                    (cached_permission->second ? COREWEBVIEW2_PERMISSION_STATE_ALLOW
+                                               : COREWEBVIEW2_PERMISSION_STATE_DENY);
+            }
+            else
+            {
+                std::wstring message = L"An iframe has requested device permission for ";
+                message += PermissionKindToString(kind);
+                message += L" to the website at ";
+                message += uri.get();
+                message += L"?\n\n";
+                message += L"Do you want to grant permission?\n";
+                message +=
+                    (userInitiated ? L"This request came from a user gesture."
+                                   : L"This request did not come from a user gesture.");
+
+                int response = MessageBox(
+                    nullptr, message.c_str(), L"Permission Request",
+                    MB_YESNOCANCEL | MB_ICONWARNING);
+                switch (response)
+                {
+                case IDYES:
+                    m_cached_permissions[cached_key] = true;
+                    state = COREWEBVIEW2_PERMISSION_STATE_ALLOW;
+                    break;
+                case IDNO:
+                    m_cached_permissions[cached_key] = false;
+                    state = COREWEBVIEW2_PERMISSION_STATE_DENY;
+                    break;
+                default:
+                    state = COREWEBVIEW2_PERMISSION_STATE_DEFAULT;
+                    break;
+                }
+            }
+            CHECK_FAILURE(args->put_State(state));
+            CHECK_FAILURE(deferral->Complete());
+        });
+    return S_OK;
+}
+```
+---
+
+## add_ProcessFailed
+
+Add an event handler for the ProcessFailed event.
+```
+public HRESULT add_ProcessFailed(ICoreWebView2ProcessFailedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+ProcessFailed runs when any of the processes in the WebView2 Process Group encounters one of the following conditions:
+
+| Condition  | Details |
+| ---------- | ----------- |
+| Unexpected exit | The process indicated by the event args has exited unexpectedly (usually due to a crash). The failure might or might not be recoverable and some failures are auto-recoverable. |
+| Unresponsiveness | The process indicated by the event args has become unresponsive to user input. This is only reported for renderer processes, and will run every few seconds until the process becomes responsive again. |
+
+Note
+When the failing process is the browser process, a ICoreWebView2Environment5::BrowserProcessExited event will run too.
+
+Your application can use ICoreWebView2ProcessFailedEventArgs and ICoreWebView2ProcessFailedEventArgs2 to identify which condition and process the event is for, and to collect diagnostics and handle recovery if necessary. For more details about which cases need to be handled by your application, see COREWEBVIEW2_PROCESS_FAILED_KIND.
+
+```
+// Register a handler for the ProcessFailed event.
+    // This handler checks the failure kind and tries to:
+    //   * Recreate the webview for browser failure and render unresponsive.
+    //   * Reload the webview for render failure.
+    //   * Reload the webview for frame-only render failure impacting app content.
+    //   * Log information about the failure for other failures.
+    CHECK_FAILURE(m_webView->add_ProcessFailed(
+        Callback<ICoreWebView2ProcessFailedEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2ProcessFailedEventArgs* argsRaw)
+                -> HRESULT {
+                wil::com_ptr<ICoreWebView2ProcessFailedEventArgs> args = argsRaw;
+                COREWEBVIEW2_PROCESS_FAILED_KIND kind;
+                CHECK_FAILURE(args->get_ProcessFailedKind(&kind));
+                if (kind == COREWEBVIEW2_PROCESS_FAILED_KIND_BROWSER_PROCESS_EXITED)
+                {
+                    // Do not run a message loop from within the event handler
+                    // as that could lead to reentrancy and leave the event
+                    // handler in stack indefinitely. Instead, schedule the
+                    // appropriate work to take place after completion of the
+                    // event handler.
+                    ScheduleReinitIfSelectedByUser(
+                        L"Browser process exited unexpectedly.  Recreate webview?",
+                        L"Browser process exited");
+                }
+                else if (kind == COREWEBVIEW2_PROCESS_FAILED_KIND_RENDER_PROCESS_UNRESPONSIVE)
+                {
+                    ScheduleReinitIfSelectedByUser(
+                        L"Browser render process has stopped responding.  Recreate webview?",
+                        L"Web page unresponsive");
+                }
+                else if (kind == COREWEBVIEW2_PROCESS_FAILED_KIND_RENDER_PROCESS_EXITED)
+                {
+                    // Reloading the page will start a new render process if
+                    // needed.
+                    ScheduleReloadIfSelectedByUser(
+                        L"Browser render process exited unexpectedly. Reload page?",
+                        L"Render process exited");
+                }
+                // Check the runtime event args implements the newer interface.
+                auto args2 = args.try_query<ICoreWebView2ProcessFailedEventArgs2>();
+                if (!args2)
+                {
+                    return S_OK;
+                }
+                if (kind == COREWEBVIEW2_PROCESS_FAILED_KIND_FRAME_RENDER_PROCESS_EXITED)
+                {
+                    // A frame-only renderer has exited unexpectedly. Check if
+                    // reload is needed.
+                    wil::com_ptr<ICoreWebView2FrameInfoCollection> frameInfos;
+                    wil::com_ptr<ICoreWebView2FrameInfoCollectionIterator> iterator;
+                    CHECK_FAILURE(args2->get_FrameInfosForFailedProcess(&frameInfos));
+                    CHECK_FAILURE(frameInfos->GetIterator(&iterator));
+
+                    BOOL hasCurrent = FALSE;
+                    while (SUCCEEDED(iterator->get_HasCurrent(&hasCurrent)) && hasCurrent)
+                    {
+                        wil::com_ptr<ICoreWebView2FrameInfo> frameInfo;
+                        CHECK_FAILURE(iterator->GetCurrent(&frameInfo));
+
+                        wil::unique_cotaskmem_string nameRaw;
+                        wil::unique_cotaskmem_string sourceRaw;
+                        CHECK_FAILURE(frameInfo->get_Name(&nameRaw));
+                        CHECK_FAILURE(frameInfo->get_Source(&sourceRaw));
+                        if (IsAppContentUri(sourceRaw.get()))
+                        {
+                            ScheduleReloadIfSelectedByUser(
+                                L"Browser render process for app frame exited unexpectedly. "
+                                L"Reload page?",
+                                L"App content frame unresponsive");
+                            break;
+                        }
+
+                        BOOL hasNext = FALSE;
+                        CHECK_FAILURE(iterator->MoveNext(&hasNext));
+                    }
+                }
+                else
+                {
+                    // Show the process failure details. Apps can collect info for their logging
+                    // purposes.
+                    COREWEBVIEW2_PROCESS_FAILED_REASON reason;
+                    wil::unique_cotaskmem_string processDescription;
+                    int exitCode;
+                    wil::unique_cotaskmem_string failedModule;
+
+                    CHECK_FAILURE(args2->get_Reason(&reason));
+                    CHECK_FAILURE(args2->get_ProcessDescription(&processDescription));
+                    CHECK_FAILURE(args2->get_ExitCode(&exitCode));
+
+                    auto argFailedModule =
+                        args.try_query<ICoreWebView2ProcessFailedEventArgs3>();
+                    if (argFailedModule)
+                    {
+                        CHECK_FAILURE(
+                            argFailedModule->get_FailureSourceModulePath(&failedModule));
+                    }
+
+                    std::wstringstream message;
+                    message << L"Kind: " << ProcessFailedKindToString(kind) << L"\n"
+                            << L"Reason: " << ProcessFailedReasonToString(reason) << L"\n"
+                            << L"Exit code: " << exitCode << L"\n"
+                            << L"Process description: " << processDescription.get() << std::endl
+                            << (failedModule ? L"Failed module: " : L"")
+                            << (failedModule ? failedModule.get() : L"");
+                    m_appWindow->AsyncMessageBox( std::move(message.str()), L"Child process failed");
+                }
+                return S_OK;
+            })
+            .Get(),
+        &m_processFailedToken));
+```
+---
+
+## add_ScriptDialogOpening
+
+Add an event handler for the ScriptDialogOpening event.
+```
+public HRESULT add_ScriptDialogOpening(ICoreWebView2ScriptDialogOpeningEventHandler * eventHandler, EventRegistrationToken * token)
+```
+ScriptDialogOpening runs when a JavaScript dialog (alert, confirm, prompt, or beforeunload) displays for the webview. This event only triggers if the ICoreWebView2Settings::AreDefaultScriptDialogsEnabled property is set to FALSE. The ScriptDialogOpening event suppresses dialogs or replaces default dialogs with custom dialogs.
+
+If a deferral is not taken on the event args, the subsequent scripts are blocked until the event handler returns. If a deferral is taken, the scripts are blocked until the deferral is completed.
+
+```
+// Register a handler for the ScriptDialogOpening event.
+    // This handler will set up a custom prompt dialog for the user.  Because
+    // running a message loop inside of an event handler causes problems, we
+    // defer the event and handle it asynchronously.
+    CHECK_FAILURE(m_webView->add_ScriptDialogOpening(
+        Callback<ICoreWebView2ScriptDialogOpeningEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2ScriptDialogOpeningEventArgs* args)
+                -> HRESULT
+            {
+                AppWindow* appWindow = m_appWindow;
+                wil::com_ptr<ICoreWebView2ScriptDialogOpeningEventArgs> eventArgs = args;
+                wil::com_ptr<ICoreWebView2Deferral> deferral;
+                CHECK_FAILURE(args->GetDeferral(&deferral));
+                appWindow->RunAsync(
+                    [appWindow, eventArgs, deferral]
+                    {
+                        wil::unique_cotaskmem_string uri;
+                        COREWEBVIEW2_SCRIPT_DIALOG_KIND type;
+                        wil::unique_cotaskmem_string message;
+                        wil::unique_cotaskmem_string defaultText;
+
+                        CHECK_FAILURE(eventArgs->get_Uri(&uri));
+                        CHECK_FAILURE(eventArgs->get_Kind(&type));
+                        CHECK_FAILURE(eventArgs->get_Message(&message));
+                        CHECK_FAILURE(eventArgs->get_DefaultText(&defaultText));
+
+                        std::wstring promptString =
+                            std::wstring(L"The page at '") + uri.get() + L"' says:";
+                        TextInputDialog dialog(
+                            appWindow->GetMainWindow(), L"Script Dialog", promptString.c_str(),
+                            message.get(), defaultText.get(),
+                            /* readonly */ type != COREWEBVIEW2_SCRIPT_DIALOG_KIND_PROMPT);
+                        if (dialog.confirmed)
+                        {
+                            CHECK_FAILURE(eventArgs->put_ResultText(dialog.input.c_str()));
+                            CHECK_FAILURE(eventArgs->Accept());
+                        }
+                        deferral->Complete();
+                    });
+                return S_OK;
+            })
+            .Get(),
+        &m_scriptDialogOpeningToken));
+```
+---
+
+## add_SourceChanged
+
+Add an event handler for the SourceChanged event.
+```
+public HRESULT add_SourceChanged(ICoreWebView2SourceChangedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+SourceChanged triggers when the Source property changes. SourceChanged runs when navigating to a different site or fragment navigations. It does not trigger for other types of navigations such as page refreshes or history.pushState with the same URL as the current page. SourceChanged runs before ContentLoading for navigation to a new document.
+
+```
+// Register a handler for the SourceChanged event.
+    // This handler will read the webview's source URI and update
+    // the app's address bar.
+    CHECK_FAILURE(m_webView->add_SourceChanged(
+        Callback<ICoreWebView2SourceChangedEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2SourceChangedEventArgs* args)
+                -> HRESULT {
+                wil::unique_cotaskmem_string uri;
+                sender->get_Source(&uri);
+                if (wcscmp(uri.get(), L"about:blank") == 0)
+                {
+                    uri = wil::make_cotaskmem_string(L"");
+                }
+                SetWindowText(GetAddressBar(), uri.get());
+
+                return S_OK;
+            })
+            .Get(),
+        &m_sourceChangedToken));
+```
+---
+
+## add_WebMessageReceived
+
+Add an event handler for the WebMessageReceived event.
+```
+public HRESULT add_WebMessageReceived(ICoreWebView2WebMessageReceivedEventHandler * handler, EventRegistrationToken * token)
+```
+WebMessageReceived runs when the ICoreWebView2Settings::IsWebMessageEnabled setting is set and the top-level document of the WebView runs window.chrome.webview.postMessage. The postMessage function is void postMessage(object) where object is any object supported by JSON conversion.
+
+```
+window.chrome.webview.addEventListener('message', arg => {
+            if ("SetColor" in arg.data) {
+                document.getElementById("colorable").style.color = arg.data.SetColor;
+            }
+            if ("WindowBounds" in arg.data) {
+                document.getElementById("window-bounds").value = arg.data.WindowBounds;
+            }
+        });
+
+        function SetTitleText() {
+            let titleText = document.getElementById("title-text");
+            window.chrome.webview.postMessage(`SetTitleText ${titleText.value}`);
+        }
+        function GetWindowBounds() {
+            window.chrome.webview.postMessage("GetWindowBounds");
+        }
+```
+When the page calls postMessage, the object parameter is converted to a JSON string and is posted asynchronously to the host process. This will result in the handler's Invoke method being called with the JSON string as a parameter.
+
+```
+// Setup the web message received event handler before navigating to
+    // ensure we don't miss any messages.
+    CHECK_FAILURE(m_webView->add_WebMessageReceived(
+        Microsoft::WRL::Callback<ICoreWebView2WebMessageReceivedEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2WebMessageReceivedEventArgs* args)
+    {
+        wil::unique_cotaskmem_string uri;
+        CHECK_FAILURE(args->get_Source(&uri));
+
+        // Always validate that the origin of the message is what you expect.
+        if (uri.get() != m_sampleUri)
+        {
+            // Ignore messages from untrusted sources.
+            return S_OK;
+        }
+        wil::unique_cotaskmem_string messageRaw;
+        HRESULT hr = args->TryGetWebMessageAsString(&messageRaw);
+        if (hr == E_INVALIDARG)
+        {
+            // Was not a string message. Ignore.
+            return S_OK;
+        }
+        // Any other problems are fatal.
+        CHECK_FAILURE(hr);
+        std::wstring message = messageRaw.get();
+
+        if (message.compare(0, 13, L"SetTitleText ") == 0)
+        {
+            m_appWindow->SetDocumentTitle(message.substr(13).c_str());
+        }
+        else if (message.compare(L"GetWindowBounds") == 0)
+        {
+            RECT bounds = m_appWindow->GetWindowBounds();
+            std::wstring reply =
+                L"{\"WindowBounds\":\"Left:" + std::to_wstring(bounds.left)
+                + L"\\nTop:" + std::to_wstring(bounds.top)
+                + L"\\nRight:" + std::to_wstring(bounds.right)
+                + L"\\nBottom:" + std::to_wstring(bounds.bottom)
+                + L"\"}";
+            CHECK_FAILURE(sender->PostWebMessageAsJson(reply.c_str()));
+        }
+        else
+        {
+            // Ignore unrecognized messages, but log for further investigation
+            // since it suggests a mismatch between the web content and the host.
+            OutputDebugString(
+                std::wstring(L"Unexpected message from main page:" + message).c_str());
+        }
+        return S_OK;
+    }).Get(), &m_webMessageReceivedToken));
+```
+
+If the same page calls postMessage multiple times, the corresponding WebMessageReceived events are guaranteed to be fired in the same order. However, if multiple frames call postMessage, there is no guaranteed order. In addition, WebMessageReceived events caused by calls to postMessage are not guaranteed to be sequenced with events caused by DOM APIs. For example, if the page runs
+
+```
+chrome.webview.postMessage("message");
+window.open();
+```
+
+then the NewWindowRequested event might be fired before the WebMessageReceived event. If you need the WebMessageReceived event to happen before anything else, then in the WebMessageReceived handler you can post a message back to the page and have the page wait until it receives that message before continuing.
+
+---
+
