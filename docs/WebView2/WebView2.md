@@ -30,6 +30,38 @@ WebViews created from an environment run on the browser process specified with e
 
 ---
 
+# ICoreWebView2Controller
+
+The owner of the `CoreWebView2` object that provides support for resizing, showing and hiding, focusing, and other functionality related to windowing and composition.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [add_AcceleratorKeyPressed](#add_acceleratorkeypressed) | Adds an event handler for the AcceleratorKeyPressed event. |
+| [add_GotFocus](#add_gotfocus) | Adds an event handler for the GotFocus event. |
+| [add_LostFocus](#add_lostfocus) | Adds an event handler for the LostFocus event. |
+| [add_MoveFocusRequested](#add_movefocusrequested) | Adds an event handler for the MoveFocusRequested event. |
+| [add_ZoomFactorChanged](#add_zoomfactorchanged) | Adds an event handler for the ZoomFactorChanged event. |
+| [Close](#close) | Closes the WebView and cleans up the underlying browser instance. |
+| [get_Bounds](#get_bounds) | The WebView bounds. |
+| [get_CoreWebView2](#get_corewebview2) | Gets the CoreWebView2 associated with this CoreWebView2Controller. |
+| [get_IsVisible](#get_isvisible) | The IsVisible property determines whether to show or hide the WebView2. |
+| [get_ParentWindow](#get_parentwindow) | The parent window provided by the app that this WebView is using to render content. |
+| [get_ZoomFactor](#get_zoomfactor) | The zoom factor for the WebView. |
+| [MoveFocus](#movefocus) | Moves focus into WebView. |
+| [NotifyParentWindowPositionChanged](#notifyparentwindowpositionchanged) | This is a notification separate from Bounds that tells WebView that the main WebView parent (or any ancestor) HWND moved. |
+| [put_Bounds](#put_bounds) | Sets the Bounds property. |
+| [put_IsVisible](#put_isvisible) | Sets the IsVisible property. |
+| [put_ParentWindow](#put_parentwindow) | Sets the parent window for the WebView. |
+| [put_ZoomFactor](#put_zoomfactor) | Sets the ZoomFactor property. |
+| [remove_AcceleratorKeyPressed](#remove_acceleratorkeypressed) | Removes an event handler previously added with add_AcceleratorKeyPressed. |
+| [remove_GotFocus](#remove_gotfocus) | Removes an event handler previously added with add_GotFocus. |
+| [remove_LostFocus](#remove_lostfocus) | Removes an event handler previously added with add_LostFocus. |
+| [remove_MoveFocusRequested](#remove_movefocusrequested) | Removes an event handler previously added with add_MoveFocusRequested. |
+| [remove_ZoomFactorChanged](#remove_zoomfactorchanged) | Remove an event handler previously added with add_ZoomFactorChanged. |
+| [SetBoundsAndZoomFactor](#setboundsandzoomfactor) | Updates Bounds and ZoomFactor properties at the same time. |
+
+---
+
 ## add_NewBrowserVersionAvailable
 
 Add an event handler for the NewBrowserVersionAvailable event.
