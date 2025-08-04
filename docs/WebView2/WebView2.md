@@ -487,3 +487,293 @@ Remove an event handler previously added with `add_NewBrowserVersionAvailable`.
 public HRESULT remove_NewBrowserVersionAvailable(EventRegistrationToken token)
 ```
 ---
+
+## add_AcceleratorKeyPressed
+
+Adds an event handler for the AcceleratorKeyPressed event.
+```
+public HRESULT add_AcceleratorKeyPressed(ICoreWebView2AcceleratorKeyPressedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+AcceleratorKeyPressed runs when an accelerator key or key combo is pressed or released while the WebView is focused. A key is considered an accelerator if either of the following conditions are true.
+
+- Ctrl or Alt is currently being held.
+
+- The pressed key does not map to a character.
+
+A few specific keys are never considered accelerators, such as Shift. The Escape key is always considered an accelerator.
+
+Auto-repeated key events caused by holding the key down also triggers this event. Filter out the auto-repeated key events by verifying the KeyEventLParam or PhysicalKeyStatus event args.
+
+In windowed mode, the event handler is run synchronously. Until you run Handled() on the event args or the event handler returns, the browser process is blocked and outgoing cross-process COM requests fail with RPC_E_CANTCALLOUT_ININPUTSYNCCALL. All CoreWebView2 API methods work, however.
+
+In windowless mode, the event handler is run asynchronously. Further input do not reach the browser until the event handler returns or Handled() is run, but the browser process is not blocked, and outgoing COM requests work normally.
+
+It is recommended to run Handled(TRUE) as early as are able to know that you want to handle the accelerator key.
+
+```
+// Register a handler for the AcceleratorKeyPressed event.
+    CHECK_FAILURE(m_controller->add_AcceleratorKeyPressed(
+        Callback<ICoreWebView2AcceleratorKeyPressedEventHandler>(
+            [this](
+                ICoreWebView2Controller* sender,
+                ICoreWebView2AcceleratorKeyPressedEventArgs* args) -> HRESULT {
+                COREWEBVIEW2_KEY_EVENT_KIND kind;
+                CHECK_FAILURE(args->get_KeyEventKind(&kind));
+                // We only care about key down events.
+                if (kind == COREWEBVIEW2_KEY_EVENT_KIND_KEY_DOWN ||
+                    kind == COREWEBVIEW2_KEY_EVENT_KIND_SYSTEM_KEY_DOWN)
+                {
+                    UINT key;
+                    CHECK_FAILURE(args->get_VirtualKey(&key));
+                    // Check if the key is one we want to handle.
+                    std::function<void()> action = m_appWindow->GetAcceleratorKeyFunction(key);
+                    if (action)
+                    {
+                        // Keep the browser from handling this key, whether it's autorepeated or
+                        // not.
+                        CHECK_FAILURE(args->put_Handled(TRUE));
+
+                        // Filter out autorepeated keys.
+                        COREWEBVIEW2_PHYSICAL_KEY_STATUS status;
+                        CHECK_FAILURE(args->get_PhysicalKeyStatus(&status));
+                        if (!status.WasKeyDown)
+                        {
+                            // Perform the action asynchronously to avoid blocking the
+                            // browser process's event queue.
+                            m_appWindow->RunAsync(action);
+                        }
+                    }
+                }
+                return S_OK;
+            })
+            .Get(),
+        &m_acceleratorKeyPressedToken));
+```
+---
+
+## add_GotFocus
+
+Adds an event handler for the GotFocus event.
+```
+public HRESULT add_GotFocus(ICoreWebView2FocusChangedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+GotFocus runs when WebView has focus.
+
+---
+
+## add_LostFocus
+
+Adds an event handler for the LostFocus event.
+```
+public HRESULT add_LostFocus(ICoreWebView2FocusChangedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+LostFocus runs when WebView loses focus. In the case where MoveFocusRequested event is run, the focus is still on WebView when MoveFocusRequested event runs. LostFocus only runs afterwards when code of the app or default action of MoveFocusRequested event set focus away from WebView.
+
+## add_MoveFocusRequested
+
+Adds an event handler for the MoveFocusRequested event.
+```
+public HRESULT add_MoveFocusRequested(ICoreWebView2MoveFocusRequestedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+MoveFocusRequested runs when user tries to tab out of the WebView. The focus of the WebView has not changed when this event is run.
+
+```
+// Register a handler for the MoveFocusRequested event.
+    // This event will be fired when the user tabs out of the webview.
+    // The handler will focus another window in the app, depending on which
+    // direction the focus is being shifted.
+    CHECK_FAILURE(m_controller->add_MoveFocusRequested(
+        Callback<ICoreWebView2MoveFocusRequestedEventHandler>(
+            [this](
+                ICoreWebView2Controller* sender,
+                ICoreWebView2MoveFocusRequestedEventArgs* args) -> HRESULT {
+                if (!g_autoTabHandle)
+                {
+                    COREWEBVIEW2_MOVE_FOCUS_REASON reason;
+                    CHECK_FAILURE(args->get_Reason(&reason));
+
+                    if (reason == COREWEBVIEW2_MOVE_FOCUS_REASON_NEXT)
+                    {
+                        TabForwards(-1);
+                    }
+                    else if (reason == COREWEBVIEW2_MOVE_FOCUS_REASON_PREVIOUS)
+                    {
+                        TabBackwards(m_tabbableWindows.size());
+                    }
+                    CHECK_FAILURE(args->put_Handled(TRUE));
+                }
+                return S_OK;
+            })
+            .Get(),
+        &m_moveFocusRequestedToken));
+```
+---
+
+## add_ZoomFactorChanged
+
+Adds an event handler for the ZoomFactorChanged event.
+```
+public HRESULT add_ZoomFactorChanged(ICoreWebView2ZoomFactorChangedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+ZoomFactorChanged runs when the ZoomFactor property of the WebView changes. The event may run because the ZoomFactor property was modified, or due to the user manually modifying the zoom. When it is modified using the ZoomFactor property, the internal zoom factor is updated immediately and no ZoomFactorChanged event is triggered. WebView associates the last used zoom factor for each site. It is possible for the zoom factor to change when navigating to a different page. When the zoom factor changes due to a navigation change, the ZoomFactorChanged event runs right after the ContentLoading event.
+
+```
+// Register a handler for the ZoomFactorChanged event.
+    // This handler just announces the new level of zoom on the window's title bar.
+    CHECK_FAILURE(m_controller->add_ZoomFactorChanged(
+        Callback<ICoreWebView2ZoomFactorChangedEventHandler>(
+            [this](ICoreWebView2Controller* sender, IUnknown* args) -> HRESULT {
+                double zoomFactor;
+                CHECK_FAILURE(sender->get_ZoomFactor(&zoomFactor));
+
+                UpdateDocumentTitle(m_appWindow, L" (Zoom: ", zoomFactor);
+                return S_OK;
+            })
+        .Get(),
+                &m_zoomFactorChangedToken));
+```
+---
+
+## Close
+
+Closes the WebView and cleans up the underlying browser instance.
+```
+public HRESULT Close()
+```
+Cleaning up the browser instance releases the resources powering the WebView. The browser instance is shut down if no other WebViews are using it.
+
+After running Close, most methods will fail and event handlers stop running. Specifically, the WebView releases the associated references to any associated event handlers when Close is run.
+
+Close is implicitly run when the CoreWebView2Controller loses the final reference and is destructed. But it is best practice to explicitly run Close to avoid any accidental cycle of references between the WebView and the app code. Specifically, if you capture a reference to the WebView in an event handler you create a reference cycle between the WebView and the event handler. Run Close to break the cycle by releasing all event handlers. But to avoid the situation, it is best to both explicitly run Close on the WebView and to not capture a reference to the WebView to ensure the WebView is cleaned up correctly. Close is synchronous and won't trigger the beforeunload event.
+
+```
+// Close the WebView and deinitialize related state. This doesn't close the app window.
+bool AppWindow::CloseWebView(bool cleanupUserDataFolder)
+{
+    if (auto file = GetComponent<FileComponent>())
+    {
+        if (file->IsPrintToPdfInProgress())
+        {
+            int selection = MessageBox(
+                m_mainWindow, L"Print to PDF is in progress. Continue closing?",
+                L"Print to PDF", MB_YESNO);
+            if (selection == IDNO)
+            {
+                return false;
+            }
+        }
+    }
+    // 1. Delete components.
+    DeleteAllComponents();
+
+    // 2. If cleanup needed and BrowserProcessExited event interface available,
+    // register to cleanup upon browser exit.
+    wil::com_ptr<ICoreWebView2Environment5> environment5;
+    if (m_webViewEnvironment)
+    {
+        environment5 = m_webViewEnvironment.try_query<ICoreWebView2Environment5>();
+    }
+    if (cleanupUserDataFolder && environment5)
+    {
+        // Before closing the WebView, register a handler with code to run once the
+        // browser process and associated processes are terminated.
+        CHECK_FAILURE(environment5->add_BrowserProcessExited(
+            Callback<ICoreWebView2BrowserProcessExitedEventHandler>(
+                [environment5, this](
+                    ICoreWebView2Environment* sender,
+                    ICoreWebView2BrowserProcessExitedEventArgs* args)
+                {
+                    COREWEBVIEW2_BROWSER_PROCESS_EXIT_KIND kind;
+                    UINT32 pid;
+                    CHECK_FAILURE(args->get_BrowserProcessExitKind(&kind));
+                    CHECK_FAILURE(args->get_BrowserProcessId(&pid));
+
+                    // If a new WebView is created from this CoreWebView2Environment after
+                    // the browser has exited but before our handler gets to run, a new
+                    // browser process will be created and lock the user data folder
+                    // again. Do not attempt to cleanup the user data folder in these
+                    // cases. We check the PID of the exited browser process against the
+                    // PID of the browser process to which our last CoreWebView2 attached.
+                    if (pid == m_newestBrowserPid)
+                    {
+                        // Watch for graceful browser process exit. Let ProcessFailed event
+                        // handler take care of failed browser process termination.
+                        if (kind == COREWEBVIEW2_BROWSER_PROCESS_EXIT_KIND_NORMAL)
+                        {
+                            CHECK_FAILURE(environment5->remove_BrowserProcessExited(
+                                m_browserExitedEventToken));
+                            // Release the environment only after the handler is invoked.
+                            // Otherwise, there will be no environment to raise the event when
+                            // the collection of WebView2 Runtime processes exit.
+                            m_webViewEnvironment = nullptr;
+                            RunAsync([this]() { CleanupUserDataFolder(); });
+                        }
+                    }
+                    else
+                    {
+                        // The exiting process is not the last in use. Do not attempt cleanup
+                        // as we might still have a webview open over the user data folder.
+                        // Do not block from event handler.
+                        AsyncMessageBox(
+                            L"A new browser process prevented cleanup of the user data folder.",
+                            L"Cleanup User Data Folder");
+                    }
+
+                    return S_OK;
+                })
+                .Get(),
+            &m_browserExitedEventToken));
+    }
+
+    // 3. Close the webview.
+    if (m_controller)
+    {
+        m_controller->Close();
+        m_controller = nullptr;
+        m_webView = nullptr;
+        m_webView3 = nullptr;
+    }
+
+    // 4. If BrowserProcessExited event interface is not available, release
+    // environment and proceed to cleanup immediately. If the interface is
+    // available, release environment only if not waiting for the event.
+    if (!environment5)
+    {
+        m_webViewEnvironment = nullptr;
+        if (cleanupUserDataFolder)
+        {
+            CleanupUserDataFolder();
+        }
+    }
+    else if (!cleanupUserDataFolder)
+    {
+        // Release the environment object here only if no cleanup is needed.
+        // If cleanup is needed, the environment object release is deferred
+        // until the browser process exits, otherwise the handler for the
+        // BrowserProcessExited event will not be called.
+        m_webViewEnvironment = nullptr;
+    }
+
+    // reset profile name
+    m_profileName = L"";
+    m_documentTitle = L"";
+    return true;
+}
+```
+---
+
+## get_Bounds
+
+The WebView bounds.
+```
+public HRESULT get_Bounds(RECT * bounds)
+```
+Bounds are relative to the parent HWND. The app has two ways to position a WebView.
+
+Create a child HWND that is the WebView parent HWND. Position the window where the WebView should be. Use (0, 0) for the top-left corner (the offset) of the Bounds of the WebView.
+
+Use the top-most window of the app as the WebView parent HWND. For example, to position WebView correctly in the app, set the top-left corner of the Bound of the WebView.
+
+The values of Bounds are limited by the coordinate space of the host.
+
+---
