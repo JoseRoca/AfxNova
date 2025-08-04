@@ -1157,3 +1157,393 @@ void ViewComponent::SetScale(float scale)
 }
 ```
 ---
+
+## add_ContainsFullScreenElementChanged
+
+Add an event handler for the ContainsFullScreenElementChanged event.
+```
+public HRESULT add_ContainsFullScreenElementChanged(ICoreWebView2ContainsFullScreenElementChangedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+ContainsFullScreenElementChanged triggers when the ContainsFullScreenElement property changes. An HTML element inside the WebView may enter fullscreen to the size of the WebView or leave fullscreen. This event is useful when, for example, a video element requests to go fullscreen. The listener of ContainsFullScreenElementChanged may resize the WebView in response.
+
+```
+// Register a handler for the ContainsFullScreenChanged event.
+    CHECK_FAILURE(m_webView->add_ContainsFullScreenElementChanged(
+        Callback<ICoreWebView2ContainsFullScreenElementChangedEventHandler>(
+            [this](ICoreWebView2* sender, IUnknown* args) -> HRESULT
+            {
+                CHECK_FAILURE(
+                    sender->get_ContainsFullScreenElement(&m_containsFullscreenElement));
+                if (m_containsFullscreenElement)
+                {
+                    EnterFullScreen();
+                }
+                else
+                {
+                    ExitFullScreen();
+                }
+                return S_OK;
+            })
+            .Get(),
+        nullptr));
+```
+
+## add_ContentLoading
+
+Add an event handler for the ContentLoading event.
+```
+public HRESULT add_ContentLoading(ICoreWebView2ContentLoadingEventHandler * eventHandler, EventRegistrationToken * token)
+```
+ContentLoading triggers before any content is loaded, including scripts added with AddScriptToExecuteOnDocumentCreated. ContentLoading does not trigger if a same page navigation occurs (such as through fragment navigations or history.pushState navigations). This operation follows the NavigationStarting and SourceChanged events and precedes the HistoryChanged and NavigationCompleted events.
+
+---
+
+## add_DocumentTitleChanged
+
+Add an event handler for the DocumentTitleChanged event.
+```
+public HRESULT add_DocumentTitleChanged(ICoreWebView2DocumentTitleChangedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+DocumentTitleChanged runs when the DocumentTitle property of the WebView changes and may run before or after the NavigationCompleted event.
+```
+// Register a handler for the DocumentTitleChanged event.
+    // This handler just announces the new title on the window's title bar.
+    CHECK_FAILURE(m_webView->add_DocumentTitleChanged(
+        Callback<ICoreWebView2DocumentTitleChangedEventHandler>(
+            [this](ICoreWebView2* sender, IUnknown* args) -> HRESULT {
+                wil::unique_cotaskmem_string title;
+                CHECK_FAILURE(sender->get_DocumentTitle(&title));
+                m_appWindow->SetDocumentTitle(title.get());
+                return S_OK;
+            })
+            .Get(),
+        &m_documentTitleChangedToken));
+```
+---
+
+## add_FrameNavigationCompleted
+
+Add an event handler for the FrameNavigationCompleted event.
+```
+public HRESULT add_FrameNavigationCompleted(ICoreWebView2NavigationCompletedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+FrameNavigationCompleted triggers when a child frame has completely loaded (concurrently when body.onload has triggered) or loading stopped with error.
+
+```
+// Register a handler for the FrameNavigationCompleted event.
+    // Check whether the navigation succeeded, and if not, do something.
+    CHECK_FAILURE(m_webView->add_FrameNavigationCompleted(
+        Callback<ICoreWebView2NavigationCompletedEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2NavigationCompletedEventArgs* args)
+                -> HRESULT {
+                BOOL success;
+                CHECK_FAILURE(args->get_IsSuccess(&success));
+                if (!success)
+                {
+                    COREWEBVIEW2_WEB_ERROR_STATUS webErrorStatus;
+                    CHECK_FAILURE(args->get_WebErrorStatus(&webErrorStatus));
+                    // The web page can cancel its own iframe loads, so we'll ignore that.
+                    if (webErrorStatus != COREWEBVIEW2_WEB_ERROR_STATUS_OPERATION_CANCELED)
+                    {
+                        m_appWindow->AsyncMessageBox(
+                            L"Iframe navigation failed: "
+                                + WebErrorStatusToString(webErrorStatus),
+                            L"Navigation Failure");
+                    }
+                }
+                return S_OK;
+            })
+            .Get(),
+        &m_frameNavigationCompletedToken));
+```
+---
+
+## add_FrameNavigationStarting
+
+Add an event handler for the FrameNavigationStarting event.
+```
+public HRESULT add_FrameNavigationStarting(ICoreWebView2NavigationStartingEventHandler * eventHandler, EventRegistrationToken * token)
+```
+FrameNavigationStarting triggers when a child frame in the WebView requests permission to navigate to a different URI. Redirects trigger this operation as well, and the navigation id is the same as the original one.
+
+Navigations will be blocked until all FrameNavigationStarting event handlers return.
+
+```
+// Register a handler for the FrameNavigationStarting event.
+    // This handler will prevent a frame from navigating to a blocked domain.
+    CHECK_FAILURE(m_webView->add_FrameNavigationStarting(
+        Callback<ICoreWebView2NavigationStartingEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2NavigationStartingEventArgs* args)
+                -> HRESULT
+            {
+                wil::unique_cotaskmem_string uri;
+                CHECK_FAILURE(args->get_Uri(&uri));
+
+                if (ShouldBlockUri(uri.get()))
+                {
+                    CHECK_FAILURE(args->put_Cancel(true));
+                }
+                return S_OK;
+            })
+            .Get(),
+        &m_frameNavigationStartingToken));
+```
+---
+
+## add_HistoryChanged
+
+Add an event handler for the HistoryChanged event.
+```
+public HRESULT add_HistoryChanged(ICoreWebView2HistoryChangedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+HistoryChanged is raised for changes to joint session history, which consists of top-level and manual frame navigations. Use HistoryChanged to verify that the CanGoBack or CanGoForward value has changed. HistoryChanged also runs for using GoBack or GoForward. HistoryChanged runs after SourceChanged and ContentLoading. CanGoBack is false for navigations initiated through ICoreWebView2Frame APIs if there has not yet been a user gesture.
+
+```
+// Register a handler for the HistoryChanged event.
+    // Update the Back, Forward buttons.
+    CHECK_FAILURE(m_webView->add_HistoryChanged(
+        Callback<ICoreWebView2HistoryChangedEventHandler>(
+            [this](ICoreWebView2* sender, IUnknown* args) -> HRESULT {
+                BOOL canGoBack;
+                BOOL canGoForward;
+                sender->get_CanGoBack(&canGoBack);
+                sender->get_CanGoForward(&canGoForward);
+                m_toolbar->SetItemEnabled(Toolbar::Item_BackButton, canGoBack);
+                m_toolbar->SetItemEnabled(Toolbar::Item_ForwardButton, canGoForward);
+
+                return S_OK;
+            })
+            .Get(),
+        &m_historyChangedToken));
+```
+---
+
+## add_NavigationCompleted
+
+Add an event handler for the NavigationCompleted event.
+```
+public HRESULT add_NavigationCompleted(ICoreWebView2NavigationCompletedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+NavigationCompleted runs when the WebView has completely loaded (concurrently when body.onload runs) or loading stopped with error.
+
+```
+// Register a handler for the NavigationCompleted event.
+    // Check whether the navigation succeeded, and if not, do something.
+    // Also update the Cancel buttons.
+    CHECK_FAILURE(m_webView->add_NavigationCompleted(
+        Callback<ICoreWebView2NavigationCompletedEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2NavigationCompletedEventArgs* args)
+                -> HRESULT {
+                BOOL success;
+                CHECK_FAILURE(args->get_IsSuccess(&success));
+                if (!success)
+                {
+                    COREWEBVIEW2_WEB_ERROR_STATUS webErrorStatus;
+                    CHECK_FAILURE(args->get_WebErrorStatus(&webErrorStatus));
+                    if (webErrorStatus == COREWEBVIEW2_WEB_ERROR_STATUS_DISCONNECTED)
+                    {
+                        // Do something here if you want to handle a specific error case.
+                        // In most cases this isn't necessary, because the WebView will
+                        // display its own error page automatically.
+                    }
+                }
+                m_toolbar->SetItemEnabled(Toolbar::Item_CancelButton, false);
+                m_toolbar->SetItemEnabled(Toolbar::Item_ReloadButton, true);
+                return S_OK;
+            })
+            .Get(),
+        &m_navigationCompletedToken));
+```
+---
+
+## add_NavigationStarting
+
+Add an event handler for the NavigationStarting event.
+```
+public HRESULT add_NavigationStarting(ICoreWebView2NavigationStartingEventHandler * eventHandler, EventRegistrationToken * token)
+```
+NavigationStarting runs when the WebView main frame is requesting permission to navigate to a different URI. Redirects trigger this operation as well, and the navigation id is the same as the original one.
+
+Navigations will be blocked until all NavigationStarting event handlers return.
+
+```
+// Register a handler for the NavigationStarting event.
+    // This handler will check the domain being navigated to, and if the domain
+    // matches a list of blocked sites, it will cancel the navigation and
+    // possibly display a warning page.  It will also disable JavaScript on
+    // selected websites.
+    CHECK_FAILURE(m_webView->add_NavigationStarting(
+        Callback<ICoreWebView2NavigationStartingEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2NavigationStartingEventArgs* args)
+                -> HRESULT
+            {
+                wil::unique_cotaskmem_string uri;
+                CHECK_FAILURE(args->get_Uri(&uri));
+
+                if (ShouldBlockUri(uri.get()))
+                {
+                    CHECK_FAILURE(args->put_Cancel(true));
+
+                    // If the user clicked a link to navigate, show a warning page.
+                    BOOL userInitiated;
+                    CHECK_FAILURE(args->get_IsUserInitiated(&userInitiated));
+                    static const PCWSTR htmlContent =
+                        L"<h1>Domain Blocked</h1>"
+                        L"<p>You've attempted to navigate to a domain in the blocked "
+                        L"sites list. Press back to return to the previous page.</p>";
+                    CHECK_FAILURE(sender->NavigateToString(htmlContent));
+                }
+                // Changes to settings will apply at the next navigation, which includes the
+                // navigation after a NavigationStarting event.  We can use this to change
+                // settings according to what site we're visiting.
+                if (ShouldBlockScriptForUri(uri.get()))
+                {
+                    m_settings->put_IsScriptEnabled(FALSE);
+                }
+                else
+                {
+                    m_settings->put_IsScriptEnabled(m_isScriptEnabled);
+                }
+                if (m_settings2)
+                {
+                    static const PCWSTR url_compare_example = L"fourthcoffee.com";
+                    wil::unique_bstr domain = GetDomainOfUri(uri.get());
+                    const wchar_t* domains = domain.get();
+
+                    if (wcscmp(url_compare_example, domains) == 0)
+                    {
+                        SetUserAgent(L"example_navigation_ua");
+                    }
+                }
+                // [NavigationKind]
+                wil::com_ptr<ICoreWebView2NavigationStartingEventArgs3> args3;
+                if (SUCCEEDED(args->QueryInterface(IID_PPV_ARGS(&args3))))
+                {
+                    COREWEBVIEW2_NAVIGATION_KIND kind =
+                        COREWEBVIEW2_NAVIGATION_KIND_NEW_DOCUMENT;
+                    CHECK_FAILURE(args3->get_NavigationKind(&kind));
+                }
+                // ! [NavigationKind]
+                return S_OK;
+            })
+            .Get(),
+        &m_navigationStartingToken));
+```
+---
+
+## add_NewWindowRequested
+
+Add an event handler for the NewWindowRequested event.
+```
+public HRESULT add_NewWindowRequested(ICoreWebView2NewWindowRequestedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+NewWindowRequested runs when content inside the WebView requests to open a new window, such as through window.open. The app can pass a target WebView that is considered the opened window or mark the event as Handled, in which case WebView2 does not open a window. If either Handled or NewWindow properties are not set, the target content will be opened on a popup window.
+
+If a deferral is not taken on the event args, scripts that resulted in the new window that are requested are blocked until the event handler returns. If a deferral is taken, then scripts are blocked until the deferral is completed or new window is set.
+
+For more details and considerations on the target WebView to be supplied at the opened window, see ICoreWebView2NewWindowRequestedEventArgs::put_NewWindow.
+
+```
+// Register a handler for the NewWindowRequested event.
+    // This handler will defer the event, create a new app window, and then once the
+    // new window is ready, it'll provide that new window's WebView as the response to
+    // the request.
+    CHECK_FAILURE(m_webView->add_NewWindowRequested(
+        Callback<ICoreWebView2NewWindowRequestedEventHandler>(
+            [this](ICoreWebView2* sender, ICoreWebView2NewWindowRequestedEventArgs* args)
+            {
+                if (!m_shouldHandleNewWindowRequest)
+                {
+                    args->put_Handled(FALSE);
+                    return S_OK;
+                }
+                wil::com_ptr<ICoreWebView2NewWindowRequestedEventArgs> args_as_comptr = args;
+                auto args3 =
+                    args_as_comptr.try_query<ICoreWebView2NewWindowRequestedEventArgs3>();
+                if (args3)
+                {
+                    wil::com_ptr<ICoreWebView2FrameInfo> frame_info;
+                    CHECK_FAILURE(args3->get_OriginalSourceFrameInfo(&frame_info));
+                    wil::unique_cotaskmem_string source;
+                    CHECK_FAILURE(frame_info->get_Source(&source));
+                    // The host can decide how to open based on source frame info,
+                    // such as URI.
+                    static const wchar_t* browser_launching_domain = L"www.example.com";
+                    wil::unique_bstr source_domain = GetDomainOfUri(source.get());
+                    const wchar_t* source_domain_as_wchar = source_domain.get();
+                    if (source_domain_as_wchar &&
+                        wcscmp(browser_launching_domain, source_domain_as_wchar) == 0)
+                    {
+                        // Open the URI in the default browser.
+                        wil::unique_cotaskmem_string target_uri;
+                        CHECK_FAILURE(args->get_Uri(&target_uri));
+                        ShellExecute(
+                            nullptr, L"open", target_uri.get(), nullptr, nullptr,
+                            SW_SHOWNORMAL);
+                        CHECK_FAILURE(args->put_Handled(TRUE));
+                        return S_OK;
+                    }
+                }
+
+                wil::com_ptr<ICoreWebView2Deferral> deferral;
+                CHECK_FAILURE(args->GetDeferral(&deferral));
+                AppWindow* newAppWindow;
+
+                wil::com_ptr<ICoreWebView2WindowFeatures> windowFeatures;
+                CHECK_FAILURE(args->get_WindowFeatures(&windowFeatures));
+
+                RECT windowRect = {0};
+                UINT32 left = 0;
+                UINT32 top = 0;
+                UINT32 height = 0;
+                UINT32 width = 0;
+                BOOL shouldHaveToolbar = true;
+
+                BOOL hasPosition = FALSE;
+                BOOL hasSize = FALSE;
+                CHECK_FAILURE(windowFeatures->get_HasPosition(&hasPosition));
+                CHECK_FAILURE(windowFeatures->get_HasSize(&hasSize));
+
+                bool useDefaultWindow = true;
+
+                if (!!hasPosition && !!hasSize)
+                {
+                    CHECK_FAILURE(windowFeatures->get_Left(&left));
+                    CHECK_FAILURE(windowFeatures->get_Top(&top));
+                    CHECK_FAILURE(windowFeatures->get_Height(&height));
+                    CHECK_FAILURE(windowFeatures->get_Width(&width));
+                    useDefaultWindow = false;
+                }
+                CHECK_FAILURE(windowFeatures->get_ShouldDisplayToolbar(&shouldHaveToolbar));
+
+                windowRect.left = left;
+                windowRect.right =
+                    left + (width < s_minNewWindowSize ? s_minNewWindowSize : width);
+                windowRect.top = top;
+                windowRect.bottom =
+                    top + (height < s_minNewWindowSize ? s_minNewWindowSize : height);
+
+                // passing "none" as uri as its a noinitialnavigation
+                if (!useDefaultWindow)
+                {
+                    newAppWindow = new AppWindow(
+                        m_creationModeId, GetWebViewOption(), L"none", m_userDataFolder, false,
+                        nullptr, true, windowRect, !!shouldHaveToolbar);
+                }
+                else
+                {
+                    newAppWindow = new AppWindow(m_creationModeId, GetWebViewOption(), L"none");
+                }
+                newAppWindow->m_isPopupWindow = true;
+                newAppWindow->m_onWebViewFirstInitialized = [args, deferral, newAppWindow]()
+                {
+                    CHECK_FAILURE(args->put_NewWindow(newAppWindow->m_webView.get()));
+                    CHECK_FAILURE(args->put_Handled(TRUE));
+                    CHECK_FAILURE(deferral->Complete());
+                };
+                return S_OK;
+            })
+            .Get(),
+        nullptr));
+```
+---
