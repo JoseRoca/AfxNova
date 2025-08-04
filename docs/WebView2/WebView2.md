@@ -1957,3 +1957,500 @@ then the NewWindowRequested event might be fired before the WebMessageReceived e
 
 ---
 
+## add_WebResourceRequested
+
+Add an event handler for the WebResourceRequested event.
+```
+public HRESULT add_WebResourceRequested(ICoreWebView2WebResourceRequestedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+WebResourceRequested runs when the WebView is performing a URL request to a matching URL and resource context and source kind filter that was added with AddWebResourceRequestedFilterWithRequestSourceKinds. At least one filter must be added for the event to run.
+
+The web resource requested may be blocked until the event handler returns if a deferral is not taken on the event args. If a deferral is taken, then the web resource requested is blocked until the deferral is completed.
+
+If this event is subscribed in the add_NewWindowRequested handler it should be called after the new window is set. For more details see ICoreWebView2NewWindowRequestedEventArgs::put_NewWindow.
+
+This event is by default raised for file, http, and https URI schemes. This is also raised for registered custom URI schemes. For more details see ICoreWebView2CustomSchemeRegistration.
+
+```
+if (m_blockImages)
+        {
+            CHECK_FEATURE_RETURN_EMPTY(m_webView2_22);
+            m_webView2_22->AddWebResourceRequestedFilterWithRequestSourceKinds(
+                L"*", COREWEBVIEW2_WEB_RESOURCE_CONTEXT_IMAGE,
+                COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS_DOCUMENT);
+            CHECK_FAILURE(m_webView->add_WebResourceRequested(
+                Callback<ICoreWebView2WebResourceRequestedEventHandler>(
+                    [this](
+                        ICoreWebView2* sender, ICoreWebView2WebResourceRequestedEventArgs* args)
+                    {
+                        COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext;
+                        CHECK_FAILURE(args->get_ResourceContext(&resourceContext));
+                        // Ensure that the type is image
+                        if (resourceContext != COREWEBVIEW2_WEB_RESOURCE_CONTEXT_IMAGE)
+                        {
+                            return E_INVALIDARG;
+                        }
+                        // Override the response with an empty one to block the image.
+                        // If put_Response is not called, the request will
+                        // continue as normal.
+                        wil::com_ptr<ICoreWebView2WebResourceResponse> response;
+                        wil::com_ptr<ICoreWebView2Environment> environment;
+                        wil::com_ptr<ICoreWebView2_2> webview2;
+                        CHECK_FAILURE(m_webView->QueryInterface(IID_PPV_ARGS(&webview2)));
+                        CHECK_FAILURE(webview2->get_Environment(&environment));
+                        CHECK_FAILURE(environment->CreateWebResourceResponse(
+                            nullptr, 403 /*NoContent*/, L"Blocked", L"Content-Type: image/jpeg",
+                            &response));
+                        CHECK_FAILURE(args->put_Response(response.get()));
+                        return S_OK;
+                    })
+                    .Get(),
+                &m_webResourceRequestedTokenForImageBlocking));
+        }
+        else
+        {
+            CHECK_FAILURE(m_webView->remove_WebResourceRequested(
+                m_webResourceRequestedTokenForImageBlocking));
+        }
+```
+```
+if (m_replaceImages)
+        {
+            CHECK_FEATURE_RETURN_EMPTY(m_webView2_22);
+            m_webView2_22->AddWebResourceRequestedFilterWithRequestSourceKinds(
+                L"*", COREWEBVIEW2_WEB_RESOURCE_CONTEXT_IMAGE,
+                COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS_DOCUMENT);
+            CHECK_FAILURE(m_webView->add_WebResourceRequested(
+                Callback<ICoreWebView2WebResourceRequestedEventHandler>(
+                    [this](
+                        ICoreWebView2* sender, ICoreWebView2WebResourceRequestedEventArgs* args)
+                    {
+                        COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext;
+                        CHECK_FAILURE(args->get_ResourceContext(&resourceContext));
+                        // Ensure that the type is image
+                        if (resourceContext != COREWEBVIEW2_WEB_RESOURCE_CONTEXT_IMAGE)
+                        {
+                            return E_INVALIDARG;
+                        }
+                        // Override the response with an another image.
+                        // If put_Response is not called, the request will
+                        // continue as normal.
+                        // It's not required for this scenario, but generally you should examine
+                        // relevant HTTP request headers just like an HTTP server would do when
+                        // producing a response stream.
+                        wil::com_ptr<IStream> stream;
+                        CHECK_FAILURE(SHCreateStreamOnFileEx(
+                            L"assets/EdgeWebView2-80.jpg", STGM_READ, FILE_ATTRIBUTE_NORMAL,
+                            FALSE, nullptr, &stream));
+                        wil::com_ptr<ICoreWebView2WebResourceResponse> response;
+                        wil::com_ptr<ICoreWebView2Environment> environment;
+                        wil::com_ptr<ICoreWebView2_2> webview2;
+                        CHECK_FAILURE(m_webView->QueryInterface(IID_PPV_ARGS(&webview2)));
+                        CHECK_FAILURE(webview2->get_Environment(&environment));
+                        CHECK_FAILURE(environment->CreateWebResourceResponse(
+                            stream.get(), 200, L"OK", L"Content-Type: image/jpeg", &response));
+                        CHECK_FAILURE(args->put_Response(response.get()));
+                        return S_OK;
+                    })
+                    .Get(),
+                &m_webResourceRequestedTokenForImageReplacing));
+        }
+        else
+        {
+            CHECK_FAILURE(m_webView->remove_WebResourceRequested(
+                m_webResourceRequestedTokenForImageReplacing));
+        }
+```
+---
+
+## add_WindowCloseRequested
+
+Add an event handler for the WindowCloseRequested event.
+```
+public HRESULT add_WindowCloseRequested(ICoreWebView2WindowCloseRequestedEventHandler * eventHandler, EventRegistrationToken * token)
+```
+WindowCloseRequested triggers when content inside the WebView requested to close the window, such as after window.close is run. The app should close the WebView and related app window if that makes sense to the app. After the first window.close() call, this event may not fire for any immediate back to back window.close() calls.
+
+```
+// Register a handler for the WindowCloseRequested event.
+    // This handler will close the app window if it is not the main window.
+    CHECK_FAILURE(m_webView->add_WindowCloseRequested(
+        Callback<ICoreWebView2WindowCloseRequestedEventHandler>(
+            [this](ICoreWebView2* sender, IUnknown* args)
+            {
+                if (m_isPopupWindow)
+                {
+                    CloseAppWindow();
+                }
+                return S_OK;
+            })
+            .Get(),
+        nullptr));
+```
+---
+
+## AddHostObjectToScript
+
+Add the provided host object to script running in the WebView with the specified name.
+```
+public HRESULT AddHostObjectToScript(LPCWSTR name, VARIANT * object)
+```
+Host objects are exposed as host object proxies using window.chrome.webview.hostObjects.{name}. Host object proxies are promises and resolves to an object representing the host object. The promise is rejected if the app has not added an object with the name. When JavaScript code access a property or method of the object, a promise is return, which resolves to the value returned from the host for the property or method, or rejected in case of error, for example, no property or method on the object or parameters are not valid.
+
+Note
+While simple types, IDispatch and array are supported, and IUnknown objects that also implement IDispatch are treated as IDispatch, generic IUnknown, VT_DECIMAL, or VT_RECORD variant is not supported. Remote JavaScript objects like callback functions are represented as an VT_DISPATCH``VARIANT with the object implementing IDispatch. The JavaScript callback method may be invoked using DISPID_VALUE for the DISPID. Such callback method invocations will return immediately and will not wait for the JavaScript function to run and so will not provide the return value of the JavaScript function. Nested arrays are supported up to a depth of 3. Arrays of by reference types are not supported. VT_EMPTY and VT_NULL are mapped into JavaScript as null. In JavaScript, null and undefined are mapped to VT_EMPTY.
+
+Additionally, all host objects are exposed as window.chrome.webview.hostObjects.sync.{name}. Here the host objects are exposed as synchronous host object proxies. These are not promises and function runtimes or property access synchronously block running script waiting to communicate cross process for the host code to run. Accordingly the result may have reliability issues and it is recommended that you use the promise-based asynchronous window.chrome.webview.hostObjects.{name} API.
+
+Synchronous host object proxies and asynchronous host object proxies may both use a proxy to the same host object. Remote changes made by one proxy propagates to any other proxy of that same host object whether the other proxies and synchronous or asynchronous.
+
+While JavaScript is blocked on a synchronous run to native code, that native code is unable to run back to JavaScript. Attempts to do so fail with HRESULT_FROM_WIN32(ERROR_POSSIBLE_DEADLOCK).
+
+Host object proxies are JavaScript Proxy objects that intercept all property get, property set, and method invocations. Properties or methods that are a part of the Function or Object prototype are run locally. Additionally any property or method in the chrome.webview.hostObjects.options.forceLocalProperties array are also run locally. This defaults to including optional methods that have meaning in JavaScript like toJSON and Symbol.toPrimitive. Add more to the array as required.
+
+The chrome.webview.hostObjects.cleanupSome method performs a best effort garbage collection on host object proxies.
+
+The chrome.webview.hostObjects.options object provides the ability to change some functionality of host objects.
+
+| Options property | Details |
+| ---------------- | ------- |
+| `forceLocalProperties` | This is an array of host object property names that will be run locally, instead of being called on the native host object. This defaults to then, toJSON, Symbol.toString, and Symbol.toPrimitive. You can add other properties to specify that they should be run locally on the javascript host object proxy. |
+| `log` | This is a callback that will be called with debug information. For example, you can set this to console.log.bind(console) to have it print debug information to the console to help when troubleshooting host object usage. By default this is null. |
+| `shouldSerializeDates` | By default this is false, and javascript Date objects will be sent to host objects as a string using JSON.stringify. You can set this property to true to have Date objects properly serialize as a VT_DATE when sending to the native host object, and have VT_DATE properties and return values create a javascript Date object. |
+| `defaultSyncProxy` | When calling a method on a synchronous proxy, the result should also be a synchronous proxy. But in some cases, the sync/async context is lost (for example, when providing to native code a reference to a function, and then calling that function in native code). In these cases, the proxy will be asynchronous, unless this property is set. |
+| `forceAsyncMethodMatches` | This is an array of regular expressions. When calling a method on a synchronous proxy, the method call will be performed asynchronously if the method name matches a string or regular expression in this array. Setting this value to Async will make any method that ends with Async be an asynchronous method call. If an async method doesn't match here and isn't forced to be asynchronous, the method will be invoked synchronously, blocking execution of the calling JavaScript and then returning the resolution of the promise, rather than returning a promise. |
+| `ignoreMemberNotFoundError` | By default, an exception is thrown when attempting to get the value of a proxy property that doesn't exist on the corresponding native class. Setting this property to true switches the behavior to match Chakra WinRT projection (and general JavaScript) behavior of returning undefined with no error. |
+| `shouldPassTypedArraysAsArrays` | By default, typed arrays are passed to the host as IDispatch. To instead pass typed arrays to the host as array, set this to true. |
+
+Host object proxies additionally have the following methods which run locally.
+
+| Method name | Details |
+| ----------- | ------- |
+| `applyHostFunction, getHostProperty, setHostProperty` | Perform a method invocation, property get, or property set on the host object. Use the methods to explicitly force a method or property to run remotely if a conflicting local method or property exists. For instance, proxy.toString() runs the local toString method on the proxy object. But proxy.applyHostFunction('toString') runs toString on the host proxied object instead. |
+| `getLocalProperty, setLocalProperty` | Perform property get, or property set locally. Use the methods to force getting or setting a property on the host object proxy rather than on the host object it represents. For instance, proxy.unknownProperty gets the property named unknownProperty from the host proxied object. But proxy.getLocalProperty('unknownProperty') gets the value of the property unknownProperty on the proxy object. |
+| `sync` | Asynchronous host object proxies expose a sync method which returns a promise for a synchronous host object proxy for the same host object. For example, chrome.webview.hostObjects.sample.methodCall() returns an asynchronous host object proxy. Use the sync method to obtain a synchronous host object proxy instead: const syncProxy = await chrome.webview.hostObjects.sample.methodCall().sync(). |
+| `async` | Synchronous host object proxies expose an async method which blocks and returns an asynchronous host object proxy for the same host object. For example, chrome.webview.hostObjects.sync.sample.methodCall() returns a synchronous host object proxy. Running the async method on this blocks and then returns an asynchronous host object proxy for the same host object: const asyncProxy = chrome.webview.hostObjects.sync.sample.methodCall().async(). |
+| `then` | Asynchronous host object proxies have a then method. Allows proxies to be awaitable. then returns a promise that resolves with a representation of the host object. If the proxy represents a JavaScript literal, a copy of that is returned locally. If the proxy represents a function, a non-awaitable proxy is returned. If the proxy represents a JavaScript object with a mix of literal properties and function properties, the a copy of the object is returned with some properties as host object proxies. |
+
+All other property and method invocations (other than the above Remote object proxy methods, forceLocalProperties list, and properties on Function and Object prototypes) are run remotely. Asynchronous host object proxies return a promise representing asynchronous completion of remotely invoking the method, or getting the property. The promise resolves after the remote operations complete and the promises resolve to the resulting value of the operation. Synchronous host object proxies work similarly, but block running JavaScript and wait for the remote operation to complete.
+
+Setting a property on an asynchronous host object proxy works slightly differently. The set returns immediately and the return value is the value that is set. This is a requirement of the JavaScript Proxy object. If you need to asynchronously wait for the property set to complete, use the setHostProperty method which returns a promise as described above. Synchronous object property set property synchronously blocks until the property is set.
+
+For example, suppose you have a COM object with the following interface.
+
+```
+[uuid(3a14c9c0-bc3e-453f-a314-4ce4a0ec81d8), object, local]
+    interface IHostObjectSample : IUnknown
+    {
+        // Demonstrate basic method call with some parameters and a return value.
+        HRESULT MethodWithParametersAndReturnValue([in] BSTR stringParameter, [in] INT integerParameter, [out, retval] BSTR* stringResult);
+
+        // Demonstrate getting and setting a property.
+        [propget] HRESULT Property([out, retval] BSTR* stringResult);
+        [propput] HRESULT Property([in] BSTR stringValue);
+
+        [propget] HRESULT IndexedProperty(INT index, [out, retval] BSTR * stringResult);
+        [propput] HRESULT IndexedProperty(INT index, [in] BSTR stringValue);
+
+        // Demonstrate native calling back into JavaScript.
+        HRESULT CallCallbackAsynchronously([in] IDispatch* callbackParameter);
+
+        // Demonstrate a property which uses Date types
+        [propget] HRESULT DateProperty([out, retval] DATE * dateResult);
+        [propput] HRESULT DateProperty([in] DATE dateValue);
+
+        // Creates a date object on the native side and sets the DateProperty to it.
+        HRESULT CreateNativeDate();
+
+    };
+```
+
+Add an instance of this interface into your JavaScript with AddHostObjectToScript. In this case, name it sample.
+
+```
+VARIANT remoteObjectAsVariant = {};
+m_hostObject.query_to<IDispatch>(&remoteObjectAsVariant.pdispVal);
+remoteObjectAsVariant.vt = VT_DISPATCH;
+
+// We can call AddHostObjectToScript multiple times in a row without
+// calling RemoveHostObject first. This will replace the previous object
+// with the new object. In our case this is the same object and everything
+// is fine.
+CHECK_FAILURE(
+   m_webView->AddHostObjectToScript(L"sample", &remoteObjectAsVariant));
+remoteObjectAsVariant.pdispVal->Release();
+```
+
+In the HTML document, use the COM object using chrome.webview.hostObjects.sample. Note that CoreWebView2.AddHostObjectToScript only applies to the top-level document and not to frames. To add host objects to frames use CoreWebView2Frame.AddHostObjectToScript.
+
+```
+document.getElementById("getPropertyAsyncButton").addEventListener("click", async () => {
+      const propertyValue = await chrome.webview.hostObjects.sample.property;
+      document.getElementById("getPropertyAsyncOutput").textContent = propertyValue;
+    });
+
+    document.getElementById("getPropertySyncButton").addEventListener("click", () => {
+      const propertyValue = chrome.webview.hostObjects.sync.sample.property;
+      document.getElementById("getPropertySyncOutput").textContent = propertyValue;
+    });
+
+    document.getElementById("setPropertyAsyncButton").addEventListener("click", async () => {
+      const propertyValue = document.getElementById("setPropertyAsyncInput").value;
+      // The following line will work but it will return immediately before the property value has actually been set.
+      // If you need to set the property and wait for the property to change value, use the setHostProperty function.
+      chrome.webview.hostObjects.sample.property = propertyValue;
+      document.getElementById("setPropertyAsyncOutput").textContent = "Set";
+    });
+
+    document.getElementById("setPropertyExplicitAsyncButton").addEventListener("click", async () => {
+      const propertyValue = document.getElementById("setPropertyExplicitAsyncInput").value;
+      // If you care about waiting until the property has actually changed value use the setHostProperty function.
+      await chrome.webview.hostObjects.sample.setHostProperty("property", propertyValue);
+      document.getElementById("setPropertyExplicitAsyncOutput").textContent = "Set";
+    });
+
+    document.getElementById("setPropertySyncButton").addEventListener("click", () => {
+      const propertyValue = document.getElementById("setPropertySyncInput").value;
+      chrome.webview.hostObjects.sync.sample.property = propertyValue;
+      document.getElementById("setPropertySyncOutput").textContent = "Set";
+    });
+
+    document.getElementById("getIndexedPropertyAsyncButton").addEventListener("click", async () => {
+      const index = parseInt(document.getElementById("getIndexedPropertyAsyncParam").value);
+      const resultValue = await chrome.webview.hostObjects.sample.IndexedProperty[index];
+      document.getElementById("getIndexedPropertyAsyncOutput").textContent = resultValue;
+    });
+    document.getElementById("setIndexedPropertyAsyncButton").addEventListener("click", async () => {
+      const index = parseInt(document.getElementById("setIndexedPropertyAsyncParam1").value);
+      const value = document.getElementById("setIndexedPropertyAsyncParam2").value;;
+      chrome.webview.hostObjects.sample.IndexedProperty[index] = value;
+      document.getElementById("setIndexedPropertyAsyncOutput").textContent = "Set";
+    });
+    document.getElementById("invokeMethodAsyncButton").addEventListener("click", async () => {
+      const paramValue1 = document.getElementById("invokeMethodAsyncParam1").value;
+      const paramValue2 = parseInt(document.getElementById("invokeMethodAsyncParam2").value);
+      const resultValue = await chrome.webview.hostObjects.sample.MethodWithParametersAndReturnValue(paramValue1, paramValue2);
+      document.getElementById("invokeMethodAsyncOutput").textContent = resultValue;
+    });
+
+    document.getElementById("invokeMethodSyncButton").addEventListener("click", () => {
+      const paramValue1 = document.getElementById("invokeMethodSyncParam1").value;
+      const paramValue2 = parseInt(document.getElementById("invokeMethodSyncParam2").value);
+      const resultValue = chrome.webview.hostObjects.sync.sample.MethodWithParametersAndReturnValue(paramValue1, paramValue2);
+      document.getElementById("invokeMethodSyncOutput").textContent = resultValue;
+    });
+
+    let callbackCount = 0;
+    document.getElementById("invokeCallbackButton").addEventListener("click", async () => {
+      chrome.webview.hostObjects.sample.CallCallbackAsynchronously(() => {
+        document.getElementById("invokeCallbackOutput").textContent = "Native object called the callback " + (++callbackCount) + " time(s).";
+      });
+    });
+
+    // Date property
+    document.getElementById("setDateButton").addEventListener("click", () => {
+      chrome.webview.hostObjects.options.shouldSerializeDates = true;
+      chrome.webview.hostObjects.sync.sample.dateProperty = new Date();
+      document.getElementById("dateOutput").textContent = "sample.dateProperty: " + chrome.webview.hostObjects.sync.sample.dateProperty;
+    });
+    document.getElementById("createRemoteDateButton").addEventListener("click", () => {
+      chrome.webview.hostObjects.sync.sample.createNativeDate();
+      document.getElementById("dateOutput").textContent = "sample.dateProperty: " + chrome.webview.hostObjects.sync.sample.dateProperty;
+    });
+```
+
+Exposing host objects to script has security risk. For more information about best practices, navigate to Best practices for developing secure WebView2 applications.
+
+---
+
+## AddScriptToExecuteOnDocumentCreated
+
+Add the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run.
+```
+public HRESULT AddScriptToExecuteOnDocumentCreated(LPCWSTR javaScript, ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler * handler)
+```
+This method injects a script that runs on all top-level document and child frame page navigations. This method runs asynchronously, and you must wait for the completion handler to finish before the injected script is ready to run. When this method completes, the Invoke method of the handler is run with the id of the injected script. id is a string. To remove the injected script, use RemoveScriptToExecuteOnDocumentCreated.
+
+If the method is run in add_NewWindowRequested handler it should be called before the new window is set. If called after setting the NewWindow property, the initial script may or may not apply to the initial navigation and may only apply to the subsequent navigation. For more details see ICoreWebView2NewWindowRequestedEventArgs::put_NewWindow.
+
+Note
+If an HTML document is running in a sandbox of some kind using sandbox properties or the Content-Security-Policy HTTP header affects the script that runs. For example, if the allow-modals keyword is not set then requests to run the alert function are ignored.
+
+```
+// Prompt the user for some script and register it to execute whenever a new page loads.
+void ScriptComponent::AddInitializeScript()
+{
+    TextInputDialog dialog(
+        m_appWindow->GetMainWindow(),
+        L"Add Initialize Script",
+        L"Initialization Script:",
+        L"Enter the JavaScript code to run as the initialization script that "
+            L"runs before any script in the HTML document.",
+    // This example script stops child frames from opening new windows.  Because
+    // the initialization script runs before any script in the HTML document, we
+    // can trust the results of our checks on window.parent and window.top.
+        L"if (window.parent !== window.top) {\r\n"
+        L"    delete window.open;\r\n"
+        L"}");
+    if (dialog.confirmed)
+    {
+        m_webView->AddScriptToExecuteOnDocumentCreated(
+            dialog.input.c_str(),
+            Callback<ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler>(
+                [this](HRESULT error, PCWSTR id) -> HRESULT
+        {
+            m_lastInitializeScriptId = id;
+            m_appWindow->AsyncMessageBox(
+                m_lastInitializeScriptId, L"AddScriptToExecuteOnDocumentCreated Id");
+            return S_OK;
+        }).Get());
+
+    }
+}
+```
+---
+
+## AddWebResourceRequestedFilter
+
+Warning: This method is deprecated and does not behave as expected for iframes.
+```
+public HRESULT AddWebResourceRequestedFilter(LPCWSTR const uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT const resourceContext)
+```
+It will cause the WebResourceRequested event to fire only for the main frame and its same-origin iframes. Please use AddWebResourceRequestedFilterWithRequestSourceKinds instead, which will let the event to fire for all iframes on the document.
+
+Adds a URI and resource context filter for the WebResourceRequested event. A web resource request with a resource context that matches this filter's resource context and a URI that matches this filter's URI wildcard string will be raised via the WebResourceRequested event.
+
+The uri parameter value is a wildcard string matched against the URI of the web resource request. This is a glob style wildcard string in which a * matches zero or more characters and a ? matches exactly one character. These wildcard characters can be escaped using a backslash just before the wildcard character in order to represent the literal * or ?.
+
+The matching occurs over the URI as a whole string and not limiting wildcard matches to particular parts of the URI. The wildcard filter is compared to the URI after the URI has been normalized, any URI fragment has been removed, and non-ASCII hostnames have been converted to punycode.
+
+Specifying a nullptr for the uri is equivalent to an empty string which matches no URIs.
+
+For more information about resource context filters, navigate to COREWEBVIEW2_WEB_RESOURCE_CONTEXT.
+
+| URI Filter String | Request URI | Match | Notes |
+| ----------------- | ----------- | ----- | ----- |
+| * | https://contoso.com/a/b/c | Yes | A single * will match all URIs |
+| *://contoso.com/* | https://contoso.com/a/b/c | Yes | Matches everything in contoso.com across all schemes |
+| *://contoso.com/* | https://example.com/?https://contoso.com/ | Yes | But also matches a URI with just the same text anywhere in the URI |
+| example | https://contoso.com/example | No | The filter does not perform partial matches |
+| *example | https://contoso.com/example | Yes | The filter matches across URI parts |
+| *example | https://contoso.com/path/?example | Yes | The filter matches across URI parts |
+| *example | https://contoso.com/path/?query#example | No | The filter is matched against the URI with no fragment |
+| *example | https://example | No | The URI is normalized before filter matching so the actual URI used for comparison is https://example/ |
+| *example/ | https://example | Yes | Just like above, but this time the filter ends with a / just like the normalized URI |
+| https://xn--qei.example/ | https://&#x2764;.example/ | Yes | Non-ASCII hostnames are normalized to punycode before wildcard comparison |
+| https://&#x2764;.example/ | https://xn--qei.example/ | No | Non-ASCII hostnames are normalized to punycode before wildcard comparison |
+
+---
+
+## CallDevToolsProtocolMethod
+
+Runs an asynchronous DevToolsProtocol method.
+```
+public HRESULT CallDevToolsProtocolMethod(LPCWSTR methodName, LPCWSTR parametersAsJson, ICoreWebView2CallDevToolsProtocolMethodCompletedHandler * handler)
+```
+For more information about available methods, navigate to DevTools Protocol Viewer . The methodName parameter is the full name of the method in the {domain}.{method} format. The parametersAsJson parameter is a JSON formatted string containing the parameters for the corresponding method. The Invoke method of the handler is run when the method asynchronously completes. Invoke is run with the return object of the method as a JSON string. This function returns E_INVALIDARG if the methodName is unknown or the parametersAsJson has an error. In the case of such an error, the returnObjectAsJson parameter of the handler will include information about the error. Note even though WebView2 dispatches the CDP messages in the order called, CDP method calls may be processed out of order. If you require CDP methods to run in a particular order, you should wait for the previous method's completed handler to run before calling the next method. If the method is to run in add_NewWindowRequested handler it should be called before the new window is set if the cdp message should affect the initial navigation. If called after setting the NewWindow property, the cdp messages may or may not apply to the initial navigation and may only apply to the subsequent navigation. For more details see ICoreWebView2NewWindowRequestedEventArgs::put_NewWindow.
+
+```
+// Prompt the user for the name and parameters of a CDP method, then call it.
+void ScriptComponent::CallCdpMethod()
+{
+    TextInputDialog dialog(
+        m_appWindow->GetMainWindow(),
+        L"Call CDP Method",
+        L"CDP method name:",
+        L"Enter the CDP method name to call, followed by a space,\r\n"
+            L"followed by the parameters in JSON format.",
+        L"Runtime.evaluate {\"expression\":\"alert(\\\"test\\\")\"}");
+    if (dialog.confirmed)
+    {
+        size_t delimiterPos = dialog.input.find(L' ');
+        std::wstring methodName = dialog.input.substr(0, delimiterPos);
+        std::wstring methodParams =
+            (delimiterPos < dialog.input.size()
+                ? dialog.input.substr(delimiterPos + 1)
+                : L"{}");
+
+        m_webView->CallDevToolsProtocolMethod(
+            methodName.c_str(), methodParams.c_str(),
+            Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
+                this, &ScriptComponent::CDPMethodCallback)
+                .Get());
+    }
+}
+```
+---
+
+## CapturePreview
+
+Capture an image of what WebView is displaying.
+```
+public HRESULT CapturePreview(COREWEBVIEW2_CAPTURE_PREVIEW_IMAGE_FORMAT imageFormat, IStream * imageStream, ICoreWebView2CapturePreviewCompletedHandler * handler)
+```
+Specify the format of the image with the imageFormat parameter. The resulting image binary data is written to the provided imageStream parameter. When CapturePreview finishes writing to the stream, the Invoke method on the provided handler parameter is run. This method fails if called before the first ContentLoading event. For example if this is called in the NavigationStarting event for the first navigation it will fail. For subsequent navigations, the method may not fail, but will not capture an image of a given webpage until the ContentLoading event has been fired for it. Any call to this method prior to that will result in a capture of the page being navigated away from.
+
+```
+// Show the user a file selection dialog, then save a screenshot of the WebView
+// to the selected file.
+void FileComponent::SaveScreenshot()
+{
+    WCHAR defaultName[MAX_PATH] = L"WebView2_Screenshot.png";
+    OPENFILENAME openFileName = CreateOpenFileName(defaultName, L"PNG File\0*.png\0");
+    if (GetSaveFileName(&openFileName))
+    {
+        wil::com_ptr<IStream> stream;
+        CHECK_FAILURE(SHCreateStreamOnFileEx(
+            defaultName, STGM_READWRITE | STGM_CREATE, FILE_ATTRIBUTE_NORMAL, TRUE, nullptr,
+            &stream));
+
+        CHECK_FAILURE(m_webView->CapturePreview(
+            COREWEBVIEW2_CAPTURE_PREVIEW_IMAGE_FORMAT_PNG, stream.get(),
+            Callback<ICoreWebView2CapturePreviewCompletedHandler>(
+                [appWindow{m_appWindow}](HRESULT error_code) -> HRESULT {
+                    CHECK_FAILURE(error_code);
+                    appWindow->AsyncMessageBox(L"Preview Captured", L"Preview Captured");
+                    return S_OK;
+                })
+                .Get()));
+    }
+}
+```
+---
+
+## ExecuteScript
+
+Run JavaScript code from the javascript parameter in the current top-level document rendered in the WebView.
+```
+public HRESULT ExecuteScript(LPCWSTR javaScript, ICoreWebView2ExecuteScriptCompletedHandler * handler)
+```
+The result of evaluating the provided JavaScript is used in this parameter. The result value is a JSON encoded string. If the result is undefined, contains a reference cycle, or otherwise is not able to be encoded into JSON, then the result is considered to be null, which is encoded in JSON as the string "null".
+
+Note
+A function that has no explicit return value returns undefined. If the script that was run throws an unhandled exception, then the result is also "null". This method is applied asynchronously. If the method is run after the NavigationStarting event during a navigation, the script runs in the new document when loading it, around the time ContentLoading is run. This operation executes the script even if ICoreWebView2Settings::IsScriptEnabled is set to FALSE.
+
+```
+// Prompt the user for some script and then execute it.
+void ScriptComponent::InjectScript()
+{
+    TextInputDialog dialog(
+        m_appWindow->GetMainWindow(),
+        L"Inject Script",
+        L"Enter script code:",
+        L"Enter the JavaScript code to run in the webview.",
+        L"window.getComputedStyle(document.body).backgroundColor");
+    if (dialog.confirmed)
+    {
+        m_webView->ExecuteScript(dialog.input.c_str(),
+            Callback<ICoreWebView2ExecuteScriptCompletedHandler>(
+                [appWindow = m_appWindow](HRESULT error, PCWSTR result) -> HRESULT
+        {
+            if (error != S_OK) {
+                ShowFailure(error, L"ExecuteScript failed");
+            }
+            appWindow->AsyncMessageBox(result, L"ExecuteScript Result");
+            return S_OK;
+        }).Get());
+    }
+}
+```
