@@ -777,3 +777,316 @@ Use the top-most window of the app as the WebView parent HWND. For example, to p
 The values of Bounds are limited by the coordinate space of the host.
 
 ---
+
+## get_CoreWebView2
+
+Gets the CoreWebView2 associated with this CoreWebView2Controller.
+```
+public HRESULT get_CoreWebView2(ICoreWebView2 ** coreWebView2)
+```
+
+## get_IsVisible
+
+The IsVisible property determines whether to show or hide the WebView2.
+```
+public HRESULT get_IsVisible(BOOL * isVisible)
+```
+If IsVisible is set to FALSE, the WebView2 is transparent and is not rendered. However, this does not affect the window containing the WebView2 (the HWND parameter that was passed to CreateCoreWebView2Controller). If you want that window to disappear too, run ShowWindow on it directly in addition to modifying the IsVisible property. WebView2 as a child window does not get window messages when the top window is minimized or restored. For performance reasons, developers should set the IsVisible property of the WebView to FALSE when the app window is minimized and back to TRUE when the app window is restored. The app window does this by handling SIZE_MINIMIZED and SIZE_RESTORED command upon receiving WM_SIZE message.
+
+There are CPU and memory benefits when the page is hidden. For instance, Chromium has code that throttles activities on the page like animations and some tasks are run less frequently. Similarly, WebView2 will purge some caches to reduce memory usage.
+
+```
+void ViewComponent::ToggleVisibility()
+{
+    BOOL visible;
+    m_controller->get_IsVisible(&visible);
+    m_isVisible = !visible;
+    m_controller->put_IsVisible(m_isVisible);
+}
+```
+---
+
+## get_ParentWindow
+
+The parent window provided by the app that this WebView is using to render content.
+```
+public HRESULT get_ParentWindow(HWND * parentWindow)
+```
+This API initially returns the window passed into CreateCoreWebView2Controller.
+
+---
+
+## get_ZoomFactor
+
+The zoom factor for the WebView.
+```
+public HRESULT get_ZoomFactor(double * zoomFactor)
+```
+Note
+Changing zoom factor may cause window.innerWidth, window.innerHeight, both, and page layout to change. A zoom factor that is applied by the host by running ZoomFactor becomes the new default zoom for the WebView. The zoom factor applies across navigations and is the zoom factor WebView is returned to when the user chooses Ctrl+0. When the zoom factor is changed by the user (resulting in the app receiving ZoomFactorChanged), that zoom applies only for the current page. Any user applied zoom is only for the current page and is reset on a navigation. Specifying a zoomFactor less than or equal to 0 is not allowed. WebView also has an internal supported zoom factor range. When a specified zoom factor is out of that range, it is normalized to be within the range, and a ZoomFactorChanged event is triggered for the real applied zoom factor. When the range normalization happens, the ZoomFactor property reports the zoom factor specified during the previous modification of the ZoomFactor property until the ZoomFactorChanged event is received after WebView applies the normalized zoom factor.
+
+---
+
+## MoveFocus
+
+Moves focus into WebView.
+```
+public HRESULT MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON reason)
+```
+WebView gets focus and focus is set to correspondent element in the page hosted in the WebView. For Programmatic reason, focus is set to previously focused element or the default element if no previously focused element exists. For Next reason, focus is set to the first element. For Previous reason, focus is set to the last element. WebView changes focus through user interaction including selecting into a WebView or Tab into it. For tabbing, the app runs MoveFocus with Next or Previous to align with Tab and Shift+Tab respectively when it decides the WebView is the next element that may exist in a tab. Or, the app runs IsDialogMessage as part of the associated message loop to allow the platform to auto handle tabbing. The platform rotates through all windows with WS_TABSTOP. When the WebView gets focus from IsDialogMessage, it is internally put the focus on the first or last element for tab and Shift+Tab respectively.
+
+```
+while (GetMessage(&msg, nullptr, 0, 0))
+    {
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        {
+            // Calling IsDialogMessage handles Tab traversal automatically. If the
+            // app wants the platform to auto handle tab, then call IsDialogMessage
+            // before calling TranslateMessage/DispatchMessage. If the app wants to
+            // handle tabbing itself, then skip calling IsDialogMessage and call
+            // TranslateMessage/DispatchMessage directly.
+            if (!g_autoTabHandle || !IsDialogMessage(GetAncestor(msg.hwnd, GA_ROOT), &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+        }
+    }
+```
+```
+if (wParam == VK_TAB)
+        {
+            // Find out if the window is one we've customized for tab handling
+            for (size_t i = 0; i < m_tabbableWindows.size(); i++)
+            {
+                if (m_tabbableWindows[i].first == hWnd)
+                {
+                    if (GetKeyState(VK_SHIFT) < 0)
+                    {
+                        TabBackwards(i);
+                    }
+                    else
+                    {
+                        TabForwards(i);
+                    }
+                    return true;
+                }
+            }
+        }
+```
+```
+void ControlComponent::TabForwards(size_t currentIndex)
+{
+    // Find first enabled window after the active one
+    for (size_t i = currentIndex + 1; i < m_tabbableWindows.size(); i++)
+    {
+        HWND hwnd = m_tabbableWindows.at(i).first;
+        if (IsWindowEnabled(hwnd))
+        {
+            SetFocus(hwnd);
+            return;
+        }
+    }
+    // If this is the last enabled window, tab forwards into the WebView.
+    m_controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_NEXT);
+}
+
+void ControlComponent::TabBackwards(size_t currentIndex)
+{
+    // Find first enabled window before the active one
+    for (size_t i = currentIndex - 1; i >= 0 && i < m_tabbableWindows.size(); i--)
+    {
+        HWND hwnd = m_tabbableWindows.at(i).first;
+        if (IsWindowEnabled(hwnd))
+        {
+            SetFocus(hwnd);
+            return;
+        }
+    }
+    // If this is the last enabled window, tab forwards into the WebView.
+    CHECK_FAILURE(m_controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PREVIOUS));
+}
+```
+
+## NotifyParentWindowPositionChanged
+
+This is a notification separate from Bounds that tells WebView that the main WebView parent (or any ancestor) HWND moved.
+```
+public HRESULT NotifyParentWindowPositionChanged()
+```
+This is needed for accessibility and certain dialogs in WebView to work correctly.
+
+```
+if (message == WM_MOVE || message == WM_MOVING)
+    {
+        m_controller->NotifyParentWindowPositionChanged();
+        return true;
+    }
+```
+---
+
+## put_Bounds
+
+Sets the Bounds property.
+```
+public HRESULT put_Bounds(RECT bounds)
+```
+```
+// Update the bounds of the WebView window to fit available space.
+void ViewComponent::ResizeWebView()
+{
+    SIZE webViewSize = {
+            LONG((m_webViewBounds.right - m_webViewBounds.left) * m_webViewRatio * m_webViewScale),
+            LONG((m_webViewBounds.bottom - m_webViewBounds.top) * m_webViewRatio * m_webViewScale) };
+
+    RECT desiredBounds = m_webViewBounds;
+    desiredBounds.bottom = LONG(
+        webViewSize.cy + m_webViewBounds.top);
+    desiredBounds.right = LONG(
+        webViewSize.cx + m_webViewBounds.left);
+
+    m_controller->put_Bounds(desiredBounds);
+    if (m_compositionController)
+    {
+        POINT webViewOffset = {m_webViewBounds.left, m_webViewBounds.top};
+
+        if (m_dcompDevice)
+        {
+            CHECK_FAILURE(m_dcompRootVisual->SetOffsetX(float(webViewOffset.x)));
+            CHECK_FAILURE(m_dcompRootVisual->SetOffsetY(float(webViewOffset.y)));
+            CHECK_FAILURE(m_dcompRootVisual->SetClip(
+                {0, 0, float(webViewSize.cx), float(webViewSize.cy)}));
+            CHECK_FAILURE(m_dcompDevice->Commit());
+        }
+        else if (m_wincompCompositor)
+        {
+            if (m_wincompRootVisual != nullptr)
+            {
+                numerics::float2 size = {static_cast<float>(webViewSize.cx),
+                                         static_cast<float>(webViewSize.cy)};
+                m_wincompRootVisual.Size(size);
+
+                numerics::float3 offset = {static_cast<float>(webViewOffset.x),
+                                           static_cast<float>(webViewOffset.y), 0.0f};
+                m_wincompRootVisual.Offset(offset);
+
+                winrtComp::IInsetClip insetClip = m_wincompCompositor.CreateInsetClip();
+                m_wincompRootVisual.Clip(insetClip.as<winrtComp::CompositionClip>());
+            }
+        }
+    }
+}
+```
+
+## put_IsVisible
+
+Sets the IsVisible property.
+```
+public HRESULT put_IsVisible(BOOL isVisible)
+```
+```
+if (message == WM_SIZE)
+    {
+        if (wParam == SIZE_MINIMIZED)
+        {
+            // Hide the webview when the app window is minimized.
+            m_controller->put_IsVisible(FALSE);
+            Suspend();
+        }
+        else if (wParam == SIZE_RESTORED)
+        {
+            // When the app window is restored, show the webview
+            // (unless the user has toggle visibility off).
+            if (m_isVisible)
+            {
+                Resume();
+                m_controller->put_IsVisible(TRUE);
+            }
+        }
+    }
+```
+---
+
+## put_ParentWindow
+
+Sets the parent window for the WebView.
+```
+public HRESULT put_ParentWindow(HWND parentWindow)
+```
+This causes the WebView to re-parent the main WebView window to the newly provided window.
+
+---
+
+## put_ZoomFactor
+
+Sets the ZoomFactor property.
+```
+public HRESULT put_ZoomFactor(double zoomFactor)
+```
+---
+
+## remove_AcceleratorKeyPressed
+
+Removes an event handler previously added with add_AcceleratorKeyPressed.
+```
+public HRESULT remove_AcceleratorKeyPressed(EventRegistrationToken token)
+```
+---
+
+## remove_GotFocus
+
+Removes an event handler previously added with add_GotFocus.
+```
+public HRESULT remove_GotFocus(EventRegistrationToken token)
+```
+---
+
+## remove_LostFocus
+
+Removes an event handler previously added with add_LostFocus.
+```
+public HRESULT remove_LostFocus(EventRegistrationToken token)
+```
+---
+
+## remove_MoveFocusRequested
+
+Removes an event handler previously added with add_MoveFocusRequested.
+```
+public HRESULT remove_MoveFocusRequested(EventRegistrationToken token)
+```
+---
+
+## remove_ZoomFactorChanged
+
+Remove an event handler previously added with add_ZoomFactorChanged.
+```
+public HRESULT remove_ZoomFactorChanged(EventRegistrationToken token)
+```
+---
+
+## SetBoundsAndZoomFactor
+
+Updates Bounds and ZoomFactor properties at the same time.
+```
+public HRESULT SetBoundsAndZoomFactor(RECT bounds, double zoomFactor)
+```
+This operation is atomic from the perspective of the host. After returning from this function, the Bounds and ZoomFactor properties are both updated if the function is successful, or neither is updated if the function fails. If Bounds and ZoomFactor are both updated by the same scale (for example, Bounds and ZoomFactor are both doubled), then the page does not display a change in window.innerWidth or window.innerHeight and the WebView renders the content at the new size and zoom without intermediate renderings. This function also updates just one of ZoomFactor or Bounds by passing in the new value for one and the current value for the other.
+
+```
+void ViewComponent::SetScale(float scale)
+{
+    RECT bounds;
+    CHECK_FAILURE(m_controller->get_Bounds(&bounds));
+    double scaleChange = scale / m_webViewScale;
+
+    bounds.bottom = LONG(
+        (bounds.bottom - bounds.top) * scaleChange + bounds.top);
+    bounds.right = LONG(
+        (bounds.right - bounds.left) * scaleChange + bounds.left);
+
+    m_webViewScale = scale;
+    m_controller->SetBoundsAndZoomFactor(bounds, scale);
+}
+```
+---
