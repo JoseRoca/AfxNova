@@ -1178,8 +1178,8 @@ PRIVATE FUNCTION DWStrParse (BYREF wszSourceString AS CONST WSTRING, BYVAL index
    IF LEN(wszSourceString) = 0 THEN RETURN dws
    DIM nCount AS LONG, nStart AS LONG
    DIM nPos AS LONG = 1
-   index = ABS(index)
    DIM fReverse AS BOOLEAN = IIF(index < 0, TRUE, FALSE)
+   index = ABS(index)
 
    IF fReverse THEN
       ' *** Reverse search ***
