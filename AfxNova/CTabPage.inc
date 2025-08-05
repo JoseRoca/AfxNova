@@ -110,7 +110,6 @@ PRIVATE FUNCTION CTabPage.InsertPage (BYVAL hTab AS HWND, BYVAL nPage AS LONG, B
 
    dwStyle = dwStyle OR WS_CHILD
    dwExStyle = dwExStyle OR WS_EX_CONTROLPARENT
-   this.ClassStyle = CS_DBLCLKS
 
    cItems = .SendMessageW(hTab, TCM_GETITEMCOUNT, 0, 0)
    IF nPage < 0 OR nPage > cItems THEN nPage = cItems
@@ -180,7 +179,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' =====================================================================================
-' Resizes all the tab pages associated with a tab control
+' Resizes all the tab pages associated with the tab control
 ' =====================================================================================
 PRIVATE FUNCTION CTabPage.ResizePages () AS BOOLEAN
    ' // Get the handle of the tab control

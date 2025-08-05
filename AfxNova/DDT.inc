@@ -223,7 +223,7 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the width and height of the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION DialogSetSize (BYVAL hDlg AS HWND, BYREF nWidth AS LONG, BYREF nHeight AS LONG) AS BOOLEAN
+PRIVATE FUNCTION DialogSetSize (BYVAL hDlg AS HWND, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG) AS BOOLEAN
    DIM pDlg AS CDialog PTR = GetCDialogPtr(hDlg)
    IF pDlg THEN RETURN pDlg->DialogSetSize(nWidth, nHeight)
 END FUNCTION
