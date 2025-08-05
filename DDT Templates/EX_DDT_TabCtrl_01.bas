@@ -67,8 +67,6 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    TabCtrl_SetCurFocus(hTab, 0)
 
    ' // Adds a button
-'   cx = pWindow.ClientWidth - 88
-'   cy = pWindow.ClientHeight - 37
    ControlAddButton, hDlg, IDCANCEL, "&Close", 412, 315, 75, 23
    ' // Anchors the button to the bottom and the right side of the main window
    ControlAnchor(hDlg, IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
