@@ -878,9 +878,6 @@ END FUNCTION
 ' - psaSrc: Pointer to an array descriptor created by SafeArrayCreate.
 ' Return value:
 ' Returns S_OK on success, or an HRESULT on failure.
-' Remarks:
-' SafeArrayPutElement, automatically calls SafeArrayLock and SafeArrayUnlock before and
-' after assigning the element.
 ' ========================================================================================
 PRIVATE FUNCTION DSafeArray.CopyFrom (BYVAL psaSrc AS SAFEARRAY PTR) AS HRESULT
    DSafeArray_DP("safearray ptr = " & ..WSTR(psaSrc))
