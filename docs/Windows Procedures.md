@@ -1252,8 +1252,8 @@ Use **AfxFileScanA** for ansi text files and **AfxFileScanW** for unicode text f
 Reads all the lines of the specified file into a safe array.
 
 ```
-FUNCTION AfxFileReadAllLinesA (BYREF wszFileName AS WSTRING, BYREF Delimiter AS ZSTRING = CHR(13, 10)) AS CSafeArray
-FUNCTION AfxFileReadAllLinesW (BYREF wszFileName AS WSTRING, BYREF Delimiter AS WSTRING = CHR(13, 10)) AS CSafeArray
+FUNCTION AfxFileReadAllLinesA (BYREF wszFileName AS WSTRING, BYREF Delimiter AS ZSTRING = CHR(13, 10)) AS DSafeArray
+FUNCTION AfxFileReadAllLinesW (BYREF wszFileName AS WSTRING, BYREF Delimiter AS WSTRING = CHR(13, 10)) AS DSafeArray
 ```
 
 | Parameter  | Description |
@@ -1265,7 +1265,7 @@ FUNCTION AfxFileReadAllLinesW (BYREF wszFileName AS WSTRING, BYREF Delimiter AS 
 
 Use **AfxFileReadAllLinesA** for ansi text files and **AfxFileReadAllLinesW** for unicode text files.
 
-Because it returns a safe array, this function is located in the CSafeArray.inc include file.
+Because it returns a safe array, this function is located in the DSafeArray.inc include file.
 
 ---
 
