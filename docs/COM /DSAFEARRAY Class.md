@@ -468,8 +468,6 @@ print dblVal
 ' // Creates a one-dimensional array of variants
 'DIM dsa AS DSAFEARRAY = DSAFEARRAY(VT_VARIANT, 2, 1)
 DIM dsa AS DSAFEARRAY = DSAFEARRAY("VARIANT", 2, 1)
-
-DIM dsa AS DSAFEARRAY = DSAFEARRAY("VARIANT", 2, 1)
 dsa.PutVar(1, "Test string")
 dsa.PutVar(2, 12345)
 dsa.AppendVar("Test string appended")
