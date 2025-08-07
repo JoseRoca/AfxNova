@@ -170,7 +170,8 @@ PRIVATE CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_P
    END IF
 
    ' // Create the control
-   IF dwStyle = 0 THEN dwStyle = WS_VISIBLE OR WS_CHILD OR WS_TABSTOP
+   IF dwStyle = 0 THEN dwStyle = WS_VISIBLE OR WS_TABSTOP
+   dwStyle OR= WS_CHILD
    ' OPENGL: Most Common Cause of SetPixelFormat() Failure
    ' An OpenGL window has its own pixel format. Because of this, only device contexts
    ' retrieved for the client area of an OpenGL window are allowed to draw into the window.

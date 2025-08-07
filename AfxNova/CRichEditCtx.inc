@@ -10,6 +10,7 @@
 
 #pragma once
 #include once "AfxNova/CWindow.inc"
+#include once "AfxNova/CDialog.inc"
 #include once "AfxNova/CTextObjectBase.inc"
 #include once "AfxNova/AfxPrinter.inc"
 USING AfxNova
@@ -42,6 +43,9 @@ TYPE CRichEditCtx EXTENDS CTextObjectBase
       DECLARE CONSTRUCTOR (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
          BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
          BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0)
+DECLARE CONSTRUCTOR (BYVAL hWin AS HWND, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
+   BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
+   BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = NULL)
       DECLARE DESTRUCTOR
       DECLARE FUNCTION hRichEdit () AS HWND
       DECLARE PROPERTY ScalingRatio (BYVAL ratio AS SINGLE)
@@ -449,7 +453,7 @@ TYPE CRichEditCtx EXTENDS CTextObjectBase
       DECLARE FUNCTION GetNotificationMode () AS LONG
       DECLARE FUNCTION SetNotificationMode (BYVAL Value AS LONG) AS HRESULT
       DECLARE FUNCTION GetPreferredFont (BYVAL cp AS LONG, BYVAL CharRep AS LONG, BYVAL nOptions AS LONG, _
-         BYVAL curCharRep AS LONG, BYVAL curFontSize AS LONG, BYVAL fontName AS AFX_BSTR PTR, _
+         BYVAL curCharRep AS LONG, BYVAL curFontSize AS LONG, BYREF dwsFontName AS DWSTRING, _
          BYREF PitchAndFamily AS LONG, BYREF NewFontSize AS LONG) AS HRESULT
       DECLARE FUNCTION GetProperty (BYVAL nType AS LONG) AS LONG
       DECLARE FUNCTION SetProperty (BYVAL nType AS LONG, BYVAL Value AS LONG) AS HRESULT
@@ -558,7 +562,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' CRichEditCtx class constructor
+' CRichEditCtx class constructor (CWindow)
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CRichEditCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
    BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
@@ -574,6 +578,54 @@ PRIVATE CONSTRUCTOR CRichEditCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LON
      
    m_hInstance = pWindow->InstanceHandle
    m_ScalingRatio = pWindow->rxRatio
+   ' // Set the ES_EX_ZOOMABLE (&H0010) extended style
+   ' // EM_SETEXTENDEDSTYLE = ECM_FIRST + 10
+   ' // EM_GETEXTENDEDSTYLE = ECM_FIRST + 11
+   DIM _dwExStyle AS DWORD = SendMessageW(m_hRichEdit, ECM_FIRST + 11, 0, 0)
+   SendMessageW(m_hRichEdit, ECM_FIRST + 10, _dwExStyle, &H0010)
+   ' // Get a pointer to the ITextDocument2 interface
+   m_pTextDocument2 = this.GetDocumentInterface
+   IF m_pTextDocument2 = NULL THEN EXIT CONSTRUCTOR
+
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' CRichEditCtx class constructor (CWindow y CDialog)
+' ========================================================================================
+PRIVATE CONSTRUCTOR CRichEditCtx (BYVAL hWin AS HWND, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
+   BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
+   BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = NULL)
+
+   IF hWin = NULL THEN EXIT CONSTRUCTOR
+   DIM pWindow AS CWindow PTR
+   DIM pDialog AS CDialog PTR
+   DIM IsDialog AS BOOLEAN
+   IF GetWindowLongPtrW(hWin, DWLP_USER) <> 0 THEN IsDialog = TRUE
+   IF IsDialog THEN
+      pDialog = CAST(CDialog PTR, GetWindowLongPtrW(hWin, DWLP_USER))
+      IF pDialog = NULL THEN EXIT CONSTRUCTOR
+   ELSE
+      pWindow = CAST(CWindow PTR, GetWindowLongPtrW(hWin, 0))
+      IF pWindow = NULL THEN EXIT CONSTRUCTOR
+   END IF
+   IF IsDialog THEN
+      m_hRichEdit = pDialog->ControlAdd("RICHEDIT", cID, wszTitle, _
+                    x, y, nWidth, nHeight, dwStyle, dwExStyle, lpParam)
+   ELSE
+      m_hRichEdit = pWindow->AddControl("RICHEDIT", pWindow->hWindow, cID, wszTitle, _
+                    x, y, nWidth, nHeight, dwStyle, dwExStyle, lpParam)
+   END IF
+   IF m_hRichEdit = NULL THEN EXIT CONSTRUCTOR
+   ' // Subclass the control
+   SetWindowSubclass m_hRichEdit, CAST(SUBCLASSPROC, @CRichEditCtxProc), cID, CAST(DWORD_PTR, @this)
+
+   IF IsDialog THEN
+      m_hInstance = GetModuleHandle(NULL)
+      m_ScalingRatio = pDialog->rxRatio
+   ELSE
+      m_hInstance = pWindow->InstanceHandle
+      m_ScalingRatio = pWindow->rxRatio
+   END IF
    ' // Set the ES_EX_ZOOMABLE (&H0010) extended style
    ' // EM_SETEXTENDEDSTYLE = ECM_FIRST + 10
    ' // EM_GETEXTENDEDSTYLE = ECM_FIRST + 11
@@ -4678,10 +4730,13 @@ END FUNCTION
 ' Retrieves the preferred font for a particular character repertoire and character position.
 ' ========================================================================================
 PRIVATE FUNCTION CRichEditCtx.GetPreferredFont (BYVAL cp AS LONG, BYVAL CharRep AS LONG, BYVAL nOptions AS LONG, _
-BYVAL curCharRep AS LONG, BYVAL curFontSize AS LONG, BYVAL fontName AS AFX_BSTR PTR, _
+BYVAL curCharRep AS LONG, BYVAL curFontSize AS LONG, BYREF dwsFontName AS DWSTRING, _
 BYREF PitchAndFamily AS LONG, BYREF NewFontSize AS LONG) AS HRESULT
+   DIM bstrFontName AS AFX_BSTR
    m_Result = m_pTextDocument2->lpvtbl->GetPreferredFont(m_pTextDocument2, cp, CharRep, _
-   nOptions, curCharRep, curFontSize, fontName, @PitchAndFamily, @NewFontSize)
+   nOptions, curCharRep, curFontSize, @bstrFontName, @PitchAndFamily, @NewFontSize)
+   dwsFontName = *bstrFontName
+   SysFreeString bstrFontName
    RETURN m_Result
 END FUNCTION
 ' ========================================================================================
@@ -4912,5 +4967,8 @@ END FUNCTION
 #include once "AfxNova/CTextFont2.inc"
 #include once "AfxNova/CTextPara2.inc"
 #include once "AfxNova/CTextRange2.inc"
+#include once "AfxNova/CTextSelection2.inc"
+#include once "AfxNova/CTextRow.inc"
+#include once "AfxNova/CTextStory.inc"
 
 END NAMESPACE
