@@ -106,16 +106,16 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    SELECT CASE uMsg
 
       CASE WM_COMMAND
-         SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
+         SELECT CASE CBCTL(wParam, lParam)
             CASE IDC_BUTTON1, IDC_BUTTON2, IDC_BUTTON3
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   ' AfxMsg "Button clicked"
                   EXIT FUNCTION
                END IF
 
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF
