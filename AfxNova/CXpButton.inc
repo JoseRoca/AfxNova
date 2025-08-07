@@ -16,6 +16,7 @@
 #include once "win/tmschema.bi"
 #include once "win/uxtheme.bi"
 #include once "AfxNova/CWindow.inc"
+#include once "AfxNova/CDialog.inc"
 #include once "AfxNova/AfxGdiPlus.inc"
 USING AfxNova
 
@@ -82,6 +83,9 @@ TYPE CXpButton
 
    Public:
       DECLARE CONSTRUCTOR (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
+         BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
+         BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0)
+      DECLARE CONSTRUCTOR (BYVAL hWin AS HWND, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
          BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
          BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0)
       DECLARE DESTRUCTOR
@@ -196,7 +200,7 @@ END TYPE
 ' ========================================================================================
 
 ' ========================================================================================
-' CXpButton class constructor
+' CXpButton class constructor (CWindow)
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CXpButton (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
    BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
@@ -249,6 +253,90 @@ PRIVATE CONSTRUCTOR CXpButton (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_P
       SetWindowLongPtrW m_hCtl, 0, CAST(LONG_PTR, @this)
       ' // Set the same font used by the parent
       DIM lfw AS LOGFONTW
+      IF pWindow->Font THEN
+         IF GetObjectW(pWindow->Font, SIZEOF(lfw), @lfw) THEN m_hFont = CreateFontIndirectW(@lfw)
+      END IF
+   END IF
+
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' CXpButton class constructor (CWindow and CDialof)
+' ========================================================================================
+PRIVATE CONSTRUCTOR CXpButton (BYVAL hWin AS HWND, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
+   BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
+   BYVAL dwStyle AS DWORD = 0, BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0)
+
+   IF hWin = NULL THEN EXIT CONSTRUCTOR
+   DIM pWindow AS CWindow PTR
+   DIM pDialog AS CDialog PTR
+   DIM IsDialog AS BOOLEAN
+   IF GetWindowLongPtrW(hWin, DWLP_USER) <> 0 THEN IsDialog = TRUE
+   IF IsDialog THEN
+      pDialog = CAST(CDialog PTR, GetWindowLongPtrW(hWin, DWLP_USER))
+      IF pDialog = NULL THEN EXIT CONSTRUCTOR
+   ELSE
+      pWindow = CAST(CWindow PTR, GetWindowLongPtrW(hWin, 0))
+      IF pWindow = NULL THEN EXIT CONSTRUCTOR
+   END IF
+
+   ' // Register the class
+   DIM wAtom AS ATOM
+   DIM wcexw AS WNDCLASSEXW
+   DIM wszClassName AS WSTRING * 260 = "AFX_XPBUTTON"
+   IF .GetClassInfoExW(.GetModuleHandleW(NULL), @wszClassName, @wcexw) = 0 THEN
+      ' // Fill the WNDCLASSEXW structure
+      WITH wcexw
+         .cbSize        = SIZEOF(wcexw)
+         .style         = CS_DBLCLKS OR CS_HREDRAW OR CS_VREDRAW
+         .lpfnWndProc   = @CXPButtonProc
+         .cbClsExtra    = 0
+         .cbWndExtra    = SIZEOF(HANDLE)
+         .hInstance     = GetModuleHandleW(NULL)
+         .hCursor       = LoadCursorW(NULL, CAST(LPCWSTR, IDC_ARROW))
+         .hbrBackground = NULL
+         .lpszMenuName  = NULL
+         .lpszClassName = @wszClassName
+         .hIcon         = NULL
+         .hIconSm       = NULL
+      END WITH
+      wAtom = RegisterClassExW(@wcexw)
+   END IF
+
+   ' // Checks if the application is themed
+   IF IsAppThemed AND IsThemeActive THEN m_bIsThemed = CTRUE
+   ' // Default values
+   m_dwTextFlags = DT_CENTER OR DT_VCENTER OR DT_SINGLELINE
+   m_ImagePos = XPBI_LEFT OR XPBI_VCENTER
+   m_ImageMargin = 4
+   m_TextMargin = 4
+   m_hCursor = LoadCursor(NULL, IDC_ARROW)
+
+   ' // Scaling
+   IF IsDialog THEN
+      m_rx = pDialog->rxRatio
+      m_ry = pDialog->ryRatio
+   ELSE
+      m_rx = pWindow->rxRatio
+      m_ry = pWindow->ryRatio
+   END IF
+
+   ' // Default text color
+   m_TextForeColor = GetSysColor(COLOR_BTNTEXT)
+   m_TextBkColor = GetSysColor(COLOR_BTNFACE)
+
+   ' // Create the control
+   IF dwStyle = 0 THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_PUSHBUTTON OR BS_CENTER OR BS_VCENTER
+   IF IsDialog THEN
+      m_hCtl = pDialog->ControlAdd(wszClassName, cID, wszTitle, x, y, nWidth, nHeight, dwStyle, dwExStyle, lpParam)
+   ELSE
+      m_hCtl = pWindow->AddControl(wszClassName, pWindow->hWindow, cID, wszTitle, x, y, nWidth, nHeight, dwStyle, dwExStyle, lpParam)
+   END IF
+   IF m_hCtl = NULL THEN EXIT CONSTRUCTOR
+   SetWindowLongPtrW m_hCtl, 0, CAST(LONG_PTR, @this)
+   ' // Set the same font used by the parent
+   DIM lfw AS LOGFONTW
+   IF IsDialog = FALSE THEN
       IF pWindow->Font THEN
          IF GetObjectW(pWindow->Font, SIZEOF(lfw), @lfw) THEN m_hFont = CreateFontIndirectW(@lfw)
       END IF
