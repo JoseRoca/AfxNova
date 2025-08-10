@@ -93,7 +93,7 @@ Because the bigger numeric variable natively supported by Free Basic is a long/u
 
 ```
 DIM int96 AS CInt96
-int96 = 1234567890
+int96 = "123456789001234567890"
 ```
 ---
 
