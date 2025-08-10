@@ -397,9 +397,9 @@ END OPERATOR
 ' ========================================================================================
 ' Divides this CInt96 value and assigns the remainder to it.
 ' Usage example:
-' Usage examples:
-' DIM int96 AS CInt96 = CInt96("-17")
-' int96 MOD= CInt96("5")
+' DIM int96 AS CInt96 = -17
+' int96 MOD= 5
+' print int96
 ' Result: -2
 ' ========================================================================================
 PRIVATE OPERATOR CInt96.MOD= (BYREF rhs AS CInt96)
@@ -453,9 +453,10 @@ END OPERATOR
 
 ' ========================================================================================
 ' Performs a bitwise-and (conjunction) and assigns the result to a variable
-' DIM int96 AS CInt96 = CInt96(5)
-' int96 AND= CInt96(3)
-' PRINT int96   ' 1
+' DIM int96 AS CInt96 = 5
+' int96 AND= 3
+' print int96
+' Result = 1
 ' ========================================================================================
 PRIVATE OPERATOR CInt96.AND= (BYREF rhs AS CInt96)
    CINT96_DP("")
@@ -471,9 +472,10 @@ END OPERATOR
 ' ========================================================================================
 ' Performs a bitwise-or (inclusive disjunction) and assigns the result to a variable.
 ' Usage example:
-' DIM int96 AS CInt96 = CInt96(5)
-' int96 OR= CInt96(3)
-' PRINT int96   ' 7
+' DIM int96 AS CInt96 = 5
+' int96 OR= 3
+' PRINT int96
+' Result = 7
 ' ========================================================================================
 PRIVATE OPERATOR CInt96.OR= (BYREF rhs AS CInt96)
    CINT96_DP("")
@@ -489,9 +491,10 @@ END OPERATOR
 ' ========================================================================================
 ' Performs a bitwise-xor (exclusive disjunction) and assigns the result to a variable.
 ' Usage example: 
-' DIM int96 AS CInt96 = CInt96(-5)
-' int96 XOR= CInt96(2)
-' PRINT int96   ' 7
+' DIM int96 AS CInt96 = -5
+' int96 XOR= 2
+' PRINT int96
+' Result = -7
 ' ========================================================================================
 PRIVATE OPERATOR CInt96.XOR= (BYREF rhs AS CInt96)
    CINT96_DP("")
@@ -507,9 +510,10 @@ END OPERATOR
 ' ========================================================================================
 ' Returns the bitwise-and (implication) of two numeric values.
 ' Usage example:
-' DIM int96 AS CInt96 = CInt96(5)
-' int96 IMP= CInt96(3)
+' DIM int96 AS CInt96 = 5
+' int96 IMP= 3
 ' PRINT int96
+' Result = -5
 ' ========================================================================================
 PRIVATE OPERATOR CInt96.IMP= (BYREF rhs AS CInt96)
    CINT96_DP("")
@@ -529,9 +533,10 @@ END OPERATOR
 ' ========================================================================================
 ' Performs a bitwise-eqv (equivalence) and assigns the result to a variable.
 ' Usage example:
-' DIM int96 AS CInt96 = CInt96(5)
-' int96 EQV= CInt96(3)
-' PRINT int96   ' -7
+' DIM int96 AS CInt96 = 5
+' int96 EQV= 3
+' PRINT int96
+' Result = -7
 ' ========================================================================================
 PRIVATE OPERATOR CInt96.EQV= (BYREF rhs AS CInt96)
    CINT96_DP("")
@@ -746,10 +751,10 @@ END OPERATOR
 ' PRINT NOT CInt96(0)    ' -1
 ' PRINT NOT CInt96(-1)   ' 0
 ' ========================================================================================
-PRIVATE OPERATOR NOT (BYREF v AS CInt96) AS CInt96
+PRIVATE OPERATOR NOT (BYREF value AS CInt96) AS CInt96
    CINT96_DP("")
    DIM a0 AS ULONG, a1 AS ULONG, a2 AS ULONG
-   _Bits96_ToTwos(v.m_int96, a0, a1, a2)
+   _Bits96_ToTwos(value.m_int96, a0, a1, a2)
    DIM d AS DECIMAL
    _Bits96_FromTwos(NOT a0, NOT a1, NOT a2, d)
    RETURN d
@@ -855,6 +860,7 @@ END OPERATOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Shifts the bits of a numeric expression to the left.
 ' Shift left: value SHL n  -> value * 2^n
 ' - Uses iterative doubling to avoid building 2^n explicitly.
 ' - Returns original on error and sets LastError.
@@ -892,7 +898,7 @@ END OPERATOR
 ' PRINT CInt96(100) SHR 3   ' 12
 ' PRINT CInt96(-100) SHR 3   ' -13
 ' PRINT CInt96(-3) SHR 1   ' -2
-' PRINT CInt96(-1) SHR 100   ' -1   ' returns 0
+' PRINT CInt96(-1) SHR 100   ' -1
 ' PRINT CInt96(5) SHR 2   ' 1
 ' PRINT CInt96(5) SHR 3   ' 0
 ' ========================================================================================
