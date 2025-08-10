@@ -41,7 +41,6 @@ DIM int96 AS CInt96 = "79228162514264337593543950335"
 | [Operator \*](#operator3) | Returns the address of the underlying `DECIMAL` structure. |
 | [Comparison operators](#operator4) | Compares `CInt96` numbers. |
 | [Arithmetic operators](#operator5) | Add, subtract, multiply or divide currency numbers. |
-| [Arithmetic operators](#operator5) | Add, subtract, multiply or divide currency numbers. |
 | [Bitwise logical operators](#operator6) | AND, EQV, IMP, MOD, OR, SHL, SHR, XOR. |
 
 ---
