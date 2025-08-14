@@ -98,6 +98,7 @@ Public:
    DECLARE OPERATOR CAST () AS VARIANT
    DECLARE OPERATOR CAST () AS ANY PTR
    DECLARE OPERATOR CAST () BYREF AS CONST WSTRING
+   DECLARE FUNCTION vptr () AS VARIANT PTR
    ' =====================================================================================
 
    ' ================================== LET OPERATOR =====================================
@@ -652,6 +653,33 @@ PRIVATE OPERATOR DVARIANT.CAST () BYREF AS CONST WSTRING
    OPERATOR = *CAST(WSTRING PTR, m_dws.GetBuffer)
 END OPERATOR
 ' ========================================================================================
+
+' ========================================================================================
+' Clears the DVARIANT and returns the address of the underlying variant.
+' To pass the variant to an OUT BYVAL VARIANT PTR parameter.
+' If we pass a DVARIANT to a function with an OUT variant parameter without first clearing the
+' contents of the CVAR, we may have a memory leak.
+' Example:
+' SUB Foo (BYVAL v AS VARIANT PTR)
+'    v->vt = VT_I4
+'    v->lVal = 12345
+' END SUB
+' DIM dv AS DVARIANT = "Test string"
+' Foo dv.vptr
+' PRINT dv
+' Otherwise, you need to clear the underlying variant before passing the CVAR.
+' DIM dv AS DVARIANT = "Test string"
+' dv.Clear
+' Foo *dv
+' PRINT dv
+' ========================================================================================
+PRIVATE FUNCTION DVARIANT.vptr () AS VARIANT PTR
+   DVARIANT_DP("")
+   VariantClear @vd
+   RETURN @vd
+END FUNCTION
+' ========================================================================================
+
 
 ' ########################################################################################
 '                                  ASSiGNMENT OPERATOR

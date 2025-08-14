@@ -34,7 +34,7 @@
    #define _CADODB_DP_ 1
    #MACRO CADODB_DP(st)
       #IF (_CADODB_DEBUG_ = 1)
-         OutputDebugStringW(st)
+         OutputDebugStringW(__FUNCTION__ + ": " + st)
       #ENDIF
    #ENDMACRO
 #ENDIF
