@@ -176,6 +176,40 @@ CONSTRUCTOR CGpImage (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
 | *hInst* | A handle to the module whose portable executable file or an accompanying MUI file contains the resource. If this parameter is NULL, the function searches the module used to create the current process. |
 | *wszImageName* | Name of the image in the resource file (.RES). If the image resource uses an integral identifier, wszImage should begin with a number symbol (#) followed by the identifier in an ASCII format, e.g., "#998". Otherwise, use the text identifier name for the image. Only images embedded as raw data (type RCDATA) are valid. These must be icons in format .png, .jpg, .gif, .tiff. |
 
+#### Example
+
+The following example draws part of an image.
+
+```
+SUB Example_DrawImage (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set scaling
+   graphics.SetPageUnit(UnitPixel)
+   graphics.SetPageScale(rxRatio)
+
+   ' // Create an Image object.
+'   DIM pImage AS CGpImage = "climber.jpg"   ' // load from file
+   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
+'   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
+
+   ' // Draw the original source image.
+   graphics.DrawImage(@pImage, 10, 10)
+
+   ' // Part of the source image to draw
+   DIM rcsrc AS GpRectF = TYPE<GpRectF>(80, 30, 80, 80)
+   ' // Destination recangle
+   DIM rcdest AS GpRectF = TYPE<GpRectF>(200, 10, 80, 80)
+
+   ' // Draw the scaled image.
+   graphics.DrawImage(@pImage, @rcdest, @rcsrc, UnitPixel)
+
+END SUB
+```
 ---
 
 ## <a name="cloneimage"></a>Clone (CGpImage)
