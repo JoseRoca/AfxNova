@@ -1154,4 +1154,81 @@ PRIVATE FUNCTION AfxGdipLoadTexture OVERLOAD (BYVAL hInstance AS HINSTANCE, _
 END FUNCTION
 ' =======================================================================================
 
+' ========================================================================================
+' Retrieves an RT_RCDATA resource (PNG/JPG/GIF/TIFF) and wraps it in an IStream backed by
+' a movable HGLOBAL block.
+' Parameters:
+' - hInstance     = [in] A handle to the module whose portable executable file or an accompanying
+'                   MUI file contains the resource. If this parameter is NULL, the function searches
+'                   the module used to create the current process.
+' - wszImageName  = [in] Name of the image in the resource file (.RES). If the image resource uses
+'                   an integral identifier, wszImage should begin with a number symbol (#)
+'                   followed by the identifier in an ASCII format, e.g., "#998". Otherwise,
+'                   use the text identifier name for the image. Only images embedded as raw data
+'                   (type RCDATA) are valid.
+' Return Value:
+'   A pointer to the IStream interface, or NULL on failure.
+'   The returned stream owns the HGLOBAL memory (fDeleteOnRelease=TRUE).
+' ========================================================================================
+PRIVATE FUNCTION AfxImageStreamFromRes (BYVAL hInstance AS HINSTANCE, BYREF wszImageName AS WSTRING) AS IStream PTR
+
+   DIM hRes      AS HRSRC
+   DIM cbRes     AS DWORD
+   DIM pResData  AS ANY PTR
+   DIM hGlobal   AS HGLOBAL
+   DIM pGlobal   AS ANY PTR
+   DIM pStream   AS IStream PTR
+   DIM wID       AS WORD
+   DIM dwID      AS DWORD
+
+   ' // Initialize Gdiplus
+   DIM token AS ULONG_PTR = AfxGdipInit
+   IF token = NULL THEN EXIT FUNCTION
+
+   ' // Find the resource
+   IF LEFT(wszImageName, 1) = "#" THEN
+      wID = VAL(MID(wszImageName, 2))
+      dwID = MAKELONG(wID, 0)
+      hRes = FindResourceW(hInstance, MAKEINTRESOURCEW(dwID), CAST(LPCWSTR, RT_RCDATA))
+   ELSE
+      hRes = FindResourceW(hInstance, wszImageName, CAST(LPCWSTR, RT_RCDATA))
+   END IF
+   IF hRes = 0 THEN RETURN NULL
+
+   ' // Load the resource and get a pointer to the resource data.
+   ' // Note: LockResource does not actually lock memory; it is just used
+   ' // to obtain a pointer to the memory containing the resource data.
+   pResData = LockResource(LoadResource(hInstance, hRes))
+   IF pResData = 0 THEN RETURN NULL
+
+   ' Get the size of the resource
+   cbRes = SizeofResource(hInstance, hRes)
+   IF cbRes = 0 THEN RETURN NULL
+
+   ' Allocate moveable global memory
+   hGlobal = GlobalAlloc(GMEM_MOVEABLE, cbRes)
+   IF hGlobal = 0 THEN RETURN NULL
+
+   pGlobal = GlobalLock(hGlobal)
+   IF pGlobal = 0 THEN
+      GlobalFree(hGlobal)
+      RETURN NULL
+   END IF
+
+   ' Copy the resource into allocated memory
+   CopyMemory(pGlobal, pResData, cbRes)
+   GlobalUnlock(hGlobal)
+
+   ' Create a stream that owns the HGLOBAL
+   IF CreateStreamOnHGlobal(hGlobal, TRUE, @pStream) <> S_OK THEN
+      GlobalFree(hGlobal)
+      RETURN NULL
+   END IF
+
+   RETURN pStream
+
+END FUNCTION
+' =======================================================================================
+
+
 END NAMESPACE

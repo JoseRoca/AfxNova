@@ -54,10 +54,21 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Creates an Image object from a resource file.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CGpImage (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
+   m_pStream = AfxImageStreamFromRes(hInst, wszImageName)
+   IF m_pStream = 0 THEN EXIT CONSTRUCTOR
+   IF GdipLoadImageFromStream(m_pStream, @m_pImage) <> S_OK THEN m_pStream->lpVtbl->Release(m_pStream)
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
 ' * Cleanup
 ' ========================================================================================
 PRIVATE DESTRUCTOR CGpImage
    IF m_pImage THEN GdipDisposeImage(m_pImage)
+   IF m_pStream THEN m_pStream->lpVtbl->Release(m_pStream)
 END DESTRUCTOR
 ' ========================================================================================
 

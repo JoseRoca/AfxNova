@@ -242,12 +242,14 @@ TYPE CGpImage EXTENDS CGpBase
 
 Public:
    m_pImage AS GpImage PTR
+   m_pStream AS IStream PTR   ' // Keep alive for deferred decoding
 
 Public:
    DECLARE CONSTRUCTOR
    DECLARE CONSTRUCTOR (BYVAL pImage AS CGpImage PTR)
    DECLARE CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
    DECLARE CONSTRUCTOR (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+   DECLARE CONSTRUCTOR (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
    DECLARE DESTRUCTOR
    DECLARE FUNCTION FromFile (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN) AS CGpImage
    DECLARE FUNCTION FromStream (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN) AS CGpImage
