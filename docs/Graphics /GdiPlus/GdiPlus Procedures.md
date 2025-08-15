@@ -21,6 +21,7 @@ Assorted GDI+ helper procedures.
 | [AfxGdipImageFromFile](#afxgdipimagefromfile) | Loads an image from a file, converts it to an icon or bitmap and returns the handle. |
 | [AfxGdipImageFromFile2](#afxgdipimagefromfile2) | Loads an image from a file using GDI+, converts it to an icon or bitmap and returns the handle. |
 | [AfxGdipImageFromRes](#afxgdipimagefromres) | Loads an image from a resource, converts it to an icon or bitmap and returns the handle. |
+| [AfxGdipImageStreamFromRes](#afxgdipimagestreamfromres) | Retrieves an RT_RCDATA resource (PNG/JPG/GIF/TIFF) and wraps it in an IStream backed by a movable HGLOBAL block handle. |
 | [AfxGdipInit](#afxgdipinit) | Initializes GDI+. |
 | [AfxGdipLoadTexture](#afxgdiploadtexture) | Loads an image from disk or a resource an converts it to a texture for use with OpenGL. |
 | [AfxGdipPrintHBITMAP](#afxgdipprinthbitmap) | Prints a Windows bitmap in the default printer. |
@@ -404,6 +405,27 @@ FUNCTION AfxGdipImageFromRes (BYVAL hInstance AS HINSTANCE, BYREF wszImageName A
 #### Return value
 
 If the function succeeds, the return value is the handle of the created icon or bitmap.
+
+If the function fails, the return value is NULL.
+
+---
+
+## AfxGdipImageStreamFromRes
+
+Retrieves an RT_RCDATA resource (PNG/JPG/GIF/TIFF) and wraps it in an IStream backed by a movable HGLOBAL block.
+
+```
+FUNCTION AfxImageStreamFromRes (BYVAL hInstance AS HINSTANCE, BYREF wszImageName AS WSTRING) AS IStream PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hInstance* | A handle to the module whose portable executable file or an accompanying MUI file contains the resource. If this parameter is NULL, the function searches the module used to create the current process. |
+| *wszImageName* | Name of the image in the resource file (.RES). If the image resource uses an integral identifier, wszImage should begin with a number symbol (#) followed by the identifier in an ASCII format, e.g., "#998". Otherwise, use the text identifier name for the image. Only images embedded as raw data (type RCDATA) are valid. These must be icons in format .png, .jpg, .gif, .tiff. |
+
+#### Return value
+
+If the function succeeds, the return value is a pointer to the **IStream** interface.
 
 If the function fails, the return value is NULL.
 
