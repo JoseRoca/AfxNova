@@ -180,7 +180,7 @@ Copies a entity represented by a `Record` to another location.
 FUNCTION CopyRecord (BYREF wszSource AS WSTRING = "", BYREF wszDestination AS WSTRING = "", _
    BYREF wszUserName AS WSTRING = "", BYREF wszPassword AS WSTRING = "", _
    BYVAL Options AS MoveRecordOptionsEnum = adCopyUnspecified, _
-   BYVAL Async AS BOOLEAN = FALSE) AS CBSTR
+   BYVAL Async AS BOOLEAN = FALSE) AS DWSTRING
 ```
 
 | Parameter  | Description |
