@@ -624,6 +624,10 @@ FUNCTION Write (BYVAL vBuffer AS VARIANT) AS HRESULT
 
 S_OK (0) or an HRESULT code.
 
+#### Remarks
+
+To fill the variant with binary data use the **AfxVariantFromBuffer** function.
+
 ---
 
 ## WriteText
