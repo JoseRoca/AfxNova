@@ -17,7 +17,7 @@ Defines a specific command that you intend to execute against a data source.
 | [CreateParameter](#createparameter) | Creates a new **Parameter** object with the specified properties. |
 | [Dialect](#dialect) | Indicates the dialect of the **CommandText** or **CommandStream** properties. |
 | [Execute](#execute) | Executes the query, SQL statement, or stored procedure specified in the **CommandText** or **CommandStream** property. |
-| [GetErrorInfo](#geterorinfo) | Returns information about ADO errors. |
+| [GetErrorInfo](#geterrorinfo) | Returns information about ADO errors. |
 | [Name](#name) | Sets or returns a string value that indicates the name of a **Command** object. |
 | [NamedParameters](#namedparameters) | Indicates whether parameter names should be passed to the provider. |
 | [Parameters](#parameters) | Returns a reference to the **Parameters** collection. |
