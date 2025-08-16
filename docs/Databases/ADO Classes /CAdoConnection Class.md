@@ -29,28 +29,30 @@ To execute a query without using a `Command` object, pass a query string to the 
 | Name       | Description |
 | ---------- | ----------- |
 | [Attributes](#Attributes) | Indicates one or more characteristics of an object. |
-| [BeginTrans](#BeginTrans) | Begins a new transaction. |
-| [Cancel](#Cancel) | Cancels execution of a pending, asynchronous method call. |
-| [Close](#Close) | Closes a `Connection` object and any dependent objects. |
-| [CommandTimeout](#CommandTimeout) | Sets or returns a Long value that indicates, in seconds, how long to wait for a command to execute. Default is 30. |
-| [CommitTrans](#CommitTrans) | Saves any changes and ends the current transaction. It may also start a new transaction. |
-| [ConnectionString](#ConnectionString) | Indicates the information used to establish a connection to a data source. |
-| [ConnectionTimeout](#ConnectionTimeout) | Indicates how long to wait while establishing a connection before terminating the attempt and generating an error. |
-| [CursorLocation](#CursorLocation) | Indicates the location of the cursor service. |
-| [DefaultDatabase](#DefaultDatabase) | Indicates the default database for a `Connection` object. |
-| [Execute](#Execute) | Executes the specified query, SQL statement, stored procedure, or provider-specific text. |
-| [GetErrorInfo](#GetErrorInfo) | Returns information about ADO errors. |
-| [IsolationLevel](#IsolationLevel) | Indicates the level of isolation for a `Connection` object. |
-| [Mode](#Mode) | Indicates the available permissions for modifying data in a `Connection` object. |
-| [Open](#Open) | Opens a connection to a data source. |
-| [OpenSchema](#OpenSchema) | Obtains database schema information from the provider. |
-| [Properties](#Properties) | Returns a reference to the **Properties** collection. |
-| [Provider](#Provider) | Indicates the name of the provider for a `Connection` object. |
-| [RollbackTrans](#RollbackTrans) | Saves any changes and ends the current transaction. It may also start a new transaction. |
-| [State](#State) | Indicates if a `Connection` is open or closed. |
-| [Version](#Version) | Indicates the ADO version number. |
+| [BeginTrans](#begintrans) | Begins a new transaction. |
+| [Cancel](#cancel) | Cancels execution of a pending, asynchronous method call. |
+| [Close](#close) | Closes a `Connection` object and any dependent objects. |
+| [CommandTimeout](#commandtimeout) | Sets or returns a Long value that indicates, in seconds, how long to wait for a command to execute. Default is 30. |
+| [CommitTrans](#committrans) | Saves any changes and ends the current transaction. It may also start a new transaction. |
+| [ConnectionString](#connectionstring) | Indicates the information used to establish a connection to a data source. |
+| [ConnectionTimeout](#connectiontimeout) | Indicates how long to wait while establishing a connection before terminating the attempt and generating an error. |
+| [CursorLocation](#cursorlocation) | Indicates the location of the cursor service. |
+| [DefaultDatabase](#defaultdatabase) | Indicates the default database for a `Connection` object. |
+| [Execute](#execute) | Executes the specified query, SQL statement, stored procedure, or provider-specific text. |
+| [GetErrorInfo](#geterrorinfo) | Returns information about ADO errors. |
+| [IsolationLevel](#isolationlevel) | Indicates the level of isolation for a `Connection` object. |
+| [Mode](#mode) | Indicates the available permissions for modifying data in a `Connection` object. |
+| [Open](#open) | Opens a connection to a data source. |
+| [OpenSchema](#openschema) | Obtains database schema information from the provider. |
+| [Properties](#properties) | Returns a reference to the **Properties** collection. |
+| [Provider](#provider) | Indicates the name of the provider for a `Connection` object. |
+| [RollbackTrans](#rollbacktrans) | Saves any changes and ends the current transaction. It may also start a new transaction. |
+| [State](#state) | Indicates if a `Connection` is open or closed. |
+| [Version](#version) | Indicates the ADO version number. |
 
-### Connection Dynamic Properties
+---
+
+## Connection Dynamic Properties
 
 The table below is a cross-index of the ADO and OLE DB names for each standard OLE DB provider dynamic property. Your providers may add more properties than listed here. For the specific information about provider-specific dynamic properties, see your provider documentation.
 
@@ -118,7 +120,9 @@ The table below is a cross-index of the ADO and OLE DB names for each standard O
 | User Name | DBPROP_USERNAME |
 | Window Handle | DBPROP_INIT_HWND |
 
-# <a name="Attributes"></a>Attributes
+---
+
+## Attributes
 
 Indicates one or more characteristics of an object.
 
@@ -132,6 +136,8 @@ PROPERTY Attributes (BYVAL lAttr AS LONG)
 | *lAttr* | The value can be the sum of one or more **XactAttributeEnum** values. The default is zero (0). |
 
 #### Return value
+
+One of the following values.
 
 #### XactAttributeEnum
 
@@ -152,8 +158,9 @@ When you set multiple attributes, you can sum the appropriate constants. If you 
 
 This property is not available on a client-side `Connection` object.
 
+---
 
-# <a name="BeginTrans"></a>BeginTrans
+## BeginTrans
 
 Begins a new transaction.
 
@@ -173,7 +180,7 @@ The nesting level of the transaction.
 
 Use **BeginTrans**, **CommitTrans** and **RollbackTrans** with a `Connection` object when you want to save or cancel a series of changes made to the source data as a single unit. For example, to transfer money between accounts, you subtract an amount from one and add the same amount to the other. If either update fails, the accounts no longer balance. Making these changes within an open transaction ensures that either all or none of the changes go through.
 
-Not all providers support transactions. Verify that the provider-defined property "Transaction DDL" appears in the `Connection` object's **Properties** collection, indicating that the provider supports transactions. If the provider does not support transactions, calling one of these methods will return an error.
+Not all providers support transactions. Verify that the provider-defined property "Transaction DDL" appears in the `Connection` object's `Properties` collection, indicating that the provider supports transactions. If the provider does not support transactions, calling one of these methods will return an error.
 
 After you call the **BeginTrans** method, the provider will no longer instantaneously commit changes you make until you call **CommitTrans** or **RollbackTrans** to end the transaction.
 
@@ -190,35 +197,39 @@ The **BeginTrans**, **CommitTrans**, and **RollbackTrans** methods are not avail
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Open the recordset
+' // === Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cvSource AS CVAR = "SELECT * FROM Authors"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+pRecordset.Open("SELECT * FROM Authors", pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-' // Begin a transaction
+' // === Begin a transaction
 pConnection.BeginTrans
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   DIM cvRes AS CVAR = pRecordset.Collect("Year Born")
-   IF cvRes.ValInt = 1947 THEN pRecordset.Collect("Year Born") = 1900
+   DIM dvRes AS DVARIANT = pRecordset.Collect("Year Born")
+   IF VAL(dvRes) = 1947 THEN pRecordset.Collect("Year Born") = 1900
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-' // Commit the transaction
+
+' // === Commit the transaction
 'pConnection.CommitTrans
-' // Rollback the transaction because this is a demo
+' // === Rollback the transaction because this is a demo
 pConnection.RollbackTrans
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 
 # <a name="Cancel"></a>Cancel
@@ -239,7 +250,7 @@ Use the **Cancel** method to terminate execution of an asynchronous method call 
 
 For a `Connection` object, the last asynchronous call to the **Execute** or **Open** methods is terminated.
 
-# <a name="Close"></a>Close
+## Close
 
 Closes a `Connection` object and any dependent objects.
 
@@ -260,6 +271,7 @@ Use the **Close** method to close a `Connection` to free any associated system r
 ```
 IF pConnection.State = adStateOpen THEN pConnection.Close
 ```
+...
 
 # <a name="CommandTimeout"></a>CommandTimeout
 
