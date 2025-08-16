@@ -135,7 +135,7 @@ PROPERTY Charset (BYREF wszCharset AS WSTRING)
 
 #### Return value
 
-CBSTR. The character set.
+DWSTRING. The character set.
 
 #### Remarks
 
