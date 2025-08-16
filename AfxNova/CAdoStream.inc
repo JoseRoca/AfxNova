@@ -26,8 +26,6 @@
 
 #pragma once
 
-NAMESPACE AfxNova
-
 ' ########################################################################################
 ' CAdoStream class
 ' ########################################################################################
@@ -93,7 +91,6 @@ TYPE CAdoStream EXTENDS CAdoBase
    DECLARE FUNCTION LoadFromFile (BYREF wszFileName AS WSTRING) AS HRESULT
    ' // Reads a specified number of characters, an entire line, or the entire stream from a Stream object and returns the resulting string.
    DECLARE FUNCTION ReadText (BYVAL NumChars AS LONG = adReadAll) AS DWSTRING
-   DECLARE FUNCTION ReadText (BYVAL NumChars AS LONG = adReadAll, BYREF wszText AS WSTRING) AS HRESULT
    ' // Cancels execution of a pending, asynchronous method call.
    DECLARE FUNCTION Cancel () AS HRESULT
 
@@ -427,15 +424,6 @@ PRIVATE FUNCTION CAdoStream.ReadText (BYVAL NumChars AS LONG = adReadAll) AS DWS
    RETURN dwsText
 END FUNCTION
 ' ===========================================================================================
-' ===========================================================================================
-PRIVATE FUNCTION CAdoStream.ReadText (BYVAL NumChars AS LONG = adReadAll, BYREF wszText AS WSTRING) AS HRESULT
-   CADODB_DP("")
-   DIM bstrText AS AFX_BSTR = SysAllocString(wszText)
-   IF m_pStream THEN SetResult(m_pStream->ReadText(NumChars, bstrText))
-   SysFreeString bstrText
-   RETURN m_Result
-END FUNCTION
-' ===========================================================================================
 
 ' ===========================================================================================
 ' Cancels execution of a pending, asynchronous method call.
@@ -445,5 +433,3 @@ PRIVATE FUNCTION CAdoStream.Cancel () AS HRESULT
    IF m_pStream THEN RETURN(SetResult(m_pStream->Cancel))
 END FUNCTION
 ' ===========================================================================================
-
-END NAMESPACE

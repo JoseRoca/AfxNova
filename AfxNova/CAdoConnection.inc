@@ -26,8 +26,6 @@
 
 #pragma once
 
-NAMESPACE AfxNova
-
 ' ########################################################################################
 ' CAdoConnection class
 ' ########################################################################################
@@ -37,12 +35,13 @@ TYPE CAdoConnection EXTENDS CAdoBase
    m_pConnection AS Afx_ADOConnection PTR
 
    DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYREF wszConStr AS WSTRING)
    DECLARE CONSTRUCTOR (BYVAL pConnection AS Afx_ADOConnection PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
    DECLARE DESTRUCTOR
 '   DECLARE OPERATOR @ () AS Afx_ADOConnection PTR PTR
    DECLARE FUNCTION vptr () AS Afx_ADOConnection PTR PTR
 
-   ' // Attaches a reference to an Afx_ADOCommand object to the class
+   ' // Attaches a reference to an Afx_ADOConnection object to the class
    DECLARE SUB Attach (BYVAL pConnection AS Afx_ADOConnection PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
    ' // * Sets or returns the connection string
    DECLARE PROPERTY ConnectionString () AS DWSTRING
@@ -106,22 +105,37 @@ END TYPE
 ' Default constructor
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CAdoConnection
-   CADODB_DP("BEGIN")
    ' // Create an instance of the Connection object
 '   DIM CLSID_Connection_ AS GUID = (&h00000514, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
 '   DIM IID_Connection_ AS GUID = (&h00001550, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
 '   SetResult(CoCreateInstance(@CLSID_Connection_, NULL, CLSCTX_INPROC_SERVER, @IID_Connection_, @m_pConnection))
    m_pConnection = AfxNewCom("ADODB.Connection")
-   CADODB_DP("END " & WSTR(m_pConnection))
+   CADODB_DP(WSTR(m_pConnection))
 END CONSTRUCTOR
 ' ========================================================================================
+
+' ===========================================================================================
+' Creates an instance of the COnnection onject and sets the connection string
+' ===========================================================================================
+PRIVATE CONSTRUCTOR CAdoConnection (BYREF wszConStr AS WSTRING)
+   'CADODB_DP("BEGIN")
+   ' // Creates an instance of the Connection object
+   m_pConnection = AfxNewCom("ADODB.Connection")
+   ' // Set the connection string
+   DIM bstrConStr AS AFX_BSTR = SysAllocString(wszConStr)
+   IF m_pConnection THEN SetResult(m_pConnection->put_ConnectionString(bstrConStr))
+   SysFreeString bstrConStr
+   CADODB_DP("END " & WSTR(m_pConnection))
+END CONSTRUCTOR
+' ===========================================================================================
+
 ' ========================================================================================
 ' Attaches a reference to an Afx_ADOCommand object to the class
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CAdoConnection (BYVAL pConnection AS Afx_ADOConnection PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
    CADODB_DP("Afx_ADOConnection")
    m_pConnection = pConnection
-   IF m_pConnection THEN
+   IF m_pConnection THEN 
       IF fAddRef THEN m_pConnection->AddRef
    END IF
 END CONSTRUCTOR
@@ -238,6 +252,7 @@ END PROPERTY
 ' * Closes a Connection object and any dependent objects
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoConnection.Close () AS HRESULT
+   CADODB_DP("")
    IF m_pConnection THEN RETURN(SetResult(m_pConnection->Close))
 END FUNCTION
 ' ===========================================================================================
@@ -457,5 +472,3 @@ PRIVATE FUNCTION CAdoConnection.GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DW
    RETURN AfxAdoGetErrorInfo(m_pConnection, nError)
 END FUNCTION
 ' ===========================================================================================
-
-END NAMESPACE
