@@ -743,7 +743,7 @@ If the **Count** property is zero, there are no objects in the collection.
 Deletes an object from the `Parameters` collection.
 
 ```
-FUNCTION Delete_ (BYREF cvIndex AS CVAR) AS HRESULT
+FUNCTION Delete_ (BYREF dvIndex AS DVARIANT) AS HRESULT
 ```
 
 | Parameter  | Description |
