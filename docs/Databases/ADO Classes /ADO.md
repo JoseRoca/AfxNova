@@ -452,13 +452,13 @@ NEXT
 Sets or returns a Variant value that indicates the value of the object. Default value depends on the **Type_** property.
 
 ```
-PROPERTY Value () AS CVAR
-PROPERTY Value (BYREF cvValue AS CVAR)
+PROPERTY Value () AS DVARIANT
+PROPERTY Value (BYREF dvValue AS DVARIANT)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvValue* | CVAR. The value of the **Property** object. |
+| *dvValue* | The value of the **Property** object. |
 
 #### Example
 
@@ -501,6 +501,8 @@ PROPERTY Count () AS LONG
 Because numbering for members of a collection begins with zero, you should always code loops starting with the zero member and ending with the value of the Count property minus 1.
 
 If the **Count** property is zero, there are no objects in the collection.
+
+---
 
 ## Item (CADOProperties Class)
 
