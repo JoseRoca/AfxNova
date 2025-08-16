@@ -3068,7 +3068,6 @@ FUNCTION Update ( _
 S_OK (0) or an HRESULT code.
 
 #### Example
-+++++++++++++
 ```
 #include "AfxNova/CADODB.inc"
 USING AfxNova
