@@ -626,6 +626,10 @@ S_OK (0) or an HRESULT code.
 
 #### Remarks
 
+If there is data in the `Stream` object and the current position is **EOS**, the new data will be appended beyond the existing data. If the current position is not **EOS**, the existing data will be overwritten. 
+
+If you write past **EOS**, the size of the `Stream` will increase. **EOS** will be set to the last byte in the `Stream`. If you don't write past **EOS**, the current position will be set to the next byte after the newly added data. Previously existing data will not be truncated. Call the **SetEOS** method to truncate. 
+
 To fill the variant with binary data use the **AfxVariantFromBuffer** function.
 
 ---
