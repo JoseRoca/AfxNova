@@ -541,3 +541,5 @@ S_OK (0) or an HRESULT code.
 #### Remarks
 
 Using the **Refresh** method on a **Properties** collection of some objects populates the collection with the dynamic properties that the provider exposes. These properties provide information about functionality specific to the provider, beyond the built-in properties ADO supports.
+
+---
