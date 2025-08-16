@@ -521,33 +521,36 @@ An **ExecuteComplete** event will be issued when this operation concludes.
 #include "AfxNova/CADODB.inc"
 USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
+pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
 
-' // Create a Command object
+' // == Create a Command object
 DIM pCommand AS CAdoCommand
 
-' // Set the active connection
+' // === Set the active connection
 pCommand.ActiveConnection = pConnection
 
-' // Set the CommandText property
+' // === Set the CommandText property
 pCommand.CommandText = "SELECT TOP 20 * FROM Authors ORDER BY Author"
 
-' // Create the recordset by executing a query and attaching
-' // the resulting recordset to an instance of the CAdoRecordset class.
-DIM pRecordset AS CAdoRecordset
-pRecordset.Attach(pCommand.Execute)
+' // === Create the recordset by executing a query and attaching
+' // === the resulting recordset to an instance of the CAdoRecordset class.
+DIM pRecordset AS CAdoRecordset = pCommand.Execute
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   PRINT = pRecordset.Collect("Author")
+   PRINT pRecordset.Collect("Author")
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 ---
 
