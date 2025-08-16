@@ -261,7 +261,7 @@ FUNCTION LoadFromFile (BYREF wszFileName AS WSTRING) AS HRESULT
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *wszFileName* | A string value that contains the name of a file to be loaded into the `Stream`. *cbsFileName* can contain any valid path and name in UNC format. If the specified file does not exist, a run-time error occurs. |
+| *wszFileName* | A string value that contains the name of a file to be loaded into the `Stream`. *wszFileName* can contain any valid path and name in UNC format. If the specified file does not exist, a run-time error occurs. |
 
 #### Remarks
 
