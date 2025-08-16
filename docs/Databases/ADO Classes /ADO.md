@@ -4,14 +4,14 @@ Microsoft ActiveX Data Objects (ADO) enable your client applications to access a
 
 `CADODB` are a collection of classes to allow working with ADO using the FreeBasic compilers.
 
-The `CADOBase` object, from which the other ADO classes inherit, initializes and uninitializes the COM library and implements two methods, **GetLastResult** and **SetResult** used by the derived classes to store the result codes of ADO calls.
+The `CAdoBase` object, from which the other ADO classes inherit, initializes and uninitializes the COM library and implements two methods, **GetLastResult** and **SetResult** used by the derived classes to store the result codes of ADO calls.
 
 **Folder**: AfxNova/CADODB<br>
 **Files**: CADODB.inc, CADOCommand.inc, CADOConnection.inc, CADOErrors.inc, CADOFields.inc, CADOParameters.inc, CADOProperties.inc, CADORecord.inc, CADORecordset.inc, CADOStream.inc.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [CADOBase Class](#cadobase) | Base class for all the other ADO classes. |
+| [CAdoBase Class](#cadobase) | Base class for all the other ADO classes. |
 | [ADO Object Model](#adoobjectmodel) | ADO objects and their collections. |
 | [ADO Identifiers](#adoidentifiers) | PROGIDs, CLSIDs and IIDs. |
 | [ADO Errors](#adoerrors) | ADO errors. |
@@ -21,7 +21,7 @@ The `CADOBase` object, from which the other ADO classes inherit, initializes and
 
 # <a name="cadobase"></a>CAdoBase Class
 
-The `CADOBase` class, from which the other ADO classes inherit, initializes and uninitializes the COM library and implements two methods, **GetLastResult** and **SetResult** used by the derived classes to store the result codes of ADO calls.
+The `CAdpBase` class, from which the other ADO classes inherit, initializes and uninitializes the COM library and implements two methods, **GetLastResult** and **SetResult** used by the derived classes to store the result codes of ADO calls.
 
 ## GetLastResult
 
