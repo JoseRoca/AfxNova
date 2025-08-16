@@ -683,7 +683,7 @@ pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText
 
 ' // Disconnect the recordset by setting its active connection to null.
 ' // Casting to Afx_ADOConnection PTR is needed to get the correct overloaded method called;
-' // otherwise, the CVAR version will be called and it will fail.
+' // otherwise, the DVARIANT version will be called and it will fail.
 pRecordset.ActiveConnection = cast(Afx_ADOConnection PTR, NULL)
 
 ' // Close and release the connection
@@ -823,7 +823,7 @@ TRUE if the current record position is after the last record; FALSE, otherwise.
 Sets or returns a Variant expression that evaluates to a valid bookmark.
 
 ```
-PROPERTY Bookmark () AS CVAR
+PROPERTY Bookmark () AS DVARIANT
 PROPERTY Bookmark (BYREF dvBookmark AS DVARIANT)
 ```
 
@@ -1050,14 +1050,14 @@ Sets or returns a Variant value that indicates the value of the object
 The ADO Recorset object exposes a hidden member: the **Collect** property. This property is functionally similar to the `Field`'s **Value** property, but it doesn't need a reference (explicit or implicit) to the `Field` object. You can pass either a numeric index or a field's name to this property.
 
 ```
-PROPERTY Collect (BYREF cvIndex AS CVAR) AS CVAR
-PROPERTY Collect (BYREF cvIndex AS CVAR, BYREF cvValue AS CVAR)
+PROPERTY Collect (BYREF dvIndex AS DVARIANT) AS DVARIANT
+PROPERTY Collect (BYREF dvIndex AS DVARIANT, BYREF dvValue AS DVARIANT)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvIndex* | The zero-based ordinal number of the field or the name of the field. |
-| *cvValue* | The value to assign to the field. |
+| *dvIndex* | The zero-based ordinal number of the field or the name of the field. |
+| *dvValue* | The value to assign to the field. |
 
 #### Return value
 
@@ -1139,13 +1139,13 @@ pConnection.Close
 Compares two bookmarks and returns an indication of their relative values.
 
 ```
-FUNCTION CompareBookmarks (BYREF cvBookmark1 AS CVAR, BYREF cvBookmark2 AS CVAR) AS CompareEnum
+FUNCTION CompareBookmarks (BYREF dvBookmark1 AS DVARIANT, BYREF dvBookmark2 AS DVARIANT) AS CompareEnum
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvBookmark1* | The bookmark of the first row. |
-| *cvBookmark2* | The bookmark of the second row. |
+| *dvBookmark1* | The bookmark of the first row. |
+| *dvBookmark2* | The bookmark of the second row. |
 
 #### Return value
 
@@ -2725,12 +2725,12 @@ pConnection.Close
 Searches the index of a `Recordset` to quickly locate the row that matches the specified values, and changes the current row position to that row.
 
 ```
-FUNCTION Seek (BYREF KeyValues AS CVAR, BYVAL SeekOption AS SeekEnum = adSeekFirstEQ) AS HRESULT
+FUNCTION Seek (BYREF dvKeyValues AS DVARIANT, BYVAL SeekOption AS SeekEnum = adSeekFirstEQ) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvKeyValues* | An array of Variant values. An index consists of one or more columns and the array contains a value to compare against each corresponding column. |
+| *dvKeyValues* | An array of Variant values. An index consists of one or more columns and the array contains a value to compare against each corresponding column. |
 | *SeekOption* | Optional. A **SeekEnum** value that specifies the type of comparison to be made between the columns of the index and the corresponding *KeyValues*. |
 
 #### SeekEnum
