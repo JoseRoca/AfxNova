@@ -675,7 +675,7 @@ For a field, **NumericScale** is normally read-only. However, for new fields tha
 Indicates the value of a field that existed in the record before any changes were made.
 
 ```
-PROPERTY OriginalValue () AS CVAR
+PROPERTY OriginalValue () AS DVARIANT
 ```
 
 #### Return value
@@ -883,7 +883,7 @@ For all other objects, the **Type_** property is read-only.
 Returns the current field's value in the database.
 
 ```
-PROPERTY UnderlyingValue () AS CVAR
+PROPERTY UnderlyingValue () AS DVARIANT
 ```
 ---
 
