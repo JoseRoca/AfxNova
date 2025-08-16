@@ -275,6 +275,40 @@ After a call to **LoadFromFile**, the current position is set to the beginning o
 
 Because 2 bytes may be added to the beginning of the stream for encoding, the size of the stream may not exactly match the size of the file from which it was loaded.
 
+#### Examples
+
+```
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
+
+' // Open a stream in memory
+DIM pStream AS CAdoStream
+pStream.Charset = "_autodetect"
+pStream.Open
+' // Load a file in the stream
+DIM hr AS HRESULT = pStream.LoadFromFile(ExePath & "\Test1.bas")
+' // Read all the text
+PRINT pStream.ReadText
+' // Close the stream
+pStream.Close
+```
+```
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
+
+' // Open a stream in memory
+DIM pStream AS CAdoStream
+pStream.Charset = "_autodetect"
+pStream.Open
+' // Load a file in the stream
+DIM hr AS HRESULT = pStream.LoadFromFile(ExePath & "\Test1.bas")
+' // Read the text line by line
+DO WHILE NOT pStream.EOS
+   PRINT pStream.ReadText(adReadLine)
+LOOP
+' // Close the stream
+pStream.Close
+```
 ---
 
 ## Mode
