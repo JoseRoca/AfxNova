@@ -316,7 +316,7 @@ Opens a connection to a data source.
 FUNCTION Open (BYREF dvSource AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
    BYVAL nMode AS ConnectModeEnum = adModeUnknown, _
    BYVAL Options AS StreamOpenOptionsEnum = adOpenStreamUnspecified, _
-   BYREF wszUserName AS WsTRING = "", BYREF wszPassword AS WSTRING = "") AS HRESULT
+   BYREF wszUserName AS WSTRING = "", BYREF wszPassword AS WSTRING = "") AS HRESULT
 ```
 
 | Parameter  | Description |
