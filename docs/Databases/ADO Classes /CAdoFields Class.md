@@ -30,6 +30,8 @@ If you attempt to reference a nonexistent field by name, a new `Field` object wi
 | [Resync](#Resync) | Resynchronizes the contents of the `Fields` collection. |
 | [Update](#Update) | Saves any changes you make to the current `Fields` collection of a `Record` object. |
 
+---
+
 # CADOField Class
 
 Represents a column of data with a common data type.
