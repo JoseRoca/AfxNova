@@ -10,7 +10,7 @@ Represents the entire set of records from a base table or the results of an exec
 | ---------- | ----------- |
 | [AbsolutePage](#absolutepage) | Sets or returns a Long value from 1 to the number of pages in the `Recordset` object (**PageCount**), or returns one of the **PositionEnum** values. |
 | [AbsolutePosition](#absoluteposition) | A value from 1 to the number of records in the `Recordset` object (**RecordCount**). |
-| [ActiveCommand](#activecommand) | Indicates the **Command** object that created the associated `Recordset` object. |
+| [ActiveCommand](#activecommand) | Indicates the `Command` object that created the associated `Recordset` object. |
 | [ActiveConnection](#activeconnection) | Sets or returns a BSTR value that contains a definition for a connection if the connection is closed, or a Variant containing the current **Connection** object if the connection is open. Default is a null object reference. |
 | [AddNew](#addnew) | Creates a new record for an updatable `Recordset` object. |
 | [Attach](#attach) | Attaches a recordset to the class. |
@@ -31,7 +31,7 @@ Represents the entire set of records from a base table or the results of an exec
 | [Delete_](#delete_) | Deletes the current record or a group of records. |
 | [EditMode](#editmode) | Indicates the editing status of the current record. |
 | [EOF](#eof) | Indicates that the current record position is after the last record in a `Recordset` object. |
-| [Fields](#fields) | Gets a reference to the `Fields` collection of a **Record** object. |
+| [Fields](#fields) | Gets a reference to the `Fields` collection of a `Record` object. |
 | [Filter](#filter) | Indicates a filter for data in a `Recordset`. |
 | [Find](#find) | Searches a `Recordset` for the row that satisfies the specified criteria. |
 | [GetErrorInfo](#geterrorinfo) | Returns information about ADO errors. |
@@ -95,7 +95,7 @@ Recordset objects can support two types of updating: immediate and batched. In i
 
 If a provider supports batch updating, you can have the provider cache changes to more than one record and then transmit them in a single call to the database with the **UpdateBatch** method. This applies to changes made with the **AddNew**, **Update**, and **Delete_** methods. After you call the **UpdateBatch** method, you can use the **Status** property to check for any data conflicts in order to resolve them.
 
-**Note**: To execute a query without using a **Command** object, pass a query string to the **Open** method of a `Recordset` object. However, a **Command** object is required when you want to persist the command text and re-execute it, or use query parameters.
+**Note**: To execute a query without using a `Command` object, pass a query string to the **Open** method of a `Recordset` object. However, a `Command` object is required when you want to persist the command text and re-execute it, or use query parameters.
 
 The **Mode** property governs access permissions.
 
@@ -103,7 +103,7 @@ A `Recordset` object has a `Fields` collection made up of `Field` objects. Each 
 
 The `Fields` collection has an **Append** method, which provisionally creates and adds a `Field` object to the collection, and an Update method, which finalizes any additions or deletions.
 
-Certain providers (for example, the Microsoft OLE DB Provider for Internet Publishing) may populate the `Fields` collection with a subset of available fields for the **Record** or `Recordset`. Other fields will not be added to the collection until they are first referenced by name or indexed by your code.
+Certain providers (for example, the Microsoft OLE DB Provider for Internet Publishing) may populate the `Fields` collection with a subset of available fields for the `Record` or `Recordset`. Other fields will not be added to the collection until they are first referenced by name or indexed by your code.
 
 If you attempt to reference a nonexistent field by name, a new `Field` object will be appended to the `Fields` collection with a **Status** of **adFieldPendingInsert**. When you call **Update**, ADO will create a new field in your data source if allowed by your provider.
 
@@ -393,20 +393,20 @@ Like the **AbsolutePosition** property, **AbsolutePage** is 1-based and equals 1
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Set the cursor location
 DIM pRecordset AS CAdoRecordset
 pRecordset.CursorLocation = adUseClient
 
 ' // Open the recordset
-DIM cvSource AS CVAR = "SELECT * FROM Publishers"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+DIM dvSource AS DVARIANT = "SELECT * FROM Publishers"
+pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
 ' // Display five records at a time
 DIM nPageSize AS LONG = 5
@@ -420,17 +420,21 @@ FOR i AS LONG = 1 TO nPageCount
    pRecordset.AbsolutePage = i
    FOR x AS LONG = 1 TO nPageSize
       ' // Get the content of the "Name" column
-      DIM cvRes AS CVAR = pRecordset.Collect("Name")
-      PRINT cvRes
+      PRINT pRecordset.Collect("Name")
       ' // Fetch the next row
       pRecordset.MoveNext
       IF pRecordset.EOF THEN EXIT FOR
    NEXT
-   PRINT
 NEXT
-```
 
-# <a name="AbsolutePosition"></a>AbsolutePosition
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## <a name="AbsolutePosition"></a>AbsolutePosition
 
 Sets or returns a Long value from 1 to the number of records in the `Recordset` object (**RecordCount**), or returns one of the **PositionEnum** values.
 
@@ -472,37 +476,40 @@ When you set the **AbsolutePosition** property, even if it is to a record in the
 This example demonstrates how the **AbsolutePosition** property can track the progress of a loop that enumerates all the records of a `Recordset`. It uses the **CursorLocation** property to enable the **AbsolutePosition** property by setting the cursor to a client cursor.
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Set the cursor location
+' // === Set the cursor location
 DIM pRecordset AS CAdoRecordset
 pRecordset.CursorLocation = adUseClient
 
-' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTable)
+' // === Open the recordset
+pRecordset.Open("Publishers", pConnection, adOpenKeyset, adLockOptimistic, adCmdTable)
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
-   ' // Get the contents of the "City" and "Name" columns
-   DIM cvRes AS CVAR = pRecordset.Collect("Name")
-   PRINT "Position: "; pRecordset.AbsolutePosition; " "; cvRes
 
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
+   ' // Get the content of the "Name" column
+   DIM dvRes AS DVARIANT = pRecordset.Collect("Name")
+   PRINT "Position: "; pRecordset.AbsolutePosition; " "; dvRes
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 
-# <a name="ActiveCommand"></a>ActiveCommand
+## ActiveCommand
 
-Indicates the **Command** object that created the associated `Recordset` object.
+Indicates the `Command` object that created the associated `Recordset` object.
 
 ```
 PROPERTY ActiveCommand () AS Afx_ADOCommand PTR
@@ -510,13 +517,13 @@ PROPERTY ActiveCommand () AS Afx_ADOCommand PTR
 
 #### Return value
 
-A **Command** object reference.
+A `Command` object reference.
 
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' ========================================================================================
 ' The ShowActiveCommand routine is given only a Recordset object, yet it must print the
@@ -528,19 +535,19 @@ using Afx
 SUB ShowActiveCommand (BYREF pConnection AS CAdoConnection, BYREF pRecordset AS CAdoRecordset)
 
    DIM pCommand AS CAdoCommand = pRecordset.ActiveCommand
-   DIM cbsCommandText AS CBSTR = pCommand.CommandText
+   DIM dwsCommandText AS DWSTRING = pCommand.CommandText
    DIM pParameters AS CAdoParameters = pCommand.Parameters
    DIM pParameter AS CAdoParameter = pParameters.Item("Name")
-   DIM cvValue AS CVAR = pParameter.Value
-   PRINT "Command text: "; cbsCommandText
-   PRINT "Parameter: "; cvValue
+   DIM dvValue AS DVARIANT = pParameter.Value
+   PRINT "Command text: "; dwsCommandText
+   PRINT "Parameter: "; dvValue
 
    IF pRecordset.BOF THEN
-      PRINT "Name = '"; cvValue; "'not found"
+      PRINT "Name = '"; dvValue; "'not found"
    ELSE
-      DIM cvAuthor AS CVAR = pRecordset.Collect("Author")
-      DIM cvID AS CVAR = pRecordset.Collect("Author")
-      PRINT "Name= "; cvAuthor; ","; cvID
+      DIM dvAuthor AS DVARIANT = pRecordset.Collect("Author")
+      DIM dvID AS DVARIANT = pRecordset.Collect("Author")
+      PRINT "Name= "; dvAuthor; ","; dvID
    END IF
 
 END SUB
@@ -548,7 +555,7 @@ END SUB
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' Set the ADOCommand active connection
 DIM pCommand AS CAdoCommand
@@ -557,7 +564,7 @@ pCommand.ActiveConnection = pConnection
 ' //Set the command text
 pCommand.CommandText = "SELECT * FROM Authors WHERE Author = ?"
 ' // Create the parameter
-DIM pParameter AS CADOParameter = pCommand.CreateParameter("Name", adChar, adParamInput, 255, "Bard, Dick")
+DIM pParameter AS CAdoParameter = pCommand.CreateParameter("Name", adChar, adParamInput, 255, "Bard, Dick")
 ' // Add the parameter to the collection
 DIM pParameters AS CAdoParameters = pCommand.Parameters
 pParameters.Append(pParameter)
@@ -566,14 +573,20 @@ pParameters.Append(pParameter)
 DIM pRecordset AS CAdoRecordset = pCommand.Execute
 ' // Display the results
 ShowActiveCommand pConnection, pRecordset
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
+---
 
 # <a name="ActiveConnection"></a>ActiveConnection
 
 Sets or returns an string value that contains a definition for a connection if the connection is closed, or a Variant containing the current **Connection** object if the connection is open. Default is a null object reference.
 
 ```
-PROPERTY ActiveConnection (BYREF vConn AS CVAR)
+PROPERTY ActiveConnection (BYREF vConn AS DVARIANT)
 PROPERTY ActiveConnection (BYVAL pconn AS Afx_ADOConnection PTR)
 PROPERTY ActiveConnection (BYREF pconn AS CAdoConnection)
 PROPERTY ActiveConnection () AS Afx_ADOConnection
@@ -592,13 +605,13 @@ A reference to the **Afx_ADOConnection** object. You must release it calling the
 
 Use the **ActiveConnection** property to determine the **Connection** object over which the specified `Recordset` will be opened.
 
-For open `Recordset` objects or for `Recordset` objects whose **Source** property is set to a valid **Command** object, the **ActiveConnection** property is read-only. Otherwise, it is read/write.
+For open `Recordset` objects or for `Recordset` objects whose **Source** property is set to a valid `Command` object, the **ActiveConnection** property is read-only. Otherwise, it is read/write.
 
 You can set this property to a valid **Connection** object or to a valid connection string. In this case, the provider creates a new **Connection** object using this definition and opens the connection. Additionally, the provider may set this property to the new **Connection** object to give you a way to access the **Connection** object for extended error information or to execute other commands.
 
 If you use the **ActiveConnection** argument of the **Open** method to open a `Recordset` object, the **ActiveConnection** property will inherit the value of the argument.
 
-If you set the **Source** property of the `Recordset` object to a valid **Command** object variable, the **ActiveConnection** property of the `Recordset` inherits the setting of the **Command** object's **ActiveConnection** property.
+If you set the **Source** property of the `Recordset` object to a valid `Command` object variable, the **ActiveConnection** property of the `Recordset` inherits the setting of the `Command` object's **ActiveConnection** property.
 
 #### Remote Data Service Usage
 
@@ -607,36 +620,35 @@ When used on a client-side `Recordset` object, this property can be set only to 
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Create a Recordset object
 DIM pRecordset AS CAdoRecordset
 ' // Set the active connection
 pRecordset.ActiveConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
 ' // Open the recordset
-DIM cvSource AS CVAR = "SELECT TOP 20 * FROM Authors ORDER BY Author"
-DIM hr AS HRESULT = pRecordset.Open(cvSource)
+DIM dvSource AS DVARIANT = "SELECT TOP 20 * FROM Authors ORDER BY Author"
+DIM hr AS HRESULT = pRecordset.Open(dvSource)
 ```
 
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Create a Connection object
 DIM pConnection AS CAdoConnection
 ' // Create a Recordset object
 DIM pRecordset AS CAdoRecordset
 ' // Open the connection
-DIM ccConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 ' // Set the active connection
 pRecordset.ActiveConnection = pConnection
 ' // Open the recordset
-DIM cvSource AS CVAR = "SELECT TOP 20 * FROM Authors ORDER BY Author"
-DIM hr AS HRESULT = pRecordset.Open(cvSource)
+DIM dvSource AS CDVARIANTVAR = "SELECT TOP 20 * FROM Authors ORDER BY Author"
+DIM hr AS HRESULT = pRecordset.Open(dvSource)
 ```
 
 #### Disconnected recordset
@@ -654,8 +666,8 @@ Disconnecting a recordset can be done by setting the **ActiveConnection** proper
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection PTR = NEW CAdoConnection
@@ -666,8 +678,8 @@ DIM pRecordset AS CAdoRecordset
 ' // Setting the cursor location to client side is important to get a disconnected recordset
 pRecordset.CursorLocation = adUseClient
 ' // Open the recordset
-DIM cvSource AS CVAR = "SELECT * FROM Authors"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+DIM dvSource AS DVARIANT = "SELECT * FROM Authors"
+pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
 ' // Disconnect the recordset by setting its active connection to null.
 ' // Casting to Afx_ADOConnection PTR is needed to get the correct overloaded method called;
@@ -678,32 +690,34 @@ pRecordset.ActiveConnection = cast(Afx_ADOConnection PTR, NULL)
 Delete pConnection
 
 ' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   DIM cvRes AS CVAR = pRecordset.Collect("Author")
-   PRINT cvRes
+   DIM dvRes AS DVARIANT = pRecordset.Collect("Author")
+   PRINT dvRes
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-```
 
-# <a name="AddNew"></a>AddNew
+' // === Close the recordset
+pRecordset.Close
+```
+---
+
+## AddNew
 
 Creates a new record for an updatable `Recordset` object.
 
 ```
 FUNCTION AddNew ( _
-   BYREF cvFieldList AS CVAR = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
-   BYREF cvValues AS CVAR = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND) _
+   BYREF dvFieldList AS DVARIANT = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
+   BYREF dvValues AS DVARIANT = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND) _
 ) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvFieldList* | Optional. A single name, or an array of names or ordinal positions of the fields in the new record. |
-| *cvValues* | Optional. A single value, or an array of values for the fields in the new record. If *vFieldlist* is an array, *vValues* must also be an array with the same number of members; otherwise, an error occurs. The order of field names must match the order of field values in each array. |
+| *dvFieldList* | Optional. A single name, or an array of names or ordinal positions of the fields in the new record. |
+| *dvValues* | Optional. A single value, or an array of values for the fields in the new record. If *vFieldlist* is an array, *vValues* must also be an array with the same number of members; otherwise, an error occurs. The order of field names must match the order of field values in each array. |
 
 #### Return value
 
@@ -726,33 +740,38 @@ In batch update mode (in which the provider caches multiple changes and writes t
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
-
-' // Create a Connection object
-DIM pConnection AS CAdoConnection
-' // Create a Recordset object
-DIM pRecordset AS CAdoRecordset
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
+DIM pConnection AS CAdoConnection
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
+DIM pRecordset AS CAdoRecordset
+pRecordset.Open("Publishers", pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
 
-' // Add a new record
 pRecordset.AddNew
-   pRecordset.Collect("PubID") = CLNG(10000)
+   pRecordset.Collect("PubID") = DVARIANT(10000, "LONG")
    pRecordset.Collect("Name") = "Wile E. Coyote"
    pRecordset.Collect("Company Name") = "Warner Brothers Studios"
    pRecordset.Collect("Address") = "4000 Warner Boulevard"
    pRecordset.Collect("City") = "Burbank, CA. 91522"
-pRecordset.Update
+
+DIM hr AS HRESULT = pRecordset.Update
+IF hr = S_OK THEN
+   print "Record updated"
+ELSE
+   print pRecordset.GetErrorInfo(hr)
+END IF
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 
-# <a name="Attach"></a>Attach
+## Attach
 
 Attaches a recordset to the class.
 
@@ -769,7 +788,9 @@ FUNCTION Attach (BYVAL pRecordset AS AFX_ADORecordset PTR, BYVAL fAddRef AS BOOL
 
 S_OK or an HRESULT code.
 
-# <a name="BOF"></a>BOF
+---
+
+## BOF
 
 Indicates that the current record position is before the first record in a `Recordset` object.
 
@@ -781,7 +802,9 @@ PROPERTY BOF () AS BOOLEAN
 
 TRUE if the current record position is before the first record; FALSE, otherwise.
 
-# <a name="EOF"></a>EOF
+---
+
+## EOF
 
 Indicates that the current record position is after the last record in a `Recordset` object.
 
@@ -793,13 +816,15 @@ PROPERTY EOF () AS BOOLEAN
 
 TRUE if the current record position is after the last record; FALSE, otherwise.
 
-# <a name="Bookmark"></a>Bookmark
+---
+
+## Bookmark
 
 Sets or returns a Variant expression that evaluates to a valid bookmark.
 
 ```
 PROPERTY Bookmark () AS CVAR
-PROPERTY Bookmark (BYREF cvBookmark AS CVAR)
+PROPERTY Bookmark (BYREF dvBookmark AS DVARIANT)
 ```
 
 #### Return value
@@ -820,8 +845,9 @@ If you use the **Clone** method to create a copy of a `Recordset` object, the **
 
 When used on a client-side Recordset object, the **Bookmark** property is always available.
 
+---
 
-# <a name="CacheSize"></a>CacheSize
+## CacheSize
 
 Sets or returns a Long value that must be greater than 0. Default is 1.
 
@@ -854,7 +880,9 @@ Records retrieved from the cache don't reflect concurrent changes that other use
 
 If **CacheSize** is set to a value greater than one, the navigation methods (**Move**, **MoveFirst**, **MoveLast**, **MoveNext**, and **MovePrevious**) may result in navigation to a deleted record, if deletion occurs after the records were retrieved. After the initial fetch, subsequent deletions will not be reflected in your data cache until you attempt to access a data value from a deleted row. However, setting **CacheSize** to one eliminates this issue since deleted rows cannot be fetched.
 
-# <a name="Cancel"></a>Cancel
+---
+
+## Cancel
 
 Cancels execution of a pending, asynchronous method call.
 
@@ -872,7 +900,9 @@ Use the **Cancel** method to terminate execution of an asynchronous method call 
 
 For a `Recordset` object, the last asynchronous call to the **Open** method is terminated.
 
-# <a name="CancelBatch"></a>CancelBatch
+---
+
+## CancelBatch
 
 Cancels a pending batch update.
 
@@ -909,7 +939,9 @@ It's possible that the current record will be indeterminable after a **CancelBat
 
 If the attempt to cancel the pending updates fails because of a conflict with the underlying data (for example, a record has been deleted by another user), the provider returns warnings to the **Errors** collection but does not halt program execution. A run-time error occurs only if there are conflicts on all the requested records. Use the **Filter** property (**adFilterAffectedRecords**) and the **Status** property to locate records with conflicts.
 
-# <a name="CancelUpdate"></a>CancelUpdate
+---
+
+## CancelUpdate
 
 Cancels any changes made to the current or new row of a `Recordset` object before calling the **Update** method.
 
@@ -929,7 +961,9 @@ If you are adding a new row when you call the **CancelUpdate** method, the curre
 
 If you are in edit mode and want to move off the current record (for example, with **Move**, **NextRecordset**, or **Close**), you can use **CancelUpdate** to cancel any pending changes. You may need to do this if the update cannot successfully be posted to the data source (for example, an attempted delete that fails due to referential integrity violations will leave the `Recordset` in edit mode after a call to **Delete_**).
 
-# <a name="Clone"></a>Clone
+---
+
+## Clone
 
 Creates a duplicate `Recordset` object from an existing **Recordset object**. Optionally, specifies that the clone be read-only.
 
@@ -989,7 +1023,9 @@ The following table provided a full listing of all `Recordset` events and indica
 | **WillChangeRecordset** | No |
 | **WillMove** | No |
 
-# <a name="Close"></a>Close
+---
+
+## Close
 
 Closes a `Recordset` object and any dependent objects.
 
@@ -1005,7 +1041,9 @@ S_OK (0) or an HRESULT code.
 
 Use the **Close** method to close a `Recordset` to free any associated system resources. Closing an object does not remove it from memory; you can change its property settings and open it again later. To completely eliminate an object from memory, release the connection calling the **Release** method.
 
-# <a name="Collect"></a>Collect
+---
+
+## Collect
 
 Sets or returns a Variant value that indicates the value of the object
 
@@ -1028,64 +1066,75 @@ The value of the field.
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
-
-' // Create a Connection object
-DIM pConnection AS CAdoConnection
-' // Create a Recordset object
-DIM pRecordset AS CAdoRecordset
+#define UNICODE
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
+DIM pConnection AS CAdoConnection
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
+DIM pRecordset AS CAdoRecordset
+pRecordset.Open("Publishers", pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
 
-' // Add a new record
 pRecordset.AddNew
-   pRecordset.Collect("PubID") = CLNG(10000)
+   pRecordset.Collect("PubID") = DVARIANT(10000, "LONG")
    pRecordset.Collect("Name") = "Wile E. Coyote"
    pRecordset.Collect("Company Name") = "Warner Brothers Studios"
    pRecordset.Collect("Address") = "4000 Warner Boulevard"
    pRecordset.Collect("City") = "Burbank, CA. 91522"
-pRecordset.Update
+
+DIM hr AS HRESULT = pRecordset.Update
+IF hr = S_OK THEN
+   print "Record updated"
+ELSE
+   print pRecordset.GetErrorInfo(hr)
+END IF
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#define UNICODE
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Set the cursor location
+' // === Set the cursor location
 DIM pRecordset AS CAdoRecordset
 pRecordset.CursorLocation = adUseClient
 
-' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTable)
+' // === Open the recordset
+pRecordset.Open("Publishers", pConnection, adOpenKeyset, adLockOptimistic, adCmdTable)
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
-   ' // Get the contents of the "City" and "Name" columns
-   DIM cvRes AS CVAR = pRecordset.Collect("Name")
-   PRINT "Position: "; pRecordset.AbsolutePosition; " "; cvRes
 
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
+   ' // Get the content of the "Name" column
+   DIM dvRes AS DVARIANT = pRecordset.Collect("Name")
+   PRINT "Position: "; pRecordset.AbsolutePosition; " "; dvRes
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-```
 
-# <a name="CompareBookmarks"></a>CompareBookmarks
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## CompareBookmarks
 
 Compares two bookmarks and returns an indication of their relative values.
 
@@ -1126,7 +1175,9 @@ When comparing bookmarks, ADO does not attempt any type of coercion. The values 
 
 A bookmark that is not valid or incorrectly formed will cause an error.
 
-# <a name="CursorLocation"></a>CursorLocation
+---
+
+## CursorLocation
 
 Indicates the location of the cursor service.
 
@@ -1153,7 +1204,9 @@ Specifies the location of the cursor service.
 | **adUseNone** | Does not use cursor services. (This constant is obsolete and appears solely for the sake of backward compatibility.) |
 | **adUseServer** | Default. Uses data-provider or driver-supplied cursors. These cursors are sometimes very flexible and allow for additional sensitivity to changes others make to the data source. However, some features of the Microsoft Cursor Service for OLE DB (such as disassociated Recordset objects) cannot be simulated with server-side cursors and these features will be unavailable with this setting. |
 
-# <a name="CursorType"></a>CursorType
+---
+
+## CursorType
 
 Sets or returns a **CursorTypeEnum** value. The default value is **adOpenForwardOnly**.
 
@@ -1182,18 +1235,20 @@ Specifies the type of cursor used in a `Recordset` object.
 | **adOpenStatic** | Uses a static cursor, which is a static copy of a set of records that you can use to find data or generate reports. Additions, changes, or deletions by other users are not visible. |
 | **adOpenUnspecified** | Does not specify the type of cursor. |
 
-# <a name="DataMember"></a>DataMember
+---
+
+## DataMember
 
 Indicates the name of the data member that will be retrieved from the object referenced by the **DataSource** property.
 
 ```
-PROPERTY DataMember () AS CBSTR
-PROPERTY DataMember (BYVAL cbsDataMember AS CBSTR)
+PROPERTY DataMember () AS DWSTRING
+PROPERTY DataMember (BYVAL wszDataMember AS WSTRING)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsDataMember* | Name of the data member. Not case sensitive. |
+| *wszDataMember* | Name of the data member. Not case sensitive. |
 
 #### Return value
 
@@ -1207,7 +1262,9 @@ The **DataMember** and **DataSource** properties must be used in conjunction.
 
 The **DataMember** property determines which object specified by the **DataSource** property will be represented as a `Recordset` object. The `Recordset` object must be closed before this property is set. An error is generated if the **DataMember** property isn't set before the **DataSource** property, or if the **DataMember** name isn't recognized by the object specified in the **DataSource** property.
 
-# <a name="DataSource"></a>DataSource
+---
+
+## DataSource
 
 Indicates an object that contains data to be represented as a `Recordset` object.
 
@@ -1232,8 +1289,9 @@ The **DataMember** and **DataSource** properties must be used in conjunction.
 
 The object referenced must implement the **IDataSource** interface and must contain an **IRowset** interface.
 
+---
 
-# <a name="Delete_"></a>Delete_
+## Delete_
 
 Deletes the current record or a group of records.
 
@@ -1275,28 +1333,34 @@ If the Unique Table dynamic property is set, and the `Recordset` is the result o
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cvSource AS CVAR = "SELECT * FROM Publishers WHERE PubID=10000"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+DIM dvSource AS DVARIANT = "SELECT * FROM Publishers WHERE PubID=10000"
+pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-DIM cvRes AS CVAR = pRecordset.Collect("PubID")
-IF cvRes.ValInt = 10000 THEN
+DIM dvRes AS DVARIANT = pRecordset.Collect("PubID")
+IF VAL(dvRes) = 10000 THEN
    pRecordset.Delete_ adAffectCurrent
    PRINT "Record deleted"
 ELSE
    PRINT "Record not found"
 END IF
-```
 
-# <a name="EditMode"></a>EditMode
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## EditMode
 
 Indicates the editing status of the current record.
 
@@ -1315,9 +1379,11 @@ Specifies the editing status of a record.
 | **adEditAdd** | Indicates that the **AddNew** method has been called, and the current record in the copy buffer is a new record that has not been saved in the database. |
 | **adEditDelete** | Indicates that the current record has been deleted. |
 
-# <a name="Fields"></a>Fields
+---
 
-Gets a reference to the `Fields` collection of a **Record** object.
+## Fields
+
+Gets a reference to the `Fields` collection of a `Record` object.
 
 ```
 PROPERTY Fields () AS Afx_ADOFields PTR
@@ -1327,18 +1393,20 @@ PROPERTY Fields () AS Afx_ADOFields PTR
 
 An **Afx_ADOFields** object reference.
 
-# <a name="Filter"></a>Filter
+---
+
+## Filter
 
 Indicates a filter for data in a `Recordset`.
 
 ```
-PROPERTY Filter () AS CVAR
-PROPERTY Filter (BYVAL cvCriteria AS CVAR)
+PROPERTY Filter () AS DVARIANT
+PROPERTY Filter (BYVAL dvCriteria AS DVARIANT)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvCriteria* | Can be one of the following values:<br><ul><li>Criteria string — a string made up of one or more individual clauses concatenated with AND or OR operators.</li><li>Array of bookmarks — an array of unique bookmark values that point to records in the `Recordset` object.</li></li><li>A **FilterGroupEnum** value.</li></ul> |
+| *dvCriteria* | Can be one of the following values:<br><ul><li>Criteria string — a string made up of one or more individual clauses concatenated with AND or OR operators.</li><li>Array of bookmarks — an array of unique bookmark values that point to records in the `Recordset` object.</li></li><li>A **FilterGroupEnum** value.</li></ul> |
 
 #### Return value
 
@@ -1398,58 +1466,60 @@ The following table summarizes the effects of **adFilterPendingRecords** in diff
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Set the cursor location
 DIM pRecordset AS CAdoRecordset
 pRecordset.CursorLocation = adUseClient
 
 ' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
+pRecordset.Open("Publishers", pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
 
 ' // Set the Filter property
 pRecordset.Filter = "City = 'New York'"
 
 ' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+DO WHILE NOT pRecordset.EOF
    ' // Get the contents of the "City" and "Name" columns
-   DIM cvRes1 AS CVAR = pRecordset.Collect("City")
-   DIM cvRes2 AS CVAR = pRecordset.Collect("Name")
-   PRINT cvRes1 & " " & cvRes2
+   DIM dvRes1 AS DVARIANT = pRecordset.Collect("City")
+   DIM dvRes2 AS DVARIANT = pRecordset.Collect("Name")
+   PRINT dvRes1 + " " + dvRes2
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-```
 
-# <a name="Find"></a>Find
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## Find
 
 Searches a `Recordset` for the row that satisfies the specified criteria. Optionally, the direction of the search, starting row, and offset from the starting row may be specified. If the criteria is met, the current row position is set on the found record; otherwise, the position is set to the end (or start) of the `Recordset`.
 
 **Note**: The **Find** method is a single column operation only because the OLE DB specification defines **IRowsetFind** this way.
 
-
 ```
-FUNCTION Find (BYREF cbsCriteria AS CBSTR, _
-   BYREF cvStart AS CVAR = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
+FUNCTION Find (BYREF wszCriteria AS WSTRING, _
+   BYREF dvStart AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
    BYVAL SkipRecords AS LONG = 0, BYVAL SearchDirection AS SearchDirectionEnum = adSearchForward) AS HRESULT
 ```
 ```
-FUNCTION Find ( BYREF cbsCriteria AS CBSTR, BYVAL SkipRecords AS LONG = 0, _
+FUNCTION Find (BYREF wszCriteria AS WSTRING, BYVAL SkipRecords AS LONG = 0, _
    BYVAL SearchDirection AS SearchDirectionEnum = adSearchForward) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsCriteria* | A string value that contains a statement specifying the column name, comparison operator, and value to use in the search. |
-| *cvStart* | Optional. A bookmark that functions as the starting position for the search. |
+| *wszCriteria* | A string value that contains a statement specifying the column name, comparison operator, and value to use in the search. |
+| *dvStart* | Optional. A bookmark that functions as the starting position for the search. |
 | *SkipRecords* | Optional. A Long value, whose default value is zero, that specifies the row offset from the current row or start bookmark to begin the search. By default, the search will start on the current row. |
 | *SearchDirection* | Optional. A **SearchDirectionEnum** value that specifies whether the search should begin on the current row or the next available row in the direction of the search. An unsuccessful search stops at the end of the `Recordset` if the value is **adSearchForward**. An unsuccessful search stops at the start of the `Recordset` if the value is **adSearchBackward**. |
 
@@ -1461,7 +1531,6 @@ Specifies the direction of a record search within a Recordset.
 | ---------- | ----------- |
 | **adSearchBackward** | Searches backward, stopping at the beginning of the `Recordset`. If a match is not found, the record pointer is positioned at **BOF**. |
 | **adSearchForward** | Searches forward, stopping at the end of the `Recordset`. If a match is not found, the record pointer is positioned at **EOF**. |
-
 
 #### Return value
 
@@ -1484,33 +1553,37 @@ Asterisks can be used only at the end of a criteria string, or together at both 
 **Note**: If you call the **Find** method on a recordset, and the current position in the recordset is at the last record or end of file (EOF), you will not find anything. You need to call the **MoveFirsr** method to set the current position/cursor to the beginning of the recordset.
 
 #### Example
-
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cvSource AS CVAR = "SELECT * FROM Publishers ORDER By PubID"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+DIM dvSource AS DVARIANT = "SELECT * FROM Publishers ORDER By PubID"
+pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-pRecordset.Find "PubID = #70#"
-DIM cvRes1 AS CVAR = pRecordset.Collect("PubID")
-DIM cvRes2 AS CVAR = pRecordset.Collect("Name")
-PRINT cvRes1 & " " & cvRes2
+pRecordset.Find("PubID = #70#")
+DIM dvRes1 AS DVARIANT = pRecordset.Collect("PubID")
+DIM dvRes2 AS DVARIANT = pRecordset.Collect("Name")
+PRINT dvRes1 & " " & dvRes2
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
+---
 
-# <a name="GetErrorInfo"></a>GetErrorInfo
+## GetErrorInfo
 
 Returns information about ADO errors.
 
 ```
-FUNCTION GetErrorInfo (BYVAL nError AS HRESULT = 0) AS CBSTR
+FUNCTION GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1521,20 +1594,22 @@ FUNCTION GetErrorInfo (BYVAL nError AS HRESULT = 0) AS CBSTR
 
 A description of the error(s).
 
-# <a name="GetRows"></a>GetRows
+---
+
+## GetRows
 
 Retrieves multiple records of a `Recordset` object into an array.
 
 ```
-FUNCTION GetRows (BYVAL Rows AS LONG = adGetRowsRest, BYREF cvStart AS CVAR = "", _
-   BYREF cvFields AS CVAR = "") AS SAFEARRAY PTR
+FUNCTION GetRows (BYVAL Rows AS LONG = adGetRowsRest, BYREF dvStart AS DVARIANT = "", _
+   BYREF dvFields AS DVARIANT = "") AS SAFEARRAY PTR
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *Rows* | Optional. A **GetRowsOptionEnum** value that indicates the number of records to retrieve. The default is **adGetRowsRest**. |
-| *cvStart* | Optional. A string value or Variant that evaluates to the bookmark for the record from which the **GetRows** operation should begin. You can also use a **BookmarkEnum** value. |
-| *cvFields* | Optional. A Variant that represents a single field name or ordinal position, or an array of field names or ordinal position numbers. ADO returns only the data in these fields. |
+| *dvStart* | Optional. A string value or Variant that evaluates to the bookmark for the record from which the **GetRows** operation should begin. You can also use a **BookmarkEnum** value. |
+| *dvFields* | Optional. A Variant that represents a single field name or ordinal position, or an array of field names or ordinal position numbers. ADO returns only the data in these fields. |
 
 #### BookmarkEnum
 
@@ -1565,53 +1640,55 @@ After you call **GetRows**, the next unread record becomes the current record, o
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+#include "AfxNova/DSafeArray.inc"
+USING AfxNova
 
-' // Create a Connection object
-DIM pConnection AS CAdoConnection
-' // Create a Recordset object
-DIM pRecordset AS CAdoRecordset
 ' // Open the connection
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
+DIM pConnection AS CAdoConnection
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
+
 ' // Open the recordset
-DIM cvSource AS CVAR = "SELECT TOP 20 * FROM Publishers ORDER BY Name"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+DIM pRecordset AS CAdoRecordset
+DIM dwsSource AS DWSTRING = "SELECT TOP 20 * FROM Publishers ORDER BY Name"
+DIM hr AS HRESULT = pRecordset.Open(dwsSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
 ' // GetRows returns a pointer to a two-dimensional safe array
 ' // that we are going to attach to an instance of the CSafeArray class
-DIM csa AS CSafeArray
-csa.Attach(pRecordset.GetRows)
-'--or--
-' DIM csa AS CSafeArray = CSafeArray(pRecordset.GetRows, TRUE)
+DIM dsa AS DSafeArray = DSafeArray(pRecordset.GetRows, TRUE)
 
 ' // Print the contents of the safe array
-FOR j AS LONG = csa.LBound(2) TO csa.UBound(2)
-   FOR i AS LONG = csa.LBound(1) TO csa.UBound(1)
-      PRINT csa.GetVar(i, j)
+FOR j AS LONG = dsa.LBound(2) TO dsa.UBound(2)
+   FOR i AS LONG = dsa.LBound(1) TO dsa.UBound(1)
+      PRINT dsa.GetVar(i, j)
    NEXT
    PRINT
 NEXT
-```
 
-# <a name="GetString"></a>GetString
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## GetString
 
 Returns the `Recordset` as a string.
 
 ```
 FUNCTION GetString (BYVAL StringFormat AS StringFormatEnum, BYVAL NumRows AS LONG, _
-   BYREF ColumnDelimeter AS CBSTR = "", BYREF RowDelimeter AS CBSTR = "", _
-   BYREF NullExpr AS CBSTR = "") AS CBSTR
+   BYREF wszColumnDelimeter AS WSTRING = "", BYREF wszRowDelimeter AS WSTRING = "", _
+   BYREF wszNullExpr AS WSTRING = "") AS DWSTRING
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *StringFormat* | Optional. A **StringFormatEnum** value that specifies how the `Recordset` should be converted to a string. The *RowDelimiter*, *ColumnDelimiter*, and *NullExpr* parameters are used only with a **StringFormat** of **adClipString**. |
 | *NumRows* | Optional. The number of rows to be converted in the `Recordset`. If *NumRows* is not specified, or if it is greater than the total number of rows in the `Recordset`, then all the rows in the `Recordset` are converted. |
-| *ColumnDelimiter* | Optional. A delimiter used between columns, if specified, otherwise the TAB character |
-| *RowDelimiter* | Optional. A delimiter used between rows, if specified, otherwise the CARRIAGE RETURN character. |
-| *NullExpr* | Optional. An expression used in place of a null value, if specified, otherwise the empty string. |
+| *wszColumnDelimiter* | Optional. A delimiter used between columns, if specified, otherwise the TAB character |
+| *wszRowDelimiter* | Optional. A delimiter used between rows, if specified, otherwise the CARRIAGE RETURN character. |
+| *wszNullExpr* | Optional. An expression used in place of a null value, if specified, otherwise the empty string. |
 
 #### Return value
 
@@ -1626,40 +1703,47 @@ This method is equivalent to the **RDO** **GetClipString** method.
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Create a Connection object
+' // Open the connection
 DIM pConnection AS CAdoConnection
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
+
 ' // Create a Recordset object
 DIM pRecordset AS CAdoRecordset
-' // Open the connection
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
-' // Open the recordset
-DIM cvSource AS CVAR = "SELECT * FROM Publishers"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
-PRINT pRecordset.GetString
-```
 
-# <a name="Index"></a>Index
+' // Open the recordset
+DIM dvSource AS DVARIANT = "SELECT * FROM Publishers"
+pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+
+PRINT pRecordset.GetString
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## Index
 
 Indicates the name of the index currently in effect for a `Recordset` object.
 
 Sets or returns a string value, which is the name of the index.
 
 ```
-PROPERTY Index () AS CBSTR
-PROPERTY Index (BYREF cbsIndex AS CBSTR)
+PROPERTY Index () AS DWSTRING
+PROPERTY Index (BYREF wszIndex AS WSTRING)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsIndex* | The name of the index. |
+| *wszIndex* | The name of the index. |
 
 #### Return value
 
-CBSTR. The name of the current index.
+The name of the current index.
 
 #### Remarks
 
@@ -1686,20 +1770,20 @@ The built-in **Index** property is not related to the dynamic **Optimize** prope
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Set the cursor location
 DIM pRecordset AS CAdoRecordset
 pRecordset.CursorLocation = adUseServer
 
 ' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
+DIM dvSource AS DVARIANT = "Publishers"
+DIM hr AS HRESULT = pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
 
 ' // Set the index
 pRecordset.Index = "PrimaryKey"
@@ -1708,20 +1792,24 @@ pRecordset.Index = "PrimaryKey"
 pRecordset.Seek 70, 1
 
 ' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+DO WHILE NOT pRecordset.EOF
    ' // Get the contents
-   DIM cvRes1 AS CVAR = pRecordset.Collect("PubID")
-   DIM cvRes2 AS CVAR = pRecordset.Collect("Name")
-   DIM cvRes3 AS CVAR = pRecordset.Collect("Company Name")
-   PRINT cvRes1 & " " & cvRes2 & " " & cvRes3
+   DIM dvRes1 AS DVARIANT = pRecordset.Collect("PubID")
+   DIM dvRes2 AS DVARIANT = pRecordset.Collect("Name")
+   DIM dvRes3 AS DVARIANT = pRecordset.Collect("Company Name")
+   PRINT dvRes1 & " " & dvRes2 & " " & dvRes3
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-```
 
-# <a name="LockType"></a>LockType
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## LockType
 
 Sets or returns the lock type, a Long value that must be greater than 0. Default is 1.
 
@@ -1762,7 +1850,9 @@ The **LockType** property is read/write when the `Recordset` is closed and read-
 
 **Remote Data Service Usage**: When used on a client-side `Recordset` object, the **LockType** property can only be set to **adLockBatchOptimistic**.
 
-# <a name="MarshalOptions"></a>MarshalOptions
+---
+
+## MarshalOptions
 
 Indicates which records are to be marshaled back to the server.
 
@@ -1794,7 +1884,9 @@ When using a client-side `Recordset`, records that have been modified on the cli
 
 **Remote Data Service Usage**: This property is used only on a client-side `Recordset`.
 
-# <a name="MaxRecords"></a>MaxRecords
+---
+
+## MaxRecords
 
 Indicates the maximum number of records to return to a `Recordset` from a query.
 
@@ -1838,21 +1930,22 @@ or
 ```
 SELECT TOP 20 PERCENT EmployeeID, LastName, FirstName FROM Employees ORDER BY LastName, FirstName;
 ```
+---
 
-# <a name="Move"></a>Move
+## Move
 
 Moves the position of the current record in a `Recordset` object.
 
 ```
 FUNCTION Move (BYVAL NumRecords AS LONG, BYVAL start AS BookmarkEnum = adBookmarkCurrent) AS HRESULT
-FUNCTION Move (BYVAL NumRecords AS LONG, BYREF cvStart AS CVAR) AS HRESULT
+FUNCTION Move (BYVAL NumRecords AS LONG, BYREF dvStart AS DVARIANT) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *NumRecords* | A signed Long expression that specifies the number of records that the current record position moves. |
 | *start* | Optional. A **BookmarkEnum** value. |
-| *cvStart* | Optional. A Variant that evaluates to a bookmark. |
+| *dvStart* | Optional. A Variant that evaluates to a bookmark. |
 
 #### BookmarkEnum
 
@@ -1888,7 +1981,9 @@ If the `Recordset` object is forward only, a user can still pass a *NumRecords* 
 
 **Note**: Support for moving backwards in a forward-only `Recordset` is not predictable, depending upon your provider. If the current record has been postioned after the last record in the `Recordset`, Move backwards may not result in the correct current position.
 
-# <a name="MoveFirst"></a>MoveFirst
+---
+
+## MoveFirst
 
 Moves to the first record in a specified `Recordset` object and makes that record the current record.
 
@@ -1916,7 +2011,9 @@ Use the **MovePrevious** method to move the current record position one record b
 
 If the `Recordset` is forward only and you want to support both forward and backward scrolling, you can use the **CacheSize** property to create a record cache that will support backward cursor movement through the **Move** method. Because cached records are loaded into memory, you should avoid caching more records than is necessary. You can call the **MoveFirst** method in a forward-only `Recordset` object; doing so may cause the provider to re-execute the command that generated the `Recordset` object.
 
-# <a name="MoveLast"></a>MoveLast
+---
+
+## MoveLast
 
 Moves to the last record in a specified `Recordset` object and makes that record the current record.
 
@@ -1944,7 +2041,9 @@ Use the **MovePrevious** method to move the current record position one record b
 
 If the `Recordset` is forward only and you want to support both forward and backward scrolling, you can use the **CacheSize** property to create a record cache that will support backward cursor movement through the **Move** method. Because cached records are loaded into memory, you should avoid caching more records than is necessary. You can call the **MoveFirst** method in a forward-only `Recordset` object; doing so may cause the provider to re-execute the command that generated the `Recordset` object.
 
-# <a name="MoveNext"></a>MoveNext
+---
+
+## MoveNext
 
 Moves to the next record in a specified `Recordset` object and makes that record the current record.
 
@@ -1972,7 +2071,9 @@ Use the **MovePrevious** method to move the current record position one record b
 
 If the `Recordset` is forward only and you want to support both forward and backward scrolling, you can use the **CacheSize** property to create a record cache that will support backward cursor movement through the **Move** method. Because cached records are loaded into memory, you should avoid caching more records than is necessary. You can call the **MoveFirst** method in a forward-only `Recordset` object; doing so may cause the provider to re-execute the command that generated the `Recordset` object.
 
-# <a name="MovePrevious"></a>MovePrevious
+---
+
+## MovePrevious
 
 Moves to the previous record in a specified `Recordset` object and makes that record the current record.
 
@@ -2000,7 +2101,9 @@ Use the **MovePrevious** method to move the current record position one record b
 
 If the `Recordset` is forward only and you want to support both forward and backward scrolling, you can use the **CacheSize** property to create a record cache that will support backward cursor movement through the **Move** method. Because cached records are loaded into memory, you should avoid caching more records than is necessary. You can call the **MoveFirst** method in a forward-only `Recordset` object; doing so may cause the provider to re-execute the command that generated the `Recordset` object.
 
-# <a name="NextRecordset"></a>NextRecordset
+---
+
+## NextRecordset
 
 Moves to the previous record in a specified `Recordset` object and makes that record the current record.
 
@@ -2018,7 +2121,7 @@ An **Afx_ADORecordset** object reference.
 
 #### Remarks
 
-Use the **NextRecordset** method to return the results of the next command in a compound command statement or of a stored procedure that returns multiple results. If you open a `Recordset` object based on a compound command statement (for example, "SELECT * FROM table1;SELECT * FROM table2") using the **Execute** method on a **Command** or the **Open** method on a `Recordset`, ADO executes only the first command and returns the results to recordset. To access the results of subsequent commands in the statement, call the **NextRecordset** method.
+Use the **NextRecordset** method to return the results of the next command in a compound command statement or of a stored procedure that returns multiple results. If you open a `Recordset` object based on a compound command statement (for example, "SELECT * FROM table1;SELECT * FROM table2") using the **Execute** method on a `Command` or the **Open** method on a `Recordset`, ADO executes only the first command and returns the results to recordset. To access the results of subsequent commands in the statement, call the **NextRecordset** method.
 
 As long as there are additional results and the `Recordset` containing the compound statements is not disconnected or marshaled across process boundaries, the NextRecordset method will continue to return `Recordset` objects. If a row-returning command executes successfully but returns no records, the returned `Recordset` object will be open but empty. Test for this case by verifying that the **BOF** and **EOF** properties are both True. If a non–row-returning command executes successfully, the returned Recordset object will be closed, which you can verify by testing the State property on the `Recordset`. When there are no more results, recordset will be set to NULL.
 
@@ -2032,25 +2135,27 @@ Your OLE DB provider determines when each command command in a compound statemen
 
 However, other providers may execute the next command in a statement only after **NextRecordset** is called. For these providers, if you explicitly close the `Recordset` object before stepping through the entire command statement, ADO never executes the remaining commands.
 
-# <a name="Open"></a>Open
+---
+
+## Open
 
 Opens a connection to a data source.
 
 ```
-FUNCTION Open (BYREF cvSource AS CVAR, BYREF cActiveConnection AS CAdoConnection, _
+FUNCTION Open (BYREF dvSource AS DVARIANT, BYREF cActiveConnection AS CAdoConnection, _
    BYVAL nCursorType AS CursorTypeEnum = adOpenUnspecified, _
    BYVAL nLockType AS LockTypeEnum = adLockUnspecified, _
    BYVAL nOptions AS LONG = adCmdUnspecified) AS HRESULT
 ```
 ```
-FUNCTION Open (BYREF cvSource AS CVAR, _
+FUNCTION Open (BYREF dvSource AS DVARIANT, _
    BYREF cActiveConnection AS CAdoConnection = TYPE(<VARIANT>VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
    BYVAL nCursorType AS CursorTypeEnum = adOpenUnspecified, _
    BYVAL nLockType AS LockTypeEnum = adLockUnspecified, _
    BYVAL nOptions AS LONG = adCmdUnspecified) AS HRESULT
 ```
 ```
-FUNCTION Open (BYREF cvSource AS CVAR, _
+FUNCTION Open (BYREF dvSource AS DVARIANT, _
    BYVAL pActiveConnection AS CAdoConnection PTR, _
    BYVAL nCursorType AS CursorTypeEnum = adOpenUnspecified, _
    BYVAL nLockType AS LockTypeEnum = adLockUnspecified, _
@@ -2064,13 +2169,13 @@ FUNCTION Open (BYVAL nCursorType AS CursorTypeEnum = adOpenUnspecified, _
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvSource* | Optional. A Variant that evaluates to a valid **Command** object, an SQL statement, a table name, a stored procedure call, a URL, or the name of a file or **Stream** object containing a persistently stored `Recordset`. |
+| *dvSource* | Optional. A Variant that evaluates to a valid `Command` object, an SQL statement, a table name, a stored procedure call, a URL, or the name of a file or **Stream** object containing a persistently stored `Recordset`. |
 | *cActiveConnection* | Optional. A valid **Connection** object. |
-| *cvActiveConnection* | Optional. Either a Variant that evaluates to a valid Connection object variable name, or a string that contains **ConnectionString** parameters. |
+| *dvActiveConnection* | Optional. Either a Variant that evaluates to a valid Connection object variable name, or a string that contains **ConnectionString** parameters. |
 | *pActiveConnection* | Pointer to a valid connection object. |
 | *nCursorType* | Optional. A **CursorTypeEnum** value that determines the type of cursor that the provider should use when opening the `Recordset`. The default value is **adOpenForwardOnly**. |
 | *nLockType* | Optional. A **LockTypeEnum** value that determines what type of locking (concurrency) the provider should use when opening the `Recordset`. The default value is **adLockReadOnly**. |
-| *nOptions* | Optional. A Long value that indicates how the provider should evaluate the **Source** argument if it represents something other than a **Command** object, or that the `Recordset` should be restored from a file where it was previously saved. Can be one or more **CommandTypeEnum** or **ExecuteOptionEnum** values, which can be combined with a bitwise **AND** operator.<br>**Note**: If you open a `Recordset` from a **Stream** containing a persisted `Recordset`, using an **ExecuteOptionEnum** value of **adAsyncFetchNonBlocking** will not have an effect; the fetch will be synchronous and blocking.<br>The **ExecuteOptionEnum** values of **adExecuteNoRecords** or **adExecuteStream** should not be used with Open. |
+| *nOptions* | Optional. A Long value that indicates how the provider should evaluate the **Source** argument if it represents something other than a `Command` object, or that the `Recordset` should be restored from a file where it was previously saved. Can be one or more **CommandTypeEnum** or **ExecuteOptionEnum** values, which can be combined with a bitwise **AND** operator.<br>**Note**: If you open a `Recordset` from a **Stream** containing a persisted `Recordset`, using an **ExecuteOptionEnum** value of **adAsyncFetchNonBlocking** will not have an effect; the fetch will be synchronous and blocking.<br>The **ExecuteOptionEnum** values of **adExecuteNoRecords** or **adExecuteStream** should not be used with Open. |
 
 #### CursorTypeEnum
 
@@ -2108,8 +2213,8 @@ Specifies how a command argument should be interpreted.
 | **adAsyncFetch** | Indicates that the remaining rows after the initial quantity specified in the **CacheSize** property should be retrieved asynchronously. |
 | **adAsyncFetchNonBlocking** | Indicates that the main thread never blocks while retrieving. If the requested row has not been retrieved, the current row automatically moves to the end of the file. If you open a `Recordset` from a **Stream** containing a persistently stored `Recordset`, **adAsyncFetchNonBlocking** will not have an effect; the operation will be synchronous and blocking. **adAsynchFetchNonBlocking** has no effect when the **CmdTableDirect** option is used to open the `Recordset`. |
 | **adExecuteNoRecords** | Indicates that the command text is a command or stored procedure that does not return rows (for example, a command that only inserts data). If any rows are retrieved, they are discarded and not returned. **adExecuteNoRecords** can only be passed as an optional parameter to the Command or **Connection** **Execute** method. |
-| **adExecuteStream** | Indicates that the results of a command execution should be returned as a stream. **adExecuteStream** can only be passed as an optional parameter to the **Command** **Execute** method. |
-| **adExecuteRecord** | Indicates that the **CommandText** is a command or stored procedure that returns a single row which should be returned as a **Record** object. |
+| **adExecuteStream** | Indicates that the results of a command execution should be returned as a stream. **adExecuteStream** can only be passed as an optional parameter to the `Command` **Execute** method. |
+| **adExecuteRecord** | Indicates that the **CommandText** is a command or stored procedure that returns a single row which should be returned as a `Record` object. |
 | **adOptionUnspecified** | Indicates that the command is unspecified. |
 
 #### Return value
@@ -2122,9 +2227,9 @@ The default cursor for an ADO `Recordset` is a forward-only, read-only cursor lo
 
 Using the **Open** method on a `Recordset` object opens a cursor that represents records from a base table, the results of a query, or a previously saved `Recordset`.
 
-Use the optional **Source** argument to specify a data source using one of the following: a **Command** object variable, an SQL statement, a stored procedure, a table name, a URL, or a complete file path name. If **Source** is a file path name, it can be a full path ("c:\dir\file.rst"), a relative path ("..\file.rst"), or a URL ("http://files/file.rst").
+Use the optional **Source** argument to specify a data source using one of the following: a `Command` object variable, an SQL statement, a stored procedure, a table name, a URL, or a complete file path name. If **Source** is a file path name, it can be a full path ("c:\dir\file.rst"), a relative path ("..\file.rst"), or a URL ("http://files/file.rst").
 
-It is not a good idea to use the **Source** argument of the **Open** method to perform an action query that doesn't return records because there is no easy way to determine whether the call succeeded. The `Recordset` returned by such a query will be closed. Call the **Execute** method of a **Command** object or the **Execute** method of a **Connection** object instead to perform a query that, such as a SQL INSERT statement, that doesn't return records.
+It is not a good idea to use the **Source** argument of the **Open** method to perform an action query that doesn't return records because there is no easy way to determine whether the call succeeded. The `Recordset` returned by such a query will be closed. Call the **Execute** method of a `Command` object or the **Execute** method of a **Connection** object instead to perform a query that, such as a SQL INSERT statement, that doesn't return records.
 
 The **ActiveConnection** argument corresponds to the **ActiveConnection** property and specifies in which connection to open the `Recordset` object. If you pass a connection definition for this argument, ADO opens a new connection using the specified parameters. After opening the `Recordset` with a client-side cursor (**CursorLocation = adUseClient**), you can change the value of this property to send updates to another provider. Or you can set this property to NULL to disconnect the `Recordset` from any provider. Changing **ActiveConnection** for a server-side cursor generates an error, however.
 
@@ -2136,11 +2241,11 @@ For the other arguments that correspond directly to properties of a `Recordset` 
 
 * After you open the `Recordset` object, these properties become read-only.
 
-**Note**: The **ActiveConnection** property is read only for `Recordset` objects whose **Source** property is set to a valid **Command** object, even if the `Recordset` object isn't open.
+**Note**: The **ActiveConnection** property is read only for `Recordset` objects whose **Source** property is set to a valid `Command` object, even if the `Recordset` object isn't open.
 
-If you pass a **Command** object in the **Source** argument and also pass an **ActiveConnection** argument, an error occurs. The **ActiveConnection** property of the **Command** object must already be set to a valid **Connection** object or connection string.
+If you pass a `Command` object in the **Source** argument and also pass an **ActiveConnection** argument, an error occurs. The **ActiveConnection** property of the `Command` object must already be set to a valid **Connection** object or connection string.
 
-If you pass something other than a **Command** object in the **Source** argument, you can use the **Options** argument to optimize evaluation of the **Source** argument. If the **Options** argument is not defined, you may experience diminished performance because ADO must make calls to the provider to determine if the argument is an SQL statement, a stored procedure, a URL, or a table name. If you know what **Source** type you're using, setting the **Options** argument instructs ADO to jump directly to the relevant code. If the **Options** argument does not match the **Source** type, an error occurs.
+If you pass something other than a `Command` object in the **Source** argument, you can use the **Options** argument to optimize evaluation of the **Source** argument. If the **Options** argument is not defined, you may experience diminished performance because ADO must make calls to the provider to determine if the argument is an SQL statement, a stored procedure, a URL, or a table name. If you know what **Source** type you're using, setting the **Options** argument instructs ADO to jump directly to the relevant code. If the **Options** argument does not match the **Source** type, an error occurs.
 
 If you pass a **Stream** object in the **Source** argument, you should not pass information into the other arguments. Doing so will generate an error. The **ActiveConnection** information is not retained when a `Recordset` is opened from a **Stream**.
 
@@ -2163,55 +2268,34 @@ Certain combinations of **CommandTypeEnum** and **ExecuteOptionEnum** values are
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Open the recordset
+' // === Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cvSource AS CVAR = "SELECT TOP 20 * FROM Authors ORDER BY Author"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+pRecordset.Open("SELECT * FROM Authors", pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   DIM cvRes AS CVAR = pRecordset.Collect("Author")
-   PRINT cvRes
+   PRINT pRecordset.Collect("Author")
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
+---
 
-#### Example
-
-```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
-
-' // Open the recordset
-DIM pRecordset AS CAdoRecordset
-DIM cbsSource AS CBSTR = "SELECT TOP 20 * FROM Authors ORDER BY Author"
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-DIM hr AS HRESULT = pRecordset.Open(cbsSource, cvConStr, adOpenKeyset, adLockOptimistic, adCmdText)
-
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
-   ' // Get the content of the "Author" column
-   DIM cvRes AS CVAR = pRecordset.Collect("Author")
-   PRINT cvRes
-   ' // Fetch the next row
-   IF pRecordset.MoveNext <> S_OK THEN EXIT DO
-LOOP
-```
-
-# <a name="PageCount"></a>PageCount
+## PageCount
 
 Indicates how many pages of data the `Recordset` object contains.
 
@@ -2225,7 +2309,9 @@ Use the **PageCount** property to determine how many pages of data are in the `R
 
 See the **PageSize** and **AbsolutePage** properties for more on page functionality.
 
-# <a name="PageSize"></a>PageSize
+---
+
+## PageSize
 
 Indicates how many records constitute one page in the `Recordset`.
 
@@ -2250,7 +2336,9 @@ Use the **PageSize** property to determine how many records make up a logical pa
 
 This property can be set at any time, and its value will be used for calculating the location of the first record of a particular page.
 
-# <a name="Properties"></a>Properties
+---
+
+## Properties
 
 Returns a reference to the **Properties** collection.
 
@@ -2265,12 +2353,12 @@ An **Afx_ADOProperties** object reference.
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Create an instance of the CAdoProperties class
 ' // with a reference to the Peoperties collection.
@@ -2282,23 +2370,26 @@ PRINT "Number of properties: "; pProperties.Count
 DIM pProperty AS CAdoProperty = pProperties.Item("DBMS Version")
 
 ' // Print the value of the property
-PRINT "DBMS version : "; pProperty.Value.ToStr
+PRINT "DBMS version : "; pProperty.Value
+
+' // === Close the connection
+pConnection.Close
 ```
 
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Open the recordset
+' // === Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cbsSource AS CBSTR = "SELECT * FROM Publishers ORDER BY PubID"
-DIM hr AS HRESULT = pRecordset.Open(cbsSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+DIM dwsSource AS DWSTRING = "SELECT * FROM Publishers ORDER BY PubID"
+DIM hr AS HRESULT = pRecordset.Open(dwsSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
 ' // Parse the Properties collection
 DIM pProperties AS CAdoProperties = pRecordset.Properties
@@ -2307,23 +2398,35 @@ FOR i AS LONG = 0 TO nCount - 1
    DIM pProperty AS CAdoProperty = pProperties.Item(i)
    PRINT "Property name: "; pProperty.Name; " - Attributes: "; WSTR(pProperty.Attributes)
 NEXT
+
+' // === Close the connection
+pConnection.Close
 ```
 
-Alternate version using a compound syntax:
+Using a compound syntax:
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
+
+' // === Open the recordset
+DIM pRecordset AS CAdoRecordset
+DIM dwsSource AS DWSTRING = "SELECT * FROM Publishers ORDER BY PubID"
+DIM hr AS HRESULT = pRecordset.Open(dwsSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
 ' // Retrieve the "DBMS Version" property
 PRINT CAdoProperty(CAdoProperties(pConnection.Properties).Item("DBMS Version")).Value
-```
 
-# <a name="RecordCount"></a>RecordCount
+' // === Close the connection
+pConnection.Close
+```
+---
+
+## <a name="RecordCount"></a>RecordCount
 
 Indicates the number of records in a `Recordset` object.
 
@@ -2355,7 +2458,9 @@ Use either **adOpenKeyset** or **adOpenStatic** as the **CursorType** for server
 
 This behavior is by design.
 
-# <a name="Requery"></a>Requery
+---
+
+## Requery
 
 Updates the data in a `Recordset` object by re-executing the query on which the object is based.
 
@@ -2391,8 +2496,8 @@ Specifies how a command argument should be interpreted.
 | *adAsyncFetch* | Indicates that the remaining rows after the initial quantity specified in the **CacheSize** property should be retrieved asynchronously. |
 | *adAsyncFetchNonBlocking* | Indicates that the main thread never blocks while retrieving. If the requested row has not been retrieved, the current row automatically moves to the end of the file. If you open a `Recordset` from a **Stream** containing a persistently stored `Recordset`, **adAsyncFetchNonBlocking** will not have an effect; the operation will be synchronous and blocking. **adAsynchFetchNonBlocking** has no effect when the **CmdTableDirect** option is used to open the `Recordset`. |
 | *adExecuteNoRecords* | Indicates that the command text is a command or stored procedure that does not return rows (for example, a command that only inserts data). If any rows are retrieved, they are discarded and not returned. **adExecuteNoRecords** can only be passed as an optional parameter to the Command or **Connection** **Execute** method. |
-| *adExecuteStream* | Indicates that the results of a command execution should be returned as a stream. **adExecuteStream** can only be passed as an optional parameter to the **Command** **Execute** method. |
-| *adExecuteRecord* | Indicates that the **CommandText** is a command or stored procedure that returns a single row which should be returned as a **Record** object. |
+| *adExecuteStream* | Indicates that the results of a command execution should be returned as a stream. **adExecuteStream** can only be passed as an optional parameter to the `Command` **Execute** method. |
+| *adExecuteRecord* | Indicates that the **CommandText** is a command or stored procedure that returns a single row which should be returned as a `Record` object. |
 | *adOptionUnspecified* | Indicates that the command is unspecified. |
 
 #### Return value
@@ -2405,7 +2510,9 @@ Use the **Requery** method to refresh the entire contents of a Recordset object 
 
 While the `Recordset` object is open, the properties that define the nature of the cursor (**CursorType**, **LockType**, **MaxRecords**, and so forth) are read-only. Thus, the **Requery** method can only refresh the current cursor. To change any of the cursor properties and view the results, you must use the **Close** method so that the properties become read/write again. You can then change the property settings and call the **Open** method to reopen the cursor.
 
-# <a name="Resync"></a>Resync
+---
+
+## <a name="Resync"></a>Resync
 
 Refreshes the data in the current `Recordset` object from the underlying database.
 
@@ -2416,7 +2523,7 @@ FUCTION Resync (BYVAL AffectRecords AS AffectEnum = adAffectAll, _
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *AffectRecords* | Optional. An **AffectEnum** value that determines how many records the **Resync** method will affect. The default value is **adAffectAll**. This value is not available with the **Resync** method of the `Fields` collection of a **Record** object. |
+| *AffectRecords* | Optional. An **AffectEnum** value that determines how many records the **Resync** method will affect. The default value is **adAffectAll**. This value is not available with the **Resync** method of the `Fields` collection of a `Record` object. |
 | *ResyncValues* | Optional. A **ResyncEnum** value that specifies whether underlying values are overwritten. The default value is **adResyncAllValues**. |
 
 #### AffectEnum
@@ -2453,14 +2560,16 @@ Unlike the **Requery** method, the **Resync** method does not re-execute the `Re
 
 If the attempt to resynchronize fails because of a conflict with the underlying data (for example, a record has been deleted by another user), the provider returns warnings to the **Errors** collection and a run-time error occurs. Use the **Filter** property (**adFilterConflictingRecords**) and the **Status** property to locate records with conflicts.
 
-If the Unique Table and Resync Command dynamic properties are set, and the `Recordset` is the result of executing a JOIN operation on multiple tables, then the **Resync** method will execute the command given in the **Resync** **Command** property only on the table named in the Unique Table property.
+If the Unique Table and Resync Command dynamic properties are set, and the `Recordset` is the result of executing a JOIN operation on multiple tables, then the **Resync** method will execute the command given in the **Resync** `Command` property only on the table named in the Unique Table property.
 
-# <a name="Save"></a>Save
+---
+
+## Save
 
 Saves the `Recordset` in a file or **Stream** object.
 
 ```
-FUNCTION Save (BYREF Destination AS CVAR, _
+FUNCTION Save (BYREF dcDestination AS DVARIANT, _
    BYVAL PersistFormat AS PersistFormatEnum = adPersistADTG) AS HRESULT
 FUNCTON Save (BYREF pDestination AS Afx_AdoStream PTR, _
    BYVAL PersistFormat AS PersistFormatEnum = adPersistADTG) AS HRESULT
@@ -2468,7 +2577,7 @@ FUNCTON Save (BYREF pDestination AS Afx_AdoStream PTR, _
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *Destination* | Optional. The complete path name of the file where the `Recordset` is to be saved. |
+| *dvDestination* | Optional. The complete path name of the file where the `Recordset` is to be saved. |
 | *pDestination* | Optional. A reference to a **Stream** object. |
 | *PersistFormat* | Optional. A **PersistFormatEnum** value that specifies the format in which the `Recordset` is to be saved (XML or ADTG). The default value is **adPersistADTG**. |
 
@@ -2513,8 +2622,8 @@ A `Recordset` saved in XML format is saved using UTF-8 format. When such a file 
 **Example** (save as XML)
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
@@ -2522,8 +2631,8 @@ pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
 
 ' // Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cvSource AS CBSTR = "SELECT * FROM Publishers"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+DIM dwsSource AS DWSTRING = "SELECT * FROM Publishers"
+pRecordset.Open(dwsSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
 ' // Save the recordset as XML
 DIM wszFileName AS WSTRING * MAX_PATH = "Publishers.xml"
@@ -2533,6 +2642,11 @@ IF pRecordset.Save(wszFileName, adPersistXML) = S_OK THEN
 ELSE
    PRINT "Save failed"
 END IF
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 
 #### Persisting data
@@ -2550,8 +2664,8 @@ In ADO, to save and load Recordsets, use the **Recordset.Save** and **Recordset.
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
@@ -2564,10 +2678,10 @@ SCOPE
    pRecordset.CursorLocation = adUseClient
 
    ' // Open the recordset
-   DIM cbsSource AS CBSTR = "SELECT * FROM Publishers"
-   DIM hr AS HRESULT = pRecordset.Open(cbsSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+   DIM dvSource AS DVARIANT = "SELECT * FROM Publishers"
+   pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-   ' // Save the recordset as XML
+   ' // Save the recordset
    DIM wszFileName AS WSTRING * MAX_PATH = "Publishers.dat"
    IF AfxFileExists(wszFileName) THEN KILL wszFileName
    IF pRecordset.Save(wszFileName, adPersistADTG) = S_OK THEN
@@ -2575,31 +2689,38 @@ SCOPE
    ELSE
       PRINT "Save failed"
    END IF
+   pRecordset.Close
 END SCOPE
 
 IF AfxFileExists("Publishers.dat") THEN
    ' // Reopen the recordset
    DIM pRecordset AS CAdoRecordset
-   DIM cbsSource AS CBSTR = "Publishers.dat"
-   DIM hr AS HRESULT = pRecordset.Open(cbsSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdFile)
+   DIM dvSource AS DVARIANT = "Publishers.dat"
+   DIM hr AS HRESULT = pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdFile)
    IF hr = S_OK THEN
       ' // Parse the recordset
       DO
          ' // While not at the end of the recordset...
          IF pRecordset.EOF THEN EXIT DO
          ' // Get the contents
-         DIM cvRes1 AS CVAR = pRecordset.Collect("PubID")
-         DIM cvRes2 AS CVAR = pRecordset.Collect("Name")
-         DIM cvRes3 AS CVAR = pRecordset.Collect("Company Name")
-         PRINT cvRes1 & " " & cvRes2 & " " & cvRes3
+         DIM dvRes1 AS DVARIANT = pRecordset.Collect("PubID")
+         DIM dvRes2 AS DVARIANT = pRecordset.Collect("Name")
+         DIM dvRes3 AS DVARIANT = pRecordset.Collect("Company Name")
+         PRINT dvRes1 + " " + dvRes2 + " " + dvRes3
          ' // Fetch the next row
          IF pRecordset.MoveNext <> S_OK THEN EXIT DO
       LOOP
    END IF
+   pRecordset.Close
 END IF
-```
 
-# <a name="Seek"></a>Seek
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pConnection.Close
+```
+---
+
+## Seek
 
 Searches the index of a `Recordset` to quickly locate the row that matches the specified values, and changes the current row position to that row.
 
@@ -2644,22 +2765,21 @@ This method can only be used when the `Recordset` object has been opened with a 
 The SQL Server 6.5 or 7.0 doesn't support the **Seek** or **Index** methods of the `Recordset`. You can however, use the **Index** and **Seek** method with an Access 2000 database and the OLE DB 4.0 Provider for Jet. 
 
 #### Example
-
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
 ' // Set the cursor location
 DIM pRecordset AS CAdoRecordset
 pRecordset.CursorLocation = adUseServer
 
 ' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
+DIM dvSource AS DVARIANT = "Publishers"
+DIM hr AS HRESULT = pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
 
 ' // Set the index
 pRecordset.Index = "PrimaryKey"
@@ -2668,33 +2788,37 @@ pRecordset.Index = "PrimaryKey"
 pRecordset.Seek 70, 1
 
 ' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+DO WHILE NOT pRecordset.EOF
    ' // Get the contents
-   DIM cvRes1 AS CVAR = pRecordset.Collect("PubID")
-   DIM cvRes2 AS CVAR = pRecordset.Collect("Name")
-   DIM cvRes3 AS CVAR = pRecordset.Collect("Company Name")
-   PRINT cvRes1 & " " & cvRes2 & " " & cvRes3
+   DIM dvRes1 AS DVARIANT = pRecordset.Collect("PubID")
+   DIM dvRes2 AS DVARIANT = pRecordset.Collect("Name")
+   DIM dvRes3 AS DVARIANT = pRecordset.Collect("Company Name")
+   PRINT dvRes1 & " " & dvRes2 & " " & dvRes3
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-```
 
-# <a name="Sort"></a>Sort
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## Sort
 
 Indicates one or more field names on which the `Recordset` is sorted, and whether each field is sorted in ascending or descending order.
 
 Sets or returns a string value that indicates the field names in the `Recordset` on which to sort.
 
 ```
-PROPERTY Sort() AS CBSTR
-PROPERTY Sort (BYVAL cbsCriteria AS CBSTR)
+PROPERTY Sort() AS DWSTRING
+PROPERTY Sort (BYREF wszCriteria AS WSTRING)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsCriteria* | A value that indicates the field names in the `Recordset` on which to sort. Each name is separated by a comma, and is optionally followed by a blank and the keyword, ASC, which sorts the field in ascending order, or DESC, which sorts the field in descending order. By default, if no keyword is specified, the field is sorted in ascending order. |
+| *wszCriteria* | A value that indicates the field names in the `Recordset` on which to sort. Each name is separated by a comma, and is optionally followed by a blank and the keyword, ASC, which sorts the field in ascending order, or DESC, which sorts the field in descending order. By default, if no keyword is specified, the field is sorted in ascending order. |
 
 #### Return value
 
@@ -2719,8 +2843,8 @@ No field can be named "ASC" or "DESC" because those names conflict with the keyw
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Open the connection
 DIM pConnection AS CAdoConnection
@@ -2731,41 +2855,43 @@ DIM pRecordset AS CAdoRecordset
 pRecordset.CursorLocation = adUseClient
 
 ' // Open the recordset
-DIM cvSource AS CBSTR = "Publishers"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
+pRecordset.Open("Publishers", pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
 
 ' // Set the Sort property
 pRecordset.Sort = "City ASC, Name ASC"
 
 ' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+DO WHILE NOT pRecordset.EOF
    ' // Get the contents of the "City" and "Name" columns
-   DIM cvRes1 AS CVAR = pRecordset.Collect("City")
-   DIM cvRes2 AS CVAR = pRecordset.Collect("Name")
-   PRINT cvRes1 & " " & cvRes2
+   DIM dvRes1 AS DVARIANT = pRecordset.Collect("City")
+   DIM dvRes2 AS DVARIANT = pRecordset.Collect("Name")
+   PRINT dvRes1 & " " & dvRes2
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 
-# <a name="Source"></a>Source
+## Source
 
 Indicates the data source for a `Recordset` object.
 
-Sets a string value or **Command** object reference; returns only a string value that indicates the source of the `Recordset`.
+Sets a string value or `Command` object reference; returns only a string value that indicates the source of the `Recordset`.
 
 ```
-PROPERTY Source (BYREF cbsConn AS CBSTR)
+PROPERTY Source (BYREF wszConn AS WSTRING)
 PROPERTY Source (BYVAL pcmd AS Afx_ADOCommand PTR)
-PROPERTY Source () AS CVAR
+PROPERTY Source () AS DVARIANT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsConn* | The source of the `Recordset`. |
-| *pcmd* | A **Command** object reference. |
+| *wszConn* | The source of the `Recordset`. |
+| *pcmd* | A `Command` object reference. |
 
 #### Return value
 
@@ -2773,9 +2899,9 @@ The data source of the `Recordset`.
 
 #### Remarks
 
-Use the **Source** property to specify a data source for a `Recordset` object using one of the following: a **Command** object variable, an SQL statement, a stored procedure, or a table name.
+Use the **Source** property to specify a data source for a `Recordset` object using one of the following: a `Command` object variable, an SQL statement, a stored procedure, or a table name.
 
-If you set the **Source** property to a **Command** object, the **ActiveConnection** property of the `Recordset` object will inherit the value of the **ActiveConnection** property for the specified **Command** object. However, reading the **Source** property does not return a **Command** object; instead, it returns the **CommandText** property of the **Command** object to which you set the Source property.
+If you set the **Source** property to a `Command` object, the **ActiveConnection** property of the `Recordset` object will inherit the value of the **ActiveConnection** property for the specified `Command` object. However, reading the **Source** property does not return a `Command` object; instead, it returns the **CommandText** property of the `Command` object to which you set the Source property.
 
 If the **Source** property is an SQL statement, a stored procedure, or a table name, you can optimize performance by passing the appropriate **Options** argument with the **Open** method call.
 
@@ -2784,8 +2910,8 @@ The **Source** property is read/write for closed `Recordset` objects and read-on
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Create a Recordset object
 DIM pRecordset AS CAdoRecordset
@@ -2796,30 +2922,9 @@ pRecordset.Source = "SELECT TOP 20 * FROM Authors ORDER BY Author"
 ' // Open the recordset
 DIM hr AS HRESULT = pRecordset.Open
 ```
+---
 
-#### Example
-
-```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
-
-' // Create a Connection object
-DIM pConnection AS CAdoConnection
-' // Create a Recordset object
-DIM pRecordset AS CAdoRecordset
-' // Open the connection
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
-' // Set the active connection
-pRecordset.ActiveConnection = pConnection
-' // Set the source
-DIM cvSource AS CVAR = "SELECT TOP 20 * FROM Authors ORDER BY Author"
-pRecordset.Source = cvSource
-' // Open the recordset
-DIM hr AS HRESULT = pRecordset.Open
-```
-
-# <a name="State"></a>State
+## State
 
 Indicates for whether the state of the `Recordset` object is open or closed.
 
@@ -2849,7 +2954,9 @@ You can use the **State** property to determine the current state of a given obj
 
 The object's **State** property can have a combination of values. For example, if a statement is executing, this property will have a combined value of **adStateOpen** and **adStateExecuting**.
 
-# <a name="Status"></a>Status
+---
+
+## Status
 
 Indicates the status of the current record with respect to batch updates or other bulk operations.
 
@@ -2877,7 +2984,9 @@ Specifies the current status of the execution of an event.
 
 Use the **Status** property to see what changes are pending for records modified during batch updating. You can also use the **Status** property to view the status of records that fail during bulk operations, such as when you call the **Resync**, **UpdateBatch**, or **CancelBatch** methods on a `Recordset` object, or set the **Filter** property on a `Recordset` object to an array of bookmarks. With this property, you can determine how a given record failed and resolve it accordingly.
 
-# <a name="StayInSync"></a>StayInSync
+---
+
+## StayInSync
 
 Indicates, in a hierarchical `Recordset` object, whether the reference to the underlying child records (that is, the chapter) changes when the parent row position changes.
 
@@ -2898,7 +3007,9 @@ TRUE or FALSE.
 
 This property applies to hierarchical recordsets, such as those supported by the Microsoft Data Shaping Service for OLE DB, and must be set on the parent Recordset before the child `Recordset` is retrieved. This property simplifies navigating hierarchical recordsets.
 
-# <a name="Supports"></a>Supports
+---
+
+## Supports
 
 Determines whether a specified `Recordset` object supports a particular type of functionality.
 
@@ -2934,31 +3045,33 @@ Specifies what functionality the **Supports** method should test for.
 
 True if the object supports the specified type of functionality; False, otherwise.
 
-# <a name="Update"></a>Update
+---
+
+## Update
 
 Saves any changes you make to the current row of a `Recordset` object.
 
 ```
 FUNCTION Update ( _
-   BYREF cvFieldList AS CVAR = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
-   BYREF cvValues AS CVAR = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND) _
+   BYREF dvFieldList AS DVARIANT = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
+   BYREF dvValues AS DVARIANT = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND) _
 ) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cvFieldList* | Optional. A Variant that represents a single name, or a Variant array that represents names or ordinal positions of the field or fields you wish to modify. |
-| *cvValues* | Optional. A Variant that represents a single value, or a Variant array that represents values for the field or fields in the new record. |
+| *dvFieldList* | Optional. A Variant that represents a single name, or a Variant array that represents names or ordinal positions of the field or fields you wish to modify. |
+| *dvValues* | Optional. A Variant that represents a single value, or a Variant array that represents values for the field or fields in the new record. |
 
 #### Return value
 
 S_OK (0) or an HRESULT code.
 
 #### Example
-
++++++++++++++
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include "AfxNova/CADODB.inc"
+USING AfxNova
 
 ' // Create a Connection object
 DIM pConnection AS CAdoConnection
@@ -2966,12 +3079,12 @@ DIM pConnection AS CAdoConnection
 DIM pRecordset AS CAdoRecordset
 
 ' // Open the connection
-DIM cvConStr AS CVAR = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
-pConnection.Open cvConStr
+DIM dvConStr AS DVARIANT = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open dvConStr
 
 ' // Open the recordset
-DIM cvSource AS CVAR = "Publishers"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
+DIM dvSource AS DVARIANT = "Publishers"
+DIM hr AS HRESULT = pRecordset.Open(dvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdTableDirect)
 
 ' // Add a new record
 pRecordset.AddNew
@@ -2981,9 +3094,15 @@ pRecordset.AddNew
    pRecordset.Collect("Address") = "4000 Warner Boulevard"
    pRecordset.Collect("City") = "Burbank, CA. 91522"
 pRecordset.Update
-```
 
-# <a name="UpdateBatch"></a>UpdateBatch
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## UpdateBatch
 
 Writes all pending batch updates to disk.
 
