@@ -273,7 +273,7 @@ IF pConnection.State = adStateOpen THEN pConnection.Close
 ```
 ...
 
-# <a name="CommandTimeout"></a>CommandTimeout
+## CommandTimeout
 
 Sets or returns a Long value that indicates, in seconds, how long to wait for a command to execute. Default is 30.
 
@@ -308,8 +308,9 @@ pConnection.CommandTimeout = 35
 ' // Gets the timeout value
 DIM lTimeout AS LONG = pConnection.CommandTimeout
 ```
+---
 
-# <a name="CommitTrans"></a>CommitTrans
+## CommitTrans
 
 Saves any changes and ends the current transaction. It may also start a new transaction.
 
@@ -325,9 +326,9 @@ S_OK (0) or an HRESULT code.
 
 Use **BeginTrans**, **CommitTrans** and **RollbackTrans** with a `Connection` object when you want to save or cancel a series of changes made to the source data as a single unit. For example, to transfer money between accounts, you subtract an amount from one and add the same amount to the other. If either update fails, the accounts no longer balance. Making these changes within an open transaction ensures that either all or none of the changes go through.
 
-Not all providers support transactions. Verify that the provider-defined property "Transaction DDL" appears in the `Connection` object's **Properties** collection, indicating that the provider supports transactions. If the provider does not support transactions, calling one of these methods will return an error.
+Not all providers support transactions. Verify that the provider-defined property "Transaction DDL" appears in the `Connection` object's `Properties` collection, indicating that the provider supports transactions. If the provider does not support transactions, calling one of these methods will return an error.
 
-After you call the **BeginTrans method**, the provider will no longer instantaneously commit changes you make until you call **CommitTrans** or **RollbackTrans** to end the transaction.
+After you call the **BeginTrans** method, the provider will no longer instantaneously commit changes you make until you call **CommitTrans** or **RollbackTrans** to end the transaction.
 
 For providers that support nested transactions, calling the **BeginTrans** method within an open transaction starts a new, nested transaction. The return value indicates the level of nesting: a return value of "1" indicates you have opened a top-level transaction (that is, the transaction is not nested within another transaction), "2" indicates that you have opened a second-level transaction (a transaction nested within a top-level transaction), and so forth. Calling **CommitTrans** or **RollbackTrans** affects only the most recently opened transaction; you must close or roll back the current transaction before you can resolve any higher-level transactions.
 
@@ -342,38 +343,42 @@ The **BeginTrans**, **CommitTrans**, and **RollbackTrans** methods are not avail
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Open the recordset
+' // === Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cvSource AS CVAR = "SELECT * FROM Authors"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+pRecordset.Open("SELECT * FROM Authors", pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-' // Begin a transaction
+' // === Begin a transaction
 pConnection.BeginTrans
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   DIM cvRes AS CVAR = pRecordset.Collect("Year Born")
-   IF cvRes.ValInt = 1947 THEN pRecordset.Collect("Year Born") = 1900
+   DIM dvRes AS DVARIANT = pRecordset.Collect("Year Born")
+   IF VAL(dvRes) = 1947 THEN pRecordset.Collect("Year Born") = 1900
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-' // Commit the transaction
+
+' // === Commit the transaction
 'pConnection.CommitTrans
-' // Rollback the transaction because this is a demo
+' // === Rollback the transaction because this is a demo
 pConnection.RollbackTrans
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
 
-# <a name="ConnectionString"></a>ConnectionString
+## ConnectionString
 
 Indicates the information used to establish a connection to a data source.
 
@@ -425,34 +430,39 @@ pConnection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=bib
 pConnection.Open
 ```
 ```
-DIM dwsConStr AS DWsTRING = pConnection.ConnectionString
+DIM dwsConStr AS DWSTRING = pConnection.ConnectionString
 ```
 
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
 pConnection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
 pConnection.Open
 
-' // Open the recordset
+' // === Open the recordset
 DIM pRecordset AS CAdoRecordset
 pRecordset.Open("SELECT * FROM Authors", pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
    PRINT pRecordset.Collect("Author")
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
 ```
+---
 
 # <a name="ConnectionTimeout"></a>ConnectionTimeout
 
@@ -479,7 +489,9 @@ The **ConnectionTimeout** property is read/write when the connection is closed a
 
 On a `Connection` object, the **ConnectionTimeout** property remains read/write after the `Connection` is opened.
 
-# <a name="CursorLocation"></a>CursorLocation
+---
+
+## CursorLocation
 
 Indicates the location of the cursor service.
 
@@ -530,8 +542,9 @@ pConnection.CursorLocation = adUseClient
 ' // Gets the timeout value
 DIM lCursorLoc AS LONG = pConnection.CursorLocation
 ```
+---
 
-# <a name="DefaultDatabase"></a>DefaultDatabase
+## DefaultDatabase
 
 Indicates the default database for a `Connection` object.
 
@@ -542,7 +555,7 @@ PROPERTY DefaultDatabase (BYREF wszDatabase AS WSTRING)
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsDatabase* | Name of the database available from the provider. |
+| *wszDatabase* | Name of the database available from the provider. |
 
 #### Return value
 
@@ -560,7 +573,9 @@ Some data sources and providers may not support this feature, and may return an 
 
 This property is not available on a client-side `Connection` object.
 
-# <a name="Execute"></a>Execute
+---
+
+## Execute
 
 Executes the specified query, SQL statement, stored procedure, or provider-specific text.
 
@@ -571,7 +586,7 @@ FUNCTION Execute (BYREF wszCommandText AS WSTRING, BYVAL RecordsAffected AS LONG
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsCommandText* | A string value that contains the SQL statement, stored procedure, a URL, or provider-specific text to execute. Optionally, table names can be used but only if the provider is SQL aware. For example if a table name of "Customers" is used, ADO will automatically prepend the standard SQL Select syntax to form and pass "SELECT * FROM Customers" as a T-SQL statement to the provider. |
+| *wszCommandText* | A string value that contains the SQL statement, stored procedure, a URL, or provider-specific text to execute. Optionally, table names can be used but only if the provider is SQL aware. For example if a table name of "Customers" is used, ADO will automatically prepend the standard SQL Select syntax to form and pass "SELECT * FROM Customers" as a T-SQL statement to the provider. |
 | *RecordsAffected* | Optional. Pointer to a LONG to which the provider returns the number of records that the operation affected. |
 | *Options* | Optional. A Long value that indicates how the provider should evaluate the **CommandText** argument. Can be a bitmask of one or more **CommandTypeENum** or **ExecuteOptionEnum** values. |
 
@@ -629,30 +644,43 @@ An **ExecuteComplete** event will be issued when this operation concludes.
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
 pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
 
-' // Create the recordset by executing a query
-DIM pRecordset AS CAdoRecordset
-pRecordset.Attach(pConnection.Execute("SELECT TOP 20 * FROM Authors ORDER BY Author"))
+' // == Create a Command object
+DIM pCommand AS CAdoCommand
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Set the active connection
+pCommand.ActiveConnection = pConnection
+
+' // === Set the CommandText property
+pCommand.CommandText = "SELECT TOP 20 * FROM Authors ORDER BY Author"
+
+' // === Create the recordset by executing a query and attaching
+' // === the resulting recordset to an instance of the CAdoRecordset class.
+DIM pRecordset AS CAdoRecordset = pCommand.Execute
+
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   DIM cvRes AS CVAR = pRecordset.Collect("Author")
-   PRINT cvRes
+   PRINT pRecordset.Collect("Author")
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-```
 
-# <a name="GetErrorInfo"></a>GetErrorInfo
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## GetErrorInfo
 
 Returns information about ADO errors.
 
@@ -668,7 +696,9 @@ FUNCTION GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DWSTRING
 
 A description of the error(s).
 
-# <a name="IsolationLevel"></a>IsolationLevel
+---
+
+## IsolationLevel
 
 Indicates the level of isolation for a `Connection` object.
 
@@ -721,8 +751,9 @@ pConnection.IsolationLevel = adXactUnspecified
 ' // Gets the isolation level
 DIM level AS LONG = pConnection.IsolationLevel
 ```
+---
 
-# <a name="Mode"></a>Mode
+## Mode
 
 Indicates the available permissions for modifying data in a `Connection` object.
 
@@ -755,7 +786,9 @@ Specifies the available permissions for modifying data in a `Connection`, openin
 | **adModeUnknown** | Default. Indicates that the permissions have not yet been set or cannot be determined. |
 | **adModeWrite** | Indicates write-only permissions. |
 
-# <a name="Open"></a>Open
+---
+
+## Open
 
 Opens a connection to a data source.
 
@@ -766,9 +799,9 @@ FUNCTION Open (BYREF wszConStr AS WSTRING = "", BYREF wszUserID AS WSTRING = "",
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cbsConStr* | Optional. An string value that contains connection information. |
-| *cbsUserID* | Optional. An string value that contains a user name to use when establishing the connection. |
-| *cbsPassword* | Optional. An string value that contains a password to use when establishing the connection. |
+| *wszConStr* | Optional. An string value that contains connection information. |
+| *wszUserID* | Optional. An string value that contains a user name to use when establishing the connection. |
+| *wszPassword* | Optional. An string value that contains a password to use when establishing the connection. |
 | *Options* | Optional. A **ConnectOptionEnum** value that determines whether this method should return after (synchronously) or before (asynchronously) the connection is established. |
 
 #### ConnectOptionEnum
@@ -808,44 +841,38 @@ pConnection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=bib
 ' // Open the connection
 pConnection.Open
 ```
-' --> Alternate way <--
-```
-pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
-```
 
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Create a Connection object
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-' // Create a Recordset object
-DIM pRecordset AS CAdoRecordset
-
-' // Open the connection
 pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Open the recordset
-DIM cvSource AS CVAR = "SELECT TOP 20 * FROM Authors ORDER BY Author"
-DIM hr AS HRESULT = pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+' // === Open the recordset
+DIM pRecordset AS CAdoRecordset
+pRecordset.Open("SELECT * FROM Authors", pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   SCOPE
-      DIM cvRes AS CVAR = pRecordset.Collect("Author")
-      PRINT cvRes
-   END SCOPE
+   PRINT pRecordset.Collect("Author")
    ' // Fetch the next row
-   pRecordset.MoveNext
+   IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-```
 
-# <a name="OpenSchema"></a>OpenSchema
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## OpenSchema
 
 Obtains database schema information from the provider.
 
@@ -883,9 +910,11 @@ The **OpenSchema** method is not available on a client-side `Connection` object.
 
 When not using client side cursors, retrieving the "ORDINAL_POSITION" of a column schema in ADO returns a variant of type VT_R8 in MDAC 2.7 and later while the type of used in MDAC 2.6 was VT_I4. Programs written for MDAC 2.6 that only look for a variant returned of type VT_I4 would get a zero for every ordinal if run under MDAC 2.7 and later without modification. This change was made because the data type that OLE DB returns is DBTYPE_UI4, and in the signed VT_I4 type there is not enough room to contain all possible values without possibly truncation occurring and thereby causing a loss of data.
 
-# <a name="Properties"></a>Properties
+---
 
-Returns a reference to the **Properties** collection.
+## Properties
+
+Returns a reference to the `Properties` collection.
 
 ```
 PROPERTY Properties () AS Afx_ADOProperties PTR
@@ -901,8 +930,9 @@ An Afx_ADOProperties object reference.
 DIM pProperties AS Afx_ADOProperties
 pProperties = pConnection.Properties
 ```
+---
 
-# <a name="Provider"></a>Provider
+## Provider
 
 Indicates the name of the provider for a Connection object.
 
@@ -928,10 +958,11 @@ The **Provider** property is read/write when the connection is closed and read-o
 #### Usage example
 
 ```
-DIM cbsProvider AS DWSTRING = pConnection.Provider
+DIM dwsProvider AS DWSTRING = pConnection.Provider
 ```
+---
 
-# <a name="RollbackTrans"></a>RollbackTrans
+## RollbackTrans
 
 Saves any changes and ends the current transaction. It may also start a new transaction.
 
@@ -945,7 +976,7 @@ S_OK (0) or an HRESULT code.
 
 Use **BeginTrans**, **CommitTrans** and **RollbackTrans** with a `Connection` object when you want to save or cancel a series of changes made to the source data as a single unit. For example, to transfer money between accounts, you subtract an amount from one and add the same amount to the other. If either update fails, the accounts no longer balance. Making these changes within an open transaction ensures that either all or none of the changes go through.
 
-Not all providers support transactions. Verify that the provider-defined property "Transaction DDL" appears in the `Connection` object's **Properties** collection, indicating that the provider supports transactions. If the provider does not support transactions, calling one of these methods will return an error.
+Not all providers support transactions. Verify that the provider-defined property "Transaction DDL" appears in the `Connection` object's `Properties` collection, indicating that the provider supports transactions. If the provider does not support transactions, calling one of these methods will return an error.
 
 After you call the **BeginTrans method**, the provider will no longer instantaneously commit changes you make until you call **CommitTrans** or **RollbackTrans** to end the transaction.
 
@@ -962,38 +993,43 @@ The **BeginTrans**, **CommitTrans**, and **RollbackTrans** methods are not avail
 #### Example
 
 ```
-#include "Afx/CADODB/CADODB.inc"
-using Afx
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
 
-' // Open the connection
+' // === Open the connection
 DIM pConnection AS CAdoConnection
-pConnection.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb"
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
 
-' // Open the recordset
+' // === Open the recordset
 DIM pRecordset AS CAdoRecordset
-DIM cvSource AS CVAR = "SELECT * FROM Authors"
-pRecordset.Open(cvSource, pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+pRecordset.Open("SELECT * FROM Authors", pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
 
-' // Begin a transaction
+' // === Begin a transaction
 pConnection.BeginTrans
 
-' // Parse the recordset
-DO
-   ' // While not at the end of the recordset...
-   IF pRecordset.EOF THEN EXIT DO
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
    ' // Get the content of the "Author" column
-   DIM cvRes AS CVAR = pRecordset.Collect("Year Born")
-   IF cvRes.ValInt = 1947 THEN pRecordset.Collect("Year Born") = 1900
+   DIM dvRes AS DVARIANT = pRecordset.Collect("Year Born")
+   IF VAL(dvRes) = 1947 THEN pRecordset.Collect("Year Born") = 1900
    ' // Fetch the next row
    IF pRecordset.MoveNext <> S_OK THEN EXIT DO
 LOOP
-' // Commit the transaction
-'pConnection.CommitTrans
-' // Rollback the transaction because this is a demo
-pConnection.RollbackTrans
-```
 
-# <a name="State"></a>State
+' // === Commit the transaction
+'pConnection.CommitTrans
+' // === Rollback the transaction because this is a demo
+pConnection.RollbackTrans
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
+---
+
+## State
 
 Indicates if a `Connection` is open or closed.
 
@@ -1028,8 +1064,9 @@ Specifies whether the Open method of a Connection object should return after (sy
 ```
 IF pConnection.State = adStateOpen THEN pConnection.Close
 ```
+---
 
-# <a name="Version"></a>Version
+## Version
 
 Indicates the ADO version number.
 
