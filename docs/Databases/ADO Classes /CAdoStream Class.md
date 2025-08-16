@@ -612,11 +612,13 @@ Writes binary data to a `Stream` object.
 
 ```
 FUNCTION Write (BYREF dvBuffer AS DVARIANT) AS HRESULT
+FUNCTION Write (BYVAL vBuffer AS VARIANT) AS HRESULT
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *dvBuffer* | A **DVARIANT** that contains an array of bytes to be written. |
+| *vBuffer* | A **VARIANT** that contains an array of bytes to be written. |
 
 #### Return value
 
