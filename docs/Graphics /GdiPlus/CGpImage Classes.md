@@ -193,7 +193,6 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
    graphics.SetPageScale(rxRatio)
 
    ' // Create an Image object.
-'   DIM pImage AS CGpImage = "climber.jpg"   ' // load from file
    DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
 '   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
 
