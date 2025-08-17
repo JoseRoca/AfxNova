@@ -574,6 +574,10 @@ FUNCTION SetOption (BYVAL nOption AS WinHttpRequestOption, BYREF dvValue AS DVAR
 
 Returns S_OK (0) if successful or an error value otherwise.
 
+#### Remarks
+
+You can set the SecureProtocols option to SecureProtocol_TLS1_2 to enable TLS 1.2 explicitly, ie. pWinHttp.SetOption(WinHttpRequestOption_SecureProtocols, 2048).
+
 #### Example
 
 ```
