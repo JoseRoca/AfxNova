@@ -384,6 +384,7 @@ FUNCTION Open (BYREF dvSource AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_
    BYREF dvActiveConnection AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
    BYVAL nMode AS ConnectModeEnum = adModeUnknown, _
    BYVAL CreateOptions AS RecordCreateOptionsEnum = adFailIfNotExists, _
+   BYVAL Options AS RecordOpenOptionsEnum = adOpenRecordUnspecified, _
    BYREF wszUserName AS WSTRING = "", BYREF wszPassword AS WSTRING = "") AS HRESULT
 ```
 
@@ -393,6 +394,7 @@ FUNCTION Open (BYREF dvSource AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_
 | *dvActiveConnection* | Optional. A Variant that represents the connect string or open `Connection` object. |
 | *nMode* | Optional. A **ConnectModeEnum** value, whose default value is **adModeUnknown**, that specifies the access mode for the resultant `Record` object. |
 | *CreateOptions* | Optional. A **RecordCreateOptionsEnum** value, whose default value is **adFailIfNotExists**, that specifies whether an existing file or directory should be opened, or a new file or directory should be created. If set to the default value, the access mode is obtained from the **Mode** property. This parameter is ignored when the *cbsSource* parameter doesn't contain a URL. |
+| *Options* | Optional. Optional. A **RecordOpenOptionsEnum** value, whose default value is *adOpenRecordUnspecified*, that specifies options for opening the `Record`. These values may be combined. |
 | *wszUserName* | Optional. A string value that contains the user ID that, if needed, authorizes access to *cbsSource*. |
 | *wszPassword* | Optional. A string value that contains the password that, if needed, verifies *cbsUserName*. |
 
