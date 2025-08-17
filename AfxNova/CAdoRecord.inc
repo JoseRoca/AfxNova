@@ -333,7 +333,7 @@ END FUNCTION
 PRIVATE FUNCTION CAdoRecord.Open (BYREF dvSource AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
 BYREF dvActiveConnection AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND), _
 BYVAL nMode AS ConnectModeEnum = adModeUnknown, BYVAL CreateOptions AS RecordCreateOptionsEnum = adFailIfNotExists, _
-BYVAL Options AS RecordOpenOptionsEnum = -1, BYREF wszUserName AS WSTRING = "", BYREF wszPassword AS WSTRING = "") AS HRESULT
+BYVAL Options AS RecordOpenOptionsEnum = adOpenRecordUnspecified, BYREF wszUserName AS WSTRING = "", BYREF wszPassword AS WSTRING = "") AS HRESULT
    CADODB_DP("")
    DIM bstrUserName AS AFX_BSTR = SysAllocString(wszUserName)
    DIM bstrPassword AS AFX_BSTR = SysAllocString(wszPassword)
