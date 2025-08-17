@@ -75,7 +75,6 @@ END DESTRUCTOR
 ' Returns the last result
 ' ========================================================================================
 PRIVATE FUNCTION CAdoBase.GetLastResult () AS HRESULT
-   CADODB_DP("")
    RETURN m_Result
 END FUNCTION
 ' ========================================================================================
@@ -84,7 +83,6 @@ END FUNCTION
 ' Sets the last result code.
 ' ========================================================================================
 PRIVATE FUNCTION CAdoBase.SetResult (BYVAL Result AS HRESULT) AS HRESULT
-   CADODB_DP("")
    m_Result = Result
    RETURN m_Result
 END FUNCTION

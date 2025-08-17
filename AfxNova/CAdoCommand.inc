@@ -26,8 +26,6 @@
 
 #pragma once
 
-NAMESPACE AfxNova
-
 ' ########################################################################################
 ' CAdoCommand class
 ' ########################################################################################
@@ -430,5 +428,3 @@ PRIVATE FUNCTION CAdoCommand.GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DWSTR
    RETURN dwsError
 END FUNCTION
 ' ===========================================================================================
-
-END NAMESPACE

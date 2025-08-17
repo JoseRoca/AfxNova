@@ -26,8 +26,6 @@
 
 #pragma once
 
-NAMESPACE AfxNova
-
 ' ########################################################################################
 ' CAdoField class
 ' ########################################################################################
@@ -569,5 +567,3 @@ PRIVATE FUNCTION CAdoFields.CancelUpdate () AS HRESULT
    IF m_pFields THEN RETURN(SetResult(m_pFields->CancelUpdate))
 END FUNCTION
 ' ===========================================================================================
-
-END NAMESPACE

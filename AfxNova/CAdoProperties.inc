@@ -26,8 +26,6 @@
 
 #pragma once
 
-NAMESPACE AfxNova
-
 ' ########################################################################################
 ' CAdoProperty class
 ' ########################################################################################
@@ -322,5 +320,3 @@ PRIVATE PROPERTY CAdoProperties.Item (BYREF dvIndex AS DVARIANT) AS Afx_ADOPrope
    RETURN pProperty
 END PROPERTY
 ' ===========================================================================================
-
-END NAMESPACE

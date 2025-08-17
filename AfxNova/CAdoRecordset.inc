@@ -26,8 +26,6 @@
 
 #pragma once
 
-NAMESPACE AfxNova
-
 ' ########################################################################################
 ' CAdoRecordset class
 ' ########################################################################################
@@ -202,12 +200,13 @@ END TYPE
 ' Default constructor
 ' ========================================================================================
 CONSTRUCTOR CAdoRecordset
-   CADODB_DP("")
+   'CADODB_DP("")
    ' // Create an instance of the Recordset object
 '   DIM CLSID_Recordset_ AS GUID = (&h00000535, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
 '   DIM IID_Recordset_ AS GUID = (&h00001556, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
 '   SetResult(CoCreateInstance(@CLSID_Recordset_, NULL, CLSCTX_INPROC_SERVER, @IID_Recordset_, @m_pRecordset))
    m_pRecordset = AfxNewCom("ADODB.Recordset")
+   CADODB_DP(WSTR(m_pRecordset))
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
@@ -224,7 +223,7 @@ END CONSTRUCTOR
 ' Cleanup
 ' ===========================================================================================
 DESTRUCTOR CAdoRecordset
-   CADODB_DP("")
+   CADODB_DP(WSTR(m_pRecordset))
    ' // Close and release the recordset
    IF m_pRecordset THEN
       IF this.State = adStateOpen THEN this.Close
@@ -375,7 +374,7 @@ END PROPERTY
 ' Indicates that the current record position is before the first record in a Recordset object
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoRecordset.BOF () AS BOOLEAN
-   CADODB_DP("")
+   'CADODB_DP("")
    DIM pb AS VARIANT_BOOL
    IF m_pRecordset THEN SetResult(m_pRecordset->get_BOF(@pb))
    PROPERTY = pb
@@ -386,7 +385,7 @@ END PROPERTY
 ' * Indicates that the current record position is after the last record in a Recordset object
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoRecordset.EOF () AS BOOLEAN
-   CADODB_DP("")
+   'CADODB_DP("")
    DIM pb AS VARIANT_BOOL
    IF m_pRecordset THEN SetResult(m_pRecordset->get_EOF(@pb))
    PROPERTY = pb
@@ -636,7 +635,7 @@ END PROPERTY
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoRecordset.Collect (BYREF dvIndex AS DVARIANT) AS DVARIANT
-   CADODB_DP("DVARIANT")
+   'CADODB_DP("DVARIANT")
    DIM dvValue AS DVARIANT
    IF m_pRecordset THEN SetResult(m_pRecordset->get_Collect(dvIndex, dvValue))
    PROPERTY = dvValue
@@ -645,7 +644,7 @@ END PROPERTY
 
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoRecordset.Collect (BYREF dvIndex AS DVARIANT, BYREF dvValue AS DVARIANT)
-   CADODB_DP("Index, Value")
+   'CADODB_DP("Index, Value")
    IF m_pRecordset THEN SetResult(m_pRecordset->put_Collect(dvIndex, dvValue))
 END PROPERTY
 ' ===========================================================================================
@@ -789,7 +788,7 @@ END FUNCTION
 ' * Moves the current record position to the next record in the Recordset
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoRecordset.MoveNext () AS HRESULT
-   CADODB_DP("")
+   'CADODB_DP("")
    IF m_pRecordset THEN RETURN(SetResult(m_pRecordset->MoveNext))
 END FUNCTION
 ' ===========================================================================================
@@ -798,7 +797,7 @@ END FUNCTION
 ' Moves the current record position to the previous record in the Recordset
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoRecordset.MovePrevious () AS HRESULT
-   CADODB_DP("")
+   'CADODB_DP("")
    IF m_pRecordset THEN RETURN(SetResult(m_pRecordset->MovePrevious))
 END FUNCTION
 ' ===========================================================================================
@@ -807,7 +806,7 @@ END FUNCTION
 ' Moves the current record position to the first record in the Recordset.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoRecordset.MoveFirst () AS HRESULT
-   CADODB_DP("")
+   'CADODB_DP("")
    IF m_pRecordset THEN RETURN(SetResult(m_pRecordset->MoveFirst))
 END FUNCTION
 ' ===========================================================================================
@@ -816,7 +815,7 @@ END FUNCTION
 ' Moves the current record position to the last record in the Recordset.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoRecordset.MoveLast () AS HRESULT
-   CADODB_DP("")
+   'CADODB_DP("")
    IF m_pRecordset THEN RETURN(SetResult(m_pRecordset->MoveLast))
 END FUNCTION
 ' ===========================================================================================
@@ -836,7 +835,7 @@ END PROPERTY
 ' Indicates for whether the state of the Recordset object is open or closed
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoRecordset.State () AS LONG
-   CADODB_DP("")
+   'CADODB_DP("")
    DIM lState AS LONG
    IF m_pRecordset THEN SetResult(m_pRecordset->get_State(@lState))
    PROPERTY = lState
@@ -1124,5 +1123,3 @@ PRIVATE FUNCTION CAdoRecordset.GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DWS
    RETURN dwsError
 END FUNCTION
 ' ===========================================================================================
-
-END NAMESPACE

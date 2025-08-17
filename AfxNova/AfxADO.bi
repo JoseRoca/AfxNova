@@ -1232,7 +1232,7 @@ TYPE Afx_ADORecord_ EXTENDS Afx_IDispatch
    DECLARE ABSTRACT FUNCTION DeleteRecord (BYVAL Source AS AFX_BSTR = NULL, BYVAL Async AS VARIANT_BOOL = 0) AS HRESULT
    DECLARE ABSTRACT FUNCTION Open (BYVAL Source AS VARIANT, BYVAL ActiveConnection AS VARIANT, _
            BYVAL Mode AS ConnectModeEnum = adModeUnknown, BYVAL CreateOptions AS RecordCreateOptionsEnum = adFailIfNotExists, _
-           BYVAL UserName AS AFX_BSTR = NULL, BYVAL Password AS AFX_BSTR = NULL) AS HRESULT
+           BYVAL Options AS RecordOpenOptionsEnum = -1, BYVAL UserName AS AFX_BSTR = NULL, BYVAL Password AS AFX_BSTR = NULL) AS HRESULT
    DECLARE ABSTRACT FUNCTION Close () AS HRESULT
    DECLARE ABSTRACT FUNCTION get_Fields (BYVAL ppFlds AS Afx_ADOFields PTR PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION get_RecordType (BYVAL pType AS RecordTypeEnum PTR) AS HRESULT

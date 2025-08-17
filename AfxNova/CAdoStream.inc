@@ -26,6 +26,23 @@
 
 #pragma once
 
+' ========================================================================================
+' Macro for debug
+' To allow debugging, define _CADOSTM_DEBUG_ 1 in your application before including this file.
+' ========================================================================================
+#ifndef _CADOSTM_DEBUG_
+   #define _CADOSTM_DEBUG_ 0
+#ENDIF
+#ifndef _CADOSTM_DP_
+   #define _CADOSTM_DP_ 1
+   #MACRO CADOSTM_DP(st)
+      #IF (_CADOSTM_DEBUG_ = 1)
+         OutputDebugStringW(__FUNCTION__ + ": " + st)
+      #ENDIF
+   #ENDMACRO
+#ENDIF
+' ========================================================================================
+
 ' ########################################################################################
 ' CAdoStream class
 ' ########################################################################################
@@ -39,6 +56,8 @@ TYPE CAdoStream EXTENDS CAdoBase
    DECLARE DESTRUCTOR
 '   DECLARE OPERATOR @ () AS Afx_ADOStream PTR PTR
    DECLARE FUNCTION vptr () AS Afx_ADOStream PTR PTR
+   DECLARE FUNCTION GetIStream () AS IStream PTR
+   DECLARE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
 
    ' // Attaches a recordset to the class
    DECLARE SUB Attach (BYVAL pStream AS Afx_ADOStream PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
@@ -77,6 +96,7 @@ TYPE CAdoStream EXTENDS CAdoBase
    DECLARE FUNCTION SkipLine () AS HRESULT
    ' // Writes binary data to a Stream object.
    DECLARE FUNCTION Write (BYREF dvBuffer AS DVARIANT) AS HRESULT
+   DECLARE FUNCTION Write (BYVAL vBuffer AS VARIANT) AS HRESULT
    ' // Writes a string to a Stream object.
    DECLARE FUNCTION WriteText (BYREF wszData AS WSTRING, BYVAL Options AS StreamWriteEnum = adWriteChar) AS HRESULT
    ' // Sets the position that is the end of the stream.
@@ -100,7 +120,7 @@ END TYPE
 ' Default constructor
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CAdoStream
-   CADODB_DP("BEGIN Default")
+   CADOSTM_DP("Default")
    ' // Create an instance of the Stream object
    m_pStream = AfxNewCom("ADODB.Stream")
    CADODB_DP("END  " & WSTR(m_pStream))
@@ -108,7 +128,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CAdoStream (BYVAL pStream AS Afx_ADOStream PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
-   CADODB_DP("")
+   CADOSTM_DP("Afx_ADOStream")
    m_pStream = pStream
    IF fAddRef THEN
       IF m_pStream THEN m_pStream->AddRef
@@ -120,7 +140,7 @@ END CONSTRUCTOR
 ' Cleanup
 ' ===========================================================================================
 PRIVATE DESTRUCTOR CAdoStream
-   CADODB_DP(WSTR(m_pStream))
+   CADOSTM_DP(WSTR(m_pStream))
    IF m_pStream THEN
       IF this.State = adStateOpen THEN this.Close
       m_pStream->Release
@@ -137,9 +157,23 @@ END DESTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CAdoStream.vptr () AS Afx_ADOStream PTR PTR
-   CADODB_DP("")
+   'CADOSTM_DP("")
    IF m_pStream THEN m_pStream->Release
    RETURN @m_pStream
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Not for general use.
+' Returns a pointer to the underlying IStream interface.
+' The type of the ADO stream must be must be adTypeBinary.
+' The caller is responsible of releasing the returned pointer.
+' Release it before the CAdoStream class is destroyed.
+' ========================================================================================
+PRIVATE FUNCTION CAdoStream.GetIStream () AS IStream PTR
+   DIM pIStream AS IStream PTR
+   SetResult(m_pStream->QueryInterface(@IID_IStream, @pIStream))
+   RETURN pIStream
 END FUNCTION
 ' ========================================================================================
 
@@ -152,11 +186,31 @@ END OPERATOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Returns a description of the last result code.
+' ========================================================================================
+PRIVATE FUNCTION CAdoStream.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+   IF nError = -1 THEN nError = m_Result
+   DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, dwsMsg AS DWSTRING
+   cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
+           FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
+           NULL, nError, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
+           cast(LPWSTR, @pBuffer), 0, NULL)
+   IF cbLen THEN
+      dwsMsg = *pBuffer
+      LocalFree pBuffer
+   END IF
+   IF nError THEN dwsMsg = "Error &h" + HEX(nError) & CHR(13, 10) + dwsMsg
+   RETURN dwsMsg
+END FUNCTION
+' ========================================================================================
+
+
+' ========================================================================================
 ' Attaches an ADO stream to the class.
 ' Useful to attach to the class a pointer returned by a function.
 ' ========================================================================================
 PRIVATE SUB CAdoStream.Attach (BYVAL pStream AS Afx_ADOStream PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
-   CADODB_DP("")
+   CADOSTM_DP(WSTR(Afx_ADOStream))
    IF m_pStream THEN m_pStream->Release
    m_pStream = pStream
    IF fAddRef THEN
@@ -169,7 +223,6 @@ END SUB
 ' Indicates the size of the stream in number of bytes.
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Size () AS LONG
-   CADODB_DP("")
    DIM lSize AS LONG
    IF m_pStream THEN SetResult(m_pStream->get_Size(@lSize))
    PROPERTY = lSize
@@ -180,7 +233,6 @@ END PROPERTY
 ' Indicates whether the current position is at the end of the stream.
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.EOS () AS BOOLEAN
-   CADODB_DP("")
    DIM bEOS AS VARIANT_BOOL
    IF m_pStream THEN SetResult(m_pStream->get_EOS(@bEOS))
    PROPERTY = bEOS
@@ -191,7 +243,6 @@ END PROPERTY
 ' Indicates the current position within a Stream object.
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Position () AS LONG
-   CADODB_DP("")
    DIM nPos AS LONG
    IF m_pStream THEN SetResult(m_pStream->get_Position(@nPos))
    PROPERTY = nPos
@@ -199,7 +250,6 @@ END PROPERTY
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Position (BYVAL nPos AS LONG)
-   CADODB_DP("")
    IF m_pStream THEN SetResult(m_pStream->put_Position(nPos))
 END PROPERTY
 ' ===========================================================================================
@@ -208,7 +258,6 @@ END PROPERTY
 ' Indicates the type of data contained in the Stream (binary or text).
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Type_ () AS StreamTypeEnum
-   CADODB_DP("")
    DIM nType AS StreamTypeEnum
    IF m_pStream THEN SetResult(m_pStream->get_Type(@nType))
    PROPERTY = nType
@@ -216,7 +265,6 @@ END PROPERTY
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Type_ (BYVAL nType AS StreamTypeEnum)
-   CADODB_DP("")
    IF m_pStream THEN SetResult(m_pStream->put_Type(nType))
 END PROPERTY
 ' ===========================================================================================
@@ -225,7 +273,6 @@ END PROPERTY
 ' Indicates the binary character to be used as the line separator in text Stream objects.
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.LineSeparator () AS LineSeparatorEnum
-   CADODB_DP("")
    DIM LS AS LineSeparatorEnum
    IF m_pStream THEN SetResult(m_pStream->get_LineSeparator(@LS))
    PROPERTY = LS
@@ -233,7 +280,6 @@ END PROPERTY
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.LineSeparator (BYVAL LS AS LineSeparatorEnum)
-   CADODB_DP("")
    IF m_pStream THEN SetResult(m_pStream->put_LineSeparator(LS))
 END PROPERTY
 ' ===========================================================================================
@@ -242,7 +288,6 @@ END PROPERTY
 ' Indicates for whether the state of the Stream object is open or closed.
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.State () AS ObjectStateEnum
-   CADODB_DP("")
    DIM lState AS ObjectStateEnum
    IF m_pStream THEN SetResult(m_pStream->get_State(@lState))
    PROPERTY = lState
@@ -253,7 +298,6 @@ END PROPERTY
 ' Indicates the available permissions for modifying data in a Stream object.
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Mode () AS ConnectModeEnum
-   CADODB_DP("")
    DIM nMode AS ConnectModeEnum
    IF m_pStream THEN SetResult(m_pStream->get_Mode(@nMode))
    PROPERTY = nMode
@@ -261,7 +305,6 @@ END PROPERTY
 ' ===========================================================================================
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Mode (BYVAL nMode AS ConnectModeEnum)
-   CADODB_DP("")
    IF m_pStream THEN SetResult(m_pStream->put_Mode(nMode))
 END PROPERTY
 ' ===========================================================================================
@@ -270,7 +313,6 @@ END PROPERTY
 ' Indicates the available permissions for modifying data in a Stream object.
 ' ===========================================================================================
 PRIVATE PROPERTY CAdoStream.Charset () AS DWSTRING
-   CADODB_DP("")
    DIM bstrCharset AS AFX_BSTR
    IF m_pStream THEN SetResult(m_pStream->get_Charset(@bstrCharset))
    DIM dwsCharSet AS DWSTRING = *bstrCharset
@@ -340,10 +382,15 @@ END FUNCTION
 
 ' ===========================================================================================
 ' Writes binary data to a Stream object.
+' To fill the variant with binary data use AfxVariantFromBuffer.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.Write (BYREF dvBuffer AS DVARIANT) AS HRESULT
-   CADODB_DP("")
    IF m_pStream THEN RETURN(SetResult(m_pStream->Write(dvBuffer)))
+END FUNCTION
+' ===========================================================================================
+' ===========================================================================================
+PRIVATE FUNCTION CAdoStream.Write (BYVAL vBuffer AS VARIANT) AS HRESULT
+   IF m_pStream THEN RETURN(SetResult(m_pStream->Write(vBuffer)))
 END FUNCTION
 ' ===========================================================================================
 
@@ -351,7 +398,6 @@ END FUNCTION
 ' Writes a string to a Stream object.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.WriteText (BYREF wszData AS WSTRING, BYVAL Options AS StreamWriteEnum = adWriteChar) AS HRESULT
-   CADODB_DP("")
    DIM bstrData AS AFX_BSTR = SysAllocString(wszData)
    IF m_pStream THEN SetResult(m_pStream->WriteText(bstrData, Options))
    SysFreeString bstrData
@@ -363,7 +409,6 @@ END FUNCTION
 ' Sets the position that is the end of the stream.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.SetEOS () AS HRESULT
-   CADODB_DP("")
    IF m_pStream THEN RETURN(SetResult(m_pStream->SetEOS))
 END FUNCTION
 ' ===========================================================================================
@@ -373,7 +418,6 @@ END FUNCTION
 ' another Stream object.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.CopyTo (BYVAL pDestStream AS Afx_ADOStream PTR, BYVAL CharNumber AS LONG = adReadAll) AS HRESULT
-   CADODB_DP("")
    IF m_pStream THEN RETURN(SetResult(m_pStream->CopyTo(pDestStream, CharNumber)))
 END FUNCTION
 ' ===========================================================================================
@@ -383,7 +427,6 @@ END FUNCTION
 ' which the Stream is associated.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.Flush () AS HRESULT
-   CADODB_DP("")
    IF m_pStream THEN RETURN(SetResult(m_pStream->Flush))
 END FUNCTION
 ' ===========================================================================================
@@ -392,7 +435,6 @@ END FUNCTION
 ' Saves the binary contents of a Stream to a file.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.SaveToFile (BYREF wszFileName AS WSTRING, BYVAL Options AS SaveOptionsEnum = adSaveCreateNotExist) AS HRESULT
-   CADODB_DP("")
    DIM bstrFileName AS AFX_BSTR = SysAllocString(wszFileName)
    IF m_pStream THEN SetResult(m_pStream->SaveToFile(bstrFileName, Options))
    SysFreeString bstrFileName
@@ -404,7 +446,6 @@ END FUNCTION
 ' Loads the contents of an existing file into a Stream.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.LoadFromFile (BYREF wszFileName AS WSTRING) AS HRESULT
-   CADODB_DP("")
    DIM bstrFileName AS AFX_BSTR = SysAllocString(wszFileName)
    IF m_pStream THEN RETURN(SetResult(m_pStream->LoadFromFile(bstrFileName)))
    SysFreeString bstrFileName
@@ -417,7 +458,6 @@ END FUNCTION
 ' object and returns the resulting string.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.ReadText (BYVAL NumChars AS LONG = adReadAll) AS DWSTRING
-   CADODB_DP("")
    DIM bstrText AS AFX_BSTR
    IF m_pStream THEN SetResult(m_pStream->ReadText(NumChars, @bstrText))
    DIM dwsText AS DWSTRING = *bstrText
@@ -429,7 +469,6 @@ END FUNCTION
 ' Cancels execution of a pending, asynchronous method call.
 ' ===========================================================================================
 PRIVATE FUNCTION CAdoStream.Cancel () AS HRESULT
-   CADODB_DP("")
    IF m_pStream THEN RETURN(SetResult(m_pStream->Cancel))
 END FUNCTION
 ' ===========================================================================================

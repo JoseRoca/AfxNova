@@ -26,8 +26,6 @@
 
 #pragma once
 
-NAMESPACE AfxNova
-
 ' ########################################################################################
 ' CAdoParameter class
 ' ########################################################################################
@@ -477,5 +475,3 @@ PRIVATE FUNCTION CAdoParameters.Delete_ (BYREF dvIndex AS DVARIANT) AS HRESULT
    IF m_pParameters THEN RETURN(SetResult(m_pParameters->Delete_(dvIndex)))
 END FUNCTION
 ' ===========================================================================================
-
-END NAMESPACE
