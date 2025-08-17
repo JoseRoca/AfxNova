@@ -429,6 +429,45 @@ If the function succeeds, the return value is a pointer to the **IStream** inter
 
 If the function fails, the return value is NULL.
 
+The returned `IStream` pointer must be released when no longer needed.
+
+#### Remarks
+
+This function is used by one of the `CGpImage`constructors to create an instance of this class using an image from a resource file.
+
+#### Example
+
+The following example draws part of an image.
+
+```
+SUB Example_DrawImage (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set scaling
+   graphics.SetPageUnit(UnitPixel)
+   graphics.SetPageScale(rxRatio)
+
+   ' // Create an Image object.
+   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
+'   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
+
+   ' // Draw the original source image.
+   graphics.DrawImage(@pImage, 10, 10)
+
+   ' // Part of the source image to draw
+   DIM rcsrc AS GpRectF = TYPE<GpRectF>(80, 30, 80, 80)
+   ' // Destination recangle
+   DIM rcdest AS GpRectF = TYPE<GpRectF>(200, 10, 80, 80)
+
+   ' // Draw the scaled image.
+   graphics.DrawImage(@pImage, @rcdest, @rcsrc, UnitPixel)
+
+END SUB
+```
 ---
 
 ## AfxGdipInit
