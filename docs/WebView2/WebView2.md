@@ -2963,3 +2963,535 @@ Stop all navigations and pending resource fetches. Does not stop scripts.
 public HRESULT Stop()
 ```
 ---
+
+Minimal bring-up checklist
+Create environment (evergreen or with options): Call CreateCoreWebView2Environment[WithOptions|WithDetails], then in the completed handler, create the controller. Your AfxWebView2.bi already resolves these loader exports dynamically from WebView2Loader.dll, so you can stay dependency-light
+
+Create controller and get core: In the environment-completed callback, call CreateCoreWebView2Controller(hwnd), then get ICoreWebView2 via get_CoreWebView2. Remember: controller owns the WebView; use put_Bounds on resize.
+
+Enable messaging early: Before navigating, add_WebMessageReceived; handle JSON via your reader. JS posts with window.chrome.webview.postMessage(obj), host replies with PostWebMessageAsJson. This keeps your JSON include front and center.
+
+Navigate and verify: Use Navigate or NavigateToString for a first-page sanity check, then ExecuteScript to confirm round-trips. ExecuteScript returns a JSON-encoded result string in the completion handler
+
+Size and visibility: On WM_SIZE, update bounds; minimize → put_IsVisible(FALSE), restore → TRUE. You’ll avoid needless CPU/GPU while hidden.
+
+Tear-down explicitly: Call controller->Close() when done; it releases handlers and shuts down the browser instance if no others remain
+
+Callback classes to implement first
+Environment creation: ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler (Invoke(HRESULT, ICoreWebView2Environment*))
+
+Controller creation: ICoreWebView2CreateCoreWebView2ControllerCompletedHandler (Invoke(HRESULT, ICoreWebView2Controller*)).
+
+Messaging bridge: ICoreWebView2WebMessageReceivedEventHandler (Invoke(ICoreWebView2, ICoreWebView2WebMessageReceivedEventArgs))
+
+Navigation status (optional but useful): ICoreWebView2NavigationStartingEventHandler, ICoreWebView2NavigationCompletedEventHandler for diagnostics and gating behavior.
+
+Title/source updates (quality-of-life): ICoreWebView2DocumentTitleChangedEventHandler, ICoreWebView2SourceChangedEventHandler.
+
+Your .bi already defines the interface IIDs and abstract method signatures; you just need to supply the vtables/refcount and wire AddRef/Release/QueryInterface correctly
+
+Lifetime, threading, and tokens
+Apartment model: Initialize COM as STA on the UI thread and keep all WebView2 calls on that thread; callbacks come back there.
+
+Event tokens: Store EventRegistrationToken values returned by add_* and remove them during cleanup to avoid dangling subscriptions.
+
+Controller ownership and Close():
+Close is synchronous; it releases associated event handlers and lets the browser instance shut down when no longer in use. Call it explicitly to break potential reference cycles.
+
+Visibility and movement: Use put_IsVisible on minimize/restore and NotifyParentWindowPositionChanged on WM_MOVE/WM_MOVING to keep accessibility/tooltips right.
+
+Smoke tests to prove the bridge
+Hello DOM: NavigateToString(L"<html><body><h1>FB + WV2</h1></body></html>"), then add_DocumentTitleChanged to confirm title updates.
+
+JS → native:
+In page JS: window.chrome.webview.postMessage({ ping: 1 }). In your handler, parse webMessageAsJson and log “ping” with your reader; reply with PostWebMessageAsJson using your writer.
+
+Native → JS: PostWebMessageAsJson({ hello:"from native" }) and in JS, window.chrome.webview.addEventListener('message', e => console.log(e.data.hello)).
+
+ExecuteScript round-trip: ExecuteScript("JSON.stringify({ sum: 2+2 })"), then decode resultObjectAsJson; you should see {"sum":4} as the JSON string
+
+Gotchas you can dodge
+Parent HWND lifetime: If parentWindow is destroyed before controller creation finishes, the creation callback returns E_ABORT; structure your shutdown to handle that path cleanly
+
+Message ordering footnote: Multiple frames posting messages aren’t strictly ordered with other events; if you need sequencing, round-trip an ACK from native back to JS before continuing
+
+Runtime presence: If the loader can’t find the runtime (ERROR_FILE_NOT_FOUND), surface a friendly prompt; your loader shim already makes this check trivial to branch on1
+
+COM event handler class in FreeBASIC
+
+' ============================================================================
+' ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler implementation
+' ============================================================================
+Type EnvCompletedHandler
+    lpVtbl As Any Ptr  ' pointer to vtable
+    refCount As ULong
+
+    ' --- IUnknown methods ---
+    Declare Function QueryInterface(ByVal this As EnvCompletedHandler Ptr, _
+                                    ByVal riid As REFIID, _
+                                    ByVal ppv As Any Ptr Ptr) As HRESULT
+    Declare Function AddRef(ByVal this As EnvCompletedHandler Ptr) As ULong
+    Declare Function Release(ByVal this As EnvCompletedHandler Ptr) As ULong
+
+    ' --- Invoke method from this interface ---
+    Declare Function Invoke(ByVal this As EnvCompletedHandler Ptr, _
+                            ByVal result As HRESULT, _
+                            ByVal env As ICoreWebView2Environment Ptr) As HRESULT
+End Type
+
+' ----------------------------------------------------------------------------
+' Forward declarations
+' ----------------------------------------------------------------------------
+Function EnvCompletedHandler_QueryInterface( _
+    ByVal this As EnvCompletedHandler Ptr, _
+    ByVal riid As REFIID, _
+    ByVal ppv As Any Ptr Ptr) As HRESULT
+
+Function EnvCompletedHandler_AddRef(ByVal this As EnvCompletedHandler Ptr) As ULong
+Function EnvCompletedHandler_Release(ByVal this As EnvCompletedHandler Ptr) As ULong
+
+Function EnvCompletedHandler_Invoke( _
+    ByVal this As EnvCompletedHandler Ptr, _
+    ByVal result As HRESULT, _
+    ByVal env As ICoreWebView2Environment Ptr) As HRESULT
+
+' ----------------------------------------------------------------------------
+' VTable for EnvCompletedHandler
+' ----------------------------------------------------------------------------
+Dim Shared EnvCompletedHandler_Vtbl As Const ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl = ( _
+    @EnvCompletedHandler_QueryInterface, _
+    @EnvCompletedHandler_AddRef, _
+    @EnvCompletedHandler_Release, _
+    @EnvCompletedHandler_Invoke _
+)
+
+' ----------------------------------------------------------------------------
+' Constructor: allocate + hook vtable + refcount
+' ----------------------------------------------------------------------------
+Function New_EnvCompletedHandler() As EnvCompletedHandler Ptr
+    Dim h As EnvCompletedHandler Ptr = Callocate(1, SizeOf(EnvCompletedHandler))
+    h->lpVtbl = @EnvCompletedHandler_Vtbl
+    h->refCount = 1
+    Return h
+End Function
+
+```
+' ============================================================================
+' ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler implementation
+' ============================================================================
+Type EnvCompletedHandler
+    lpVtbl As Any Ptr  ' pointer to vtable
+    refCount As ULong
+
+    ' --- IUnknown methods ---
+    Declare Function QueryInterface(ByVal this As EnvCompletedHandler Ptr, _
+                                    ByVal riid As REFIID, _
+                                    ByVal ppv As Any Ptr Ptr) As HRESULT
+    Declare Function AddRef(ByVal this As EnvCompletedHandler Ptr) As ULong
+    Declare Function Release(ByVal this As EnvCompletedHandler Ptr) As ULong
+
+    ' --- Invoke method from this interface ---
+    Declare Function Invoke(ByVal this As EnvCompletedHandler Ptr, _
+                            ByVal result As HRESULT, _
+                            ByVal env As ICoreWebView2Environment Ptr) As HRESULT
+End Type
+
+' ----------------------------------------------------------------------------
+' Forward declarations
+' ----------------------------------------------------------------------------
+Function EnvCompletedHandler_QueryInterface( _
+    ByVal this As EnvCompletedHandler Ptr, _
+    ByVal riid As REFIID, _
+    ByVal ppv As Any Ptr Ptr) As HRESULT
+
+Function EnvCompletedHandler_AddRef(ByVal this As EnvCompletedHandler Ptr) As ULong
+Function EnvCompletedHandler_Release(ByVal this As EnvCompletedHandler Ptr) As ULong
+
+Function EnvCompletedHandler_Invoke( _
+    ByVal this As EnvCompletedHandler Ptr, _
+    ByVal result As HRESULT, _
+    ByVal env As ICoreWebView2Environment Ptr) As HRESULT
+
+' ----------------------------------------------------------------------------
+' VTable for EnvCompletedHandler
+' ----------------------------------------------------------------------------
+Dim Shared EnvCompletedHandler_Vtbl As Const ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl = ( _
+    @EnvCompletedHandler_QueryInterface, _
+    @EnvCompletedHandler_AddRef, _
+    @EnvCompletedHandler_Release, _
+    @EnvCompletedHandler_Invoke _
+)
+
+' ----------------------------------------------------------------------------
+' Constructor: allocate + hook vtable + refcount
+' ----------------------------------------------------------------------------
+Function New_EnvCompletedHandler() As EnvCompletedHandler Ptr
+    Dim h As EnvCompletedHandler Ptr = Callocate(1, SizeOf(EnvCompletedHandler))
+    h->lpVtbl = @EnvCompletedHandler_Vtbl
+    h->refCount = 1
+    Return h
+End Function
+
+' ============================================================================
+' IUnknown implementation
+' ============================================================================
+Function EnvCompletedHandler_QueryInterface( _
+    ByVal this As EnvCompletedHandler Ptr, _
+    ByVal riid As REFIID, _
+    ByVal ppv As Any Ptr Ptr) As HRESULT
+
+    If ppv = 0 Then Return E_POINTER
+    *ppv = 0
+
+    ' Compare riid to IID_IUnknown or IID_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler
+    If IsEqualIID(riid, @IID_IUnknown) OrElse _
+       IsEqualIID(riid, @IID_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler) Then
+        EnvCompletedHandler_AddRef(this)
+        *ppv = this
+        Return S_OK
+    End If
+    Return E_NOINTERFACE
+End Function
+
+Function EnvCompletedHandler_AddRef(ByVal this As EnvCompletedHandler Ptr) As ULong
+    this->refCount += 1
+    Return this->refCount
+End Function
+
+Function EnvCompletedHandler_Release(ByVal this As EnvCompletedHandler Ptr) As ULong
+    this->refCount -= 1
+    Dim c As ULong = this->refCount
+    If c = 0 Then Deallocate(this)
+    Return c
+End Function
+
+' ============================================================================
+' Invoke: called when the environment has been created
+' ============================================================================
+Function EnvCompletedHandler_Invoke( _
+    ByVal this As EnvCompletedHandler Ptr, _
+    ByVal result As HRESULT, _
+    ByVal env As ICoreWebView2Environment Ptr) As HRESULT
+
+    If FAILED(result) Or env = 0 Then
+        Print "Environment creation failed: "; Hex(result)
+        Return result
+    End If
+
+    ' From here you can call env->CreateCoreWebView2Controller(...) with your own
+    ' ControllerCompletedHandler instance.
+    Print "Environment ready!"
+    Return S_OK
+End Function
+```
+
+How to adapt for other handlers
+Change the type/interface — e.g., for controller creation, base your type/vtable on ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl and adjust Invoke parameters.
+
+Keep the IUnknown trio identical — QueryInterface, AddRef, Release differ only in the IID you accept.
+
+Put your work inside Invoke — for message events, you’d retrieve the message via get_WebMessageAsJson, parse it with your reader, and respond.
+
+Use the same constructor pattern — one New_XxxHandler() per class.
+
+Here’s a side‑by‑side FreeBASIC template for:
+
+EnvironmentCompletedHandler
+
+ControllerCompletedHandler
+
+WebMessageReceivedHandler
+
+NavigationCompletedHandler
+
+```
+' ============================================================================
+' 1) EnvironmentCompletedHandler
+' ============================================================================
+Type EnvironmentCompletedHandler
+    lpVtbl As Any Ptr
+    refCount As ULong
+End Type
+
+Declare Function Env_QueryInterface(ByVal this As EnvironmentCompletedHandler Ptr, _
+                                    ByVal riid As REFIID, _
+                                    ByVal ppv As Any Ptr Ptr) As HRESULT
+Declare Function Env_AddRef(ByVal this As EnvironmentCompletedHandler Ptr) As ULong
+Declare Function Env_Release(ByVal this As EnvironmentCompletedHandler Ptr) As ULong
+Declare Function Env_Invoke(ByVal this As EnvironmentCompletedHandler Ptr, _
+                            ByVal result As HRESULT, _
+                            ByVal env As ICoreWebView2Environment Ptr) As HRESULT
+
+Dim Shared Env_Vtbl As Const ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl = ( _
+    @Env_QueryInterface, @Env_AddRef, @Env_Release, @Env_Invoke _
+)
+
+Function New_EnvHandler() As EnvironmentCompletedHandler Ptr
+    Dim h = Callocate(1, SizeOf(EnvironmentCompletedHandler))
+    h->lpVtbl = @Env_Vtbl : h->refCount = 1
+    Return h
+End Function
+
+Function Env_QueryInterface(...) As HRESULT
+    ' check IID_IUnknown / IID_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler
+End Function
+Function Env_AddRef(...) As ULong : this->refCount += 1 : Return this->refCount : End Function
+Function Env_Release(...) As ULong : this->refCount -= 1 : If this->refCount=0 Then Deallocate(this) : Return this->refCount : End Function
+Function Env_Invoke(...) As HRESULT
+    Print "Env ready" : Return S_OK
+End Function
+
+' ============================================================================
+' 2) ControllerCompletedHandler
+' ============================================================================
+Type ControllerCompletedHandler
+    lpVtbl As Any Ptr
+    refCount As ULong
+End Type
+
+Declare Function Ctrl_QueryInterface(ByVal this As ControllerCompletedHandler Ptr, _
+                                     ByVal riid As REFIID, _
+                                     ByVal ppv As Any Ptr Ptr) As HRESULT
+Declare Function Ctrl_AddRef(ByVal this As ControllerCompletedHandler Ptr) As ULong
+Declare Function Ctrl_Release(ByVal this As ControllerCompletedHandler Ptr) As ULong
+Declare Function Ctrl_Invoke(ByVal this As ControllerCompletedHandler Ptr, _
+                             ByVal result As HRESULT, _
+                             ByVal controller As ICoreWebView2Controller Ptr) As HRESULT
+
+Dim Shared Ctrl_Vtbl As Const ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl = ( _
+    @Ctrl_QueryInterface, @Ctrl_AddRef, @Ctrl_Release, @Ctrl_Invoke _
+)
+
+Function New_CtrlHandler() As ControllerCompletedHandler Ptr
+    Dim h = Callocate(1, SizeOf(ControllerCompletedHandler))
+    h->lpVtbl = @Ctrl_Vtbl : h->refCount = 1
+    Return h
+End Function
+
+Function Ctrl_QueryInterface(...) As HRESULT
+    ' check IID_IUnknown / IID_ICoreWebView2CreateCoreWebView2ControllerCompletedHandler
+End Function
+Function Ctrl_AddRef(...) As ULong : this->refCount += 1 : Return this->refCount : End Function
+Function Ctrl_Release(...) As ULong : this->refCount -= 1 : If this->refCount=0 Then Deallocate(this) : Return this->refCount : End Function
+Function Ctrl_Invoke(...) As HRESULT
+    Print "Controller ready"
+    ' store controller, get CoreWebView2, hook up events
+    Return S_OK
+End Function
+
+' ============================================================================
+' 3) WebMessageReceivedHandler
+' ============================================================================
+Type MessageReceivedHandler
+    lpVtbl As Any Ptr
+    refCount As ULong
+End Type
+
+Declare Function Msg_QueryInterface(ByVal this As MessageReceivedHandler Ptr, _
+                                    ByVal riid As REFIID, _
+                                    ByVal ppv As Any Ptr Ptr) As HRESULT
+Declare Function Msg_AddRef(ByVal this As MessageReceivedHandler Ptr) As ULong
+Declare Function Msg_Release(ByVal this As MessageReceivedHandler Ptr) As ULong
+Declare Function Msg_Invoke(ByVal this As MessageReceivedHandler Ptr, _
+                            ByVal sender As ICoreWebView2 Ptr, _
+                            ByVal args As ICoreWebView2WebMessageReceivedEventArgs Ptr) As HRESULT
+
+Dim Shared Msg_Vtbl As Const ICoreWebView2WebMessageReceivedEventHandlerVtbl = ( _
+    @Msg_QueryInterface, @Msg_AddRef, @Msg_Release, @Msg_Invoke _
+)
+
+Function New_MsgHandler() As MessageReceivedHandler Ptr
+    Dim h = Callocate(1, SizeOf(MessageReceivedHandler))
+    h->lpVtbl = @Msg_Vtbl : h->refCount = 1
+    Return h
+End Function
+
+Function Msg_QueryInterface(...) As HRESULT
+    ' check IID_IUnknown / IID_ICoreWebView2WebMessageReceivedEventHandler
+End Function
+Function Msg_AddRef(...) As ULong : this->refCount += 1 : Return this->refCount : End Function
+Function Msg_Release(...) As ULong : this->refCount -= 1 : If this->refCount=0 Then Deallocate(this) : Return this->refCount : End Function
+Function Msg_Invoke(...) As HRESULT
+    ' extract JSON string from args, parse, respond
+    Return S_OK
+End Function
+
+' ============================================================================
+' 4) NavigationCompletedHandler
+' ============================================================================
+Type NavigationCompletedHandler
+    lpVtbl As Any Ptr
+    refCount As ULong
+End Type
+
+Declare Function Nav_QueryInterface(ByVal this As NavigationCompletedHandler Ptr, _
+                                    ByVal riid As REFIID, _
+                                    ByVal ppv As Any Ptr Ptr) As HRESULT
+Declare Function Nav_AddRef(ByVal this As NavigationCompletedHandler Ptr) As ULong
+Declare Function Nav_Release(ByVal this As NavigationCompletedHandler Ptr) As ULong
+Declare Function Nav_Invoke(ByVal this As NavigationCompletedHandler Ptr, _
+                            ByVal sender As ICoreWebView2 Ptr, _
+                            ByVal args As ICoreWebView2NavigationCompletedEventArgs Ptr) As HRESULT
+
+Dim Shared Nav_Vtbl As Const ICoreWebView2NavigationCompletedEventHandlerVtbl = ( _
+    @Nav_QueryInterface, @Nav_AddRef, @Nav_Release, @Nav_Invoke _
+)
+
+Function New_NavHandler() As NavigationCompletedHandler Ptr
+    Dim h = Callocate(1, SizeOf(NavigationCompletedHandler))
+    h->lpVtbl = @Nav_Vtbl : h->refCount = 1
+    Return h
+End Function
+
+Function Nav_QueryInterface(...) As HRESULT
+    ' check IID_IUnknown / IID_ICoreWebView2NavigationCompletedEventHandler
+End Function
+Function Nav_AddRef(...) As ULong : this->refCount += 1 : Return this->refCount : End Function
+Function Nav_Release(...) As ULong : this->refCount -= 1 : If this->refCount=0 Then Deallocate(this) : Return this->refCount : End Function
+Function Nav_Invoke(...) As HRESULT
+    ' check navigation status, maybe inject JS bridge
+    Return S_OK
+End Function
+
+```
+
+Why this helps
+With these stubs in place, all COM ceremony is out of the way. You just:
+
+Swap the vtable type and Invoke signature per interface.
+
+Fill the Invoke body with your logic.
+
+Call New_XxxHandler() wherever WebView2 expects that callback.
+
+If you like, I can next illustrate the glue code that chains them: Environment → Controller → Event wires, so your app launches straight into a loaded webview. That would make this a complete drop‑in starter.
+
+Here’s a minimal bootstrap showing the flow: create environment → create controller → hook events → run.
+
+```
+' ============================================================================
+' Bootstrap for WebView2 in FreeBASIC using our handler templates
+' ============================================================================
+
+Sub InitWebView2()
+    ' Kick off the async environment creation.
+    ' Pass our Env handler; its Invoke will call for a Controller.
+    Dim hr As HRESULT
+    hr = CreateCoreWebView2EnvironmentWithOptions( _
+             0, 0, 0, _
+             New_EnvHandler())
+    If FAILED(hr) Then
+        Print "CreateCoreWebView2EnvironmentWithOptions failed: "; Hex(hr)
+    End If
+End Sub
+
+' Example Env_Invoke chaining to Controller creation
+Function Env_Invoke( _
+    ByVal this As EnvironmentCompletedHandler Ptr, _
+    ByVal result As HRESULT, _
+    ByVal env As ICoreWebView2Environment Ptr) As HRESULT
+
+    If FAILED(result) Or env = 0 Then
+        Print "Environment creation failed: "; Hex(result)
+        Return result
+    End If
+
+    Print "Environment ready"
+    ' Create a WebView2 controller for our window (replace hWnd with yours)
+    env->lpVtbl->CreateCoreWebView2Controller(env, hWnd, New_CtrlHandler())
+    Return S_OK
+End Function
+
+' Example Ctrl_Invoke chaining to event hookup
+Function Ctrl_Invoke( _
+    ByVal this As ControllerCompletedHandler Ptr, _
+    ByVal result As HRESULT, _
+    ByVal controller As ICoreWebView2Controller Ptr) As HRESULT
+
+    If FAILED(result) Or controller = 0 Then
+        Print "Controller creation failed: "; Hex(result)
+        Return result
+    End If
+
+    Print "Controller ready"
+    Dim webview As ICoreWebView2 Ptr
+    controller->lpVtbl->get_CoreWebView2(controller, @webview)
+
+    ' Hook WebMessageReceived
+    Dim token As EventRegistrationToken
+    webview->lpVtbl->add_WebMessageReceived(webview, New_MsgHandler(), @token)
+
+    ' Hook NavigationCompleted
+    Dim navToken As EventRegistrationToken
+    webview->lpVtbl->add_NavigationCompleted(webview, New_NavHandler(), @navToken)
+
+    ' Navigate somewhere to test
+    webview->lpVtbl->Navigate(webview, WStr("https://example.com"))
+
+    Return S_OK
+End Function
+```
+
+How it plays out at runtime
+
+InitWebView2 kicks off environment creation.
+
+Env_Invoke fires → spins up a controller.
+
+Ctrl_Invoke gets you the WebView2 core → attaches your message + navigation events.
+
+From here, your message handler can parse JSON from the web content and send responses back with PostWebMessageAsString/JSON.
+
+Want me to drop in a tiny HTML/JS test page too, so you can instantly see the WebMessageReceived plumbing working? That way, you can fire a button click in the browser and watch it print in your FreeBASIC console.
+
+Here’s a minimal embedded test page (save as test.html or feed to NavigateToString):
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WebView2 → FreeBASIC Bridge</title>
+<style>
+body { font-family: sans-serif; padding: 2em; }
+button { padding: 0.5em 1em; }
+</style>
+<script>
+function sendMessage() {
+    const payload = { time: new Date().toISOString(), text: "Hello from JS" };
+    window.chrome.webview.postMessage(JSON.stringify(payload));
+}
+</script>
+</head>
+<body>
+<h1>WebMessage Test</h1>
+<p>Click the button to send a JSON payload to the host.</p>
+<button onclick="sendMessage()">Send Message</button>
+</body>
+</html>
+```
+Hooking it into your handler
+Inside your Msg_Invoke:
+
+Function Msg_Invoke( _
+    ByVal this As MessageReceivedHandler Ptr, _
+    ByVal sender As ICoreWebView2 Ptr, _
+    ByVal args As ICoreWebView2WebMessageReceivedEventArgs Ptr) As HRESULT
+
+    Dim raw As AFX_BSTR
+    args->lpVtbl->get_WebMessageAsJson(args, @raw)
+    Print "Message from JS: " & *raw  ' or parse with your JSON lib
+    CoTaskMemFree(raw)
+    Return S_OK
+End Function
+```
+
+Serve or embed test.html.
+
+Launch your bootstrap code — it navigates to the page.
+
+Click the button → postMessage fires → your Msg_Invoke prints the payload.
+
+With that, you’ll see the full handshake: HTML/JS → WebView2 → COM callback → FreeBASIC console.
+
+When you’re ready, we can expand the bridge to handle two‑way chatter so your FB side can call ExecuteScript to update the page or trigger DOM events. That’s where it starts feeling like magic.
