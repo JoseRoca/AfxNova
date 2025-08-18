@@ -176,3 +176,173 @@ Robust reading: JsonReader is a tokenizer, not a full validator. Guard your cons
 
 Unicode fidelity: Writer escapes control characters and preserves BMP characters directly; astral plane characters in input DWSTRING are emitted as UTF‑16 code units and will be round‑tripped correctly by modern JS engines.
 
+' ========================================================================================
+' Json test
+' ========================================================================================
+''#CONSOLE ON
+'#define UNICODE
+'#define _WIN32_WINNT &h0602
+'#include once "AfxNova/AfxJson.inc"
+'USING AfxNova
+
+'SUB TestJsonReader()
+'   ' Craft some JSON with tricky bits:
+'   ' - Unicode \u00E9 (é) and surrogate pair \uD83D\uDE03 (??)
+'   ' - Quotes, backslashes, slash, control codes
+'   ' - Numbers with exponents, booleans, null
+'   DIM sample AS DWSTRING = _
+'       "{""name"":""Jos" & WCHR(&h00E9) & " " & WCHR(&hD83D) & WCHR(&hDE03) & """, " & _
+'       """quote"":""He said """"Hello/World""""!"", " & _
+'       """newline"":""Line1" & WCHR(10) & "Line2"", " & _
+'       """pi"":3.14159, ""exp"":-2.5e+3, " & _
+'       """ok"":true, ""missing"":null}"
+
+'   DIM rdr AS JsonReader = JsonReader(sample)
+'   DIM tok AS JsonToken
+'   DIM idx AS INTEGER = 0
+
+'   PRINT "Testing JSON Reader with JSonUnquoteW-backed ReadString"
+'   PRINT STRING(60,"-")
+
+'   WHILE rdr.ReadNext(tok)
+'      idx += 1
+'      PRINT idx; ". "; 
+'      SELECT CASE tok.kind
+'         CASE JSON_STRING
+'            PRINT "STRING: "; tok.value
+'         CASE JSON_NUMBER
+'            PRINT "NUMBER: "; tok.value
+'         CASE JSON_BOOL
+'            PRINT "BOOL: "; tok.value
+'         CASE JSON_NULL
+'            PRINT "NULL"
+'         CASE JSON_OBJECT_START
+'            PRINT "{"
+'         CASE JSON_OBJECT_END
+'            PRINT "}"
+'         CASE JSON_ARRAY_START
+'            PRINT "["
+'         CASE JSON_ARRAY_END
+'            PRINT "]"
+'         CASE JSON_COLON
+'            PRINT ":"
+'         CASE JSON_COMMA
+'            PRINT ","
+'         CASE ELSE
+'            PRINT "UNKNOWN"
+'      END SELECT
+'   WEND
+
+'   PRINT STRING(60,"-")
+'   PRINT "Done."
+'END SUB
+
+'TestJsonReader
+' ========================================================================================
+
+```
+' ========================================================================================
+' SAFEARRAY serialization with inline suppression.
+' Example:
+'   DIM dvArr AS DSafeArray
+'   dvArr.Create(VT_VARIANT, 3, 0)
+'   dvArr.PutVar(0, DVARIANT("first ??"))
+'   dvArr.PutVar(1, DVARIANT(42))
+'   dvArr.PutVar(2, DVARIANT(3.14159))
+'   DIM jw AS JsonWriter
+'   jw.SetIndentSize(2) ' 2-space indent
+'   jw.BeginObject()
+'      jw.Name("title") : jw.Value("Test")
+'      jw.Name("data")  : jw.ValueSafeArray(dvArr)
+'   jw.EndObject()
+'   PRINT jw.ToBString()
+' Example:
+'   DIM tiny AS DSafeArray
+'   tiny.Create(VT_VARIANT, 3, 0)
+'   tiny.PutVar(0, DVARIANT(1))
+'   tiny.PutVar(1, DVARIANT(2))
+'   tiny.PutVar(2, DVARIANT(3))
+'   DIM jw As JsonWriter
+'   jw.SetIndentSize(2)
+'   jw.SetInlineThreshold(20)  ' tighten threshold
+'   jw.BeginObject()
+'      jw.Name("a") : jw.ValueSafeArray(tiny)
+'      jw.Name("b") : jw.Value("longer text here will break inline")
+'  jw.EndObject()
+' Output:
+' {
+'  "a": [
+'    1,
+'    2,
+'    3
+'  ],
+'  "b": "longer text here will break inline"
+'}
+' ========================================================================================
+
+```
+' // More examples:
+' Primitives + string escaping
+' DIM esc AS DWSTRING = "Quote: """ & " Newline: " & WCHR(10) & "Tab: " & WCHR(9) & "End"
+' DIM jw AS JsonWriter
+' jw.SetIndentSize(2)
+' jw.BeginObject()
+'   jw.Name("s")    : jw.Value(esc)
+'   jw.Name("i64")  : jw.Value(9223372036854775807)  ' max signed 64
+'   jw.Name("pi")   : jw.Value(3.141592653589793)
+'   jw.Name("ok")   : jw.ValueVariant(DVARIANT(TRUE, "BOOLEAN"))   ' VT_BOOL ? true
+'   jw.Name("none") : jw.ValueVariant(DVARIANT())                  ' VT_EMPTY ? null
+' jw.EndObject()
+' print jw.ToUtf8()
+
+' Unicode text (BMP): accents, em dash, Greek
+' DIM uni AS DWSTRING = "España — café — ?x"
+' DIM jw AS JsonWriter
+' jw.SetIndentSize(2)
+' jw.BeginObject()
+'   jw.Name("title") : jw.Value("Unicode test")
+'   jw.Name("text")  : jw.Value(uni)
+' jw.EndObject()
+' AfxMsg jw.ToBString
+
+'Dim jw As JsonWriter
+'jw.SetIndentSize(2)
+'jw.BeginObject()
+'  jw.Name("app") : jw.Value("AfxNova")
+'  jw.Name("version") : jw.Value(1)
+'  jw.Name("author")
+'  jw.BeginObject()
+'    jw.Name("name")  : jw.Value("Jose Roca")
+'    jw.Name("site")  : jw.Value("https://github.com/JoseRoca/AfxNova")
+'    jw.Name("active"): jw.ValueVariant(DVARIANT(TRUE, "BOOLEAN"))
+'  jw.EndObject()
+'  jw.Name("notes") : jw.Value("All UTF-16 internally")
+'jw.EndObject()
+'print jw.ToBString
+
+'DIM jw AS JsonWriter
+'jw.SetIndentSize(0) ' 0 = no pretty-print
+'jw.BeginObject()
+'  jw.Name("k")  : jw.Value("v")
+'  jw.Name("n")  : jw.Value(123)
+'  jw.Name("b")  : jw.ValueVariant(DVARIANT(FALSE, "BOOLEAN"))
+'  jw.Name("nil"): jw.ValueVariant(DVARIANT())
+'jw.EndObject()
+'print jw.ToBString
+```
+
+```
+
+Exactly — they’re built first and foremost to make life easier when shuttling data in and out of WebView2, but because they stick to clean JSON in/out and COM‑friendly types, they’re essentially drop‑in utilities anywhere you need structured text parsing or emission.
+
+That means you could:
+
+Feed them API responses from a local service or a remote REST endpoint
+
+Serialize/deserialize data between PowerBASIC apps without pulling in heavier libraries
+
+Store application state in a readable format for logs or config files
+
+Transform Excel/Access/other COM‑capable app data into JSON for reporting or exchange
+
+It’s like having a screwdriver that also happens to pry open paint cans — its design target is WebView2, but the solid core makes it handy in a lot of other jobs.
