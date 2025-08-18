@@ -466,8 +466,9 @@ PRIVATE CONSTRUCTOR DVARIANT (BYVAL _value AS LONGINT, BYVAL _vType AS WORD = VT
          CASE VT_I8    : vd.vt = VT_I8   : vd.llVal = CLNGINT(_value)
          CASE VT_UI8   : vd.vt = VT_UI8  : vd.ullVal = CULNGINT(_value)
          ' // If you need to assign an ULongInt value greater than a LongInt, use PutUlongInt.
+         CASE VT_EMPTY  : vd.vt = VT_EMPTY
          CASE VT_NULL  : vd.vt = VT_NULL
-         CASE ELSE     : vd.vt = VT_I4   : vd.llVal = CLNG(_value)
+         CASE ELSE     : vd.vt = VT_I4   : vd.lVal = CLNG(_value)
       END SELECT
    END IF
    m_Result = 0
@@ -491,8 +492,9 @@ PRIVATE CONSTRUCTOR DVARIANT (BYVAL _value AS LONGINT, BYREF strType AS STRING)
       CASE "LONGINT"  : vd.vt = VT_I8   : vd.llVal = CLNGINT(_value)
       CASE "ULONGINT" : vd.vt = VT_UI8  : vd.ullVal = CULNGINT(_value)
       ' // If you need to assign an ULongInt value greater than a LongInt, use PutUlongInt.
+      CASE "EMPTY"    : vd.vt = VT_EMPTY
       CASE "NULL"     : vd.vt = VT_NULL
-      CASE ELSE       : vd.vt = VT_I4   : vd.llVal = CLNG(_value)
+      CASE ELSE       : vd.vt = VT_I4   : vd.lVal = CLNG(_value)
    END SELECT
    m_Result = 0
 END CONSTRUCTOR
@@ -503,12 +505,12 @@ END CONSTRUCTOR
 ' ========================================================================================
 PRIVATE CONSTRUCTOR DVARIANT (BYVAL _value AS DOUBLE, BYVAL _vType AS WORD = VT_R8)
    DVARIANT_DP("FLOAT - value, vType")
-   IF _value > FLT_MAX OR _value < FLT_MIN THEN _vType = VT_R8
-   SELECT CASE _vType
-      CASE VT_R4    : vd.vt = VT_R4   : vd.fltVal = CSNG(_value)
-      CASE VT_R8    : vd.vt = VT_R8   : vd.dblVal = CDBL(_value)
-      CASE ELSE     : vd.vt = VT_R8   : vd.dblVal = CDBL(_value)
-   END SELECT
+    DIM s AS SINGLE = CSNG(_value)
+    IF (s = 0 AND _value <> 0) OR (ABS(_value) > ABS(CDBL(s)) * 2) THEN
+        vd.vt = VT_R8 : vd.dblVal = _value
+    ELSE
+        vd.vt = VT_R4 : vd.fltVal = s
+    END IF
    m_Result = 0
 END CONSTRUCTOR
 ' ========================================================================================

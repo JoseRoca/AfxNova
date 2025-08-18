@@ -436,7 +436,7 @@ TYPE JsonWriter
  
 Private:
    buf As BSTRING
-   firstItemStack(ANY) As Boolean
+   firstItemStack(ANY) AS BOOLEAN
    indentSize AS LONG = 4
    depth AS LONG
    inlineThreshold As Integer = 40 ' max chars for inline array/object
@@ -551,7 +551,6 @@ PRIVATE SUB JsonWriter.EndObject()
 End Sub
 
 PRIVATE SUB JsonWriter.BeginArray()
-   AppendCommaIfNeeded()
    buf &= "["
    depth += 1
    ReDim Preserve firstItemStack(UBound(firstItemStack) + 1)
@@ -593,6 +592,7 @@ END SUB
 
 ' Variant entry point
 PRIVATE SUB JsonWriter.ValueVariant(ByRef dv As DVARIANT)
+print dv.vType, VT_BOOL
    SELECT CASE dv.vType()
        CASE VT_EMPTY, VT_NULL
            ValueNull()
@@ -617,18 +617,63 @@ PRIVATE SUB JsonWriter.ValueVariant(ByRef dv As DVARIANT)
    END SELECT
 END SUB
 
+' ========================================================================================
+' SAFEARRAY serialization with inline suppression.
+' Example:
+'   DIM dvArr AS DSafeArray
+'   dvArr.Create(VT_VARIANT, 3, 0)
+'   dvArr.PutVar(0, DVARIANT("first ??"))
+'   dvArr.PutVar(1, DVARIANT(42))
+'   dvArr.PutVar(2, DVARIANT(3.14159))
+'   DIM jw AS JsonWriter
+'   jw.SetIndentSize(2) ' 2-space indent
+'   jw.BeginObject()
+'      jw.Name("title") : jw.Value("Test")
+'      jw.Name("data")  : jw.ValueSafeArray(dvArr)
+'   jw.EndObject()
+'   PRINT jw.ToBString()
+' Example:
+'   DIM tiny AS DSafeArray
+'   tiny.Create(VT_VARIANT, 3, 0)
+'   tiny.PutVar(0, DVARIANT(1))
+'   tiny.PutVar(1, DVARIANT(2))
+'   tiny.PutVar(2, DVARIANT(3))
+'   DIM jw As JsonWriter
+'   jw.SetIndentSize(2)
+'   jw.SetInlineThreshold(20)  ' tighten threshold
+'   jw.BeginObject()
+'      jw.Name("a") : jw.ValueSafeArray(tiny)
+'      jw.Name("b") : jw.Value("longer text here will break inline")
+'  jw.EndObject()
+' Output:
+' {
+'  "a": [
+'    1,
+'    2,
+'    3
+'  ],
+'  "b": "longer text here will break inline"
+'}
+' ========================================================================================
 PRIVATE SUB JsonWriter.ValueSafeArray(ByRef sa As DSafeArray)
-    ' Render temp, compact form for size check
-    DIM temp AS STRING
-    DIM origBuf AS BSTRING = buf
+   IF sa.UBound < sa.LBound THEN
+       AppendCommaIfNeeded()
+       buf &= "[]"
+       EXIT SUB
+   END IF
+
+    ' First, render into temp
+    DIM temp As STRING
+    DIM origBuf As BSTRING = buf
     buf.Clear()
     buf &= "["
     FOR i AS LONG = sa.LBound TO sa.UBound
-        IF i > sa.LBound THEN buf &= ","
+        IF i > sa.LBound THEN buf &= ","  ' local temp, not pretty — compact form
         SELECT CASE sa.GetType
             CASE VT_BSTR
                 AppendEscaped(sa.GetStr(i))
             CASE ELSE
+                ' Use local rendering without pretty; safe because this is the temp buffer
                 ValueVariant(sa.GetVar(i))
         END SELECT
     NEXT
@@ -639,13 +684,14 @@ PRIVATE SUB JsonWriter.ValueSafeArray(ByRef sa As DSafeArray)
     buf = origBuf
 
     IF IsSmallInline(temp) THEN
-        ' Inline branch ? handle comma here
+        ' Comma is needed here if this array is not the first item in the parent
         AppendCommaIfNeeded()
         buf &= temp
     ELSE
-        ' Pretty branch ? NO comma here
+        ' Pretty path: let BeginArray() manage commas and first-item state
         BeginArray()
         FOR i AS LONG = sa.LBound TO sa.UBound
+            ' No explicit newline here; AppendCommaIfNeeded will inject ",\n  " as needed
             ValueVariant(sa.GetVar(i))
         NEXT
         EndArray()
@@ -667,5 +713,55 @@ PRIVATE SUB JsonWriter.Clear()
    depth = 0
    REDIM firstItemStack(-1)
 END SUB
+
+' // More examples:
+' Primitives + string escaping
+' DIM esc AS DWSTRING = "Quote: """ & " Newline: " & WCHR(10) & "Tab: " & WCHR(9) & "End"
+' DIM jw AS JsonWriter
+' jw.SetIndentSize(2)
+' jw.BeginObject()
+'   jw.Name("s")    : jw.Value(esc)
+'   jw.Name("i64")  : jw.Value(9223372036854775807)  ' max signed 64
+'   jw.Name("pi")   : jw.Value(3.141592653589793)
+'   jw.Name("ok")   : jw.ValueVariant(DVARIANT(TRUE, "BOOLEAN"))   ' VT_BOOL ? true
+'   jw.Name("none") : jw.ValueVariant(DVARIANT())                  ' VT_EMPTY ? null
+' jw.EndObject()
+' print jw.ToUtf8()
+
+' Unicode text (BMP): accents, em dash, Greek
+' DIM uni AS DWSTRING = "España — café — ?x"
+' DIM jw AS JsonWriter
+' jw.SetIndentSize(2)
+' jw.BeginObject()
+'   jw.Name("title") : jw.Value("Unicode test")
+'   jw.Name("text")  : jw.Value(uni)
+' jw.EndObject()
+' AfxMsg jw.ToBString
+
+'Dim jw As JsonWriter
+'jw.SetIndentSize(2)
+'jw.BeginObject()
+'  jw.Name("app") : jw.Value("AfxNova")
+'  jw.Name("version") : jw.Value(1)
+'  jw.Name("author")
+'  jw.BeginObject()
+'    jw.Name("name")  : jw.Value("Jose Roca")
+'    jw.Name("site")  : jw.Value("https://github.com/JoseRoca/AfxNova")
+'    jw.Name("active"): jw.ValueVariant(DVARIANT(TRUE, "BOOLEAN"))
+'  jw.EndObject()
+'  jw.Name("notes") : jw.Value("All UTF-16 internally")
+'jw.EndObject()
+'print jw.ToBString
+
+'DIM jw AS JsonWriter
+'jw.SetIndentSize(0) ' 0 = no pretty-print
+'jw.BeginObject()
+'  jw.Name("k")  : jw.Value("v")
+'  jw.Name("n")  : jw.Value(123)
+'  jw.Name("b")  : jw.ValueVariant(DVARIANT(FALSE, "BOOLEAN"))
+'  jw.Name("nil"): jw.ValueVariant(DVARIANT())
+'jw.EndObject()
+'print jw.ToBString
+
 
 END NAMESPACE
