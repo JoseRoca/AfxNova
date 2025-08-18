@@ -468,10 +468,17 @@ Public:
 
 END TYPE
 
-
-PRIVATE FUNCTION JsonWriter.IsSmallInline (ByRef tmp As String) As Boolean
-   Return Len(tmp) <= inlineThreshold AndAlso Instr(tmp, "{") = 0 AndAlso Instr(tmp, "[") = 0
+' ========================================================================================
+' Purpose: Determines whether a JSON value can be written “inline” (i.e., without expanding
+' across multiple lines) based on its size and structure.
+' Logic: Checks if the string length is less than or equal to a predefined inlineThreshold.
+' Ensures the string does not contain a { (object start) or [ (array start).
+' Returns TRUE if both conditions are met, FALSE otherwise.
+' ========================================================================================
+PRIVATE FUNCTION JsonWriter.IsSmallInline (BYREF tmp AS STRING) AS BOOLEAN
+   RETURN LEN(tmp) <= inlineThreshold ANDALSO INSTR(tmp, "{") = 0 ANDALSO INSTR(tmp, "[") = 0
 END FUNCTION
+' ========================================================================================
 
 PRIVATE SUB JsonWriter.AppendEscaped (ByRef s As WString)
    buf &= !"\""
