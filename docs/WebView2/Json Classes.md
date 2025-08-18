@@ -333,9 +333,7 @@ Unicode fidelity: Writer escapes control characters and preserves BMP characters
 'print jw.ToBString
 ```
 
-```
-
-Exactly — they’re built first and foremost to make life easier when shuttling data in and out of WebView2, but because they stick to clean JSON in/out and COM‑friendly types, they’re essentially drop‑in utilities anywhere you need structured text parsing or emission.
+They’re built first and foremost to make life easier when shuttling data in and out of WebView2, but because they stick to clean JSON in/out and COM‑friendly types, they’re essentially drop‑in utilities anywhere you need structured text parsing or emission.
 
 That means you could:
 
