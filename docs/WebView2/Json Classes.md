@@ -176,6 +176,7 @@ Robust reading: JsonReader is a tokenizer, not a full validator. Guard your cons
 
 Unicode fidelity: Writer escapes control characters and preserves BMP characters directly; astral plane characters in input DWSTRING are emitted as UTF‑16 code units and will be round‑tripped correctly by modern JS engines.
 
+```
 ' ========================================================================================
 ' Json test
 ' ========================================================================================
@@ -239,7 +240,7 @@ Unicode fidelity: Writer escapes control characters and preserves BMP characters
 
 'TestJsonReader
 ' ========================================================================================
-
+```
 ```
 ' ========================================================================================
 ' SAFEARRAY serialization with inline suppression.
@@ -279,6 +280,7 @@ Unicode fidelity: Writer escapes control characters and preserves BMP characters
 '  "b": "longer text here will break inline"
 '}
 ' ========================================================================================
+```
 
 ```
 ' // More examples:
