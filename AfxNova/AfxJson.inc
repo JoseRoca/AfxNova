@@ -497,14 +497,16 @@ PRIVATE SUB JsonWriter.AppendEscaped (ByRef s As WString)
 END SUB
 
 PRIVATE SUB JsonWriter.AppendCommaIfNeeded()
-   If UBound(firstItemStack) >= 0 Then
-       Dim idx AS LONG = UBound(firstItemStack)
-       If firstItemStack(idx) Then
-           firstItemStack(idx) = False
-       Else
-           buf &= ","
-       End If
-   End If
+    IF UBound(firstItemStack) >= 0 THEN
+        DIM idx AS LONG = UBound(firstItemStack)
+        IF firstItemStack(idx) THEN
+            firstItemStack(idx) = False
+        ELSE
+            buf &= ","
+            ' Pretty-print: newline + indent before the next value
+            AppendNewlineAndIndent()
+        END IF
+    END IF
 END SUB
 
 PRIVATE SUB JsonWriter.AppendNewlineAndIndent()
@@ -615,38 +617,41 @@ PRIVATE SUB JsonWriter.ValueVariant(ByRef dv As DVARIANT)
    END SELECT
 END SUB
 
-' SAFEARRAY serialization with inline suppression
 PRIVATE SUB JsonWriter.ValueSafeArray(ByRef sa As DSafeArray)
-   ' First, render into temp
-   DIM temp As STRING
-   DIM origBuf As BSTRING = buf
-   buf.Clear()
-   buf &= "["
-   FOR i AS LONG = sa.LBound TO sa.UBound
-      IF i > sa.LBound THEN buf &= ","
-      SELECT CASE sa.GetType
-         CASE VT_BSTR
-            AppendEscaped(sa.GetStr(i))
-         CASE ELSE
+    ' Render temp, compact form for size check
+    DIM temp AS STRING
+    DIM origBuf AS BSTRING = buf
+    buf.Clear()
+    buf &= "["
+    FOR i AS LONG = sa.LBound TO sa.UBound
+        IF i > sa.LBound THEN buf &= ","
+        SELECT CASE sa.GetType
+            CASE VT_BSTR
+                AppendEscaped(sa.GetStr(i))
+            CASE ELSE
+                ValueVariant(sa.GetVar(i))
+        END SELECT
+    NEXT
+    buf &= "]"
+    temp = buf.Utf8
+
+    ' Restore main buffer
+    buf = origBuf
+
+    IF IsSmallInline(temp) THEN
+        ' Inline branch ? handle comma here
+        AppendCommaIfNeeded()
+        buf &= temp
+    ELSE
+        ' Pretty branch ? NO comma here
+        BeginArray()
+        FOR i AS LONG = sa.LBound TO sa.UBound
             ValueVariant(sa.GetVar(i))
-      END SELECT
-   NEXT
-   buf &= "]"
-   temp = buf.Utf8
-   ' Restore main buffer
-   buf = origBuf
-   AppendCommaIfNeeded()
-   IF IsSmallInline(temp) THEN
-      buf &= temp
-   ELSE
-      BeginArray()
-      FOR i AS LONG = sa.LBound TO sa.UBound
-         ValueVariant(sa.GetVar(i))
-         IF i < sa.UBound() THEN AppendNewlineAndIndent()
-      Next
-      EndArray()
-   END IF
+        NEXT
+        EndArray()
+    END IF
 END SUB
+
 
 ' Output & reset
 PRIVATE FUNCTION JsonWriter.ToBString() AS BSTRING
