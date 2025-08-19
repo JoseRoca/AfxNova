@@ -56,6 +56,7 @@ Builds JSON text into an internal `BSTRING` buffer with optional pretty‑printi
 | [ValueNull](#valuenull) | Emits a literal null, respecting comma/indent rules. |
 | [ValueBool](#valuebool) | Emits a boolean true or false value. |
 | [ValueVariant](#valuevariant) | Serializes a `DVARIANT` using JSON‑compatible mapping. |
+| [ValueSafeArray](#valuesafearray) | Serializes a 1‑D SAFEARRAY as JSON array with smart inline vs pretty layout. |
 
 ---
 
@@ -73,7 +74,75 @@ CONSTRUCTOR JsonReader (BYREF source AS WSTRING)
 
 ---
 
-#### SkipWhitespace
+#### Example
+
+```
+' ========================================================================================
+' Json test
+' ========================================================================================
+'#CONSOLE ON
+#define UNICODE
+#define _WIN32_WINNT &h0602
+#include once "AfxNova/AfxJson.inc"
+USING AfxNova
+
+SUB TestJsonReader()
+   ' Craft some JSON with tricky bits:
+   ' - Unicode \u00E9 (é) and surrogate pair \uD83D\uDE03 (??)
+   ' - Quotes, backslashes, slash, control codes
+   ' - Numbers with exponents, booleans, null
+   DIM sample AS DWSTRING = _
+       "{""name"":""Jos" & WCHR(&h00E9) & " " & WCHR(&hD83D) & WCHR(&hDE03) & """, " & _
+       """quote"":""He said """"Hello/World""""!"", " & _
+       """newline"":""Line1" & WCHR(10) & "Line2"", " & _
+       """pi"":3.14159, ""exp"":-2.5e+3, " & _
+       """ok"":true, ""missing"":null}"
+
+   DIM rdr AS JsonReader = JsonReader(sample)
+   DIM tok AS JsonToken
+   DIM idx AS INTEGER = 0
+
+   PRINT "Testing JSON Reader with JSonUnquoteW-backed ReadString"
+   PRINT STRING(60,"-")
+
+   WHILE rdr.ReadNext(tok)
+      idx += 1
+      PRINT idx; ". "; 
+      SELECT CASE tok.kind
+         CASE JSON_STRING
+            PRINT "STRING: "; tok.value
+         CASE JSON_NUMBER
+            PRINT "NUMBER: "; tok.value
+         CASE JSON_BOOL
+            PRINT "BOOL: "; tok.value
+         CASE JSON_NULL
+            PRINT "NULL"
+         CASE JSON_OBJECT_START
+            PRINT "{"
+         CASE JSON_OBJECT_END
+            PRINT "}"
+         CASE JSON_ARRAY_START
+            PRINT "["
+         CASE JSON_ARRAY_END
+            PRINT "]"
+         CASE JSON_COLON
+            PRINT ":"
+         CASE JSON_COMMA
+            PRINT ","
+         CASE ELSE
+            PRINT "UNKNOWN"
+      END SELECT
+   WEND
+
+   PRINT STRING(60,"-")
+   PRINT "Done."
+END SUB
+
+TestJsonReader
+' ========================================================================================
+```
+
+## SkipWhitespace
 
 Advances the position past spaces, tabs, CR, and LF.
 
@@ -287,111 +356,57 @@ Other: dv.ToStr() as string fallback
 Serializes a 1‑D SAFEARRAY as JSON array with smart inline vs pretty layout.
 
 ```
-ValueSafeArray (BYREF sa AS DSafeArray)
+SUB ValueSafeArray (BYREF sa AS DSafeArray)
 ```
 
 Escapes VT_BSTR directly; otherwise serializes each element with **ValueVariant**.
 
 ---
 
+---
 
-Output and buffer management
-ToBString() As BSTRING:
-Purpose: Retrieve the current buffer as BSTRING (UTF‑16).
+## ToBString
 
-ToUtf8() As STRING:
-Purpose: Retrieve a UTF‑8 copy, handy for file I/O or engines expecting UTF‑8.
-
-Clear():
-Purpose: Reset buffer, depth, and firstItemStack to an empty state.
-
-Private helpers
-IsSmallInline(ByRef tmp As String) As Boolean:
-
-Purpose: Heuristic for one‑line emission; TRUE when length ≤ inlineThreshold and no “{” or “[”.
-
-AppendEscaped(ByRef s As WString):
-Purpose: Append a quoted, JSON‑escaped form of s into buf, encoding control chars < 32 as \uXXXX.
-
-AppendCommaIfNeeded():
-Purpose: Manage comma insertion between sibling elements based on firstItemStack; injects newline+indent for pretty‑print paths.
-
-AppendNewlineAndIndent():
-Purpose: Add line break and depth×indentSize spaces.
-
-Notes and tips
-WebView2 bridge: Use ToBString() with PostWebMessageAsJson for native→JS, and JSonUnquoteW for ExecuteScript string returns.
-
-Pretty vs compact: SetIndentSize(0) for compact output; rely on inlineThreshold to keep small arrays inline even with pretty‑print enabled.
-
-Robust reading: JsonReader is a tokenizer, not a full validator. Guard your consumer against JSON_NONE to handle malformed input.
-
-Unicode fidelity: Writer escapes control characters and preserves BMP characters directly; astral plane characters in input DWSTRING are emitted as UTF‑16 code units and will be round‑tripped correctly by modern JS engines.
+Returns the current buffer as a BSTRING (UTF‑16).
 
 ```
-' ========================================================================================
-' Json test
-' ========================================================================================
-''#CONSOLE ON
-'#define UNICODE
-'#define _WIN32_WINNT &h0602
-'#include once "AfxNova/AfxJson.inc"
-'USING AfxNova
+FUNCTION ToBString () AS BSTRING
+```
 
-'SUB TestJsonReader()
-'   ' Craft some JSON with tricky bits:
-'   ' - Unicode \u00E9 (é) and surrogate pair \uD83D\uDE03 (??)
-'   ' - Quotes, backslashes, slash, control codes
-'   ' - Numbers with exponents, booleans, null
-'   DIM sample AS DWSTRING = _
-'       "{""name"":""Jos" & WCHR(&h00E9) & " " & WCHR(&hD83D) & WCHR(&hDE03) & """, " & _
-'       """quote"":""He said """"Hello/World""""!"", " & _
-'       """newline"":""Line1" & WCHR(10) & "Line2"", " & _
-'       """pi"":3.14159, ""exp"":-2.5e+3, " & _
-'       """ok"":true, ""missing"":null}"
+---
 
-'   DIM rdr AS JsonReader = JsonReader(sample)
-'   DIM tok AS JsonToken
-'   DIM idx AS INTEGER = 0
+## ToUtf8
 
-'   PRINT "Testing JSON Reader with JSonUnquoteW-backed ReadString"
-'   PRINT STRING(60,"-")
+Returns the current buffer as a UTF-8 string.
 
-'   WHILE rdr.ReadNext(tok)
-'      idx += 1
-'      PRINT idx; ". "; 
-'      SELECT CASE tok.kind
-'         CASE JSON_STRING
-'            PRINT "STRING: "; tok.value
-'         CASE JSON_NUMBER
-'            PRINT "NUMBER: "; tok.value
-'         CASE JSON_BOOL
-'            PRINT "BOOL: "; tok.value
-'         CASE JSON_NULL
-'            PRINT "NULL"
-'         CASE JSON_OBJECT_START
-'            PRINT "{"
-'         CASE JSON_OBJECT_END
-'            PRINT "}"
-'         CASE JSON_ARRAY_START
-'            PRINT "["
-'         CASE JSON_ARRAY_END
-'            PRINT "]"
-'         CASE JSON_COLON
-'            PRINT ":"
-'         CASE JSON_COMMA
-'            PRINT ","
-'         CASE ELSE
-'            PRINT "UNKNOWN"
-'      END SELECT
-'   WEND
+```
+FUNCTION ToUtf8 () AS STRING
+```
+---
 
-'   PRINT STRING(60,"-")
-'   PRINT "Done."
-'END SUB
+---
 
-'TestJsonReader
-' ========================================================================================
+## Clear
+
+Resets the buffer, depth, and m_firstItemStack to an empty state.
+
+```
+SUB Clear
+```
+---
+
+#### Notes and tips
+
+WebView2 bridge: Use **ToBString** with **PostWebMessageAsJson** for native→JS, and **JSonUnquoteW** for **ExecuteScript** string returns.
+
+Pretty vs compact: **SetIndentSize(0)** for compact output; rely on *m_inlineThreshold* to keep small arrays inline even with pretty‑print enabled.
+
+Robust reading: **JsonReader** is a tokenizer, not a full validator. Guard your consumer against JSON_NONE to handle malformed input.
+
+Unicode fidelity: Writer escapes control characters and preserves BMP characters directly; astral plane characters in input strings are emitted as UTF‑16 code units and will be round‑tripped correctly by modern JS engines.
+
+```
+
 ```
 ```
 ' ========================================================================================
