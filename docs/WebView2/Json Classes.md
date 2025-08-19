@@ -540,9 +540,9 @@ Pretty vs compact: **SetIndentSize(0)** for compact output; rely on *m_inlineThr
 
 Robust reading: **JsonReader** is a tokenizer, not a full validator. Guard your consumer against JSON_NONE to handle malformed input.
 
-Unicode fidelity: Writer escapes control characters and preserves BMP characters directly; astral plane characters in input strings are emitted as UTF‑16 code units and will be round‑tripped correctly by modern JS engines.
+Unicode fidelity: Writer escapes control characters and preserves BMP (Basic Multilingual Plane) characters directly; astral plane characters in input strings are emitted as UTF‑16 code units and will be round‑tripped correctly by modern JS engines.
 
-They’re built first and foremost to make life easier when shuttling data in and out of WebView2, but because they stick to clean JSON in/out and COM‑friendly types, they’re essentially drop‑in utilities anywhere you need structured text parsing or emission.
+They’re built first and foremost to make life easier when shuttling data in and out of `WebView2`, but because they stick to clean JSON in/out and COM‑friendly types, they’re essentially drop‑in utilities anywhere you need structured text parsing or emission.
 
 That means you could:
 
