@@ -17,140 +17,283 @@ FUNCTION JSonUnquoteW (BYREF wszJson AS WSTRING) AS DWSTRING
 
 #### Return value
 
-
 Input/contract: Expects a JSON‑encoded string surrounded by quotes. Returns empty if the input isn’t a quoted JSON string.
 
 Decoding rules: Handles \" \\ \/ \b \f \n \r \t and \uXXXX (one UTF‑16 code unit per escape). Surrogate pairs pass through correctly when present as consecutive \uXXXX sequences.
 
 Typical use: Consume WebView2 ExecuteScript string results (which arrive as JSON strings) and recover the plain text.
 
-#### JsonReader class
-Role: Tokenize a UTF‑16 JSON text into a stream of JsonToken entries without allocating a DOM.
+---
 
-State: m_buf (DWSTRING buffer), m_pos (1‑based cursor).
+# JsonReader class
 
-Constructor and destructor
-Constructor: PRIVATE CONSTRUCTOR JsonReader(ByRef source As WSTRING)
-Purpose: Initialize the reader with source text and reset position to the start.
+Tokenizes a UTF‑16 JSON text into a stream of **JsonToken** entries without allocating a DOM.
 
-Destructor: PRIVATE DESTRUCTOR JsonReader
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructor1) | Creates a new **JsonReader** object initialized to the specified value. |
+| [ReadNext](#readxext) | Reads the next token. |
+| [ReadNumber](#readumber) | Parses a JSON number. |
+| [ReadString](#readstring) | Reads a string by slicing the raw JSON string and unquoting via **JSonUnquoteW**. |
+| [SkipWhitespace](#skipwhitespace) | Advances the position past spaces, tabs, CR and LF. |
 
-Purpose: No dynamic resources; present for symmetry.
+---
+
+# JsonWriter class
+
+Builds JSON text into an internal `BSTRING` buffer with optional pretty‑printing and smart inline formatting.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [SetIndentSize](#setindentsize) | Control spaces per indent level. |
+| [SetInlineThreshold](#setinlinethreshold) | Control spaces per indent level. |
+| [BeginObject](#beginobject) | Structures control with inline suppression. |
+| [EndObject](#endobject) | Closes the object with proper dedent and “}”. |
+| [BeginArray](#beginarray) | Emits “[”, increases depth, pushes a “first item” flag, and inserts newline+indent. |
+| [EndArray](#endarray) | Closes the array with proper dedent and “]”, then pops the stack. |
+| [Name](#name) | Writes a JSON object key with correct escaping, colon, and spacing. |
+| [Value](#value) | Emits a JSON string with escaping for quotes, backslashes, control chars, and nonprintables via \uXXXX. |
+| [ValueNull](#valuenull) | Emits a literal null, respecting comma/indent rules. |
+| [ValueBool](#valuebool) | Emits a boolean true or false value. |
+| [ValueVariant](#valuevariant) | Serializes a `DVARIANT` using JSON‑compatible mapping. |
+
+---
+
+## <a name="constructors1"></a>Constructor (JsonReader)
+
+Creates a new **JsonReader** object initialized to the specified value.
+
+```
+CONSTRUCTOR JsonReader (BYREF source AS WSTRING)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *source* | A JSON‑encoded string surrounded by quotes. |
+
+---
 
 #### SkipWhitespace
-Signature: PRIVATE SUB JsonReader.SkipWhitespace
 
-Purpose: Advance m_pos past spaces, tabs, CR, and LF.
+Advances the position past spaces, tabs, CR, and LF.
 
-Side effect: Updates m_pos; no tokens produced.
+```
+SUB JsonReader.SkipWhitespace
+```
+---
 
-#### ReadString
-Signature: PRIVATE FUNCTION JsonReader.ReadString() As DWSTRING
+## ReadString
 
-Purpose: Consume a JSON string literal starting at the opening quote and return its decoded text.
+Reads a JSON string literal starting at the opening quote and returns its decoded text.
 
-Parsing detail: Walks raw characters, skips over escapes (including \uXXXX), slices the raw quoted segment, then calls JsonUnquoteW to decode.
+```
+FUNCTION ReadString () AS DWSTRING
+```
 
-#### ReadNumber
-Signature: PRIVATE FUNCTION JsonReader.ReadNumber() As DWSTRING
+Walks raw characters, skips over escapes (including \uXXXX), slices the raw quoted segment, then calls JsonUnquoteW to decode.
 
-Purpose: Parse a JSON number per the grammar: optional sign, integer, optional fraction, optional exponent.
+---
 
-Output form: Returns the exact textual representation captured (as DWSTRING).
+## ReadNumber
 
-Robustness: If no digits are consumed, resets to start and returns empty. If an exponent marker lacks digits, truncates back to pre‑exponent.
+Parses a JSON number checking for optional sign, integer, optional fraction and optional exponent.
 
-ReadNext
-Signature: PRIVATE FUNCTION JsonReader.ReadNext(ByRef tok As JsonToken) As Boolean
+```
+FUNCTION ReadNumber () AS DWSTRING
+```
 
-Purpose: Produce the next token and advance the cursor.
+Returns the exact textual representation captured.
+
+If no digits are consumed, resets to start and returns empty. If an exponent marker lacks digits, truncates back to pre‑exponent.
+
+---
+
+## ReadNext
+
+Produces the next token and advances the position.
+
+```
+FUNCTION ReadNext (BYREF tok AS JsonToken) AS BOOLEAN
+```
 
 Tokenization:
+
 Structural: { } [ ] : , mapped to JSON_OBJECT_START/END, JSON_ARRAY_START/END, JSON_COLON, JSON_COMMA.
 
 Values: JSON_STRING via ReadString, JSON_NUMBER via ReadNumber, JSON_BOOL (“true”/“false”), JSON_NULL (“null”).
 
 End/invalid handling: Returns FALSE at end of buffer. On unrecognized input, sets JSON_NONE and fast‑forwards to avoid infinite loops.
 
-#### JsonWriter class
-Role: Build JSON text into an internal BSTRING buffer with optional pretty‑printing and smart inline formatting.
+---
+---
 
-State: buf (BSTRING), firstItemStack() (comma/first‑element tracking per nesting level), indentSize, depth, inlineThreshold.
+## SetIndentSize
 
-Configuration
+Sets the maximum character length used to decide if arrays/objects may be emitted inline.
 
-SetIndentSize(ByVal n As LONG):
+```
+SUB SetIndentSize(BYVAL n As LONG)
+```
 
-Purpose: Control spaces per indent level (0 disables pretty‑printing newlines/indents for structural entries).
+| Parameter  | Description |
+| ---------- | ----------- |
+| *n* | The number of spaces to indent. |
 
-Constraints: Non‑negative values only.
+---
 
-SetInlineThreshold(ByVal n As LONG):
+## SetInlineThreshold
 
-Purpose: Set the maximum character length used to decide if arrays/objects may be emitted inline.
+Sets the maximum character length used to decide if arrays/objects may be emitted inline.
 
-Effect: Influences IsSmallInline decisions for array serialization.
+```
+SUB SetInlineThreshold(BYVAL n As LONG)
+```
 
-Structure control
-BeginObject():
+| Parameter  | Description |
+| ---------- | ----------- |
+| *n* | The maximum character length. |
 
-Purpose: Emit “{”, increase depth, push a “first item” flag, and insert newline+indent.
+---
 
-Comma logic: Respects AppendCommaIfNeeded before emitting.
+## BeginObject
 
-EndObject():
+Structures control with inline suppression.
 
-Purpose: Close the object with proper dedent and “}”, then pop the “first item” stack.
+```
+SUB BeginObject
+```
 
-BeginArray():
-Purpose: Emit “[”, increase depth, push a “first item” flag, and insert newline+indent.
+Purpose: Emits “{”, increases depth, pushes a “first item” flag, and inserts newline+indent.
 
-EndArray():
+---
 
-Purpose: Close the array with proper dedent and “]”, then pop the stack.
+## EndObject
 
-Name(ByRef s As WString):
+Closes the object with proper dedent and “}”, then pops the "first item" stack.
 
-Purpose: Write a JSON object key with correct escaping, colon, and spacing.
+```
+SUB EndObject
+```
+---
 
-Effect: Resets the current level’s “first item” flag so the next value decides comma/newline.
+## BeginArray
 
-Primitive values
-Value(ByRef s As WString):
-Purpose: Emit a JSON string with escaping for quotes, backslashes, control chars, and nonprintables via \uXXXX.
+Emits “[”, increases depth, pushes a “first item” flag, and inserts newline+indent.
 
-Value(ByVal n As LongInt):
-Purpose: Emit an integer number using WStr conversion (no quotes).
+```
+SUB BeginArray
+```
+---
 
-Value(ByVal n As Double):
-Purpose: Emit a floating‑point number using WStr conversion (no quotes).
+## EndArray
 
-ValueNull():
-Purpose: Emit literal null, respecting comma/indent rules.
+Closes the array with proper dedent and “]”, then pops the stack.
 
-ValueBool(ByVal b As Boolean):
-Purpose: Emit true or false.
+```
+SUB EndArray
+```
+---
 
-Composite values and COM interop
-ValueVariant(ByRef dv As DVARIANT):
+## Name
 
-Purpose: Serialize a DVARIANT using JSON‑compatible mapping.
+Writes a JSON object key with correct escaping, colon, and spacing.
 
-Mapping:
+```
+SUB Name (BYREF s AS WSTRING)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *s* | The JSON string. |
+
+Resets the current level’s "first item" flag so the next value decides comma/newline.
+
+---
+
+## Value
+
+Emits a JSON string with escaping for quotes, backslashes, control chars, and nonprintables via \uXXXX.
+
+```
+SUB Value (BYREF s AS WSTRING)
+SUB Value (BYVAL n AS LONGINT)
+SUB Value (BYVAL n AS DOUBLE)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *s* | The string to emit. |
+| *n* | The number to emit. |
+
+The numbers are converted to string with **WSTR**.
+
+---
+
+## ValueNull
+
+Emits a literal null, respecting comma/indent rules.
+
+```
+SUB ValueNull
+```
+---
+
+## ValueBool
+
+Emits a boolean true or false value.
+
+```
+SUB ValueBool (BYVAL b AS BOOLEAN)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *b* | A boolean true(-1) or false(0) value. |
+
+---
+
+## ValueVariant
+
+Serializes a `DVARIANT` using JSON‑compatible mapping.
+
+```
+SUB ValueVariant (BYREF dv AS DVARIANT)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dv | a variant value. |
+
+^^Mapping** :
+
 Empty/Null: null
+
 Boolean: true/false
+
 BSTR: string (escaped)
+
 R4/R8: number (double)
+
 Integral types (signed/unsigned): number (integer)
+
 Arrays (common VT_ARRAY types): delegates to ValueSafeArray
+
 Other: dv.ToStr() as string fallback
-ValueSafeArray(ByRef sa As DSafeArray):
 
-Purpose: Serialize a 1‑D SAFEARRAY as JSON array with smart inline vs pretty layout.
+---
 
-Inline decision: Renders a compact temporary “[a,b,c]” form and uses IsSmallInline(temp) to choose inline or multi‑line emission.
+## ValueSafeArray
 
-Element handling: Escapes VT_BSTR directly; otherwise serializes each element with ValueVariant.
+Serializes a 1‑D SAFEARRAY as JSON array with smart inline vs pretty layout.
+
+```
+ValueSafeArray (BYREF sa AS DSafeArray)
+```
+
+Escapes VT_BSTR directly; otherwise serializes each element with **ValueVariant**.
+
+---
+
 
 Output and buffer management
 ToBString() As BSTRING:
