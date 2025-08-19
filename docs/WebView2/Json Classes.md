@@ -162,7 +162,7 @@ Reads a JSON string literal starting at the opening quote and returns its decode
 FUNCTION ReadString () AS DWSTRING
 ```
 
-Walks raw characters, skips over escapes (including \uXXXX), slices the raw quoted segment, then calls JsonUnquoteW to decode.
+Walks raw characters, skips over escapes (including \uXXXX), slices the raw quoted segment, then calls **JsonUnquoteW** to decode.
 
 ---
 
