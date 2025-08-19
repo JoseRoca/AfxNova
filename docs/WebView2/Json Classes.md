@@ -404,7 +404,7 @@ SUB ValueVariant (BYREF dv AS DVARIANT)
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *dv | a variant value. |
+| *dv | A variant value. |
 
 **Mapping** :
 
