@@ -2615,6 +2615,7 @@ void ScriptComponent::SubscribeToCdpEvent()
     }
 }
 ```
+---
 
 ## GoBack
 
@@ -2622,6 +2623,7 @@ Navigates the WebView to the previous page in the navigation history.
 ```
 public HRESULT GoBack()
 ```
+---
 
 ## GoForward
 
@@ -2629,6 +2631,7 @@ Navigates the WebView to the next page in the navigation history.
 ```
 public HRESULT GoForward()
 ```
+---
 
 ## Navigate
 
@@ -2678,7 +2681,7 @@ void ControlComponent::NavigateToAddressBar()
 ```
 ---
 
-@@ NavigateToString
+## NavigateToString
 
 Initiates a navigation to htmlContent as source HTML of a new document.
 ```
