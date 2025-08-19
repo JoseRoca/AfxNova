@@ -21,7 +21,7 @@ Input/contract: Expects a JSON‑encoded string surrounded by quotes. Returns em
 
 Decoding rules: Handles \" \\ \/ \b \f \n \r \t and \uXXXX (one UTF‑16 code unit per escape). Surrogate pairs pass through correctly when present as consecutive \uXXXX sequences.
 
-Typical use: Consume WebView2 ExecuteScript string results (which arrive as JSON strings) and recover the plain text.
+Typical use: Consume `WebView2` **ExecuteScript** string results (which arrive as JSON strings) and recover the plain text.
 
 ---
 
