@@ -1189,6 +1189,7 @@ ContainsFullScreenElementChanged triggers when the ContainsFullScreenElement pro
             .Get(),
         nullptr));
 ```
+---
 
 ## add_ContentLoading
 
