@@ -3481,7 +3481,7 @@ function sendMessage() {
 ```
 Hooking it into your handler
 Inside your Msg_Invoke:
-
+```
 Function Msg_Invoke( _
     ByVal this As MessageReceivedHandler Ptr, _
     ByVal sender As ICoreWebView2 Ptr, _
