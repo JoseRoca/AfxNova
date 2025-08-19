@@ -142,9 +142,9 @@ TYPE JsonReader
    m_buf AS DWSTRING   ' buffer
    m_pos AS INTEGER    ' position
 
-   DECLARE SUB SkipWhitespace()
-   DECLARE FUNCTION ReadString() AS DWSTRING
-   DECLARE FUNCTION ReadNumber() AS DWSTRING
+   DECLARE SUB SkipWhitespace
+   DECLARE FUNCTION ReadString () AS DWSTRING
+   DECLARE FUNCTION ReadNumber () AS DWSTRING
 
 public:
    DECLARE CONSTRUCTOR (BYREF source AS WSTRING)
@@ -154,7 +154,7 @@ public:
 END TYPE
 
 ' ========================================================================================
-' Constructor
+' Creates an instance of the JSonReader class
 ' ========================================================================================
 PRIVATE CONSTRUCTOR JsonReader (BYREF source AS WSTRING)
    m_buf = source
@@ -170,7 +170,7 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' // Skip white space
+' Advances the position past spaces, tabs, CR and LF.
 ' ========================================================================================
 PRIVATE SUB JsonReader.SkipWhitespace
    WHILE m_pos <= LEN(m_buf)
@@ -185,9 +185,8 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' // Read string by slicing the raw JSON string and unquoting via JSonUnquoteW
+' Read string by slicing the raw JSON string and unquoting via JSonUnquoteW
 ' ========================================================================================
-' // Read string by slicing and then unquoting
 PRIVATE FUNCTION JsonReader.ReadString () AS DWSTRING
    DIM startPos AS INTEGER = m_pos   ' points at opening quote
    m_pos += 1
@@ -217,9 +216,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' // Read number: [-]? (0|[1-9]\d*) (.\d+)? ([eE][+-]?\d+)?
+' Parses a JSON number
 ' ========================================================================================
-' // Read number: [-]? (0|[1-9]\d*) (.\d+)? ([eE][+-]?\d+)?
 PRIVATE FUNCTION JsonReader.ReadNumber () AS DWSTRING
    DIM result AS DWSTRING
    DIM startPos AS INTEGER = m_pos
@@ -321,7 +319,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' // Read next token
+' Reads the next token
 ' ========================================================================================
 PRIVATE FUNCTION JsonReader.ReadNext (BYREF tok AS JsonToken) AS BOOLEAN
    this.SkipWhitespace
@@ -364,70 +362,6 @@ PRIVATE FUNCTION JsonReader.ReadNext (BYREF tok AS JsonToken) AS BOOLEAN
 END FUNCTION
 ' ========================================================================================
 
-' ========================================================================================
-' Json test
-' ========================================================================================
-''#CONSOLE ON
-'#define UNICODE
-'#define _WIN32_WINNT &h0602
-'#include once "AfxNova/AfxJson.inc"
-'USING AfxNova
-
-'SUB TestJsonReader()
-'   ' Craft some JSON with tricky bits:
-'   ' - Unicode \u00E9 (é) and surrogate pair \uD83D\uDE03 (??)
-'   ' - Quotes, backslashes, slash, control codes
-'   ' - Numbers with exponents, booleans, null
-'   DIM sample AS DWSTRING = _
-'       "{""name"":""Jos" & WCHR(&h00E9) & " " & WCHR(&hD83D) & WCHR(&hDE03) & """, " & _
-'       """quote"":""He said """"Hello/World""""!"", " & _
-'       """newline"":""Line1" & WCHR(10) & "Line2"", " & _
-'       """pi"":3.14159, ""exp"":-2.5e+3, " & _
-'       """ok"":true, ""missing"":null}"
-
-'   DIM rdr AS JsonReader = JsonReader(sample)
-'   DIM tok AS JsonToken
-'   DIM idx AS INTEGER = 0
-
-'   PRINT "Testing JSON Reader with JSonUnquoteW-backed ReadString"
-'   PRINT STRING(60,"-")
-
-'   WHILE rdr.ReadNext(tok)
-'      idx += 1
-'      PRINT idx; ". "; 
-'      SELECT CASE tok.kind
-'         CASE JSON_STRING
-'            PRINT "STRING: "; tok.value
-'         CASE JSON_NUMBER
-'            PRINT "NUMBER: "; tok.value
-'         CASE JSON_BOOL
-'            PRINT "BOOL: "; tok.value
-'         CASE JSON_NULL
-'            PRINT "NULL"
-'         CASE JSON_OBJECT_START
-'            PRINT "{"
-'         CASE JSON_OBJECT_END
-'            PRINT "}"
-'         CASE JSON_ARRAY_START
-'            PRINT "["
-'         CASE JSON_ARRAY_END
-'            PRINT "]"
-'         CASE JSON_COLON
-'            PRINT ":"
-'         CASE JSON_COMMA
-'            PRINT ","
-'         CASE ELSE
-'            PRINT "UNKNOWN"
-'      END SELECT
-'   WEND
-
-'   PRINT STRING(60,"-")
-'   PRINT "Done."
-'END SUB
-
-'TestJsonReader
-' ========================================================================================
-
 
 ' ########################################################################################
 ' Class JSonWriter
@@ -435,36 +369,36 @@ END FUNCTION
 TYPE JsonWriter
  
 Private:
-   buf As BSTRING
-   firstItemStack(ANY) AS BOOLEAN
-   indentSize AS LONG = 4
-   depth AS LONG
-   inlineThreshold As Integer = 40 ' max chars for inline array/object
+   m_buf AS BSTRING
+   m_firstItemStack(ANY) AS BOOLEAN
+   m_indentSize AS LONG = 4
+   m_depth AS LONG
+   m_inlineThreshold As Integer = 40 ' max chars for inline array/object
 
-   DECLARE FUNCTION IsSmallInline (ByRef tmp As String) As Boolean
-   DECLARE SUB AppendEscaped (ByRef s As WString)
-   DECLARE SUB AppendCommaIfNeeded()
-   DECLARE SUB AppendNewlineAndIndent()
-   DECLARE SUB ValueNull()
-   DECLARE SUB ValueBool(ByVal b As Boolean)
+   DECLARE FUNCTION IsSmallInline (BYREF tmp AS STRING) AS BOOLEAN
+   DECLARE SUB AppendEscaped (BYREF s AS WSTRING)
+   DECLARE SUB AppendCommaIfNeeded
+   DECLARE SUB AppendNewlineAndIndent
+   DECLARE SUB ValueNull
+   DECLARE SUB ValueBool(BYVAL b AS BOOLEAN)
 
 Public:
 
-   DECLARE SUB SetIndentSize(ByVal n As LONG)
-   DECLARE SUB SetInlineThreshold(ByVal n As LONG)
-   DECLARE SUB BeginObject()
-   DECLARE SUB EndObject()
-   DECLARE SUB BeginArray()
-   DECLARE SUB EndArray()
-   DECLARE SUB Name(ByRef s As WString)
-   DECLARE SUB Value(ByRef s As WString)
-   DECLARE SUB Value(ByVal n As LongInt)
-   DECLARE SUB Value(ByVal n As Double)
-   DECLARE SUB ValueVariant(ByRef dv As DVARIANT)
-   DECLARE SUB ValueSafeArray(ByRef sa As DSafeArray)
-   DECLARE FUNCTION ToBString() AS BSTRING
-   DECLARE FUNCTION ToUtf8() AS STRING
-   DECLARE SUB Clear()
+   DECLARE SUB SetIndentSize(BYVAL n As LONG)
+   DECLARE SUB SetInlineThreshold(BYVAL n As LONG)
+   DECLARE SUB BeginObject
+   DECLARE SUB EndObject
+   DECLARE SUB BeginArray
+   DECLARE SUB EndArray
+   DECLARE SUB Name(BYREF s AS WSTRING)
+   DECLARE SUB Value(BYREF s AS WSTRING)
+   DECLARE SUB Value(BYVAL n AS LONGINT)
+   DECLARE SUB Value(BYVAL n AS DOUBLE)
+   DECLARE SUB ValueVariant(BYREF dv AS DVARIANT)
+   DECLARE SUB ValueSafeArray(BYREF sa AS DSafeArray)
+   DECLARE FUNCTION ToBString () AS BSTRING
+   DECLARE FUNCTION ToUtf8 () AS STRING
+   DECLARE SUB Clear
 
 END TYPE
 
@@ -476,299 +410,282 @@ END TYPE
 ' Returns TRUE if both conditions are met, FALSE otherwise.
 ' ========================================================================================
 PRIVATE FUNCTION JsonWriter.IsSmallInline (BYREF tmp AS STRING) AS BOOLEAN
-   RETURN LEN(tmp) <= inlineThreshold ANDALSO INSTR(tmp, "{") = 0 ANDALSO INSTR(tmp, "[") = 0
+   RETURN LEN(tmp) <= m_inlineThreshold ANDALSO INSTR(tmp, "{") = 0 ANDALSO INSTR(tmp, "[") = 0
 END FUNCTION
 ' ========================================================================================
 
-PRIVATE SUB JsonWriter.AppendEscaped (ByRef s As WString)
-   buf &= !"\""
-   For i As Integer = 0 To Len(s) - 1
-       Dim ch As UShort = s[i]
-       Select Case ch
-           Case 34 : buf &= !"\\\""
-           Case 92 : buf &= !"\\\\"
-           Case 8  : buf &= !"\\b"
-           Case 12 : buf &= !"\\f"
-           Case 10 : buf &= !"\\n"
-           Case 13 : buf &= !"\\r"
-           Case 9  : buf &= !"\\t"
-           Case Else
-               If ch < 32 Then
-                   buf &= !"\\u" & Hex(ch, 4)
-               Else
-                   buf &= WChr(ch)
-               End If
-       End Select
-   Next
-   buf &= !"\""
+' ========================================================================================
+' Appends a quoted, JSON-escaped form of s into buf, encoding control chars < 32 as \uXXXX.
+' ========================================================================================
+PRIVATE SUB JsonWriter.AppendEscaped (BYREF s AS WSTRING)
+   m_buf &= !"\""
+   FOR i AS LONG = 0 TO Len(s) - 1
+      DIM ch AS USHORT = s[i]
+      SELECT CASE ch
+         CASE 34 : m_buf &= !"\\\""
+         CASE 92 : m_buf &= !"\\\\"
+         CASE 8  : m_buf &= !"\\b"
+         CASE 12 : m_buf &= !"\\f"
+         CASE 10 : m_buf &= !"\\n"
+         CASE 13 : m_buf &= !"\\r"
+         CASE 9  : m_buf &= !"\\t"
+         CASE ELSE
+            IF ch < 32 THEN
+               m_buf &= !"\\u" & HEX(ch, 4)
+            ELSE
+               m_buf &= WCHR(ch)
+            END IF
+      END SELECT
+   NEXT
+   m_buf &= !"\""
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.AppendCommaIfNeeded()
-    IF UBound(firstItemStack) >= 0 THEN
-        DIM idx AS LONG = UBound(firstItemStack)
-        IF firstItemStack(idx) THEN
-            firstItemStack(idx) = False
-        ELSE
-            buf &= ","
-            ' Pretty-print: newline + indent before the next value
-            AppendNewlineAndIndent()
-        END IF
-    END IF
+' ========================================================================================
+' Manages comma insertion between sibling elements based on firstItemStack; injects newline+indent for pretty-print paths.
+' ========================================================================================
+PRIVATE SUB JsonWriter.AppendCommaIfNeeded
+   IF UBOUND(m_firstItemStack) >= 0 THEN
+      DIM idx AS LONG = UBOUND(m_firstItemStack)
+      IF m_firstItemStack(idx) THEN
+         m_firstItemStack(idx) = FALSE
+      ELSE
+         m_buf &= ","
+         ' Pretty-print: newline + indent before the next value
+         AppendNewlineAndIndent
+      END IF
+   END IF
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.AppendNewlineAndIndent()
-   buf &= !"\n" & WSTRING(depth * indentSize, WSTR(" "))
+' ========================================================================================
+' Adds line break and depth×indentSize spaces.
+' ========================================================================================
+PRIVATE SUB JsonWriter.AppendNewlineAndIndent
+   m_buf &= !"\n" & WSTRING(m_depth * m_indentSize, WSTR(" "))
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.ValueNull()
-   AppendCommaIfNeeded()
-   buf &= "null"
+' ========================================================================================
+' Emits literal null, respecting comma/indent rules.
+' ========================================================================================
+PRIVATE SUB JsonWriter.ValueNull
+   AppendCommaIfNeeded
+   m_buf &= "null"
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.ValueBool(ByVal b As Boolean)
-   AppendCommaIfNeeded()
-   If b Then buf &= "true" Else buf &= "false"
+' ========================================================================================
+' Emits true or false.
+' ========================================================================================
+PRIVATE SUB JsonWriter.ValueBool(BYVAL b AS BOOLEAN)
+   AppendCommaIfNeeded
+   If b THEN m_buf &= "true" ELSE m_buf &= "false"
 END SUB
+' ========================================================================================
 
-' Config
-PRIVATE SUB JsonWriter.SetIndentSize(ByVal n As LONG)
-   If n >= 0 Then indentSize = n
+' ========================================================================================
+' Controls spaces per indent level (0 disables pretty-printing newlines/indents for structural entries).
+' ========================================================================================
+PRIVATE SUB JsonWriter.SetIndentSize(BYVAL n As LONG)
+   If n >= 0 Then m_indentSize = n
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.SetInlineThreshold(ByVal n As LONG)
-   If n >= 0 Then inlineThreshold = n
+' ========================================================================================
+' Sets the maximum character length used to decide if arrays/objects may be emitted inline.
+' ========================================================================================
+PRIVATE SUB JsonWriter.SetInlineThreshold(BYVAL n As LONG)
+   If n >= 0 THEN m_inlineThreshold = n
 END SUB
+' ========================================================================================
 
-' Structure control with inline suppression
-PRIVATE SUB JsonWriter.BeginObject()
-   AppendCommaIfNeeded()
-   buf &= "{"
-   depth += 1
-   ReDim Preserve firstItemStack(UBound(firstItemStack) + 1)
-   firstItemStack(UBound(firstItemStack)) = True
-   AppendNewlineAndIndent()
+' ========================================================================================
+' Structures control with inline suppression
+' ========================================================================================
+PRIVATE SUB JsonWriter.BeginObject
+   AppendCommaIfNeeded
+   m_buf &= "{"
+   m_depth += 1
+   REDIM PRESERVE m_firstItemStack(UBOUND(m_firstItemStack) + 1)
+   m_firstItemStack(UBOUND(m_firstItemStack)) = TRUE
+   AppendNewlineAndIndent
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.EndObject()
-   depth -= 1
-   buf &= !"\n" & WString(depth * indentSize, WSTR(" ")) & "}"
-   If UBound(firstItemStack) >= 0 Then
-       ReDim Preserve firstItemStack(UBound(firstItemStack) - 1)
-   End If
-End Sub
-
-PRIVATE SUB JsonWriter.BeginArray()
-   buf &= "["
-   depth += 1
-   ReDim Preserve firstItemStack(UBound(firstItemStack) + 1)
-   firstItemStack(UBound(firstItemStack)) = True
-   AppendNewlineAndIndent()
+' ========================================================================================
+' Emits “{”, increase depth, push a “first item” flag, and insert newline+indent.
+' ========================================================================================
+PRIVATE SUB JsonWriter.EndObject
+   m_depth -= 1
+   m_buf &= !"\n" & WSTRING(m_depth * m_indentSize, WSTR(" ")) & "}"
+   IF UBOUND(m_firstItemStack) >= 0 THEN
+      REDIM PRESERVE m_firstItemStack(UBOUND(m_firstItemStack) - 1)
+   END IF
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.EndArray()
-   depth -= 1
-   buf &= !"\n" & WString(depth * indentSize, WSTR(" ")) & "]"
-   If UBound(firstItemStack) >= 0 Then
-       ReDim Preserve firstItemStack(UBound(firstItemStack) - 1)
-   End If
+' ========================================================================================
+'Opens the array with "[".
+' ========================================================================================
+PRIVATE SUB JsonWriter.BeginArray
+   m_buf &= "["
+   m_depth += 1
+   REDIM PRESERVE m_firstItemStack(UBOUND(m_firstItemStack) + 1)
+   m_firstItemStack(UBOUND(m_firstItemStack)) = TRUE
+   AppendNewlineAndIndent
 END SUB
+' ========================================================================================
 
-' Name inside object
-PRIVATE SUB JsonWriter.Name(ByRef s As WString)
-   AppendCommaIfNeeded()
+' ========================================================================================
+' Closes the array with proper dedent and “]”, then pop the stack.
+' ========================================================================================
+PRIVATE SUB JsonWriter.EndArray
+   m_depth -= 1
+   m_buf &= !"\n" & WSTRING(m_depth * m_indentSize, WSTR(" ")) & "]"
+   IF UBOUND(m_firstItemStack) >= 0 THEN
+       REDIM PRESERVE m_firstItemStack(UBOUND(m_firstItemStack) - 1)
+   END IF
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Writes a JSON object key with correct escaping, colon, and spacing.
+' ========================================================================================
+PRIVATE SUB JsonWriter.Name (BYREF s AS WSTRING)
+   AppendCommaIfNeeded
    AppendEscaped(s)
-   buf &= ": "
-   firstItemStack(UBound(firstItemStack)) = True
+   m_buf &= ": "
+   m_firstItemStack(UBOUND(m_firstItemStack)) = TRUE
 END SUB
+' ========================================================================================
 
-' Primitive values
-PRIVATE SUB JsonWriter.Value(ByRef s As WString)
-   AppendCommaIfNeeded()
+' ========================================================================================
+' Emits a JSON string with escaping for quotes, backslashes, control chars, and nonprintables via \uXXXX.
+' ========================================================================================
+PRIVATE SUB JsonWriter.Value(BYREF s AS WSTRING)
+   AppendCommaIfNeeded
    AppendEscaped(s)
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.Value(ByVal n As LongInt)
-   AppendCommaIfNeeded()
-   buf &= WStr(n)
+' ========================================================================================
+' Emits an integer number using WSTR conversion (no quotes).
+' ========================================================================================
+PRIVATE SUB JsonWriter.Value (BYVAL n AS LONGINT)
+   AppendCommaIfNeeded
+   m_buf &= WSTR(n)
 END SUB
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.Value(ByVal n As Double)
-   AppendCommaIfNeeded()
-   buf &= WStr(n)
+' ========================================================================================
+' Emits a floating-point number using WSTR conversion (no quotes).
+' ========================================================================================
+PRIVATE SUB JsonWriter.Value (BYVAL n AS DOUBLE)
+   AppendCommaIfNeeded
+   m_buf &= WSTR(n)
 END SUB
+' ========================================================================================
 
-' Variant entry point
-PRIVATE SUB JsonWriter.ValueVariant(ByRef dv As DVARIANT)
-print dv.vType, VT_BOOL
-   SELECT CASE dv.vType()
-       CASE VT_EMPTY, VT_NULL
-           ValueNull()
-       CASE VT_BOOL
-           ValueBool(CBool(dv))
-       CASE VT_BSTR
-           Value(dv.ToBStr)
-       CASE VT_R8, VT_R4
-           Value(CDbl(dv))
-       CASE VT_I1, VT_I2, VT_I4, VT_I8, _
-            VT_UI1, VT_UI2, VT_UI4, VT_UI8, _
-            VT_INT, VT_UINT
-           Value(CLngInt(dv))
-       CASE VT_ARRAY Or VT_VARIANT, _
-            VT_ARRAY Or VT_BSTR, _
-            VT_ARRAY Or VT_R8, _
-            VT_ARRAY Or VT_I4
-           Dim sa As DSafeArray = *dv
-           ValueSafeArray(sa)
-       CASE ELSE
-           Value(dv.ToStr())
+' ========================================================================================
+' Serializes a DVARIANT using JSON-compatible mapping.
+' ========================================================================================
+PRIVATE SUB JsonWriter.ValueVariant (BYREF dv AS DVARIANT)
+   SELECT CASE dv.vType
+      CASE VT_EMPTY, VT_NULL
+         ValueNull
+      CASE VT_BOOL
+         ValueBool(CBOOL(dv))
+      CASE VT_BSTR
+         Value(dv.ToBStr)
+      CASE VT_R8, VT_R4
+         Value(CDBL(dv))
+      CASE VT_I1, VT_I2, VT_I4, VT_I8, _
+          VT_UI1, VT_UI2, VT_UI4, VT_UI8, _
+          VT_INT, VT_UINT
+         Value(CLNGINT(dv))
+      CASE VT_ARRAY Or VT_VARIANT, _
+          VT_ARRAY Or VT_BSTR, _
+          VT_ARRAY Or VT_R8, _
+          VT_ARRAY Or VT_I4
+         DIM sa AS DSafeArray = *dv
+         ValueSafeArray(sa)
+      CASE ELSE
+         Value(dv.ToStr)
    END SELECT
 END SUB
+' ========================================================================================
 
 ' ========================================================================================
-' SAFEARRAY serialization with inline suppression.
-' Example:
-'   DIM dvArr AS DSafeArray
-'   dvArr.Create(VT_VARIANT, 3, 0)
-'   dvArr.PutVar(0, DVARIANT("first ??"))
-'   dvArr.PutVar(1, DVARIANT(42))
-'   dvArr.PutVar(2, DVARIANT(3.14159))
-'   DIM jw AS JsonWriter
-'   jw.SetIndentSize(2) ' 2-space indent
-'   jw.BeginObject()
-'      jw.Name("title") : jw.Value("Test")
-'      jw.Name("data")  : jw.ValueSafeArray(dvArr)
-'   jw.EndObject()
-'   PRINT jw.ToBString()
-' Example:
-'   DIM tiny AS DSafeArray
-'   tiny.Create(VT_VARIANT, 3, 0)
-'   tiny.PutVar(0, DVARIANT(1))
-'   tiny.PutVar(1, DVARIANT(2))
-'   tiny.PutVar(2, DVARIANT(3))
-'   DIM jw As JsonWriter
-'   jw.SetIndentSize(2)
-'   jw.SetInlineThreshold(20)  ' tighten threshold
-'   jw.BeginObject()
-'      jw.Name("a") : jw.ValueSafeArray(tiny)
-'      jw.Name("b") : jw.Value("longer text here will break inline")
-'  jw.EndObject()
-' Output:
-' {
-'  "a": [
-'    1,
-'    2,
-'    3
-'  ],
-'  "b": "longer text here will break inline"
-'}
+' Serializes a 1-D SAFEARRAY as JSON array with smart inline vs pretty layout.
 ' ========================================================================================
-PRIVATE SUB JsonWriter.ValueSafeArray(ByRef sa As DSafeArray)
+PRIVATE SUB JsonWriter.ValueSafeArray (BYREF sa AS DSafeArray)
    IF sa.UBound < sa.LBound THEN
-       AppendCommaIfNeeded()
-       buf &= "[]"
-       EXIT SUB
+      AppendCommaIfNeeded
+      m_buf &= "[]"
+      EXIT SUB
    END IF
-
-    ' First, render into temp
-    DIM temp As STRING
-    DIM origBuf As BSTRING = buf
-    buf.Clear()
-    buf &= "["
-    FOR i AS LONG = sa.LBound TO sa.UBound
-        IF i > sa.LBound THEN buf &= ","  ' local temp, not pretty — compact form
-        SELECT CASE sa.GetType
-            CASE VT_BSTR
-                AppendEscaped(sa.GetStr(i))
-            CASE ELSE
-                ' Use local rendering without pretty; safe because this is the temp buffer
-                ValueVariant(sa.GetVar(i))
-        END SELECT
-    NEXT
-    buf &= "]"
-    temp = buf.Utf8
-
-    ' Restore main buffer
-    buf = origBuf
-
-    IF IsSmallInline(temp) THEN
-        ' Comma is needed here if this array is not the first item in the parent
-        AppendCommaIfNeeded()
-        buf &= temp
-    ELSE
-        ' Pretty path: let BeginArray() manage commas and first-item state
-        BeginArray()
-        FOR i AS LONG = sa.LBound TO sa.UBound
-            ' No explicit newline here; AppendCommaIfNeeded will inject ",\n  " as needed
+   ' First, render into temp
+   DIM temp AS STRING
+   DIM origBuf AS BSTRING = m_buf
+   m_buf.Clear
+   m_buf &= "["
+   FOR i AS LONG = sa.LBound TO sa.UBound
+      IF i > sa.LBound THEN m_buf &= ","  ' local temp, not pretty — compact form
+      SELECT CASE sa.GetType
+         CASE VT_BSTR
+            AppendEscaped(sa.GetStr(i))
+         CASE ELSE
+            ' Use local rendering without pretty; safe because this is the temp buffer
             ValueVariant(sa.GetVar(i))
-        NEXT
-        EndArray()
-    END IF
+      END SELECT
+   NEXT
+   m_buf &= "]"
+   temp = m_buf.Utf8
+
+   ' Restore main buffer
+   m_buf = origBuf
+
+   IF IsSmallInline(temp) THEN
+      ' Comma is needed here if this array is not the first item in the parent
+      AppendCommaIfNeeded
+      m_buf &= temp
+   ELSE
+      ' Pretty path: let BeginArray manage commas and first-item state
+      BeginArray
+      FOR i AS LONG = sa.LBound TO sa.UBound
+         ' No explicit newline here; AppendCommaIfNeeded will inject ",\n  " as needed
+         ValueVariant(sa.GetVar(i))
+      NEXT
+      EndArray
+   END IF
 END SUB
+' ========================================================================================
 
-
-' Output & reset
-PRIVATE FUNCTION JsonWriter.ToBString() AS BSTRING
-   RETURN buf
+' ========================================================================================
+' Returns the current buffer as BSTRING (UTF-16).
+' ========================================================================================
+PRIVATE FUNCTION JsonWriter.ToBString () AS BSTRING
+   RETURN m_buf
 END FUNCTION
+' ========================================================================================
 
-PRIVATE FUNCTION JsonWriter.ToUtf8() AS STRING
-   RETURN buf.Utf8
+' ========================================================================================
+' Returns the current buffer as utf-8.
+' ========================================================================================
+PRIVATE FUNCTION JsonWriter.ToUtf8 () AS STRING
+   RETURN m_buf.Utf8
 END FUNCTION
+' ========================================================================================
 
-PRIVATE SUB JsonWriter.Clear()
-   buf.Clear()
-   depth = 0
-   REDIM firstItemStack(-1)
+' ========================================================================================
+' Resets the buffer, depth, and firstItemStack to an empty state.
+' ========================================================================================
+PRIVATE SUB JsonWriter.Clear
+   m_buf.Clear
+   m_depth = 0
+   REDIM m_firstItemStack(-1)
 END SUB
-
-' // More examples:
-' Primitives + string escaping
-' DIM esc AS DWSTRING = "Quote: """ & " Newline: " & WCHR(10) & "Tab: " & WCHR(9) & "End"
-' DIM jw AS JsonWriter
-' jw.SetIndentSize(2)
-' jw.BeginObject()
-'   jw.Name("s")    : jw.Value(esc)
-'   jw.Name("i64")  : jw.Value(9223372036854775807)  ' max signed 64
-'   jw.Name("pi")   : jw.Value(3.141592653589793)
-'   jw.Name("ok")   : jw.ValueVariant(DVARIANT(TRUE, "BOOLEAN"))   ' VT_BOOL ? true
-'   jw.Name("none") : jw.ValueVariant(DVARIANT())                  ' VT_EMPTY ? null
-' jw.EndObject()
-' print jw.ToUtf8()
-
-' Unicode text (BMP): accents, em dash, Greek
-' DIM uni AS DWSTRING = "España — café — ?x"
-' DIM jw AS JsonWriter
-' jw.SetIndentSize(2)
-' jw.BeginObject()
-'   jw.Name("title") : jw.Value("Unicode test")
-'   jw.Name("text")  : jw.Value(uni)
-' jw.EndObject()
-' AfxMsg jw.ToBString
-
-'Dim jw As JsonWriter
-'jw.SetIndentSize(2)
-'jw.BeginObject()
-'  jw.Name("app") : jw.Value("AfxNova")
-'  jw.Name("version") : jw.Value(1)
-'  jw.Name("author")
-'  jw.BeginObject()
-'    jw.Name("name")  : jw.Value("Jose Roca")
-'    jw.Name("site")  : jw.Value("https://github.com/JoseRoca/AfxNova")
-'    jw.Name("active"): jw.ValueVariant(DVARIANT(TRUE, "BOOLEAN"))
-'  jw.EndObject()
-'  jw.Name("notes") : jw.Value("All UTF-16 internally")
-'jw.EndObject()
-'print jw.ToBString
-
-'DIM jw AS JsonWriter
-'jw.SetIndentSize(0) ' 0 = no pretty-print
-'jw.BeginObject()
-'  jw.Name("k")  : jw.Value("v")
-'  jw.Name("n")  : jw.Value(123)
-'  jw.Name("b")  : jw.ValueVariant(DVARIANT(FALSE, "BOOLEAN"))
-'  jw.Name("nil"): jw.ValueVariant(DVARIANT())
-'jw.EndObject()
-'print jw.ToBString
-
+' ========================================================================================
 
 END NAMESPACE
