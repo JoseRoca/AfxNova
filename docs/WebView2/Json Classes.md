@@ -406,7 +406,7 @@ SUB ValueVariant (BYREF dv AS DVARIANT)
 | ---------- | ----------- |
 | *dv | a variant value. |
 
-^^Mapping** :
+**Mapping** :
 
 Empty/Null: null
 
