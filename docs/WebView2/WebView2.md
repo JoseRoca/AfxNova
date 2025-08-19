@@ -3487,7 +3487,7 @@ Function Msg_Invoke( _
     ByVal sender As ICoreWebView2 Ptr, _
     ByVal args As ICoreWebView2WebMessageReceivedEventArgs Ptr) As HRESULT
 
-    Dim raw As AFX_BSTR
+    Dim raw As WSTRING PTR
     args->lpVtbl->get_WebMessageAsJson(args, @raw)
     Print "Message from JS: " & *raw  ' or parse with your JSON lib
     CoTaskMemFree(raw)
