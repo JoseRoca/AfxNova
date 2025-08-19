@@ -2513,6 +2513,7 @@ The ICoreWebView2Settings object contains various modifiable settings for the ru
 ```
 public HRESULT get_Settings(ICoreWebView2Settings ** settings)
 ```
+---
 
 ## get_Source
 
