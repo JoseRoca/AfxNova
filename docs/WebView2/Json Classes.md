@@ -408,19 +408,13 @@ SUB ValueVariant (BYREF dv AS DVARIANT)
 
 **Mapping** :
 
-Empty/Null: null
-
-Boolean: true/false
-
-BSTR: string (escaped)
-
-R4/R8: number (double)
-
-Integral types (signed/unsigned): number (integer)
-
-Arrays (common VT_ARRAY types): delegates to ValueSafeArray
-
-Other: dv.ToStr() as string fallback
+* Empty/Null: null
++ Boolean: true/false
++ BSTR: string (escaped)
++ R4/R8: number (double)
++ Integral types (signed/unsigned): number (integer)
++ Arrays (common VT_ARRAY types): delegates to ValueSafeArray
++ Other: dv.ToStr() as string fallback
 
 #### Example
 
