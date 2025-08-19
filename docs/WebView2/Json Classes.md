@@ -534,7 +534,7 @@ SUB Clear
 
 #### Notes and tips
 
-`WebView2` bridge: Use **ToBString** with **PostWebMessageAsJson** for native→JS, and **JSonUnquoteW** for **ExecuteScript** string returns.
+`WebView2` bridge: Use **ToBString** with **PostWebMessageAsJson** for nativeJSON, and **JSonUnquoteW** for **ExecuteScript** string returns.
 
 Pretty vs compact: **SetIndentSize(0)** for compact output; rely on *m_inlineThreshold* to keep small arrays inline even with pretty‑print enabled.
 
