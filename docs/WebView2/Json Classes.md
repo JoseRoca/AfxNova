@@ -63,6 +63,33 @@ Builds JSON text into an internal `BSTRING` buffer with optional pretty‑printi
 
 ---
 
+#### JSON token structure
+
+```
+TYPE JsonToken
+   kind  AS JsonTokenType
+   value AS DWSTRING  ' only for string/number/bool/null
+END TYPE
+```
+
+#### JSON token type enumeration
+
+```
+ENUM JsonTokenType
+   JSON_NONE = 0
+   JSON_OBJECT_START
+   JSON_OBJECT_END
+   JSON_ARRAY_START
+   JSON_ARRAY_END
+   JSON_STRING
+   JSON_NUMBER
+   JSON_BOOL
+   JSON_NULL
+   JSON_COLON
+   JSON_COMMA
+END ENUM
+```
+
 ## <a name="constructors1"></a>Constructor (JsonReader)
 
 Creates a new **JsonReader** object initialized to the specified value.
