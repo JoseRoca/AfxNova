@@ -98,7 +98,7 @@ The owner of the `CoreWebView2` object that provides support for resizing, showi
 | [get_Settings](#get_settings) | The ICoreWebView2Settings object contains various modifiable settings for the running WebView. |
 | [get_Source](#get_source) | The ICoreWebView2Settings object contains various modifiable settings for the running WebView. |
 | [GetDevToolsProtocolEventReceiver](#getdevtoolsprotocoleventreceiver) | Get a DevTools Protocol event receiver that allows you to subscribe to a DevTools Protocol event. |
-| [GoBack](#goBback) | Navigates the WebView to the previous page in the navigation history. |
+| [GoBack](#goback) | Navigates the WebView to the previous page in the navigation history. |
 | [GoForward](#goforward) | Navigates the WebView to the next page in the navigation history. |
 | [Navigate](#navigate) | Cause a navigation of the top-level document to run to the specified URI. |
 | [NavigateToString](#navigatetostring) | Initiates a navigation to htmlContent as source HTML of a new document. |
