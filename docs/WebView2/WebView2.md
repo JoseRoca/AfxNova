@@ -2465,6 +2465,7 @@ The process ID of the browser process that hosts the WebView.
 ```
 public HRESULT get_BrowserProcessId(UINT32 * value)
 ```
+---
 
 ## get_CanGoBack
 
