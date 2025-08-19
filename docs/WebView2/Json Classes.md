@@ -523,8 +523,6 @@ FUNCTION ToUtf8 () AS STRING
 ```
 ---
 
----
-
 ## Clear
 
 Resets the buffer, depth, and m_firstItemStack to an empty state.
