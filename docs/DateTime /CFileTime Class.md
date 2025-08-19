@@ -19,7 +19,7 @@ CFileTime_Week           CFileTime_Day * 7
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructors](#constructors1) | Create new **CFileTime** objects initialized to the specified value. |
+| [Constructors](#constructors1) | Creates a new **CFileTime** objects initialized to the specified value. |
 | [CAST Operator](#castop1) | Returns the **CFileTime** value as a long integer. |
 | [LET Operator](#letop1) | Assigns a value to a **CFileTime** object. |
 | [Operators](#operators1) | Adds, subtracts or compares **CFileTime** objects. |
