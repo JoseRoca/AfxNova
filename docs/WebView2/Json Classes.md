@@ -212,7 +212,6 @@ Values: JSON_STRING via ReadString, JSON_NUMBER via ReadNumber, JSON_BOOL (“tr
 End/invalid handling: Returns FALSE at end of buffer. On unrecognized input, sets JSON_NONE and fast‑forwards to avoid infinite loops.
 
 ---
----
 
 ## SetIndentSize
 
