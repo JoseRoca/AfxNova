@@ -975,7 +975,7 @@ void ControlComponent::TabBackwards(size_t currentIndex)
     CHECK_FAILURE(m_controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PREVIOUS));
 }
 ```
-
+---
 ## NotifyParentWindowPositionChanged
 
 This is a notification separate from Bounds that tells WebView that the main WebView parent (or any ancestor) HWND moved.
