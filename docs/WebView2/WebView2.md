@@ -3192,7 +3192,7 @@ Function EnvCompletedHandler_Invoke( _
     Print "Environment ready!"
     Return S_OK
 End Function
-``
+```
 
 How to adapt for other handlers
 Change the type/interface — e.g., for controller creation, base your type/vtable on ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl and adjust Invoke parameters.
