@@ -1,12 +1,22 @@
-Json components overview
-Scope: UTF‑16–native JSON reader/writer plus a string unquoter, designed to interop cleanly with BSTR/DWSTRING, DVARIANT, and DSafeArray.
+# JSON Reader and Writer classes
 
-Philosophy: Zero dependencies, COM‑friendly types, predictable pretty‑printing, and safe handling of escapes/control chars.
+UTF‑16–native JSON reader/writer plus a string unquoter, designed to interop cleanly with BSTR/DWSTRING, DVARIANT, and DSafeArray.
 
-#### JsonUnquoteW function
-Signature: PRIVATE FUNCTION JSonUnquoteW(ByRef wszJson As WSTRING) As DWSTRING
+Zero dependencies, COM‑friendly types, predictable pretty‑printing, and safe handling of escapes/control chars.
 
-Purpose: Decode a JSON string literal into a DWSTRING, resolving escape sequences and control codes.
+## JsonUnquoteW function
+
+Decodes a JSON string literal into a DWSTRING, resolving escape sequences and control codes.
+
+```
+FUNCTION JSonUnquoteW (BYREF wszJson AS WSTRING) AS DWSTRING
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszJson* | A JSON‑encoded string surrounded by quotes. |
+
+#### Return value
+
 
 Input/contract: Expects a JSON‑encoded string surrounded by quotes. Returns empty if the input isn’t a quoted JSON string.
 
@@ -21,7 +31,6 @@ State: m_buf (DWSTRING buffer), m_pos (1‑based cursor).
 
 Constructor and destructor
 Constructor: PRIVATE CONSTRUCTOR JsonReader(ByRef source As WSTRING)
-
 Purpose: Initialize the reader with source text and reset position to the start.
 
 Destructor: PRIVATE DESTRUCTOR JsonReader
