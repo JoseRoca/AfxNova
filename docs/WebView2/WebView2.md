@@ -851,6 +851,7 @@ Gets the CoreWebView2 associated with this CoreWebView2Controller.
 ```
 public HRESULT get_CoreWebView2(ICoreWebView2 ** coreWebView2)
 ```
+---
 
 ## get_IsVisible
 
