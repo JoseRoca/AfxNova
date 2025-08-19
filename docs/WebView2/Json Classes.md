@@ -1,12 +1,12 @@
 # JSON Reader and Writer classes
 
-UTF‑16–native JSON reader/writer plus a string unquoter, designed to interop cleanly with BSTR/DWSTRING, DVARIANT, and DSafeArray.
+UTF‑16–native `JSON` reader/writer plus a string unquoter, designed to interop cleanly with BSTR/DWSTRING, DVARIANT, and DSafeArray.
 
 Zero dependencies, COM‑friendly types, predictable pretty‑printing, and safe handling of escapes/control chars.
 
 ## JsonUnquoteW function
 
-Decodes a JSON string literal into a DWSTRING, resolving escape sequences and control codes.
+Decodes a `JSON` string literal into a `DWSTRING`, resolving escape sequences and control codes.
 
 ```
 FUNCTION JSonUnquoteW (BYREF wszJson AS WSTRING) AS DWSTRING
