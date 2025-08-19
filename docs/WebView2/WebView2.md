@@ -1045,6 +1045,7 @@ void ViewComponent::ResizeWebView()
     }
 }
 ```
+---
 
 ## put_IsVisible
 
