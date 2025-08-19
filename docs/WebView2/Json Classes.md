@@ -93,7 +93,7 @@ DIM sample AS DWSTRING = _
 
 DIM rdr AS JsonReader = JsonReader(sample)
 DIM tok AS JsonToken
-DIM idx AS INTEGER = 0
+DIM idx AS LONG
 
 WHILE rdr.ReadNext(tok)
    idx += 1
