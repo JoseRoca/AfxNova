@@ -3026,7 +3026,7 @@ Message ordering footnote: Multiple frames posting messages aren’t strictly or
 Runtime presence: If the loader can’t find the runtime (ERROR_FILE_NOT_FOUND), surface a friendly prompt; your loader shim already makes this check trivial to branch on1
 
 COM event handler class in FreeBASIC
-
+```
 ' ============================================================================
 ' ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler implementation
 ' ============================================================================
@@ -3082,7 +3082,8 @@ Function New_EnvCompletedHandler() As EnvCompletedHandler Ptr
     h->refCount = 1
     Return h
 End Function
-
+```
+---
 ```
 ' ============================================================================
 ' ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler implementation
@@ -3191,7 +3192,7 @@ Function EnvCompletedHandler_Invoke( _
     Print "Environment ready!"
     Return S_OK
 End Function
-```
+``
 
 How to adapt for other handlers
 Change the type/interface — e.g., for controller creation, base your type/vtable on ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl and adjust Invoke parameters.
