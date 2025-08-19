@@ -80,69 +80,84 @@ CONSTRUCTOR JsonReader (BYREF source AS WSTRING)
 #### Example
 
 ```
-' ========================================================================================
-' Json test
-' ========================================================================================
-'#CONSOLE ON
-#define UNICODE
-#define _WIN32_WINNT &h0602
-#include once "AfxNova/AfxJson.inc"
-USING AfxNova
+' Craft some JSON with tricky bits:
+' - Unicode \u00E9 (é) and surrogate pair \uD83D\uDE03 (??)
+' - Quotes, backslashes, slash, control codes
+' - Numbers with exponents, booleans, null
+DIM sample AS DWSTRING = _
+    "{""name"":""Jos" & WCHR(&h00E9) & " " & WCHR(&hD83D) & WCHR(&hDE03) & """, " & _
+    """quote"":""He said """"Hello/World""""!"", " & _
+    """newline"":""Line1" & WCHR(10) & "Line2"", " & _
+    """pi"":3.14159, ""exp"":-2.5e+3, " & _
+    """ok"":true, ""missing"":null}"
 
-SUB TestJsonReader()
-   ' Craft some JSON with tricky bits:
-   ' - Unicode \u00E9 (é) and surrogate pair \uD83D\uDE03 (??)
-   ' - Quotes, backslashes, slash, control codes
-   ' - Numbers with exponents, booleans, null
-   DIM sample AS DWSTRING = _
-       "{""name"":""Jos" & WCHR(&h00E9) & " " & WCHR(&hD83D) & WCHR(&hDE03) & """, " & _
-       """quote"":""He said """"Hello/World""""!"", " & _
-       """newline"":""Line1" & WCHR(10) & "Line2"", " & _
-       """pi"":3.14159, ""exp"":-2.5e+3, " & _
-       """ok"":true, ""missing"":null}"
+DIM rdr AS JsonReader = JsonReader(sample)
+DIM tok AS JsonToken
+DIM idx AS INTEGER = 0
 
-   DIM rdr AS JsonReader = JsonReader(sample)
-   DIM tok AS JsonToken
-   DIM idx AS INTEGER = 0
-
-   PRINT "Testing JSON Reader with JSonUnquoteW-backed ReadString"
-   PRINT STRING(60,"-")
-
-   WHILE rdr.ReadNext(tok)
-      idx += 1
-      PRINT idx; ". "; 
-      SELECT CASE tok.kind
-         CASE JSON_STRING
-            PRINT "STRING: "; tok.value
-         CASE JSON_NUMBER
-            PRINT "NUMBER: "; tok.value
-         CASE JSON_BOOL
-            PRINT "BOOL: "; tok.value
-         CASE JSON_NULL
-            PRINT "NULL"
-         CASE JSON_OBJECT_START
-            PRINT "{"
-         CASE JSON_OBJECT_END
-            PRINT "}"
-         CASE JSON_ARRAY_START
-            PRINT "["
-         CASE JSON_ARRAY_END
-            PRINT "]"
-         CASE JSON_COLON
-            PRINT ":"
-         CASE JSON_COMMA
-            PRINT ","
-         CASE ELSE
-            PRINT "UNKNOWN"
-      END SELECT
-   WEND
-
-   PRINT STRING(60,"-")
-   PRINT "Done."
-END SUB
-
-TestJsonReader
-' ========================================================================================
+WHILE rdr.ReadNext(tok)
+   idx += 1
+   PRINT idx; ". "; 
+   SELECT CASE tok.kind
+      CASE JSON_STRING
+         PRINT "STRING: "; tok.value
+      CASE JSON_NUMBER
+         PRINT "NUMBER: "; tok.value
+      CASE JSON_BOOL
+         PRINT "BOOL: "; tok.value
+      CASE JSON_NULL
+         PRINT "NULL"
+      CASE JSON_OBJECT_START
+         PRINT "{"
+      CASE JSON_OBJECT_END
+         PRINT "}"
+      CASE JSON_ARRAY_START
+         PRINT "["
+      CASE JSON_ARRAY_END
+         PRINT "]"
+      CASE JSON_COLON
+         PRINT ":"
+      CASE JSON_COMMA
+         PRINT ","
+      CASE ELSE
+         PRINT "UNKNOWN"
+   END SELECT
+WEND
+```
+Output:
+```
+ 1. {
+ 2. STRING: name
+ 3. :
+ 4. STRING: José 😃
+ 5. ,
+ 6. STRING: quote
+ 7. :
+ 8. STRING: He said
+ 9. STRING: Hello/World
+ 10. STRING: !
+ 11. ,
+ 12. STRING: newline
+ 13. :
+ 14. STRING: Line1
+Line2
+ 15. ,
+ 16. STRING: pi
+ 17. :
+ 18. NUMBER: 3.14159
+ 19. ,
+ 20. STRING: exp
+ 21. :
+ 22. NUMBER: -2.5e+3
+ 23. ,
+ 24. STRING: ok
+ 25. :
+ 26. BOOL: true
+ 27. ,
+ 28. STRING: missing
+ 29. :
+ 30. NULL
+ 31. }
 ```
 
 ## SkipWhitespace
