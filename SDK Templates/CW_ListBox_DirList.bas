@@ -1,7 +1,8 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_ListBox_01.bas
-' Contents: ListBox control
+' File: CW_ListBox_DirList.bas
+' Contents: ListBox control listing a directory
+' Purpose: Demonstrates the use of the DlgDirListW function
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -24,6 +25,7 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 #define IDC_LISTBOX 1001
+#define IDC_PATH 1002
 
 ' ========================================================================================
 ' Main
@@ -40,24 +42,25 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"   ' Use the name you wish
-   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - ListBox control", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "ListBox control listing a directory", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(318, 380)
    ' // Center the window
    pWindow.Center
 
+   ' // Add a label to display the path
+   pWindow.AddControl("Label", hWin, IDC_PATH, "",  8, 8, 300, 23)
+   ' // Anchor the label
+   pWindow.AnchorControl(IDC_PATH, AFX_ANCHOR_WIDTH)
+
    ' // Adds a listbox
    DIM hListBox AS HWND = pWindow.AddControl("ListBox", hWin, IDC_LISTBOX)
-   pWindow.SetWindowPos hListBox, NULL, 8, 8, 300, 320, SWP_NOZORDER
+   pWindow.SetWindowPos hListBox, NULL, 8, 30, 300, 310, SWP_NOZORDER
    ' // Anchor the ListBox
    pWindow.AnchorControl(IDC_LISTBOX, AFX_ANCHOR_HEIGHT_WIDTH)
 
-   ' // Fill the list box
-   DIM dwsText AS DWSTRING
-   FOR i AS LONG = 1 TO 50
-      dwsText = "Item " & RIGHT("00" & WSTR(i), 2)
-      ListBox_AddString(hListBox, *dwsText)
-   NEXT
+   ' // Fill the list box with the file names of a folder
+   DlgDirListW(hWin, AfxGetExePath, IDC_LISTBOX, IDC_PATH, 0)
    ' // Select the first item
    ListBox_SetCursel(hListBox, 0)
 
