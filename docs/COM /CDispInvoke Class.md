@@ -476,7 +476,7 @@ FUNCTION GetArgErr () AS UINT
 Gets the exception description.
 
 ```
-FUNCTION GetDescription () AS CWSTR
+FUNCTION GetDescription () AS DWSTRING
 ```
 ---
 
@@ -494,7 +494,7 @@ FUNCTION GetErrorCode () AS SCODE
 Gets the fully qualified help file path. In many cases it is empty or outdated.
 
 ```
-FUNCTION GetHelpFile () AS CWSTR
+FUNCTION GetHelpFile () AS DWSTRING
 ```
 ---
 
@@ -512,7 +512,7 @@ FUNCTION GetLastResult () AS HRESULT
 Gets the name of the exception source. Typically, this is an application name.
 
 ```
-FUNCTION GetSource () AS CWSTR
+FUNCTION GetSource () AS DWSTRING
 ```
 ---
 
