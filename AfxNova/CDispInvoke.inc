@@ -1213,7 +1213,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Invoke (BYVAL dispId AS DISPID, BYREF dv1 AS DVARIANT, BYREF dv2 AS DVARIANT, BYREF dv3 AS DVARIANT, BYREF dv4 AS DVARIANT, BYREF dv5 AS DVARIANT, BYREF dv6 AS DVARIANT, BYREF dv7 AS DVARIANT, BYREF dv8 aS DVARIANT, BYREF dv9 AS DVARIANT, BYREF dv10 AS DVARIANT, BYREF dv11 AS DVARIANT, BYREF dv12 AS DVARIANT, BYREF dv13 AS DVARIANT, BYREF dv14 AS DVARIANT, BYREF dv15 AS DVARIANT, BYREF dv16 AS DVARIANT) AS DVARIANT
    CDISPINVOKE_DP("DISPID - DVARIANT 16")
-   DIM vArgs(1 TO 15) AS VARIANT : vArgs(1) = dv16 : vArgs(2) = dv15 : vArgs(3) = dv14 : vArgs(4) = dv13 : vArgs(5) = dv12 : vArgs(6) = dv11 : vArgs(7) = dv10 : vArgs(8) = dv9 : vArgs(9) = dv8 : vArgs(10) = dv7 : vArgs(11) = dv6 : vArgs(12) = dv5 : vArgs(13) = dv4 : vArgs(14) = dv3 : vArgs(15) = dv2 : vArgs(16) = dv1
+   DIM vArgs(1 TO 16) AS VARIANT : vArgs(1) = dv16 : vArgs(2) = dv15 : vArgs(3) = dv14 : vArgs(4) = dv13 : vArgs(5) = dv12 : vArgs(6) = dv11 : vArgs(7) = dv10 : vArgs(8) = dv9 : vArgs(9) = dv8 : vArgs(10) = dv7 : vArgs(11) = dv6 : vArgs(12) = dv5 : vArgs(13) = dv4 : vArgs(14) = dv3 : vArgs(15) = dv2 : vArgs(16) = dv1
    SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, dispID, @vArgs(1), 16, m_lcid))
    RETURN m_varResult
 END FUNCTION
