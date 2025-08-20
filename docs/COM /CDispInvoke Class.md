@@ -579,19 +579,15 @@ To check for success or failure, call the **GetLastResult** method. It will retu
 #### Usage example
 
 ```
-'#CONSOLE ON
 #include once "AfxNova/CDIspInvoke.inc"
 USING AfxNova
 
 ' // Create an instance of the Msxml2 object
 DIM pDisp AS CDispInvoke = "Msxml2.XMLHTTP.6.0"
-' // To check for success, see if the value returned by the DispPtr method is not null
-IF pDisp.DispPtr = NULL THEN END
 pDisp.Invoke("open", "GET", "https://sourceforge.net/", FALSE)
 pDisp.Invoke("Send")
-DIM strResponse AS STRING = pDisp.Get("ResponseText")
-print strResponse
-SLEEP
+DIM dwsResponse AS DWSTRING = pDisp.Get("ResponseText")
+print dwsResponse
 ```
 ---
 
