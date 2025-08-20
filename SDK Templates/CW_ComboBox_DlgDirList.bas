@@ -94,6 +94,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                   ' // Handle of the combobox
                   DIM hCombobox AS HWND = GetDlgItem(hwnd, IDC_COMBOBOX)
                   ' // Retrieve the Item selected
+                  ' // DlgDirSelectComboBoxExW oly works with dialogs
                   DIM curSel AS LONG = ComboBox_GetCursel(hCombobox)
                   MessageBoxW hwnd, "You have selected " & _
                      AfxGetComboBoxText(hCombobox, curSel), "ComboBox Test", MB_OK
