@@ -480,7 +480,7 @@ FUNCTION CACos () AS CComplex
 
 ```
 DIM cpx AS CComplex = CComplex(1, 1)
-print cpx.CArcCos(z)
+print cpx.CArcCos
 Output: 0.9045568943023814 -1.061275061905036 * i
 ```
 ---
