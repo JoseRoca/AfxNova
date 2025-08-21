@@ -47,13 +47,6 @@ NAMESPACE AfxNova
 #define SQRT_DBL_EPSILON 1.4901161193847656e-08
 #endif
 
-#ifndef gsl_complex
-type gsl_complex
-	x as double
-	y as double
-end type
-#endif
-
 ' ========================================================================================
 ' Macro for debug
 ' To allow debugging, define _CCOMPLEX_DEBUG_ 1 in your application before including this file.
@@ -83,14 +76,11 @@ TYPE CComplex
    DECLARE CONSTRUCTOR (BYVAL x AS DOUBLE = 0, BYVAL y AS DOUBLE = 0)
    DECLARE CONSTRUCTOR (BYREF cpx AS CComplex)
    DECLARE CONSTRUCTOR (BYREF cpx AS _complex)
-   DECLARE CONSTRUCTOR (BYREF cpx AS gsl_complex)
    DECLARE DESTRUCTOR
    ' // Assignment and cast
    DECLARE OPERATOR LET (BYREF z AS CComplex)
    DECLARE OPERATOR LET (BYREF z AS _complex)
-   DECLARE OPERATOR LET (BYREF z AS gsl_complex)
    DECLARE OPERATOR CAST () AS _complex
-   DECLARE OPERATOR CAST () AS gsl_complex
    DECLARE OPERATOR CAST () AS STRING
    ' // Complex number methods
    DECLARE FUNCTION IsInf (BYVAL x AS DOUBLE) AS LONG
@@ -239,14 +229,6 @@ PRIVATE CONSTRUCTOR CComplex (BYREF cpx AS _complex)
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
-' Example: DIM cpx AS CComplex = TYPE<gsl_complex>(3, 4)
-' ========================================================================================
-PRIVATE CONSTRUCTOR CComplex (BYREF cpx AS gsl_complex)
-   CCOMPLEX_DP("CCOMPLEX CONSTRUCTOR gsl_complex")
-   m_cpx = TYPE<_complex>(cpx.x, cpx.y)
-END CONSTRUCTOR
-' ========================================================================================
-' ========================================================================================
 ' Example: DIM cpx AS CComplex = TYPE(3, 4) : DIM cpx2 AS CComplex = cpx
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CComplex (BYREF cpx AS CComplex)
@@ -282,14 +264,6 @@ PRIVATE OPERATOR CComplex.LET (BYREF z AS _complex)
    m_cpx = z
 END OPERATOR
 ' ========================================================================================
-' ========================================================================================
-' Example: DIM cpx AS CComplex : cpx = TYPE<gsl_complex>(3, 4)
-' ========================================================================================
-PRIVATE OPERATOR CComplex.LET (BYREF z AS gsl_complex)
-   CCOMPLEX_DP("CCOMPLEX LET gsl_complex")
-   m_cpx = TYPE<_complex>(z.x, z.y)
-END OPERATOR
-' ========================================================================================
 
 ' ========================================================================================
 ' * Returns the underlying _complex number.
@@ -297,12 +271,6 @@ END OPERATOR
 PRIVATE OPERATOR CComplex.CAST () AS _complex
    CCOMPLEX_DP("CCOMPLEX CAST _complex")
    OPERATOR = m_cpx
-END OPERATOR
-' ========================================================================================
-' ========================================================================================
-PRIVATE OPERATOR CComplex.CAST () AS gsl_complex
-   CCOMPLEX_DP("CCOMPLEX CAST gsl_complex")
-   OPERATOR = TYPE<gsl_complex>(m_cpx.x, m_cpx.y)
 END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
