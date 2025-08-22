@@ -305,7 +305,7 @@ END OPERATOR
 ' ========================================================================================
 PRIVATE OPERATOR / (BYREF cur AS CMoney, BYVAL cOperand AS CMoney) AS CMoney
    DIM cy AS CURRENCY
-   IF cOperand.m_cur.int64 = 0 THEN RETURN cur.m_cur.int64
+   IF cOperand.m_cur.int64 = 0 THEN RETURN cur.m_cur.int64 / cur.CY_SCALE
    cy.int64 = cur.m_cur.int64 / (cOperand.m_cur.int64 / cur.CY_SCALE)
    RETURN cy
 END OPERATOR
