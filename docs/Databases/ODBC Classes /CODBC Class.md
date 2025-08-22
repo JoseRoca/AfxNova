@@ -304,7 +304,7 @@ Note Although successful execution of a function is normally indicated by a retu
 
 ---
 
-# <a name="getoutputnts"></a>GetOutputNTS (CODBCBase)
+## <a name="getoutputnts"></a>GetOutputNTS (CODBCBase)
 
 Returns a 32-bit integer that determines how the driver returns string data. If SQL_TRUE, the driver returns string data null-terminated. If SQL_FALSE, the driver does not return string data null-terminated. This attribute defaults to SQL_TRUE. A call to SetEnvAttr to set it to SQL_TRUE returns SQL_SUCCESS. A call to SetEnvAttr to set it to SQL_FALSE returns SQL_ERROR and SQLSTATE HYC00.
 
