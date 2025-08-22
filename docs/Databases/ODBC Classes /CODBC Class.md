@@ -52,10 +52,11 @@ DO
    PRINT dwsOutput
 LOOP
 ```
+---
 
 # CODBCBase Class
 
-Base class for all the ODBC classes. Implements some common methods that all the other interfaces inherit. You don't have to instantiate this class.
+Base class for all the `ODBC` classes. Implements some common methods that all the other interfaces inherit. You don't have to instantiate this class.
 
 **Include file**: CODBC.inc
 
@@ -63,20 +64,22 @@ Base class for all the ODBC classes. Implements some common methods that all the
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Error](#Error) | Returns TRUE if there has been an error; FALSE, otherwise. |
-| [GetCPMatch](#GetCPMatch) | Returns a 32-bit SQLUINTEGER value that determines how a connection is chosen from a connection pool. |
-| [GetDataSources](#GetDataSources) | Lists available DSN / Drivers installed. |
-| [GetDrivers](#GetDrivers) | Lists driver descriptions and driver attribute keywords. |
-| [GetEnvAttr](#GetEnvAttr) | Returns the current setting of an environment attribute. |
-| [GetErrorInfo](#GetErrorInfo) | Returns a verbose description of the last error(s). |
-| [GetLastResult](#GetLastResult) | Returns the last result code. |
-| [GetOutputNTS](#GetOutputNTS) | Returns a 32-bit integer that determines how the driver returns string data. |
-| [GetSqlState](#GetSqlState) | Returns the SqlState for the specified handle. |
-| [ODBCVersion](#ODBCVersion) | Returns a 32-bit integer that determines whether certain functionality exhibits ODBC 2.x behavior or ODBC 3.x behavior. |
-| [SetCPMatch](#SetCPMatch) | Returns a 32-bit SQLUINTEGER value that determines how a connection is chosen from a connection pool. |
-| [SetEnvAttr](#SetEnvAttr) | Sets attributes that govern aspects of environments. |
-| [SetErrorProc](#SetErrorProc) | Sets the address of an application defined error callback. |
-| [SetOutputNTS](#SetOutputNTS) | Returns a 32-bit integer that determines how the driver returns string data. |
+| [Error](#error) | Returns TRUE if there has been an error; FALSE, otherwise. |
+| [GetCPMatch](#getcpmatch) | Returns a 32-bit SQLUINTEGER value that determines how a connection is chosen from a connection pool. |
+| [GetDataSources](#getdatasources) | Lists available DSN / Drivers installed. |
+| [GetDrivers](#getdrivers) | Lists driver descriptions and driver attribute keywords. |
+| [GetEnvAttr](#getenvattr) | Returns the current setting of an environment attribute. |
+| [GetErrorInfo](#geterrorinfo) | Returns a verbose description of the last error(s). |
+| [GetLastResult](#getlastresult) | Returns the last result code. |
+| [GetOutputNTS](#getoutputnts) | Returns a 32-bit integer that determines how the driver returns string data. |
+| [GetSqlState](#getsqlstate) | Returns the SqlState for the specified handle. |
+| [ODBCVersion](#odbcversion) | Returns a 32-bit integer that determines whether certain functionality exhibits ODBC 2.x behavior or ODBC 3.x behavior. |
+| [SetCPMatch](#setcpmatch) | Returns a 32-bit SQLUINTEGER value that determines how a connection is chosen from a connection pool. |
+| [SetEnvAttr](#setenvattr) | Sets attributes that govern aspects of environments. |
+| [SetErrorProc](#seterrorproc) | Sets the address of an application defined error callback. |
+| [SetOutputNTS](#setoutputnts) | Returns a 32-bit integer that determines how the driver returns string data. |
+
+---
 
 # CODBC Class
 
@@ -88,23 +91,25 @@ Implements methods to create and manage connection objects. Inherits from COdbcB
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructors](#ConstructorsDb) | Requests a commit operation for all active operations on all statements associated with an environment. |
-| [CommitTran](#CommitTran) | Requests a commit operation for all active operations on all statements associated with an environment. |
-| [EnvHandle](#EnvHandle) | Returns the environment handle. |
-| [Functions](#Functions) | Returns information about whether a driver supports a specific ODBC function. |
-| [GetConnectAttr](#GetConnectAttr) | Returns the current setting of a connection attribute. |
-| [GetDiagField](#GetDiagField) | Returns the current value of a field of a record of the diagnostic data structure (associated with an environment handle) that contains error, warning, and status information. |
-| [GetDiagRec](#GetDiagRec) | Returns the current values of multiple fields of a diagnostic record that contains error, warning, and status information. |
-| [GetErrorInfo](#GetErrorInfo) | Returns a verbose description of the last error. |
-| [GetInfo](#GetInfo) | Returns general information about the driver and data source associated with a connection. |
-| [GetSqlState](#GetSqlState) | Returns the SqlState for the connection handle. |
-| [Handle](#Handle) | Returns the connection handle. |
-| [NativeSql](#NativeSql) | Returns the SQL string as modified by the driver. NativeSql does not execute the SQL statement. |
-| [RollbackTran](#RollbackTran) | RollbackTran requests a rollback operation for all active operations on all statements associated with an environment. |
-| [SetConnectAttr](#SetConnectAttr) | Sets attributes that govern aspects of connections. |
-| [Supports](#Supports) | Returns information about whether a driver supports a specific ODBC function. It is an alias for **Functions**. |
+| [Constructors](#constructorsdb) | Requests a commit operation for all active operations on all statements associated with an environment. |
+| [CommitTran](#commitTran) | Requests a commit operation for all active operations on all statements associated with an environment. |
+| [EnvHandle](#envhandle) | Returns the environment handle. |
+| [Functions](#functions) | Returns information about whether a driver supports a specific ODBC function. |
+| [GetConnectAttr](#getconnectattr) | Returns the current setting of a connection attribute. |
+| [GetDiagField](#getdiagfield) | Returns the current value of a field of a record of the diagnostic data structure (associated with an environment handle) that contains error, warning, and status information. |
+| [GetDiagRec](#getdiagrec) | Returns the current values of multiple fields of a diagnostic record that contains error, warning, and status information. |
+| [GetErrorInfo](#geterrorinfo) | Returns a verbose description of the last error. |
+| [GetInfo](#getinfo) | Returns general information about the driver and data source associated with a connection. |
+| [GetSqlState](#getsqlstate) | Returns the SqlState for the connection handle. |
+| [Handle](#handle) | Returns the connection handle. |
+| [NativeSql](#nativesql) | Returns the SQL string as modified by the driver. NativeSql does not execute the SQL statement. |
+| [RollbackTran](#rollbacktran) | RollbackTran requests a rollback operation for all active operations on all statements associated with an environment. |
+| [SetConnectAttr](#setconnectattr) | Sets attributes that govern aspects of connections. |
+| [Supports](#supports) | Returns information about whether a driver supports a specific ODBC function. It is an alias for **Functions**. |
 
-# <a name="Error"></a>Error (CODBCBase)
+---
+
+## <a name="error"></a>Error (CODBCBase)
 
 Returns TRUE if there has been an error; FALSE, otherwise.
 
@@ -116,7 +121,9 @@ FUNCTION Error () AS BOOLEAN
 
 Returns TRUE if the last result code is SQL_ERROR or SQL_INVALID_HANDLE.
 
-# <a name="GetCPMatch"></a>GetCPMatch (CODBCBase)
+---
+
+## <a name="getcpmatch"></a>GetCPMatch (CODBCBase)
 
 Returns a 32-bit SQLUINTEGER value that determines how a connection is chosen from a connection pool.
 
@@ -144,7 +151,9 @@ Only connections that exactly match the connection options in the call and the c
 
 Connections with matching connection string keywords can be used. Keywords must match, but not all connection attributes must  match.
 
-# <a name="GetDataSources"></a>GetDataSources (CODBCBase)
+---
+
+## <a name="getdatasources"></a>GetDataSources (CODBCBase)
 
 Lists available DSN / Drivers installed.
 
@@ -167,7 +176,9 @@ SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_ERROR, or SQL_INVALID_HANDLE.
 
 When **GetDataSources** returns either SQL_ERROR or SQL_SUCCESS_WITH_INFO, an associated SQLSTATE value can be obtained by calling the **SqlState** property.
 
-# <a name="GetDrivers"></a>GetDrivers (CODBCBase)
+---
+
+## <a name="getdrivers"></a>GetDrivers (CODBCBase)
 
 Lists driver descriptions and driver attribute keywords. This function is implemented only by the Driver Manager.
 
@@ -228,8 +239,9 @@ DO
    wDirection = SQL_FETCH_NEXT
 LOOP
 ```
+---
 
-# <a name="GetEnvAttr"></a>GetEnvAttr (CODBCBase)
+## <a name="GetEnvAttr"></a>GetEnvAttr (CODBCBase)
 
 Returns the current setting of an environment attribute.
 
@@ -249,7 +261,9 @@ FUNCTION GetEnvAttr (BYVAL Attribute AS SQLINTEGER, BYVAL ValuePtr AS SQLPOINTER
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="GetErrorInfo"></a>GetErrorInfo (CODBCBase)
+---
+
+## <a name="geterrorinfo"></a>GetErrorInfo (CODBCBase)
 
 Returns a verbose description of the last error(s).
 
@@ -268,7 +282,9 @@ FUNCTION GetErrorInfo (BYVAL HandleType AS SQLSMALLINT, BYVAL Handle AS SQLHANDL
 
 The description of the error or errors.
 
-# <a name="GetLastResult"></a>GetLastResult (CODBCBase)
+---
+
+## <a name="getlastresult"></a>GetLastResult (CODBCBase)
 
 Returns the last result code.
 
@@ -286,7 +302,9 @@ The character string value returned for an SQLSTATE consists of a two-character 
 
 Note Although successful execution of a function is normally indicated by a return value of SQL_SUCCESS, the SQLSTATE 00000 also indicates success.
 
-# <a name="GetOutputNTS"></a>GetOutputNTS (CODBCBase)
+---
+
+# <a name="getoutputnts"></a>GetOutputNTS (CODBCBase)
 
 Returns a 32-bit integer that determines how the driver returns string data. If SQL_TRUE, the driver returns string data null-terminated. If SQL_FALSE, the driver does not return string data null-terminated. This attribute defaults to SQL_TRUE. A call to SetEnvAttr to set it to SQL_TRUE returns SQL_SUCCESS. A call to SetEnvAttr to set it to SQL_FALSE returns SQL_ERROR and SQLSTATE HYC00.
 
@@ -304,8 +322,9 @@ The current value of the attribute.
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, or SQL_INVALID_HANDLE.
 
+---
 
-# <a name="GetSqlState"></a>GetSqlState (CODBCBase)
+## <a name="getsqlstate"></a>GetSqlState (CODBCBase)
 
 Returns the SqlState for the specified handle.
 
@@ -455,8 +474,9 @@ The character string value returned for an SQLSTATE consists of a two-character 
 | IM014 | Invalid name of File DSN |
 | IM015 | Corrupt file data source |
 
+---
 
-# <a name="ODBCVersion"></a>ODBCVersion (CODBCBase)
+## <a name="odbcversion"></a>ODBCVersion (CODBCBase)
 
 Returns a 32-bit integer that determines whether certain functionality exhibits ODBC 2.x behavior or ODBC 3.x behavior.
 
@@ -495,7 +515,9 @@ To set the ODBC version, use the optional parameters of the **CODBC** class cons
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="SetCPMatch"></a>SetCPMatch (CODBCBase)
+---
+
+## <a name="setcpmatch"></a>SetCPMatch (CODBCBase)
 
 Sets a 32-bit SQLUINTEGER value that determines how a connection is chosen from a connection pool.
 
@@ -523,7 +545,9 @@ Connections with matching connection string keywords can be used. Keywords must 
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="SetEnvAttr"></a>SetEnvAttr (CODBCBase)
+---
+
+## <a name="setenvattr"></a>SetEnvAttr (CODBCBase)
 
 Sets attributes that govern aspects of environments.
 
@@ -542,7 +566,9 @@ FUNCTION SetEnvAttr (BYVAL Attribute AS SQLINTEGER, BYVAL ValuePtr AS SQLPOINTER
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="SetErrorProc"></a>SetErrorProc (CODBCBase)
+---
+
+## <a name="seterrorproc"></a>SetErrorProc (CODBCBase)
 
 Sets the address of an application defined error callback.
 
@@ -566,8 +592,9 @@ END SUB
 pDbc.SetErrorProc(@ODBC_ErrorCallback)    ' // Sets the error callback for the connection object
 pStmt.SetErrorProc(@ODBC_ErrorCallback)   ' // Sets the error callback for the statement object
 ```
+---
 
-# <a name="SetOutputNTS"></a>SetOutputNTS (CODBCBase)
+## <a name="setoutputnts"></a>SetOutputNTS (CODBCBase)
 
 Returns a 32-bit integer that determines how the driver returns string data. If SQL_TRUE, the driver returns string data null-terminated. If SQL_FALSE, the driver does not return string data null-terminated. This attribute defaults to SQL_TRUE. A call to SetEnvAttr to set it to SQL_TRUE returns SQL_SUCCESS. A call to SetEnvAttr to set it to SQL_FALSE returns SQL_ERROR and SQLSTATE HYC00.
 
@@ -585,7 +612,9 @@ FUNCTION SetOutputNTS (BYVAL dwAttr AS SQLUINTEGER) AS SQLRETURN
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="ConstructorsDb"></a>Constructors (CODBC)
+---
+
+## <a name="constructorsdb"></a>Constructors (CODBC)
 
 Allocates a connection handle and, if needed, an environment handle, and opens the database.
 
@@ -620,7 +649,9 @@ CONSTRUCTOR CODBC (BYREF wszServerName AS WSTRING, BYREF wszUserName AS WSTRING,
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, SQL_INVALID_HANDLE.
 
-# <a name="CommitTran"></a>CommitTran (CODBC)
+---
+
+## <a name="committran"></a>CommitTran (CODBC)
 
 Requests a commit operation for all active operations on all statements associated with an environment. 
 
@@ -674,16 +705,18 @@ IF pStmt.Error = FALSE THEN PRINT "Record added" ELSE PRINT pStmt.GetErrorInfo
 pDbc.RollbackTran 
 IF pDbc.Error = FALSE THEN PRINT "Rollback succeeded" ELSE PRINT pDbc.GetErrorInfo
 ```
+---
 
-# <a name="EnvHandle"></a>EnvHandle (CODBC)
+## <a name="envhandle"></a>EnvHandle (CODBC)
 
 Returns the environment handle.
 
 ```
 FUNCTION EnvHandle () AS SQLHANDLE
 ```
+---
 
-# <a name="Functions"></a>Functions (CODBC)
+## <a name="functions"></a>Functions (CODBC)
 
 Returns information about whether a driver supports a specific ODBC function.
 
@@ -785,8 +818,9 @@ SQL_API_SQLSETPOS
 SQL_API_SQLSETSCROLLOPTIONS
 SQL_API_SQLTABLEPRIVILEGES
 ```
+---
 
-# <a name="GetConnectAttr"></a>GetConnectAttr (CODBC)
+## <a name="getconnectattr"></a>GetConnectAttr (CODBC)
 
 Returns the current setting of a connection attribute.
 
@@ -926,7 +960,9 @@ The current value of the attribute.
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="GetDiagField"></a>GetDiagField (CODBC)
+---
+
+## <a name="getdiagfield"></a>GetDiagField (CODBC)
 
 Returns the current value of a field of a record of the diagnostic data structure (associated with an environment handle) that contains error, warning, and status information.
 
@@ -948,7 +984,9 @@ FUNCTION GetDiagField (BYVAL RecNumber AS SQLSMALLINT, BYVAL DiagIdentifier AS S
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_ERROR, SQL_INVALID_HANDLE, or SQL_NO_DATA.
 
-# <a name="GetDiagRec"></a>GetDiagRec (CODBC)
+---
+
+## <a name="getdiagrec"></a>GetDiagRec (CODBC)
 
 Returns the current values of multiple fields of a diagnostic record that contains error, warning, and status information. Unlike **GetDiagField**, which returns one diagnostic field per call, **GetDiagRec** returns several commonly used fields of a diagnostic record, including the SQLSTATE, the native error code, and the diagnostic message text.
 
@@ -971,7 +1009,9 @@ FUNCTION GetDiagRec (BYVAL RecNumber AS SQLSMALLINT, BYVAL Sqlstate AS WSTRING P
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="GetErrorInfo"></a>GetErrorInfo (CODBC)
+---
+
+## <a name="geterrorinfo"></a>GetErrorInfo (CODBC)
 
 Returns a verbose description of the last error(s).
 
@@ -983,7 +1023,9 @@ FUNCTION GetErrorInfo (BYVAL iErrorCode AS SQLRETURN = 0) AS DWSTRING
 | ---------- | ----------- |
 | *iErrorCode* | Optional. The error code returned by **GetLastResult**. |
 
-# <a name="GetInfo"></a>GetInfo (CODBC)
+---
+
+## <a name="getinfo"></a>GetInfo (CODBC)
 
 Returns general information about the driver and data source associated with a connection.
 
@@ -2517,23 +2559,27 @@ Returns a character string that indicates the year of publication of the X/Open 
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="GetSqlState"></a>GetSqlState (CODBC)
+---
+
+## <a name="getsqlstate"></a>GetSqlState (CODBC)
 
 Lists driver descriptions and driver attribute keywords. This function is implemented only by the Driver Manager.
 
 ```
 FUNCTION GetSqlState () AS DWSTRING
 ```
+---
 
-# <a name="Handle"></a>Handle (CODBC)
+## <a name="handle"></a>Handle (CODBC)
 
 Returns the connection handle.
 
 ```
 FUNCTION Handle () AS SQLHANDLE
 ```
+---
 
-# <a name="NativeSql"></a>NativeSql (CODBC)
+## <a name="nativesql"></a>NativeSql (CODBC)
 
 Returns the SQL string as modified by the driver. NativeSql does not execute the SQL statement.
 
@@ -2553,7 +2599,9 @@ The SQL string as modified by the driver.
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="RollbackTran"></a>RollbackTran (CODBC)
+---
+
+## <a name="rollbacktran"></a>RollbackTran (CODBC)
 
 Requests a rollback operation for all active operations on all statements associated with an environment. 
 
@@ -2608,8 +2656,9 @@ IF pStmt.Error = FALSE THEN PRINT "Record added" ELSE PRINT pStmt.GetErrorInfo
 pDbc.RollbackTran 
 IF pDbc.Error = FALSE THEN PRINT "Rollback succeeded" ELSE PRINT pDbc.GetErrorInfo
 ```
+---
 
-# <a name="SetConnectAttr"></a>SetConnectAttr (CODBC)
+## <a name="setconnectattr"></a>SetConnectAttr (CODBC)
 
 Sets attributes that govern aspects of connections.
 
@@ -2744,7 +2793,9 @@ The current value of the attribute.
 
 SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, or SQL_INVALID_HANDLE.
 
-# <a name="Supports"></a>Supports (CODBC)
+---
+
+## <a name="supports"></a>Supports (CODBC)
 
 Returns information about whether a driver supports a specific ODBC function. It is an alias for **Functions**.
 
@@ -2846,3 +2897,4 @@ SQL_API_SQLSETPOS
 SQL_API_SQLSETSCROLLOPTIONS
 SQL_API_SQLTABLEPRIVILEGES
 ```
+---
