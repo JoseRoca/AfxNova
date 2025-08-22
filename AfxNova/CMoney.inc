@@ -69,7 +69,7 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL nInteger AS LONGLONG, BYVAL nFraction AS SHORT)
    DECLARE CONSTRUCTOR (BYVAL dSrc AS DOUBLE)
    DECLARE CONSTRUCTOR (BYVAL dSrc AS DECIMAL)
-   DECLARE CONSTRUCTOR (BYREF strSrc AS STRING)
+   DECLARE CONSTRUCTOR (BYREF wszSrc AS WSTRING, BYVAL lcid AS LCID = 0, BYVAL dwFlags AS ULONG = 0)
    DECLARE CONSTRUCTOR (BYVAL varSrc AS VARIANT)
    DECLARE DESTRUCTOR
    DECLARE FUNCTION SetInteger (BYVAL nInteger AS LONGLONG) AS HRESULT
@@ -134,8 +134,8 @@ PRIVATE CONSTRUCTOR CMoney (BYVAL dSrc AS DECIMAL)
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE CONSTRUCTOR CMoney (BYREF strSrc AS STRING)
-   VarCyFromR8(VAL(strSrc), @m_cur)
+PRIVATE CONSTRUCTOR CMoney (BYREF wszSrc AS WSTRING, BYVAL lcid AS LCID = 0, BYVAL dwFlags AS ULONG = 0)
+   VarCyFromStr(@wszSrc, lcid, dwFlags, @m_cur)
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
@@ -331,6 +331,11 @@ END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE OPERATOR CMoney.CAST () AS STRING
+'   DIM bstrOut AS BSTR
+'   VarBstrFromCy(m_cur, 0, 0, @bstrOut)
+'   DIM s AS STRING = *CAST(WSTRING PTR, bstrOut)
+'   SysFreeString(bstrOut)
+'   OPERATOR = s
    DIM s AS STRING = STR(m_cur.int64 / this.CY_SCALE)
    DIM p AS LONG = INSTR(s, ".")
    DIM dec AS STRING
