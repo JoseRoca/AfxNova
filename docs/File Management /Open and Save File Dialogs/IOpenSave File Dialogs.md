@@ -389,7 +389,7 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 
 ---
 
-## SetFileName 
+## SetFileName
 
 Sets the file name that appears in the File name edit box when that dialog box is opened.
 
@@ -400,6 +400,24 @@ FUNCTION SetFileName (BYVAL pwszName AS WSTRING PTR) AS HRESULT
 | Parameter  | Description |
 | ---------- | ----------- |
 | *pwszName* | A pointer to the name of the file. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
+## SetFileNameLabel
+
+Sets the file name that appears in the File name edit box when that dialog box is opened.
+
+```
+FUNCTION SetFileNameLabel (BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLabel* | Sets the text of the label next to the file name edit box. |
 
 #### Return value
 
