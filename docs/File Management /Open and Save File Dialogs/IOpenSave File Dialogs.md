@@ -322,3 +322,29 @@ GetResult (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
 The choice that the user made in the dialog.
 
 ---
+
+## SetClientGuid 
+
+Enables a calling application to associate a GUID with a dialog's persisted state.
+
+```
+FUNCTION SetClientGuid (BYVAL guid AS GUID PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *guid* | The GUID to associate with this dialog state. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+A dialog's state can include factors such as the last visited folder and the position and size of the dialog.
+
+Typically, this state is persisted based on the name of the executable file. By specifying a GUID, an application can have different persisted states for different versions of the dialog within the same application (for example, an import dialog and an open dialog).
+
+**etClientGuid** should be called immediately after creation of the dialog object.
+
+---
