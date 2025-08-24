@@ -216,3 +216,36 @@ The index of the selected file type in the file type array passed to **SetFileTy
 **Note**  This is a one-based index rather than zero-based.
 
 ---
+
+## GetFolder 
+
+Gets either the folder currently selected in the dialog, or, if the dialog is not currently displayed, the folder that is to be selected when the dialog is opened.
+
+```
+FUNCTION GetFolder (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *sigdnName* | Requests the form of an item's display name to retrieve . |
+
+**SIGDN Enumeration**
+
+| Constant | Description |
+| -------- | ----------- |
+| **SIGDN_NORMALDISPLAY** | Returns the display name relative to the parent folder. In UI this name is generally ideal for display to the user. |
+| **SIGDN_PARENTRELATIVEPARSING** | Returns the parsing name relative to the parent folder. This name is not suitable for use in UI. |
+| **SIGDN_DESKTOPABSOLUTEPARSING** | Returns the parsing name relative to the desktop. This name is not suitable for use in UI. |
+| **SIGDN_PARENTRELATIVEEDITING** | Returns the editing name relative to the parent folder. In UI this name is suitable for display to the user. |
+| **SIGDN_DESKTOPABSOLUTEEDITING** | Returns the editing name relative to the desktop. In UI this name is suitable for display to the user. |
+| **SIGDN_FILESYSPATH** | Returns the item's file system path, if it has one. Only items that report SFGAO_FILESYSTEM have a file system path. When an item does not have a file system path, a call to IShellItem::GetDisplayName on that item will fail. In UI this name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
+| **SIGDN_URL** | Returns the item's URL, if it has one. Some items do not have a URL, and in those cases a call to IShellItem::GetDisplayName will fail. This name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
+| **SIGDN_PARENTRELATIVEFORADDRESSBAR** | Returns the path relative to the parent folder in a friendly format as displayed in an address bar. This name is suitable for display to the user. |
+| **SIGDN_PARENTRELATIVE** | Returns the path relative to the parent folder. |
+| **SIGDN_PARENTRELATIVEFORUI** | Introduced in Windows 8. |
+
+#### Return value
+
+The folder name.
+
+---
