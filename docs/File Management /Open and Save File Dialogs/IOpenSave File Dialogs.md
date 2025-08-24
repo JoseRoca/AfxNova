@@ -64,7 +64,7 @@ DIM psfd AS ISaveFileDialog
 
 ---
 
-## Advise
+## AddPlace
 
 Assigns an event handler that listens for events coming from the dialog.
 
@@ -86,7 +86,7 @@ FUNCTION AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
 
 ---
 
-## AddPlace
+## Advise
 
 Adds a folder to the list of places available for the user to open or save items.
 
@@ -562,6 +562,24 @@ FUNCTION SetTitle (BYVAL pwszTitle AS WSTRING PTR) AS HRESULT
 | Parameter  | Description |
 | ---------- | ----------- |
 | *pwszTitle* | A pointer to a buffer that contains the title text. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
+## Unadvise
+
+Removes an event handler that was attached through the Advise method.
+
+```
+FUNCTION Unadvise (BYVAL dwCookie AS DWORD) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwCookie* | The DWORD value that represents the event handler. This value is obtained through a call to the **Advise** method. |
 
 #### Return value
 
