@@ -550,3 +550,21 @@ FUNCTION SetOptions (BYVAL fos AS FILEOPENDIALOGOPTIONS) AS HRESULT
 | **FOS_SUPPORTSTREAMABLEITEMS** | &h80000000 | Indicates that the caller is opening a file as a stream (BHID_Stream), so there is no need to download that file. |
 
 ---
+
+## SetTitle
+
+Sets the title of the dialog.
+
+```
+FUNCTION SetTitle (BYVAL pwszTitle AS WSTRING PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszTitle* | A pointer to a buffer that contains the title text. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
