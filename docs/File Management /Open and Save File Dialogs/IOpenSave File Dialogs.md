@@ -345,6 +345,28 @@ A dialog's state can include factors such as the last visited folder and the pos
 
 Typically, this state is persisted based on the name of the executable file. By specifying a GUID, an application can have different persisted states for different versions of the dialog within the same application (for example, an import dialog and an open dialog).
 
-**etClientGuid** should be called immediately after creation of the dialog object.
+**SetClientGuid** should be called immediately after creation of the dialog object.
+
+---
+
+## SetDefaultExtension 
+
+Sets the default extension to be added to file names.
+
+```
+FUNCTION SetDefaultExtension (BYVAL pwszDefaultExtension AS WSTRING PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszDefaultExtension* | A pointer to a buffer that contains the extension text. This string should not include a leading period. For example, "jpg" is correct, while ".jpg" is not. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+If this method is called before showing the dialog, the dialog will update the default extension automatically when the user chooses a new file type (see SetFileTypes).
 
 ---
