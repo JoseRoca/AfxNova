@@ -81,7 +81,7 @@ FUNCTION AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
 
 | Constant | Value  | Description |
 | -------- | ------ | ----------- |
-| **FDAP_BOTTOM** | 0 |  The place is added to the bottom of the default list. |
+| **FDAP_BOTTOM** | 0 | The place is added to the bottom of the default list. |
 | **FDAP_TOP** | 1 | The place is added to the top of the default list. |
 
 ---
@@ -249,3 +249,44 @@ FUNCTION GetFolder (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
 The folder name.
 
 ---
+
+## GetOptions 
+
+Gets the current flags that are set to control dialog behavior.
+
+```
+FUNCTION GetOptions () AS FILEOPENDIALOGOPTIONS
+```
+
+#### Return value
+
+A value made up of one or more of the **FILEOPENDIALOGOPTIONS** values.
+
+| Constant | Value  | Description |
+| -------- | ------ | ----------- |
+| **FOS_OVERWRITEPROMPT** | &h2 | When saving a file, prompt before overwriting an existing file of the same name. This is a default value for the Save dialog. |
+| **FOS_STRICTFILETYPES** | &h4 | In the Save dialog, only allow the user to choose a file that has one of the file name extensions specified through **SetFileTypes**. |
+| **FOS_NOCHANGEDIR** | &h8 | Don't change the current working directory. |
+| **FOS_PICKFOLDERS** | &h20 | Present an Open dialog that offers a choice of folders rather than files. |
+| **FOS_FORCEFILESYSTEM** | &h40 | Ensures that returned items are file system items (SFGAO_FILESYSTEM). Note that this does not apply to items returned by **GetCurrentSelection**. |
+| **FOS_ALLNONSTORAGEITEMS** | &h80 | Enables the user to choose any item in the Shell namespace, not just those with SFGAO_STREAM or SFAGO_FILESYSTEM attributes. This flag cannot be combined with FOS_FORCEFILESYSTEM. |
+| **FOS_NOVALIDATE** | &h100 | Do not check for situations that would prevent an application from opening the selected file, such as sharing violations or access denied errors. |
+| **FOS_ALLOWMULTISELECT** | &h200 | Enables the user to select multiple items in the open dialog. Note that when this flag is set, the IFileOpenDialog interface must be used to retrieve those items. |
+| **FOS_PATHMUSTEXIST** | &h800 | The item returned must be in an existing folder. This is a default value. |
+| **FOS_FILEMUSTEXIST** | &h1000 | The item returned must exist. This is a default value for the Open dialog. |
+| **FOS_CREATEPROMPT** | &h2000 | Prompt for creation if the item returned in the open dialog does not exist. Note that this does not actually create the item. |
+| **FOS_SHAREAWARE** | &h4000 | In the case of a sharing violation when an application is opening a file, call the application back through OnShareViolation for guidance. This flag is overridden by FOS_NOVALIDATE. |
+| **FOS_NOREADONLYRETURN** | &h8000 | Do not return read-only items. This is a default value for the Save dialog. |
+| **FOS_NOTESTFILECREATE** | &h10000 | Do not test whether creation of the item as specified in the Save dialog will be successful. If this flag is not set, the calling application must handle errors, such as denial of access, discovered when the item is created. |
+| **FOS_HIDEMRUPLACES** | &h20000 | Hide the list of places from which the user has recently opened or saved items. This value is not supported as of Windows 7. |
+| **FOS_HIDEPINNEDPLACES** | &h40000 | Hide items shown by default in the view's navigation pane. This flag is often used in conjunction with the **AddPlace** method, to hide standard locations and replace them with custom locations. Windows 7 and later. Hide all of the standard namespace locations (such as Favorites, Libraries, Computer, and Network) shown in the navigation pane. Windows Vista. Hide the contents of the Favorite Links tree in the navigation pane. Note that the category itself is still displayed, but shown as empty. |
+| **FOS_NODEREFERENCELINKS** | &h100000 | Shortcuts should not be treated as their target items. This allows an application to open a .lnk file rather than what that file is a shortcut to. |
+| **FOS_OKBUTTONNEEDSINTERACTION** | &h200000 | The OK button will be disabled until the user navigates the view or edits the filename (if applicable). Note: Disabling of the OK button does not prevent the dialog from being submitted by the Enter key. |
+| **FOS_DONTADDTORECENT** | &h2000000 | Do not add the item being opened or saved to the recent documents list (SHAddToRecentDocs). |
+| **FOS_FORCESHOWHIDDEN** | &h10000000 | Include hidden and system items. |
+| **FOS_DEFAULTNOMINIMODE** | &h20000000 | Indicates to the Save As dialog box that it should open in expanded mode. Expanded mode is the mode that is set and unset by clicking the button in the lower-left corner of the Save As dialog box that switches between Browse Folders and Hide Folders when clicked. This value is not supported as of Windows 7. |
+| **FOS_FORCEPREVIEWPANEON** | &h40000000 | Indicates to the Open dialog box that the preview pane should always be displayed. |
+| **FOS_SUPPORTSTREAMABLEITEMS** | &h80000000 | Indicates that the caller is opening a file as a stream (BHID_Stream), so there is no need to download that file. |
+
+---
+
