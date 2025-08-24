@@ -178,3 +178,21 @@ FUNCTION GetCurrentSelection (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS
 The folder name.
 
 ---
+
+## GetFileName 
+
+Retrieves the text currently entered in the dialog's File name edit box.
+
+```
+FUNCTION GetFileName () AS DWSTRING
+```
+
+#### Return value
+
+The folder name.
+
+#### Remarks
+
+The text in the File name edit box does not necessarily reflect the item the user chose. To get the item the user chose, use **GetResult**.
+
+---
