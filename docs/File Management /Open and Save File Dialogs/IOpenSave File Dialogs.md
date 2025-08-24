@@ -424,3 +424,45 @@ FUNCTION SetFileNameLabel (BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
 If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
 
 ---
+
+## SetFileTypeIndex
+
+Sets the file type that appears as selected in the dialog.
+
+```
+FUNCTION SetFileTypeIndex (BYVAL iFileType AS UINT) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *iFileType* | The index of the file type in the file type array passed to **SetFileTypes** in its *cFileTypes* parameter. Note that this is a one-based index, not zero-based. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
+## SetFileTypes
+
+Sets the file types that the dialog can open or save.
+
+```
+FUNCTION SetFileTypes (BYVAL cFileTypes AS UINT, BYVAL rgFilterSpec AS COMDLG_FILTERSPEC PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cFileTypes* | The number of elements in the array specified by *rgFilterSpec*. |
+| *rgFilterSpec* | A pointer to an array of *COMDLG_FILTERSPEC* structures, each representing a file type. |
+
+#### Return value
+
+If the method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code, including the following:
+
+| Return code  | Description |
+| ------------ | ----------- |
+| **E_UNEXPECTED** | The FOS_PICKFOLDERS flag was set in the **SetOptions** method. |
+| **E_INVALIDARG** | The *rgFilterSpec* parameter is NULL. |
+
+---
