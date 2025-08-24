@@ -196,3 +196,23 @@ The folder name.
 The text in the File name edit box does not necessarily reflect the item the user chose. To get the item the user chose, use **GetResult**.
 
 ---
+
+## GetFileTypeIndex 
+
+Gets the file type that appears as selected in the dialog.
+
+```
+FUNCTION GetFileTypeIndex () AS UINT
+```
+
+#### Return value
+
+Gets the currently selected file type.
+
+#### Remarks
+
+The index of the selected file type in the file type array passed to **SetFileTypes** in its *cFileTypes* parameter.
+
+**Note**  This is a one-based index rather than zero-based.
+
+---
