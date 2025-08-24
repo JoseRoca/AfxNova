@@ -101,3 +101,45 @@ FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
 A DWORD that identifies this event handler
 
 ---
+
+## ClearClientData 
+
+Instructs the dialog to clear all persisted state information.
+
+```
+FUNCTION ClearClientData () AS HRESULT
+```
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+Persisted information can be associated with an application or a GUID. If a GUID was set by using IFileDialog::SetClientGuid, that GUID is used to clear persisted information.
+
+---
+
+## Close 
+
+Closes the dialog.
+
+```
+FUNCTION Close (BYVAL hr AS HRESULT) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hr* | The code that will be returned by Show to indicate that the dialog was closed before a selection was made. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+An application can call this method from a callback method or function while the dialog is open. The dialog will close and the Show method will return with the HRESULT specified in hr.
+
+If this method is called, there is no result available for the **GetResult** or **GetResults** methods, and they will fail if called.
+
+---
