@@ -26,6 +26,14 @@ CONSTRUCTOR (BYVAL xPos AS LONG, BYVAL yPos AS LONG)
 | ---------- | ----------- |
 | *xPos*/*yPos* | Coordinates to position the dialog relative to the client area of the parent. |
 
+## Methods of the IOpenFileDialog and ISaveFileDialog classes
+
+| Name       | Description |
+| ---------- | ----------- |
+| [AddFileType](#addfiletype) | Adds a file type and pattern to the table. |
+| [ShowOpen](#showopen) | Displays the open file dialog. |
+| [ShowSave](#showsave) | Displays the save file dialog. |
+
 ## Common mehods inherited from **IFileDialog**
 
 | Name       | Description |
