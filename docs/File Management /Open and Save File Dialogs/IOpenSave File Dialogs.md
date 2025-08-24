@@ -472,7 +472,7 @@ If the method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error 
 Sets a folder that is always selected when the dialog is opened, regardless of previous user action.
 
 ```
-SetFolder (BYVAL pwszFolderName AS WSTRING PTR) AS HRESULT
+FUNCTION SetFolder (BYVAL pwszFolderName AS WSTRING PTR) AS HRESULT
 ```
 
 | Parameter  | Description |
@@ -492,3 +492,22 @@ In general, we do not recommended the use of this method. If you call **SetFolde
 As of Windows 7, if the path of the folder specified through psi is the default path of a known folder, the known folder's current path is used in the dialog. That path might not be the same as the path specified in psi; for instance, if the known folder has been redirected. If the known folder is a library (virtual folders Documents, Music, Pictures, and Videos), the library's path is used in the dialog. If the specified library is hidden (as they are by default as of Windows 8.1), the library's default save location is used in the dialog, such as the Microsoft OneDrive Documents folder for the Documents library. Because of these mappings, the folder location used in the dialog might not be exactly as you specified when you called this method.
 
 ---
+
+## SetOkButtonLabel
+
+Sets the text of the Open or Save button.
+
+```
+FUNCTION SetOkButtonLabel (BYVAL pwszText AS WSTRING PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszText* | A pointer to a buffer that contains the button text. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
