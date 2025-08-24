@@ -74,13 +74,15 @@ FUNCTION AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *psi* | A pointer to an IShellItem that represents the folder to be made available to the user. This can only be a folder. |
+| *psi* | A pointer to an **IShellItem** that represents the folder to be made available to the user. This can only be a folder. |
 | *fdap* | Specifies where the folder is placed within the list. See **FDAP** enumeration. |
 
 **FDAP enumeration**
 
-FDAP_BOTTOM = 0. The place is added to the bottom of the default list.
-FDAP_TOP = 1. The place is added to the top of the default list.
+| Constant | Value  | Description |
+| -------- | ------ | ----------- |
+| **FDAP_BOTTOM** | 0 |  The place is added to the bottom of the default list. |
+| **FDAP_TOP** | 1 | The place is added to the top of the default list. |
 
 ---
 
@@ -141,5 +143,38 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 An application can call this method from a callback method or function while the dialog is open. The dialog will close and the Show method will return with the HRESULT specified in hr.
 
 If this method is called, there is no result available for the **GetResult** or **GetResults** methods, and they will fail if called.
+
+---
+
+## GetCurrentSelection 
+
+Gets the folder used as a default if there is not a recently used folder value available.
+
+```
+FUNCTION GetCurrentSelection (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *sigdnName* | Requests the form of an item's display name to retrieve . |
+
+**SIGDN Enumeration**
+
+| Constant | Description |
+| -------- | ----------- |
+| **SIGDN_NORMALDISPLAY** | Returns the display name relative to the parent folder. In UI this name is generally ideal for display to the user. |
+| **SIGDN_PARENTRELATIVEPARSING** | Returns the parsing name relative to the parent folder. This name is not suitable for use in UI. |
+| **SIGDN_DESKTOPABSOLUTEPARSING** | Returns the parsing name relative to the desktop. This name is not suitable for use in UI. |
+| **SIGDN_PARENTRELATIVEEDITING** | Returns the editing name relative to the parent folder. In UI this name is suitable for display to the user. |
+| **SIGDN_DESKTOPABSOLUTEEDITING** | Returns the editing name relative to the desktop. In UI this name is suitable for display to the user. |
+| **SIGDN_FILESYSPATH** | Returns the item's file system path, if it has one. Only items that report SFGAO_FILESYSTEM have a file system path. When an item does not have a file system path, a call to IShellItem::GetDisplayName on that item will fail. In UI this name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
+| **SIGDN_URL** | Returns the item's URL, if it has one. Some items do not have a URL, and in those cases a call to IShellItem::GetDisplayName will fail. This name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
+| **SIGDN_PARENTRELATIVEFORADDRESSBAR** | Returns the path relative to the parent folder in a friendly format as displayed in an address bar. This name is suitable for display to the user. |
+| **SIGDN_PARENTRELATIVE** | Returns the path relative to the parent folder. |
+| **SIGDN_PARENTRELATIVEFORUI** | Introduced in Windows 8. |
+
+#### Return value
+
+The folder name.
 
 ---
