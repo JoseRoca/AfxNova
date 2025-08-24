@@ -370,3 +370,21 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 If this method is called before showing the dialog, the dialog will update the default extension automatically when the user chooses a new file type (see SetFileTypes).
 
 ---
+
+## SetDefaultFolder 
+
+Sets the folder used as a default if there is not a recently used folder value available.
+
+```
+FUNCTION SetDefaultFolder (BYVAL psi AS IShellItem PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *psi* | A pointer to the interface that represents the folder. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
