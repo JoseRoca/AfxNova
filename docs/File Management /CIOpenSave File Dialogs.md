@@ -678,6 +678,6 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 
 #### Remarks
 
-If the events have been set using the **SetEvents** method, the classes unadvise them when 
+If the events have been set using the **Advise** method, the classes unadvise them when they are destroyed.
 
 ---
