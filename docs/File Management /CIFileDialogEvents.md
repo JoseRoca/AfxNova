@@ -150,7 +150,7 @@ FUNCTION OnShareViolation (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem
 **FDE_SHAREVIOLATION_RESPONSE enumeration**
 
 | Flag  | Value | Description |
-| ----- | ----------- |
+| ----- | ----- | ---------- |
 | **FDESVR_DEFAULT** | 0 | The application has not handled the event. The dialog displays a UI that indicates that the file is in use and a different file must be chosen. |
 | **FDESVR_ACCEPT** | 1 | The application has determined that the file should be returned from the dialog. |
 | **FDESVR_REFUSE** | 2 | The application has determined that the file should not be returned from the dialog. |
