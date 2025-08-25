@@ -47,6 +47,7 @@ Private:
    m_startFile AS DWSTRING                              ' // File name to be used as the initial file selection
    m_defExt AS DWSTRING                                 ' // Default extension to be appended to the selected file name if the user does not enter it
    m_Flags AS DWORD                                     ' // Flags
+   m_pFileDialogEvents AS IFileDialogEvents PTR         ' // Pointer to the IFileDialogEvents interface
    m_dwDlgEvtCookie AS DWORD                            ' // Dialog events cookie
 
 Public:
@@ -54,13 +55,12 @@ Public:
    DECLARE DESTRUCTOR 
    DECLARE FUNCTION ShowOpen (BYVAL hwndOwner AS HWND) AS HRESULT
    DECLARE SUB AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
-   DECLARE FUNCTION SetEvents (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
-   DECLARE FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
-   DECLARE FUNCTION Unadvise (BYVAL dwCookie AS DWORD) AS HRESULT
    DECLARE FUNCTION SetFileTypes () AS HRESULT
    DECLARE FUNCTION SetFileTypes (BYVAL cFileTypes AS UINT, BYVAL rgFilterSpec AS COMDLG_FILTERSPEC PTR) AS HRESULT
    DECLARE FUNCTION SetFileTypeIndex (BYVAL iFileType AS UINT) AS HRESULT
    DECLARE FUNCTION GetFileTypeIndex () AS UINT
+   DECLARE FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
+   DECLARE FUNCTION Unadvise () AS HRESULT
    DECLARE FUNCTION SetOptions (BYVAL fos AS FILEOPENDIALOGOPTIONS) AS HRESULT
    DECLARE FUNCTION GetOptions () AS FILEOPENDIALOGOPTIONS
    DECLARE FUNCTION SetDefaultFolder (BYVAL psi AS IShellItem PTR) AS HRESULT
@@ -105,8 +105,10 @@ END CONSTRUCTOR
 ' ========================================================================================
 PRIVATE DESTRUCTOR CIOpenFileDialog
    OutputDebugStringW("CIOpenFileDialog.Destructor")
-   ' // Removes an event handler that was attached through the SetEvents method.
+   ' // Removes an event handler that was attached through the Advise method.
    IF m_dwDlgEvtCookie THEN m_IFileOpenDialog->lpvtbl->Unadvise(m_IFileOpenDialog, m_dwDlgEvtCookie)
+   ' // Release the IFileDialogEvents interface
+   IF m_pFileDialogEvents THEN m_pFileDialogEvents->lpvtbl->Release(m_pFileDialogEvents)
    ' // Release the IFileOpenDialog interface
    m_IFileOpenDialog->lpvtbl->Release(m_IFileOpenDialog)
    ' // Uninitialize the COM library
@@ -181,37 +183,21 @@ END FUNCTION
 ' To set the events use:
 ' DIM pofd AS CIOpenFileDialog
 ' DIM pfde AS ANY PTR = NEW CIFileDialogEvents
-' pofd.SetEVents(pfde)
+' pofd.Advise(pfde)
 ' ========================================================================================
-PRIVATE FUNCTION CIOpenFileDialog.SetEvents (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
-   OutputDebugStringW("CIOpenFileDialog.SetEvents")
-   IF pfde = NULL THEN RETURN E_POINTER
-   ' // Removes the previous event handler that was attached through the SetEvents method.
-   IF m_dwDlgEvtCookie THEN
-      m_IFileOpenDialog->lpvtbl->Unadvise(m_IFileOpenDialog, m_dwDlgEvtCookie)
-      m_dwDlgEvtCookie = 0
-   END IF
-   RETURN m_IFileOpenDialog->lpvtbl->Advise(m_IFileOpenDialog, pfde, @m_dwDlgEvtCookie)
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-PRIVATE FUNCTION CIOpenFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
+PRIVATE FUNCTION CIOpenFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
    OutputDebugStringW("CIOpenFileDialog.Advise")
    IF pfde = NULL THEN RETURN E_POINTER
-   DIM dwCookie AS DWORD
-   DIM hr AS HRESULT = m_IFileOpenDialog->lpvtbl->Advise(m_IFileOpenDialog, pfde, @dwCookie)
-   SetLastError(hr)
-   RETURN dwCookie
+   RETURN m_IFileOpenDialog->lpvtbl->Advise(m_IFileOpenDialog, pfde, @m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Removes an event handler that was attached through the Advise method.
 ' ========================================================================================
-PRIVATE FUNCTION CIOpenFileDialog.Unadvise (BYVAL dwCookie AS DWORD) AS HRESULT
+PRIVATE FUNCTION CIOpenFileDialog.Unadvise () AS HRESULT
    OutputDebugStringW("CIOpenFileDialog.Unadvise")
-   IF dwCookie THEN RETURN m_IFileOpenDialog->lpvtbl->Unadvise(m_IFileOpenDialog, dwCookie)
+   IF m_dwDlgEvtCookie THEN RETURN m_IFileOpenDialog->lpvtbl->Unadvise(m_IFileOpenDialog, m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
 
@@ -624,6 +610,7 @@ Private:
    m_startFile AS DWSTRING                              ' // File name to be used as the initial file selection
    m_defExt AS DWSTRING                                 ' // Default extension to be appended to the selected file name if the user does not enter it
    m_Flags AS DWORD                                     ' // Flags
+   m_pFileDialogEvents AS IFileDialogEvents PTR         ' // Pointer to the IFileDialogEvents interface
    m_dwDlgEvtCookie AS DWORD                            ' // Dialog events cookie
 
 Public:
@@ -631,13 +618,12 @@ Public:
    DECLARE DESTRUCTOR 
    DECLARE FUNCTION ShowSave (BYVAL hwndOwner AS HWND) AS HRESULT
    DECLARE SUB AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
-   DECLARE FUNCTION SetEvents (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
    DECLARE FUNCTION SetFileTypes () AS HRESULT
    DECLARE FUNCTION SetFileTypes (BYVAL cFileTypes AS UINT, BYVAL rgFilterSpec AS COMDLG_FILTERSPEC PTR) AS HRESULT
    DECLARE FUNCTION SetFileTypeIndex (BYVAL iFileType AS UINT) AS HRESULT
    DECLARE FUNCTION GetFileTypeIndex () AS UINT
-   DECLARE FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
-   DECLARE FUNCTION Unadvise (BYVAL dwCookie AS DWORD) AS HRESULT
+   DECLARE FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
+   DECLARE FUNCTION Unadvise () AS HRESULT
    DECLARE FUNCTION SetOptions (BYVAL fos AS FILEOPENDIALOGOPTIONS) AS HRESULT
    DECLARE FUNCTION GetOptions () AS FILEOPENDIALOGOPTIONS
    DECLARE FUNCTION SetDefaultFolder (BYVAL psi AS IShellItem PTR) AS HRESULT
@@ -683,8 +669,10 @@ END CONSTRUCTOR
 ' ========================================================================================
 PRIVATE DESTRUCTOR CISaveFileDialog
    OutputDebugStringW("CISaveFileDialog.Destructor")
-   ' // Removes an event handler that was attached through the SetEvents method.
+   ' // Removes an event handler that was attached through the Advise method.
    IF m_dwDlgEvtCookie THEN m_IFileSaveDialog->lpvtbl->Unadvise(m_IFileSaveDialog, m_dwDlgEvtCookie)
+   ' // Release the IFileDialogEvents interface
+   IF m_pFileDialogEvents THEN m_pFileDialogEvents->lpvtbl->Release(m_pFileDialogEvents)
    ' // Release the IFileSaveDialog interface
    m_IFileSaveDialog->lpvtbl->Release(m_IFileSaveDialog)
    ' // Uninitialize the COM library
@@ -748,38 +736,20 @@ END FUNCTION
 ' To set the events use:
 ' DIM psfd AS CISaveFileDialog
 ' DIM pfde AS ANY PTR = NEW CIFileDialogEvents
-' psfd.SetEvents(pfde)
+' psfd.Advise(pfde)
 ' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CISaveFileDialog.SetEvents (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
-   OutputDebugStringW("CISaveFileDialog.SetEvents")
-   IF pfde = NULL THEN RETURN E_POINTER
-   ' // Removes the previous event handler that was attached through the SetEvents method.
-   IF m_dwDlgEvtCookie THEN
-      m_IFileSaveDialog->lpvtbl->Unadvise(m_IFileSaveDialog, m_dwDlgEvtCookie)
-      m_dwDlgEvtCookie = 0
-   END IF
-   RETURN m_IFileSaveDialog->lpvtbl->Advise(m_IFileSaveDialog, pfde, @m_dwDlgEvtCookie)
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-PRIVATE FUNCTION CISaveFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
+PRIVATE FUNCTION CISaveFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
    OutputDebugStringW("CISaveFileDialog.Advise")
-   IF pfde = NULL THEN RETURN E_POINTER
-   DIM dwCookie AS DWORD
-   DIM hr AS HRESULT = m_IFileSaveDialog->lpvtbl->Advise(m_IFileSaveDialog, pfde, @dwCookie)
-   SetLastError(hr)
-   RETURN dwCookie
+   RETURN m_IFileSaveDialog->lpvtbl->Advise(m_IFileSaveDialog, pfde, @m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Removes an event handler that was attached through the Advise method.
 ' ========================================================================================
-PRIVATE FUNCTION CISaveFileDialog.Unadvise (BYVAL dwCookie AS DWORD) AS HRESULT
+PRIVATE FUNCTION CISaveFileDialog.Unadvise () AS HRESULT
    OutputDebugStringW("CISaveFileDialog.Unadvise")
-   IF dwCookie THEN RETURN m_IFileSaveDialog->lpvtbl->Unadvise(m_IFileSaveDialog, dwCookie)
+   IF m_dwDlgEvtCookie THEN RETURN m_IFileSaveDialog->lpvtbl->Unadvise(m_IFileSaveDialog, m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
 
