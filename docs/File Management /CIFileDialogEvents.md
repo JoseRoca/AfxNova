@@ -195,7 +195,7 @@ Returns **S_OK** if successful, or an error value otherwise.
 
 ---
 
-# Template
+## Template
 
 The following template implements the **FileDialogEvents** callback interface. You can copy and modify it to implement your own or inherit from it and override its virtual methods.
 
