@@ -167,3 +167,20 @@ A sharing violation could possibly arise when the application attempts to open a
 
 ---
 
+## OnTypeChange
+
+Called when the dialog is opened to notify the application of the initial chosen filetype.
+
+```
+FUNCTION OnTypeChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfd* | A pointer to the interface that represents the dialog. |
+
+#### Return value
+
+Returns **S_OK** if successful, or an error value otherwise.
+
+---
