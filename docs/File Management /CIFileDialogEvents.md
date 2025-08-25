@@ -18,7 +18,7 @@ The `CIFileDialogEents` class implements the `IFileDialogEvents`interface, that 
 
 ---
 
-## Template
+## Template code
 
 | Name       | Description |
 | ---------- | ----------- |
