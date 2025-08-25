@@ -157,7 +157,7 @@ FUNCTION OnShareViolation (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem
 
 #### Return value
 
-The implementer should return **E_NOTIMPL** if this method is not implemented;** S_OK** or an appropriate error code otherwise.
+The implementer should return **E_NOTIMPL** if this method is not implemented; **S_OK** or an appropriate error code otherwise.
 
 #### Remarks
 
