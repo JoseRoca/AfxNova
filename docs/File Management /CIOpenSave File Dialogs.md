@@ -1,6 +1,6 @@
 # CIOpenFileDialog / CISaveFileDialog
 
-'CIOpenFileDialog`Wraps the **IFileOpenDialog** interface. Extends the **IFileDialog** interface by adding methods specific to the open dialog.
+'CIOpenFileDialog` wraps the **IFileOpenDialog** interface. Extends the **IFileDialog** interface by adding methods specific to the open dialog.
 
 `CIOpenFileDialog`Wraps the **IFileSaveDialog** interface. Extends the **IFileDialog** interface by adding methods specific to the save dialog, which include those that provide support for the collection of metadata to be persisted with the file.
 
