@@ -24,6 +24,8 @@
 ' DEALINGS IN THE SOFTWARE.'
 ' ########################################################################################
 
+#if _WIN32_WINNT >= &h0600
+
 ' ########################################################################################
 ' CIFileDialogEvents class
 ' Implementation of the FileDialogEvents callback interface
@@ -202,3 +204,5 @@ PRIVATE FUNCTION CIFileDialogEvents.OnOverwrite (BYVAL pfd AS IFileDialog PTR, B
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
+
+#endif
