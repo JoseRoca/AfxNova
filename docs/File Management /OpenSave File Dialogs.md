@@ -192,9 +192,9 @@ FUNCTION ShowOpen (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL y
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| **hParent** | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
-| **xPos**/**yPos** | Coordinates to position the dialog relative to the client area of the parent. If both *xPos* and *yPos* are -1, the dialog is centered. They are ignored if a hook is not used. |
-| **bHook** | Boolean True or False. If True, the dialog is positioned according the specified coordinates and uses the old-style user interface. |
+| *hParent* | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
+| *xPos*/*yPos* | Coordinates to position the dialog relative to the client area of the parent. If both *xPos* and *yPos* are -1, the dialog is centered. They are ignored if a hook is not used. |
+| *bHook* | Boolean True or False. If True, the dialog is positioned according the specified coordinates and uses the old-style user interface. |
 
 #### Remarks
 
@@ -239,9 +239,9 @@ FUNCTION ShowSave (BYVAL hParent AS HWND = NULL, BYVAL xPos AS LONG = 0, BYVAL y
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| **hParent** | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
-| **xPos**/**yPos** | Coordinates to position the dialog relative to the client area of the parent. If both *xPos* and *yPos* are -1, the dialog is centered. They are ignored if a hook is not used. |
-| **bHook** | Boolean True or False. If True, the dialog is positioned according the specified coordinates and uses the old-style user interface. |
+| *hParent* | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
+| *xPos*/*yPos* | Coordinates to position the dialog relative to the client area of the parent. If both *xPos* and *yPos* are -1, the dialog is centered. They are ignored if a hook is not used. |
+| *bHook* | Boolean True or False. If True, the dialog is positioned according the specified coordinates and uses the old-style user interface. |
 
 #### Return value
 
