@@ -180,7 +180,7 @@ FUNCTION AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
 Adds a folder to the list of places available for the user to open or save items.
 
 ```
-FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
+FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
 ```
 
 | Parameter  | Description |
@@ -189,8 +189,14 @@ FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
 
 #### Return value
 
-A DWORD that identifies this event handler
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
 
+#### Usage example:
+
+```
+DIM pfde AS ANY PTR = NEW CIFileDialogEvents
+pofd.Advise(pfde)
+```
 ---
 
 ## ClearClientData 
@@ -663,15 +669,15 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 Removes an event handler that was attached through the Advise method.
 
 ```
-FUNCTION Unadvise (BYVAL dwCookie AS DWORD) AS HRESULT
+FUNCTION Unadvise () AS HRESULT
 ```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *dwCookie* | The DWORD value that represents the event handler. This value is obtained through a call to the **Advise** method. |
 
 #### Return value
 
 If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+If the events have been set using the **SetEvents** method, the classes unadvise them when 
 
 ---
