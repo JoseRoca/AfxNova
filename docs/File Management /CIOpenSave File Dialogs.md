@@ -23,6 +23,95 @@ Both also wrap the **IFileDialogEvents** interface, which exposes methods that a
 DIM pofd AS CIOpenFileDialog
 DIM psfd AS CISaveFileDialog
 ```
+
+#### Examples
+
+Open File Dialog:
+
+```
+#define _WIN32_WINNT &h0602
+#include once "AfxNova/CWindow.inc"
+#include once "AfxNova/CIOpenSaveFile.inc"
+#include once "AfxNova/CIFileDialogEvents.inc"
+USING AfxNova
+
+DIM pofd AS CIOpenFileDialog
+' // Set the file types
+pofd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
+pofd.AddFileType("Executable files", "*.exe;*.dll")
+pofd.AddFileType("All files", "*.*")
+pofd.SetFileTypes()
+' // Multiple selection (default is single selection)
+DIM options AS FILEOPENDIALOGOPTIONS = pofd.GetOptions
+pofd.SetOptions(options OR FOS_ALLOWMULTISELECT)
+' // Optional: Set the title of the dialog
+'   pofd.SetTitle("A Single-Selection Dialog")
+' // Set the folder
+pofd.SetFolder(CURDIR)
+pofd.SetDefaultExtension("bas")
+pofd.SetFileTypeIndex(1)
+
+' // Set events
+DIM pfde AS ANY PTR = NEW CIFileDialogEvents
+pofd.Advise(pfde)
+
+' // Display the dialog
+' // change hwnd for your parent window
+DIM hr AS HRESULT = pofd.ShowOpen(hwnd)
+
+' // Folder name
+print "Folder name: ";  pofd.GetFolder
+
+' *** Single selection ***
+' // Get the result
+IF hr = S_OK THEN
+   print pofd.GetResult()
+END IF
+
+' *** Multiple selection ***
+DIM dwsRes AS DWSTRING = pofd.GetResultsString
+FOR i AS LONG = 1 TO pofd.GetResultsCount
+   PRINT pofd.ParseResults(dwsRes, i)
+NEXT
+```
+Save File Dialog:
+```
+#define _WIN32_WINNT &h0602
+#include once "AfxNova/CWindow.inc"
+#include once "AfxNova/CIOpenSaveFile.inc"
+#include once "AfxNova/CIFileDialogEvents.inc"
+USING AfxNova
+
+DIM psfd AS CISaveFileDialog
+' // Set the file types
+psfd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
+psfd.AddFileType("Executable files", "*.exe;*.dll")
+psfd.AddFileType("All files", "*.*")
+psfd.SetFileTypes()
+' // Optional: Set the title of the dialog
+'   psfd.SetTitle("Save File Dialog")
+' // Set the folder
+psfd.SetFolder(CURDIR)
+psfd.SetDefaultExtension("bas")
+psfd.SetFileTypeIndex(1)
+
+' // Set events
+' // Set events
+DIM pfde AS ANY PTR = NEW CIFileDialogEvents
+psfd.Advise(pfde)
+
+' // Display the dialog
+' // change hwnd for your parent window
+DIM hr AS HRESULT = psfd.ShowSave(hwnd)
+
+' // Folder name
+print "Folder name: ";  psfd.GetFolder
+
+' // Get the result
+IF hr = S_OK THEN
+   print psfd.GetResult()
+END IF
+```
 ---
 
 ## Methods of the CIOpenFileDialog and CISaveFileDialog classes
