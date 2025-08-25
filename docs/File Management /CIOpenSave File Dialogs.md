@@ -155,7 +155,7 @@ END IF
 
 ## AddPlace
 
-Assigns an event handler that listens for events coming from the dialog.
+Adds a folder to the list of places available for the user to open or save items.
 
 ```
 FUNCTION AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
@@ -177,7 +177,7 @@ FUNCTION AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
 
 ## Advise
 
-Adds a folder to the list of places available for the user to open or save items.
+Assigns an event handler that listens for events coming from the dialog.
 
 ```
 FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
