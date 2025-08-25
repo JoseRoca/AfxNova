@@ -6,7 +6,7 @@
 
 Both also wrap the **IFileDialogEvents** interface, which exposes methods that allow notification of events within a common file dialog, and the **IFileDialogCustomize** interface, which exposes methods that allow an application to add controls to a common file dialog.
 
-**Include file**: AfxNova/OpenSaveFile.inc
+**Include file**: AfxNova/CIOpenSaveFile.inc
 
 ---
 
