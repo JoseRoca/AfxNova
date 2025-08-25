@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
 ' File: CIOpenSaveFile.inc
-' Contents: Implementation of CIOpenFileDialog and ISaveFileDialog classes.
+' Contents: Implementation of CIOpenFileDialog and CISaveFileDialog classes.
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
 '
@@ -596,9 +596,9 @@ END FUNCTION
 
 
 ' ========================================================================================
-' ISaveFileDialog class
+' CISaveFileDialog class
 ' ========================================================================================
-TYPE ISaveFileDialog
+TYPE CISaveFileDialog
 
 Private:
    m_IFileSaveDialog AS IFileSaveDialog PTR             ' // Pointer to the IFileSaveDialog interface
@@ -653,12 +653,12 @@ END TYPE
 ' ========================================================================================
 ' Constructors
 ' ========================================================================================
-PRIVATE CONSTRUCTOR ISaveFileDialog
+PRIVATE CONSTRUCTOR CISaveFileDialog
    ' // Initialize the COM library
    CoInitialize NULL
    ' // Create an instance of the FileOpenDialog interface
    DIM hr AS HRESULT = CoCreateInstance(@CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, @IID_IFileSaveDialog, @m_IFileSaveDialog)
-   OutputDebugStringW("ISaveFileDialog Default Constructor - hr: " & ..WSTR(hr))
+   OutputDebugStringW("CISaveFileDialog Default Constructor - hr: " & ..WSTR(hr))
    SetLastError(hr)
 END CONSTRUCTOR
 ' ========================================================================================
@@ -666,8 +666,8 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' Destructor
 ' ========================================================================================
-PRIVATE DESTRUCTOR ISaveFileDialog
-   OutputDebugStringW("ISaveFileDialog.Destructor")
+PRIVATE DESTRUCTOR CISaveFileDialog
+   OutputDebugStringW("CISaveFileDialog.Destructor")
    ' // Removes an event handler that was attached through the Advise method.
    IF m_dwDlgEvtCookie THEN m_IFileSaveDialog->lpvtbl->Unadvise(m_IFileSaveDialog, m_dwDlgEvtCookie)
    ' // Release the IFileDialogEvents interface
@@ -682,7 +682,7 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Display he save file dialog
 ' Usage example:
-' DIM psfd AS ISaveFileDialog = ISaveFileDialog (50, 50)
+' DIM psfd AS CISaveFileDialog = CISaveFileDialog (50, 50)
 ' // Set the file types
 ' psfd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
 ' psfd.AddFileType("Executable files", "*.exe;*.dll")
@@ -701,8 +701,8 @@ END DESTRUCTOR
 '   print psfd.GetResult()
 'END IF
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.ShowSave (BYVAL hwndOwner AS HWND) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.ShowSave")
+PRIVATE FUNCTION CISaveFileDialog.ShowSave (BYVAL hwndOwner AS HWND) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.ShowSave")
    ' // Display the dialog
    RETURN m_IFileSaveDialog->lpvtbl->Show(m_IFileSaveDialog, hwndOwner)
 END FUNCTION
@@ -713,8 +713,8 @@ END FUNCTION
 ' This method must be called before the dialog is showing.
 ' The index is one-based.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetFileTypeIndex (BYVAL iFileType AS UINT) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetFileTypeIndex")
+PRIVATE FUNCTION CISaveFileDialog.SetFileTypeIndex (BYVAL iFileType AS UINT) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetFileTypeIndex")
    RETURN m_IFileSaveDialog->lpvtbl->SetFileTypeIndex(m_IFileSaveDialog, iFileType)
 END FUNCTION
 ' ========================================================================================
@@ -722,8 +722,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the file type that appears as selected in the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.GetFileTypeIndex () AS UINT
-   OutputDebugStringW("ISaveFileDialog.GetFileTypeIndex")
+PRIVATE FUNCTION CISaveFileDialog.GetFileTypeIndex () AS UINT
+   OutputDebugStringW("CISaveFileDialog.GetFileTypeIndex")
    DIM iFileType AS UINT
    m_IFileSaveDialog->lpvtbl->GetFileTypeIndex(m_IFileSaveDialog, @iFileType)
    RETURN iFileType
@@ -733,12 +733,12 @@ END FUNCTION
 ' ========================================================================================
 ' Assigns an event handler that listens for events coming from the dialog.
 ' To set the events use:
-' DIM psfd AS ISaveFileDialog
+' DIM psfd AS CISaveFileDialog
 ' DIM pfde AS ANY PTR = NEW CIFileDialogEvents
 ' psfd.Advise(pfde)
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.Advise")
+PRIVATE FUNCTION CISaveFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.Advise")
    RETURN m_IFileSaveDialog->lpvtbl->Advise(m_IFileSaveDialog, pfde, @m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
@@ -746,8 +746,8 @@ END FUNCTION
 ' ========================================================================================
 ' Removes an event handler that was attached through the Advise method.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.Unadvise () AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.Unadvise")
+PRIVATE FUNCTION CISaveFileDialog.Unadvise () AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.Unadvise")
    IF m_dwDlgEvtCookie THEN RETURN m_IFileSaveDialog->lpvtbl->Unadvise(m_IFileSaveDialog, m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
@@ -755,8 +755,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets flags to control the behavior of the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetOptions (BYVAL fos AS FILEOPENDIALOGOPTIONS) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetOptions")
+PRIVATE FUNCTION CISaveFileDialog.SetOptions (BYVAL fos AS FILEOPENDIALOGOPTIONS) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetOptions")
    RETURN m_IFileSaveDialog->lpvtbl->SetOptions(m_IFileSaveDialog, fos)
 END FUNCTION
 ' ========================================================================================
@@ -764,8 +764,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the current flags that are set to control dialog behavior.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.GetOptions () AS FILEOPENDIALOGOPTIONS
-   OutputDebugStringW("ISaveFileDialog.GetOptions")
+PRIVATE FUNCTION CISaveFileDialog.GetOptions () AS FILEOPENDIALOGOPTIONS
+   OutputDebugStringW("CISaveFileDialog.GetOptions")
    DIM fos AS FILEOPENDIALOGOPTIONS
    SetLastError(m_IFileSaveDialog->lpvtbl->GetOptions(m_IFileSaveDialog, @fos))
    RETURN fos
@@ -775,8 +775,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the folder used as a default if there is not a recently used folder value available.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetDefaultFolder (BYVAL psi AS IShellItem PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetDefaultFolder")
+PRIVATE FUNCTION CISaveFileDialog.SetDefaultFolder (BYVAL psi AS IShellItem PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetDefaultFolder")
    RETURN m_IFileSaveDialog->lpvtbl->SetDefaultFolder(m_IFileSaveDialog, psi)
 END FUNCTION
 ' ========================================================================================
@@ -784,8 +784,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets a folder that is always selected when the dialog is opened, regardless of previous user action.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetFolder (BYVAL pwszFolderName AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetFolder")
+PRIVATE FUNCTION CISaveFileDialog.SetFolder (BYVAL pwszFolderName AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetFolder")
    DIM pFolder AS IShellItem PTR
    DIM hr AS HRESULT = SHCreateItemFromParsingName(pwszFolderName, NULL, @IID_IShellItem, @pFolder)
    IF hr <> S_OK THEN RETURN hr
@@ -799,8 +799,8 @@ END FUNCTION
 ' * Gets either the folder currently selected in the dialog, or, if the dialog is not currently
 ' displayed, the folder that is to be selected when the dialog is opened.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.GetFolder (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
-   OutputDebugStringW("ISaveFileDialog.GetFolder")
+PRIVATE FUNCTION CISaveFileDialog.GetFolder (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+   OutputDebugStringW("CISaveFileDialog.GetFolder")
    DIM psi AS IShellItem PTR, pwszName AS WSTRING PTR
    DIM hr AS HRESULT = m_IFileSaveDialog->lpvtbl->GetFolder(m_IFileSaveDialog, @psi)
    IF SUCCEEDED(hr) THEN
@@ -815,8 +815,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the folder used as a default if there is not a recently used folder value available.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.GetCurrentSelection (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
-   OutputDebugStringW("ISaveFileDialog.GetCurrentSelection")
+PRIVATE FUNCTION CISaveFileDialog.GetCurrentSelection (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+   OutputDebugStringW("CISaveFileDialog.GetCurrentSelection")
    DIM psi AS IShellItem PTR, pwszName AS WSTRING PTR
    DIM hr AS HRESULT = m_IFileSaveDialog->lpvtbl->GetCurrentSelection(m_IFileSaveDialog, @psi)
    IF SUCCEEDED(hr) THEN
@@ -831,8 +831,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the file name that appears in the File name edit box when that dialog box is opened.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetFileName (BYVAL pwszName AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetFileName")
+PRIVATE FUNCTION CISaveFileDialog.SetFileName (BYVAL pwszName AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetFileName")
    RETURN m_IFileSaveDialog->lpvtbl->SetFileName(m_IFileSaveDialog, pwszName)
 END FUNCTION
 ' ========================================================================================
@@ -840,8 +840,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Retrieves the text currently entered in the dialog's File name edit box.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.GetFileName () AS DWSTRING
-   OutputDebugStringW("ISaveFileDialog.GetFileName")
+PRIVATE FUNCTION CISaveFileDialog.GetFileName () AS DWSTRING
+   OutputDebugStringW("CISaveFileDialog.GetFileName")
    DIM pwszName AS WSTRING PTR
    SetLastError(m_IFileSaveDialog->lpvtbl->GetFileName(m_IFileSaveDialog, @pwszName))
    RETURN pwszName
@@ -851,8 +851,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the title of the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetTitle (BYVAL pwszTitle AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetTitle")
+PRIVATE FUNCTION CISaveFileDialog.SetTitle (BYVAL pwszTitle AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetTitle")
    RETURN m_IFileSaveDialog->lpvtbl->SetTitle(m_IFileSaveDialog, pwszTitle)
 END FUNCTION
 ' ========================================================================================
@@ -860,8 +860,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the text of the Open or Save button.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetOkButtonLabel (BYVAL pwszText AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetOkButtonLabel")
+PRIVATE FUNCTION CISaveFileDialog.SetOkButtonLabel (BYVAL pwszText AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetOkButtonLabel")
    RETURN m_IFileSaveDialog->lpvtbl->SetOkButtonLabel(m_IFileSaveDialog, pwszText)
 END FUNCTION
 ' ========================================================================================
@@ -869,8 +869,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the text of the label next to the file name edit box.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetFileNameLabel (BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetFileNameLabel")
+PRIVATE FUNCTION CISaveFileDialog.SetFileNameLabel (BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetFileNameLabel")
    RETURN m_IFileSaveDialog->lpvtbl->SetFileNameLabel(m_IFileSaveDialog, pwszLabel)
 END FUNCTION
 ' ========================================================================================
@@ -878,8 +878,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the choice that the user made in the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.GetResult (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
-   OutputDebugStringW("ISaveFileDialog.GetResult")
+PRIVATE FUNCTION CISaveFileDialog.GetResult (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+   OutputDebugStringW("CISaveFileDialog.GetResult")
    DIM psi AS IShellItem PTR
    DIM pwszName AS WSTRING PTR
    DIM hr As HRESULT = m_IFileSaveDialog->lpvtbl->GetResult(m_IFileSaveDialog, @psi)
@@ -895,8 +895,8 @@ END FUNCTION
 ' ========================================================================================
 ' Adds a folder to the list of places available for the user to open or save items.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.AddPlace")
+PRIVATE FUNCTION CISaveFileDialog.AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.AddPlace")
    RETURN m_IFileSaveDialog->lpvtbl->AddPlace(m_IFileSaveDialog, psi, fdap)
 END FUNCTION
 ' ========================================================================================
@@ -904,8 +904,8 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetDefaultExtension (BYVAL pwszDefaultExtension AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetDefaultExtension")
+PRIVATE FUNCTION CISaveFileDialog.SetDefaultExtension (BYVAL pwszDefaultExtension AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetDefaultExtension")
    RETURN m_IFileSaveDialog->lpvtbl->SetDefaultExtension(m_IFileSaveDialog, pwszDefaultExtension)
 END FUNCTION
 ' ========================================================================================
@@ -913,8 +913,8 @@ END FUNCTION
 ' ========================================================================================
 ' Closes the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.Close (BYVAL hr AS HRESULT) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.Close")
+PRIVATE FUNCTION CISaveFileDialog.Close (BYVAL hr AS HRESULT) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.Close")
    RETURN m_IFileSaveDialog->lpvtbl->Close(m_IFileSaveDialog, hr)
 END FUNCTION
 ' ========================================================================================
@@ -922,8 +922,8 @@ END FUNCTION
 ' ========================================================================================
 ' Enables a calling application to associate a GUID with a dialog's persisted state.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetClientGuid (BYVAL guid AS GUID PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetClientGuid")
+PRIVATE FUNCTION CISaveFileDialog.SetClientGuid (BYVAL guid AS GUID PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetClientGuid")
    RETURN m_IFileSaveDialog->lpvtbl->SetClientGuid(m_IFileSaveDialog, guid)
 END FUNCTION
 ' ========================================================================================
@@ -931,8 +931,8 @@ END FUNCTION
 ' ========================================================================================
 ' Instructs the dialog to clear all persisted state information.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.ClearClientData () AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.ClearClientData")
+PRIVATE FUNCTION CISaveFileDialog.ClearClientData () AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.ClearClientData")
    RETURN m_IFileSaveDialog->lpvtbl->ClearClientData(m_IFileSaveDialog)
 END FUNCTION
 ' ========================================================================================
@@ -944,8 +944,8 @@ END FUNCTION
 ' ========================================================================================
 ' Sets an item to be used as the initial entry in a Save As dialog.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetSaveAsItem (BYVAL psi AS IShellItem PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetSaveAsItem")
+PRIVATE FUNCTION CISaveFileDialog.SetSaveAsItem (BYVAL psi AS IShellItem PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetSaveAsItem")
    RETURN m_IFileSaveDialog->lpvtbl->SetSaveAsItem(m_IFileSaveDialog, psi)
 END FUNCTION
 ' ========================================================================================
@@ -953,8 +953,8 @@ END FUNCTION
 ' ========================================================================================
 ' Provides a property store that defines the default values to be used for the item being saved.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetProperties (BYVAL pStore AS IPropertyStore PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetProperties")
+PRIVATE FUNCTION CISaveFileDialog.SetProperties (BYVAL pStore AS IPropertyStore PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetProperties")
    RETURN m_IFileSaveDialog->lpvtbl->SetProperties(m_IFileSaveDialog, pStore)
 END FUNCTION
 ' ========================================================================================
@@ -962,8 +962,8 @@ END FUNCTION
 ' ========================================================================================
 ' Specifies which properties will be collected in the save dialog.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetCollectedProperties (BYVAL pList AS IPropertyDescriptionList PTR, BYVAL fAppendDefault AS WINBOOL) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetCollectedProperties")
+PRIVATE FUNCTION CISaveFileDialog.SetCollectedProperties (BYVAL pList AS IPropertyDescriptionList PTR, BYVAL fAppendDefault AS WINBOOL) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetCollectedProperties")
    RETURN m_IFileSaveDialog->lpvtbl->SetCollectedProperties(m_IFileSaveDialog, pList, fAppendDefault)
 END FUNCTION
 ' ========================================================================================
@@ -971,8 +971,8 @@ END FUNCTION
 ' ========================================================================================
 ' Retrieves the set of property values for a saved item or an item in the process of being saved.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.GetProperties (BYVAL ppStore AS IPropertyStore PTR PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.GetProperties")
+PRIVATE FUNCTION CISaveFileDialog.GetProperties (BYVAL ppStore AS IPropertyStore PTR PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.GetProperties")
    RETURN m_IFileSaveDialog->lpvtbl->GetProperties(m_IFileSaveDialog, ppStore)
 END FUNCTION
 ' ========================================================================================
@@ -980,8 +980,8 @@ END FUNCTION
 ' ========================================================================================
 ' Retrieves the set of property values for a saved item or an item in the process of being saved.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.ApplyProperties (BYVAL psi AS IShellItem PTR, BYVAL pStore AS IPropertyStore PTR, BYVAL hWnd AS HWND, BYVAL pSink AS IFileOperationProgressSink PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.ApplyProperties")
+PRIVATE FUNCTION CISaveFileDialog.ApplyProperties (BYVAL psi AS IShellItem PTR, BYVAL pStore AS IPropertyStore PTR, BYVAL hWnd AS HWND, BYVAL pSink AS IFileOperationProgressSink PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.ApplyProperties")
    RETURN m_IFileSaveDialog->lpvtbl->ApplyProperties(m_IFileSaveDialog, psi, pStore, hwnd, pSink)
 END FUNCTION
 ' ========================================================================================
@@ -996,8 +996,8 @@ END FUNCTION
 '   pofd.AddFileType("All files", "*.*")
 '   pofd.SetFileTypes()
 ' =====================================================================================
-PRIVATE SUB ISaveFileDialog.AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
-   OutputDebugStringW("ISaveFileDialog.AddFileType")
+PRIVATE SUB CISaveFileDialog.AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
+   OutputDebugStringW("CISaveFileDialog.AddFileType")
    REDIM PRESERVE m_rgFilterSpec(UBOUND(m_rgFilterSpec) + 1) AS COMDLG_FILTERSPEC
    m_rgFilterSpec(UBOUND(m_rgFilterSpec)).pszName = pwszName
    m_rgFilterSpec(UBOUND(m_rgFilterSpec)).pszSpec = pwszSpec
@@ -1008,8 +1008,8 @@ END SUB
 ' * Sets the file types that the dialog can open or save.
 ' This overloaded function uses the m_rgFilterSpec array to set the file types.
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetFileTypes () AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetFileTypes - individual")
+PRIVATE FUNCTION CISaveFileDialog.SetFileTypes () AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetFileTypes - individual")
    DIM cFileTypes AS LONG = UBOUND(m_rgFilterSpec) - LBOUND(m_rgFilterSpec) + 1
    IF cFileTYpes = 0 THEN RETURN E_UNEXPECTED
    RETURN m_IFileSaveDialog->lpvtbl->SetFileTypes(m_IFileSaveDialog, cFileTypes, @m_rgFilterSpec(0))
@@ -1028,8 +1028,8 @@ END FUNCTION
 '   rgFileTypes(3).pszSpec = @WSTR("*.*")
 '   pofd.SetFileTypes(3, @rgFileTypes(1))
 ' ========================================================================================
-PRIVATE FUNCTION ISaveFileDialog.SetFileTypes (BYVAL cFileTypes AS UINT, BYVAL rgFilterSpec AS COMDLG_FILTERSPEC PTR) AS HRESULT
-   OutputDebugStringW("ISaveFileDialog.SetFileTypes - array")
+PRIVATE FUNCTION CISaveFileDialog.SetFileTypes (BYVAL cFileTypes AS UINT, BYVAL rgFilterSpec AS COMDLG_FILTERSPEC PTR) AS HRESULT
+   OutputDebugStringW("CISaveFileDialog.SetFileTypes - array")
    RETURN m_IFileSaveDialog->lpvtbl->SetFileTypes(m_IFileSaveDialog, cFileTypes, rgFilterSpec)
 END FUNCTION
 ' ========================================================================================
