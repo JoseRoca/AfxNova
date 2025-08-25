@@ -187,6 +187,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CIOpenFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
    OutputDebugStringW("CIOpenFileDialog.Advise")
+   IF pfde = NULL THEN RETURN E_POINTER
    RETURN m_IFileOpenDialog->lpvtbl->Advise(m_IFileOpenDialog, pfde, @m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
