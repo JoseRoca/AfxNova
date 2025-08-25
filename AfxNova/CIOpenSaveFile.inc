@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
-' File: CIOpenDaveFile.inc
-' Contents: Implementation of IOpenFileDialog and ISaveFileDialog classes.
+' File: CIOpenSaveFile.inc
+' Contents: Implementation of CIOpenFileDialog and ISaveFileDialog classes.
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
 '
@@ -33,10 +33,10 @@ USING AfxNova
 NAMESPACE AfxNova
 
 ' ========================================================================================
-' IOpenFileDialog class
+' CIOpenFileDialog class
 ' Exposes methods that initialize, show, and get results from the common open file dialog.
 ' ========================================================================================
-TYPE IOpenFileDialog
+TYPE CIOpenFileDialog
 
 Private:
    m_IFileOpenDialog AS IFileOpenDialog PTR             ' // Pointer to the IFileOpenDialog interface
@@ -90,12 +90,12 @@ END TYPE
 ' ========================================================================================
 ' Constructors
 ' ========================================================================================
-PRIVATE CONSTRUCTOR IOpenFileDialog
+PRIVATE CONSTRUCTOR CIOpenFileDialog
    ' // Initialize the COM library
    CoInitialize NULL
    ' // Create an instance of the FileOpenDialog interface
    DIM hr AS HRESULT = CoCreateInstance(@CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, @IID_IFileOpenDialog, @m_IFileOpenDialog)
-   OutputDebugStringW("IOpenFileDialog Default Constructor - hr: " & ..WSTR(hr))
+   OutputDebugStringW("CIOpenFileDialog Default Constructor - hr: " & ..WSTR(hr))
    SetLastError(hr)
 END CONSTRUCTOR
 ' ========================================================================================
@@ -103,8 +103,8 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' Destructor
 ' ========================================================================================
-PRIVATE DESTRUCTOR IOpenFileDialog
-   OutputDebugStringW("IOpenFileDialog.Destructor")
+PRIVATE DESTRUCTOR CIOpenFileDialog
+   OutputDebugStringW("CIOpenFileDialog.Destructor")
    ' // Removes an event handler that was attached through the Advise method.
    IF m_dwDlgEvtCookie THEN m_IFileOpenDialog->lpvtbl->Unadvise(m_IFileOpenDialog, m_dwDlgEvtCookie)
    ' // Release the IFileDialogEvents interface
@@ -119,7 +119,7 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Displays the open file dialog
 ' Usage example:
-' DIM pofd AS IOpenFileDialog = IOpenFileDialog(50, 50)
+' DIM pofd AS CIOpenFileDialog = CIOpenFileDialog(50, 50)
 ' // Set the file types
 ' pofd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
 ' pofd.AddFileType("Executable files", "*.exe;*.dll")
@@ -149,8 +149,8 @@ END DESTRUCTOR
 '    PRINT pofd.ParseResults(dwsRes, i)
 ' NEXT
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.ShowOpen (BYVAL hwndOwner AS HWND) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.ShowOpen")
+PRIVATE FUNCTION CIOpenFileDialog.ShowOpen (BYVAL hwndOwner AS HWND) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.ShowOpen")
    ' // Display the dialog
    RETURN m_IFileOpenDialog->lpvtbl->Show(m_IFileOpenDialog, hwndOwner)
 END FUNCTION
@@ -161,8 +161,8 @@ END FUNCTION
 ' This method must be called before the dialog is showing.
 ' The index is one-based.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetFileTypeIndex (BYVAL iFileType AS UINT) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetFileTypeIndex")
+PRIVATE FUNCTION CIOpenFileDialog.SetFileTypeIndex (BYVAL iFileType AS UINT) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetFileTypeIndex")
    RETURN m_IFileOpenDialog->lpvtbl->SetFileTypeIndex(m_IFileOpenDialog, iFileType)
 END FUNCTION
 ' ========================================================================================
@@ -170,8 +170,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the file type that appears as selected in the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetFileTypeIndex () AS UINT
-   OutputDebugStringW("IOpenFileDialog.GetFileTypeIndex")
+PRIVATE FUNCTION CIOpenFileDialog.GetFileTypeIndex () AS UINT
+   OutputDebugStringW("CIOpenFileDialog.GetFileTypeIndex")
    DIM iFileType AS UINT
    m_IFileOpenDialog->lpvtbl->GetFileTypeIndex(m_IFileOpenDialog, @iFileType)
    RETURN iFileType
@@ -181,12 +181,12 @@ END FUNCTION
 ' ========================================================================================
 ' Assigns an event handler that listens for events coming from the dialog.
 ' To set the events use:
-' DIM pofd AS IOpenFileDialog
+' DIM pofd AS CIOpenFileDialog
 ' DIM pfde AS ANY PTR = NEW CIFileDialogEvents
 ' pofd.Advise(pfde)
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.Advise")
+PRIVATE FUNCTION CIOpenFileDialog.Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.Advise")
    RETURN m_IFileOpenDialog->lpvtbl->Advise(m_IFileOpenDialog, pfde, @m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
@@ -194,8 +194,8 @@ END FUNCTION
 ' ========================================================================================
 ' Removes an event handler that was attached through the Advise method.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.Unadvise () AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.Unadvise")
+PRIVATE FUNCTION CIOpenFileDialog.Unadvise () AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.Unadvise")
    IF m_dwDlgEvtCookie THEN RETURN m_IFileOpenDialog->lpvtbl->Unadvise(m_IFileOpenDialog, m_dwDlgEvtCookie)
 END FUNCTION
 ' ========================================================================================
@@ -203,8 +203,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets flags to control the behavior of the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetOptions (BYVAL fos AS FILEOPENDIALOGOPTIONS) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetOptions")
+PRIVATE FUNCTION CIOpenFileDialog.SetOptions (BYVAL fos AS FILEOPENDIALOGOPTIONS) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetOptions")
    RETURN m_IFileOpenDialog->lpvtbl->SetOptions(m_IFileOpenDialog, fos)
 END FUNCTION
 ' ========================================================================================
@@ -212,8 +212,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the current flags that are set to control dialog behavior.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetOptions () AS FILEOPENDIALOGOPTIONS
-   OutputDebugStringW("IOpenFileDialog.GetOptions")
+PRIVATE FUNCTION CIOpenFileDialog.GetOptions () AS FILEOPENDIALOGOPTIONS
+   OutputDebugStringW("CIOpenFileDialog.GetOptions")
    DIM fos AS FILEOPENDIALOGOPTIONS
    SetLastError(m_IFileOpenDialog->lpvtbl->GetOptions(m_IFileOpenDialog, @fos))
    RETURN fos
@@ -223,8 +223,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the folder used as a default if there is not a recently used folder value available.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetDefaultFolder (BYVAL psi AS IShellItem PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetDefaultFolder")
+PRIVATE FUNCTION CIOpenFileDialog.SetDefaultFolder (BYVAL psi AS IShellItem PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetDefaultFolder")
    RETURN m_IFileOpenDialog->lpvtbl->SetDefaultFolder(m_IFileOpenDialog, psi)
 END FUNCTION
 ' ========================================================================================
@@ -232,8 +232,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets a folder that is always selected when the dialog is opened, regardless of previous user action.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetFolder (BYVAL pwszFolderName AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetFolder")
+PRIVATE FUNCTION CIOpenFileDialog.SetFolder (BYVAL pwszFolderName AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetFolder")
    DIM pFolder AS IShellItem PTR
    DIM hr AS HRESULT = SHCreateItemFromParsingName(pwszFolderName, NULL, @IID_IShellItem, @pFolder)
    IF hr <> S_OK THEN RETURN hr
@@ -247,8 +247,8 @@ END FUNCTION
 ' * Gets either the folder currently selected in the dialog, or, if the dialog is not currently
 ' displayed, the folder that is to be selected when the dialog is opened.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetFolder (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
-   OutputDebugStringW("IOpenFileDialog.GetFolder")
+PRIVATE FUNCTION CIOpenFileDialog.GetFolder (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+   OutputDebugStringW("CIOpenFileDialog.GetFolder")
    DIM psi AS IShellItem PTR, pwszName AS WSTRING PTR
    DIM hr AS HRESULT = m_IFileOpenDialog->lpvtbl->GetFolder(m_IFileOpenDialog, @psi)
    IF SUCCEEDED(hr) THEN
@@ -263,8 +263,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the folder used as a default if there is not a recently used folder value available.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetCurrentSelection (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
-   OutputDebugStringW("IOpenFileDialog.GetCurrentSelection")
+PRIVATE FUNCTION CIOpenFileDialog.GetCurrentSelection (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+   OutputDebugStringW("CIOpenFileDialog.GetCurrentSelection")
    DIM psi AS IShellItem PTR, pwszName AS WSTRING PTR
    DIM hr AS HRESULT = m_IFileOpenDialog->lpvtbl->GetCurrentSelection(m_IFileOpenDialog, @psi)
    IF SUCCEEDED(hr) THEN
@@ -279,8 +279,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the file name that appears in the File name edit box when that dialog box is opened.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetFileName (BYVAL pwszName AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetFileName")
+PRIVATE FUNCTION CIOpenFileDialog.SetFileName (BYVAL pwszName AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetFileName")
    RETURN m_IFileOpenDialog->lpvtbl->SetFileName(m_IFileOpenDialog, pwszName)
 END FUNCTION
 ' ========================================================================================
@@ -288,8 +288,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Retrieves the text currently entered in the dialog's File name edit box.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetFileName () AS DWSTRING
-   OutputDebugStringW("IOpenFileDialog.GetFileName")
+PRIVATE FUNCTION CIOpenFileDialog.GetFileName () AS DWSTRING
+   OutputDebugStringW("CIOpenFileDialog.GetFileName")
    DIM pwszName AS WSTRING PTR
    SetLastError(m_IFileOpenDialog->lpvtbl->GetFileName(m_IFileOpenDialog, @pwszName))
    RETURN pwszName
@@ -299,8 +299,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the title of the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetTitle (BYVAL pwszTitle AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetTitle")
+PRIVATE FUNCTION CIOpenFileDialog.SetTitle (BYVAL pwszTitle AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetTitle")
    RETURN m_IFileOpenDialog->lpvtbl->SetTitle(m_IFileOpenDialog, pwszTitle)
 END FUNCTION
 ' ========================================================================================
@@ -308,8 +308,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the text of the Open or Save button.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetOkButtonLabel (BYVAL pwszText AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetOkButtonLabel")
+PRIVATE FUNCTION CIOpenFileDialog.SetOkButtonLabel (BYVAL pwszText AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetOkButtonLabel")
    RETURN m_IFileOpenDialog->lpvtbl->SetOkButtonLabel(m_IFileOpenDialog, pwszText)
 END FUNCTION
 ' ========================================================================================
@@ -317,8 +317,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Sets the text of the label next to the file name edit box.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetFileNameLabel (BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetFileNameLabel")
+PRIVATE FUNCTION CIOpenFileDialog.SetFileNameLabel (BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetFileNameLabel")
    RETURN m_IFileOpenDialog->lpvtbl->SetFileNameLabel(m_IFileOpenDialog, pwszLabel)
 END FUNCTION
 ' ========================================================================================
@@ -326,8 +326,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the choice that the user made in the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetResult (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
-   OutputDebugStringW("IOpenFileDialog.GetResult")
+PRIVATE FUNCTION CIOpenFileDialog.GetResult (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+   OutputDebugStringW("CIOpenFileDialog.GetResult")
    DIM psi AS IShellItem PTR
    DIM pwszName AS WSTRING PTR
    DIM hr As HRESULT = m_IFileOpenDialog->lpvtbl->GetResult(m_IFileOpenDialog, @psi)
@@ -343,8 +343,8 @@ END FUNCTION
 ' ========================================================================================
 ' Adds a folder to the list of places available for the user to open or save items.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.AddPlace")
+PRIVATE FUNCTION CIOpenFileDialog.AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.AddPlace")
    RETURN m_IFileOpenDialog->lpvtbl->AddPlace(m_IFileOpenDialog, psi, fdap)
 END FUNCTION
 ' ========================================================================================
@@ -352,8 +352,8 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the default extension to be added to file names.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetDefaultExtension (BYVAL pwszDefaultExtension AS WSTRING PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetDefaultExtension")
+PRIVATE FUNCTION CIOpenFileDialog.SetDefaultExtension (BYVAL pwszDefaultExtension AS WSTRING PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetDefaultExtension")
    RETURN m_IFileOpenDialog->lpvtbl->SetDefaultExtension(m_IFileOpenDialog, pwszDefaultExtension)
 END FUNCTION
 ' ========================================================================================
@@ -361,8 +361,8 @@ END FUNCTION
 ' ========================================================================================
 ' Closes the dialog.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.Close (BYVAL hr AS HRESULT) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.Close")
+PRIVATE FUNCTION CIOpenFileDialog.Close (BYVAL hr AS HRESULT) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.Close")
    RETURN m_IFileOpenDialog->lpvtbl->Close(m_IFileOpenDialog, hr)
 END FUNCTION
 ' ========================================================================================
@@ -370,8 +370,8 @@ END FUNCTION
 ' ========================================================================================
 ' Enables a calling application to associate a GUID with a dialog's persisted state.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetClientGuid (BYVAL guid AS GUID PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetClientGuid")
+PRIVATE FUNCTION CIOpenFileDialog.SetClientGuid (BYVAL guid AS GUID PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetClientGuid")
    RETURN m_IFileOpenDialog->lpvtbl->SetClientGuid(m_IFileOpenDialog, guid)
 END FUNCTION
 ' ========================================================================================
@@ -379,15 +379,15 @@ END FUNCTION
 ' ========================================================================================
 ' Instructs the dialog to clear all persisted state information.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.ClearClientData () AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.ClearClientData")
+PRIVATE FUNCTION CIOpenFileDialog.ClearClientData () AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.ClearClientData")
    RETURN m_IFileOpenDialog->lpvtbl->ClearClientData(m_IFileOpenDialog)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' * Gets the files selected.
-'   DIM pofd AS IOpenFileDialog
+'   DIM pofd AS CIOpenFileDialog
 '   ' // Set the file types
 '   pofd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
 '   pofd.AddFileType("Executable files", "*.exe;*.dll")
@@ -437,8 +437,8 @@ END FUNCTION
 '      pItems->lpVtbl->Release(pItems)
 '   END IF
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetResults () AS IShellItemArray PTR
-   OutputDebugStringW("IOpenFileDialog.GetResults")
+PRIVATE FUNCTION CIOpenFileDialog.GetResults () AS IShellItemArray PTR
+   OutputDebugStringW("CIOpenFileDialog.GetResults")
    DIM psai AS IShellItemArray PTR
    SetLastError(m_IFileOpenDialog->lpvtbl->GetResults(m_IFileOpenDialog, @psai))
    RETURN psai
@@ -447,8 +447,8 @@ END FUNCTION
 ' ========================================================================================
 ' * Gets the files selected and returns then in a comma separated string.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetResultsString (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
-   OutputDebugStringW("IOpenFileDialog.GetResultsString")
+PRIVATE FUNCTION CIOpenFileDialog.GetResultsString (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+   OutputDebugStringW("CIOpenFileDialog.GetResultsString")
    DIM pItems AS IShellItemArray PTR
    DIM hr AS HRESULT = m_IFileOpenDialog->lpvtbl->GetResults(m_IFileOpenDialog, @pItems)
    IF hr <> S_OK THEN RETURN ""
@@ -481,8 +481,8 @@ END FUNCTION
 ' Gets the currently selected items in the dialog. These items may be items selected in
 ' the view, or text selected in the file name edit box.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetSelectedItems () AS IShellItemArray PTR
-   OutputDebugStringW("IOpenFileDialog.GetSelectedItems")
+PRIVATE FUNCTION CIOpenFileDialog.GetSelectedItems () AS IShellItemArray PTR
+   OutputDebugStringW("CIOpenFileDialog.GetSelectedItems")
    DIM psai AS IShellItemArray PTR
    SetLastError(m_IFileOpenDialog->lpvtbl->GetSelectedItems(m_IFileOpenDialog, @psai))
    RETURN psai
@@ -497,8 +497,8 @@ END FUNCTION
 '   pofd.AddFileType("All files", "*.*")
 '   pofd.SetFileTypes()
 ' =====================================================================================
-PRIVATE SUB IOpenFileDialog.AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
-   OutputDebugStringW("IOpenFileDialog.AddFileType")
+PRIVATE SUB CIOpenFileDialog.AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
+   OutputDebugStringW("CIOpenFileDialog.AddFileType")
    REDIM PRESERVE m_rgFilterSpec(UBOUND(m_rgFilterSpec) + 1) AS COMDLG_FILTERSPEC
    m_rgFilterSpec(UBOUND(m_rgFilterSpec)).pszName = pwszName
    m_rgFilterSpec(UBOUND(m_rgFilterSpec)).pszSpec = pwszSpec
@@ -509,8 +509,8 @@ END SUB
 ' * Sets the file types that the dialog can open or save.
 ' This overloaded function uses the m_rgFilterSpec array to set the file types.
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetFileTypes () AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetFileTypes - individual")
+PRIVATE FUNCTION CIOpenFileDialog.SetFileTypes () AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetFileTypes - individual")
    DIM cFileTypes AS LONG = UBOUND(m_rgFilterSpec) - LBOUND(m_rgFilterSpec) + 1
    IF cFileTYpes = 0 THEN RETURN E_UNEXPECTED
    RETURN m_IFileOpenDialog->lpvtbl->SetFileTypes(m_IFileOpenDialog, cFileTypes, @m_rgFilterSpec(0))
@@ -529,8 +529,8 @@ END FUNCTION
 '   rgFileTypes(3).pszSpec = @WSTR("*.*")
 '   pofd.SetFileTypes(3, @rgFileTypes(1))
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.SetFileTypes (BYVAL cFileTypes AS UINT, BYVAL rgFilterSpec AS COMDLG_FILTERSPEC PTR) AS HRESULT
-   OutputDebugStringW("IOpenFileDialog.SetFileTypes - array")
+PRIVATE FUNCTION CIOpenFileDialog.SetFileTypes (BYVAL cFileTypes AS UINT, BYVAL rgFilterSpec AS COMDLG_FILTERSPEC PTR) AS HRESULT
+   OutputDebugStringW("CIOpenFileDialog.SetFileTypes - array")
    RETURN m_IFileOpenDialog->lpvtbl->SetFileTypes(m_IFileOpenDialog, cFileTypes, rgFilterSpec)
 END FUNCTION
 ' ========================================================================================
@@ -538,13 +538,13 @@ END FUNCTION
 ' ========================================================================================
 ' Returns the number of files selected
 ' Usage example:
-' DIM pofd AS IOpenFileDialog
+' DIM pofd AS CIOpenFileDialog
 ' ...
 ' DIM dwsRes AS DWSTRING = pofd.GetResultsString
 ' DIM nCount AS LONG = podf.GetResultsCount
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.GetResultsCount () AS LONG
-   OutputDebugStringW("IOpenFileDialog.GetResultsCount")
+PRIVATE FUNCTION CIOpenFileDialog.GetResultsCount () AS LONG
+   OutputDebugStringW("CIOpenFileDialog.GetResultsCount")
    DIM pItems AS IShellItemArray PTR
    DIM dwItemCount AS LONG
    SetLastError(m_IFileOpenDialog->lpvtbl->GetResults(m_IFileOpenDialog, @pItems))
@@ -559,14 +559,14 @@ END FUNCTION
 ' ========================================================================================
 ' Parses the results.
 ' Usage example:
-' DIM pofd AS IOpenFileDialog
+' DIM pofd AS CIOpenFileDialog
 ' ...
 ' DIM dwsRes AS DWSTRING = pofd.GetResultsString
 ' FOR i AS LONG = 1 TO pofd.GetResultsCount
 '    PRINT pofd.ParseResults(dwsRes, i)
 ' NEXT
 ' ========================================================================================
-PRIVATE FUNCTION IOpenFileDialog.ParseResults (BYREF wszMainStr AS CONST WSTRING, BYVAL index AS LONG) AS DWSTRING
+PRIVATE FUNCTION CIOpenFileDialog.ParseResults (BYREF wszMainStr AS CONST WSTRING, BYVAL index AS LONG) AS DWSTRING
    DIM dws AS DWSTRING = ""
    IF index < 0 THEN RETURN dws
    DIM nCount AS LONG, nStart AS LONG
