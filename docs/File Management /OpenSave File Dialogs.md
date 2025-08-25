@@ -8,6 +8,21 @@
 
 ---
 
+## Constructors (OpenFileDialog/SaveFileDialog)
+
+| Name       | Description |
+| ---------- | ----------- |
+| Constructor (OpenFileDialog) | Creates a dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened. |
+| Constructor (SaveFileDialog) | Creates a dialog box that lets the user specify the drive, directory, and name of a file to save. |
+
+#### Usage
+
+```
+DIM pofd AS OpenFileDialog
+DIM psfd AS SaveFileDialog
+```
+---
+
 ## Properties
 
 | Name       | Description |
