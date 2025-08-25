@@ -99,7 +99,7 @@ FUNCTION OnOverwrite (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR,
 **FDE_OVERWRITE_RESPONSE enumeration**
 
 | Flag  | Value | Description |
-| ----- | ----------- |
+| ----- | ----- | ----------- |
 | **FDEOR_DEFAULT** | 0 | The application has not handled the event. The dialog displays a UI asking the user whether the file should be overwritten and returned from the dialog. |
 | **FDEOR_ACCEPT** | 1 | The application has determined that the file should be returned from the dialog. |
 | **FDEOR_REFUSE** | 2 | The application has determined that the file should not be returned from the dialog. |
