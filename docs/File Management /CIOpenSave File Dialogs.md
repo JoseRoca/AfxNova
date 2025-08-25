@@ -53,7 +53,7 @@ pofd.SetFileTypeIndex(1)
 
 ' // Set events
 DIM pfde AS ANY PTR = NEW CIFileDialogEvents
-pofd.Advise(pfde)
+pofd.SetEvents(pfde)
 
 ' // Display the dialog
 ' // change hwnd for your parent window
@@ -98,7 +98,7 @@ psfd.SetFileTypeIndex(1)
 ' // Set events
 ' // Set events
 DIM pfde AS ANY PTR = NEW CIFileDialogEvents
-psfd.Advise(pfde)
+psfd.SetEvents(pfde)
 
 ' // Display the dialog
 ' // change hwnd for your parent window
@@ -119,6 +119,7 @@ END IF
 | Name       | Description |
 | ---------- | ----------- |
 | [AddFileType](#addfiletype) | Adds a file type and pattern to the table. |
+| [SetEvents](#setevents) | Assigns an event handler that listens for events coming from the dialog. |
 | [ShowOpen](#showopen) | Displays the open file dialog. |
 | [ShowSave](#showsave) | Displays the save file dialog. |
 
@@ -149,7 +150,86 @@ END IF
 | [SetOkButtonLabel](#setokBbttonlabel) | Sets the text of the Open or Save button. |
 | [SetOptions](#setoptions) | Sets flags to control the behavior of the dialog. |
 | [SetTitle](#settitle) | Sets the title of the dialog. |
-| [Unadvise](#unadvise) | Removes an event handler that was attached through the IFileDialog::Advise method. |
+| [Unadvise](#unadvise) | Removes an event handler that was attached through the **Advise** method. |
+
+---
+
+## AddFileType
+
+Adds a file type and pattern to the table.
+
+```
+FUNCTION AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfpwszNamede* | The name of the filter. |
+| *pwszSpec* | A semi-comma separated list of file types. |
+
+Usage example:
+
+```
+DIM pofd AS CIOpenFileDialog = CIOpenFileDialog(50, 50)
+// Set the file types
+pofd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
+pofd.AddFileType("Executable files", "*.exe;*.dll")
+pofd.AddFileType("All files", "*.*")
+pofd.SetFileTypes()
+```
+---
+
+## SetEvents
+
+Assigns an event handler that listens for events coming from the dialog.
+
+```
+FUNCTION SetEvents (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfde* | A pointer to an **IFileDialogEvents** implementation that will receive events from the dialog. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
+## ShowOpem
+
+Displays the Open File Dialog.
+
+```
+FUNCTION ShowOpen (BYVAL hwndOwner AS HWND) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwndOwner* | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
+## ShowSave
+
+Displays the Save File Dialog.
+
+```
+FUNCTION ShowSave (BYVAL hwndOwner AS HWND) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwndOwner* | A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
 
 ---
 
@@ -180,7 +260,7 @@ FUNCTION AddPlace (BYVAL psi AS IShellItem PTR, BYVAL fdap AS FDAP) AS HRESULT
 Assigns an event handler that listens for events coming from the dialog.
 
 ```
-FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
+FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS DWORD
 ```
 
 | Parameter  | Description |
@@ -189,14 +269,8 @@ FUNCTION Advise (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
 
 #### Return value
 
-If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+A value identifying this event handler. When the client is finished with the dialog, that client must call the **Unadvise** method with this value.
 
-#### Usage example:
-
-```
-DIM pfde AS ANY PTR = NEW CIFileDialogEvents
-pofd.Advise(pfde)
-```
 ---
 
 ## ClearClientData 
@@ -666,18 +740,18 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 
 ## Unadvise
 
-Removes an event handler that was attached through the Advise method.
+Removes an event handler that was attached through the **Advise** method.
 
 ```
-FUNCTION Unadvise () AS HRESULT
+FUNCTION Unadvise BYVAL dwCookie AS DWORD() AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwCookie* | The DWORD value that represents the event handler. This value is obtained through a call to the **Advise** method. |
 
 #### Return value
 
 If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
-
-#### Remarks
-
-If the events have been set using the **Advise** method, the classes unadvise them when they are destroyed.
 
 ---
