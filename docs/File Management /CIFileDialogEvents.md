@@ -52,10 +52,63 @@ FUNCTION OnFolderChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
 | ---------- | ----------- |
 | *pfd* | A pointer to the interface that represents the dialog. |
 
-Implementations should return **S_OK** to indicate success or an **HRESULT** error code.
+#### Return value
+
+Returns **S_OK** if successful, or an error value otherwise.
 
 #### Remarks
 
 **OnFolderChange** is called when the dialog is opened.
 
 ---
+
+## OnFolderChanging
+
+Called before **OnFolderChange**. This allows the implementer to stop navigation to a particular location.
+
+```
+FUNCTION OnFolderChanging (BYVAL pfd AS IFileDialog PTR, BYVAL psiFolder AS IShellItem PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfd* | A pointer to the interface that represents the dialog. |
+| *psiFolder* | A pointer to an interface that represents the folder to which the dialog is about to navigate. |
+
+#### Return value
+
+Returns **S_OK** if successful, or an error value otherwise. A return value of **S_OK** or **E_NOTIMPL** indicates that the folder change can proceed.
+
+---
+
+## OnOverwrite
+
+Called from the save dialog when the user chooses to overwrite a file.
+
+```
+FUNCTION OnOverwrite (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR, _
+   BYVAL pResponse AS FDE_OVERWRITE_RESPONSE PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfd* | A pointer to the interface that represents the dialog. |
+| *psi* | A pointer to the interface that represents the item that will be overwritten. |
+| *pResponse* | A pointer to a value from the FDE_OVERWRITE_RESPONSE enumeration indicating the response to the potential overwrite action. |
+
+| Flag  | Value | Description |
+| ----- | ----------- |
+| **FDEOR_DEFAULT** | 0 | The application has not handled the event. The dialog displays a UI asking the user whether the file should be overwritten and returned from the dialog. |
+| **FDEOR_ACCEPT** | 1 | The application has determined that the file should be returned from the dialog. |
+| **FDEOR_REFUSE** | 2 | The application has determined that the file should not be returned from the dialog. |
+
+#### Return value
+
+The implementer should return **E_NOTIMPL** if this method is not implemented; **S_OK** or an appropriate error code otherwise.
+
+#### Remarks
+
+The **FOS_OVERWRITEPROMPT** flag must be set through **IFileDialog.SetOptions** before this method is called.
+
+---
+
