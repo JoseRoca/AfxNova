@@ -94,7 +94,9 @@ FUNCTION OnOverwrite (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR,
 | ---------- | ----------- |
 | *pfd* | A pointer to the interface that represents the dialog. |
 | *psi* | A pointer to the interface that represents the item that will be overwritten. |
-| *pResponse* | A pointer to a value from the FDE_OVERWRITE_RESPONSE enumeration indicating the response to the potential overwrite action. |
+| *pResponse* | A pointer to a value from the **FDE_OVERWRITE_RESPONSE** enumeration indicating the response to the potential overwrite action. |
+
+**FDE_OVERWRITE_RESPONSE enumeration**
 
 | Flag  | Value | Description |
 | ----- | ----------- |
@@ -109,6 +111,59 @@ The implementer should return **E_NOTIMPL** if this method is not implemented; *
 #### Remarks
 
 The **FOS_OVERWRITEPROMPT** flag must be set through **IFileDialog.SetOptions** before this method is called.
+
+---
+
+## OnSelectionChange
+
+Called when the user changes the selection in the dialog's view.
+
+```
+FUNCTION OnSelectionChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfd* | A pointer to the interface that represents the dialog. |
+
+#### Return value
+
+If this method succeeds, it returns **S_OK**. Otherwise, it returns an **HRESULT** error code.
+
+---
+
+## OnShareViolation
+
+Enables an application to respond to sharing violations that arise from Open or Save operations.
+
+```
+FUNCTION OnShareViolation (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR, _
+   BYVAL pResponse AS FDE_SHAREVIOLATION_RESPONSE PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfd* | A pointer to the interface that represents the dialog. |
+| *psi* | A pointer to the interface that represents the item that has the sharing violation. |
+| *pResponse* | A pointer to a value from the **FDE_SHAREVIOLATION_RESPONSE** enumeration indicating the response to the sharing violation. |
+
+**FDE_SHAREVIOLATION_RESPONSE enumeration**
+
+| Flag  | Value | Description |
+| ----- | ----------- |
+| **FDESVR_DEFAULT** | 0 | The application has not handled the event. The dialog displays a UI that indicates that the file is in use and a different file must be chosen. |
+| **FDESVR_ACCEPT** | 1 | The application has determined that the file should be returned from the dialog. |
+| **FDESVR_REFUSE** | 2 | The application has determined that the file should not be returned from the dialog. |
+
+#### Return value
+
+The implementer should return **E_NOTIMPL** if this method is not implemented;** S_OK** or an appropriate error code otherwise.
+
+#### Remarks
+
+The **FOS_SHAREAWARE** flag must be set through **IFileDialog.SetOptions** before this method is called.
+
+A sharing violation could possibly arise when the application attempts to open a file, because the file could have been locked between the time that the dialog tested it and the application opened it.
 
 ---
 
