@@ -1,8 +1,8 @@
-# IOpenFileDialog / IOpenFileDialog
+# CIOpenFileDialog / CISaveFileDialog
 
-'IOpenFileDialog`Wraps the **IFileOpenDialog** interface. Extends the **IFileDialog** interface by adding methods specific to the open dialog.
+'CIOpenFileDialog`Wraps the **IFileOpenDialog** interface. Extends the **IFileDialog** interface by adding methods specific to the open dialog.
 
-`IOpenFileDialog`Wraps the **IFileSaveDialog** interface. Extends the **IFileDialog** interface by adding methods specific to the save dialog, which include those that provide support for the collection of metadata to be persisted with the file.
+`CIOpenFileDialog`Wraps the **IFileSaveDialog** interface. Extends the **IFileDialog** interface by adding methods specific to the save dialog, which include those that provide support for the collection of metadata to be persisted with the file.
 
 Both also wrap the **IFileDialogEvents** interface, which exposes methods that allow notification of events within a common file dialog, and the **IFileDialogCustomize** interface, which exposes methods that allow an application to add controls to a common file dialog.
 
@@ -10,22 +10,22 @@ Both also wrap the **IFileDialogEvents** interface, which exposes methods that a
 
 ---
 
-## Constructors (IOpenFileDialog/ISaveFileDialog)
+## Constructors (CIOpenFileDialog/CISaveFileDialog)
 
 | Name       | Description |
 | ---------- | ----------- |
-| Constructor (IOpenFileDialog) | Creates a dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened. |
-| Constructor (ISaveFileDialog) | Creates a dialog box that lets the user specify the drive, directory, and name of a file to save. |
+| Constructor (CIOpenFileDialog) | Creates a dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened. |
+| Constructor (CISaveFileDialog) | Creates a dialog box that lets the user specify the drive, directory, and name of a file to save. |
 
 #### Usage
 
 ```
-DIM pofd AS IOpenFileDialog
-DIM psfd AS ISaveFileDialog
+DIM pofd AS CIOpenFileDialog
+DIM psfd AS CISaveFileDialog
 ```
 ---
 
-## Methods of the IOpenFileDialog and ISaveFileDialog classes
+## Methods of the CIOpenFileDialog and CISaveFileDialog classes
 
 | Name       | Description |
 | ---------- | ----------- |
