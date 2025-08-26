@@ -1,6 +1,6 @@
 # CIFileDialogCustomize Class
 
-Wraps the `IFileDialogCustomize`interface, thet exposes methods that allow an application to add controls to a common file dialog.
+Wraps the `IFileDialogCustomize`interface, that exposes methods that allow an application to add controls to a common file dialog.
 
 Include file: AfxNova/CIFileDialogCustomize.inc
 
