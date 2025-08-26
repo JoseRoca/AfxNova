@@ -316,6 +316,28 @@ Gets the current state of an item in a container control found in the dialog.
 ```
 FUNCTION GetControlItemState (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD, BYREF dwState AS CDCONTROLSTATEF) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the container control. |
+| *dwIDCtl* | The ID of the item. |
+
+#### Return value
+
+A member of the **CDCONTROLSTATE** enumeration that indicates the current state of the control.
+
+| Constant  | Description |
+| --------- | ----------- |
+| **CDCS_INACTIVE** | The control is inactive and cannot be accessed by the user. |
+| **CDCS_ENABLED** | The control is active. |
+| **CDCS_VISIBLE** | The control is visible. The absence of this value indicates that the control is hidden. |
+| **CDCS_ENABLEDVISIBLE** | Windows 7 and later. The control is visible and enabled. |
+
+#### Remarks
+
+The default state of a control item is enabled and visible. Items in control groups cannot be changed after they have been created, with the exception of their enabled and visible states.
+
+Container controls include option button groups, combo boxes, drop-down lists on the Open or Save button, and menus.
+
 ---
 
 ## GetControlState
@@ -325,6 +347,21 @@ Gets the current visibility and enabled states of a given control.
 ```
 FUNCTION GetControlState (BYVAL dwIDCtl AS DWORD) AS CDCONTROLSTATEF
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the container control. |
+
+#### Return value
+
+A member of the **CDCONTROLSTATE** enumeration that indicates the current state of the control.
+
+| Constant  | Description |
+| --------- | ----------- |
+| **CDCS_INACTIVE** | The control is inactive and cannot be accessed by the user. |
+| **CDCS_ENABLED** | The control is active. |
+| **CDCS_VISIBLE** | The control is visible. The absence of this value indicates that the control is hidden. |
+| **CDCS_ENABLEDVISIBLE** | Windows 7 and later. The control is visible and enabled. |
+
 ---
 
 ## GetEditBoxText
