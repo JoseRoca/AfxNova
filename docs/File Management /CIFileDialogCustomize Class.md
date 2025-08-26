@@ -218,8 +218,20 @@ The default state for this control is enabled and visible.
 Adds a separator to the dialog, allowing a visual separation of controls.
 
 ```
-FUNCTION AddRadioButtonList (BYVAL dwIDCtl AS DWORD) AS HRESULT
+AddSeparator (BYVAL dwIDCtl AS DWORD) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The control ID of the separator. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
 ---
 
 ## AddText
@@ -229,6 +241,19 @@ Adds text content to the dialog.
 ```
 FUNCTION AddText (BYVAL dwIDCtl AS DWORD, BYVAL pwszText AS WSTRING PTR) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the text to add. |
+| *pwszText* | A pointer to a buffer that contains the text as a null-terminated Unicode string. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
 ---
 
 ## EnableOpenDropDown
@@ -238,6 +263,20 @@ Enables a drop-down list on the Open or Save button in the dialog.
 ```
 FUNCTION EnableOpenDropDown (BYVAL dwIDCtl AS DWORD) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the drop-down list. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The Open or Save button label takes on the text of the first item in the drop-down. This overrides any label set by IFileDialog::SetOkButtonLabel.
+
+Use **AddControlItem** to add items to the drop-down.
+
 ---
 
 ## EndVisualGroup
@@ -247,6 +286,10 @@ Stops the addition of elements to a visual group in the dialog.
 ```
 FUNCTION EndVisualGroup () AS HRESULT
 ```
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
 ---
 
 ## GetCheckButtonState
@@ -256,6 +299,14 @@ Gets the current state of a check button (check box) in the dialog.
 ```
 FUNCTION GetCheckButtonState (BYVAL dwIDCtl AS DWORD) AS BOOLEAN
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the check box. |
+
+#### Return value
+
+TRUE means checked; FALSE, unchecked.
+
 ---
 
 ## GetControlItemState
