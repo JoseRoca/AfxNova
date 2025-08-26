@@ -549,6 +549,26 @@ Sets the current visibility and enabled states of a given control.
 ```
 FUNCTION SetControlState (BYVAL dwIDCtl AS DWORD, BYVAL dwState AS CDCONTROLSTATEF) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the control. |
+| *dwState* | One or more values from the **CDCONTROLSTATE** enumeration that indicate the current state of the control. |
+
+| Constant  | Description |
+| --------- | ----------- |
+| **CDCS_INACTIVE** | The control is inactive and cannot be accessed by the user. |
+| **CDCS_ENABLED** | The control is active. |
+| **CDCS_VISIBLE** | The control is visible. The absence of this value indicates that the control is hidden. |
+| **CDCS_ENABLEDVISIBLE** | Windows 7 and later. The control is visible and enabled. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+When the dialog is shown, controls cannot be added or removed, but the existing controls can be hidden or disabled at any time.
+
 ---
 
 ## SetEditBoxText
@@ -558,6 +578,15 @@ Sets the text in an edit box control found in the dialog.
 ```
 FUNCTION SetEditBoxText (BYVAL dwIDCtl AS DWORD, BYVAL pwszText AS WSTRING PTR) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the edit box. |
+| *pwszText* | A pointer to a buffer that contains the text as a null-terminated Unicode string. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
 ---
 
 ## SetSelectedControlItem
@@ -567,6 +596,15 @@ Sets the selected state of a particular item in an option button group or a comb
 ```
 FUNCTION SetSelectedControlItem (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the container control. |
+| *dwIDItem* | The ID of the item to display as selected in the control. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
 ---
 
 ## StartVisualGroup
@@ -576,4 +614,19 @@ Declares a visual group in the dialog. Subsequent calls to any "add" method add 
 ```
 FUNCTION StartVisualGroup (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the visual group. |
+| *pwszLabel* | A pointer to a buffer that contains text, as a null-terminated Unicode string, that appears next to the visual group. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+Controls will continue to be added to this visual group until you call **EndVisualGroup**.
+
+A visual group can be hidden and disabled like any other control, except that doing so affects all of the controls within it. Individual members of the visual group can also be hidden and disabled singly.
+
 ---
