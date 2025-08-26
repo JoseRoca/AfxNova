@@ -452,6 +452,15 @@ Sets the state of a check button (check box) in the dialog.
 ```
 FUNCTION SetCheckButtonState (BYVAL dwIDCtl AS DWORD, BYVAL bCkecked AS BOOLEAN) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the check box. |
+| *bCkecked* | A BOOEANL value that indicates whether the box is checked. TRUE means checked; FALSE, unchecked. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
 ---
 
 ## SetControlItemState
