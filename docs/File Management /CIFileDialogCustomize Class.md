@@ -51,3 +51,165 @@ CONSTRUCTOR (BYVAL pIFileDialog AS IFileDialog PTR)
 | [StartVisualGroup](#startvisualgroup) | Declares a visual group in the dialog. Subsequent calls to any "add" method add those elements to this group. |
 
 ---
+
+## AddCheckButton
+
+Adds a check button (check box) to the dialog.
+
+---
+
+## AddComboBox
+
+Adds a combo box to the dialog.
+
+---
+
+## AddControlItem
+
+Adds an item to a container control in the dialog.
+
+---
+
+## AddEditBox
+
+Adds an edit box control to the dialog.
+
+---
+
+## AddMenu
+
+Adds a menu to the dialog.
+
+---
+
+## AddPushButton
+
+Adds a button to the dialog.
+
+---
+
+## AddRadioButtonList
+
+Adds an option button (also known as radio button) group to the dialog.
+
+---
+
+## AddSeparator
+
+Adds a separator to the dialog, allowing a visual separation of controls.
+
+---
+
+## AddText
+
+Adds text content to the dialog.
+
+---
+
+## EnableOpenDropDown
+
+Enables a drop-down list on the Open or Save button in the dialog.
+
+---
+
+## EndVisualGroup
+
+Stops the addition of elements to a visual group in the dialog.
+
+---
+
+## GetCheckButtonState
+
+Gets the current state of a check button (check box) in the dialog.
+
+---
+
+## GetControlItemState
+
+Gets the current state of an item in a container control found in the dialog.
+
+---
+
+## GetControlState
+
+Gets the current visibility and enabled states of a given control.
+
+---
+
+## GetEditBoxText
+
+Gets the current text in an edit box control.
+
+---
+
+## GetSelectedControlItem
+
+Gets a particular item from specified container controls in the dialog.
+
+---
+
+## MakeProminent
+
+Places a control in the dialog so that it stands out compared to other added controls.
+
+---
+
+## RemoveAllControlItems
+
+Not implemented. (IFileDialogCustomize.RemoveAllControlItems)
+
+---
+
+## RemoveControlItem
+
+Removes an item from a container control in the dialog.
+
+---
+
+## SetCheckButtonState
+
+Sets the state of a check button (check box) in the dialog.
+
+---
+
+## SetControlItemState
+
+Sets the current state of an item in a container control found in the dialog.
+
+---
+
+## SetControlItemText
+
+Sets the text of a control item. For example, the text that accompanies a radio button or an item in a menu.
+
+---
+
+## SetControlLabel
+
+Sets the text associated with a control, such as button text or an edit box label.
+
+---
+
+## SetControlState
+
+Sets the current visibility and enabled states of a given control.
+
+---
+
+## SetEditBoxText
+
+Sets the text in an edit box control found in the dialog.
+
+---
+
+## SetSelectedControlItem
+
+Sets the selected state of a particular item in an option button group or a combo box found in the dialog.
+
+---
+
+## StartVisualGroup
+
+Declares a visual group in the dialog. Subsequent calls to any "add" method add those elements to this group.
+
+---
