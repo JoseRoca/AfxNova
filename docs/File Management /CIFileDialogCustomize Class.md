@@ -371,6 +371,14 @@ Gets the current text in an edit box control.
 ```
 FUNCTION GetEditBoxText (BYVAL dwIDCtl AS DWORD) AS DWSTRING
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the edit box. |
+
+#### Return value
+
+The text of the edit box control.
+
 ---
 
 ## GetSelectedControlItem
@@ -380,6 +388,14 @@ Gets a particular item from specified container controls in the dialog.
 ```
 FUNCTION GetSelectedControlItem (BYVAL dwIDCtl AS DWORD) AS DWSTRING
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the container control. |
+
+#### Return value
+
+The ID of the item that the user selected in the control.
+
 ---
 
 ## MakeProminent
@@ -389,6 +405,22 @@ Places a control in the dialog so that it stands out compared to other added con
 ```
 FUNCTION MakeProminent (BYVAL dwIDCtl AS DWORD) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the control. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+This method causes the control to be placed near the Open or Save button instead of being grouped with the rest of the custom controls.
+
+Only check buttons (check boxes), push buttons, combo boxes, and menus—or a visual group that contains only a single item of one of those types—can be made prominent.
+
+Only one control can be marked in this way. If a dialog has only one added control, that control is marked as prominent by default.
+
 ---
 
 ## RemoveControlItem
@@ -398,6 +430,19 @@ Removes an item from a container control in the dialog.
 ```
 FUNCTION RemoveControlItem (BYVAL dwIDCtl AS DWORD, BYVAL dwItem AS DWORD) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the container control from which the item is to be removed. |
+| *dwItem* | The ID of the item. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+Container controls include option button groups, combo boxes, drop-down lists on the Open or Save button, and menus.
+
 ---
 
 ## SetCheckButtonState
