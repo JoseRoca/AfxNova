@@ -119,6 +119,8 @@ END IF
 | Name       | Description |
 | ---------- | ----------- |
 | [AddFileType](#addfiletype) | Adds a file type and pattern to the table. |
+| [GetPtr](#getptr) | Returns the underlying **IFileOpenDialog** interface pointer. |
+| [GetIFileDialogPtr](#getifiledialogptr) | Returns the underlying **IFileDialog** interface pointer. |
 | [SetEvents](#setevents) | Assigns an event handler that listens for events coming from the dialog. |
 | [ShowOpen](#showopen) | Displays the open file dialog. |
 | [ShowSave](#showsave) | Displays the save file dialog. |
@@ -177,6 +179,34 @@ pofd.AddFileType("Executable files", "*.exe;*.dll")
 pofd.AddFileType("All files", "*.*")
 pofd.SetFileTypes()
 ```
+---
+
+## GetPtr
+
+Returns the underlying **IFileOpenDialog** interface pointer.
+
+```
+FUNCTION CISaveFileDialog.GetPtr () AS IFileSaveDialog PTR
+```
+
+#### Remarks
+
+Don't release the returned pointer.
+
+---
+
+## GetIFileDialogPtr
+
+Returns the underlying **IFileDialog** interface pointer.
+
+```
+FUNCTION CISaveFileDialog.GetIFileDialogPtr () AS IFileDialog PTR
+```
+
+#### Remarks
+
+The returned pointer must be released with the **Release** method of the **IFileDialog** interface when no longer needed.
+
 ---
 
 ## SetEvents
