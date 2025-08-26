@@ -57,8 +57,23 @@ CONSTRUCTOR (BYVAL pIFileDialog AS IFileDialog PTR)
 Adds a check button (check box) to the dialog.
 
 ```
-FUNCTION AddCheckButton (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR, BYVAL bChecked AS BOOLEAN = FALSE) AS HRESULT
+FUNCTION AddCheckButton (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR, _
+   BYVAL bChecked AS BOOLEAN = FALSE) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the check button to add. |
+| *pwszLabel* |A pointer to a buffer that contains the button text as a null-terminated Unicode string. |
+| *bChecked* | A BOOLEAN indicating the current state of the check button. TRUE if checked; FALSE otherwise. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
 ---
 
 ## AddComboBox
@@ -68,6 +83,18 @@ Adds a combo box to the dialog.
 ```
 FUNCTION AddComboBox (BYVAL dwIDCtl AS DWORD) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the vombo box to add. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
 ---
 
 ## AddControlItem
@@ -77,6 +104,22 @@ Adds an item to a container control in the dialog.
 ```
 FUNCTION AddControlItem (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the container control to which the item is to be added. |
+| *dwIDItem* | The ID of the item. |
+| *pwszLabel* |A pointer to a buffer that contains the item's text, which can be either a label or, in the case of a drop-down list, the item itself. This text is a null-terminated Unicode string. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this item is enabled and visible. Items in control groups cannot be changed after they have been created, with the exception of their enabled and visible states.
+
+Container controls include option button groups, combo boxes, drop-down lists on the **Open** or **Save** button, and menus.
+
 ---
 
 ## AddEditBox
@@ -86,6 +129,21 @@ Adds an edit box control to the dialog.
 ```
 FUNCTION AddEditBox (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the edit box to add. |
+| *pwszLabel* | A pointer to a null-terminated Unicode string that provides the default text displayed in the edit box. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
+To add a label next to the edit box, place it in a visual group with **StartVisualGroup**.
+
 ---
 
 ## AddMenu
@@ -95,6 +153,21 @@ Adds a menu to the dialog.
 ```
 FUNCTION AddMenu (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the menu to add. |
+| *pwszLabel* | A pointer to a buffer that contains the menu name as a null-terminated Unicode string. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
+To add items to this control, use **AddControlItem**.
+
 ---
 
 ## AddPushButton
@@ -104,6 +177,19 @@ Adds a button to the dialog.
 ```
 FUNCTION AddPushButton (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the button to add. |
+| *pwszLabel* | A pointer to a buffer that contains the button text as a null-terminated Unicode string. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
 ---
 
 ## AddRadioButtonList
@@ -113,6 +199,18 @@ Adds an option button (also known as radio button) group to the dialog.
 ```
 FUNCTION AddRadioButtonList (BYVAL dwIDCtl AS DWORD) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the option button group to add. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state for this control is enabled and visible.
+
 ---
 
 ## AddSeparator
