@@ -42,7 +42,7 @@ CONSTRUCTOR (BYVAL pIFileDialog AS IFileDialog PTR)
 | [MakeProminent](#makeprominent) | Places a control in the dialog so that it stands out compared to other added controls. |
 | [RemoveControlItem](#removeconrolitem) | Removes an item from a container control in the dialog. |
 | [SetCheckButtonState](#setcheckbuttonstate) | Sets the state of a check button (check box) in the dialog. |
-| [SetControlItemState](#secontrolitemstate) | Sets the current state of an item in a container control found in the dialog. |
+| [SetControlItemState](#setcontrolitemstate) | Sets the current state of an item in a container control found in the dialog. |
 | [SetControlItemText](#secontrolitemtext) | Sets the text of a control item. For example, the text that accompanies a radio button or an item in a menu. |
 | [SetControlLabel](#setcontrollabel) | Sets the text associated with a control, such as button text or an edit box label. |
 | [SetControlState](#setcontrolstate) | Sets the current visibility and enabled states of a given control. |
@@ -470,6 +470,29 @@ Sets the current state of an item in a container control found in the dialog.
 ```
 FUNCTION SetControlItemState (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD, BYVAL dwState AS CDCONTROLSTATEF) AS HRESULT
 ```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwIDCtl* | The ID of the container control. |
+| *dwIDItem* | The ID of the item. |
+| *dwState* | One or more values from the **CDCONTROLSTATE** enumeration that indicate the new state of the control. |
+
+| Constant  | Description |
+| --------- | ----------- |
+| **CDCS_INACTIVE** | The control is inactive and cannot be accessed by the user. |
+| **CDCS_ENABLED** | The control is active. |
+| **CDCS_VISIBLE** | The control is visible. The absence of this value indicates that the control is hidden. |
+| **CDCS_ENABLEDVISIBLE** | Windows 7 and later. The control is visible and enabled. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The default state of a control item is enabled and visible. Items in control groups cannot be changed after they have been created, with the exception of their enabled and visible states.
+
+Container controls include option button groups, combo boxes, drop-down lists on the Open or Save button, and menus.
+
 ---
 
 ## SetControlItemText
