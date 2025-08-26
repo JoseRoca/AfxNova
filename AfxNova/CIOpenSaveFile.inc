@@ -52,6 +52,8 @@ Private:
 Public:
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR 
+   DECLARE FUNCTION GetPtr () AS IFileOpenDialog PTR
+   DECLARE FUNCTION GetIFileDialogPtr () AS IFileDialog PTR
    DECLARE FUNCTION ShowOpen (BYVAL hwndOwner AS HWND) AS HRESULT
    DECLARE SUB AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
    DECLARE FUNCTION SetEvents (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
@@ -112,6 +114,26 @@ PRIVATE DESTRUCTOR CIOpenFileDialog
    ' // Uninitialize the COM library
    CoUninitialize
 END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying IFileOpenDialog interface pointer.
+' Don't release the returned pointer.
+' ========================================================================================
+PRIVATE FUNCTION CIOpenFileDialog.GetPtr () AS IFileOpenDialog PTR
+   RETURN m_IFileOpenDialog
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying IFIleDialog interface pointer.
+' The returned pointer must be released when no longer needed.
+' ========================================================================================
+PRIVATE FUNCTION CIOpenFileDialog.GetIFileDialogPtr () AS IFileDialog PTR
+   DIM pFileDialog AS IFileDialog PTR
+   m_IFileOpenDialog->lpvtbl->QueryInterface(m_IFileOpenDialog, @IID_IFileDialog, @pFileDialog)
+   RETURN pFileDialog
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
@@ -629,6 +651,8 @@ Private:
 Public:
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR 
+   DECLARE FUNCTION GetPtr () AS IFileSaveDialog PTR
+   DECLARE FUNCTION GetIFileDialogPtr () AS IFileDialog PTR
    DECLARE FUNCTION ShowSave (BYVAL hwndOwner AS HWND) AS HRESULT
    DECLARE SUB AddFileType (BYVAL pwszName AS WSTRING PTR, BYVAL pwszSpec AS WSTRING PTR)
    DECLARE FUNCTION SetEvents (BYVAL pfde as IFileDialogEvents PTR) AS HRESULT
@@ -690,6 +714,26 @@ PRIVATE DESTRUCTOR CISaveFileDialog
    ' // Uninitialize the COM library
    CoUninitialize
 END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying IFileOpenDialog interface pointer.
+' Don't release the returned pointer.
+' ========================================================================================
+PRIVATE FUNCTION CISaveFileDialog.GetPtr () AS IFileSaveDialog PTR
+   RETURN m_IFileSaveDialog
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying IFIleDialog interface pointer.
+' The returned pointer must be released when no longer needed.
+' ========================================================================================
+PRIVATE FUNCTION CISaveFileDialog.GetIFileDialogPtr () AS IFileDialog PTR
+   DIM pFileDialog AS IFileDialog PTR
+   m_IFileSaveDialog->lpvtbl->QueryInterface(m_IFileSaveDialog, @IID_IFileDialog, @pFileDialog)
+   RETURN pFileDialog
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================

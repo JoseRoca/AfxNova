@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
-' File: CIFileDialos.inc
+' File: CIFileDialogEvents.inc
 ' Contents: Implementation of IFileDialogEvents callback interface.
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
