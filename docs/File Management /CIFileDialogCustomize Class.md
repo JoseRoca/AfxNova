@@ -18,6 +18,30 @@ CONSTRUCTOR (BYVAL pIFileDialog AS IFileDialog PTR)
 | ---------- | ----------- |
 | *pIFileDialog* | A pointer to the **IFileDialog** interface. |
 
+#### Usage example
+
+```
+' // Get a pointer to the IFileDialog interface
+DIM pfdlg AS IFileDialog PTR = pofd.GetIFileDialogPtr
+IF pfdlg THEN
+   ' // Initialize an instance of the CIFileDialogCustomize class
+   DIM pCust AS CIFileDialogCustomize = pfdlg
+   ' // Relese the IFileDialog interface
+   pfdlg->lpvtbl->Release(pfdlg)
+   ' // Add controls to the dialog
+   IF pCust.GetPtr THEN
+      ' Call methods of the CIFileDialogCustomize class
+      pCust.AddCheckButton(1001, "My check button", TRUE)
+      pCust.AddComboBox(1002)
+      pCust.AddEditBox(1003, "My edit control")
+      pCust.AddEditBox(1004, "My menu")
+      pCust.AddPushButton(1005, "My push button")
+      pCust.AddSeparator(1006)
+      pCust.AddText(1007, "My text")
+      pCust.EnableOpenDropDown(1008)
+   END IF
+END IF
+```
 ---
 
 ## Methods
@@ -630,3 +654,71 @@ Controls will continue to be added to this visual group until you call **EndVisu
 A visual group can be hidden and disabled like any other control, except that doing so affects all of the controls within it. Individual members of the visual group can also be hidden and disabled singly.
 
 ---
+
+## Example code
+
+```
+#define _WIN32_WINNT &h0602
+#include once "AfxNova/CWindow.inc"
+#include once "AfxNova/CIOpenSaveFile.inc"
+#include once "AfxNova/CIFileDialogEvents.inc"
+#include once "AfxNova/CIFileDialogCustomize.inc"
+USING AfxNova
+
+DIM pofd AS CIOpenFileDialog
+' // Set the file types
+pofd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
+pofd.AddFileType("Executable files", "*.exe;*.dll")
+pofd.AddFileType("All files", "*.*")
+pofd.SetFileTypes()
+' // Multiple selection (default is single selection)
+DIM options AS FILEOPENDIALOGOPTIONS = pofd.GetOptions
+pofd.SetOptions(options OR FOS_ALLOWMULTISELECT)
+' // Optional: Set the title of the dialog
+'   pofd.SetTitle("A Single-Selection Dialog")
+' // Set the folder
+pofd.SetFolder(CURDIR)
+pofd.SetDefaultExtension("bas")
+pofd.SetFileTypeIndex(1)
+
+' // Customization --------------------------------------------
+DIM pfdlg AS IFileDialog PTR = pofd.GetIFileDialogPtr
+IF pfdlg THEN
+   DIM pCust AS CIFileDialogCustomize = pfdlg
+   pfdlg->lpvtbl->Release(pfdlg)
+   IF pCust.GetPtr THEN
+      ' Call methods of the CIFileDialogCustomize class
+      pCust.AddCheckButton(1001, "My check button", TRUE)
+      pCust.AddComboBox(1002)
+      pCust.AddEditBox(1003, "My edit control")
+      pCust.AddEditBox(1004, "My menu")
+      pCust.AddPushButton(1005, "My push button")
+      pCust.AddSeparator(1006)
+      pCust.AddText(1007, "My text")
+      pCust.EnableOpenDropDown(1008)
+   END IF
+END IF
+' // --------------------------------------------------------
+
+' // Set events
+DIM pfde AS ANY PTR = NEW CIFileDialogEvents
+pofd.SetEvents(pfde)
+
+' // Display the dialog
+DIM hr AS HRESULT = pofd.ShowOpen(hwnd)
+
+' // Folder name
+print "Folder name: ";  pofd.GetFolder
+
+' *** Single selection ***
+' // Get the result
+IF hr = S_OK THEN
+   print pofd.GetResult()
+END IF
+
+' *** Multiple selection ***
+DIM dwsRes AS DWSTRING = pofd.GetResultsString
+FOR i AS LONG = 1 TO pofd.GetResultsCount
+   PRINT pofd.ParseResults(dwsRes, i)
+NEXT
+```
