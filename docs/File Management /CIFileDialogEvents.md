@@ -380,3 +380,86 @@ END FUNCTION
 ' =====================================================================================
 
 ```
+
+Example of how to override the template with yur own class:
+
+```
+' ########################################################################################
+' CIFileDialogEventsImpl class
+' Implementation of the FileDialogEvents callback interface
+' ########################################################################################
+TYPE CIFileDialogEventsImpl EXTENDS CIFileDialogEvents
+
+   DECLARE FUNCTION OnFolderChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+
+END TYPE
+
+PRIVATE FUNCTION CIFileDialogEventsImpl.OnFolderChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+   OutputDebugStringW("CIFileDialogEventsImpl.OnFolderChange")
+
+   ' // Before displaying the dialog get its coordinates
+   DIM pOleWindow AS IOleWindow PTR
+   ' // Get a pointer to the IOleWindow interface
+   pfd->lpvtbl->QueryInterface(pfd, @IID_IOleWindow, @pOleWindow)
+   ' // Get the window handle of the dialog
+   DIM hOleWindow AS HWND
+   IF pOleWindow THEN pOleWindow->lpvtbl->GetWindow(pOleWindow, @hOleWindow)
+   OutputDebugStringW ("CIFileDialogEventsImpl.OnFolderChange - hOleWindow: " & ..WSTR(hOleWindow))
+   IF hOleWindow THEN
+      ' // Get he bounding rectangle of the parent window
+      DIM AS RECT rcDlg, rcOwner
+      GetWindowRect(GetParent(hOleWindow), @rcOwner)
+      ' // Get he bounding rectangle of the open file dialog
+      GetWindowRect(hOleWindow, @rcDlg)
+      ' // Maps the open file dialog coordinates relative to its parent window
+      MapWindowPoints(GetParent(hOleWindow), hOleWindow, CAST(POINT PTR, @rcDlg), 2)
+   END IF
+
+   RETURN S_OK
+END FUNCTION
+
+' ========================================================================================
+```
+
+Set the events to your clsss with the **SetEvents** method:
+
+```
+' // Set events
+DIM pfde AS ANY PTR = NEW CIFileDialogEventsImpl
+pofd.SetEvents(pfde)
+```
+
+```
+DIM pofd AS CIOpenFileDialog
+' // Set the file types
+pofd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
+pofd.AddFileType("Executable files", "*.exe;*.dll")
+pofd.AddFileType("All files", "*.*")
+pofd.SetFileTypes()
+' // Multiple selection (default is single selection)
+DIM options AS FILEOPENDIALOGOPTIONS = pofd.GetOptions
+pofd.SetOptions(options OR FOS_ALLOWMULTISELECT)
+' // Optional: Set the title of the dialog
+'   pofd.SetTitle("A Single-Selection Dialog")
+' // Set the folder
+pofd.SetFolder(CURDIR)
+pofd.SetDefaultExtension("bas")
+pofd.SetFileTypeIndex(1)
+' // Set events
+DIM pfde AS ANY PTR = NEW CIFileDialogEventsImpl
+pofd.SetEvents(pfde)
+' // Display the dialog
+DIM hr AS HRESULT = pofd.ShowOpen(hwnd)
+' // Folder name
+OutputDebugStringW("Folder name: " & pofd.GetFolder)
+' *** Single selection ***
+' // Get the result
+IF hr = S_OK THEN
+   print pofd.GetResult()
+END IF
+' *** Multiple selection ***
+DIM dwsRes AS DWSTRING = pofd.GetResultsString
+FOR i AS LONG = 1 TO pofd.GetResultsCount
+   OutputDebugStringW pofd.ParseResults(dwsRes, i)
+NEXT
+```
