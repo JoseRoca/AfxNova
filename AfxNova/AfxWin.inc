@@ -36,8 +36,7 @@
 #INCLUDE ONCE "crt/string.bi"
 #INCLUDE ONCE "AfxNova/DWSTRProcs.inc"
 #INCLUDE ONCE "AfxNova/AfxPath.inc"
-#INCLUDE ONCE "AfxNova/AfxDwmApi.bi"
-#INCLUDE ONCE "AfxNova/AfxExt.bi"
+#INCLUDE ONCE "AfxNova/AfxExt.bi"   ' // Windows API extensions
 USING AfxNova
 
 NAMESPACE AfxNova
