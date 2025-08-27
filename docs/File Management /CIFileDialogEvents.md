@@ -463,3 +463,58 @@ FOR i AS LONG = 1 TO pofd.GetResultsCount
    OutputDebugStringW pofd.ParseResults(dwsRes, i)
 NEXT
 ```
+
+You can use the same class of the Save file dialog:
+
+```
+' ########################################################################################
+' CIFileDialogEventsImpl class
+' Implementation of the FileDialogEvents callback interface
+' ########################################################################################
+TYPE CIFileDialogEventsImpl EXTENDS CIFileDialogEvents
+
+   DECLARE FUNCTION OnFolderChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+   DECLARE FUNCTION OnFileOk (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+
+END TYPE
+
+PRIVATE FUNCTION CIFileDialogEventsImpl.OnFolderChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+   OutputDebugStringW("CIFileDialogEventsImpl.OnFolderChange")
+   RETURN S_OK
+END FUNCTION
+
+PRIVATE FUNCTION CIFileDialogEventsImpl.OnFileOk (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+   OutputDebugStringW("CIFileDialogEventsImpl.OnFileOk")
+   RETURN S_OK
+END FUNCTION
+' ########################################################################################
+```
+
+Setting the event's handler:
+
+```
+DIM psfd AS CISaveFileDialog
+' // Set the file types
+psfd.AddFileType("FB code files", "*.bas;*.inc;*.bi")
+psfd.AddFileType("Executable files", "*.exe;*.dll")
+psfd.AddFileType("All files", "*.*")
+psfd.SetFileTypes()
+' // Optional: Set the title of the dialog
+'   psfd.SetTitle("Save File Dialog")
+' // Set the folder
+psfd.SetFolder(CURDIR)
+psfd.SetDefaultExtension("bas")
+psfd.SetFileTypeIndex(1)
+' // Set events
+DIM pfde AS ANY PTR = NEW CIFileDialogEventsImpl
+psfd.SetEvents(pfde)
+' // Display the dialog
+DIM hr AS HRESULT = psfd.ShowSave(hwnd)
+' // Folder name
+OutputDebugStringW("Folder name: " & psfd.GetFolder)
+' // Get the result
+IF hr = S_OK THEN
+   OutputDebugStringW(psfd.GetResult)
+END IF
+```
+---
