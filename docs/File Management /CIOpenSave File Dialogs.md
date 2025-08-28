@@ -96,7 +96,6 @@ psfd.SetDefaultExtension("bas")
 psfd.SetFileTypeIndex(1)
 
 ' // Set events
-' // Set events
 DIM pfde AS ANY PTR = NEW CIFileDialogEvents
 psfd.SetEvents(pfde)
 
