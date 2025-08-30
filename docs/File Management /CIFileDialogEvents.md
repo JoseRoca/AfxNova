@@ -1,10 +1,14 @@
-The `CIFileDialogEents` class implements the `IFileDialogEvents`interface, that exposes methods that allow notification of events within a common file dialog.
+# CIFileDialogEents and CIFileDialogControlEvents classes.
+
+The `CIFileDialogEents` class implements the `IFileDialogEvents` interface, that exposes methods that allow notification of events within a common file dialog.
+
+The `CIFileDialogControlEvents` class implements the `IFileDialogControlEvents` interface, that exposes methods that allow an application to be notified of events that are related to controls that the application has added to a common file dialog.
 
 **Include file:** AfxNova/CIFileDialogEvents.inc
 
 ---
 
-## Methods
+## CIFileDialogEents Methods
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -15,6 +19,17 @@ The `CIFileDialogEents` class implements the `IFileDialogEvents`interface, that 
 | [OnSelectionChange](#onselectionchange) | Called when the user changes the selection in the dialog's view. |
 | [OnShareViolation](#onshareviolation) | Enables an application to respond to sharing violations that arise from Open or Save operations. |
 | [OnTypeChange](#ontypechange) | Called when the dialog is opened to notify the application of the initial chosen filetype. |
+
+---
+
+## CIFileDialogControlEvents Methods
+
+| Name       | Description |
+| ---------- | ----------- |
+| [OnButtonClicked](#onbuttonclicked) | Called when the user clicks a command button. |
+| [OnCheckButtonToggled](#oncheckbuttontoggled) | Called when the user changes the state of a check button (check box). |
+| [OnControlActivating](#oncontrolactivating) | Called when an **Open** button drop-down list customized through **EnableOpenDropDown** or a Tools menu is about to display its contents. |
+| [OnItemSelected](#onitemselected) | Called when an item is selected in a combo box, when a user clicks an option button (also known as a radio button), or an item is chosen from the **Tools** menu. |
 
 ---
 
@@ -192,6 +207,66 @@ FUNCTION OnTypeChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
 #### Return value
 
 Returns **S_OK** if successful, or an error value otherwise.
+
+---
+
+## OnButtonClicked
+
+Called when the user clicks a command button.
+
+```
+FUNCTION OnButtonClicked (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfdc* | A pointer to the interface through which the application added controls to the dialog. |
+| *dwIDCtl* | The ID of the button that the user clicked. |
+
+#### Return value
+
+If this method succeeds, it returns **S_OK**. Otherwise, it returns an **HRESULT** error code.
+
+---
+
+## OnCheckButtonToggled
+
+Called when the user changes the state of a check button (check box).
+
+```
+FUNCTION OnCheckButtonToggled (BYVAL pfdc AS IFileDialogCustomize PTR, _
+   BYVAL dwIDCtl AS DWORD, BYVAL bChecked AS WINBOOL) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfdc* | A pointer to the interface through which the application added controls to the dialog. |
+| *dwIDCtl* | The ID of the button that the user clicked. |
+| *bChecked* | A **BOOL** indicating the current state of the check button. **TRUE** if checked; **FALSE** otherwise. |
+
+#### Return value
+
+If this method succeeds, it returns **S_OK**. Otherwise, it returns an **HRESULT** error code.
+
+---
+
+
+## OnControlActivating
+
+Called when an **Open** button drop-down list customized through **EnableOpenDropDown** or a **Tools** menu is about to display its contents.
+
+```
+FUNCTION OnControlActivating (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pfdc* | A pointer to the interface through which the application added controls to the dialog. |
+| *dwIDCtl* | The ID of the list or menu about to display. |
+
+#### Return value
+
+If this method succeeds, it returns **S_OK**. Otherwise, it returns an **HRESULT** error code.
 
 ---
 
