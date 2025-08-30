@@ -811,6 +811,7 @@ FUNCTION Unadvise BYVAL dwCookie AS DWORD() AS HRESULT
 If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
 
 ---
+---
 
 ## ApplyProperties
 
@@ -831,10 +832,100 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 
 ---
 
-| Name       | Description |
+## GetProperties
+
+Retrieves the set of property values for a saved item or an item in the process of being saved.
+
+```
+FUNCTION GetProperties (BYVAL ppStore AS IPropertyStore PTR PTR) AS HRESULT
+```
+
+| Parameter  | Description |
 | ---------- | ----------- |
-| [ApplyProperties](#applyproperties) | Applies a set of properties to an item using the Shell's copy engine. |
-| [GetProperties](#getproperties) | Retrieves the set of property values for a saved item or an item in the process of being saved. |
-| [SetCollectedProperties](#setcollectedproperties) | Specifies which properties will be collected in the save dialog. |
-| [SetProperties](#setproperties) | Provides a property store that defines the default values to be used for the item being saved. |
-| [SetSaveAsItem](#setsaveasitem) | Sets an item to be used as the initial entry in a **Save** As dialog. |
+| *ppStore* | Address of a pointer to an **IPropertyStore** that receives the property values. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
+## SetCollectedProperties
+
+Specifies which properties will be collected in the save dialog.
+
+```
+FUNCTION SetCollectedProperties (BYVAL pList AS IPropertyDescriptionList PTR, _
+   BYVAL fAppendDefault AS WINBOOL) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pList* | Pointer to the interface that represents the list of properties to collect. This parameter can be **NULL**. |
+| *fAppendDefault* | **TRUE** to show default properties for the currently selected filetype in addition to the properties specified by *pList*. **FALSE** to show only properties specified by *pList*. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The calling application can use the **PSGetPropertyDescriptionListFromString** function to construct an **IPropertyDescriptionList** from a string such as "prop:Comments;Subject;".
+
+For more information about property schemas, see ]Property Schemas](https://learn.microsoft.com/en-us/windows/win32/properties/building-property-handlers-property-schemas).
+
+**SetCollectedProperties** can be called at any time before the dialog is displayed or while it is visible. If different properties are to be collected depending on the chosen filetype, then **SetCollectedProperties** can be called in response to **OnTypeChange**.
+
+Note  By default, no properties are collected in the save dialog.
+
+---
+
+## SetProperties
+
+Provides a property store that defines the default values to be used for the item being saved.
+
+```
+FUNCTION SetProperties (BYVAL pStore AS IPropertyStore PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pStore* | Pointer to the interface that represents the property store that contains the associated metadata. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+This method can be called at any time before the dialog is opened or while the dialog is showing. If an item has inherent properties, this method should be called with those properties before showing the dialog.
+
+When using **Save As**, the application should provide the properties of the item being saved to the **Save** dialog. Those properties should be retrieved from the original item by calling **GetPropertyStore** with the **GPS_HANDLERPROPERTIESONLY** flag.
+
+To retrieve the properties of the saved item (which may have been modified by the user) after the dialog closes, call **GetProperties**.
+
+To turn on property collection and indicate which properties should be displayed in the **Save** dialog, use **SetCollectedProperties**.
+
+---
+
+## SetSaveAsItem
+
+Sets an item to be used as the initial entry in a **Save As** dialog.
+
+```
+FUNCTION SetSaveAsItem (BYVAL psi AS IShellItem PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *psi* | Pointer to an **IShellItem** that represents the item. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+The name of the item is displayed in the file name edit box, and the containing folder is opened in the view. This would generally be used when the application is saving an item that already exists. For new items, use **SetFileName**.
+
+---
