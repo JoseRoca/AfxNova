@@ -1,4 +1,4 @@
-# CIFileDialogEents and CIFileDialogControlEvents classes.
+# CIFileDialogEvents and CIFileDialogControlEvents classes.
 
 The `CIFileDialogEents` class implements the `IFileDialogEvents` interface, that exposes methods that allow notification of events within a common file dialog.
 
