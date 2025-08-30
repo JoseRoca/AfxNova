@@ -65,7 +65,7 @@ print "Folder name: ";  pofd.GetFolder
 ' *** Single selection ***
 ' // Get the result
 IF hr = S_OK THEN
-   print pofd.GetResult()
+   print pofd.GetResultString
 END IF
 
 ' *** Multiple selection ***
@@ -108,7 +108,7 @@ print "Folder name: ";  psfd.GetFolder
 
 ' // Get the result
 IF hr = S_OK THEN
-   print psfd.GetResult()
+   print psfd.GetResultString
 END IF
 ```
 ---
@@ -140,6 +140,7 @@ END IF
 | [GetFolder](#getfolder) | Gets either the folder currently selected in the dialog, or, if the dialog is not currently displayed, the folder that is to be selected when the dialog is opened. |
 | [GetOptions](#getoptions) | Gets the current flags that are set to control dialog behavior. |
 | [GetResult](#getresult) | Gets the choice that the user made in the dialog. |
+| [GetResultString](#getresultstring) | Gets the choice that the user made in the dialog as a string. |
 | [SetClientGuid](#setclientguid) | Enables a calling application to associate a GUID with a dialog's persisted state. |
 | [SetDefaultExtension](#setdefaultextension) | Sets the default extension to be added to file names. |
 | [SetDefaultFolder](#setdefaultfolder) | Sets the folder used as a default if there is not a recently used folder value available. |
@@ -152,6 +153,18 @@ END IF
 | [SetOptions](#setoptions) | Sets flags to control the behavior of the dialog. |
 | [SetTitle](#settitle) | Sets the title of the dialog. |
 | [Unadvise](#unadvise) | Removes an event handler that was attached through the **Advise** method. |
+
+---
+
+## Additional methods of the CISaveFileDialog class
+
+| Name       | Description |
+| ---------- | ----------- |
+| [ApplyProperties](#applyproperties) | Applies a set of properties to an item using the Shell's copy engine. |
+| [GetProperties](#getproperties) | Retrieves the set of property values for a saved item or an item in the process of being saved. |
+| [SetCollectedProperties](#setcollectedproperties) | Specifies which properties will be collected in the save dialog. |
+| [SetProperties](#setproperties) | Provides a property store that defines the default values to be used for the item being saved. |
+| [SetSaveAsItem](#setsaveasitem) | Sets an item to be used as the initial entry in a **Save** As dialog. |
 
 ---
 
@@ -391,7 +404,7 @@ The folder name.
 
 #### Remarks
 
-The text in the File name edit box does not necessarily reflect the item the user chose. To get the item the user chose, use **GetResult**.
+The text in the File name edit box does not necessarily reflect the item the user chose. To get the item the user chose, use **GetResult** or **GetResultString**.
 
 ---
 
@@ -488,12 +501,26 @@ A value made up of one or more of the **FILEOPENDIALOGOPTIONS** values.
 
 ---
 
-## GetResult 
+## GetResult
 
 Gets the choice that the user made in the dialog.
 
 ```
-GetResult (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
+FUNCTION GetResult () AS IShellItem PTR
+```
+
+#### Return value
+
+A pointer to an **IShellItem** that represents the user's choice.
+
+---
+
+## GetResultString
+
+Gets the choice that the user made in the dialog.
+
+```
+FUNCTION GetResultString (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -784,3 +811,30 @@ FUNCTION Unadvise BYVAL dwCookie AS DWORD() AS HRESULT
 If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
 
 ---
+
+## ApplyProperties
+
+Applies a set of properties to an item using the Shell's copy engine.
+
+```
+FUNCTION ApplyProperties (BYVAL psi AS IShellItem PTR, BYVAL pStore AS IPropertyStore PTR, _
+   BYVAL hWnd AS HWND, BYVAL pSink AS IFileOperationProgressSink PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *psi* | Pointer to the **IShellItem** that represents the file being saved. This is usually the item retrieved by **GetResult**. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+---
+
+| Name       | Description |
+| ---------- | ----------- |
+| [ApplyProperties](#applyproperties) | Applies a set of properties to an item using the Shell's copy engine. |
+| [GetProperties](#getproperties) | Retrieves the set of property values for a saved item or an item in the process of being saved. |
+| [SetCollectedProperties](#setcollectedproperties) | Specifies which properties will be collected in the save dialog. |
+| [SetProperties](#setproperties) | Provides a property store that defines the default values to be used for the item being saved. |
+| [SetSaveAsItem](#setsaveasitem) | Sets an item to be used as the initial entry in a **Save** As dialog. |
