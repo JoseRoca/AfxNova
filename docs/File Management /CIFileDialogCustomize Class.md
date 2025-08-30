@@ -731,17 +731,19 @@ pofd.SetEvents(pfde)
 DIM hr AS HRESULT = pofd.ShowOpen(hwnd)
 
 ' // Folder name
-print "Folder name: ";  pofd.GetFolder
+OutputDebugStringW "Folder name: ";  pofd.GetFolder
 
 ' *** Single selection ***
 ' // Get the result
-IF hr = S_OK THEN
-   print pofd.GetResult()
-END IF
+'IF hr = S_OK THEN
+'   OutputDebugStringW pofd.GetResultString
+'END IF
 
 ' *** Multiple selection ***
-DIM dwsRes AS DWSTRING = pofd.GetResultsString
-FOR i AS LONG = 1 TO pofd.GetResultsCount
-   PRINT pofd.ParseResults(dwsRes, i)
-NEXT
+IF hr = S_OK THEN
+   DIM dwsRes AS DWSTRING = pofd.GetResultsString
+   FOR i AS LONG = 1 TO pofd.GetResultsCount
+      OutputDebugStringW pofd.ParseResults(dwsRes, i)
+   NEXT
+END IF
 ```
