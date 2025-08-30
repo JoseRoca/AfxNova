@@ -42,7 +42,7 @@ Implementations should return **S_OK** to accept the current result in the dialo
 
 #### Remarks
 
-When this method is called, the **GetResult** and **GetResults** methods can be called.
+When this method is called, the **GetResult**, **GetResultString** and **GetResults** methods can be called.
 
 The application can use this callback method to perform additional validation before the dialog closes, or to prevent the dialog from closing. If the application prevents the dialog from closing, it should display a UI to indicate a cause. To obtain a parent HWND for the UI, obtain the **IOleWindow** interface through **IFileDialog.QueryInterface** and call **IOleWindow.GetWindow**.
 
@@ -454,14 +454,16 @@ DIM hr AS HRESULT = pofd.ShowOpen(hwnd)
 OutputDebugStringW("Folder name: " & pofd.GetFolder)
 ' *** Single selection ***
 ' // Get the result
-IF hr = S_OK THEN
-   print pofd.GetResult()
-END IF
+'IF hr = S_OK THEN
+'   print pofd.GetResultString
+'END IF
 ' *** Multiple selection ***
-DIM dwsRes AS DWSTRING = pofd.GetResultsString
-FOR i AS LONG = 1 TO pofd.GetResultsCount
-   OutputDebugStringW pofd.ParseResults(dwsRes, i)
-NEXT
+IF hr = S_OK THEN
+   DIM dwsRes AS DWSTRING = pofd.GetResultsString
+   FOR i AS LONG = 1 TO pofd.GetResultsCount
+      OutputDebugStringW pofd.ParseResults(dwsRes, i)
+   NEXT
+END IF
 ```
 
 You can use the same class of the Save file dialog:
@@ -514,7 +516,7 @@ DIM hr AS HRESULT = psfd.ShowSave(hwnd)
 OutputDebugStringW("Folder name: " & psfd.GetFolder)
 ' // Get the result
 IF hr = S_OK THEN
-   OutputDebugStringW(psfd.GetResult)
+   OutputDebugStringW(psfd.GetResultString)
 END IF
 ```
 ---
