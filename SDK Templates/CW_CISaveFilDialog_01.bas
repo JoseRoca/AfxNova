@@ -12,7 +12,6 @@
 #define _WIN32_WINNT &h0602
 #include once "AfxNova/CWindow.inc"
 #include once "AfxNova/CIOpenSaveFile.inc"
-#include once "AfxNova/CIFileDialogEvents.inc"
 USING AfxNova
 
 CONST IDC_RICHEDIT = 1001
@@ -41,7 +40,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    AfxEnableVisualStyles
 
    DIM pWindow AS CWindow
-   DIM hWin AS HWND = pWindow.Create(NULL, "DisplayIOpenFile", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "ISaveFile Dialog", @WndProc)
    pWindow.SetClientSize(800, 450)
    pWindow.Center
 
@@ -125,7 +124,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                OutputDebugStringW("Folder name: " & psfd.GetFolder)
                ' // Get the result
                IF hr = S_OK THEN
-                  OutputDebugStringW(psfd.GetResult)
+                  OutputDebugStringW(psfd.GetResultString)
                END IF
                END SCOPE
 
