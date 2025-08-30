@@ -6,7 +6,7 @@ Include file: AfxNova/CIFileDialogCustomize.inc
 
 ---
 
-## Constructor
+## Constructors
 
 Creates instances de the `CIFileDialogCustomize` class.
 
@@ -43,6 +43,21 @@ IF pfdlg THEN
 END IF
 ```
 See also a full example at the end of this guide.
+
+---
+
+```
+CONSTRUCTOR (BYVAL pIFileDialogCustomize AS IFileDialogCustomize PTR, BYVAL fAddRef AS BOOLEAN = TRUE)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pIFileDialogCustomize* | A pointer to the **IFileDialogCustomize** interface. |
+| *fAddRef* | Optional. True to increment the reference count; false, othewise. |
+
+#### Remarks
+
+Useful to be used inside the **IFileDialogControlEvents** callback class, whose methods pass a pointer to the **IFileDialogCustomize** interface.
 
 ---
 
