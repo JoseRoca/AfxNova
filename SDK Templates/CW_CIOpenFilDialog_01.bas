@@ -40,7 +40,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    AfxEnableVisualStyles
 
    DIM pWindow AS CWindow
-   DIM hWin AS HWND = pWindow.Create(NULL, "DisplayIOpenFile", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "IOpenFile Dialog", @WndProc)
    pWindow.SetClientSize(800, 450)
    pWindow.Center
 
