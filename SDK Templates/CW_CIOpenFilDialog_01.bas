@@ -3,7 +3,7 @@
 ' File: CW_CIOpenFileDialog_01.bas
 ' Contents: Open file dialog
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -127,14 +127,17 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                OutputDebugStringW("Folder name: " & pofd.GetFolder)
                ' *** Single selection ***
                ' // Get the result
-               IF hr = S_OK THEN
-                  print pofd.GetResult()
-               END IF
+               'IF hr = S_OK THEN
+               '   OutputDebugStringW pofd.GetResultString()
+               'END IF
                ' *** Multiple selection ***
-               DIM dwsRes AS DWSTRING = pofd.GetResultsString
-               FOR i AS LONG = 1 TO pofd.GetResultsCount
-                  OutputDebugStringW pofd.ParseResults(dwsRes, i)
-               NEXT
+               ' // Get the result
+               IF hr = S_OK THEN
+                  DIM dwsRes AS DWSTRING = pofd.GetResultsString
+                  FOR i AS LONG = 1 TO pofd.GetResultsCount
+                     OutputDebugStringW pofd.ParseResults(dwsRes, i)
+                  NEXT
+               END IF
                END SCOPE
 
          END SELECT
@@ -150,6 +153,4 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    FUNCTION = DefWindowProcW(hWnd, uMsg, wParam, lParam)
 
 END FUNCTION
-
 ' ========================================================================================
-
