@@ -126,7 +126,7 @@ END IF
 
 ---
 
-## Common mehods inherited from **IFileDialog**
+## Common methods inherited from IFileDialog
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -153,6 +153,15 @@ END IF
 | [SetOptions](#setoptions) | Sets flags to control the behavior of the dialog. |
 | [SetTitle](#settitle) | Sets the title of the dialog. |
 | [Unadvise](#unadvise) | Removes an event handler that was attached through the **Advise** method. |
+
+---
+
+## Common methods from IFileDialog2
+
+| Name       | Description |
+| ---------- | ----------- |
+| [SetCancelButtonLabel](#setcancelbuttonlabel) | Adds a folder to the list of places available for the user to open or save items. |
+| [SetNavigationRoot](#setnavigationroot) | Specifies a top-level location from which to begin browsing a namespace, for instance in the Save dialog's Browse folder option. Users cannot navigate above this location. |
 
 ---
 
@@ -927,5 +936,51 @@ If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 #### Remarks
 
 The name of the item is displayed in the file name edit box, and the containing folder is opened in the view. This would generally be used when the application is saving an item that already exists. For new items, use **SetFileName**.
+
+---
+
+## SetCancelButtonLabel
+
+Replaces the default text "Cancel" on the common file dialog's **Cancel** button.
+
+```
+FUNCTION SetCancelButtonLabel (BYVAL pwszLabel AS LPCWSTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszLabel* | Pointer to a string that contains the new text to display on the button. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+Changing the text on the Cancel button can be useful for situations where the **OnFileOk** method is used to accumulate items, and the button text should be Done instead of Cancel, for example.
+
+---
+
+## SetNavigationRoot
+
+Specifies a top-level location from which to begin browsing a namespace, for instance in the **Save** dialog's **Browse folder** option. Users cannot navigate above this location.
+
+```
+FUNCTION SetNavigationRoot (BYVAL psi AS IShellItem PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *psi* | Pointer to an **IShellItem** object that represents the navigation root. |
+
+#### Return value
+
+If this method succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Remarks
+
+**SetNavigationRoot** can be used by applications that want to restrict navigation to a certain area of the Shell namespace. Items in the navigation pane are replaced with the supplied item, to guide the user from navigating outside of this part of the namespace.
+
+This method cannot be called while the dialog is being displayed.
 
 ---
