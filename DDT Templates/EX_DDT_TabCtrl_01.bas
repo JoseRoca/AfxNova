@@ -113,10 +113,6 @@ FUNCTION DlgProc (BYVAL hDlg AS HWND, BYVAL uMsg AS DWORD, BYVAL wParam AS DWORD
          ' // Resize the tab pages
          IF pTabPage THEN pTabPage->ResizePages
 
-      CASE WM_PAINT
-         DIM hTab AS HWND = ControlHandle(hDlg, IDC_TAB)
-         SetWindowPos hTab, NULL, 0, 0, 0, 0, SWP_NOZORDER OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_DRAWFRAME
-
       CASE WM_NOTIFY
          DIM pTabPage AS CTabPage PTR    ' // Tab page object reference
          DIM ptnmhdr AS NMHDR PTR        ' // Information about a notification message
@@ -127,11 +123,11 @@ FUNCTION DlgProc (BYVAL hDlg AS HWND, BYVAL uMsg AS DWORD, BYVAL wParam AS DWORD
                   CASE TCN_SELCHANGE
                      ' // Show the selected page
                      pTabPage = AfxCTabPagePtr(ptnmhdr->hwndFrom, -1)
-                     IF pTabPage THEN ..ShowWindow pTabPage->hTabPage, SW_SHOW
+                     IF pTabPage THEN ShowWindow pTabPage->hTabPage, SW_SHOW
                   CASE TCN_SELCHANGING
                      ' // Hide the current page
                      pTabPage = AfxCTabPagePtr(ptnmhdr->hwndFrom, -1)
-                     IF pTabPage THEN ..ShowWindow pTabPage->hTabPage, SW_HIDE
+                     IF pTabPage THEN ShowWindow pTabPage->hTabPage, SW_HIDE
                END SELECT
          END SELECT
 
