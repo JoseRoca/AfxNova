@@ -87,6 +87,7 @@ Assorted date and time procedures.
 | [AfxTimeZoneStandardMinute](#afxtimezonestandardminute) | Minute of the **StandardHour** when the transition from standard time to daylight saving time occurs on an operating system. |
 | [AfxTimeZoneStandardMonth](#afxtimezonestandardmonth) | Month when the transition from daylight saving time to standard time occurs on an operating system. |
 | [AfxTimeZoneStandardName](#afxtimezonestandardname) | A description for standard time. For example, "EST" could indicate Eastern Standard Time. This string can be empty. |
+| [AfxUtcDateStr](#afxutcdatestr) | Returns the current local date based on the specified mask, e.g. "dd-MM-yyyy". |
 | [AfxUtcTimeStr](#afxutctimestr) | Returns the current UTC time based on the specified mask, e.g. "hh':'mm':'ss". |
 | [AfxVariantDateTimeToStr](#afxvariantdatetimetostr) | Converts a DATE_ type to a string. |
 | [AfxVariantDateToStr](#afxvariantdatetostr) | Converts a DATE_ type to a string containing only the date. |
@@ -609,6 +610,52 @@ The current local date in string format.
 
 ---
 
+## AfxLocalUtcStr
+
+Returns the current UTC date based on the specified mask, e.g. "dd-MM-yyyy".
+
+```
+FUNCTION AfxUtcDateStr (BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszMask* | A picture string that is used to form the date.<br>The format types "d", and "y" must be lowercase and the letter "M" must be uppercase.<br>For example, to get the date string "Wed, Aug 31 94", the application uses the picture string "ddd',' MMM dd yy". |
+| *lcid* | Optional. The language identifier used for the conversion. Default is LOCALE_USER_DEFAULT. |
+
+The following table defines the format types used to represent days.
+
+| Format type | Meaning |
+| ----------- | ----------- |
+| d | Day of the month as digits without leading zeros for single-digit days. |
+| dd | Day of the month as digits with leading zeros for single-digit days. |
+| ddd | Abbreviated day of the week, for example, "Mon" in English (United States). |
+| dddd | Day of the week. |
+
+The following table defines the format types used to represent months.
+
+| Format type | Meaning |
+| ----------- | ----------- |
+| M | Month as digits without leading zeros for single-digit months. |
+| MM | Month as digits with leading zeros for single-digit months. |
+| MMM | Abbreviated month, for example, "Nov" in English (United States). |
+| MMMM | Month value, for example, "November" for English (United States), and "Noviembre" for Spanish (Spain). |
+
+The following table defines the format types used to represent years.
+
+| Format type | Meaning |
+| ----------- | ----------- |
+| y | Year represented only by the last digit. |
+| yy | Year represented only by the last two digits. A leading zero is added for single-digit years. |
+| yyyy | Year represented by a full four or five digits, depending on the calendar used. Thai Buddhist and Korean calendars have five-digit years. The "yyyy" pattern shows five digits for these two calendars, and four digits for all other supported calendars. Calendars that have single-digit or two-digit years, such as for the Japanese Emperor era, are represented differently. A single-digit year is represented with a leading zero, for example, "03". A two-digit year is represented with two digits, for example, "13". No additional leading zeros are displayed. |
+| yyyyy | Behaves identically to "yyyy". |
+
+#### Return value
+
+The current UTC date in string format.
+
+---
+
 # AfxLocalDay
 
 Returns the current local day. The valid values are 1 through 31.
@@ -798,7 +845,7 @@ Picture string used to form the time.
 
 #### Return value
 
-The formatted time.
+The formatted current local time.
 
 ---
 
@@ -832,7 +879,7 @@ Picture string used to form the time.
 
 #### Return value
 
-The formatted time.
+The formatted current UTC time.
 
 ---
 
