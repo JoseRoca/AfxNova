@@ -87,6 +87,7 @@ Assorted date and time procedures.
 | [AfxTimeZoneStandardMinute](#afxtimezonestandardminute) | Minute of the **StandardHour** when the transition from standard time to daylight saving time occurs on an operating system. |
 | [AfxTimeZoneStandardMonth](#afxtimezonestandardmonth) | Month when the transition from daylight saving time to standard time occurs on an operating system. |
 | [AfxTimeZoneStandardName](#afxtimezonestandardname) | A description for standard time. For example, "EST" could indicate Eastern Standard Time. This string can be empty. |
+| [AfxUtcTimeStr](#afxutctimestr) | Returns the current UTC time based on the specified mask, e.g. "hh':'mm':'ss". |
 | [AfxVariantDateTimeToStr](#afxvariantdatetimetostr) | Converts a DATE_ type to a string. |
 | [AfxVariantDateToStr](#afxvariantdatetostr) | Converts a DATE_ type to a string containing only the date. |
 | [AfxVariantTimeToStr](#afxvarianttimetostr) | Converts a DATE_ type to a string containing only the time. |
@@ -773,6 +774,40 @@ Returns the current local time based on the specified mask, e.g. "hh':'mm':'ss".
 
 ```
 FUNCTION AfxLocalTimeStr (BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszMask* | A picture string that is used to form the time. |
+| *lcid* | Optional. The language identifier used for the conversion. Default is LOCALE_USER_DEFAULT. |
+
+Picture string used to form the time.
+
+| Picture    | Meaning |
+| ---------- | ----------- |
+| h | Hours with no leading zero for single-digit hours; 12-hour clock |
+| hh | Hours with leading zero for single-digit hours; 12-hour clock |
+| H | Hours with no leading zero for single-digit hours; 24-hour clock |
+| HH | Hours with leading zero for single-digit hours; 24-hour clock |
+| m | Minutes with no leading zero for single-digit minutes |
+| mm | Minutes with leading zero for single-digit minutes |
+| s | Seconds with no leading zero for single-digit seconds |
+| ss | Seconds with leading zero for single-digit seconds |
+| t | One character time marker string, such as A or P |
+| tt | Multi-character time marker string, such as AM or PM |
+
+#### Return value
+
+The formatted time.
+
+---
+
+## AfxUtcTimeStr
+
+Returns the current UTC time based on the specified mask, e.g. "hh':'mm':'ss".
+
+```
+FUNCTION AfxUtcTimeStr (BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
 ```
 
 | Parameter  | Description |
