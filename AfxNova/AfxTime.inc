@@ -339,6 +339,18 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Retuns the current UTC time based on the specified mask, e.g. "hh':'mm':'ss".
+' ========================================================================================
+PRIVATE FUNCTION AfxUtcTimeStr (BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+   DIM utctime AS SYSTEMTIME
+   GetSystemTime(@utctime)
+   DIM wszDateStr AS WSTRING * 260
+   GetTimeFormatW(lcid, NULL, @utctime, wszMask, wszDateStr, SIZEOF(wszDateStr))
+   RETURN wszDateStr
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Returns the Astronomical Day for any given date.
 ' Parameters:
 ' - nDay: A number between 1-31.
