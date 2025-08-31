@@ -339,14 +339,26 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Retuns the current UTC date based on the specified mask, e.g. "dd-MM-yyyy".
+' ========================================================================================
+PRIVATE FUNCTION AfxUtcDateStr (BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+   DIM utctime AS SYSTEMTIME
+   GetSystemTime(@utctime)
+   DIM wszDateStr AS WSTRING * 260
+   GetDateFormatW(lcid, NULL, @utctime, wszMask, wszDateStr, SIZEOF(wszDateStr))
+   RETURN wszDateStr
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Retuns the current UTC time based on the specified mask, e.g. "hh':'mm':'ss".
 ' ========================================================================================
 PRIVATE FUNCTION AfxUtcTimeStr (BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
    DIM utctime AS SYSTEMTIME
    GetSystemTime(@utctime)
-   DIM wszDateStr AS WSTRING * 260
-   GetTimeFormatW(lcid, NULL, @utctime, wszMask, wszDateStr, SIZEOF(wszDateStr))
-   RETURN wszDateStr
+   DIM wszTimeStr AS WSTRING * 260
+   GetTimeFormatW(lcid, NULL, @utctime, wszMask, wszTimeStr, SIZEOF(wszTimeStr))
+   RETURN wszTimeStr
 END FUNCTION
 ' ========================================================================================
 
