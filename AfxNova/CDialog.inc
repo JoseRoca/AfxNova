@@ -1155,6 +1155,12 @@ PRIVATE FUNCTION CDialog.CDialogProc (BYVAL hDlg AS HWND, BYVAL uMsg AS UINT, BY
             END IF
          END IF
 
+      CASE WM_PAINT
+         ' IMPORTANT: Force frame redraw to ensure all child controls (including complex controls
+         ' such as Rebar, Toolbar, Tab) are reliably repainted after resizing or other state changes.
+         ' This prevents users from having to manually handle WM_PAINT or SetWindowPos for those controls.
+         SetWindowPos hDlg, NULL, 0, 0, 0, 0, SWP_NOZORDER OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_DRAWFRAME
+
       CASE WM_HSCROLL
          ' // Horizontal scrollbar
          IF pDlg->IsDialogScrollable THEN pDlg->DialogOnHScroll(wParam, lParam)
@@ -2935,6 +2941,19 @@ PRIVATE FUNCTION CDialog.LayoutEnumChildProc (BYVAL hwndChild AS HWND, BYVAL lPa
                yHeight = nHeight
          END SELECT
          MoveWindow(hwndChild, x, y, xWidth, yHeight, CTRUE)
+
+         ' Ensure visibility for certain control types
+'         DIM wszClassName AS WSTRING * 32
+'         GetClassNameW(hwndChild, wszClassName, SIZEOF(wszClassName))
+'         wszClassName = TRIM(wszClassName)
+'         SELECT CASE UCASE(wszClassName)
+'            CASE "REBARWINDOW32", "TOOLBARWINDOW32", "SYSTABCONTROL32"
+'print wszClassName; "*******************************************************"
+'               SetWindowPos(hwndChild, HWND_TOP, x, y, xWidth, yHeight, SWP_SHOWWINDOW OR SWP_NOZORDER)
+'               InvalidateRect(hwndChild, NULL, TRUE)
+'               UpdateWindow hwndChild
+'         END SELECT
+
       END IF
    END IF
 
