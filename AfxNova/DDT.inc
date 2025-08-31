@@ -30,7 +30,6 @@
 #include once "AfxNova/AfxCtl.inc"
 #include once "AfxNova/DWSTRProcs.inc"
 #include once "AfxNova/AfxMenu.inc"
-#include once "AfxNova/CGraphCtx.inc"
 USING AfxNova
 
 ' ========================================================================================
@@ -212,7 +211,7 @@ PRIVATE FUNCTION DialogGetWidth (BYVAL hDlg AS HWND) AS LONG
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Gets the width of the dialog.
+' Gets the height of the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION DialogGetHeight (BYVAL hDlg AS HWND) AS LONG
    DIM pDlg AS CDialog PTR = GetCDialogPtr(hDlg)
@@ -456,20 +455,6 @@ END FUNCTION
 #define ControlAddEditMultiline ControlAdd("EditMultiline")
 #define ControlAddMultilineTextbox ControlAdd("EditMultiline")
 #define ControlAddListBoxMultiSelect ControlAdd("ListBoxMultiSelect")
-' ========================================================================================
-
-' ========================================================================================
-' Adds a graphic control to the dialog.
-' ========================================================================================
-PRIVATE FUNCTION ControlAddGraphic (BYVAL hDlg AS HWND, BYVAL cId AS LONG_PTR = 0, BYREF wszTitle AS WSTRING = "", _
-BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL cx AS LONG = 0, BYVAL cy AS LONG = 0, _
-BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0, _
-BYVAL pCallbackProc AS WNDPROC = NULL) AS CGraphCtx PTR
-   ' // Create a new instance of the graphic control
-   ' // The returned pointer must be freed with Delete
-   DIM pGraphCtx AS CGraphCtx PTR = NEW CGraphCtx(hDlg, cId, wszTitle, x, y, cx, cy, dwStyle, dwExStyle, lpParam, pCallbackProc)
-   RETURN pGraphCtx
-END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
