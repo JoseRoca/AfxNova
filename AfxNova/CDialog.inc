@@ -2942,18 +2942,6 @@ PRIVATE FUNCTION CDialog.LayoutEnumChildProc (BYVAL hwndChild AS HWND, BYVAL lPa
          END SELECT
          MoveWindow(hwndChild, x, y, xWidth, yHeight, CTRUE)
 
-         ' Ensure visibility for certain control types
-'         DIM wszClassName AS WSTRING * 32
-'         GetClassNameW(hwndChild, wszClassName, SIZEOF(wszClassName))
-'         wszClassName = TRIM(wszClassName)
-'         SELECT CASE UCASE(wszClassName)
-'            CASE "REBARWINDOW32", "TOOLBARWINDOW32", "SYSTABCONTROL32"
-'print wszClassName; "*******************************************************"
-'               SetWindowPos(hwndChild, HWND_TOP, x, y, xWidth, yHeight, SWP_SHOWWINDOW OR SWP_NOZORDER)
-'               InvalidateRect(hwndChild, NULL, TRUE)
-'               UpdateWindow hwndChild
-'         END SELECT
-
       END IF
    END IF
 
@@ -3313,10 +3301,6 @@ PRIVATE FUNCTION AfxCDialogPtr (BYVAL hwnd AS HWND) AS CDialog PTR
 END FUNCTION
 ' ========================================================================================
 
-' ########################################################################################
-
-' ########################################################################################
-'                                *** INPUT BOX DIALOG ***
 ' ########################################################################################
 
 ' ########################################################################################
