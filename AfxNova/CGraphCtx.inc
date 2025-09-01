@@ -233,7 +233,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' CGraphCtx class constructor - CWindow and CDialog
+' CGraphCtx class constructor - hWin must be a handle of a window created with CWindow.
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CGraphCtx (BYVAL hWin AS HWND, BYVAL cID AS LONG_PTR, BYREF wszTitle AS WSTRING = "", _
    BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
