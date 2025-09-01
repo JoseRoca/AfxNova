@@ -2102,6 +2102,7 @@ PRIVATE FUNCTION CWindow.SetViewPort (BYVAL nWidth AS LONG, BYVAL nHeight AS LON
    RETURN TRUE
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 PRIVATE FUNCTION CWindow.IsWindowScrollable () AS BOOLEAN
    FUNCTION = m_IsWindowScrollable
@@ -2123,22 +2124,37 @@ END SUB
 
 ' ========================================================================================
 ' Sets the window scroll information
+' Refactored: uses SCROLLINFO for proportional thumb size.
 ' ========================================================================================
 PRIVATE SUB CWindow.SetupScrollBars
-   DIM bMaximized AS LONG, tempRect AS RECT
+   DIM tempRect AS RECT
    ..GetClientRect(m_hwnd, @tempRect)
    ' // Calculate how many scrolling increments for the client area
    m_nHorzInc = ((m_OrigClientRect.Right - m_OrigClientRect.Left) - (tempRect.Right  - tempRect.Left) ) \ m_HorzUnits
    m_nVertInc = ((m_OrigClientRect.Bottom - m_OrigClientRect.Top) - (tempRect.bottom - tempRect.Top ) ) \ m_VertUnits
-   '// Set the vertical and horizontal scrolling info
    m_HScrollMax = MAX(0, m_nHorzInc)
    m_HScrollPos = MIN(m_HScrollPos, m_HScrollMax)
-   SetScrollRange(m_hwnd, SB_HORZ, 0, m_HScrollMax, FALSE)
-   SetScrollPos(m_hwnd, SB_HORZ, m_HScrollPos, CTRUE)
    m_VScrollMax = MAX(0, m_nVertInc)
    m_VScrollPos = MIN(m_VScrollPos, m_VScrollMax)
-   SetScrollRange(m_hwnd, SB_VERT, 0, m_VScrollMax, FALSE)
-   SetScrollPos(m_hwnd, SB_VERT, m_VScrollPos, TRUE)
+
+   ' Use SCROLLINFO so thumbs reflect the visible area
+   DIM si AS SCROLLINFO
+   si.cbSize = SIZEOF(si)
+   si.fMask = SIF_RANGE OR SIF_PAGE OR SIF_POS
+
+   ' Horizontal scroll bar
+   si.nMin = 0
+   si.nMax = m_OrigClientRect.Right - m_OrigClientRect.Left - 1
+   si.nPage = tempRect.Right - tempRect.Left
+   si.nPos = m_HScrollPos
+   SetScrollInfo(m_hwnd, SB_HORZ, @si, TRUE)
+
+   ' Vertical scroll bar
+   si.nMin = 0
+   si.nMax = m_OrigClientRect.Bottom - m_OrigClientRect.Top - 1
+   si.nPage = tempRect.Bottom - tempRect.Top
+   si.nPos = m_VScrollPos
+   SetScrollInfo(m_hwnd, SB_VERT, @si, TRUE)
 END SUB
 ' ========================================================================================
 
