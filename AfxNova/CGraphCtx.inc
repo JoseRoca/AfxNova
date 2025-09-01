@@ -215,15 +215,18 @@ PRIVATE CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_P
          IF this.SetPixelFormat(m_BitsPerPel) THEN m_hRC = this.CreateContext
       END IF
       ' // Initializes scroll bar ranges
-      m_MaxX = m_coord.Right - m_coord.Left
-      m_MaxY = m_coord.Bottom - m_coord.Top
+      m_MaxX = m_vWidth
+      m_MaxY = m_vHeight
       DIM si AS SCROLLINFO
       si.cbSize = SIZEOF(si)
-      si.fMask = SIF_RANGE
+      si.fMask = SIF_RANGE OR SIF_PAGE
       si.nMin = 0
-      si.nMax = m_MaxX - m_coord.Right - m_coord.Left
+      si.nMax = m_vWidth - 1
+      si.nPage = m_coord.Right - m_coord.Left
       ..SetScrollInfo m_hCtl, SB_HORZ, @si, 1
-      si.nMax = m_MaxY - m_coord.Bottom - m_coord.Top
+      si.nMin = 0
+      si.nMax = m_vHeight - 1
+      si.nPage = m_coord.Bottom - m_coord.Top
       ..SetScrollInfo m_hCtl, SB_VERT, @si, 1
       ' // Invalidates the window to force redrawing
       ..InvalidateRect m_hCtl, NULL, 0
@@ -546,16 +549,21 @@ PRIVATE FUNCTION CGraphCtx.CGraphCtxProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT
             ' // Stores new window extents
             pGraphCtx->m_coord.Right  = LOWORD(lParam)
             pGraphCtx->m_coord.Bottom = HIWORD(lParam)
-               ' // Reinitializes scroll bar ranges
+            ' // Reinitializes scroll bar ranges
             IF pGraphCtx->m_Stretchable = FALSE THEN
+               pGraphCtx->m_MaxX = pGraphCtx->m_vWidth
+               pGraphCtx->m_MaxY = pGraphCtx->m_vHeight
                si.cbSize = SIZEOF(si)
-               si.fMask = SIF_RANGE OR SIF_POS
+               si.fMask = SIF_RANGE OR SIF_POS OR SIF_PAGE
                si.nMin = 0
-               si.nMax = pGraphCtx->m_MaxX - pGraphCtx->m_coord.Right - pGraphCtx->m_coord.Left
+               si.nMax = pGraphCtx->m_vWidth - 1
                si.nPos = pGraphCtx->m_OrgX
+               si.nPage = pGraphCtx->m_coord.Right - pGraphCtx->m_coord.Left
                .SetScrollInfo hwnd, SB_HORZ, @si, 1
-               si.nMax = pGraphCtx->m_MaxY - pGraphCtx->m_coord.Bottom - pGraphCtx->m_coord.Top
+               si.nMin = 0
+               si.nMax = pGraphCtx->m_vHeight - 1
                si.nPos = pGraphCtx->m_OrgY
+               si.nPage = pGraphCtx->m_coord.Bottom - pGraphCtx->m_coord.Top
                .SetScrollInfo hwnd, SB_VERT, @si, 1
             END IF
             ' // Invalidates the window to force redrawing
@@ -707,11 +715,13 @@ PRIVATE FUNCTION CGraphCtx.SetVirtualBufferSize (BYVAL nWidth AS LONG, BYVAL nHe
       m_MaxY = m_coord.Bottom - m_coord.Top
       DIM si AS SCROLLINFO
       si.cbSize = SIZEOF(si)
-      si.fMask = SIF_RANGE
+      si.fMask = SIF_RANGE OR SIF_PAGE
       si.nMin = 0
       si.nMax = m_MaxX - m_coord.Right - m_coord.Left
+      si.nPage = m_coord.Right - m_coord.Left
       ..SetScrollInfo m_hCtl, SB_HORZ, @si, 1
       si.nMax = m_MaxY - m_coord.Bottom - m_coord.Top
+      si.nPage = m_coord.Bottom - m_coord.Top
       ..SetScrollInfo m_hCtl, SB_VERT, @si, 1
       ' // If a scrollbar isn't needed, hide it
       DIM rc AS RECT
