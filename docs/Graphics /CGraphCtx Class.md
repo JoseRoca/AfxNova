@@ -8,7 +8,7 @@ To use the control, include the **CGraphCtx.inc** file in your program and use t
 
 **Include file**: AfxNova/CGraphCtx.inc
 
-### Constructor
+### Constructors
 
 Registers the class name and creates an instance of the control.
 
@@ -31,6 +31,14 @@ CONSTRUCTOR CGraphCtx (BYVAL pWindow AS CWindow PTR, BYVAL cID AS LONG_PTR, _
 | *dwStyle* | The style of the window being created. Pass -1 to use the default styles.<br>Default styles: WS_VISIBLE OR WS_CHILD OR WS_TABSTOP. |
 | *dwExStyle* | The extended window style of the control being created. Pass -1 to use the default styles. |
 | *lpParam* | Pointer to custom data. |
+
+The following constructor accepts a window handle instead of a pointer to the `CWindow`class. The window handle must be a window created with the `CWindow` class.
+```
+CONSTRUCTOR CGraphCtx (BYVAL hWin AS HWND, BYVAL cID AS LONG_PTR, _
+   BYREF wszTitle AS WSTRING = "", BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, _
+   BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, BYVAL dwStyle AS DWORD = 0, _
+   BYVAL dwExStyle AS DWORD = 0, BYVAL lpParam AS LONG_PTR = 0)
+```
 
 | Name       | Description |
 | ---------- | ----------- |
