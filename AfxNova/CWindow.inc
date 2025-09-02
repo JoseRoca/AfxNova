@@ -126,6 +126,14 @@ TYPE AFX_CTLUSERDATA
 END TYPE
 #endif
 
+#ifndef AFX_CTLCALLBACKS
+' // Controls user data
+TYPE AFX_CTLCALLBACKS
+   hCtl AS HWND
+   pCallback AS ANY PTR
+END TYPE
+#endif
+
 ' ========================================================================================
 ' CWindow class
 ' ========================================================================================
@@ -151,6 +159,7 @@ Private:
    DIM m_rgProps(ANY) AS AFX_ANCHORPROPERTY        ' // Array of anchor property structures
    DIM m_rgCtrlUserData(ANY) AS AFX_CTLUSERDATA    ' // Control's user data
    DIM m_rgColors(ANY) AS AFX_WINDOWCOLORS         ' // Window and controls colors - Array of colors structures
+   DIM m_rgCtrlCallbacks(ANY) AS AFX_CTLCALLBACKS  ' // Control's callbacks
    ' // Scrollable windows
    m_IsWindowScrollable AS BOOLEAN                 ' // Window scrollable -True of False
    m_OrigClientRect AS RECT                        ' // Coordinates of the window original client area
@@ -240,8 +249,7 @@ Public:
            BYVAL bItalic AS UBYTE = FALSE, BYVAL bUnderline AS UBYTE = FALSE, BYVAL bStrikeOut AS UBYTE = FALSE, BYVAL bCharSet AS UBYTE = DEFAULT_CHARSET) AS BOOLEAN
    DECLARE FUNCTION AddControl (BYREF wszClassName AS WSTRING, BYVAL hParent AS HWND = NULL, BYVAL cID AS LONG_PTR = 0, _
            BYREF wszTitle AS WSTRING = "", BYVAL x AS LONG = 0, BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, _
-           BYVAL nHeight AS LONG = 0, BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0, _
-           BYVAL pCallbackProc AS WNDPROC = NULL) AS HWND
+           BYVAL nHeight AS LONG = 0, BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0) AS HWND
    DECLARE FUNCTION SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS ANY PTR) AS BOOLEAN
    DECLARE FUNCTION SetControlSubclass (BYVAL hCtl AS HWND, BYVAL pfnSubclass AS ANY PTR, BYVAL uIdSubclass AS UINT_PTR, BYVAL dwRefData AS DWORD_PTR) AS BOOLEAN
 
@@ -279,6 +287,9 @@ Public:
    DECLARE FUNCTION GetUserDataItem (BYVAL cid AS LONG) AS LONG
    DECLARE FUNCTION ControlSetUser (BYVAL cid AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
    DECLARE FUNCTION ControlGetUser (BYVAL cid AS LONG, BYVAL index AS LONG) AS LONG_PTR
+   DECLARE FUNCTION GetUserDataItem (BYVAL hctl AS HWND) AS LONG
+   DECLARE FUNCTION ControlSetUser (BYVAL hctl AS HWND, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
+   DECLARE FUNCTION ControlGetUser (BYVAL hctl AS HWND, BYVAL index AS LONG) AS LONG_PTR
 
    ' //  Colors
    DECLARE FUNCTION GetColorItem (BYVAL hwnd AS ..HWND) AS LONG
@@ -289,6 +300,14 @@ Public:
    DECLARE FUNCTION SetBackColor (BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL hCtl AS ..HWND, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
    DECLARE FUNCTION SetCtlColors (BYVAL cID AS LONG, BYVAL foreColor AS COLORREF, BYVAL backColor AS COLORREF) AS BOOLEAN
+
+   ' // Callbacks
+   DECLARE FUNCTION GetControlCallbackItem (BYVAL cID AS LONG) AS LONG
+   DECLARE FUNCTION GetControlCallbackItem (BYVAL hCtl AS HWND) AS LONG
+   DECLARE FUNCTION SetControlCallback (BYVAL cID AS LONG, BYVAL pCallback AS ANY PTR) AS BOOLEAN
+   DECLARE FUNCTION SetControlCallback (BYVAL hCtl AS HWND, BYVAL pCallback AS ANY PTR) AS BOOLEAN
+   DECLARE FUNCTION GetControlCallback (BYVAL cID AS LONG) AS ANY PTR
+   DECLARE FUNCTION GetControlCallback (BYVAL hCtl AS HWND) AS ANY PTR
 
 Private:
    DECLARE STATIC FUNCTION LayoutEnumChildProc (BYVAL hwnd AS HWND, BYVAL lParam AS LPARAM) AS LONG
@@ -423,21 +442,26 @@ PRIVATE FUNCTION CWindow_WindowProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYV
             IF (wParam AND &hFFF0) = SC_CLOSE AND pWindow->IsStabilized = TRUE THEN RETURN 0
          END IF
 
-'      CASE WM_COMMAND
-'         SELECT CASE LOWORD(wParam)
-'            CASE IDCANCEL
-'               IF HIWORD(wParam) = BN_CLICKED THEN
-'                  SendMessageW hwnd, WM_CLOSE, 0, 0
-'               END IF
-'         END SELECT
+      CASE WM_COMMAND
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+            DIM hCtl AS ..HWND = CAST(..HWND, lParam)
+            DIM nItem AS LONG = pWindow->GetControlCallbackItem(hCtl)
+            IF nItem >= 0 THEN
+               RETURN CallWindowProcW(CAST(WNDPROC, pWindow->GetControlCallback(hCtl)), hCtl, uMsg, wParam, lParam)
+            END IF
+         END IF
 
-'      CASE WM_NOTIFY
-'         DIM ptnmhdr AS NMHDR PTR
-'         ptnmhdr = lParam
-'         SELECT CASE @ptnmhdr.idFrom
-'            ' ...
-'            ' ...
-'         END SELECT
+      CASE WM_NOTIFY
+         pWindow = AfxCWindowPtr(hwnd)
+         IF pWindow THEN
+            DIM ptnmhdr AS NMHDR PTR = CAST(NMHDR PTR, lParam)
+            DIM hCtl AS ..HWND = ptnmhdr->hwndFrom
+            DIM nItem AS LONG = pWindow->GetControlCallbackItem(hCtl)
+            IF nItem >= 0 THEN
+               RETURN CallWindowProcW(CAST(WNDPROC, pWindow->GetControlCallback(hCtl)), hCtl, uMsg, wParam, lParam)
+            END IF
+         END IF
 
       CASE WM_ERASEBKGND
          pWindow = AfxCWindowPtr(hwnd)
@@ -1417,8 +1441,7 @@ PRIVATE FUNCTION CWindow.AddControl ( _
    BYVAL nHeight AS LONG = 0, _                           ' // Control height
    BYVAL dwStyle AS LONG = -1, _                          ' // Control style
    BYVAL dwExStyle AS LONG = -1, _                        ' // Extended style
-   BYVAL lpParam AS LONG_PTR = 0, _                       ' // Pointer to custom data
-   BYVAL pCallbackProc AS WNDPROC = NULL _                ' // Address of the control callback procedure
+   BYVAL lpParam AS LONG_PTR = 0 _                        ' // Pointer to custom data
    ) AS HWND                                              ' // Control handle
 
    DIM hCtl AS HWND
@@ -1885,7 +1908,14 @@ PRIVATE FUNCTION CWindow.GetUserDataItem (BYVAL cID AS LONG) AS LONG
    NEXT
 END FUNCTION
 ' ========================================================================================
-
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetUserDataItem (BYVAL hCtl AS HWND) AS LONG
+   FUNCTION = -1
+   FOR i AS LONG = 0 TO UBOUND(m_rgCtrlUserData)
+      IF m_rgCtrlUserData(i).hCtl = hCtl THEN FUNCTION = i : EXIT FOR
+   NEXT
+END FUNCTION
+' ========================================================================================
 ' ========================================================================================
 ' Sets the control's user data
 ' ========================================================================================
@@ -1906,6 +1936,24 @@ PRIVATE FUNCTION CWindow.ControlSetUser (BYVAL cID AS LONG, BYVAL index AS LONG,
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
+' Sets the control's user data
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlSetUser (BYVAL hCtl AS HWND, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
+   IF index < 0 OR index > 9 THEN RETURN FALSE
+   IF IsWindow(hCtl) = FALSE THEN RETURN FALSE
+   ' // Check if the element already exists
+   DIM nItem AS LONG = this.GetUserDataItem(hCtl)
+   ' // If it does not exist, make room for it
+   IF nItem = -1 THEN
+      REDIM PRESERVE m_rgCtrlUserData(UBOUND(m_rgCtrlUserData) + 1) AS AFX_CTLUSERDATA
+      nItem = UBOUND(m_rgCtrlUserData)
+   END IF
+   m_rgCtrlUserData(nItem).hCtl = hCtl
+   m_rgCtrlUserData(nItem).Values(index) = userValue
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
 ' Gets the control's user data
 ' ========================================================================================
 PRIVATE FUNCTION CWindow.ControlGetUser (BYVAL cID AS LONG, BYVAL index AS LONG) AS LONG_PTR
@@ -1913,6 +1961,86 @@ PRIVATE FUNCTION CWindow.ControlGetUser (BYVAL cID AS LONG, BYVAL index AS LONG)
    DIM hCtl AS HWND = GetDlgItem(m_hWnd, cID)
    DIM nItem AS LONG = this.GetUserDataItem(cID)
    IF nItem > -1 THEN RETURN m_rgCtrlUserData(nItem).Values(index)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlGetUser (BYVAL hwnd AS HWND, BYVAL index AS LONG) AS LONG_PTR
+   IF index < 0 OR index > 9 THEN RETURN FALSE
+   DIM nItem AS LONG = this.GetUserDataItem(hwnd)
+   IF nItem > -1 THEN RETURN m_rgCtrlUserData(nItem).Values(index)
+END FUNCTION
+' ========================================================================================
+
+' ########################################################################################
+'                             *** CONTROL'S CALLBACKs ***
+' ########################################################################################
+
+' ========================================================================================
+' Gets the control callback pointer
+' Return Value: The array index on success, or -1 on failure.
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetControlCallbackItem (BYVAL cID AS LONG) AS LONG
+   FUNCTION = -1
+   Dim hCtl AS HWND = GetDlgItem(m_hWnd, cID)
+   FOR i AS LONG = 0 TO UBOUND(m_rgCtrlCallbacks)
+      IF m_rgCtrlCallbacks(i).hCtl = hCtl THEN FUNCTION = i : EXIT FOR
+   NEXT
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetControlCallbackItem (BYVAL hCtl AS HWND) AS LONG
+   FUNCTION = -1
+   FOR i AS LONG = 0 TO UBOUND(m_rgCtrlCallbacks)
+      IF m_rgCtrlCallbacks(i).hCtl = hCtl THEN FUNCTION = i : EXIT FOR
+   NEXT
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Sets the control callback pointer
+' ========================================================================================
+PRIVATE FUNCTION CWindow.SetControlCallback (BYVAL cID AS LONG, BYVAL pCallback AS ANY PTR) AS BOOLEAN
+   DIM hCtl AS HWND = GetDlgItem(m_hWnd, CID)
+   IF IsWindow(hCtl) = FALSE THEN RETURN FALSE
+   ' // Check if the element already exists
+   DIM nItem AS LONG = this.GetControlCallbackItem(cID)
+   ' // If it does not exist, make room for it
+   IF nItem = -1 THEN
+      REDIM PRESERVE m_rgCtrlCallbacks(UBOUND(m_rgCtrlCallbacks) + 1) AS AFX_CTLCALLBACKS
+      nItem = UBOUND(m_rgCtrlCallbacks)
+   END IF
+   m_rgCtrlCallbacks(nItem).hCtl = hCtl
+   m_rgCtrlCallbacks(nItem).pCallback = pCallback
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.SetControlCallback (BYVAL hCtl AS HWND, BYVAL pCallback AS ANY PTR) AS BOOLEAN
+   IF IsWindow(hCtl) = FALSE THEN RETURN FALSE
+   ' // Check if the element already exists
+   DIM nItem AS LONG = this.GetControlCallbackItem(hCtl)
+   ' // If it does not exist, make room for it
+   IF nItem = -1 THEN
+      REDIM PRESERVE m_rgCtrlCallbacks(UBOUND(m_rgCtrlCallbacks) + 1) AS AFX_CTLCALLBACKS
+      nItem = UBOUND(m_rgCtrlCallbacks)
+   END IF
+   m_rgCtrlCallbacks(nItem).hCtl = hCtl
+   m_rgCtrlCallbacks(nItem).pCallback = pCallback
+   RETURN TRUE
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Gets the control's user data
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetControlCallback (BYVAL cID AS LONG) AS ANY PTR
+   DIM hCtl AS HWND = GetDlgItem(m_hWnd, cID)
+   DIM nItem AS LONG = this.GetControlCallbackItem(cID)
+   IF nItem > -1 THEN RETURN m_rgCtrlCallbacks(nItem).pCallback
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWindow.GetControlCallback (BYVAL hCtl AS HWND) AS ANY PTR
+   DIM nItem AS LONG = this.GetControlCallbackItem(hCtl)
+   IF nItem > -1 THEN RETURN m_rgCtrlCallbacks(nItem).pCallback
 END FUNCTION
 ' ========================================================================================
 
