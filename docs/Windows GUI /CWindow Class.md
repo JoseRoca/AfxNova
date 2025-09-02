@@ -102,6 +102,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [ScreenY](#screeny) | Returns the y-coordinate of the window relative to the screen. |
 | [SetBackColor](#setbackcolor) | Sets the background color of a `CWindow`. |
 | [SetClientSize](#setclientsize) | Adjusts the bounding rectangle of the window based on the desired size of the client area. |
+| [SetControlCallback](#setcontrolcallback) | Optional address of a callback function that receives all WM_COMMAND and WM_NOTIFY messages for the control. |
 | [SetControlSubclass](#setcontrolsubclass) | Installs or updates a control subclass callback. |
 | [SetCtlColors](#setctlcolors) | Sets the colors of a control |
 | [SetFont](#setfont) | Creates a DPI aware logical font and sets it as the default font. |
@@ -1144,7 +1145,7 @@ FUNCTION AddControl (BYREF wszClassName AS WSTRING, BYVAL hParent AS HWND = NULL
    BYVAL cID AS LONG_PTR = 0, BYREF wszTitle AS WSTRING = "", BYVAL x AS LONG = 0, _
    BYVAL y AS LONG = 0, BYVAL nWidth AS LONG = 0, BYVAL nHeight AS LONG = 0, _
    BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, _
-   BYVAL lpParam AS LONG_PTR = 0, BYVAL pWndProc AS WNDPROC = NULL) AS HWND
+   BYVAL lpParam AS LONG_PTR = 0) AS HWND
 ```
 
 | Parameter  | Description |
@@ -1160,7 +1161,6 @@ FUNCTION AddControl (BYREF wszClassName AS WSTRING, BYVAL hParent AS HWND = NULL
 | *dwStyle* | The window styles of the control being created. |
 | *dwExStyle* | The extended window styles of the control being created. |
 | *lpParam* | Optional. Pointer to a value to be passed to the window through the CREATESTRUCT structure (lpCreateParams member) pointed to by the lParam param of the WM_CREATE message. This message is sent to the created window by this function before it returns. |
-| *pWndProc* | Optional. Address of the window callback procedure. |
 
 #### Return value
 
@@ -1477,11 +1477,13 @@ DIM nHeight AS LONG = pWindow.ControlClientWidth(hwnd)
 Gets the control's user data.
 
 ```
+FUNCTION ControlGetUser (BYVAL hCtl AS LONG, BYVAL index AS LONG) AS LONG_PTR
 FUNCTION ControlGetUser (BYVAL cID AS LONG, BYVAL index AS LONG) AS LONG_PTR
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
+| *hCtl* | The handle of the control. |
 | *cID* | The control identifier. |
 | *index* | The index number of the user data value to retrieve, in the range 0 to 9 inclusive. |
 
@@ -1500,11 +1502,13 @@ Returns the LONG_PTR data value stored in the nominated user data index.
 Sets the control's user data.
 
 ```
+FUNCTION ControlSetUser (BYVAL hCtl AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
 FUNCTION ControlSetUser (BYVAL cID AS LONG, BYVAL index AS LONG, BYVAL userValue AS LONG_PTR) AS BOOLEAN
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
+| *hCtl* | The handle of the control. |
 | *cID* | The control identifier. |
 | *index* | The index number of the user data value to set, in the range 0 to 9 inclusive. |
 | *userValue* | The LONG_PTR data value to store in the user data area. |
@@ -2392,6 +2396,26 @@ Subclass callbacks are identified by the combination of the callback address and
 Each callback can store a single DWORD_PTR of reference data, which is passed to the callback function when it is called to filter messages. No reference counting is performed for the callback; it may repeatedly call **SetControlSubclass** to alter the value of its reference data element.
 
 **Warning**: You cannot use the subclassing helper functions to subclass a window across threads.
+
+---
+
+## SetControlCallback
+
+Optional address of a callback function that receives all WM_COMMAND and WM_NOTIFY messages for the control.
+
+```
+FUNCTION SetControlCallback (BYVAL hCtl AS HWND, BYVAL pCallback AS ANY PTR) AS BOOLEAN
+FUNCTION SetControlCallback (BYVAL cID AS LONG, BYVAL pCallback AS ANY PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hCtl* | The handle of the control. |
+| *pCallback* | A pointer to a window procedure. You can use PROCPTR to get the pointer, e.g. PROCPTR(MyCallbackProc). |
+
+#### Return value
+
+TRUE if the subclass callback was successfully installed; otherwise, FALSE.
 
 ---
 
