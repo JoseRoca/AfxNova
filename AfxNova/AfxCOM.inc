@@ -115,8 +115,8 @@ END FUNCTION
 ' To be valid, the string must contain exactly 32 hexadecimal digits, delimited by hyphens
 ' and enclosed by curly braces. For example: {B09DE715-87C1-11D1-8BE3-0000F8754DA1}
 ' If pwszGuidText is omited, AfxGuid generates a new unique guid.
-' Remarks: I have need to call the UuidCreate function dynamically because, at the time of
-' writing, the library for the RPCRT4.DLL seems broken and the linker fails.
+' Remarks: I have needed to call the UuidCreate function dynamically because, at the time
+' of writing, the library for the RPCRT4.DLL seems broken and the linker fails.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGuid (BYVAL pwszGuidText AS WSTRING PTR = NULL) AS GUID
    DIM rguid AS GUID
@@ -126,11 +126,11 @@ PRIVATE FUNCTION AfxGuid (BYVAL pwszGuidText AS WSTRING PTR = NULL) AS GUID
       IF pLib  THEN
          DIM pProc AS FUNCTION (BYVAL Uuid AS UUID PTR) AS RPC_STATUS
          pProc = DyLibSymbol(pLib, "UuidCreate")
-         IF pProc THEN pProc(@rguid)
+         IF pProc THEN SetLastError(pProc(@rguid))
          DyLibFree(pLib)
       END IF
    ELSE
-      CLSIDFromString(pwszGuidText, @rGuid)
+      SetLastError(CLSIDFromString(pwszGuidText, @rGuid))
    END IF
    RETURN rguid
 END FUNCTION
@@ -141,7 +141,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGuidText OVERLOAD (BYVAL classID AS CLSID PTR) AS STRING
    DIM pwsz AS WSTRING PTR
-   StringFromCLSID(classID, CAST(LPOLESTR PTR, @pwsz))
+   SetLastError(StringFromCLSID(classID, CAST(LPOLESTR PTR, @pwsz)))
    FUNCTION = *pwsz
    CoTaskMemFree(pwsz)
 END FUNCTION
@@ -149,7 +149,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGuidText OVERLOAD (BYVAL classID AS CLSID) AS STRING
    DIM pwsz AS WSTRING PTR
-   StringFromCLSID(@classID, CAST(LPOLESTR PTR, @pwsz))
+   SetLastError(StringFromCLSID(@classID, CAST(LPOLESTR PTR, @pwsz)))
    FUNCTION = *pwsz
    CoTaskMemFree(pwsz)
 END FUNCTION
@@ -157,7 +157,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGuidText OVERLOAD (BYVAL riid AS REFIID) AS STRING
    DIM pwsz AS WSTRING PTR
-   StringFromIID(riid, CAST(LPOLESTR PTR, @pwsz))
+   SetLastError(StringFromIID(riid, CAST(LPOLESTR PTR, @pwsz)))
    FUNCTION = *pwsz
    CoTaskMemFree(pwsz)
 END FUNCTION

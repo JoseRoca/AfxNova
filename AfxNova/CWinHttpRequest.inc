@@ -59,6 +59,7 @@ TYPE CWinHttpRequest
 Public:
    m_Result AS HRESULT
    m_pWinHttp AS Afx_IWinHttpRequest PTR
+   DIM m_dwCookie AS DWORD
 
 Private:
    m_bUninitCOM AS BOOLEAN
@@ -88,6 +89,7 @@ Public:
    DECLARE FUNCTION SetAutoLogonPolicy (BYVAL AutoLogonPolicy AS WinHttpRequestAutoLogonPolicy) AS HRESULT
    DECLARE FUNCTION GetOption (BYVAL nOption AS WinHttpRequestOption) AS DVARIANT
    DECLARE FUNCTION SetOption (BYVAL nOption AS WinHttpRequestOption, BYREF dvValue AS DVARIANT) AS HRESULT
+   DECLARE FUNCTION SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
 
 END TYPE
 ' ########################################################################################
@@ -104,6 +106,13 @@ PRIVATE CONSTRUCTOR CWinHttpRequest
    DIM IID_IWinHttpRequest_ AS GUID = (&h016FE2EC, &hB2C8, &h45F8, {&hB2, &h3B, &h39, &hE5, &h3A, &h75, &h39, &h6B})
    SetResult(CoCreateInstance(@CLSID_WinHttpRequest_, NULL, CLSCTX_INPROC_SERVER, @IID_IWinHttpRequest_, @m_pWinHttp))
    IF m_pWinHttp = NULL THEN EXIT CONSTRUCTOR
+   ' WinHttpRequestOption_SecureProtocols = 9
+   ' SecureProtocol_SSL2 = 8
+   ' SecureProtocol_SSL3 = 32
+   ' SecureProtocol_TLS1 = 128
+   ' SecureProtocol_TLS2 = 2048
+   DIM value AS LONG = 8 OR 32 OR 128 OR 2048
+   SetResult(this.SetOption (9, DVARIANT(value, VT_I4)))
 END CONSTRUCTOR
 ' ========================================================================================
 
@@ -111,6 +120,8 @@ END CONSTRUCTOR
 ' Destructor
 ' ========================================================================================
 PRIVATE DESTRUCTOR CWinHttpRequest
+   DIM AFX_IID_IWinHttpRequestEvents_ AS GUID = (&hF97F4E15, &hB787, &h4212, {&h80, &hD1, &hD3, &h80, &hCB, &hBF, &h98, &h2E})
+   IF m_dwCookie THEN AfxUnAdvise(m_pWinHttp, AFX_IID_IWinHttpRequestEvents_, m_dwCookie)
    IF m_pWinHttp THEN m_pWinHttp->Release
    IF m_bUninitCOM THEN CoUninitialize
 END DESTRUCTOR
@@ -542,6 +553,22 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CWinHttpRequest.SetOption (BYVAL nOption AS WinHttpRequestOption, BYREF dvValue AS DVARIANT) AS HRESULT
    RETURN(SetResult(m_pWinHttp->put_Option(nOption, dvValue)))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the events sink.
+' ========================================================================================
+PRIVATE FUNCTION CWinHttpRequest.SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
+   IF pEvtSink = NULL THEN SetResult(E_POINTER) : RETURN E_POINTER
+   DIM AFX_IID_IWinHttpRequestEvents_ AS GUID = (&hF97F4E15, &hB787, &h4212, {&h80, &hD1, &hD3, &h80, &hCB, &hBF, &h98, &h2E})
+   IF m_dwCookie THEN
+      DIM hr AS HRESULT = AfxUnadvise(m_pWinHttp, AFX_IID_IWinHttpRequestEvents_, m_dwCookie)
+      IF hr <> S_OK THEN RETURN hr
+      m_dwCookie = 0
+   END IF
+   SetResult(AfxAdvise(m_pWinHttp, pEvtSink, AFX_IID_IWinHttpRequestEvents_, @m_dwCookie))
+   RETURN m_Result
 END FUNCTION
 ' ========================================================================================
 

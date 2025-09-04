@@ -45,9 +45,10 @@ END DESTRUCTOR
 ' Returns pointers to the implemented classes and supported interfaces.
 ' ========================================================================================
 FUNCTION CWinHttpRequestEvents.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   OutputDebugStringW("CWinHttpRequestEvents.QueryInterface")
+   OutputDebugStringW("CWinHttpRequestEvents.QueryInterface " & AfxGuidText(riid))
    IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @IID_IFileOpenDialog) OR _
+   DIM AFX_IID_IWinHttpRequestEvents_ AS GUID = (&hF97F4E15, &hB787, &h4212, {&h80, &hD1, &hD3, &h80, &hCB, &hBF, &h98, &h2E})
+   IF IsEqualIID(riid, @AFX_IID_IWinHttpRequestEvents_) OR _
       IsEqualIID(riid, @IID_IUnknown) THEN
       *ppvObj = @this
       ' // Increment the reference count
