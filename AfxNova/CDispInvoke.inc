@@ -59,7 +59,6 @@ Public:
    m_lcid AS LCID = LOCALE_USER_DEFAULT
    m_uArgErr AS UINT
    m_dispParams AS DISPPARAMS
-   m_excepInfo AS EXCEPINFO
    m_varResult AS VARIANT
 
 Private:
@@ -91,16 +90,14 @@ Public:
    DECLARE FUNCTION Attach (BYVAL vDisp AS VARIANT PTR) AS HRESULT
    DECLARE FUNCTION Detach () AS IDispatch PTR
    DECLARE FUNCTION Detach (BYVAL pvar AS VARIANT PTR) AS HRESULT
-   DECLARE FUNCTION GetLastResult () AS HRESULT
-   DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
    DECLARE FUNCTION GetLcid () AS LCID
    DECLARE SUB SetLcid (BYVAL _lcid AS LCID)
+
    DECLARE FUNCTION GetVarResult () AS DVARIANT
    DECLARE FUNCTION GetArgErr () AS UINT
-   DECLARE FUNCTION GetErrorCode () AS SCODE
-   DECLARE FUNCTION GetDescription () AS DWSTRING
-   DECLARE FUNCTION GetSource () AS DWSTRING
-   DECLARE FUNCTION GetHelpFile () AS DWSTRING
+   DECLARE FUNCTION GetLastResult () AS HRESULT
+   DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
+   DECLARE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
 
    DECLARE FUNCTION DispInvoke (BYVAL wFlags AS WORD, BYVAL dispID AS .DISPID, BYVAL prgArgs AS VARIANT PTR = NULL, BYVAL cArgs AS UINT = 0, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS HRESULT
    DECLARE FUNCTION DispInvoke (BYVAL wFlags AS WORD, BYVAL pwszName AS WSTRING PTR, BYVAL prgArgs AS VARIANT PTR = NULL, BYVAL cArgs AS UINT = 0, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS HRESULT
@@ -417,10 +414,6 @@ END CONSTRUCTOR
 ' ========================================================================================
 PRIVATE DESTRUCTOR CDispInvoke
    CDISPINVOKE_DP(" pDisp = " & WSTR(m_pDisp))
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -492,10 +485,6 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE SUB CDispInvoke.Clear
    CDISPINVOKE_DP("")
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -509,10 +498,6 @@ END SUB
 ' ========================================================================================
 PRIVATE OPERATOR CDispInvoke.Let (BYVAL pDisp AS IDispatch PTR)
    CDISPINVOKE_DP("IDispatch PTR - " & WSTR(pDisp))
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -530,10 +515,6 @@ END OPERATOR
 ' ========================================================================================
 PRIVATE OPERATOR CDispInvoke.Let (BYVAL vDisp AS VARIANT PTR)
    CDISPINVOKE_DP("VARIANT PTR " & WSTR(vDisp))
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -553,10 +534,6 @@ END OPERATOR
 ' ========================================================================================
 PRIVATE OPERATOR CDispInvoke.Let (BYVAL vDisp AS VARIANT)
    CDISPINVOKE_DP("VARIANT")
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -575,10 +552,6 @@ END OPERATOR
 ' ========================================================================================
 PRIVATE OPERATOR CDispInvoke.Let (BYREF cvDisp AS DVARIANT)
    CDISPINVOKE_DP("DVARIANT")
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -600,10 +573,6 @@ END OPERATOR
 PRIVATE FUNCTION CDispInvoke.Attach (BYVAL pDisp AS IDispatch PTR, BYVAL fAddRef AS BOOLEAN = FALSE) AS HRESULT
    CDISPINVOKE_DP("IDispatch PTR: " & WSTR(pdisp) & " - fAddRef: " & WSTR(fAddRef))
    IF pdisp = NULL THEN RETURN E_INVALIDARG
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -623,10 +592,6 @@ PRIVATE FUNCTION CDispInvoke.Attach (BYVAL pvar AS VARIANT PTR) AS HRESULT
    IF pvar = NULL THEN RETURN E_INVALIDARG
    IF pvar->vt <> VT_DISPATCH THEN RETURN E_INVALIDARG
    IF pvar->pdispVal = NULL THEN RETURN E_INVALIDARG
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    ' // Release the dispatch pointer
@@ -648,10 +613,6 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Detach () AS IDispatch PTR
    CDISPINVOKE_DP("IDispatch PTR: " & WSTR(m_pDisp))
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    DIM pTmp AS IDispatch PTR = m_pDisp
@@ -670,10 +631,6 @@ PRIVATE FUNCTION CDispInvoke.Detach (BYVAL pvar AS VARIANT PTR) AS HRESULT
    VariantClear(pvar)
    pvar->vt = VT_DISPATCH
    pvar->pdispVal = m_pDisp
-   ' // Free memory used by the EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
    ' // Free the memory used by the result variant
    VariantClear(@m_varResult)
    m_pDisp = NULL
@@ -695,6 +652,25 @@ END FUNCTION
 PRIVATE FUNCTION CDispInvoke.SetResult (BYVAL Result AS HRESULT) AS HRESULT
    m_Result = Result
    RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns a description of the last result code.
+' ========================================================================================
+PRIVATE FUNCTION CDispInvoke.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+   IF nError = -1 THEN nError = m_Result
+   DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, dwsMsg AS DWSTRING
+   cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
+           FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
+           NULL, nError, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
+           cast(LPWSTR, @pBuffer), 0, NULL)
+   IF cbLen THEN
+      dwsMsg = *pBuffer
+      LocalFree pBuffer
+   END IF
+   IF nError THEN dwsMsg = "Error &h" & HEX(nError) & CHR(13, 10) & dwsMsg
+   RETURN dwsMsg
 END FUNCTION
 ' ========================================================================================
 
@@ -729,52 +705,11 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns the error code. When the call to Invoke returns DISP_E_EXCEPTION, this function
-' returns a long integer value with a more specific error code. If the value is less than
-' 65536 it is usually an application defined code, stored in the wCode member. More common
-' are the longer values, usually defined by Windows, stored in the sCode member, such
-' E_INVALIDARG (&h80070057), E_FAIL (&h80004005), etc.
-' ========================================================================================
-PRIVATE FUNCTION CDispInvoke.GetErrorCode () AS SCODE
-   CDISPINVOKE_DP("")
-   IF m_excepInfo.sCode = 0 AND m_excepInfo.wCode <> 0 THEN RETURN m_excepInfo.wCode
-   RETURN m_excepInfo.sCode
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' Gets the result
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.GetVarResult () AS DVARIANT
    CDISPINVOKE_DP("")
    RETURN m_varResult
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Gets the exception description.
-' ========================================================================================
-PRIVATE FUNCTION CDispInvoke.GetDescription () AS DWSTRING
-   CDISPINVOKE_DP("")
-   RETURN *m_excepInfo.bstrDescription
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Gets the name of the exception source. Typically, this is an application name.
-' ========================================================================================
-PRIVATE FUNCTION CDispInvoke.GetSource () AS DWSTRING
-   CDISPINVOKE_DP("")
-   RETURN *m_excepInfo.bstrSource
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Gets the fully qualified help file path. In many cases it is empty or outdated.
-' ========================================================================================
-PRIVATE FUNCTION CDispInvoke.GetHelpFile () AS DWSTRING
-   CDISPINVOKE_DP("")
-   RETURN *m_excepInfo.bstrHelpFile
 END FUNCTION
 ' ========================================================================================
 
@@ -823,11 +758,6 @@ BYVAL prgArgs AS VARIANT PTR = NULL, BYVAL cArgs AS UINT = 0, BYVAL lcid AS LCID
    ' // Clear the variables
    m_uArgErr = 0
    VariantClear @m_varResult
-   ' // Free memory used by EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
-   memset @m_excepInfo, 0, SIZEOF(m_excepInfo)
    memset @m_dispParams, 0, SIZEOF(m_dispParams)
    IF m_pDisp = NULL THEN RETURN E_POINTER
    ' // Fill the DISPPARAMS structure
@@ -839,7 +769,7 @@ BYVAL prgArgs AS VARIANT PTR = NULL, BYVAL cArgs AS UINT = 0, BYVAL lcid AS LCID
       m_dispParams.rgdispidNamedArgs = @dispidNamed
    END IF
    ' // Call the Invoke method
-   RETURN SetResult(m_pDisp->lpvtbl->Invoke(m_pDisp, dispIdMember, @IID_NULL, lcid, wFlags, @m_dispParams, @m_varResult, @m_excepInfo, @m_uArgErr))
+   RETURN SetResult(m_pDisp->lpvtbl->Invoke(m_pDisp, dispIdMember, @IID_NULL, lcid, wFlags, @m_dispParams, @m_varResult, NULL, @m_uArgErr))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -851,11 +781,6 @@ BYVAL prgArgs AS VARIANT PTR = NULL, BYVAL cArgs AS UINT = 0, BYVAL lcid AS LCID
    ' // Clear the variables
    m_uArgErr = 0
    VariantClear @m_varResult
-   ' // Free memory used by EXCEPINFO string members
-   IF m_excepInfo.bstrDescription THEN SysFreeString m_excepInfo.bstrDescription
-   IF m_excepInfo.bstrSource THEN SysFreeString m_excepInfo.bstrSource
-   IF m_excepInfo.bstrHelpFile THEN SysFreeString m_excepInfo.bstrHelpFile
-   memset @m_excepInfo, 0, SIZEOF(m_excepInfo)
    memset @m_dispParams, 0, SIZEOF(m_dispParams)
    IF m_pDisp = NULL THEN RETURN E_POINTER
    IF pwszName = NULL THEN RETURN E_INVALIDARG
@@ -903,14 +828,16 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Get (BYVAL dispID AS DISPID, BYREF dv AS DVARIANT) AS DVARIANT
    CDISPINVOKE_DP("1 - DispId - DVARIANT")
-   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, dispID, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, dispID, @vArgs(1), 1, m_lcid))
    RETURN m_varResult
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Get (BYVAL pwszName AS WSTRING PTR, BYREF dv AS DVARIANT) AS DVARIANT
    CDISPINVOKE_DP("1 - Name - DVARIANT")
-   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, pwszName, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, pwszName, @vArgs(1), 1, m_lcid))
    RETURN m_varResult
 END FUNCTION
 ' ========================================================================================
@@ -940,20 +867,23 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE PROPERTY CDispInvoke.Put (BYVAL dispID AS DISPID, BYREF dv AS DVARIANT)
    CDISPINVOKE_DP("DISPID - DVARIANT")
-   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, dispID, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, dispID, @vArgs(1), 1, m_lcid))
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE PROPERTY CDispInvoke.Put (BYVAL pwszName AS WSTRING PTR, BYREF dv AS DVARIANT)
    CDISPINVOKE_DP("Name - DVARIANT")
-   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, pwszName, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, pwszName, @vArgs(1), 1, m_lcid))
 END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Set (BYVAL dispID AS DISPID, BYREF dv AS DVARIANT) AS HRESULT
    CDISPINVOKE_DP("dispID - DVARIANT1")
-   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, dispID, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, dispID, @vArgs(1), 1, m_lcid))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -981,7 +911,8 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Set (BYVAL pwszName AS WSTRING PTR, BYREF dv AS DVARIANT) AS HRESULT
    CDISPINVOKE_DP("Name - DVARIANT1")
-   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, pwszName, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUT, pwszName, @vArgs(1), 1, m_lcid))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -1011,34 +942,39 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE PROPERTY CDispInvoke.PutRef (BYVAL dispID AS DISPID, BYREF dv AS DVARIANT)
    CDISPINVOKE_DP("DISPID - DVARIANT")
-   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, dispID, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, dispID, @vArgs(1), 1, m_lcid))
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE PROPERTY CDispInvoke.PutRef (BYVAL pwszName AS WSTRING PTR, BYREF dv AS DVARIANT)
    CDISPINVOKE_DP("Name - DVARIANT")
-   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, pwszName, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, pwszName, @vArgs(1), 1, m_lcid))
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE PROPERTY CDispInvoke.PutRef (BYVAL dispID AS DISPID, BYVAL pv AS ANY PTR)
    CDISPINVOKE_DP("DISPID - ANY PTR")
    DIM dv AS DVARIANT = DVARIANT(CAST(IUnknown PTR, pv), TRUE)
-   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, dispID, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, dispID, @vArgs(1), 1, m_lcid))
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE PROPERTY CDispInvoke.PutRef (BYVAL pwszName AS WSTRING PTR, BYVAL pv AS ANY PTR)
    CDISPINVOKE_DP("Name - ANY PTR")
    DIM dv AS DVARIANT = DVARIANT(CAST(IUnknown PTR, pv), TRUE)
-   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, pwszName, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, pwszName, @vArgs(1), 1, m_lcid))
 END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.SetRef (BYVAL dispID AS DISPID, BYREF dv AS DVARIANT) AS HRESULT
    CDISPINVOKE_DP("dispID - DVARIANT1")
-   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, dispID, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, dispID, @vArgs(1), 1, m_lcid))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -1059,7 +995,8 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.SetRef (BYVAL pwszName AS WSTRING PTR, BYREF dv AS DVARIANT) AS HRESULT
    CDISPINVOKE_DP("Name - DVARIANT1")
-   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, pwszName, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   RETURN SetResult(this.DispInvoke(DISPATCH_PROPERTYPUTREF, pwszName, @vArgs(1), 1, m_lcid))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -1094,7 +1031,8 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Invoke (BYVAL dispId AS DISPID, BYREF dv AS DVARIANT) AS DVARIANT
    CDISPINVOKE_DP("DISPID - DVARIANT 1")
-   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, dispID, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, dispID, @vArgs(1), 1, m_lcid))
    RETURN m_varResult
 END FUNCTION
 ' ========================================================================================
@@ -1229,7 +1167,8 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CDispInvoke.Invoke (BYVAL pwszName AS WSTRING PTR, BYREF dv AS DVARIANT) AS DVARIANT
    CDISPINVOKE_DP("NAME - 1")
-   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, pwszName, *dv, 1, m_lcid))
+   DIM vArgs(1 TO 1) AS VARIANT : vArgs(1) = dv
+   SetResult(this.DispInvoke(DISPATCH_METHOD OR DISPATCH_PROPERTYGET, pwszName, @vArgs(1), 1, m_lcid))
    RETURN m_varResult
 END FUNCTION
 ' ========================================================================================
