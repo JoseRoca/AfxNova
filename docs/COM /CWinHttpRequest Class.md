@@ -627,6 +627,7 @@ DIM iSucceeded AS LONG = pWHttp.WaitForResponse(5)
 ' // Get the response headers
 DIM dwsResponseHeaders AS DWSTRING = pWHttp.GetAllResponseHeaders
 PRINT dwsResponseHeaders
+```
 ---
 
 ## SetOption
