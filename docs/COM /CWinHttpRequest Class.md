@@ -24,6 +24,7 @@ Wrapper class for Microsoft WinHTTP Services, version 5.1
 | [SetAutoLogonPolicy](#setautologonpolicy) | Sets the current Automatic Logon Policy. |
 | [SetClientCertificate](#setclientcertificate) | Selects a client certificate to send to a Secure Hypertext Transfer Protocol (HTTPS) server. |
 | [SetCredentials](#setcredentials) | Sets credentials to be used with an HTTP server, whether it is a proxy server or an originating server. |
+| [SetEvents](#setevents) | Sets the events sink. |
 | [SetOption](#setoption) | Sets a Microsoft Windows HTTP Services (WinHTTP) option value. |
 | [SetProxy](#setproxy) | Sets proxy server information. |
 | [SetRequestHeader](#setrequestheader) | Adds, changes, or deletes an HTTP request header. |
@@ -555,6 +556,77 @@ This method returns an error value if a call to **Open** has not completed succe
 
 To authenticate with both the server and the proxy, the application must call **SetCredentials** twice; first with the *Flags* parameter set to HTTPREQUEST_SETCREDENTIALS_FOR_SERVER, and second, with the *Flags* parameter set to HTTPREQUEST_SETCREDENTIALS_FOR_PROXY.
 
+---
+
+## SetEvents
+
+Sets the events sink.
+
+```
+FUNCTION SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pEvtSink* | A pointer to the implemented events sink class. |
+
+#### Return value
+
+Returns S_OK (0) if successful or an error value otherwise.
+
+#### Example
+
+```
+#include once "AfxNova/AfxCOM.inc"
+#include once "AfxNova/CWinHttpRequest.inc"
+#include once "AfxNova/CWinHttpRequestEvents.inc"
+USING AfxNova
+
+' ########################################################################################
+' CWinHttpRequestEventsImpl class
+' Implementation of the IWinHttpRequestEvents callback interface
+' ########################################################################################
+
+TYPE CWinHttpRequestEventsImpl EXTENDS CWinHttpRequestEvents
+
+   DECLARE VIRTUAL SUB OnResponseStart (BYVAL Status AS LONG, BYVAL ContentType AS AFX_BSTR)
+   DECLARE VIRTUAL SUB OnResponseDataAvailable (BYVAL Data AS SAFEARRAY PTR)
+   DECLARE VIRTUAL SUB OnResponseFinished ()
+   DECLARE VIRTUAL SUB OnError (BYVAL ErrorNumber AS LONG, BYVAL ErrorDescription AS AFX_BSTR)
+
+END TYPE
+' ########################################################################################
+
+SUB CWinHttpRequestEventsImpl.OnResponseStart (BYVAL Status AS LONG, BYVAL ContentType AS AFX_BSTR)
+   OutputDebugStringW("CWinHttpRequestEventsImpl.OnResponseStart")
+END SUB
+SUB CWinHttpRequestEventsImpl.OnResponseDataAvailable (BYVAL pData AS SAFEARRAY PTR)
+   OutputDebugStringW("CWinHttpRequestEventsImpl.OnResponseDataAvailable")
+END SUB
+SUB CWinHttpRequestEventsImpl.OnResponseFinished
+   OutputDebugStringW("CWinHttpRequestEventsImpl.OnResponseFinished")
+END SUB
+SUB CWinHttpRequestEventsImpl.OnError (BYVAL ErrorNumber AS LONG, BYVAL ErrorDescription AS AFX_BSTR)
+   OutputDebugStringW("CWinHttpRequestEventsImpl.OnError")
+END SUB
+
+' ########################################################################################
+
+' // Create an instance of the CWinHttpRequest class
+DIM pWHttp AS CWinHttpRequest
+' // Set the events sink
+DIM pEvtSink AS ANY PTR = NEW CWinHttpRequestEventsImpl
+pWHttp.SetEvents(pEvtSink)
+
+' // Open an HTTP connection to an HTTP resource
+pWHttp.Open "GET", "http://microsoft.com"
+' // Send an HTTP request to the HTTP server
+pWHttp.Send
+' // Wait for response with a timeout of 5 seconds
+DIM iSucceeded AS LONG = pWHttp.WaitForResponse(5)
+' // Get the response headers
+DIM dwsResponseHeaders AS DWSTRING = pWHttp.GetAllResponseHeaders
+PRINT dwsResponseHeaders
 ---
 
 ## SetOption
