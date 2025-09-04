@@ -37,11 +37,6 @@
 | [DispPtr](#dispPtr) | Returns a pointer to the dispatch interface. |
 | [Get](#get) | Calls the specified property of an interface and gets the value returned. |
 | [GetArgErr](#getargerr) | Returns the index within rgvarg of the first argument that has an error. |
-| [GetDescription](#getdescription) | Gets the exception description. |
-| [GetErrorCode](#geterrorcode) | Returns the error code. |
-| [GetHelpFile](#gethelpfile) | Gets the fully qualified help file path. |
-| [GetLastResult](#getlastresult) | Returns the last result code returned by the last executed method of the class. |
-| [GetSource](#getsource) | Gets the name of the exception source. |
 | [GetVarResult](#getvarresult) | Returns the last result code returned by a call to the Invoke method. |
 | [GetLcid](#getlcid) | Retrieves the locale identifier used by the class. |
 | [Invoke](#invoke) | Calls a method or a get property. |
@@ -53,6 +48,15 @@
 
 ---
 
+## Error and result codes
+
+| Name       | Description |
+| ---------- | ----------- |
+| [GetErrorInfo](#geterrorinfo) | Returns a description of the specified error code. |
+| [GetLastResult](#getlastresult) | Returns the last result code. |
+| [SetResult](#setresult) | Sets the last result code. |
+
+---
 ## <a name="Constructor1"></a>Constructor(ProgID)
 
 Creates a single uninitialized object of the class associated with a specified ProgID or CLSID.
@@ -373,7 +377,7 @@ Extracts and returns the encapsulated interface pointer, and then clears the enc
 | S_OK | Success. |
 | DISP_E_BADPARAMCOUNT | The number of elements provided to **DISPPARAMS** is different from the number of arguments accepted by the method or property. |
 | DISP_E_BADVARTYPE | One of the arguments in **DISPPARAMS** is not a valid variant type. |
-| DISP_E_EXCEPTION | The application needs to raise an exception. In this case, the structure passed in *pexcepinfo* should be filled in. Note: Because the information that can be returned by the **EXCEPINFO** structure is very limited, some COM servers like ADO or WMI use its own system to return errors. |
+| DISP_E_EXCEPTION | The application needs to raise an exception. |
 | DISP_E_MEMBERNOTFOUND | The requested member does not exist. |
 | DISP_E_NONAMEDARGS | This implementation of IDispatch does not support named arguments. |
 | DISP_E_OVERFLOW | One of the arguments in **DISPPARAMS** could not be coerced to the specified type. |
@@ -471,33 +475,6 @@ FUNCTION GetArgErr () AS UINT
 ```
 ---
 
-## GetDescription
-
-Gets the exception description.
-
-```
-FUNCTION GetDescription () AS DWSTRING
-```
----
-
-## GetErrorCode
-
-Returns the error code. When the call to Invoke returns DISP_E_EXCEPTION, this function returns a long integer value with a more specific error code. If the value is less than 65536 it is usually an application defined code, stored in the *wCode* member of the EXCEPINFO structure. More common are the longer values, usually defined by Windows, stored in the *sCode* member, such E_INVALIDARG (&h80070057), E_FAIL (&h80004005), etc.
-
-```
-FUNCTION GetErrorCode () AS SCODE
-```
----
-
-## GetHelpFile
-
-Gets the fully qualified help file path. In many cases it is empty or outdated.
-
-```
-FUNCTION GetHelpFile () AS DWSTRING
-```
----
-
 ## GetLastResult
 
 Returns the result code returned by the last executed method..
@@ -507,12 +484,23 @@ FUNCTION GetLastResult () AS HRESULT
 ```
 ---
 
-## GetSource
+## <a name="setresult"></a>SetResult
 
-Gets the name of the exception source. Typically, this is an application name.
-
+Sets the result code.
 ```
-FUNCTION GetSource () AS DWSTRING
+FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
+```
+| Parameter | Description |
+| --------- | ----------- |
+| *Result* | The error code returned by the methods. |
+
+---
+
+### <a name="geterrorinfo"></a>GetErrorInfo
+
+Returns a description of the last error code.
+```
+PRIVATE GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
 ```
 ---
 
@@ -566,7 +554,7 @@ To check for success or failure, call the **GetLastResult** method. It will retu
 | S_OK | Success. |
 | DISP_E_BADPARAMCOUNT | The number of elements provided to **DISPPARAMS** is different from the number of arguments accepted by the method or property. |
 | DISP_E_BADVARTYPE | One of the arguments in **DISPPARAMS** is not a valid variant type. |
-| DISP_E_EXCEPTION | The application needs to raise an exception. In this case, the structure passed in *pexcepinfo* should be filled in. Note: Because the information that can be returned by the **EXCEPINFO** structure is very limited, some COM servers like ADO or WMI use its own system to return errors. |
+| DISP_E_EXCEPTION | The application needs to raise an exception. |
 | DISP_E_MEMBERNOTFOUND | The requested member does not exist. |
 | DISP_E_NONAMEDARGS | This implementation of IDispatch does not support named arguments. |
 | DISP_E_OVERFLOW | One of the arguments in **DISPPARAMS*** could not be coerced to the specified type. |
