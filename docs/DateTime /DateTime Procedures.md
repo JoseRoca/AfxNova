@@ -49,7 +49,7 @@ Assorted date and time procedures.
 | [AfxQuadDateTime](#afxquaddatetime) | Returns the current date and time as a QUAD (8 bytes). In Free Basic, a QUAD is an ULONGLONG. |
 | [AfxQuadDateToStr](#afxquaddatetostr) | Converts a date stored in a QUAD into a formatted date string. For example, to get the date string "Wed, Aug 31 94" use the following picture string: "ddd',' MMM dd yy".  In Free Basic, a QUAD is an ULONGLONG. |
 | [AfxQuadTimeToStr](#afxquadtimetostr) | Converts a time stored in a QUAD into a formatted time string. For example, get the time string "11:29:40 PM" use the following picture string: "hh':'mm':'ss tt".  In Free Basic, a QUAD is an ULONGLONG. |
-| [AfxNmberOfLeapYears](#afxnumberofleapyears) | Returns the number of leap years between two years. |
+| [AfxNumberOfLeapYears](#afxnumberofleapyears) | Returns the number of leap years between two years. |
 | [AfxShortDate](#afxshortdate) | Returns the current date in short format. |
 | [AfxShortMonthName](#afxshortmonthname) | Returns the localized short name of the specified month. |
 | [AfxSystemDay](#afxsystemday) | Returns the current system day. The valid values are 1 through 31. |
