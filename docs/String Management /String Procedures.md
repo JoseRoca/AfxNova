@@ -2169,7 +2169,7 @@ FUNCTION DWStrScriptsList (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DE
 
 Short date formatting string for the locale. The maximum number of characters allowed for this string is 80, including a terminating null character. The string can consist of a combination of day, month, year, and era format pictures. For example, "M/d/yyyy" indicates that September 3, 2004 is written 9/3/2004.
 ```
-FUNCTION DWStreShortDateFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+FUNCTION DWStrShortDateFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
