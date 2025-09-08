@@ -523,7 +523,7 @@ END FUNCTION
 ' ========================================================================================
 ' Calculaates the number of leap years between two years
 ' ========================================================================================
-PRIVATE FUNCTION AfxNuberOfLeapYears (BYVAL year1 AS LONG, BYVAL year2 AS LONG) AS LONG
+PRIVATE FUNCTION AfxNumberOfLeapYears (BYVAL year1 AS LONG, BYVAL year2 AS LONG) AS LONG
    ' // Normalize order
    IF year1 > year2 THEN SWAP year1, year2
    DIM count AS LONG
