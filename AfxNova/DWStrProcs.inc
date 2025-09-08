@@ -2152,7 +2152,7 @@ END FUNCTION
 ' a combination of day, month, year, and era format pictures. For example, "M/d/yyyy"
 ' indicates that September 3, 2004 is written 9/3/2004.
 ' ========================================================================================
-PRIVATE FUNCTION DWStreShortDateFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
+PRIVATE FUNCTION DWStrShortDateFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT) AS DWSTRING
    DIM wszBuf AS WSTRING * 260
    GetLocaleInfoEx(pwszLocale, LOCALE_SSHORTDATE, wszBuf, SIZEOF(wszBuf))
    RETURN wszBuf
