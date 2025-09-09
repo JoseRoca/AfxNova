@@ -655,6 +655,115 @@ END FUNCTION
 ' =====================================================================================
 '#endif ' (GDIPVER >= &H0110)
 
+' // Effects
+' =====================================================================================
+' Alters a Bitmap object by applying a specified effect.
+' =====================================================================================
+PRIVATE FUNCTION CGpBitmap.ApplyEffect (BYVAL pBitmap AS CGpBitmap PTR, BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
+BYVAL useAuxData AS BOOLEAN, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
+   RETURN SetStatus(GdipBitmapApplyEffect(cast(GpBitmap PTR, pBitmap->m_pImage), cast(ANY PTR, pEffect->m_pEffect), roi, useAuxData, auxData, auxDataSize))
+END FUNCTION
+' =====================================================================================
+' =====================================================================================
+' Creates a new Bitmap object by applying a specified effect to an existing Bitmap object.
+' =====================================================================================
+'PRIVATE FUNCTION GdipBitmap.CreateApplyEffect (BYVAL inputBitmaps AS CGpBitmap PTR PTR, BYVAL pEffect AS CGpEffect PTR, _
+'BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT PTR, BYVAL outputBitmap AS GpBitmap PTR PTR, BYVAL useAuxData AS BOOL, _
+'BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_) AS GpStatus
+'   RETURN SetStatus(GdipBitmapCreateApplyEffect(inputBitmaps, cast(CGpEffect PTR, pEffect->m_pEffect), roi, outputRect, outputBitmap, useAuxData, auxData, auxDataSize)
+'END FUNCTION
+' =====================================================================================
+'inline Status 
+'Bitmap::ApplyEffect(
+'    IN  Bitmap **inputs,
+'    IN  INT numInputs,
+'    IN  Effect *effect, 
+'    IN  RECT *ROI,                     // optional parameter.
+'    OUT RECT *outputRect,              // optional parameter.
+'    OUT Bitmap **output
+')
+'{
+'    if (numInputs < 0)
+'    {
+'        return InvalidParameter;
+'    }
+    
+'    GpBitmap *outputNative = NULL;
+'    GpBitmap **nativeInputs = new GpBitmap * [numInputs];
+    
+'    if (NULL == nativeInputs)
+'    {
+'        return OutOfMemory;
+'    }
+    
+'    for (int i = 0; i < numInputs; i++)
+'    {
+'        nativeInputs[i] = static_cast<GpBitmap*>(inputs[i]->nativeImage);
+'    }
+    
+'    if (effect->auxData)
+'    {
+'        DllExports::GdipFree(effect->auxData);
+'        effect->auxData = NULL;
+'        effect->auxDataSize = 0;
+'    }
+    
+'    Status status = DllExports::GdipBitmapCreateApplyEffect(
+'        nativeInputs,
+'        numInputs,
+'        effect->nativeEffect,
+'        ROI,
+'        outputRect,
+'        &outputNative,
+'        effect->useAuxData,
+'        &effect->auxData,
+'        &effect->auxDataSize
+'        );
+    
+'    if ((Ok == status) && outputNative)
+'    {
+'        *output = new Bitmap(outputNative);
+        
+'        if (NULL == *output)
+'        {
+'            status = OutOfMemory;
+'            DllExports::GdipDisposeImage(outputNative);
+'        }
+'    }
+'    else
+'    {
+'        *output = NULL;
+'    }
+    
+'    delete [] nativeInputs;
+    
+'    return status;
+'}
+
+'inline Status
+'Bitmap::ApplyEffect(
+'    Effect *effect,
+'    RECT *ROI
+')
+'{
+'    if(effect->auxData)
+'    {
+'        DllExports::GdipFree(effect->auxData);
+'        effect->auxData = NULL;
+'        effect->auxDataSize = 0;
+'    }
+    
+'    return DllExports::GdipBitmapApplyEffect(
+'        static_cast<GpBitmap *>(nativeImage),
+'        effect->nativeEffect,
+'        ROI,
+'        effect->useAuxData,
+'        &effect->auxData,
+'        &effect->auxDataSize
+'        );
+'}
+
+
 ' ########################################################################################
 ' CGpCachedBitmap Class
 ' ########################################################################################
@@ -684,7 +793,7 @@ END DESTRUCTOR
 ' ########################################################################################
 
 ' =====================================================================================
-' Creates a Windows GDI+ Metafile.Metafile object for playback based on a Windows
+' Creates a Windows GDI+ Metafile object for playback based on a Windows
 ' Graphics Device Interface (GDI) Enhanced Metafile (EMF) file.
 ' =====================================================================================
 PRIVATE CONSTRUCTOR CGpMetafile (BYVAL hEmf AS HENHMETAFILE, BYVAL deleteEmf AS BOOL = FALSE)

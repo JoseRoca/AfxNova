@@ -359,11 +359,11 @@ Public:
    DECLARE FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries AS UINT PTR) AS GpStatus
 
    ' // Effects
-   DECLARE FUNCTION GdipBitmapApplyEffect (BYVAL pBitmap AS CGpBitmap PTR, BYVAL pEffects AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
+   DECLARE FUNCTION ApplyEffect (BYVAL pBitmap AS CGpBitmap PTR, BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
       BYVAL useAuxData AS BOOLEAN, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
-   DECLARE FUNCTION GdipBitmapCreateApplyEffect (BYVAL inputBitmaps AS CGpBitmap PTR PTR, BYVAL pEffects AS CGpEffect PTR, _
-      BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT PTR, BYVAL outputBitmap AS GpBitmap PTR PTR, BYVAL useAuxData AS BOOL, _
-      BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_) AS GpStatus
+'   DECLARE FUNCTION CreateApplyEffect (BYVAL inputBitmaps AS CGpBitmap PTR PTR, BYVAL pEffect AS CGpEffect PTR, _
+'      BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT PTR, BYVAL outputBitmap AS GpBitmap PTR PTR, BYVAL useAuxData AS BOOL, _
+'      BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_) AS GpStatus
 
 END TYPE
 ' ########################################################################################
