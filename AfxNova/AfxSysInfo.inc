@@ -33,6 +33,37 @@ USING AfxNova
 NAMESPACE AfxNova
 
 ' ========================================================================================
+' // Converts four characters into a little endian dword
+' // Usage example:
+' // DIM rsmb AS DWORD = MAKEFOURCCLE("RSMB")
+' // Print HEX(rsmb, 8)  ' Output: &h52534D42
+' ========================================================================================
+PRIVATE FUNCTION MAKEFOURCCLE (BYREF s AS STRING) AS DWORD
+   IF LEN(s) <> 4 THEN RETURN 0   ' // input string must be exactly 4 characters
+   ' Combine bytes in little-endian order
+   RETURN ASC(MID(s, 4, 1)) OR _
+          ASC(MID(s, 3, 1)) SHL 8 OR _
+          ASC(MID(s, 2, 1)) SHL 16 OR _
+          ASC(MID(s, 1, 1)) SHL 24
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' // Converts four characters into a big endian dword
+' // DIM rsmb AS DWORD = MAKEFOURCCBE("RSMB")
+' // Print HEX(rsmb, 8)  ' Output: &h424D5352
+' ========================================================================================
+PRIVATE FUNCTION MAKEFOURCCBE (BYREF s AS STRING) AS DWORD
+   IF LEN(s) <> 4 THEN RETURN 0   ' // input string must be exactly 4 characters
+   ' Combine bytes in big-endian order
+   RETURN ASC(MID(s, 4, 1)) SHL 24 OR _
+          ASC(MID(s, 3, 1)) SHL 16 OR _
+          ASC(MID(s, 2, 1)) SHL 8 OR _
+          ASC(MID(s, 1, 1))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' The raw SMBIOS table provider ('RSMB') retrieves the contents of the raw SMBIOS firmware
 ' table. The pFirmwareTableBuffer parameter of the GetSystemFirmwareTable function 
 ' receives the following data:
@@ -50,25 +81,72 @@ END TYPE
 ' ========================================================================================
 ' Retrieves the Bios serial number.
 ' ========================================================================================
+'FUNCTION AfxGetBiosSerialNumber() AS DWSTRING
+'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' 'RSMB'
+'   IF size = 0 THEN RETURN ""
+'   DIM buffer AS ANY PTR = Allocate(size)
+'   IF buffer = 0 THEN RETURN ""
+'   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, buffer, size)
+'   IF result <> size THEN
+'      Deallocate(buffer)
+'      RETURN ""
+'   END IF
+'   DIM pRaw AS RawSMBIOSData PTR = buffer
+'   DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
+'   Dim i AS LONG
+'   WHILE i < pRaw->Length
+'      DIM structType AS BYTE = pData[i]
+'      DIM structLength AS BYTE = pData[i + 1]
+'      IF structType = 1 THEN ' Type 1 = System Information
+'         DIM serialIndex As Byte = pData[i + 7]
+'         DIM pStrings AS UByte Ptr = pData + i + structLength
+'         DIM strCount AS LONG = 1
+'         DIM serial AS DWSTRING = ""
+'         WHILE *pStrings <> 0
+'            DIM dws AS DWSTRING = ""
+'            WHILE *pStrings <> 0
+'               dws += WCHR(*pStrings)
+'               pStrings += 1
+'            WEND
+'            pStrings += 1
+'            IF strCount = serialIndex THEN
+'               serial = dws
+'               EXIT WHILE
+'            END IF
+'            strCount += 1
+'         WEND
+'         Deallocate(buffer)
+'         RETURN serial
+'      END IF
+'      ' Move to next structure
+'      DIM pNext AS UBYTE PTR = pData + i + structLength
+'      WHILE *(pNext) <> 0 OR *(pNext + 1) <> 0
+'         pNext += 1
+'      WEND
+'      pNext += 2
+'      i = pNext - pData
+'   WEND
+'   Deallocate(buffer)
+'   RETURN ""
+'END FUNCTION
+' ========================================================================================
+
 FUNCTION AfxGetBiosSerialNumber() AS DWSTRING
-   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' 'RSMB'
+'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' 'RSMB'
+   DIM size AS DWORD = GetSystemFirmwareTable(MAKEFOURCCLE("RSMB"), 0, 0, 0) ' 'RSMB'
    IF size = 0 THEN RETURN ""
-   DIM buffer AS ANY PTR = Allocate(size)
-   IF buffer = 0 THEN RETURN ""
-   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, buffer, size)
-   IF result <> size THEN
-      Deallocate(buffer)
-      RETURN ""
-   END IF
-   DIM pRaw AS RawSMBIOSData PTR = buffer
+   DIM buffer AS STRING = SPACE(size)
+   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, STRPTR(buffer), size)
+   IF result <> size THEN RETURN ""
+   DIM pRaw AS RawSMBIOSData PTR = CAST(RawSMBIOSData PTR, STRPTR(buffer))
    DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
    Dim i AS LONG
    WHILE i < pRaw->Length
       DIM structType AS BYTE = pData[i]
       DIM structLength AS BYTE = pData[i + 1]
       IF structType = 1 THEN ' Type 1 = System Information
-         DIM serialIndex As Byte = pData[i + 7]
-         DIM pStrings AS UByte Ptr = pData + i + structLength
+         DIM serialIndex AS BYTE = pData[i + 7]
+         DIM pStrings AS UBYTE PTR = pData + i + structLength
          DIM strCount AS LONG = 1
          DIM serial AS DWSTRING = ""
          WHILE *pStrings <> 0
@@ -84,7 +162,6 @@ FUNCTION AfxGetBiosSerialNumber() AS DWSTRING
             END IF
             strCount += 1
          WEND
-         Deallocate(buffer)
          RETURN serial
       END IF
       ' Move to next structure
@@ -95,7 +172,6 @@ FUNCTION AfxGetBiosSerialNumber() AS DWSTRING
       pNext += 2
       i = pNext - pData
    WEND
-   Deallocate(buffer)
    RETURN ""
 END FUNCTION
 ' ========================================================================================
@@ -103,17 +179,64 @@ END FUNCTION
 ' ========================================================================================
 ' Retrieves the baseboard (motherboard/system board) serial number using Windows API.
 ' ========================================================================================
+'PRIVATE FUNCTION AfxGetBaseBoardSerialNumber () AS DWSTRING
+'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' RSMB
+'   IF size = 0 THEN RETURN ""
+'   DIM buffer AS ANY PTR = Allocate(size)
+'   IF buffer = 0 THEN RETURN ""
+'   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, buffer, size)
+'   IF result <> size THEN
+'      Deallocate(buffer)
+'      RETURN ""
+'   END IF
+'   DIM pRaw AS RawSMBIOSData PTR = buffer
+'   DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
+'   DIM i AS LONG
+'   WHILE i < pRaw->Length
+'      DIM structType AS BYTE = pData[i]
+'      DIM structLength AS BYTE = pData[i + 1]
+'      IF structType = 2 THEN ' Baseboard Information (Type 2)
+'         DIM serialIndex AS BYTE = pData[i + 7]
+'         DIM pStrings AS UBYTE PTR = pData + i + structLength
+'         DIM strCount AS LONG = 1
+'         DIM serial AS DWSTRING = ""
+'         WHILE *pStrings <> 0
+'            DIM dws AS DWSTRING = ""
+'            WHILE *pStrings <> 0
+'               dws += WCHR(*pStrings)
+'               pStrings += 1
+'            WEND
+'            pStrings += 1
+'            IF strCount = serialIndex THEN
+'               serial = dws
+'               EXIT WHILE
+'            END IF
+'            strCount += 1
+'         WEND
+'         Deallocate(buffer)
+'         RETURN serial
+'      END IF
+'      ' Move to next structure
+'      DIM pNext AS UBYTE PTR = pData + i + structLength
+'      WHILE *(pNext) <> 0 OR *(pNext + 1) <> 0
+'         pNext += 1
+'      WEND
+'      pNext += 2
+'      i = pNext - pData
+'   WEND
+'   Deallocate(buffer)
+'   RETURN ""
+'END FUNCTION
+' ========================================================================================
+
 PRIVATE FUNCTION AfxGetBaseBoardSerialNumber () AS DWSTRING
-   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' RSMB
+'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' RSMB
+   DIM size AS DWORD = GetSystemFirmwareTable(MAKEFOURCCLE("RSMB"), 0, 0, 0) ' 'RSMB'
    IF size = 0 THEN RETURN ""
-   DIM buffer AS ANY PTR = Allocate(size)
-   IF buffer = 0 THEN RETURN ""
-   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, buffer, size)
-   IF result <> size THEN
-      Deallocate(buffer)
-      RETURN ""
-   END IF
-   DIM pRaw AS RawSMBIOSData PTR = buffer
+   DIM buffer AS STRING = SPACE(size)
+   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, STRPTR(buffer), size)
+   IF result <> size THEN RETURN ""
+   DIM pRaw AS RawSMBIOSData PTR = CAST(RawSMBIOSData PTR, STRPTR(buffer))
    DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
    DIM i AS LONG
    WHILE i < pRaw->Length
@@ -137,7 +260,6 @@ PRIVATE FUNCTION AfxGetBaseBoardSerialNumber () AS DWSTRING
             END IF
             strCount += 1
          WEND
-         Deallocate(buffer)
          RETURN serial
       END IF
       ' Move to next structure
@@ -148,10 +270,8 @@ PRIVATE FUNCTION AfxGetBaseBoardSerialNumber () AS DWSTRING
       pNext += 2
       i = pNext - pData
    WEND
-   Deallocate(buffer)
    RETURN ""
 END FUNCTION
-' ========================================================================================
 
 END NAMESPACE
 

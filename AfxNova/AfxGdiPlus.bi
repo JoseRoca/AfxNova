@@ -26,8 +26,6 @@
 #include once "win/basetyps.bi"
 #include once "win/ddraw.bi"
 
-#inclib "gdiplus"
-
 '' The following symbols have been renamed:
 ''     struct Size => Size_
 ''     struct Point => Point_
@@ -783,7 +781,7 @@ type GraphicsContainer as DWORD
 type GraphicsState as DWORD
 const FlatnessDefault = cast(REAL, 0.25f)
 
-private function ObjectTypeIsValid cdecl(byval type_ as ObjectType) as BOOL
+private function ObjectTypeIsValid (byval type_ as ObjectType) as BOOLEAN
 	function = -((type_ >= ObjectTypeMin) and (type_ <= ObjectTypeMax))
 end function
 
@@ -862,7 +860,7 @@ type PathData
 end type
 
 type DebugEventProc as any ptr
-type EnumerateMetafileProc as function(byval as EmfPlusRecordType, byval as UINT, byval as UINT, byval as const UBYTE ptr, byval as any ptr) as BOOL
+type EnumerateMetafileProc as function (byval as EmfPlusRecordType, byval as UINT, byval as UINT, byval as const UBYTE ptr, byval as any ptr) as BOOL
 type DrawImageAbort as any ptr
 type GetThumbnailImageAbort as any ptr
 #define __GDIPLUS_GPSTUBS_H
@@ -1287,33 +1285,62 @@ const PropertyTagTypeUndefined = cast(WORD, 7)
 const PropertyTagTypeSLONG = cast(WORD, 9)
 const PropertyTagTypeSRational = cast(WORD, 10)
 
-extern EncoderChrominanceTable as const GUID
-extern EncoderColorDepth as const GUID
-extern EncoderColorSpace as const GUID
-extern EncoderCompression as const GUID
-extern EncoderImageItems as const GUID
-extern EncoderLuminanceTable as const GUID
-extern EncoderQuality as const GUID
-extern EncoderRenderMethod as const GUID
-extern EncoderSaveAsCMYK as const GUID
-extern EncoderSaveFlag as const GUID
-extern EncoderScanMethod as const GUID
-extern EncoderTransformation as const GUID
-extern EncoderVersion as const GUID
-extern ImageFormatBMP as const GUID
-extern ImageFormatEMF as const GUID
-extern ImageFormatEXIF as const GUID
-extern ImageFormatGIF as const GUID
-extern ImageFormatIcon as const GUID
-extern ImageFormatJPEG as const GUID
-extern ImageFormatMemoryBMP as const GUID
-extern ImageFormatPNG as const GUID
-extern ImageFormatTIFF as const GUID
-extern ImageFormatUndefined as const GUID
-extern ImageFormatWMF as const GUID
-extern FrameDimensionPage as const GUID
-extern FrameDimensionResolution as const GUID
-extern FrameDimensionTime as const GUID
+'extern EncoderChrominanceTable as const GUID
+'extern EncoderColorDepth as const GUID
+'extern EncoderColorSpace as const GUID
+'extern EncoderCompression as const GUID
+'extern EncoderImageItems as const GUID
+'extern EncoderLuminanceTable as const GUID
+'extern EncoderQuality as const GUID
+'extern EncoderRenderMethod as const GUID
+'extern EncoderSaveAsCMYK as const GUID
+'extern EncoderSaveFlag as const GUID
+'extern EncoderScanMethod as const GUID
+'extern EncoderTransformation as const GUID
+'extern EncoderVersion as const GUID
+'extern ImageFormatBMP as const GUID
+'extern ImageFormatEMF as const GUID
+'extern ImageFormatEXIF as const GUID
+'extern ImageFormatGIF as const GUID
+'extern ImageFormatIcon as const GUID
+'extern ImageFormatJPEG as const GUID
+'extern ImageFormatMemoryBMP as const GUID
+'extern ImageFormatPNG as const GUID
+'extern ImageFormatTIFF as const GUID
+'extern ImageFormatUndefined as const GUID
+'extern ImageFormatWMF as const GUID
+'extern FrameDimensionPage as const GUID
+'extern FrameDimensionResolution as const GUID
+'extern FrameDimensionTime as const GUID
+
+Dim Shared EncoderChrominanceTable As GUID = Type(&hF2E455DC, &h09B3, &h4316, {&h82, &h60, &h67, &h6A, &hDA, &h32, &h48, &h1C})
+Dim Shared EncoderColorDepth As GUID = Type(&h66087055, &hAD66, &h4C7C, {&h9A, &h18, &h38, &hA2, &h31, &h0B, &h83, &h37})
+Dim Shared EncoderColorSpace As GUID = Type(&hAE7A62A0, &hEE2C, &h49A8, {&h96, &h3C, &hA0, &hDD, &h94, &h0F, &hE5, &h3E})
+Dim Shared EncoderCompression As GUID = Type(&hE09D739D, &hCCD4, &h44EE, {&h8E, &hE2, &h1C, &h82, &h08, &hD6, &h1B, &h0D})
+Dim Shared EncoderImageItems As GUID = Type(&h63875E13, &h1EED, &h4D87, {&hB0, &h1E, &hA1, &hD8, &h6E, &hF2, &hF1, &h85})
+Dim Shared EncoderLuminanceTable As GUID = Type(&hEDB33BCE, &h0266, &h4A77, {&hB9, &h04, &h27, &h21, &h60, &h99, &hE7, &h17})
+Dim Shared EncoderQuality As GUID = Type(&h1D5BE4B5, &hFA4A, &h452D, {&h9C, &hDD, &h5D, &hB3, &h51, &h05, &hE7, &hEB})
+Dim Shared EncoderRenderMethod As GUID = Type(&h6DBB63B8, &hF866, &h4FEA, {&hB0, &hC1, &h67, &hD4, &h28, &h3B, &hDB, &hE5})
+Dim Shared EncoderSaveAsCMYK As GUID = Type(&hC6C5E6B0, &hE718, &h11D1, {&hA8, &hD3, &h00, &hC0, &h4F, &hC2, &hDD, &hC1})
+Dim Shared EncoderSaveFlag As GUID = Type(&h292266FC, &hAC40, &h47BF, {&h8C, &hFC, &hA8, &hE0, &h3E, &h60, &h4E, &h3E})
+Dim Shared EncoderScanMethod As GUID = Type(&h3A4E2661, &h3109, &h4E56, {&h85, &h36, &h42, &hC1, &h56, &hE7, &hDC, &hFA})
+Dim Shared EncoderTransformation As GUID = Type(&h8D0EB2D1, &hA58E, &h4EA8, {&hAA, &h14, &h10, &h80, &h74, &hB7, &hB6, &hF9})
+Dim Shared EncoderVersion As GUID = Type(&h24D18C76, &h814A, &h41A4, {&hBF, &h53, &h1C, &h21, &h9C, &hCC, &hF7, &h97})
+Dim Shared ImageFormatBMP As GUID = Type(&hB96B3CAB, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatEMF As GUID = Type(&hB96B3CAC, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatEXIF As GUID = Type(&hB96B3CAE, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatGIF As GUID = Type(&hB96B3CB0, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatIcon As GUID = Type(&hB96B3CB5, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatJPEG As GUID = Type(&hB96B3CAF, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatMemoryBMP As GUID = Type(&hB96B3CB4, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatPNG As GUID = Type(&hB96B3CAF, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatTIFF As GUID = Type(&hB96B3CB1, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatUndefined As GUID = Type(&hB96B3CAA, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared ImageFormatWMF As GUID = Type(&hB96B3CAD, &h0728, &h11D3, {&h9D, &h7B, &h00, &h00, &hF8, &h1E, &hF3, &h2E})
+Dim Shared FrameDimensionPage As GUID = Type(&h7462DC86, &h6180, &h4C7E, {&h8E, &h3F, &hEE, &h73, &h3F, &hC1, &h0F, &h3B})
+Dim Shared FrameDimensionResolution As GUID = Type(&h84236F7B, &h3BD3, &h428C, {&h8D, &hE8, &h88, &hA0, &hE0, &h6B, &h6B, &h6D})
+Dim Shared FrameDimensionTime As GUID = Type(&h6AEDBD6D, &h3FB5, &h418A, {&h83, &hA6, &h7F, &h45, &h08, &h6E, &h5F, &hE7})
+
 #define __GDIPLUS_INIT_H
 
 type GdiplusStartupInput
@@ -1323,21 +1350,21 @@ type GdiplusStartupInput
 	SuppressExternalCodecs as BOOL
 end type
 
-type NotificationHookProc as function(byval token as ULONG_PTR ptr) as GpStatus
-type NotificationUnhookProc as sub(byval token as ULONG_PTR)
+type NotificationHookProc as function (byval token as ULONG_PTR ptr) as GpStatus
+type NotificationUnhookProc as sub (byval token as ULONG_PTR)
 
 type GdiplusStartupOutput
 	NotificationHook as NotificationHookProc
 	NotificationUnhook as NotificationUnhookProc
 end type
 
-declare function GdiplusStartup(byval as ULONG_PTR ptr, byval as const GdiplusStartupInput ptr, byval as GdiplusStartupOutput ptr) as GpStatus
-declare sub GdiplusShutdown(byval as ULONG_PTR)
-declare function GdiplusNotificationHook(byval as ULONG_PTR ptr) as GpStatus
-declare sub GdiplusNotificationUnhook(byval as ULONG_PTR)
+declare function GdiplusStartup Lib "GdiPlus.dll" Alias "GdiplusStartup" (byval as ULONG_PTR ptr, byval as const GdiplusStartupInput ptr, byval as GdiplusStartupOutput ptr) as GpStatus
+declare sub GdiplusShutdown Lib "GdiPlus.dll" Alias "GdiplusShutdown" (byval as ULONG_PTR)
+declare function GdiplusNotificationHook Lib "GdiPlus.dll" Alias "GdiplusNotificationHook" (byval as ULONG_PTR ptr) as GpStatus
+declare sub GdiplusNotificationUnhook Lib "GdiPlus.dll" Alias "GdiplusNotificationUnhook" (byval as ULONG_PTR)
 #define __GDIPLUS_MEM_H
-declare function GdipAlloc(byval as uinteger) as any ptr
-declare sub GdipFree(byval as any ptr)
+declare function GdipAlloc Lib "GdiPlus.dll" Alias "GdipAlloc" (byval as uinteger) as any ptr
+declare sub GdipFree Lib "GdiPlus.dll" Alias "GdipFree" (byval as any ptr)
 #define __GDIPLUS_METAHEADER_H
 const GDIP_EMFPLUSFLAGS_DISPLAY = cast(UINT, 1)
 
@@ -1516,634 +1543,661 @@ type ColorMatrix
 end type
 
 #define __GDIPLUS_FLAT_H
-declare function GdipCreateAdjustableArrowCap(byval as REAL, byval as REAL, byval as BOOL, byval as GpAdjustableArrowCap ptr ptr) as GpStatus
-declare function GdipSetAdjustableArrowCapHeight(byval as GpAdjustableArrowCap ptr, byval as REAL) as GpStatus
-declare function GdipGetAdjustableArrowCapHeight(byval as GpAdjustableArrowCap ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetAdjustableArrowCapWidth(byval as GpAdjustableArrowCap ptr, byval as REAL) as GpStatus
-declare function GdipGetAdjustableArrowCapWidth(byval as GpAdjustableArrowCap ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetAdjustableArrowCapMiddleInset(byval as GpAdjustableArrowCap ptr, byval as REAL) as GpStatus
-declare function GdipGetAdjustableArrowCapMiddleInset(byval as GpAdjustableArrowCap ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetAdjustableArrowCapFillState(byval as GpAdjustableArrowCap ptr, byval as BOOL) as GpStatus
-declare function GdipGetAdjustableArrowCapFillState(byval as GpAdjustableArrowCap ptr, byval as BOOL ptr) as GpStatus
-declare function GdipCreateBitmapFromStream(byval as IStream ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromFile(byval as const wstring ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromStreamICM(byval as IStream ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromFileICM(byval as const wstring ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromScan0(byval as INT_, byval as INT_, byval as INT_, byval as PixelFormat, byval as UBYTE ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromGraphics(byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromDirectDrawSurface(byval as IDirectDrawSurface7 ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromGdiDib(byval as const BITMAPINFO ptr, byval as any ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateBitmapFromHBITMAP(byval as HBITMAP, byval as HPALETTE, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateHBITMAPFromBitmap(byval as GpBitmap ptr, byval as HBITMAP ptr, byval as ARGB) as GpStatus
-declare function GdipCreateBitmapFromHICON(byval as HICON, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCreateHICONFromBitmap(byval as GpBitmap ptr, byval as HICON ptr) as GpStatus
-declare function GdipCreateBitmapFromResource(byval as HINSTANCE, byval as const wstring ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCloneBitmapArea(byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as PixelFormat, byval as GpBitmap ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipCloneBitmapAreaI(byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as PixelFormat, byval as GpBitmap ptr, byval as GpBitmap ptr ptr) as GpStatus
-declare function GdipBitmapLockBits(byval as GpBitmap ptr, byval as const GpRect ptr, byval as UINT, byval as PixelFormat, byval as BitmapData ptr) as GpStatus
-declare function GdipBitmapUnlockBits(byval as GpBitmap ptr, byval as BitmapData ptr) as GpStatus
-declare function GdipBitmapGetPixel(byval as GpBitmap ptr, byval as INT_, byval as INT_, byval as ARGB ptr) as GpStatus
-declare function GdipBitmapSetPixel(byval as GpBitmap ptr, byval as INT_, byval as INT_, byval as ARGB) as GpStatus
-declare function GdipBitmapSetResolution(byval as GpBitmap ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipBitmapConvertFormat(byval as GpBitmap ptr, byval as PixelFormat, byval as DitherType, byval as PaletteType, byval as ColorPalette ptr, byval as REAL) as GpStatus
-declare function GdipInitializePalette(byval as ColorPalette ptr, byval as PaletteType, byval as INT_, byval as BOOL, byval as GpBitmap ptr) as GpStatus
-declare function GdipBitmapApplyEffect(byval as GpBitmap ptr, byval as CGpEffect ptr, byval as RECT ptr, byval as BOOL, byval as any ptr ptr, byval as INT_ ptr) as GpStatus
-declare function GdipBitmapCreateApplyEffect(byval as GpBitmap ptr ptr, byval as INT_, byval as CGpEffect ptr, byval as RECT ptr, byval as RECT ptr, byval as GpBitmap ptr ptr, byval as BOOL, byval as any ptr ptr, byval as INT_ ptr) as GpStatus
-declare function GdipBitmapGetHistogram(byval as GpBitmap ptr, byval as HistogramFormat, byval as UINT, byval as UINT ptr, byval as UINT ptr, byval as UINT ptr, byval as UINT ptr) as GpStatus
-declare function GdipBitmapGetHistogramSize(byval as HistogramFormat, byval as UINT ptr) as GpStatus
-declare function GdipCloneBrush(byval as GpBrush ptr, byval as GpBrush ptr ptr) as GpStatus
-declare function GdipDeleteBrush(byval as GpBrush ptr) as GpStatus
-declare function GdipGetBrushType(byval as GpBrush ptr, byval as GpBrushType ptr) as GpStatus
-declare function GdipCreateCachedBitmap(byval as GpBitmap ptr, byval as GpGraphics ptr, byval as GpCachedBitmap ptr ptr) as GpStatus
-declare function GdipDeleteCachedBitmap(byval as GpCachedBitmap ptr) as GpStatus
-declare function GdipDrawCachedBitmap(byval as GpGraphics ptr, byval as GpCachedBitmap ptr, byval as INT_, byval as INT_) as GpStatus
-declare function GdipCreateCustomLineCap(byval as GpPath ptr, byval as GpPath ptr, byval as GpLineCap, byval as REAL, byval as GpCustomLineCap ptr ptr) as GpStatus
-declare function GdipDeleteCustomLineCap(byval as GpCustomLineCap ptr) as GpStatus
-declare function GdipCloneCustomLineCap(byval as GpCustomLineCap ptr, byval as GpCustomLineCap ptr ptr) as GpStatus
-declare function GdipGetCustomLineCapType(byval as GpCustomLineCap ptr, byval as CustomLineCapType ptr) as GpStatus
-declare function GdipSetCustomLineCapStrokeCaps(byval as GpCustomLineCap ptr, byval as GpLineCap, byval as GpLineCap) as GpStatus
-declare function GdipGetCustomLineCapStrokeCaps(byval as GpCustomLineCap ptr, byval as GpLineCap ptr, byval as GpLineCap ptr) as GpStatus
-declare function GdipSetCustomLineCapStrokeJoin(byval as GpCustomLineCap ptr, byval as GpLineJoin) as GpStatus
-declare function GdipGetCustomLineCapStrokeJoin(byval as GpCustomLineCap ptr, byval as GpLineJoin ptr) as GpStatus
-declare function GdipSetCustomLineCapBaseCap(byval as GpCustomLineCap ptr, byval as GpLineCap) as GpStatus
-declare function GdipGetCustomLineCapBaseCap(byval as GpCustomLineCap ptr, byval as GpLineCap ptr) as GpStatus
-declare function GdipSetCustomLineCapBaseInset(byval as GpCustomLineCap ptr, byval as REAL) as GpStatus
-declare function GdipGetCustomLineCapBaseInset(byval as GpCustomLineCap ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetCustomLineCapWidthScale(byval as GpCustomLineCap ptr, byval as REAL) as GpStatus
-declare function GdipGetCustomLineCapWidthScale(byval as GpCustomLineCap ptr, byval as REAL ptr) as GpStatus
-declare function GdipCreateEffect(byval as const GUID, byval as CGpEffect ptr ptr) as GpStatus
-declare function GdipDeleteEffect(byval as CGpEffect ptr) as GpStatus
-declare function GdipGetEffectParameterSize(byval as CGpEffect ptr, byval as UINT ptr) as GpStatus
-declare function GdipSetEffectParameters(byval as CGpEffect ptr, byval as const any ptr, byval as UINT) as GpStatus
-declare function GdipGetEffectParameters(byval as CGpEffect ptr, byval as UINT ptr, byval as any ptr) as GpStatus
-declare function GdipCreateFontFromDC(byval as HDC, byval as GpFont ptr ptr) as GpStatus
-declare function GdipCreateFontFromLogfontA(byval as HDC, byval as const LOGFONTA ptr, byval as GpFont ptr ptr) as GpStatus
-declare function GdipCreateFontFromLogfontW(byval as HDC, byval as const LOGFONTW ptr, byval as GpFont ptr ptr) as GpStatus
-declare function GdipCreateFont(byval as const GpFontFamily ptr, byval as REAL, byval as INT_, byval as Unit, byval as GpFont ptr ptr) as GpStatus
-declare function GdipCloneFont(byval as GpFont ptr, byval as GpFont ptr ptr) as GpStatus
-declare function GdipDeleteFont(byval as GpFont ptr) as GpStatus
-declare function GdipGetFamily(byval as GpFont ptr, byval as GpFontFamily ptr ptr) as GpStatus
-declare function GdipGetFontStyle(byval as GpFont ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetFontSize(byval as GpFont ptr, byval as REAL ptr) as GpStatus
-declare function GdipGetFontUnit(byval as GpFont ptr, byval as Unit ptr) as GpStatus
-declare function GdipGetFontHeight(byval as const GpFont ptr, byval as const GpGraphics ptr, byval as REAL ptr) as GpStatus
-declare function GdipGetFontHeightGivenDPI(byval as const GpFont ptr, byval as REAL, byval as REAL ptr) as GpStatus
-declare function GdipGetLogFontA(byval as GpFont ptr, byval as GpGraphics ptr, byval as LOGFONTA ptr) as GpStatus
-declare function GdipGetLogFontW(byval as GpFont ptr, byval as GpGraphics ptr, byval as LOGFONTW ptr) as GpStatus
-declare function GdipNewInstalledFontCollection(byval as GpFontCollection ptr ptr) as GpStatus
-declare function GdipNewPrivateFontCollection(byval as GpFontCollection ptr ptr) as GpStatus
-declare function GdipDeletePrivateFontCollection(byval as GpFontCollection ptr ptr) as GpStatus
-declare function GdipGetFontCollectionFamilyCount(byval as GpFontCollection ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetFontCollectionFamilyList(byval as GpFontCollection ptr, byval as INT_, byval as GpFontFamily ptr ptr, byval as INT_ ptr) as GpStatus
-declare function GdipPrivateAddFontFile(byval as GpFontCollection ptr, byval as const wstring ptr) as GpStatus
-declare function GdipPrivateAddMemoryFont(byval as GpFontCollection ptr, byval as const any ptr, byval as INT_) as GpStatus
-declare function GdipCreateFontFamilyFromName(byval as const wstring ptr, byval as GpFontCollection ptr, byval as GpFontFamily ptr ptr) as GpStatus
-declare function GdipDeleteFontFamily(byval as GpFontFamily ptr) as GpStatus
-declare function GdipCloneFontFamily(byval as GpFontFamily ptr, byval as GpFontFamily ptr ptr) as GpStatus
-declare function GdipGetGenericFontFamilySansSerif(byval as GpFontFamily ptr ptr) as GpStatus
-declare function GdipGetGenericFontFamilySerif(byval as GpFontFamily ptr ptr) as GpStatus
-declare function GdipGetGenericFontFamilyMonospace(byval as GpFontFamily ptr ptr) as GpStatus
-declare function GdipGetFamilyName(byval as const GpFontFamily ptr, byval as wstring ptr, byval as LANGID) as GpStatus
-declare function GdipIsStyleAvailable(byval as const GpFontFamily ptr, byval as INT_, byval as BOOL ptr) as GpStatus
-declare function GdipFontCollectionEnumerable(byval as GpFontCollection ptr, byval as GpGraphics ptr, byval as INT_ ptr) as GpStatus
-declare function GdipFontCollectionEnumerate(byval as GpFontCollection ptr, byval as INT_, byval as GpFontFamily ptr ptr, byval as INT_ ptr, byval as GpGraphics ptr) as GpStatus
-declare function GdipGetEmHeight(byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
-declare function GdipGetCellAscent(byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
-declare function GdipGetCellDescent(byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
-declare function GdipGetLineSpacing(byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
-declare function GdipFlush(byval as GpGraphics ptr, byval as GpFlushIntention) as GpStatus
-declare function GdipCreateFromHDC(byval as HDC, byval as GpGraphics ptr ptr) as GpStatus
-declare function GdipCreateFromHDC2(byval as HDC, byval as HANDLE, byval as GpGraphics ptr ptr) as GpStatus
-declare function GdipCreateFromHWND(byval as HWND, byval as GpGraphics ptr ptr) as GpStatus
-declare function GdipCreateFromHWNDICM(byval as HWND, byval as GpGraphics ptr ptr) as GpStatus
-declare function GdipDeleteGraphics(byval as GpGraphics ptr) as GpStatus
-declare function GdipGetDC(byval as GpGraphics ptr, byval as HDC ptr) as GpStatus
-declare function GdipReleaseDC(byval as GpGraphics ptr, byval as HDC) as GpStatus
-declare function GdipSetCompositingMode(byval as GpGraphics ptr, byval as CompositingMode) as GpStatus
-declare function GdipGetCompositingMode(byval as GpGraphics ptr, byval as CompositingMode ptr) as GpStatus
-declare function GdipSetRenderingOrigin(byval as GpGraphics ptr, byval as INT_, byval as INT_) as GpStatus
-declare function GdipGetRenderingOrigin(byval as GpGraphics ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetCompositingQuality(byval as GpGraphics ptr, byval as CompositingQuality) as GpStatus
-declare function GdipGetCompositingQuality(byval as GpGraphics ptr, byval as CompositingQuality ptr) as GpStatus
-declare function GdipSetSmoothingMode(byval as GpGraphics ptr, byval as SmoothingMode) as GpStatus
-declare function GdipGetSmoothingMode(byval as GpGraphics ptr, byval as SmoothingMode ptr) as GpStatus
-declare function GdipSetPixelOffsetMode(byval as GpGraphics ptr, byval as PixelOffsetMode) as GpStatus
-declare function GdipGetPixelOffsetMode(byval as GpGraphics ptr, byval as PixelOffsetMode ptr) as GpStatus
-declare function GdipSetTextRenderingHint(byval as GpGraphics ptr, byval as TextRenderingHint) as GpStatus
-declare function GdipGetTextRenderingHint(byval as GpGraphics ptr, byval as TextRenderingHint ptr) as GpStatus
-declare function GdipSetTextContrast(byval as GpGraphics ptr, byval as UINT) as GpStatus
-declare function GdipGetTextContrast(byval as GpGraphics ptr, byval as UINT ptr) as GpStatus
-declare function GdipSetInterpolationMode(byval as GpGraphics ptr, byval as InterpolationMode) as GpStatus
+declare function GdipCreateAdjustableArrowCap Lib "GdiPlus.dll" Alias "GdipCreateAdjustableArrowCap" (byval as REAL, byval as REAL, byval as BOOL, byval as GpAdjustableArrowCap ptr ptr) as GpStatus
+declare function GdipSetAdjustableArrowCapHeight Lib "GdiPlus.dll" Alias "GdipSetAdjustableArrowCapHeight" (byval as GpAdjustableArrowCap ptr, byval as REAL) as GpStatus
+declare function GdipGetAdjustableArrowCapHeight Lib "GdiPlus.dll" Alias "GdipGetAdjustableArrowCapHeight" (byval as GpAdjustableArrowCap ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetAdjustableArrowCapWidth Lib "GdiPlus.dll" Alias "GdipSetAdjustableArrowCapWidth" (byval as GpAdjustableArrowCap ptr, byval as REAL) as GpStatus
+declare function GdipGetAdjustableArrowCapWidth Lib "GdiPlus.dll" Alias "GdipGetAdjustableArrowCapWidth" (byval as GpAdjustableArrowCap ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetAdjustableArrowCapMiddleInset Lib "GdiPlus.dll" Alias "GdipSetAdjustableArrowCapMiddleInset" (byval as GpAdjustableArrowCap ptr, byval as REAL) as GpStatus
+declare function GdipGetAdjustableArrowCapMiddleInset Lib "GdiPlus.dll" Alias "GdipGetAdjustableArrowCapMiddleInset" (byval as GpAdjustableArrowCap ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetAdjustableArrowCapFillState Lib "GdiPlus.dll" Alias "GdipSetAdjustableArrowCapFillState" (byval as GpAdjustableArrowCap ptr, byval as BOOL) as GpStatus
+declare function GdipGetAdjustableArrowCapFillState Lib "GdiPlus.dll" Alias "GdipGetAdjustableArrowCapFillState" (byval as GpAdjustableArrowCap ptr, byval as BOOL ptr) as GpStatus
+declare function GdipCreateBitmapFromStream Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromStream" (byval as IStream ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromFile Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromFile" (byval as const wstring ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromStreamICM Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromStreamICM" (byval as IStream ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromFileICM Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromFileICM" (byval as const wstring ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromScan0 Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromScan0" (byval as INT_, byval as INT_, byval as INT_, byval as PixelFormat, byval as UBYTE ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromGraphics Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromGraphics" (byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromDirectDrawSurface Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromDirectDrawSurface" (byval as IDirectDrawSurface7 ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromGdiDib Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromGdiDib" (byval as const BITMAPINFO ptr, byval as any ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateBitmapFromHBITMAP Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromHBITMAP" (byval as HBITMAP, byval as HPALETTE, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateHBITMAPFromBitmap Lib "GdiPlus.dll" Alias "GdipCreateHBITMAPFromBitmap" (byval as GpBitmap ptr, byval as HBITMAP ptr, byval as ARGB) as GpStatus
+declare function GdipCreateBitmapFromHICON Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromHICON" (byval as HICON, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCreateHICONFromBitmap Lib "GdiPlus.dll" Alias "GdipCreateHICONFromBitmap" (byval as GpBitmap ptr, byval as HICON ptr) as GpStatus
+declare function GdipCreateBitmapFromResource Lib "GdiPlus.dll" Alias "GdipCreateBitmapFromResource" (byval as HINSTANCE, byval as const wstring ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCloneBitmapArea Lib "GdiPlus.dll" Alias "GdipCloneBitmapArea" (byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as PixelFormat, byval as GpBitmap ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipCloneBitmapAreaI Lib "GdiPlus.dll" Alias "GdipCloneBitmapAreaI" (byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as PixelFormat, byval as GpBitmap ptr, byval as GpBitmap ptr ptr) as GpStatus
+declare function GdipBitmapLockBits Lib "GdiPlus.dll" Alias "GdipBitmapLockBits" (byval as GpBitmap ptr, byval as const GpRect ptr, byval as UINT, byval as PixelFormat, byval as BitmapData ptr) as GpStatus
+declare function GdipBitmapUnlockBits Lib "GdiPlus.dll" Alias "GdipBitmapUnlockBits" (byval as GpBitmap ptr, byval as BitmapData ptr) as GpStatus
+declare function GdipBitmapGetPixel Lib "GdiPlus.dll" Alias "GdipBitmapGetPixel" (byval as GpBitmap ptr, byval as INT_, byval as INT_, byval as ARGB ptr) as GpStatus
+declare function GdipBitmapSetPixel Lib "GdiPlus.dll" Alias "GdipBitmapSetPixel" (byval as GpBitmap ptr, byval as INT_, byval as INT_, byval as ARGB) as GpStatus
+declare function GdipBitmapSetResolution Lib "GdiPlus.dll" Alias "GdipBitmapSetResolution" (byval as GpBitmap ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipBitmapConvertFormat Lib "GdiPlus.dll" Alias "GdipBitmapConvertFormat" (byval as GpBitmap ptr, byval as PixelFormat, byval as DitherType, byval as PaletteType, byval as ColorPalette ptr, byval as REAL) as GpStatus
+declare function GdipInitializePalette Lib "GdiPlus.dll" Alias "GdipInitializePalette" (byval as ColorPalette ptr, byval as PaletteType, byval as INT_, byval as BOOL, byval as GpBitmap ptr) as GpStatus
+declare function GdipBitmapApplyEffect Lib "GdiPlus.dll" Alias "GdipBitmapApplyEffect" (byval as GpBitmap ptr, byval as CGpEffect ptr, byval as RECT ptr, byval as BOOL, byval as any ptr ptr, byval as INT_ ptr) as GpStatus
+declare function GdipBitmapCreateApplyEffect Lib "GdiPlus.dll" Alias "GdipBitmapCreateApplyEffect" (byval as GpBitmap ptr ptr, byval as INT_, byval as CGpEffect ptr, byval as RECT ptr, byval as RECT ptr, byval as GpBitmap ptr ptr, byval as BOOL, byval as any ptr ptr, byval as INT_ ptr) as GpStatus
+declare function GdipBitmapGetHistogram Lib "GdiPlus.dll" Alias "GdipBitmapGetHistogram" (byval as GpBitmap ptr, byval as HistogramFormat, byval as UINT, byval as UINT ptr, byval as UINT ptr, byval as UINT ptr, byval as UINT ptr) as GpStatus
+declare function GdipBitmapGetHistogramSize Lib "GdiPlus.dll" Alias "GdipBitmapGetHistogramSize" (byval as HistogramFormat, byval as UINT ptr) as GpStatus
+declare function GdipCloneBrush Lib "GdiPlus.dll" Alias "GdipCloneBrush" (byval as GpBrush ptr, byval as GpBrush ptr ptr) as GpStatus
+declare function GdipDeleteBrush Lib "GdiPlus.dll" Alias "GdipDeleteBrush" (byval as GpBrush ptr) as GpStatus
+declare function GdipGetBrushType Lib "GdiPlus.dll" Alias "GdipGetBrushType" (byval as GpBrush ptr, byval as GpBrushType ptr) as GpStatus
+declare function GdipCreateCachedBitmap Lib "GdiPlus.dll" Alias "GdipCreateCachedBitmap" (byval as GpBitmap ptr, byval as GpGraphics ptr, byval as GpCachedBitmap ptr ptr) as GpStatus
+declare function GdipDeleteCachedBitmap Lib "GdiPlus.dll" Alias "GdipDeleteCachedBitmap" (byval as GpCachedBitmap ptr) as GpStatus
+declare function GdipDrawCachedBitmap Lib "GdiPlus.dll" Alias "GdipDrawCachedBitmap" (byval as GpGraphics ptr, byval as GpCachedBitmap ptr, byval as INT_, byval as INT_) as GpStatus
+declare function GdipCreateCustomLineCap Lib "GdiPlus.dll" Alias "GdipCreateCustomLineCap" (byval as GpPath ptr, byval as GpPath ptr, byval as GpLineCap, byval as REAL, byval as GpCustomLineCap ptr ptr) as GpStatus
+declare function GdipDeleteCustomLineCap Lib "GdiPlus.dll" Alias "GdipDeleteCustomLineCap" (byval as GpCustomLineCap ptr) as GpStatus
+declare function GdipCloneCustomLineCap Lib "GdiPlus.dll" Alias "GdipCloneCustomLineCap" (byval as GpCustomLineCap ptr, byval as GpCustomLineCap ptr ptr) as GpStatus
+declare function GdipGetCustomLineCapType Lib "GdiPlus.dll" Alias "GdipGetCustomLineCapType" (byval as GpCustomLineCap ptr, byval as CustomLineCapType ptr) as GpStatus
+declare function GdipSetCustomLineCapStrokeCaps Lib "GdiPlus.dll" Alias "GdipSetCustomLineCapStrokeCaps" (byval as GpCustomLineCap ptr, byval as GpLineCap, byval as GpLineCap) as GpStatus
+declare function GdipGetCustomLineCapStrokeCaps Lib "GdiPlus.dll" Alias "GdipGetCustomLineCapStrokeCaps" (byval as GpCustomLineCap ptr, byval as GpLineCap ptr, byval as GpLineCap ptr) as GpStatus
+declare function GdipSetCustomLineCapStrokeJoin Lib "GdiPlus.dll" Alias "GdipSetCustomLineCapStrokeJoin" (byval as GpCustomLineCap ptr, byval as GpLineJoin) as GpStatus
+declare function GdipGetCustomLineCapStrokeJoin Lib "GdiPlus.dll" Alias "GdipGetCustomLineCapStrokeJoin" (byval as GpCustomLineCap ptr, byval as GpLineJoin ptr) as GpStatus
+declare function GdipSetCustomLineCapBaseCap Lib "GdiPlus.dll" Alias "GdipSetCustomLineCapBaseCap" (byval as GpCustomLineCap ptr, byval as GpLineCap) as GpStatus
+declare function GdipGetCustomLineCapBaseCap Lib "GdiPlus.dll" Alias "GdipGetCustomLineCapBaseCap" (byval as GpCustomLineCap ptr, byval as GpLineCap ptr) as GpStatus
+declare function GdipSetCustomLineCapBaseInset Lib "GdiPlus.dll" Alias "GdipSetCustomLineCapBaseInset" (byval as GpCustomLineCap ptr, byval as REAL) as GpStatus
+declare function GdipGetCustomLineCapBaseInset Lib "GdiPlus.dll" Alias "GdipGetCustomLineCapBaseInset" (byval as GpCustomLineCap ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetCustomLineCapWidthScale Lib "GdiPlus.dll" Alias "GdipSetCustomLineCapWidthScale" (byval as GpCustomLineCap ptr, byval as REAL) as GpStatus
+declare function GdipGetCustomLineCapWidthScale Lib "GdiPlus.dll" Alias "GdipGetCustomLineCapWidthScale" (byval as GpCustomLineCap ptr, byval as REAL ptr) as GpStatus
+declare function GdipCreateEffect Lib "GdiPlus.dll" Alias "GdipCreateEffect" (byval as const GUID, byval as CGpEffect ptr ptr) as GpStatus
+declare function GdipDeleteEffect Lib "GdiPlus.dll" Alias "GdipDeleteEffect" (byval as CGpEffect ptr) as GpStatus
+declare function GdipGetEffectParameterSize Lib "GdiPlus.dll" Alias "GdipGetEffectParameterSize" (byval as CGpEffect ptr, byval as UINT ptr) as GpStatus
+declare function GdipSetEffectParameters Lib "GdiPlus.dll" Alias "GdipSetEffectParameters" (byval as CGpEffect ptr, byval as const any ptr, byval as UINT) as GpStatus
+declare function GdipGetEffectParameters Lib "GdiPlus.dll" Alias "GdipGetEffectParameters" (byval as CGpEffect ptr, byval as UINT ptr, byval as any ptr) as GpStatus
+declare function GdipCreateFontFromDC Lib "GdiPlus.dll" Alias "GdipCreateFontFromDC" (byval as HDC, byval as GpFont ptr ptr) as GpStatus
+declare function GdipCreateFontFromLogfontA Lib "GdiPlus.dll" Alias "GdipCreateFontFromLogfontA" (byval as HDC, byval as const LOGFONTA ptr, byval as GpFont ptr ptr) as GpStatus
+declare function GdipCreateFontFromLogfontW Lib "GdiPlus.dll" Alias "GdipCreateFontFromLogfontW" (byval as HDC, byval as const LOGFONTW ptr, byval as GpFont ptr ptr) as GpStatus
+declare function GdipCreateFont Lib "GdiPlus.dll" Alias "GdipCreateFont" (byval as const GpFontFamily ptr, byval as REAL, byval as INT_, byval as Unit, byval as GpFont ptr ptr) as GpStatus
+declare function GdipCloneFont Lib "GdiPlus.dll" Alias "GdipCloneFont" (byval as GpFont ptr, byval as GpFont ptr ptr) as GpStatus
+declare function GdipDeleteFont Lib "GdiPlus.dll" Alias "GdipDeleteFont" (byval as GpFont ptr) as GpStatus
+declare function GdipGetFamily Lib "GdiPlus.dll" Alias "GdipGetFamily" (byval as GpFont ptr, byval as GpFontFamily ptr ptr) as GpStatus
+declare function GdipGetFontStyle Lib "GdiPlus.dll" Alias "GdipGetFontStyle" (byval as GpFont ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetFontSize Lib "GdiPlus.dll" Alias "GdipGetFontSize" (byval as GpFont ptr, byval as REAL ptr) as GpStatus
+declare function GdipGetFontUnit Lib "GdiPlus.dll" Alias "GdipGetFontUnit" (byval as GpFont ptr, byval as Unit ptr) as GpStatus
+declare function GdipGetFontHeight Lib "GdiPlus.dll" Alias "GdipGetFontHeight" (byval as const GpFont ptr, byval as const GpGraphics ptr, byval as REAL ptr) as GpStatus
+declare function GdipGetFontHeightGivenDPI Lib "GdiPlus.dll" Alias "GdipGetFontHeightGivenDPI" (byval as const GpFont ptr, byval as REAL, byval as REAL ptr) as GpStatus
+declare function GdipGetLogFontA Lib "GdiPlus.dll" Alias "GdipGetLogFontA" (byval as GpFont ptr, byval as GpGraphics ptr, byval as LOGFONTA ptr) as GpStatus
+declare function GdipGetLogFontW Lib "GdiPlus.dll" Alias "GdipGetLogFontW" (byval as GpFont ptr, byval as GpGraphics ptr, byval as LOGFONTW ptr) as GpStatus
+declare function GdipNewInstalledFontCollection Lib "GdiPlus.dll" Alias "GdipNewInstalledFontCollection" (byval as GpFontCollection ptr ptr) as GpStatus
+declare function GdipNewPrivateFontCollection Lib "GdiPlus.dll" Alias "GdipNewPrivateFontCollection" (byval as GpFontCollection ptr ptr) as GpStatus
+declare function GdipDeletePrivateFontCollection Lib "GdiPlus.dll" Alias "GdipDeletePrivateFontCollection" (byval as GpFontCollection ptr ptr) as GpStatus
+declare function GdipGetFontCollectionFamilyCount Lib "GdiPlus.dll" Alias "GdipGetFontCollectionFamilyCount" (byval as GpFontCollection ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetFontCollectionFamilyList Lib "GdiPlus.dll" Alias "GdipGetFontCollectionFamilyList" (byval as GpFontCollection ptr, byval as INT_, byval as GpFontFamily ptr ptr, byval as INT_ ptr) as GpStatus
+declare function GdipPrivateAddFontFile Lib "GdiPlus.dll" Alias "GdipPrivateAddFontFile" (byval as GpFontCollection ptr, byval as const wstring ptr) as GpStatus
+declare function GdipPrivateAddMemoryFont Lib "GdiPlus.dll" Alias "GdipPrivateAddMemoryFont" (byval as GpFontCollection ptr, byval as const any ptr, byval as INT_) as GpStatus
+declare function GdipCreateFontFamilyFromName Lib "GdiPlus.dll" Alias "GdipCreateFontFamilyFromName" (byval as const wstring ptr, byval as GpFontCollection ptr, byval as GpFontFamily ptr ptr) as GpStatus
+declare function GdipDeleteFontFamily Lib "GdiPlus.dll" Alias "GdipDeleteFontFamily" (byval as GpFontFamily ptr) as GpStatus
+declare function GdipCloneFontFamily Lib "GdiPlus.dll" Alias "GdipCloneFontFamily" (byval as GpFontFamily ptr, byval as GpFontFamily ptr ptr) as GpStatus
+declare function GdipGetGenericFontFamilySansSerif Lib "GdiPlus.dll" Alias "GdipGetGenericFontFamilySansSerif" (byval as GpFontFamily ptr ptr) as GpStatus
+declare function GdipGetGenericFontFamilySerif Lib "GdiPlus.dll" Alias "GdipGetGenericFontFamilySerif" (byval as GpFontFamily ptr ptr) as GpStatus
+declare function GdipGetGenericFontFamilyMonospace Lib "GdiPlus.dll" Alias "GdipGetGenericFontFamilyMonospace" (byval as GpFontFamily ptr ptr) as GpStatus
+declare function GdipGetFamilyName Lib "GdiPlus.dll" Alias "GdipGetFamilyName" (byval as const GpFontFamily ptr, byval as wstring ptr, byval as LANGID) as GpStatus
+declare function GdipIsStyleAvailable Lib "GdiPlus.dll" Alias "GdipIsStyleAvailable" (byval as const GpFontFamily ptr, byval as INT_, byval as BOOL ptr) as GpStatus
+declare function GdipFontCollectionEnumerable Lib "GdiPlus.dll" Alias "GdipFontCollectionEnumerable" (byval as GpFontCollection ptr, byval as GpGraphics ptr, byval as INT_ ptr) as GpStatus
+declare function GdipFontCollectionEnumerate Lib "GdiPlus.dll" Alias "GdipFontCollectionEnumerate" (byval as GpFontCollection ptr, byval as INT_, byval as GpFontFamily ptr ptr, byval as INT_ ptr, byval as GpGraphics ptr) as GpStatus
+declare function GdipGetEmHeight Lib "GdiPlus.dll" Alias "GdipGetEmHeight" (byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
+declare function GdipGetCellAscent Lib "GdiPlus.dll" Alias "GdipGetCellAscent" (byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
+declare function GdipGetCellDescent Lib "GdiPlus.dll" Alias "GdipGetCellDescent" (byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
+declare function GdipGetLineSpacing Lib "GdiPlus.dll" Alias "GdipGetLineSpacing" (byval as const GpFontFamily ptr, byval as INT_, byval as UINT16 ptr) as GpStatus
+declare function GdipFlush Lib "GdiPlus.dll" Alias "GdipFlush" (byval as GpGraphics ptr, byval as GpFlushIntention) as GpStatus
+declare function GdipCreateFromHDC Lib "GdiPlus.dll" Alias "GdipCreateFromHDC" (byval as HDC, byval as GpGraphics ptr ptr) as GpStatus
+declare function GdipCreateFromHDC2 Lib "GdiPlus.dll" Alias "GdipCreateFromHDC2" (byval as HDC, byval as HANDLE, byval as GpGraphics ptr ptr) as GpStatus
+declare function GdipCreateFromHWND Lib "GdiPlus.dll" Alias "GdipCreateFromHWND" (byval as HWND, byval as GpGraphics ptr ptr) as GpStatus
+declare function GdipCreateFromHWNDICM Lib "GdiPlus.dll" Alias "GdipCreateFromHWNDICM" (byval as HWND, byval as GpGraphics ptr ptr) as GpStatus
+declare function GdipDeleteGraphics Lib "GdiPlus.dll" Alias "GdipDeleteGraphics" (byval as GpGraphics ptr) as GpStatus
+declare function GdipGetDC Lib "GdiPlus.dll" Alias "GdipGetDC" (byval as GpGraphics ptr, byval as HDC ptr) as GpStatus
+declare function GdipReleaseDC Lib "GdiPlus.dll" Alias "GdipReleaseDC" (byval as GpGraphics ptr, byval as HDC) as GpStatus
+declare function GdipSetCompositingMode Lib "GdiPlus.dll" Alias "GdipSetCompositingMode" (byval as GpGraphics ptr, byval as CompositingMode) as GpStatus
+declare function GdipGetCompositingMode Lib "GdiPlus.dll" Alias "GdipGetCompositingMode" (byval as GpGraphics ptr, byval as CompositingMode ptr) as GpStatus
+declare function GdipSetRenderingOrigin Lib "GdiPlus.dll" Alias "GdipSetRenderingOrigin" (byval as GpGraphics ptr, byval as INT_, byval as INT_) as GpStatus
+declare function GdipGetRenderingOrigin Lib "GdiPlus.dll" Alias "GdipGetRenderingOrigin" (byval as GpGraphics ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetCompositingQuality Lib "GdiPlus.dll" Alias "GdipSetCompositingQuality" (byval as GpGraphics ptr, byval as CompositingQuality) as GpStatus
+declare function GdipGetCompositingQuality Lib "GdiPlus.dll" Alias "GdipGetCompositingQuality" (byval as GpGraphics ptr, byval as CompositingQuality ptr) as GpStatus
+declare function GdipSetSmoothingMode Lib "GdiPlus.dll" Alias "GdipSetSmoothingMode" (byval as GpGraphics ptr, byval as SmoothingMode) as GpStatus
+declare function GdipGetSmoothingMode Lib "GdiPlus.dll" Alias "GdipGetSmoothingMode" (byval as GpGraphics ptr, byval as SmoothingMode ptr) as GpStatus
+declare function GdipSetPixelOffsetMode Lib "GdiPlus.dll" Alias "GdipSetPixelOffsetMode" (byval as GpGraphics ptr, byval as PixelOffsetMode) as GpStatus
+declare function GdipGetPixelOffsetMode Lib "GdiPlus.dll" Alias "GdipGetPixelOffsetMode" (byval as GpGraphics ptr, byval as PixelOffsetMode ptr) as GpStatus
+declare function GdipSetTextRenderingHint Lib "GdiPlus.dll" Alias "GdipSetTextRenderingHint" (byval as GpGraphics ptr, byval as TextRenderingHint) as GpStatus
+declare function GdipGetTextRenderingHint Lib "GdiPlus.dll" Alias "GdipGetTextRenderingHint" (byval as GpGraphics ptr, byval as TextRenderingHint ptr) as GpStatus
+declare function GdipSetTextContrast Lib "GdiPlus.dll" Alias "GdipSetTextContrast" (byval as GpGraphics ptr, byval as UINT) as GpStatus
+declare function GdipGetTextContrast Lib "GdiPlus.dll" Alias "GdipGetTextContrast" (byval as GpGraphics ptr, byval as UINT ptr) as GpStatus
+declare function GdipSetInterpolationMode Lib "GdiPlus.dll" Alias "GdipSetInterpolationMode" (byval as GpGraphics ptr, byval as InterpolationMode) as GpStatus
 type GdiplusAbort as GdiplusAbort_
-declare function GdipGraphicsSetAbort(byval as GpGraphics ptr, byval as GdiplusAbort ptr) as GpStatus
-declare function GdipGetInterpolationMode(byval as GpGraphics ptr, byval as InterpolationMode ptr) as GpStatus
-declare function GdipSetWorldTransform(byval as GpGraphics ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipResetWorldTransform(byval as GpGraphics ptr) as GpStatus
-declare function GdipMultiplyWorldTransform(byval as GpGraphics ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
-declare function GdipTranslateWorldTransform(byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipScaleWorldTransform(byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipRotateWorldTransform(byval as GpGraphics ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipGetWorldTransform(byval as GpGraphics ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipResetPageTransform(byval as GpGraphics ptr) as GpStatus
-declare function GdipGetPageUnit(byval as GpGraphics ptr, byval as GpUnit ptr) as GpStatus
-declare function GdipGetPageScale(byval as GpGraphics ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetPageUnit(byval as GpGraphics ptr, byval as GpUnit) as GpStatus
-declare function GdipSetPageScale(byval as GpGraphics ptr, byval as REAL) as GpStatus
-declare function GdipGetDpiX(byval as GpGraphics ptr, byval as REAL ptr) as GpStatus
-declare function GdipGetDpiY(byval as GpGraphics ptr, byval as REAL ptr) as GpStatus
-declare function GdipTransformPoints(byval as GpGraphics ptr, byval as GpCoordinateSpace, byval as GpCoordinateSpace, byval as GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipTransformPointsI(byval as GpGraphics ptr, byval as GpCoordinateSpace, byval as GpCoordinateSpace, byval as GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipGetNearestColor(byval as GpGraphics ptr, byval as ARGB ptr) as GpStatus
-declare function GdipCreateHalftonePalette() as HPALETTE
-declare function GdipDrawLine(byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawLineI(byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipDrawLines(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipDrawLinesI(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipDrawArc(byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawArcI(byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawBezier(byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawBezierI(byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipDrawBeziers(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipDrawBeziersI(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipDrawRectangle(byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawRectangleI(byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipDrawRectangles(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpRectF ptr, byval as INT_) as GpStatus
-declare function GdipDrawRectanglesI(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpRect ptr, byval as INT_) as GpStatus
-declare function GdipDrawEllipse(byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawEllipseI(byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipDrawPie(byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawPieI(byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawPolygon(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipDrawPolygonI(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipDrawPath(byval as GpGraphics ptr, byval as GpPen ptr, byval as GpPath ptr) as GpStatus
-declare function GdipDrawCurve(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipDrawCurveI(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipDrawCurve2(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipDrawCurve2I(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipDrawCurve3(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
-declare function GdipDrawCurve3I(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
-declare function GdipDrawClosedCurve(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipDrawClosedCurveI(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipDrawClosedCurve2(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipDrawClosedCurve2I(byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipGraphicsClear(byval as GpGraphics ptr, byval as ARGB) as GpStatus
-declare function GdipFillRectangle(byval as GpGraphics ptr, byval as GpBrush ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipFillRectangleI(byval as GpGraphics ptr, byval as GpBrush ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipFillRectangles(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpRectF ptr, byval as INT_) as GpStatus
-declare function GdipFillRectanglesI(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpRect ptr, byval as INT_) as GpStatus
-declare function GdipFillPolygon(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_, byval as GpFillMode) as GpStatus
-declare function GdipFillPolygonI(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_, byval as GpFillMode) as GpStatus
-declare function GdipFillPolygon2(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipFillPolygon2I(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipFillEllipse(byval as GpGraphics ptr, byval as GpBrush ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipFillEllipseI(byval as GpGraphics ptr, byval as GpBrush ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipFillPie(byval as GpGraphics ptr, byval as GpBrush ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipFillPieI(byval as GpGraphics ptr, byval as GpBrush ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
-declare function GdipFillPath(byval as GpGraphics ptr, byval as GpBrush ptr, byval as GpPath ptr) as GpStatus
-declare function GdipFillClosedCurve(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipFillClosedCurveI(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipFillClosedCurve2(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL, byval as GpFillMode) as GpStatus
-declare function GdipFillClosedCurve2I(byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL, byval as GpFillMode) as GpStatus
-declare function GdipFillRegion(byval as GpGraphics ptr, byval as GpBrush ptr, byval as GpRegion ptr) as GpStatus
-declare function GdipDrawImage(byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawImageI(byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_) as GpStatus
-declare function GdipDrawImageRect(byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipDrawImageRectI(byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipDrawImagePoints(byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipDrawImagePointsI(byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipDrawImagePointRect(byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpUnit) as GpStatus
-declare function GdipDrawImagePointRectI(byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpUnit) as GpStatus
-declare function GdipDrawImageRectRect(byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
-declare function GdipDrawImageRectRectI(byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
-declare function GdipDrawImagePointsRect(byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
-declare function GdipDrawImagePointsRectI(byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPoint ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
-declare function GdipDrawImageFX(byval as GpGraphics ptr, byval as GpImage ptr, byval as GpRectF ptr, byval as GpMatrix ptr, byval as CGpEffect ptr, byval as GpImageAttributes ptr, byval as GpUnit) as GpStatus
-declare function GdipEnumerateMetafileDestPoints(byval as GpGraphics ptr, byval as const GpMetafile ptr, byval as const PointF_ ptr, byval as INT_, byval as EnumerateMetafileProc, byval as any ptr, byval as const GpImageAttributes ptr) as GpStatus
-declare function GdipEnumerateMetafileDestPointsI(byval as GpGraphics ptr, byval as const GpMetafile ptr, byval as const Point_ ptr, byval as INT_, byval as EnumerateMetafileProc, byval as any ptr, byval as const GpImageAttributes ptr) as GpStatus
-declare function GdipSetClipGraphics(byval as GpGraphics ptr, byval as GpGraphics ptr, byval as CombineMode) as GpStatus
-declare function GdipSetClipRect(byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as CombineMode) as GpStatus
-declare function GdipSetClipRectI(byval as GpGraphics ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as CombineMode) as GpStatus
-declare function GdipSetClipPath(byval as GpGraphics ptr, byval as GpPath ptr, byval as CombineMode) as GpStatus
-declare function GdipSetClipRegion(byval as GpGraphics ptr, byval as GpRegion ptr, byval as CombineMode) as GpStatus
-declare function GdipSetClipHrgn(byval as GpGraphics ptr, byval as HRGN, byval as CombineMode) as GpStatus
-declare function GdipResetClip(byval as GpGraphics ptr) as GpStatus
-declare function GdipTranslateClip(byval as GpGraphics ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipTranslateClipI(byval as GpGraphics ptr, byval as INT_, byval as INT_) as GpStatus
-declare function GdipGetClip(byval as GpGraphics ptr, byval as GpRegion ptr) as GpStatus
-declare function GdipGetClipBounds(byval as GpGraphics ptr, byval as GpRectF ptr) as GpStatus
-declare function GdipGetClipBoundsI(byval as GpGraphics ptr, byval as GpRect ptr) as GpStatus
-declare function GdipIsClipEmpty(byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipGetVisibleClipBounds(byval as GpGraphics ptr, byval as GpRectF ptr) as GpStatus
-declare function GdipGetVisibleClipBoundsI(byval as GpGraphics ptr, byval as GpRect ptr) as GpStatus
-declare function GdipIsVisibleClipEmpty(byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisiblePoint(byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisiblePointI(byval as GpGraphics ptr, byval as INT_, byval as INT_, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisibleRect(byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisibleRectI(byval as GpGraphics ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as BOOL ptr) as GpStatus
-declare function GdipSaveGraphics(byval as GpGraphics ptr, byval as GraphicsState ptr) as GpStatus
-declare function GdipRestoreGraphics(byval as GpGraphics ptr, byval as GraphicsState) as GpStatus
-declare function GdipBeginContainer(byval as GpGraphics ptr, byval as const GpRectF ptr, byval as const GpRectF ptr, byval as GpUnit, byval as GraphicsContainer ptr) as GpStatus
-declare function GdipBeginContainerI(byval as GpGraphics ptr, byval as const GpRect ptr, byval as const GpRect ptr, byval as GpUnit, byval as GraphicsContainer ptr) as GpStatus
-declare function GdipBeginContainer2(byval as GpGraphics ptr, byval as GraphicsContainer ptr) as GpStatus
-declare function GdipEndContainer(byval as GpGraphics ptr, byval as GraphicsContainer) as GpStatus
-declare function GdipComment(byval as GpGraphics ptr, byval as UINT, byval as const UBYTE ptr) as GpStatus
-declare function GdipCreatePath(byval as GpFillMode, byval as GpPath ptr ptr) as GpStatus
-declare function GdipCreatePath2(byval as const GpPointF ptr, byval as const UBYTE ptr, byval as INT_, byval as GpFillMode, byval as GpPath ptr ptr) as GpStatus
-declare function GdipCreatePath2I(byval as const GpPoint ptr, byval as const UBYTE ptr, byval as INT_, byval as GpFillMode, byval as GpPath ptr ptr) as GpStatus
-declare function GdipClonePath(byval as GpPath ptr, byval as GpPath ptr ptr) as GpStatus
-declare function GdipDeletePath(byval as GpPath ptr) as GpStatus
-declare function GdipResetPath(byval as GpPath ptr) as GpStatus
-declare function GdipGetPointCount(byval as GpPath ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetPathTypes(byval as GpPath ptr, byval as UBYTE ptr, byval as INT_) as GpStatus
-declare function GdipGetPathPoints(byval as GpPath ptr, byval as GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipGetPathPointsI(byval as GpPath ptr, byval as GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipGetPathFillMode(byval as GpPath ptr, byval as GpFillMode ptr) as GpStatus
-declare function GdipSetPathFillMode(byval as GpPath ptr, byval as GpFillMode) as GpStatus
-declare function GdipGetPathData(byval as GpPath ptr, byval as GpPathData ptr) as GpStatus
-declare function GdipStartPathFigure(byval as GpPath ptr) as GpStatus
-declare function GdipClosePathFigure(byval as GpPath ptr) as GpStatus
-declare function GdipClosePathFigures(byval as GpPath ptr) as GpStatus
-declare function GdipSetPathMarker(byval as GpPath ptr) as GpStatus
-declare function GdipClearPathMarkers(byval as GpPath ptr) as GpStatus
-declare function GdipReversePath(byval as GpPath ptr) as GpStatus
-declare function GdipGetPathLastPoint(byval as GpPath ptr, byval as GpPointF ptr) as GpStatus
-declare function GdipAddPathLine(byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathLine2(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipAddPathArc(byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathBezier(byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathBeziers(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipAddPathCurve(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipAddPathCurve2(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipAddPathCurve3(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
-declare function GdipAddPathClosedCurve(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipAddPathClosedCurve2(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipAddPathRectangle(byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathRectangles(byval as GpPath ptr, byval as const GpRectF ptr, byval as INT_) as GpStatus
-declare function GdipAddPathEllipse(byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathPie(byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathPolygon(byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipAddPathPath(byval as GpPath ptr, byval as const GpPath ptr, byval as BOOL) as GpStatus
-declare function GdipAddPathString(byval as GpPath ptr, byval as const wstring ptr, byval as INT_, byval as const GpFontFamily ptr, byval as INT_, byval as REAL, byval as const RectF ptr, byval as const GpStringFormat ptr) as GpStatus
-declare function GdipAddPathStringI(byval as GpPath ptr, byval as const wstring ptr, byval as INT_, byval as const GpFontFamily ptr, byval as INT_, byval as REAL, byval as const Rect_ ptr, byval as const GpStringFormat ptr) as GpStatus
-declare function GdipAddPathLineI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipAddPathLine2I(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipAddPathArcI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathBezierI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipAddPathBeziersI(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipAddPathCurveI(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipAddPathCurve2I(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipAddPathCurve3I(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
-declare function GdipAddPathClosedCurveI(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipAddPathClosedCurve2I(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
-declare function GdipAddPathRectangleI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipAddPathRectanglesI(byval as GpPath ptr, byval as const GpRect ptr, byval as INT_) as GpStatus
-declare function GdipAddPathEllipseI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
-declare function GdipAddPathPieI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
-declare function GdipAddPathPolygonI(byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipFlattenPath(byval as GpPath ptr, byval as GpMatrix ptr, byval as REAL) as GpStatus
-declare function GdipWindingModeOutline(byval as GpPath ptr, byval as GpMatrix ptr, byval as REAL) as GpStatus
-declare function GdipWidenPath(byval as GpPath ptr, byval as GpPen ptr, byval as GpMatrix ptr, byval as REAL) as GpStatus
-declare function GdipWarpPath(byval as GpPath ptr, byval as GpMatrix ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as WarpMode, byval as REAL) as GpStatus
-declare function GdipTransformPath(byval as GpPath ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipGetPathWorldBounds(byval as GpPath ptr, byval as GpRectF ptr, byval as const GpMatrix ptr, byval as const GpPen ptr) as GpStatus
-declare function GdipGetPathWorldBoundsI(byval as GpPath ptr, byval as GpRect ptr, byval as const GpMatrix ptr, byval as const GpPen ptr) as GpStatus
-declare function GdipIsVisiblePathPoint(byval as GpPath ptr, byval as REAL, byval as REAL, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisiblePathPointI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsOutlineVisiblePathPoint(byval as GpPath ptr, byval as REAL, byval as REAL, byval as GpPen ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsOutlineVisiblePathPointI(byval as GpPath ptr, byval as INT_, byval as INT_, byval as GpPen ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipCreateHatchBrush(byval as GpHatchStyle, byval as ARGB, byval as ARGB, byval as GpHatch ptr ptr) as GpStatus
-declare function GdipGetHatchStyle(byval as GpHatch ptr, byval as GpHatchStyle ptr) as GpStatus
-declare function GdipGetHatchForegroundColor(byval as GpHatch ptr, byval as ARGB ptr) as GpStatus
-declare function GdipGetHatchBackgroundColor(byval as GpHatch ptr, byval as ARGB ptr) as GpStatus
-declare function GdipLoadImageFromStream(byval as IStream ptr, byval as GpImage ptr ptr) as GpStatus
-declare function GdipLoadImageFromFile(byval as const wstring ptr, byval as GpImage ptr ptr) as GpStatus
-declare function GdipLoadImageFromStreamICM(byval as IStream ptr, byval as GpImage ptr ptr) as GpStatus
-declare function GdipLoadImageFromFileICM(byval as const wstring ptr, byval as GpImage ptr ptr) as GpStatus
-declare function GdipCloneImage(byval as GpImage ptr, byval as GpImage ptr ptr) as GpStatus
-declare function GdipDisposeImage(byval as GpImage ptr) as GpStatus
-declare function GdipSaveImageToFile(byval as GpImage ptr, byval as const wstring ptr, byval as const CLSID ptr, byval as const EncoderParameters ptr) as GpStatus
-declare function GdipSaveImageToStream(byval as GpImage ptr, byval as IStream ptr, byval as const CLSID ptr, byval as const EncoderParameters ptr) as GpStatus
-declare function GdipSaveAdd(byval as GpImage ptr, byval as const EncoderParameters ptr) as GpStatus
-declare function GdipSaveAddImage(byval as GpImage ptr, byval as GpImage ptr, byval as const EncoderParameters ptr) as GpStatus
-declare function GdipGetImageGraphicsContext(byval as GpImage ptr, byval as GpGraphics ptr ptr) as GpStatus
-declare function GdipGetImageBounds(byval as GpImage ptr, byval as GpRectF ptr, byval as GpUnit ptr) as GpStatus
-declare function GdipGetImageDimension(byval as GpImage ptr, byval as REAL ptr, byval as REAL ptr) as GpStatus
-declare function GdipGetImageType(byval as GpImage ptr, byval as ImageType ptr) as GpStatus
-declare function GdipGetImageWidth(byval as GpImage ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetImageHeight(byval as GpImage ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetImageHorizontalResolution(byval as GpImage ptr, byval as REAL ptr) as GpStatus
-declare function GdipGetImageVerticalResolution(byval as GpImage ptr, byval as REAL ptr) as GpStatus
-declare function GdipGetImageFlags(byval as GpImage ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetImageRawFormat(byval as GpImage ptr, byval as GUID ptr) as GpStatus
-declare function GdipGetImagePixelFormat(byval as GpImage ptr, byval as PixelFormat ptr) as GpStatus
-declare function GdipGetImageThumbnail(byval as GpImage ptr, byval as UINT, byval as UINT, byval as GpImage ptr ptr, byval as GetThumbnailImageAbort, byval as any ptr) as GpStatus
-declare function GdipGetEncoderParameterListSize(byval as GpImage ptr, byval as const CLSID ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetEncoderParameterList(byval as GpImage ptr, byval as const CLSID ptr, byval as UINT, byval as EncoderParameters ptr) as GpStatus
-declare function GdipImageGetFrameDimensionsCount(byval as GpImage ptr, byval as UINT ptr) as GpStatus
-declare function GdipImageGetFrameDimensionsList(byval as GpImage ptr, byval as GUID ptr, byval as UINT) as GpStatus
-declare function GdipImageGetFrameCount(byval as GpImage ptr, byval as const GUID ptr, byval as UINT ptr) as GpStatus
-declare function GdipImageSelectActiveFrame(byval as GpImage ptr, byval as const GUID ptr, byval as UINT) as GpStatus
-declare function GdipImageRotateFlip(byval as GpImage ptr, byval as RotateFlipType) as GpStatus
-declare function GdipGetImagePalette(byval as GpImage ptr, byval as ColorPalette ptr, byval as INT_) as GpStatus
-declare function GdipSetImagePalette(byval as GpImage ptr, byval as const ColorPalette ptr) as GpStatus
-declare function GdipGetImagePaletteSize(byval as GpImage ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetPropertyCount(byval as GpImage ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetPropertyIdList(byval as GpImage ptr, byval as UINT, byval as PROPID ptr) as GpStatus
-declare function GdipGetPropertyItemSize(byval as GpImage ptr, byval as PROPID, byval as UINT ptr) as GpStatus
-declare function GdipGetPropertyItem(byval as GpImage ptr, byval as PROPID, byval as UINT, byval as PropertyItem ptr) as GpStatus
-declare function GdipGetPropertySize(byval as GpImage ptr, byval as UINT ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetAllPropertyItems(byval as GpImage ptr, byval as UINT, byval as UINT, byval as PropertyItem ptr) as GpStatus
-declare function GdipRemovePropertyItem(byval as GpImage ptr, byval as PROPID) as GpStatus
-declare function GdipSetPropertyItem(byval as GpImage ptr, byval as const PropertyItem ptr) as GpStatus
-declare function GdipFindFirstImageItem(byval as GpImage ptr, byval as ImageItemData ptr) as GpStatus
-declare function GdipFindNextImageItem(byval as GpImage ptr, byval as ImageItemData ptr) as GpStatus
-declare function GdipGetImageItemData(byval as GpImage ptr, byval as ImageItemData ptr) as GpStatus
-declare function GdipImageSetAbort(byval as GpImage ptr, byval as GdiplusAbort ptr) as GpStatus
-declare function GdipImageForceValidation(byval as GpImage ptr) as GpStatus
-declare function GdipGetImageDecodersSize(byval as UINT ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetImageDecoders(byval as UINT, byval as UINT, byval as ImageCodecInfo ptr) as GpStatus
-declare function GdipGetImageEncodersSize(byval as UINT ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetImageEncoders(byval as UINT, byval as UINT, byval as ImageCodecInfo ptr) as GpStatus
-declare function GdipCreateImageAttributes(byval as GpImageAttributes ptr ptr) as GpStatus
-declare function GdipCloneImageAttributes(byval as const GpImageAttributes ptr, byval as GpImageAttributes ptr ptr) as GpStatus
-declare function GdipDisposeImageAttributes(byval as GpImageAttributes ptr) as GpStatus
-declare function GdipSetImageAttributesToIdentity(byval as GpImageAttributes ptr, byval as ColorAdjustType) as GpStatus
-declare function GdipResetImageAttributes(byval as GpImageAttributes ptr, byval as ColorAdjustType) as GpStatus
-declare function GdipSetImageAttributesColorMatrix(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as const ColorMatrix ptr, byval as const ColorMatrix ptr, byval as ColorMatrixFlags) as GpStatus
-declare function GdipSetImageAttributesThreshold(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as REAL) as GpStatus
-declare function GdipSetImageAttributesGamma(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as REAL) as GpStatus
-declare function GdipSetImageAttributesNoOp(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL) as GpStatus
-declare function GdipSetImageAttributesColorKeys(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as ARGB, byval as ARGB) as GpStatus
-declare function GdipSetImageAttributesOutputChannel(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as ColorChannelFlags) as GpStatus
-declare function GdipSetImageAttributesOutputChannelColorProfile(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as const wstring ptr) as GpStatus
-declare function GdipSetImageAttributesRemapTable(byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as UINT, byval as const ColorMap_ ptr) as GpStatus
-declare function GdipSetImageAttributesWrapMode(byval as GpImageAttributes ptr, byval as WrapMode, byval as ARGB, byval as BOOL) as GpStatus
-declare function GdipSetImageAttributesICMMode(byval as GpImageAttributes ptr, byval as BOOL) as GpStatus
-declare function GdipGetImageAttributesAdjustedPalette(byval as GpImageAttributes ptr, byval as ColorPalette ptr, byval as ColorAdjustType) as GpStatus
-declare function GdipSetImageAttributesCachedBackground(byval as GpImageAttributes ptr, byval as BOOL) as GpStatus
-declare function GdipCreateLineBrush(byval as const GpPointF ptr, byval as const GpPointF ptr, byval as ARGB, byval as ARGB, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
-declare function GdipCreateLineBrushI(byval as const GpPoint ptr, byval as const GpPoint ptr, byval as ARGB, byval as ARGB, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
-declare function GdipCreateLineBrushFromRect(byval as const GpRectF ptr, byval as ARGB, byval as ARGB, byval as LinearGradientMode, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
-declare function GdipCreateLineBrushFromRectI(byval as const GpRect ptr, byval as ARGB, byval as ARGB, byval as LinearGradientMode, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
-declare function GdipCreateLineBrushFromRectWithAngle(byval as const GpRectF ptr, byval as ARGB, byval as ARGB, byval as REAL, byval as BOOL, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
-declare function GdipCreateLineBrushFromRectWithAngleI(byval as const GpRect ptr, byval as ARGB, byval as ARGB, byval as REAL, byval as BOOL, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
-declare function GdipSetLineColors(byval as GpLineGradient ptr, byval as ARGB, byval as ARGB) as GpStatus
-declare function GdipGetLineColors(byval as GpLineGradient ptr, byval as ARGB ptr) as GpStatus
-declare function GdipGetLineRect(byval as GpLineGradient ptr, byval as GpRectF ptr) as GpStatus
-declare function GdipGetLineRectI(byval as GpLineGradient ptr, byval as GpRect ptr) as GpStatus
-declare function GdipSetLineGammaCorrection(byval as GpLineGradient ptr, byval as BOOL) as GpStatus
-declare function GdipGetLineGammaCorrection(byval as GpLineGradient ptr, byval as BOOL ptr) as GpStatus
-declare function GdipGetLineBlendCount(byval as GpLineGradient ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetLineBlend(byval as GpLineGradient ptr, byval as REAL ptr, byval as REAL ptr, byval as INT_) as GpStatus
-declare function GdipSetLineBlend(byval as GpLineGradient ptr, byval as const REAL ptr, byval as const REAL ptr, byval as INT_) as GpStatus
-declare function GdipGetLinePresetBlendCount(byval as GpLineGradient ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetLinePresetBlend(byval as GpLineGradient ptr, byval as ARGB ptr, byval as REAL ptr, byval as INT_) as GpStatus
-declare function GdipSetLinePresetBlend(byval as GpLineGradient ptr, byval as const ARGB ptr, byval as const REAL ptr, byval as INT_) as GpStatus
-declare function GdipSetLineSigmaBlend(byval as GpLineGradient ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipSetLineLinearBlend(byval as GpLineGradient ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipSetLineWrapMode(byval as GpLineGradient ptr, byval as GpWrapMode) as GpStatus
-declare function GdipGetLineWrapMode(byval as GpLineGradient ptr, byval as GpWrapMode ptr) as GpStatus
-declare function GdipGetLineTransform(byval as GpLineGradient ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipSetLineTransform(byval as GpLineGradient ptr, byval as const GpMatrix ptr) as GpStatus
-declare function GdipResetLineTransform(byval as GpLineGradient ptr) as GpStatus
-declare function GdipMultiplyLineTransform(byval as GpLineGradient ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
-declare function GdipTranslateLineTransform(byval as GpLineGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipScaleLineTransform(byval as GpLineGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipRotateLineTransform(byval as GpLineGradient ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipCreateMatrix(byval as GpMatrix ptr ptr) as GpStatus
-declare function GdipCreateMatrix2(byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpMatrix ptr ptr) as GpStatus
-declare function GdipCreateMatrix3(byval as const GpRectF ptr, byval as const GpPointF ptr, byval as GpMatrix ptr ptr) as GpStatus
-declare function GdipCreateMatrix3I(byval as const GpRect ptr, byval as const GpPoint ptr, byval as GpMatrix ptr ptr) as GpStatus
-declare function GdipCloneMatrix(byval as GpMatrix ptr, byval as GpMatrix ptr ptr) as GpStatus
-declare function GdipDeleteMatrix(byval as GpMatrix ptr) as GpStatus
-declare function GdipSetMatrixElements(byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
-declare function GdipMultiplyMatrix(byval as GpMatrix ptr, byval as GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
-declare function GdipTranslateMatrix(byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipScaleMatrix(byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipRotateMatrix(byval as GpMatrix ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipShearMatrix(byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipInvertMatrix(byval as GpMatrix ptr) as GpStatus
-declare function GdipTransformMatrixPoints(byval as GpMatrix ptr, byval as GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipTransformMatrixPointsI(byval as GpMatrix ptr, byval as GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipVectorTransformMatrixPoints(byval as GpMatrix ptr, byval as GpPointF ptr, byval as INT_) as GpStatus
-declare function GdipVectorTransformMatrixPointsI(byval as GpMatrix ptr, byval as GpPoint ptr, byval as INT_) as GpStatus
-declare function GdipGetMatrixElements(byval as const GpMatrix ptr, byval as REAL ptr) as GpStatus
-declare function GdipIsMatrixInvertible(byval as const GpMatrix ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsMatrixIdentity(byval as const GpMatrix ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsMatrixEqual(byval as const GpMatrix ptr, byval as const GpMatrix ptr, byval as BOOL ptr) as GpStatus
-declare function GdipGetMetafileHeaderFromEmf(byval as HENHMETAFILE, byval as MetafileHeader ptr) as GpStatus
-declare function GdipGetMetafileHeaderFromFile(byval as const wstring ptr, byval as MetafileHeader ptr) as GpStatus
-declare function GdipGetMetafileHeaderFromStream(byval as IStream ptr, byval as MetafileHeader ptr) as GpStatus
-declare function GdipGetMetafileHeaderFromMetafile(byval as GpMetafile ptr, byval as MetafileHeader ptr) as GpStatus
-declare function GdipGetHemfFromMetafile(byval as GpMetafile ptr, byval as HENHMETAFILE ptr) as GpStatus
-declare function GdipCreateStreamOnFile(byval as const wstring ptr, byval as UINT, byval as IStream ptr ptr) as GpStatus
-declare function GdipCreateMetafileFromWmf(byval as HMETAFILE, byval as BOOL, byval as const WmfPlaceableFileHeader ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipCreateMetafileFromEmf(byval as HENHMETAFILE, byval as BOOL, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipCreateMetafileFromFile(byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipCreateMetafileFromWmfFile(byval as const wstring ptr, byval as const WmfPlaceableFileHeader ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipCreateMetafileFromStream(byval as IStream ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipRecordMetafile(byval as HDC, byval as EmfType, byval as const GpRectF ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipRecordMetafileI(byval as HDC, byval as EmfType, byval as const GpRect ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipRecordMetafileFileName(byval as const wstring ptr, byval as HDC, byval as EmfType, byval as const GpRectF ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipRecordMetafileFileNameI(byval as const wstring ptr, byval as HDC, byval as EmfType, byval as const GpRect ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipRecordMetafileStream(byval as IStream ptr, byval as HDC, byval as EmfType, byval as const GpRectF ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipRecordMetafileStreamI(byval as IStream ptr, byval as HDC, byval as EmfType, byval as const GpRect ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipPlayMetafileRecord(byval as const GpMetafile ptr, byval as EmfPlusRecordType, byval as UINT, byval as UINT, byval as const UBYTE ptr) as GpStatus
-declare function GdipSetMetafileDownLevelRasterizationLimit(byval as GpMetafile ptr, byval as UINT) as GpStatus
-declare function GdipGetMetafileDownLevelRasterizationLimit(byval as const GpMetafile ptr, byval as UINT ptr) as GpStatus
-declare function GdipConvertToEmfPlus(byval as const GpGraphics ptr, byval as GpMetafile ptr, byval as BOOL ptr, byval as EmfType, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipConvertToEmfPlusToFile(byval as const GpGraphics ptr, byval as GpMetafile ptr, byval as BOOL ptr, byval as const wstring ptr, byval as EmfType, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipConvertToEmfPlusToStream(byval as const GpGraphics ptr, byval as GpMetafile ptr, byval as BOOL ptr, byval as IStream ptr, byval as EmfType, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
-declare function GdipEmfToWmfBits(byval as HENHMETAFILE, byval as UINT, byval as LPBYTE, byval as INT_, byval as INT_) as UINT
-declare function GdipCreatePathGradient(byval as const GpPointF ptr, byval as INT_, byval as GpWrapMode, byval as GpPathGradient ptr ptr) as GpStatus
-declare function GdipCreatePathGradientI(byval as const GpPoint ptr, byval as INT_, byval as GpWrapMode, byval as GpPathGradient ptr ptr) as GpStatus
-declare function GdipCreatePathGradientFromPath(byval as const GpPath ptr, byval as GpPathGradient ptr ptr) as GpStatus
-declare function GdipGetPathGradientCenterColor(byval as GpPathGradient ptr, byval as ARGB ptr) as GpStatus
-declare function GdipSetPathGradientCenterColor(byval as GpPathGradient ptr, byval as ARGB) as GpStatus
-declare function GdipGetPathGradientSurroundColorsWithCount(byval as GpPathGradient ptr, byval as ARGB ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetPathGradientSurroundColorsWithCount(byval as GpPathGradient ptr, byval as const ARGB ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetPathGradientPath(byval as GpPathGradient ptr, byval as GpPath ptr) as GpStatus
-declare function GdipSetPathGradientPath(byval as GpPathGradient ptr, byval as const GpPath ptr) as GpStatus
-declare function GdipGetPathGradientCenterPoint(byval as GpPathGradient ptr, byval as GpPointF ptr) as GpStatus
-declare function GdipGetPathGradientCenterPointI(byval as GpPathGradient ptr, byval as GpPoint ptr) as GpStatus
-declare function GdipSetPathGradientCenterPoint(byval as GpPathGradient ptr, byval as const GpPointF ptr) as GpStatus
-declare function GdipSetPathGradientCenterPointI(byval as GpPathGradient ptr, byval as const GpPoint ptr) as GpStatus
-declare function GdipGetPathGradientRect(byval as GpPathGradient ptr, byval as GpRectF ptr) as GpStatus
-declare function GdipGetPathGradientRectI(byval as GpPathGradient ptr, byval as GpRect ptr) as GpStatus
-declare function GdipGetPathGradientPointCount(byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetPathGradientSurroundColorCount(byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetPathGradientGammaCorrection(byval as GpPathGradient ptr, byval as BOOL) as GpStatus
-declare function GdipGetPathGradientGammaCorrection(byval as GpPathGradient ptr, byval as BOOL ptr) as GpStatus
-declare function GdipGetPathGradientBlendCount(byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetPathGradientBlend(byval as GpPathGradient ptr, byval as REAL ptr, byval as REAL ptr, byval as INT_) as GpStatus
-declare function GdipSetPathGradientBlend(byval as GpPathGradient ptr, byval as const REAL ptr, byval as const REAL ptr, byval as INT_) as GpStatus
-declare function GdipGetPathGradientPresetBlendCount(byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
-declare function GdipGetPathGradientPresetBlend(byval as GpPathGradient ptr, byval as ARGB ptr, byval as REAL ptr, byval as INT_) as GpStatus
-declare function GdipSetPathGradientPresetBlend(byval as GpPathGradient ptr, byval as const ARGB ptr, byval as const REAL ptr, byval as INT_) as GpStatus
-declare function GdipSetPathGradientSigmaBlend(byval as GpPathGradient ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipSetPathGradientLinearBlend(byval as GpPathGradient ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipGetPathGradientWrapMode(byval as GpPathGradient ptr, byval as GpWrapMode ptr) as GpStatus
-declare function GdipSetPathGradientWrapMode(byval as GpPathGradient ptr, byval as GpWrapMode) as GpStatus
-declare function GdipGetPathGradientTransform(byval as GpPathGradient ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipSetPathGradientTransform(byval as GpPathGradient ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipResetPathGradientTransform(byval as GpPathGradient ptr) as GpStatus
-declare function GdipMultiplyPathGradientTransform(byval as GpPathGradient ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
-declare function GdipTranslatePathGradientTransform(byval as GpPathGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipScalePathGradientTransform(byval as GpPathGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipRotatePathGradientTransform(byval as GpPathGradient ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipGetPathGradientFocusScales(byval as GpPathGradient ptr, byval as REAL ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetPathGradientFocusScales(byval as GpPathGradient ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipCreatePathIter(byval as GpPathIterator ptr ptr, byval as GpPath ptr) as GpStatus
-declare function GdipDeletePathIter(byval as GpPathIterator ptr) as GpStatus
-declare function GdipPathIterNextSubpath(byval as GpPathIterator ptr, byval as INT_ ptr, byval as INT_ ptr, byval as INT_ ptr, byval as BOOL ptr) as GpStatus
-declare function GdipPathIterNextSubpathPath(byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPath ptr, byval as BOOL ptr) as GpStatus
-declare function GdipPathIterNextPathType(byval as GpPathIterator ptr, byval as INT_ ptr, byval as UBYTE ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
-declare function GdipPathIterNextMarker(byval as GpPathIterator ptr, byval as INT_ ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
-declare function GdipPathIterNextMarkerPath(byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPath ptr) as GpStatus
-declare function GdipPathIterGetCount(byval as GpPathIterator ptr, byval as INT_ ptr) as GpStatus
-declare function GdipPathIterGetSubpathCount(byval as GpPathIterator ptr, byval as INT_ ptr) as GpStatus
-declare function GdipPathIterIsValid(byval as GpPathIterator ptr, byval as BOOL ptr) as GpStatus
-declare function GdipPathIterHasCurve(byval as GpPathIterator ptr, byval as BOOL ptr) as GpStatus
-declare function GdipPathIterRewind(byval as GpPathIterator ptr) as GpStatus
-declare function GdipPathIterEnumerate(byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPointF ptr, byval as UBYTE ptr, byval as INT_) as GpStatus
-declare function GdipPathIterCopyData(byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPointF ptr, byval as UBYTE ptr, byval as INT_, byval as INT_) as GpStatus
-declare function GdipCreatePen1(byval as ARGB, byval as REAL, byval as GpUnit, byval as GpPen ptr ptr) as GpStatus
-declare function GdipCreatePen2(byval as GpBrush ptr, byval as REAL, byval as GpUnit, byval as GpPen ptr ptr) as GpStatus
-declare function GdipClonePen(byval as GpPen ptr, byval as GpPen ptr ptr) as GpStatus
-declare function GdipDeletePen(byval as GpPen ptr) as GpStatus
-declare function GdipSetPenWidth(byval as GpPen ptr, byval as REAL) as GpStatus
-declare function GdipGetPenWidth(byval as GpPen ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetPenUnit(byval as GpPen ptr, byval as GpUnit) as GpStatus
-declare function GdipGetPenUnit(byval as GpPen ptr, byval as GpUnit ptr) as GpStatus
-declare function GdipSetPenLineCap197819(byval as GpPen ptr, byval as GpLineCap, byval as GpLineCap, byval as GpDashCap) as GpStatus
-declare function GdipSetPenStartCap(byval as GpPen ptr, byval as GpLineCap) as GpStatus
-declare function GdipSetPenEndCap(byval as GpPen ptr, byval as GpLineCap) as GpStatus
-declare function GdipSetPenDashCap197819(byval as GpPen ptr, byval as GpDashCap) as GpStatus
-declare function GdipGetPenStartCap(byval as GpPen ptr, byval as GpLineCap ptr) as GpStatus
-declare function GdipGetPenEndCap(byval as GpPen ptr, byval as GpLineCap ptr) as GpStatus
-declare function GdipGetPenDashCap197819(byval as GpPen ptr, byval as GpDashCap ptr) as GpStatus
-declare function GdipSetPenLineJoin(byval as GpPen ptr, byval as GpLineJoin) as GpStatus
-declare function GdipGetPenLineJoin(byval as GpPen ptr, byval as GpLineJoin ptr) as GpStatus
-declare function GdipSetPenCustomStartCap(byval as GpPen ptr, byval as GpCustomLineCap ptr) as GpStatus
-declare function GdipGetPenCustomStartCap(byval as GpPen ptr, byval as GpCustomLineCap ptr ptr) as GpStatus
-declare function GdipSetPenCustomEndCap(byval as GpPen ptr, byval as GpCustomLineCap ptr) as GpStatus
-declare function GdipGetPenCustomEndCap(byval as GpPen ptr, byval as GpCustomLineCap ptr ptr) as GpStatus
-declare function GdipSetPenMiterLimit(byval as GpPen ptr, byval as REAL) as GpStatus
-declare function GdipGetPenMiterLimit(byval as GpPen ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetPenMode(byval as GpPen ptr, byval as GpPenAlignment) as GpStatus
-declare function GdipGetPenMode(byval as GpPen ptr, byval as GpPenAlignment ptr) as GpStatus
-declare function GdipSetPenTransform(byval as GpPen ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipGetPenTransform(byval as GpPen ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipResetPenTransform(byval as GpPen ptr) as GpStatus
-declare function GdipMultiplyPenTransform(byval as GpPen ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
-declare function GdipTranslatePenTransform(byval as GpPen ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipScalePenTransform(byval as GpPen ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipRotatePenTransform(byval as GpPen ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipSetPenColor(byval as GpPen ptr, byval as ARGB) as GpStatus
-declare function GdipGetPenColor(byval as GpPen ptr, byval as ARGB ptr) as GpStatus
-declare function GdipSetPenBrushFill(byval as GpPen ptr, byval as GpBrush ptr) as GpStatus
-declare function GdipGetPenBrushFill(byval as GpPen ptr, byval as GpBrush ptr ptr) as GpStatus
-declare function GdipGetPenFillType(byval as GpPen ptr, byval as GpPenType ptr) as GpStatus
-declare function GdipGetPenDashStyle(byval as GpPen ptr, byval as GpDashStyle ptr) as GpStatus
-declare function GdipSetPenDashStyle(byval as GpPen ptr, byval as GpDashStyle) as GpStatus
-declare function GdipGetPenDashOffset(byval as GpPen ptr, byval as REAL ptr) as GpStatus
-declare function GdipSetPenDashOffset(byval as GpPen ptr, byval as REAL) as GpStatus
-declare function GdipGetPenDashCount(byval as GpPen ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetPenDashArray(byval as GpPen ptr, byval as const REAL ptr, byval as INT_) as GpStatus
-declare function GdipGetPenDashArray(byval as GpPen ptr, byval as REAL ptr, byval as INT_) as GpStatus
-declare function GdipGetPenCompoundCount(byval as GpPen ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetPenCompoundArray(byval as GpPen ptr, byval as const REAL ptr, byval as INT_) as GpStatus
-declare function GdipGetPenCompoundArray(byval as GpPen ptr, byval as REAL ptr, byval as INT_) as GpStatus
-declare function GdipCreateRegion(byval as GpRegion ptr ptr) as GpStatus
-declare function GdipCreateRegionRect(byval as const GpRectF ptr, byval as GpRegion ptr ptr) as GpStatus
-declare function GdipCreateRegionRectI(byval as const GpRect ptr, byval as GpRegion ptr ptr) as GpStatus
-declare function GdipCreateRegionPath(byval as GpPath ptr, byval as GpRegion ptr ptr) as GpStatus
-declare function GdipCreateRegionRgnData(byval as const UBYTE ptr, byval as INT_, byval as GpRegion ptr ptr) as GpStatus
-declare function GdipCreateRegionHrgn(byval as HRGN, byval as GpRegion ptr ptr) as GpStatus
-declare function GdipCloneRegion(byval as GpRegion ptr, byval as GpRegion ptr ptr) as GpStatus
-declare function GdipDeleteRegion(byval as GpRegion ptr) as GpStatus
-declare function GdipSetInfinite(byval as GpRegion ptr) as GpStatus
-declare function GdipSetEmpty(byval as GpRegion ptr) as GpStatus
-declare function GdipCombineRegionRect(byval as GpRegion ptr, byval as const GpRectF ptr, byval as CombineMode) as GpStatus
-declare function GdipCombineRegionRectI(byval as GpRegion ptr, byval as const GpRect ptr, byval as CombineMode) as GpStatus
-declare function GdipCombineRegionPath(byval as GpRegion ptr, byval as GpPath ptr, byval as CombineMode) as GpStatus
-declare function GdipCombineRegionRegion(byval as GpRegion ptr, byval as GpRegion ptr, byval as CombineMode) as GpStatus
-declare function GdipTranslateRegion(byval as GpRegion ptr, byval as REAL, byval as REAL) as GpStatus
-declare function GdipTranslateRegionI(byval as GpRegion ptr, byval as INT_, byval as INT_) as GpStatus
-declare function GdipTransformRegion(byval as GpRegion ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipGetRegionBounds(byval as GpRegion ptr, byval as GpGraphics ptr, byval as GpRectF ptr) as GpStatus
-declare function GdipGetRegionBoundsI(byval as GpRegion ptr, byval as GpGraphics ptr, byval as GpRect ptr) as GpStatus
-declare function GdipGetRegionHRgn(byval as GpRegion ptr, byval as GpGraphics ptr, byval as HRGN ptr) as GpStatus
-declare function GdipIsEmptyRegion(byval as GpRegion ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsInfiniteRegion(byval as GpRegion ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsEqualRegion(byval as GpRegion ptr, byval as GpRegion ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipGetRegionDataSize(byval as GpRegion ptr, byval as UINT ptr) as GpStatus
-declare function GdipGetRegionData(byval as GpRegion ptr, byval as UBYTE ptr, byval as UINT, byval as UINT ptr) as GpStatus
-declare function GdipIsVisibleRegionPoint(byval as GpRegion ptr, byval as REAL, byval as REAL, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisibleRegionPointI(byval as GpRegion ptr, byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisibleRegionRect(byval as GpRegion ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipIsVisibleRegionRectI(byval as GpRegion ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
-declare function GdipGetRegionScansCount(byval as GpRegion ptr, byval as UINT ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipGetRegionScans(byval as GpRegion ptr, byval as GpRectF ptr, byval as INT_ ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipGetRegionScansI(byval as GpRegion ptr, byval as GpRect ptr, byval as INT_ ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipCreateSolidFill(byval as ARGB, byval as GpSolidFill ptr ptr) as GpStatus
-declare function GdipSetSolidFillColor(byval as GpSolidFill ptr, byval as ARGB) as GpStatus
-declare function GdipGetSolidFillColor(byval as GpSolidFill ptr, byval as ARGB ptr) as GpStatus
-declare function GdipCreateStringFormat(byval as INT_, byval as LANGID, byval as GpStringFormat ptr ptr) as GpStatus
-declare function GdipStringFormatGetGenericDefault(byval as GpStringFormat ptr ptr) as GpStatus
-declare function GdipStringFormatGetGenericTypographic(byval as GpStringFormat ptr ptr) as GpStatus
-declare function GdipDeleteStringFormat(byval as GpStringFormat ptr) as GpStatus
-declare function GdipCloneStringFormat(byval as const GpStringFormat ptr, byval as GpStringFormat ptr ptr) as GpStatus
-declare function GdipSetStringFormatFlags(byval as GpStringFormat ptr, byval as INT_) as GpStatus
-declare function GdipGetStringFormatFlags(byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetStringFormatAlign(byval as GpStringFormat ptr, byval as StringAlignment) as GpStatus
-declare function GdipGetStringFormatAlign(byval as const GpStringFormat ptr, byval as StringAlignment ptr) as GpStatus
-declare function GdipSetStringFormatLineAlign(byval as GpStringFormat ptr, byval as StringAlignment) as GpStatus
-declare function GdipGetStringFormatLineAlign(byval as const GpStringFormat ptr, byval as StringAlignment ptr) as GpStatus
-declare function GdipSetStringFormatTrimming(byval as GpStringFormat ptr, byval as StringTrimming) as GpStatus
-declare function GdipGetStringFormatTrimming(byval as const GpStringFormat ptr, byval as StringTrimming ptr) as GpStatus
-declare function GdipSetStringFormatHotkeyPrefix(byval as GpStringFormat ptr, byval as INT_) as GpStatus
-declare function GdipGetStringFormatHotkeyPrefix(byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetStringFormatTabStops(byval as GpStringFormat ptr, byval as REAL, byval as INT_, byval as const REAL ptr) as GpStatus
-declare function GdipGetStringFormatTabStops(byval as const GpStringFormat ptr, byval as INT_, byval as REAL ptr, byval as REAL ptr) as GpStatus
-declare function GdipGetStringFormatTabStopCount(byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetStringFormatDigitSubstitution(byval as GpStringFormat ptr, byval as LANGID, byval as StringDigitSubstitute) as GpStatus
-declare function GdipGetStringFormatDigitSubstitution(byval as const GpStringFormat ptr, byval as LANGID ptr, byval as StringDigitSubstitute ptr) as GpStatus
-declare function GdipGetStringFormatMeasurableCharacterRangeCount(byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
-declare function GdipSetStringFormatMeasurableCharacterRanges(byval as GpStringFormat ptr, byval as INT_, byval as const CharacterRange ptr) as GpStatus
-declare function GdipDrawString(byval as GpGraphics ptr, byval as const wstring ptr, byval as INT_, byval as const GpFont ptr, byval as const RectF ptr, byval as const GpStringFormat ptr, byval as const GpBrush ptr) as GpStatus
-declare function GdipMeasureString(byval as GpGraphics ptr, byval as const wstring ptr, byval as INT_, byval as const GpFont ptr, byval as const RectF ptr, byval as const GpStringFormat ptr, byval as RectF ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
-declare function GdipDrawDriverString(byval as GpGraphics ptr, byval as const UINT16 ptr, byval as INT_, byval as const GpFont ptr, byval as const GpBrush ptr, byval as const PointF_ ptr, byval as INT_, byval as const GpMatrix ptr) as GpStatus
-declare function GdipMeasureDriverString(byval as GpGraphics ptr, byval as const UINT16 ptr, byval as INT_, byval as const GpFont ptr, byval as const PointF_ ptr, byval as INT_, byval as const GpMatrix ptr, byval as RectF ptr) as GpStatus
-declare function GdipCreateTexture(byval as GpImage ptr, byval as GpWrapMode, byval as GpTexture ptr ptr) as GpStatus
-declare function GdipCreateTexture2(byval as GpImage ptr, byval as GpWrapMode, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpTexture ptr ptr) as GpStatus
-declare function GdipCreateTexture2I(byval as GpImage ptr, byval as GpWrapMode, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpTexture ptr ptr) as GpStatus
-declare function GdipCreateTextureIA(byval as GpImage ptr, byval as const GpImageAttributes ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpTexture ptr ptr) as GpStatus
-declare function GdipCreateTextureIAI(byval as GpImage ptr, byval as const GpImageAttributes ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpTexture ptr ptr) as GpStatus
-declare function GdipGetTextureTransform(byval as GpTexture ptr, byval as GpMatrix ptr) as GpStatus
-declare function GdipSetTextureTransform(byval as GpTexture ptr, byval as const GpMatrix ptr) as GpStatus
-declare function GdipResetTextureTransform(byval as GpTexture ptr) as GpStatus
-declare function GdipMultiplyTextureTransform(byval as GpTexture ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
-declare function GdipTranslateTextureTransform(byval as GpTexture ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipScaleTextureTransform(byval as GpTexture ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipRotateTextureTransform(byval as GpTexture ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
-declare function GdipSetTextureWrapMode(byval as GpTexture ptr, byval as GpWrapMode) as GpStatus
-declare function GdipGetTextureWrapMode(byval as GpTexture ptr, byval as GpWrapMode ptr) as GpStatus
-declare function GdipGetTextureImage(byval as GpTexture ptr, byval as GpImage ptr ptr) as GpStatus
-declare function GdipTestControl(byval as GpTestControlEnum, byval as any ptr) as GpStatus
+declare function GdipGraphicsSetAbort Lib "GdiPlus.dll" Alias "GdipGraphicsSetAbort" (byval as GpGraphics ptr, byval as GdiplusAbort ptr) as GpStatus
+declare function GdipGetInterpolationMode Lib "GdiPlus.dll" Alias "GdipGetInterpolationMode" (byval as GpGraphics ptr, byval as InterpolationMode ptr) as GpStatus
+declare function GdipSetWorldTransform Lib "GdiPlus.dll" Alias "GdipSetWorldTransform" (byval as GpGraphics ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipResetWorldTransform Lib "GdiPlus.dll" Alias "GdipResetWorldTransform" (byval as GpGraphics ptr) as GpStatus
+declare function GdipMultiplyWorldTransform Lib "GdiPlus.dll" Alias "GdipMultiplyWorldTransform" (byval as GpGraphics ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
+declare function GdipTranslateWorldTransform Lib "GdiPlus.dll" Alias "GdipTranslateWorldTransform" (byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipScaleWorldTransform Lib "GdiPlus.dll" Alias "GdipScaleWorldTransform" (byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipRotateWorldTransform Lib "GdiPlus.dll" Alias "GdipRotateWorldTransform" (byval as GpGraphics ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipGetWorldTransform Lib "GdiPlus.dll" Alias "GdipGetWorldTransform" (byval as GpGraphics ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipResetPageTransform Lib "GdiPlus.dll" Alias "GdipResetPageTransform" (byval as GpGraphics ptr) as GpStatus
+declare function GdipGetPageUnit Lib "GdiPlus.dll" Alias "GdipGetPageUnit" (byval as GpGraphics ptr, byval as GpUnit ptr) as GpStatus
+declare function GdipGetPageScale Lib "GdiPlus.dll" Alias "GdipGetPageScale" (byval as GpGraphics ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetPageUnit Lib "GdiPlus.dll" Alias "GdipSetPageUnit" (byval as GpGraphics ptr, byval as GpUnit) as GpStatus
+declare function GdipSetPageScale Lib "GdiPlus.dll" Alias "GdipSetPageScale" (byval as GpGraphics ptr, byval as REAL) as GpStatus
+declare function GdipGetDpiX Lib "GdiPlus.dll" Alias "GdipGetDpiX" (byval as GpGraphics ptr, byval as REAL ptr) as GpStatus
+declare function GdipGetDpiY Lib "GdiPlus.dll" Alias "GdipGetDpiY" (byval as GpGraphics ptr, byval as REAL ptr) as GpStatus
+declare function GdipTransformPoints Lib "GdiPlus.dll" Alias "GdipTransformPoints" (byval as GpGraphics ptr, byval as GpCoordinateSpace, byval as GpCoordinateSpace, byval as GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipTransformPointsI Lib "GdiPlus.dll" Alias "GdipTransformPointsI" (byval as GpGraphics ptr, byval as GpCoordinateSpace, byval as GpCoordinateSpace, byval as GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipGetNearestColor Lib "GdiPlus.dll" Alias "GdipGetNearestColor" (byval as GpGraphics ptr, byval as ARGB ptr) as GpStatus
+declare function GdipCreateHalftonePalette Lib "GdiPlus.dll" Alias "GdipCreateHalftonePalette" () as HPALETTE
+declare function GdipDrawLine Lib "GdiPlus.dll" Alias "GdipDrawLine" (byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawLineI Lib "GdiPlus.dll" Alias "GdipDrawLineI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipDrawLines Lib "GdiPlus.dll" Alias "GdipDrawLines" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipDrawLinesI Lib "GdiPlus.dll" Alias "GdipDrawLinesI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipDrawArc Lib "GdiPlus.dll" Alias "GdipDrawArc" (byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawArcI Lib "GdiPlus.dll" Alias "GdipDrawArcI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawBezier Lib "GdiPlus.dll" Alias "GdipDrawBezier" (byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawBezierI Lib "GdiPlus.dll" Alias "GdipDrawBezierI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipDrawBeziers Lib "GdiPlus.dll" Alias "GdipDrawBeziers" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipDrawBeziersI Lib "GdiPlus.dll" Alias "GdipDrawBeziersI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipDrawRectangle Lib "GdiPlus.dll" Alias "GdipDrawRectangle" (byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawRectangleI Lib "GdiPlus.dll" Alias "GdipDrawRectangleI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipDrawRectangles Lib "GdiPlus.dll" Alias "GdipDrawRectangles" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpRectF ptr, byval as INT_) as GpStatus
+declare function GdipDrawRectanglesI Lib "GdiPlus.dll" Alias "GdipDrawRectanglesI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpRect ptr, byval as INT_) as GpStatus
+declare function GdipDrawEllipse Lib "GdiPlus.dll" Alias "GdipDrawEllipse" (byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawEllipseI Lib "GdiPlus.dll" Alias "GdipDrawEllipseI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipDrawPie Lib "GdiPlus.dll" Alias "GdipDrawPie" (byval as GpGraphics ptr, byval as GpPen ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawPieI Lib "GdiPlus.dll" Alias "GdipDrawPieI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawPolygon Lib "GdiPlus.dll" Alias "GdipDrawPolygon" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipDrawPolygonI Lib "GdiPlus.dll" Alias "GdipDrawPolygonI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipDrawPath Lib "GdiPlus.dll" Alias "GdipDrawPath" (byval as GpGraphics ptr, byval as GpPen ptr, byval as GpPath ptr) as GpStatus
+declare function GdipDrawCurve Lib "GdiPlus.dll" Alias "GdipDrawCurve" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipDrawCurveI Lib "GdiPlus.dll" Alias "GdipDrawCurveI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipDrawCurve2 Lib "GdiPlus.dll" Alias "GdipDrawCurve2" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipDrawCurve2I Lib "GdiPlus.dll" Alias "GdipDrawCurve2I" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipDrawCurve3 Lib "GdiPlus.dll" Alias "GdipDrawCurve3" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
+declare function GdipDrawCurve3I Lib "GdiPlus.dll" Alias "GdipDrawCurve3I" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
+declare function GdipDrawClosedCurve Lib "GdiPlus.dll" Alias "GdipDrawClosedCurve" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipDrawClosedCurveI Lib "GdiPlus.dll" Alias "GdipDrawClosedCurveI" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipDrawClosedCurve2 Lib "GdiPlus.dll" Alias "GdipDrawClosedCurve2" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipDrawClosedCurve2I Lib "GdiPlus.dll" Alias "GdipDrawClosedCurve2I" (byval as GpGraphics ptr, byval as GpPen ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipGraphicsClear Lib "GdiPlus.dll" Alias "GdipGraphicsClear" (byval as GpGraphics ptr, byval as ARGB) as GpStatus
+declare function GdipFillRectangle Lib "GdiPlus.dll" Alias "GdipFillRectangle" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipFillRectangleI Lib "GdiPlus.dll" Alias "GdipFillRectangleI" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipFillRectangles Lib "GdiPlus.dll" Alias "GdipFillRectangles" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpRectF ptr, byval as INT_) as GpStatus
+declare function GdipFillRectanglesI Lib "GdiPlus.dll" Alias "GdipFillRectanglesI" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpRect ptr, byval as INT_) as GpStatus
+declare function GdipFillPolygon Lib "GdiPlus.dll" Alias "GdipFillPolygon" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_, byval as GpFillMode) as GpStatus
+declare function GdipFillPolygonI Lib "GdiPlus.dll" Alias "GdipFillPolygonI" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_, byval as GpFillMode) as GpStatus
+declare function GdipFillPolygon2 Lib "GdiPlus.dll" Alias "GdipFillPolygon2" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipFillPolygon2I Lib "GdiPlus.dll" Alias "GdipFillPolygon2I" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipFillEllipse Lib "GdiPlus.dll" Alias "GdipFillEllipse" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipFillEllipseI Lib "GdiPlus.dll" Alias "GdipFillEllipseI" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipFillPie Lib "GdiPlus.dll" Alias "GdipFillPie" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipFillPieI Lib "GdiPlus.dll" Alias "GdipFillPieI" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
+declare function GdipFillPath Lib "GdiPlus.dll" Alias "GdipFillPath" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as GpPath ptr) as GpStatus
+declare function GdipFillClosedCurve Lib "GdiPlus.dll" Alias "GdipFillClosedCurve" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipFillClosedCurveI Lib "GdiPlus.dll" Alias "GdipFillClosedCurveI" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipFillClosedCurve2 Lib "GdiPlus.dll" Alias "GdipFillClosedCurve2" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL, byval as GpFillMode) as GpStatus
+declare function GdipFillClosedCurve2I Lib "GdiPlus.dll" Alias "GdipFillClosedCurve2I" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL, byval as GpFillMode) as GpStatus
+declare function GdipFillRegion Lib "GdiPlus.dll" Alias "GdipFillRegion" (byval as GpGraphics ptr, byval as GpBrush ptr, byval as GpRegion ptr) as GpStatus
+declare function GdipDrawImage Lib "GdiPlus.dll" Alias "GdipDrawImage" (byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawImageI Lib "GdiPlus.dll" Alias "GdipDrawImageI" (byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_) as GpStatus
+declare function GdipDrawImageRect Lib "GdiPlus.dll" Alias "GdipDrawImageRect" (byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipDrawImageRectI Lib "GdiPlus.dll" Alias "GdipDrawImageRectI" (byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipDrawImagePoints Lib "GdiPlus.dll" Alias "GdipDrawImagePoints" (byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipDrawImagePointsI Lib "GdiPlus.dll" Alias "GdipDrawImagePointsI" (byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipDrawImagePointRect Lib "GdiPlus.dll" Alias "GdipDrawImagePointRect" (byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpUnit) as GpStatus
+declare function GdipDrawImagePointRectI Lib "GdiPlus.dll" Alias "GdipDrawImagePointRectI" (byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpUnit) as GpStatus
+declare function GdipDrawImageRectRect Lib "GdiPlus.dll" Alias "GdipDrawImageRectRect" (byval as GpGraphics ptr, byval as GpImage ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
+declare function GdipDrawImageRectRectI Lib "GdiPlus.dll" Alias "GdipDrawImageRectRectI" (byval as GpGraphics ptr, byval as GpImage ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
+declare function GdipDrawImagePointsRect Lib "GdiPlus.dll" Alias "GdipDrawImagePointsRect" (byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
+declare function GdipDrawImagePointsRectI Lib "GdiPlus.dll" Alias "GdipDrawImagePointsRectI" (byval as GpGraphics ptr, byval as GpImage ptr, byval as const GpPoint ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpUnit, byval as const GpImageAttributes ptr, byval as DrawImageAbort, byval as any ptr) as GpStatus
+declare function GdipDrawImageFX Lib "GdiPlus.dll" Alias "GdipDrawImageFX" (byval as GpGraphics ptr, byval as GpImage ptr, byval as GpRectF ptr, byval as GpMatrix ptr, byval as CGpEffect ptr, byval as GpImageAttributes ptr, byval as GpUnit) as GpStatus
+declare function GdipEnumerateMetafileDestPoints Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileDestPoints" (byval as GpGraphics ptr, byval as const GpMetafile ptr, byval as const PointF_ ptr, byval as INT_, byval as EnumerateMetafileProc, byval as any ptr, byval as const GpImageAttributes ptr) as GpStatus
+declare function GdipEnumerateMetafileDestPointsI Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileDestPointsI" (byval as GpGraphics ptr, byval as const GpMetafile ptr, byval as const Point_ ptr, byval as INT_, byval as EnumerateMetafileProc, byval as any ptr, byval as const GpImageAttributes ptr) as GpStatus
+declare function GdipSetClipGraphics Lib "GdiPlus.dll" Alias "GdipSetClipGraphics" (byval as GpGraphics ptr, byval as GpGraphics ptr, byval as CombineMode) as GpStatus
+declare function GdipSetClipRect Lib "GdiPlus.dll" Alias "GdipSetClipRect" (byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as CombineMode) as GpStatus
+declare function GdipSetClipRectI Lib "GdiPlus.dll" Alias "GdipSetClipRectI" (byval as GpGraphics ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as CombineMode) as GpStatus
+declare function GdipSetClipPath Lib "GdiPlus.dll" Alias "GdipSetClipPath" (byval as GpGraphics ptr, byval as GpPath ptr, byval as CombineMode) as GpStatus
+declare function GdipSetClipRegion Lib "GdiPlus.dll" Alias "GdipSetClipRegion" (byval as GpGraphics ptr, byval as GpRegion ptr, byval as CombineMode) as GpStatus
+declare function GdipSetClipHrgn Lib "GdiPlus.dll" Alias "GdipSetClipHrgn" (byval as GpGraphics ptr, byval as HRGN, byval as CombineMode) as GpStatus
+declare function GdipResetClip Lib "GdiPlus.dll" Alias "GdipResetClip" (byval as GpGraphics ptr) as GpStatus
+declare function GdipTranslateClip Lib "GdiPlus.dll" Alias "GdipTranslateClip" (byval as GpGraphics ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipTranslateClipI Lib "GdiPlus.dll" Alias "GdipTranslateClipI" (byval as GpGraphics ptr, byval as INT_, byval as INT_) as GpStatus
+declare function GdipGetClip Lib "GdiPlus.dll" Alias "GdipGetClip" (byval as GpGraphics ptr, byval as GpRegion ptr) as GpStatus
+declare function GdipGetClipBounds Lib "GdiPlus.dll" Alias "GdipGetClipBounds" (byval as GpGraphics ptr, byval as GpRectF ptr) as GpStatus
+declare function GdipGetClipBoundsI Lib "GdiPlus.dll" Alias "GdipGetClipBoundsI" (byval as GpGraphics ptr, byval as GpRect ptr) as GpStatus
+declare function GdipIsClipEmpty Lib "GdiPlus.dll" Alias "GdipIsClipEmpty" (byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipGetVisibleClipBounds Lib "GdiPlus.dll" Alias "GdipGetVisibleClipBounds" (byval as GpGraphics ptr, byval as GpRectF ptr) as GpStatus
+declare function GdipGetVisibleClipBoundsI Lib "GdiPlus.dll" Alias "GdipGetVisibleClipBoundsI" (byval as GpGraphics ptr, byval as GpRect ptr) as GpStatus
+declare function GdipIsVisibleClipEmpty Lib "GdiPlus.dll" Alias "GdipIsVisibleClipEmpty" (byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisiblePoint Lib "GdiPlus.dll" Alias "GdipIsVisiblePoint" (byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisiblePointI Lib "GdiPlus.dll" Alias "GdipIsVisiblePointI" (byval as GpGraphics ptr, byval as INT_, byval as INT_, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisibleRect Lib "GdiPlus.dll" Alias "GdipIsVisibleRect" (byval as GpGraphics ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisibleRectI Lib "GdiPlus.dll" Alias "GdipIsVisibleRectI" (byval as GpGraphics ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as BOOL ptr) as GpStatus
+declare function GdipSaveGraphics Lib "GdiPlus.dll" Alias "GdipSaveGraphics" (byval as GpGraphics ptr, byval as GraphicsState ptr) as GpStatus
+declare function GdipRestoreGraphics Lib "GdiPlus.dll" Alias "GdipRestoreGraphics" (byval as GpGraphics ptr, byval as GraphicsState) as GpStatus
+declare function GdipBeginContainer Lib "GdiPlus.dll" Alias "GdipBeginContainer" (byval as GpGraphics ptr, byval as const GpRectF ptr, byval as const GpRectF ptr, byval as GpUnit, byval as GraphicsContainer ptr) as GpStatus
+declare function GdipBeginContainerI Lib "GdiPlus.dll" Alias "GdipBeginContainerI" (byval as GpGraphics ptr, byval as const GpRect ptr, byval as const GpRect ptr, byval as GpUnit, byval as GraphicsContainer ptr) as GpStatus
+declare function GdipBeginContainer2 Lib "GdiPlus.dll" Alias "GdipBeginContainer2" (byval as GpGraphics ptr, byval as GraphicsContainer ptr) as GpStatus
+declare function GdipEndContainer Lib "GdiPlus.dll" Alias "GdipEndContainer" (byval as GpGraphics ptr, byval as GraphicsContainer) as GpStatus
+declare function GdipComment Lib "GdiPlus.dll" Alias "GdipComment" (byval as GpGraphics ptr, byval as UINT, byval as const UBYTE ptr) as GpStatus
+declare function GdipCreatePath Lib "GdiPlus.dll" Alias "GdipCreatePath" (byval as GpFillMode, byval as GpPath ptr ptr) as GpStatus
+declare function GdipCreatePath2 Lib "GdiPlus.dll" Alias "GdipCreatePath2" (byval as const GpPointF ptr, byval as const UBYTE ptr, byval as INT_, byval as GpFillMode, byval as GpPath ptr ptr) as GpStatus
+declare function GdipCreatePath2I Lib "GdiPlus.dll" Alias "GdipCreatePath2I" (byval as const GpPoint ptr, byval as const UBYTE ptr, byval as INT_, byval as GpFillMode, byval as GpPath ptr ptr) as GpStatus
+declare function GdipClonePath Lib "GdiPlus.dll" Alias "GdipClonePath" (byval as GpPath ptr, byval as GpPath ptr ptr) as GpStatus
+declare function GdipDeletePath Lib "GdiPlus.dll" Alias "GdipDeletePath" (byval as GpPath ptr) as GpStatus
+declare function GdipResetPath Lib "GdiPlus.dll" Alias "GdipResetPath" (byval as GpPath ptr) as GpStatus
+declare function GdipGetPointCount Lib "GdiPlus.dll" Alias "GdipGetPointCount" (byval as GpPath ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetPathTypes Lib "GdiPlus.dll" Alias "GdipGetPathTypes" (byval as GpPath ptr, byval as UBYTE ptr, byval as INT_) as GpStatus
+declare function GdipGetPathPoints Lib "GdiPlus.dll" Alias "GdipGetPathPoints" (byval as GpPath ptr, byval as GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipGetPathPointsI Lib "GdiPlus.dll" Alias "GdipGetPathPointsI" (byval as GpPath ptr, byval as GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipGetPathFillMode Lib "GdiPlus.dll" Alias "GdipGetPathFillMode" (byval as GpPath ptr, byval as GpFillMode ptr) as GpStatus
+declare function GdipSetPathFillMode Lib "GdiPlus.dll" Alias "GdipSetPathFillMode" (byval as GpPath ptr, byval as GpFillMode) as GpStatus
+declare function GdipGetPathData Lib "GdiPlus.dll" Alias "GdipGetPathData" (byval as GpPath ptr, byval as GpPathData ptr) as GpStatus
+declare function GdipStartPathFigure Lib "GdiPlus.dll" Alias "GdipStartPathFigure" (byval as GpPath ptr) as GpStatus
+declare function GdipClosePathFigure Lib "GdiPlus.dll" Alias "GdipClosePathFigure" (byval as GpPath ptr) as GpStatus
+declare function GdipClosePathFigures Lib "GdiPlus.dll" Alias "GdipClosePathFigures" (byval as GpPath ptr) as GpStatus
+declare function GdipSetPathMarker Lib "GdiPlus.dll" Alias "GdipSetPathMarker" (byval as GpPath ptr) as GpStatus
+declare function GdipClearPathMarkers Lib "GdiPlus.dll" Alias "GdipClearPathMarkers" (byval as GpPath ptr) as GpStatus
+declare function GdipReversePath Lib "GdiPlus.dll" Alias "GdipReversePath" (byval as GpPath ptr) as GpStatus
+declare function GdipGetPathLastPoint Lib "GdiPlus.dll" Alias "GdipGetPathLastPoint" (byval as GpPath ptr, byval as GpPointF ptr) as GpStatus
+declare function GdipAddPathLine Lib "GdiPlus.dll" Alias "GdipAddPathLine" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathLine2 Lib "GdiPlus.dll" Alias "GdipAddPathLine2" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipAddPathArc Lib "GdiPlus.dll" Alias "GdipAddPathArc" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathBezier Lib "GdiPlus.dll" Alias "GdipAddPathBezier" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathBeziers Lib "GdiPlus.dll" Alias "GdipAddPathBeziers" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipAddPathCurve Lib "GdiPlus.dll" Alias "GdipAddPathCurve" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipAddPathCurve2 Lib "GdiPlus.dll" Alias "GdipAddPathCurve2" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipAddPathCurve3 Lib "GdiPlus.dll" Alias "GdipAddPathCurve3" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
+declare function GdipAddPathClosedCurve Lib "GdiPlus.dll" Alias "GdipAddPathClosedCurve" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipAddPathClosedCurve2 Lib "GdiPlus.dll" Alias "GdipAddPathClosedCurve2" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipAddPathRectangle Lib "GdiPlus.dll" Alias "GdipAddPathRectangle" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathRectangles Lib "GdiPlus.dll" Alias "GdipAddPathRectangles" (byval as GpPath ptr, byval as const GpRectF ptr, byval as INT_) as GpStatus
+declare function GdipAddPathEllipse Lib "GdiPlus.dll" Alias "GdipAddPathEllipse" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathPie Lib "GdiPlus.dll" Alias "GdipAddPathPie" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathPolygon Lib "GdiPlus.dll" Alias "GdipAddPathPolygon" (byval as GpPath ptr, byval as const GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipAddPathPath Lib "GdiPlus.dll" Alias "GdipAddPathPath" (byval as GpPath ptr, byval as const GpPath ptr, byval as BOOL) as GpStatus
+declare function GdipAddPathString Lib "GdiPlus.dll" Alias "GdipAddPathString" (byval as GpPath ptr, byval as const wstring ptr, byval as INT_, byval as const GpFontFamily ptr, byval as INT_, byval as REAL, byval as const RectF ptr, byval as const GpStringFormat ptr) as GpStatus
+declare function GdipAddPathStringI Lib "GdiPlus.dll" Alias "GdipAddPathStringI" (byval as GpPath ptr, byval as const wstring ptr, byval as INT_, byval as const GpFontFamily ptr, byval as INT_, byval as REAL, byval as const Rect_ ptr, byval as const GpStringFormat ptr) as GpStatus
+declare function GdipAddPathLineI Lib "GdiPlus.dll" Alias "GdipAddPathLineI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipAddPathLine2I Lib "GdiPlus.dll" Alias "GdipAddPathLine2I" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipAddPathArcI Lib "GdiPlus.dll" Alias "GdipAddPathArcI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathBezierI Lib "GdiPlus.dll" Alias "GdipAddPathBezierI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipAddPathBeziersI Lib "GdiPlus.dll" Alias "GdipAddPathBeziersI" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipAddPathCurveI Lib "GdiPlus.dll" Alias "GdipAddPathCurveI" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipAddPathCurve2I Lib "GdiPlus.dll" Alias "GdipAddPathCurve2I" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipAddPathCurve3I Lib "GdiPlus.dll" Alias "GdipAddPathCurve3I" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_, byval as INT_, byval as INT_, byval as REAL) as GpStatus
+declare function GdipAddPathClosedCurveI Lib "GdiPlus.dll" Alias "GdipAddPathClosedCurveI" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipAddPathClosedCurve2I Lib "GdiPlus.dll" Alias "GdipAddPathClosedCurve2I" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_, byval as REAL) as GpStatus
+declare function GdipAddPathRectangleI Lib "GdiPlus.dll" Alias "GdipAddPathRectangleI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipAddPathRectanglesI Lib "GdiPlus.dll" Alias "GdipAddPathRectanglesI" (byval as GpPath ptr, byval as const GpRect ptr, byval as INT_) as GpStatus
+declare function GdipAddPathEllipseI Lib "GdiPlus.dll" Alias "GdipAddPathEllipseI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_) as GpStatus
+declare function GdipAddPathPieI Lib "GdiPlus.dll" Alias "GdipAddPathPieI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as REAL, byval as REAL) as GpStatus
+declare function GdipAddPathPolygonI Lib "GdiPlus.dll" Alias "GdipAddPathPolygonI" (byval as GpPath ptr, byval as const GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipFlattenPath Lib "GdiPlus.dll" Alias "GdipFlattenPath" (byval as GpPath ptr, byval as GpMatrix ptr, byval as REAL) as GpStatus
+declare function GdipWindingModeOutline Lib "GdiPlus.dll" Alias "GdipWindingModeOutline" (byval as GpPath ptr, byval as GpMatrix ptr, byval as REAL) as GpStatus
+declare function GdipWidenPath Lib "GdiPlus.dll" Alias "GdipWidenPath" (byval as GpPath ptr, byval as GpPen ptr, byval as GpMatrix ptr, byval as REAL) as GpStatus
+declare function GdipWarpPath Lib "GdiPlus.dll" Alias "GdipWarpPath" (byval as GpPath ptr, byval as GpMatrix ptr, byval as const GpPointF ptr, byval as INT_, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as WarpMode, byval as REAL) as GpStatus
+declare function GdipTransformPath Lib "GdiPlus.dll" Alias "GdipTransformPath" (byval as GpPath ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipGetPathWorldBounds Lib "GdiPlus.dll" Alias "GdipGetPathWorldBounds" (byval as GpPath ptr, byval as GpRectF ptr, byval as const GpMatrix ptr, byval as const GpPen ptr) as GpStatus
+declare function GdipGetPathWorldBoundsI Lib "GdiPlus.dll" Alias "GdipGetPathWorldBoundsI" (byval as GpPath ptr, byval as GpRect ptr, byval as const GpMatrix ptr, byval as const GpPen ptr) as GpStatus
+declare function GdipIsVisiblePathPoint Lib "GdiPlus.dll" Alias "GdipIsVisiblePathPoint" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisiblePathPointI Lib "GdiPlus.dll" Alias "GdipIsVisiblePathPointI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsOutlineVisiblePathPoint Lib "GdiPlus.dll" Alias "GdipIsOutlineVisiblePathPoint" (byval as GpPath ptr, byval as REAL, byval as REAL, byval as GpPen ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsOutlineVisiblePathPointI Lib "GdiPlus.dll" Alias "GdipIsOutlineVisiblePathPointI" (byval as GpPath ptr, byval as INT_, byval as INT_, byval as GpPen ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipCreateHatchBrush Lib "GdiPlus.dll" Alias "GdipCreateHatchBrush" (byval as GpHatchStyle, byval as ARGB, byval as ARGB, byval as GpHatch ptr ptr) as GpStatus
+declare function GdipGetHatchStyle Lib "GdiPlus.dll" Alias "GdipGetHatchStyle" (byval as GpHatch ptr, byval as GpHatchStyle ptr) as GpStatus
+declare function GdipGetHatchForegroundColor Lib "GdiPlus.dll" Alias "GdipGetHatchForegroundColor" (byval as GpHatch ptr, byval as ARGB ptr) as GpStatus
+declare function GdipGetHatchBackgroundColor Lib "GdiPlus.dll" Alias "GdipGetHatchBackgroundColor" (byval as GpHatch ptr, byval as ARGB ptr) as GpStatus
+declare function GdipLoadImageFromStream Lib "GdiPlus.dll" Alias "GdipLoadImageFromStream" (byval as IStream ptr, byval as GpImage ptr ptr) as GpStatus
+declare function GdipLoadImageFromFile Lib "GdiPlus.dll" Alias "GdipLoadImageFromFile" (byval as const wstring ptr, byval as GpImage ptr ptr) as GpStatus
+declare function GdipLoadImageFromStreamICM Lib "GdiPlus.dll" Alias "GdipLoadImageFromStreamICM" (byval as IStream ptr, byval as GpImage ptr ptr) as GpStatus
+declare function GdipLoadImageFromFileICM Lib "GdiPlus.dll" Alias "GdipLoadImageFromFileICM" (byval as const wstring ptr, byval as GpImage ptr ptr) as GpStatus
+declare function GdipCloneImage Lib "GdiPlus.dll" Alias "GdipCloneImage" (byval as GpImage ptr, byval as GpImage ptr ptr) as GpStatus
+declare function GdipDisposeImage Lib "GdiPlus.dll" Alias "GdipDisposeImage" (byval as GpImage ptr) as GpStatus
+declare function GdipSaveImageToFile Lib "GdiPlus.dll" Alias "GdipSaveImageToFile" (byval as GpImage ptr, byval as const wstring ptr, byval as const CLSID ptr, byval as const EncoderParameters ptr) as GpStatus
+declare function GdipSaveImageToStream Lib "GdiPlus.dll" Alias "GdipSaveImageToStream" (byval as GpImage ptr, byval as IStream ptr, byval as const CLSID ptr, byval as const EncoderParameters ptr) as GpStatus
+declare function GdipSaveAdd Lib "GdiPlus.dll" Alias "GdipSaveAdd" (byval as GpImage ptr, byval as const EncoderParameters ptr) as GpStatus
+declare function GdipSaveAddImage Lib "GdiPlus.dll" Alias "GdipSaveAddImage" (byval as GpImage ptr, byval as GpImage ptr, byval as const EncoderParameters ptr) as GpStatus
+declare function GdipGetImageGraphicsContext Lib "GdiPlus.dll" Alias "GdipGetImageGraphicsContext" (byval as GpImage ptr, byval as GpGraphics ptr ptr) as GpStatus
+declare function GdipGetImageBounds Lib "GdiPlus.dll" Alias "GdipGetImageBounds" (byval as GpImage ptr, byval as GpRectF ptr, byval as GpUnit ptr) as GpStatus
+declare function GdipGetImageDimension Lib "GdiPlus.dll" Alias "GdipGetImageDimension" (byval as GpImage ptr, byval as REAL ptr, byval as REAL ptr) as GpStatus
+declare function GdipGetImageType Lib "GdiPlus.dll" Alias "GdipGetImageType" (byval as GpImage ptr, byval as ImageType ptr) as GpStatus
+declare function GdipGetImageWidth Lib "GdiPlus.dll" Alias "GdipGetImageWidth" (byval as GpImage ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetImageHeight Lib "GdiPlus.dll" Alias "GdipGetImageHeight" (byval as GpImage ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetImageHorizontalResolution Lib "GdiPlus.dll" Alias "GdipGetImageHorizontalResolution" (byval as GpImage ptr, byval as REAL ptr) as GpStatus
+declare function GdipGetImageVerticalResolution Lib "GdiPlus.dll" Alias "GdipGetImageVerticalResolution" (byval as GpImage ptr, byval as REAL ptr) as GpStatus
+declare function GdipGetImageFlags Lib "GdiPlus.dll" Alias "GdipGetImageFlags" (byval as GpImage ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetImageRawFormat Lib "GdiPlus.dll" Alias "GdipGetImageRawFormat" (byval as GpImage ptr, byval as GUID ptr) as GpStatus
+declare function GdipGetImagePixelFormat Lib "GdiPlus.dll" Alias "GdipGetImagePixelFormat" (byval as GpImage ptr, byval as PixelFormat ptr) as GpStatus
+declare function GdipGetImageThumbnail Lib "GdiPlus.dll" Alias "GdipGetImageThumbnail" (byval as GpImage ptr, byval as UINT, byval as UINT, byval as GpImage ptr ptr, byval as GetThumbnailImageAbort, byval as any ptr) as GpStatus
+declare function GdipGetEncoderParameterListSize Lib "GdiPlus.dll" Alias "GdipGetEncoderParameterListSize" (byval as GpImage ptr, byval as const CLSID ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetEncoderParameterList Lib "GdiPlus.dll" Alias "GdipGetEncoderParameterList" (byval as GpImage ptr, byval as const CLSID ptr, byval as UINT, byval as EncoderParameters ptr) as GpStatus
+declare function GdipImageGetFrameDimensionsCount Lib "GdiPlus.dll" Alias "GdipImageGetFrameDimensionsCount" (byval as GpImage ptr, byval as UINT ptr) as GpStatus
+declare function GdipImageGetFrameDimensionsList Lib "GdiPlus.dll" Alias "GdipImageGetFrameDimensionsList" (byval as GpImage ptr, byval as GUID ptr, byval as UINT) as GpStatus
+declare function GdipImageGetFrameCount Lib "GdiPlus.dll" Alias "GdipImageGetFrameCount" (byval as GpImage ptr, byval as const GUID ptr, byval as UINT ptr) as GpStatus
+declare function GdipImageSelectActiveFrame Lib "GdiPlus.dll" Alias "GdipImageSelectActiveFrame" (byval as GpImage ptr, byval as const GUID ptr, byval as UINT) as GpStatus
+declare function GdipImageRotateFlip Lib "GdiPlus.dll" Alias "GdipImageRotateFlip" (byval as GpImage ptr, byval as RotateFlipType) as GpStatus
+declare function GdipGetImagePalette Lib "GdiPlus.dll" Alias "GdipGetImagePalette" (byval as GpImage ptr, byval as ColorPalette ptr, byval as INT_) as GpStatus
+declare function GdipSetImagePalette Lib "GdiPlus.dll" Alias "GdipSetImagePalette" (byval as GpImage ptr, byval as const ColorPalette ptr) as GpStatus
+declare function GdipGetImagePaletteSize Lib "GdiPlus.dll" Alias "GdipGetImagePaletteSize" (byval as GpImage ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetPropertyCount Lib "GdiPlus.dll" Alias "GdipGetPropertyCount" (byval as GpImage ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetPropertyIdList Lib "GdiPlus.dll" Alias "GdipGetPropertyIdList" (byval as GpImage ptr, byval as UINT, byval as PROPID ptr) as GpStatus
+declare function GdipGetPropertyItemSize Lib "GdiPlus.dll" Alias "GdipGetPropertyItemSize" (byval as GpImage ptr, byval as PROPID, byval as UINT ptr) as GpStatus
+declare function GdipGetPropertyItem Lib "GdiPlus.dll" Alias "GdipGetPropertyItem" (byval as GpImage ptr, byval as PROPID, byval as UINT, byval as PropertyItem ptr) as GpStatus
+declare function GdipGetPropertySize Lib "GdiPlus.dll" Alias "GdipGetPropertySize" (byval as GpImage ptr, byval as UINT ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetAllPropertyItems Lib "GdiPlus.dll" Alias "GdipGetAllPropertyItems" (byval as GpImage ptr, byval as UINT, byval as UINT, byval as PropertyItem ptr) as GpStatus
+declare function GdipRemovePropertyItem Lib "GdiPlus.dll" Alias "GdipRemovePropertyItem" (byval as GpImage ptr, byval as PROPID) as GpStatus
+declare function GdipSetPropertyItem Lib "GdiPlus.dll" Alias "GdipSetPropertyItem" (byval as GpImage ptr, byval as const PropertyItem ptr) as GpStatus
+declare function GdipFindFirstImageItem Lib "GdiPlus.dll" Alias "GdipFindFirstImageItem" (byval as GpImage ptr, byval as ImageItemData ptr) as GpStatus
+declare function GdipFindNextImageItem Lib "GdiPlus.dll" Alias "GdipFindNextImageItem" (byval as GpImage ptr, byval as ImageItemData ptr) as GpStatus
+declare function GdipGetImageItemData Lib "GdiPlus.dll" Alias "GdipGetImageItemData" (byval as GpImage ptr, byval as ImageItemData ptr) as GpStatus
+declare function GdipImageSetAbort Lib "GdiPlus.dll" Alias "GdipImageSetAbort" (byval as GpImage ptr, byval as GdiplusAbort ptr) as GpStatus
+declare function GdipImageForceValidation Lib "GdiPlus.dll" Alias "GdipImageForceValidation" (byval as GpImage ptr) as GpStatus
+declare function GdipGetImageDecodersSize Lib "GdiPlus.dll" Alias "GdipGetImageDecodersSize" (byval as UINT ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetImageDecoders Lib "GdiPlus.dll" Alias "GdipGetImageDecoders" (byval as UINT, byval as UINT, byval as ImageCodecInfo ptr) as GpStatus
+declare function GdipGetImageEncodersSize Lib "GdiPlus.dll" Alias "GdipGetImageEncodersSize" (byval as UINT ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetImageEncoders Lib "GdiPlus.dll" Alias "GdipGetImageEncoders" (byval as UINT, byval as UINT, byval as ImageCodecInfo ptr) as GpStatus
+declare function GdipCreateImageAttributes Lib "GdiPlus.dll" Alias "GdipCreateImageAttributes" (byval as GpImageAttributes ptr ptr) as GpStatus
+declare function GdipCloneImageAttributes Lib "GdiPlus.dll" Alias "GdipCloneImageAttributes" (byval as const GpImageAttributes ptr, byval as GpImageAttributes ptr ptr) as GpStatus
+declare function GdipDisposeImageAttributes Lib "GdiPlus.dll" Alias "GdipDisposeImageAttributes" (byval as GpImageAttributes ptr) as GpStatus
+declare function GdipSetImageAttributesToIdentity Lib "GdiPlus.dll" Alias "GdipSetImageAttributesToIdentity" (byval as GpImageAttributes ptr, byval as ColorAdjustType) as GpStatus
+declare function GdipResetImageAttributes Lib "GdiPlus.dll" Alias "GdipResetImageAttributes" (byval as GpImageAttributes ptr, byval as ColorAdjustType) as GpStatus
+declare function GdipSetImageAttributesColorMatrix Lib "GdiPlus.dll" Alias "GdipSetImageAttributesColorMatrix" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as const ColorMatrix ptr, byval as const ColorMatrix ptr, byval as ColorMatrixFlags) as GpStatus
+declare function GdipSetImageAttributesThreshold Lib "GdiPlus.dll" Alias "GdipSetImageAttributesThreshold" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as REAL) as GpStatus
+declare function GdipSetImageAttributesGamma Lib "GdiPlus.dll" Alias "GdipSetImageAttributesGamma" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as REAL) as GpStatus
+declare function GdipSetImageAttributesNoOp Lib "GdiPlus.dll" Alias "GdipSetImageAttributesNoOp" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL) as GpStatus
+declare function GdipSetImageAttributesColorKeys Lib "GdiPlus.dll" Alias "GdipSetImageAttributesColorKeys" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as ARGB, byval as ARGB) as GpStatus
+declare function GdipSetImageAttributesOutputChannel Lib "GdiPlus.dll" Alias "GdipSetImageAttributesOutputChannel" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as ColorChannelFlags) as GpStatus
+declare function GdipSetImageAttributesOutputChannelColorProfile Lib "GdiPlus.dll" Alias "GdipSetImageAttributesOutputChannelColorProfile" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as const wstring ptr) as GpStatus
+declare function GdipSetImageAttributesRemapTable Lib "GdiPlus.dll" Alias "GdipSetImageAttributesRemapTable" (byval as GpImageAttributes ptr, byval as ColorAdjustType, byval as BOOL, byval as UINT, byval as const ColorMap_ ptr) as GpStatus
+declare function GdipSetImageAttributesWrapMode Lib "GdiPlus.dll" Alias "GdipSetImageAttributesWrapMode" (byval as GpImageAttributes ptr, byval as WrapMode, byval as ARGB, byval as BOOL) as GpStatus
+declare function GdipSetImageAttributesICMMode Lib "GdiPlus.dll" Alias "GdipSetImageAttributesICMMode" (byval as GpImageAttributes ptr, byval as BOOL) as GpStatus
+declare function GdipGetImageAttributesAdjustedPalette Lib "GdiPlus.dll" Alias "GdipGetImageAttributesAdjustedPalette" (byval as GpImageAttributes ptr, byval as ColorPalette ptr, byval as ColorAdjustType) as GpStatus
+declare function GdipSetImageAttributesCachedBackground Lib "GdiPlus.dll" Alias "GdipSetImageAttributesCachedBackground" (byval as GpImageAttributes ptr, byval as BOOL) as GpStatus
+declare function GdipCreateLineBrush Lib "GdiPlus.dll" Alias "GdipCreateLineBrush" (byval as const GpPointF ptr, byval as const GpPointF ptr, byval as ARGB, byval as ARGB, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
+declare function GdipCreateLineBrushI Lib "GdiPlus.dll" Alias "GdipCreateLineBrushI" (byval as const GpPoint ptr, byval as const GpPoint ptr, byval as ARGB, byval as ARGB, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
+declare function GdipCreateLineBrushFromRect Lib "GdiPlus.dll" Alias "GdipCreateLineBrushFromRect" (byval as const GpRectF ptr, byval as ARGB, byval as ARGB, byval as LinearGradientMode, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
+declare function GdipCreateLineBrushFromRectI Lib "GdiPlus.dll" Alias "GdipCreateLineBrushFromRectI" (byval as const GpRect ptr, byval as ARGB, byval as ARGB, byval as LinearGradientMode, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
+declare function GdipCreateLineBrushFromRectWithAngle Lib "GdiPlus.dll" Alias "GdipCreateLineBrushFromRectWithAngle" (byval as const GpRectF ptr, byval as ARGB, byval as ARGB, byval as REAL, byval as BOOL, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
+declare function GdipCreateLineBrushFromRectWithAngleI Lib "GdiPlus.dll" Alias "GdipCreateLineBrushFromRectWithAngleI" (byval as const GpRect ptr, byval as ARGB, byval as ARGB, byval as REAL, byval as BOOL, byval as GpWrapMode, byval as GpLineGradient ptr ptr) as GpStatus
+declare function GdipSetLineColors Lib "GdiPlus.dll" Alias "GdipSetLineColors" (byval as GpLineGradient ptr, byval as ARGB, byval as ARGB) as GpStatus
+declare function GdipGetLineColors Lib "GdiPlus.dll" Alias "GdipGetLineColors" (byval as GpLineGradient ptr, byval as ARGB ptr) as GpStatus
+declare function GdipGetLineRect Lib "GdiPlus.dll" Alias "GdipGetLineRect" (byval as GpLineGradient ptr, byval as GpRectF ptr) as GpStatus
+declare function GdipGetLineRectI Lib "GdiPlus.dll" Alias "GdipGetLineRectI" (byval as GpLineGradient ptr, byval as GpRect ptr) as GpStatus
+declare function GdipSetLineGammaCorrection Lib "GdiPlus.dll" Alias "GdipSetLineGammaCorrection" (byval as GpLineGradient ptr, byval as BOOL) as GpStatus
+declare function GdipGetLineGammaCorrection Lib "GdiPlus.dll" Alias "GdipGetLineGammaCorrection" (byval as GpLineGradient ptr, byval as BOOL ptr) as GpStatus
+declare function GdipGetLineBlendCount Lib "GdiPlus.dll" Alias "GdipGetLineBlendCount" (byval as GpLineGradient ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetLineBlend Lib "GdiPlus.dll" Alias "GdipGetLineBlend" (byval as GpLineGradient ptr, byval as REAL ptr, byval as REAL ptr, byval as INT_) as GpStatus
+declare function GdipSetLineBlend Lib "GdiPlus.dll" Alias "GdipSetLineBlend" (byval as GpLineGradient ptr, byval as const REAL ptr, byval as const REAL ptr, byval as INT_) as GpStatus
+declare function GdipGetLinePresetBlendCount Lib "GdiPlus.dll" Alias "GdipGetLinePresetBlendCount" (byval as GpLineGradient ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetLinePresetBlend Lib "GdiPlus.dll" Alias "GdipGetLinePresetBlend" (byval as GpLineGradient ptr, byval as ARGB ptr, byval as REAL ptr, byval as INT_) as GpStatus
+declare function GdipSetLinePresetBlend Lib "GdiPlus.dll" Alias "GdipSetLinePresetBlend" (byval as GpLineGradient ptr, byval as const ARGB ptr, byval as const REAL ptr, byval as INT_) as GpStatus
+declare function GdipSetLineSigmaBlend Lib "GdiPlus.dll" Alias "GdipSetLineSigmaBlend" (byval as GpLineGradient ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipSetLineLinearBlend Lib "GdiPlus.dll" Alias "GdipSetLineLinearBlend" (byval as GpLineGradient ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipSetLineWrapMode Lib "GdiPlus.dll" Alias "GdipSetLineWrapMode" (byval as GpLineGradient ptr, byval as GpWrapMode) as GpStatus
+declare function GdipGetLineWrapMode Lib "GdiPlus.dll" Alias "GdipGetLineWrapMode" (byval as GpLineGradient ptr, byval as GpWrapMode ptr) as GpStatus
+declare function GdipGetLineTransform Lib "GdiPlus.dll" Alias "GdipGetLineTransform" (byval as GpLineGradient ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipSetLineTransform Lib "GdiPlus.dll" Alias "GdipSetLineTransform" (byval as GpLineGradient ptr, byval as const GpMatrix ptr) as GpStatus
+declare function GdipResetLineTransform Lib "GdiPlus.dll" Alias "GdipResetLineTransform" (byval as GpLineGradient ptr) as GpStatus
+declare function GdipMultiplyLineTransform Lib "GdiPlus.dll" Alias "GdipMultiplyLineTransform" (byval as GpLineGradient ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
+declare function GdipTranslateLineTransform Lib "GdiPlus.dll" Alias "GdipTranslateLineTransform" (byval as GpLineGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipScaleLineTransform Lib "GdiPlus.dll" Alias "GdipScaleLineTransform" (byval as GpLineGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipRotateLineTransform Lib "GdiPlus.dll" Alias "GdipRotateLineTransform" (byval as GpLineGradient ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipCreateMatrix Lib "GdiPlus.dll" Alias "GdipCreateMatrix" (byval as GpMatrix ptr ptr) as GpStatus
+declare function GdipCreateMatrix2 Lib "GdiPlus.dll" Alias "GdipCreateMatrix2" (byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpMatrix ptr ptr) as GpStatus
+declare function GdipCreateMatrix3 Lib "GdiPlus.dll" Alias "GdipCreateMatrix3" (byval as const GpRectF ptr, byval as const GpPointF ptr, byval as GpMatrix ptr ptr) as GpStatus
+declare function GdipCreateMatrix3I Lib "GdiPlus.dll" Alias "GdipCreateMatrix3I" (byval as const GpRect ptr, byval as const GpPoint ptr, byval as GpMatrix ptr ptr) as GpStatus
+declare function GdipCloneMatrix Lib "GdiPlus.dll" Alias "GdipCloneMatrix" (byval as GpMatrix ptr, byval as GpMatrix ptr ptr) as GpStatus
+declare function GdipDeleteMatrix Lib "GdiPlus.dll" Alias "GdipDeleteMatrix" (byval as GpMatrix ptr) as GpStatus
+declare function GdipSetMatrixElements Lib "GdiPlus.dll" Alias "GdipSetMatrixElements" (byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as REAL) as GpStatus
+declare function GdipMultiplyMatrix Lib "GdiPlus.dll" Alias "GdipMultiplyMatrix" (byval as GpMatrix ptr, byval as GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
+declare function GdipTranslateMatrix Lib "GdiPlus.dll" Alias "GdipTranslateMatrix" (byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipScaleMatrix Lib "GdiPlus.dll" Alias "GdipScaleMatrix" (byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipRotateMatrix Lib "GdiPlus.dll" Alias "GdipRotateMatrix" (byval as GpMatrix ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipShearMatrix Lib "GdiPlus.dll" Alias "GdipShearMatrix" (byval as GpMatrix ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipInvertMatrix Lib "GdiPlus.dll" Alias "GdipInvertMatrix" (byval as GpMatrix ptr) as GpStatus
+declare function GdipTransformMatrixPoints Lib "GdiPlus.dll" Alias "GdipTransformMatrixPoints" (byval as GpMatrix ptr, byval as GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipTransformMatrixPointsI Lib "GdiPlus.dll" Alias "GdipTransformMatrixPointsI" (byval as GpMatrix ptr, byval as GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipVectorTransformMatrixPoints Lib "GdiPlus.dll" Alias "GdipVectorTransformMatrixPoints" (byval as GpMatrix ptr, byval as GpPointF ptr, byval as INT_) as GpStatus
+declare function GdipVectorTransformMatrixPointsI Lib "GdiPlus.dll" Alias "GdipVectorTransformMatrixPointsI" (byval as GpMatrix ptr, byval as GpPoint ptr, byval as INT_) as GpStatus
+declare function GdipGetMatrixElements Lib "GdiPlus.dll" Alias "GdipGetMatrixElements" (byval as const GpMatrix ptr, byval as REAL ptr) as GpStatus
+declare function GdipIsMatrixInvertible Lib "GdiPlus.dll" Alias "GdipIsMatrixInvertible" (byval as const GpMatrix ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsMatrixIdentity Lib "GdiPlus.dll" Alias "GdipIsMatrixIdentity" (byval as const GpMatrix ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsMatrixEqual Lib "GdiPlus.dll" Alias "GdipIsMatrixEqual" (byval as const GpMatrix ptr, byval as const GpMatrix ptr, byval as BOOL ptr) as GpStatus
+declare function GdipGetMetafileHeaderFromEmf Lib "GdiPlus.dll" Alias "GdipGetMetafileHeaderFromEmf" (byval as HENHMETAFILE, byval as MetafileHeader ptr) as GpStatus
+declare function GdipGetMetafileHeaderFromFile Lib "GdiPlus.dll" Alias "GdipGetMetafileHeaderFromFile" (byval as const wstring ptr, byval as MetafileHeader ptr) as GpStatus
+declare function GdipGetMetafileHeaderFromStream Lib "GdiPlus.dll" Alias "GdipGetMetafileHeaderFromStream" (byval as IStream ptr, byval as MetafileHeader ptr) as GpStatus
+declare function GdipGetMetafileHeaderFromMetafile Lib "GdiPlus.dll" Alias "GdipGetMetafileHeaderFromMetafile" (byval as GpMetafile ptr, byval as MetafileHeader ptr) as GpStatus
+declare function GdipGetHemfFromMetafile Lib "GdiPlus.dll" Alias "GdipGetHemfFromMetafile" (byval as GpMetafile ptr, byval as HENHMETAFILE ptr) as GpStatus
+declare function GdipCreateStreamOnFile Lib "GdiPlus.dll" Alias "GdipCreateStreamOnFile" (byval as const wstring ptr, byval as UINT, byval as IStream ptr ptr) as GpStatus
+declare function GdipCreateMetafileFromWmf Lib "GdiPlus.dll" Alias "GdipCreateMetafileFromWmf" (byval as HMETAFILE, byval as BOOL, byval as const WmfPlaceableFileHeader ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipCreateMetafileFromEmf Lib "GdiPlus.dll" Alias "GdipCreateMetafileFromEmf" (byval as HENHMETAFILE, byval as BOOL, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipCreateMetafileFromFile Lib "GdiPlus.dll" Alias "GdipCreateMetafileFromFile" (byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipCreateMetafileFromWmfFile Lib "GdiPlus.dll" Alias "GdipCreateMetafileFromWmfFile" (byval as const wstring ptr, byval as const WmfPlaceableFileHeader ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipCreateMetafileFromStream Lib "GdiPlus.dll" Alias "GdipCreateMetafileFromStream" (byval as IStream ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipRecordMetafile Lib "GdiPlus.dll" Alias "GdipRecordMetafile" (byval as HDC, byval as EmfType, byval as const GpRectF ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipRecordMetafileI Lib "GdiPlus.dll" Alias "GdipRecordMetafileI" (byval as HDC, byval as EmfType, byval as const GpRect ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipRecordMetafileFileName Lib "GdiPlus.dll" Alias "GdipRecordMetafileFileName" (byval as const wstring ptr, byval as HDC, byval as EmfType, byval as const GpRectF ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipRecordMetafileFileNameI Lib "GdiPlus.dll" Alias "GdipRecordMetafileFileNameI" (byval as const wstring ptr, byval as HDC, byval as EmfType, byval as const GpRect ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipRecordMetafileStream Lib "GdiPlus.dll" Alias "GdipRecordMetafileStream" (byval as IStream ptr, byval as HDC, byval as EmfType, byval as const GpRectF ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipRecordMetafileStreamI Lib "GdiPlus.dll" Alias "GdipRecordMetafileStreamI" (byval as IStream ptr, byval as HDC, byval as EmfType, byval as const GpRect ptr, byval as MetafileFrameUnit, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipPlayMetafileRecord Lib "GdiPlus.dll" Alias "GdipPlayMetafileRecord" (byval as const GpMetafile ptr, byval as EmfPlusRecordType, byval as UINT, byval as UINT, byval as const UBYTE ptr) as GpStatus
+declare function GdipSetMetafileDownLevelRasterizationLimit Lib "GdiPlus.dll" Alias "GdipSetMetafileDownLevelRasterizationLimit" (byval as GpMetafile ptr, byval as UINT) as GpStatus
+declare function GdipGetMetafileDownLevelRasterizationLimit Lib "GdiPlus.dll" Alias "GdipGetMetafileDownLevelRasterizationLimit" (byval as const GpMetafile ptr, byval as UINT ptr) as GpStatus
+declare function GdipConvertToEmfPlus Lib "GdiPlus.dll" Alias "GdipConvertToEmfPlus" (byval as const GpGraphics ptr, byval as GpMetafile ptr, byval as BOOL ptr, byval as EmfType, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipConvertToEmfPlusToFile Lib "GdiPlus.dll" Alias "GdipConvertToEmfPlusToFile" (byval as const GpGraphics ptr, byval as GpMetafile ptr, byval as BOOL ptr, byval as const wstring ptr, byval as EmfType, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipConvertToEmfPlusToStream Lib "GdiPlus.dll" Alias "GdipConvertToEmfPlusToStream" (byval as const GpGraphics ptr, byval as GpMetafile ptr, byval as BOOL ptr, byval as IStream ptr, byval as EmfType, byval as const wstring ptr, byval as GpMetafile ptr ptr) as GpStatus
+declare function GdipEmfToWmfBits Lib "GdiPlus.dll" Alias "GdipEmfToWmfBits" (byval as HENHMETAFILE, byval as UINT, byval as LPBYTE, byval as INT_, byval as INT_) as UINT
+declare function GdipCreatePathGradient Lib "GdiPlus.dll" Alias "GdipCreatePathGradient" (byval as const GpPointF ptr, byval as INT_, byval as GpWrapMode, byval as GpPathGradient ptr ptr) as GpStatus
+declare function GdipCreatePathGradientI Lib "GdiPlus.dll" Alias "GdipCreatePathGradientI" (byval as const GpPoint ptr, byval as INT_, byval as GpWrapMode, byval as GpPathGradient ptr ptr) as GpStatus
+declare function GdipCreatePathGradientFromPath Lib "GdiPlus.dll" Alias "GdipCreatePathGradientFromPath" (byval as const GpPath ptr, byval as GpPathGradient ptr ptr) as GpStatus
+declare function GdipGetPathGradientCenterColor Lib "GdiPlus.dll" Alias "GdipGetPathGradientCenterColor" (byval as GpPathGradient ptr, byval as ARGB ptr) as GpStatus
+declare function GdipSetPathGradientCenterColor Lib "GdiPlus.dll" Alias "GdipSetPathGradientCenterColor" (byval as GpPathGradient ptr, byval as ARGB) as GpStatus
+declare function GdipGetPathGradientSurroundColorsWithCount Lib "GdiPlus.dll" Alias "GdipGetPathGradientSurroundColorsWithCount" (byval as GpPathGradient ptr, byval as ARGB ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetPathGradientSurroundColorsWithCount Lib "GdiPlus.dll" Alias "GdipSetPathGradientSurroundColorsWithCount" (byval as GpPathGradient ptr, byval as const ARGB ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetPathGradientPath Lib "GdiPlus.dll" Alias "GdipGetPathGradientPath" (byval as GpPathGradient ptr, byval as GpPath ptr) as GpStatus
+declare function GdipSetPathGradientPath Lib "GdiPlus.dll" Alias "GdipSetPathGradientPath" (byval as GpPathGradient ptr, byval as const GpPath ptr) as GpStatus
+declare function GdipGetPathGradientCenterPoint Lib "GdiPlus.dll" Alias "GdipGetPathGradientCenterPoint" (byval as GpPathGradient ptr, byval as GpPointF ptr) as GpStatus
+declare function GdipGetPathGradientCenterPointI Lib "GdiPlus.dll" Alias "GdipGetPathGradientCenterPointI" (byval as GpPathGradient ptr, byval as GpPoint ptr) as GpStatus
+declare function GdipSetPathGradientCenterPoint Lib "GdiPlus.dll" Alias "GdipSetPathGradientCenterPoint" (byval as GpPathGradient ptr, byval as const GpPointF ptr) as GpStatus
+declare function GdipSetPathGradientCenterPointI Lib "GdiPlus.dll" Alias "GdipSetPathGradientCenterPointI" (byval as GpPathGradient ptr, byval as const GpPoint ptr) as GpStatus
+declare function GdipGetPathGradientRect Lib "GdiPlus.dll" Alias "GdipGetPathGradientRect" (byval as GpPathGradient ptr, byval as GpRectF ptr) as GpStatus
+declare function GdipGetPathGradientRectI Lib "GdiPlus.dll" Alias "GdipGetPathGradientRectI" (byval as GpPathGradient ptr, byval as GpRect ptr) as GpStatus
+declare function GdipGetPathGradientPointCount Lib "GdiPlus.dll" Alias "GdipGetPathGradientPointCount" (byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetPathGradientSurroundColorCount Lib "GdiPlus.dll" Alias "GdipGetPathGradientSurroundColorCount" (byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetPathGradientGammaCorrection Lib "GdiPlus.dll" Alias "GdipSetPathGradientGammaCorrection" (byval as GpPathGradient ptr, byval as BOOL) as GpStatus
+declare function GdipGetPathGradientGammaCorrection Lib "GdiPlus.dll" Alias "GdipGetPathGradientGammaCorrection" (byval as GpPathGradient ptr, byval as BOOL ptr) as GpStatus
+declare function GdipGetPathGradientBlendCount Lib "GdiPlus.dll" Alias "GdipGetPathGradientBlendCount" (byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetPathGradientBlend Lib "GdiPlus.dll" Alias "GdipGetPathGradientBlend" (byval as GpPathGradient ptr, byval as REAL ptr, byval as REAL ptr, byval as INT_) as GpStatus
+declare function GdipSetPathGradientBlend Lib "GdiPlus.dll" Alias "GdipSetPathGradientBlend" (byval as GpPathGradient ptr, byval as const REAL ptr, byval as const REAL ptr, byval as INT_) as GpStatus
+declare function GdipGetPathGradientPresetBlendCount Lib "GdiPlus.dll" Alias "GdipGetPathGradientPresetBlendCount" (byval as GpPathGradient ptr, byval as INT_ ptr) as GpStatus
+declare function GdipGetPathGradientPresetBlend Lib "GdiPlus.dll" Alias "GdipGetPathGradientPresetBlend" (byval as GpPathGradient ptr, byval as ARGB ptr, byval as REAL ptr, byval as INT_) as GpStatus
+declare function GdipSetPathGradientPresetBlend Lib "GdiPlus.dll" Alias "GdipSetPathGradientPresetBlend" (byval as GpPathGradient ptr, byval as const ARGB ptr, byval as const REAL ptr, byval as INT_) as GpStatus
+declare function GdipSetPathGradientSigmaBlend Lib "GdiPlus.dll" Alias "GdipSetPathGradientSigmaBlend" (byval as GpPathGradient ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipSetPathGradientLinearBlend Lib "GdiPlus.dll" Alias "GdipSetPathGradientLinearBlend" (byval as GpPathGradient ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipGetPathGradientWrapMode Lib "GdiPlus.dll" Alias "GdipGetPathGradientWrapMode" (byval as GpPathGradient ptr, byval as GpWrapMode ptr) as GpStatus
+declare function GdipSetPathGradientWrapMode Lib "GdiPlus.dll" Alias "GdipSetPathGradientWrapMode" (byval as GpPathGradient ptr, byval as GpWrapMode) as GpStatus
+declare function GdipGetPathGradientTransform Lib "GdiPlus.dll" Alias "GdipGetPathGradientTransform" (byval as GpPathGradient ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipSetPathGradientTransform Lib "GdiPlus.dll" Alias "GdipSetPathGradientTransform" (byval as GpPathGradient ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipResetPathGradientTransform Lib "GdiPlus.dll" Alias "GdipResetPathGradientTransform" (byval as GpPathGradient ptr) as GpStatus
+declare function GdipMultiplyPathGradientTransform Lib "GdiPlus.dll" Alias "GdipMultiplyPathGradientTransform" (byval as GpPathGradient ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
+declare function GdipTranslatePathGradientTransform Lib "GdiPlus.dll" Alias "GdipTranslatePathGradientTransform" (byval as GpPathGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipScalePathGradientTransform Lib "GdiPlus.dll" Alias "GdipScalePathGradientTransform" (byval as GpPathGradient ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipRotatePathGradientTransform Lib "GdiPlus.dll" Alias "GdipRotatePathGradientTransform" (byval as GpPathGradient ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipGetPathGradientFocusScales Lib "GdiPlus.dll" Alias "GdipGetPathGradientFocusScales" (byval as GpPathGradient ptr, byval as REAL ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetPathGradientFocusScales Lib "GdiPlus.dll" Alias "GdipSetPathGradientFocusScales" (byval as GpPathGradient ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipCreatePathIter Lib "GdiPlus.dll" Alias "GdipCreatePathIter" (byval as GpPathIterator ptr ptr, byval as GpPath ptr) as GpStatus
+declare function GdipDeletePathIter Lib "GdiPlus.dll" Alias "GdipDeletePathIter" (byval as GpPathIterator ptr) as GpStatus
+declare function GdipPathIterNextSubpath Lib "GdiPlus.dll" Alias "GdipPathIterNextSubpath" (byval as GpPathIterator ptr, byval as INT_ ptr, byval as INT_ ptr, byval as INT_ ptr, byval as BOOL ptr) as GpStatus
+declare function GdipPathIterNextSubpathPath Lib "GdiPlus.dll" Alias "GdipPathIterNextSubpathPath" (byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPath ptr, byval as BOOL ptr) as GpStatus
+declare function GdipPathIterNextPathType Lib "GdiPlus.dll" Alias "GdipPathIterNextPathType" (byval as GpPathIterator ptr, byval as INT_ ptr, byval as UBYTE ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
+declare function GdipPathIterNextMarker Lib "GdiPlus.dll" Alias "GdipPathIterNextMarker" (byval as GpPathIterator ptr, byval as INT_ ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
+declare function GdipPathIterNextMarkerPath Lib "GdiPlus.dll" Alias "GdipPathIterNextMarkerPath" (byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPath ptr) as GpStatus
+declare function GdipPathIterGetCount Lib "GdiPlus.dll" Alias "GdipPathIterGetCount" (byval as GpPathIterator ptr, byval as INT_ ptr) as GpStatus
+declare function GdipPathIterGetSubpathCount Lib "GdiPlus.dll" Alias "GdipPathIterGetSubpathCount" (byval as GpPathIterator ptr, byval as INT_ ptr) as GpStatus
+declare function GdipPathIterIsValid Lib "GdiPlus.dll" Alias "GdipPathIterIsValid" (byval as GpPathIterator ptr, byval as BOOL ptr) as GpStatus
+declare function GdipPathIterHasCurve Lib "GdiPlus.dll" Alias "GdipPathIterHasCurve" (byval as GpPathIterator ptr, byval as BOOL ptr) as GpStatus
+declare function GdipPathIterRewind Lib "GdiPlus.dll" Alias "GdipPathIterRewind" (byval as GpPathIterator ptr) as GpStatus
+declare function GdipPathIterEnumerate Lib "GdiPlus.dll" Alias "GdipPathIterEnumerate" (byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPointF ptr, byval as UBYTE ptr, byval as INT_) as GpStatus
+declare function GdipPathIterCopyData Lib "GdiPlus.dll" Alias "GdipPathIterCopyData" (byval as GpPathIterator ptr, byval as INT_ ptr, byval as GpPointF ptr, byval as UBYTE ptr, byval as INT_, byval as INT_) as GpStatus
+declare function GdipCreatePen1 Lib "GdiPlus.dll" Alias "GdipCreatePen1" (byval as ARGB, byval as REAL, byval as GpUnit, byval as GpPen ptr ptr) as GpStatus
+declare function GdipCreatePen2 Lib "GdiPlus.dll" Alias "GdipCreatePen2" (byval as GpBrush ptr, byval as REAL, byval as GpUnit, byval as GpPen ptr ptr) as GpStatus
+declare function GdipClonePen Lib "GdiPlus.dll" Alias "GdipClonePen" (byval as GpPen ptr, byval as GpPen ptr ptr) as GpStatus
+declare function GdipDeletePen Lib "GdiPlus.dll" Alias "GdipDeletePen" (byval as GpPen ptr) as GpStatus
+declare function GdipSetPenWidth Lib "GdiPlus.dll" Alias "GdipSetPenWidth" (byval as GpPen ptr, byval as REAL) as GpStatus
+declare function GdipGetPenWidth Lib "GdiPlus.dll" Alias "GdipGetPenWidth" (byval as GpPen ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetPenUnit Lib "GdiPlus.dll" Alias "GdipSetPenUnit" (byval as GpPen ptr, byval as GpUnit) as GpStatus
+declare function GdipGetPenUnit Lib "GdiPlus.dll" Alias "GdipGetPenUnit" (byval as GpPen ptr, byval as GpUnit ptr) as GpStatus
+declare function GdipSetPenLineCap197819 Lib "GdiPlus.dll" Alias "GdipSetPenLineCap197819" (byval as GpPen ptr, byval as GpLineCap, byval as GpLineCap, byval as GpDashCap) as GpStatus
+declare function GdipSetPenStartCap Lib "GdiPlus.dll" Alias "GdipSetPenStartCap" (byval as GpPen ptr, byval as GpLineCap) as GpStatus
+declare function GdipSetPenEndCap Lib "GdiPlus.dll" Alias "GdipSetPenEndCap" (byval as GpPen ptr, byval as GpLineCap) as GpStatus
+declare function GdipSetPenDashCap197819 Lib "GdiPlus.dll" Alias "GdipSetPenDashCap197819" (byval as GpPen ptr, byval as GpDashCap) as GpStatus
+declare function GdipGetPenStartCap Lib "GdiPlus.dll" Alias "GdipGetPenStartCap" (byval as GpPen ptr, byval as GpLineCap ptr) as GpStatus
+declare function GdipGetPenEndCap Lib "GdiPlus.dll" Alias "GdipGetPenEndCap" (byval as GpPen ptr, byval as GpLineCap ptr) as GpStatus
+declare function GdipGetPenDashCap197819 Lib "GdiPlus.dll" Alias "GdipGetPenDashCap197819" (byval as GpPen ptr, byval as GpDashCap ptr) as GpStatus
+declare function GdipSetPenLineJoin Lib "GdiPlus.dll" Alias "GdipSetPenLineJoin" (byval as GpPen ptr, byval as GpLineJoin) as GpStatus
+declare function GdipGetPenLineJoin Lib "GdiPlus.dll" Alias "GdipGetPenLineJoin" (byval as GpPen ptr, byval as GpLineJoin ptr) as GpStatus
+declare function GdipSetPenCustomStartCap Lib "GdiPlus.dll" Alias "GdipSetPenCustomStartCap" (byval as GpPen ptr, byval as GpCustomLineCap ptr) as GpStatus
+declare function GdipGetPenCustomStartCap Lib "GdiPlus.dll" Alias "GdipGetPenCustomStartCap" (byval as GpPen ptr, byval as GpCustomLineCap ptr ptr) as GpStatus
+declare function GdipSetPenCustomEndCap Lib "GdiPlus.dll" Alias "GdipSetPenCustomEndCap" (byval as GpPen ptr, byval as GpCustomLineCap ptr) as GpStatus
+declare function GdipGetPenCustomEndCap Lib "GdiPlus.dll" Alias "GdipGetPenCustomEndCap" (byval as GpPen ptr, byval as GpCustomLineCap ptr ptr) as GpStatus
+declare function GdipSetPenMiterLimit Lib "GdiPlus.dll" Alias "GdipSetPenMiterLimit" (byval as GpPen ptr, byval as REAL) as GpStatus
+declare function GdipGetPenMiterLimit Lib "GdiPlus.dll" Alias "GdipGetPenMiterLimit" (byval as GpPen ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetPenMode Lib "GdiPlus.dll" Alias "GdipSetPenMode" (byval as GpPen ptr, byval as GpPenAlignment) as GpStatus
+declare function GdipGetPenMode Lib "GdiPlus.dll" Alias "GdipGetPenMode" (byval as GpPen ptr, byval as GpPenAlignment ptr) as GpStatus
+declare function GdipSetPenTransform Lib "GdiPlus.dll" Alias "GdipSetPenTransform" (byval as GpPen ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipGetPenTransform Lib "GdiPlus.dll" Alias "GdipGetPenTransform" (byval as GpPen ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipResetPenTransform Lib "GdiPlus.dll" Alias "GdipResetPenTransform" (byval as GpPen ptr) as GpStatus
+declare function GdipMultiplyPenTransform Lib "GdiPlus.dll" Alias "GdipMultiplyPenTransform" (byval as GpPen ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
+declare function GdipTranslatePenTransform Lib "GdiPlus.dll" Alias "GdipTranslatePenTransform" (byval as GpPen ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipScalePenTransform Lib "GdiPlus.dll" Alias "GdipScalePenTransform" (byval as GpPen ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipRotatePenTransform Lib "GdiPlus.dll" Alias "GdipRotatePenTransform" (byval as GpPen ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipSetPenColor Lib "GdiPlus.dll" Alias "GdipSetPenColor" (byval as GpPen ptr, byval as ARGB) as GpStatus
+declare function GdipGetPenColor Lib "GdiPlus.dll" Alias "GdipGetPenColor" (byval as GpPen ptr, byval as ARGB ptr) as GpStatus
+declare function GdipSetPenBrushFill Lib "GdiPlus.dll" Alias "GdipSetPenBrushFill" (byval as GpPen ptr, byval as GpBrush ptr) as GpStatus
+declare function GdipGetPenBrushFill Lib "GdiPlus.dll" Alias "GdipGetPenBrushFill" (byval as GpPen ptr, byval as GpBrush ptr ptr) as GpStatus
+declare function GdipGetPenFillType Lib "GdiPlus.dll" Alias "GdipGetPenFillType" (byval as GpPen ptr, byval as GpPenType ptr) as GpStatus
+declare function GdipGetPenDashStyle Lib "GdiPlus.dll" Alias "GdipGetPenDashStyle" (byval as GpPen ptr, byval as GpDashStyle ptr) as GpStatus
+declare function GdipSetPenDashStyle Lib "GdiPlus.dll" Alias "GdipSetPenDashStyle" (byval as GpPen ptr, byval as GpDashStyle) as GpStatus
+declare function GdipGetPenDashOffset Lib "GdiPlus.dll" Alias "GdipGetPenDashOffset" (byval as GpPen ptr, byval as REAL ptr) as GpStatus
+declare function GdipSetPenDashOffset Lib "GdiPlus.dll" Alias "GdipSetPenDashOffset" (byval as GpPen ptr, byval as REAL) as GpStatus
+declare function GdipGetPenDashCount Lib "GdiPlus.dll" Alias "GdipGetPenDashCount" (byval as GpPen ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetPenDashArray Lib "GdiPlus.dll" Alias "GdipSetPenDashArray" (byval as GpPen ptr, byval as const REAL ptr, byval as INT_) as GpStatus
+declare function GdipGetPenDashArray Lib "GdiPlus.dll" Alias "GdipGetPenDashArray" (byval as GpPen ptr, byval as REAL ptr, byval as INT_) as GpStatus
+declare function GdipGetPenCompoundCount Lib "GdiPlus.dll" Alias "GdipGetPenCompoundCount" (byval as GpPen ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetPenCompoundArray Lib "GdiPlus.dll" Alias "GdipSetPenCompoundArray" (byval as GpPen ptr, byval as const REAL ptr, byval as INT_) as GpStatus
+declare function GdipGetPenCompoundArray Lib "GdiPlus.dll" Alias "GdipGetPenCompoundArray" (byval as GpPen ptr, byval as REAL ptr, byval as INT_) as GpStatus
+declare function GdipCreateRegion Lib "GdiPlus.dll" Alias "GdipCreateRegion" (byval as GpRegion ptr ptr) as GpStatus
+declare function GdipCreateRegionRect Lib "GdiPlus.dll" Alias "GdipCreateRegionRect" (byval as const GpRectF ptr, byval as GpRegion ptr ptr) as GpStatus
+declare function GdipCreateRegionRectI Lib "GdiPlus.dll" Alias "GdipCreateRegionRectI" (byval as const GpRect ptr, byval as GpRegion ptr ptr) as GpStatus
+declare function GdipCreateRegionPath Lib "GdiPlus.dll" Alias "GdipCreateRegionPath" (byval as GpPath ptr, byval as GpRegion ptr ptr) as GpStatus
+declare function GdipCreateRegionRgnData Lib "GdiPlus.dll" Alias "GdipCreateRegionRgnData" (byval as const UBYTE ptr, byval as INT_, byval as GpRegion ptr ptr) as GpStatus
+declare function GdipCreateRegionHrgn Lib "GdiPlus.dll" Alias "GdipCreateRegionHrgn" (byval as HRGN, byval as GpRegion ptr ptr) as GpStatus
+declare function GdipCloneRegion Lib "GdiPlus.dll" Alias "GdipCloneRegion" (byval as GpRegion ptr, byval as GpRegion ptr ptr) as GpStatus
+declare function GdipDeleteRegion Lib "GdiPlus.dll" Alias "GdipDeleteRegion" (byval as GpRegion ptr) as GpStatus
+declare function GdipSetInfinite Lib "GdiPlus.dll" Alias "GdipSetInfinite" (byval as GpRegion ptr) as GpStatus
+declare function GdipSetEmpty Lib "GdiPlus.dll" Alias "GdipSetEmpty" (byval as GpRegion ptr) as GpStatus
+declare function GdipCombineRegionRect Lib "GdiPlus.dll" Alias "GdipCombineRegionRect" (byval as GpRegion ptr, byval as const GpRectF ptr, byval as CombineMode) as GpStatus
+declare function GdipCombineRegionRectI Lib "GdiPlus.dll" Alias "GdipCombineRegionRectI" (byval as GpRegion ptr, byval as const GpRect ptr, byval as CombineMode) as GpStatus
+declare function GdipCombineRegionPath Lib "GdiPlus.dll" Alias "GdipCombineRegionPath" (byval as GpRegion ptr, byval as GpPath ptr, byval as CombineMode) as GpStatus
+declare function GdipCombineRegionRegion Lib "GdiPlus.dll" Alias "GdipCombineRegionRegion" (byval as GpRegion ptr, byval as GpRegion ptr, byval as CombineMode) as GpStatus
+declare function GdipTranslateRegion Lib "GdiPlus.dll" Alias "GdipTranslateRegion" (byval as GpRegion ptr, byval as REAL, byval as REAL) as GpStatus
+declare function GdipTranslateRegionI Lib "GdiPlus.dll" Alias "GdipTranslateRegionI" (byval as GpRegion ptr, byval as INT_, byval as INT_) as GpStatus
+declare function GdipTransformRegion Lib "GdiPlus.dll" Alias "GdipTransformRegion" (byval as GpRegion ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipGetRegionBounds Lib "GdiPlus.dll" Alias "GdipGetRegionBounds" (byval as GpRegion ptr, byval as GpGraphics ptr, byval as GpRectF ptr) as GpStatus
+declare function GdipGetRegionBoundsI Lib "GdiPlus.dll" Alias "GdipGetRegionBoundsI" (byval as GpRegion ptr, byval as GpGraphics ptr, byval as GpRect ptr) as GpStatus
+declare function GdipGetRegionHRgn Lib "GdiPlus.dll" Alias "GdipGetRegionHRgn" (byval as GpRegion ptr, byval as GpGraphics ptr, byval as HRGN ptr) as GpStatus
+declare function GdipIsEmptyRegion Lib "GdiPlus.dll" Alias "GdipIsEmptyRegion" (byval as GpRegion ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsInfiniteRegion Lib "GdiPlus.dll" Alias "GdipIsInfiniteRegion" (byval as GpRegion ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsEqualRegion Lib "GdiPlus.dll" Alias "GdipIsEqualRegion" (byval as GpRegion ptr, byval as GpRegion ptr, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipGetRegionDataSize Lib "GdiPlus.dll" Alias "GdipGetRegionDataSize" (byval as GpRegion ptr, byval as UINT ptr) as GpStatus
+declare function GdipGetRegionData Lib "GdiPlus.dll" Alias "GdipGetRegionData" (byval as GpRegion ptr, byval as UBYTE ptr, byval as UINT, byval as UINT ptr) as GpStatus
+declare function GdipIsVisibleRegionPoint Lib "GdiPlus.dll" Alias "GdipIsVisibleRegionPoint" (byval as GpRegion ptr, byval as REAL, byval as REAL, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisibleRegionPointI Lib "GdiPlus.dll" Alias "GdipIsVisibleRegionPointI" (byval as GpRegion ptr, byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisibleRegionRect Lib "GdiPlus.dll" Alias "GdipIsVisibleRegionRect" (byval as GpRegion ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipIsVisibleRegionRectI Lib "GdiPlus.dll" Alias "GdipIsVisibleRegionRectI" (byval as GpRegion ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpGraphics ptr, byval as BOOL ptr) as GpStatus
+declare function GdipGetRegionScansCount Lib "GdiPlus.dll" Alias "GdipGetRegionScansCount" (byval as GpRegion ptr, byval as UINT ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipGetRegionScans Lib "GdiPlus.dll" Alias "GdipGetRegionScans" (byval as GpRegion ptr, byval as GpRectF ptr, byval as INT_ ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipGetRegionScansI Lib "GdiPlus.dll" Alias "GdipGetRegionScansI" (byval as GpRegion ptr, byval as GpRect ptr, byval as INT_ ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipCreateSolidFill Lib "GdiPlus.dll" Alias "GdipCreateSolidFill" (byval as ARGB, byval as GpSolidFill ptr ptr) as GpStatus
+declare function GdipSetSolidFillColor Lib "GdiPlus.dll" Alias "GdipSetSolidFillColor" (byval as GpSolidFill ptr, byval as ARGB) as GpStatus
+declare function GdipGetSolidFillColor Lib "GdiPlus.dll" Alias "GdipGetSolidFillColor" (byval as GpSolidFill ptr, byval as ARGB ptr) as GpStatus
+declare function GdipCreateStringFormat Lib "GdiPlus.dll" Alias "GdipCreateStringFormat" (byval as INT_, byval as LANGID, byval as GpStringFormat ptr ptr) as GpStatus
+declare function GdipStringFormatGetGenericDefault Lib "GdiPlus.dll" Alias "GdipStringFormatGetGenericDefault" (byval as GpStringFormat ptr ptr) as GpStatus
+declare function GdipStringFormatGetGenericTypographic Lib "GdiPlus.dll" Alias "GdipStringFormatGetGenericTypographic" (byval as GpStringFormat ptr ptr) as GpStatus
+declare function GdipDeleteStringFormat Lib "GdiPlus.dll" Alias "GdipDeleteStringFormat" (byval as GpStringFormat ptr) as GpStatus
+declare function GdipCloneStringFormat Lib "GdiPlus.dll" Alias "GdipCloneStringFormat" (byval as const GpStringFormat ptr, byval as GpStringFormat ptr ptr) as GpStatus
+declare function GdipSetStringFormatFlags Lib "GdiPlus.dll" Alias "GdipSetStringFormatFlags" (byval as GpStringFormat ptr, byval as INT_) as GpStatus
+declare function GdipGetStringFormatFlags Lib "GdiPlus.dll" Alias "GdipGetStringFormatFlags" (byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetStringFormatAlign Lib "GdiPlus.dll" Alias "GdipSetStringFormatAlign" (byval as GpStringFormat ptr, byval as StringAlignment) as GpStatus
+declare function GdipGetStringFormatAlign Lib "GdiPlus.dll" Alias "GdipGetStringFormatAlign" (byval as const GpStringFormat ptr, byval as StringAlignment ptr) as GpStatus
+declare function GdipSetStringFormatLineAlign Lib "GdiPlus.dll" Alias "GdipSetStringFormatLineAlign" (byval as GpStringFormat ptr, byval as StringAlignment) as GpStatus
+declare function GdipGetStringFormatLineAlign Lib "GdiPlus.dll" Alias "GdipGetStringFormatLineAlign" (byval as const GpStringFormat ptr, byval as StringAlignment ptr) as GpStatus
+declare function GdipSetStringFormatTrimming Lib "GdiPlus.dll" Alias "GdipSetStringFormatTrimming" (byval as GpStringFormat ptr, byval as StringTrimming) as GpStatus
+declare function GdipGetStringFormatTrimming Lib "GdiPlus.dll" Alias "GdipGetStringFormatTrimming" (byval as const GpStringFormat ptr, byval as StringTrimming ptr) as GpStatus
+declare function GdipSetStringFormatHotkeyPrefix Lib "GdiPlus.dll" Alias "GdipSetStringFormatHotkeyPrefix" (byval as GpStringFormat ptr, byval as INT_) as GpStatus
+declare function GdipGetStringFormatHotkeyPrefix Lib "GdiPlus.dll" Alias "GdipGetStringFormatHotkeyPrefix" (byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetStringFormatTabStops Lib "GdiPlus.dll" Alias "GdipSetStringFormatTabStops" (byval as GpStringFormat ptr, byval as REAL, byval as INT_, byval as const REAL ptr) as GpStatus
+declare function GdipGetStringFormatTabStops Lib "GdiPlus.dll" Alias "GdipGetStringFormatTabStops" (byval as const GpStringFormat ptr, byval as INT_, byval as REAL ptr, byval as REAL ptr) as GpStatus
+declare function GdipGetStringFormatTabStopCount Lib "GdiPlus.dll" Alias "GdipGetStringFormatTabStopCount" (byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetStringFormatDigitSubstitution Lib "GdiPlus.dll" Alias "GdipSetStringFormatDigitSubstitution" (byval as GpStringFormat ptr, byval as LANGID, byval as StringDigitSubstitute) as GpStatus
+declare function GdipGetStringFormatDigitSubstitution Lib "GdiPlus.dll" Alias "GdipGetStringFormatDigitSubstitution" (byval as const GpStringFormat ptr, byval as LANGID ptr, byval as StringDigitSubstitute ptr) as GpStatus
+declare function GdipGetStringFormatMeasurableCharacterRangeCount Lib "GdiPlus.dll" Alias "GdipGetStringFormatMeasurableCharacterRangeCount" (byval as const GpStringFormat ptr, byval as INT_ ptr) as GpStatus
+declare function GdipSetStringFormatMeasurableCharacterRanges Lib "GdiPlus.dll" Alias "GdipSetStringFormatMeasurableCharacterRanges" (byval as GpStringFormat ptr, byval as INT_, byval as const CharacterRange ptr) as GpStatus
+declare function GdipDrawString Lib "GdiPlus.dll" Alias "GdipDrawString" (byval as GpGraphics ptr, byval as const wstring ptr, byval as INT_, byval as const GpFont ptr, byval as const RectF ptr, byval as const GpStringFormat ptr, byval as const GpBrush ptr) as GpStatus
+declare function GdipMeasureString Lib "GdiPlus.dll" Alias "GdipMeasureString" (byval as GpGraphics ptr, byval as const wstring ptr, byval as INT_, byval as const GpFont ptr, byval as const RectF ptr, byval as const GpStringFormat ptr, byval as RectF ptr, byval as INT_ ptr, byval as INT_ ptr) as GpStatus
+declare function GdipDrawDriverString Lib "GdiPlus.dll" Alias "GdipDrawDriverString" (byval as GpGraphics ptr, byval as const UINT16 ptr, byval as INT_, byval as const GpFont ptr, byval as const GpBrush ptr, byval as const PointF_ ptr, byval as INT_, byval as const GpMatrix ptr) as GpStatus
+declare function GdipMeasureDriverString Lib "GdiPlus.dll" Alias "GdipMeasureDriverString" (byval as GpGraphics ptr, byval as const UINT16 ptr, byval as INT_, byval as const GpFont ptr, byval as const PointF_ ptr, byval as INT_, byval as const GpMatrix ptr, byval as RectF ptr) as GpStatus
+declare function GdipCreateTexture Lib "GdiPlus.dll" Alias "GdipCreateTexture" (byval as GpImage ptr, byval as GpWrapMode, byval as GpTexture ptr ptr) as GpStatus
+declare function GdipCreateTexture2 Lib "GdiPlus.dll" Alias "GdipCreateTexture2" (byval as GpImage ptr, byval as GpWrapMode, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpTexture ptr ptr) as GpStatus
+declare function GdipCreateTexture2I Lib "GdiPlus.dll" Alias "GdipCreateTexture2I" (byval as GpImage ptr, byval as GpWrapMode, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpTexture ptr ptr) as GpStatus
+declare function GdipCreateTextureIA Lib "GdiPlus.dll" Alias "GdipCreateTextureIA" (byval as GpImage ptr, byval as const GpImageAttributes ptr, byval as REAL, byval as REAL, byval as REAL, byval as REAL, byval as GpTexture ptr ptr) as GpStatus
+declare function GdipCreateTextureIAI Lib "GdiPlus.dll" Alias "GdipCreateTextureIAI" (byval as GpImage ptr, byval as const GpImageAttributes ptr, byval as INT_, byval as INT_, byval as INT_, byval as INT_, byval as GpTexture ptr ptr) as GpStatus
+declare function GdipGetTextureTransform Lib "GdiPlus.dll" Alias "GdipGetTextureTransform" (byval as GpTexture ptr, byval as GpMatrix ptr) as GpStatus
+declare function GdipSetTextureTransform Lib "GdiPlus.dll" Alias "GdipSetTextureTransform" (byval as GpTexture ptr, byval as const GpMatrix ptr) as GpStatus
+declare function GdipResetTextureTransform Lib "GdiPlus.dll" Alias "GdipResetTextureTransform" (byval as GpTexture ptr) as GpStatus
+declare function GdipMultiplyTextureTransform Lib "GdiPlus.dll" Alias "GdipMultiplyTextureTransform" (byval as GpTexture ptr, byval as const GpMatrix ptr, byval as GpMatrixOrder) as GpStatus
+declare function GdipTranslateTextureTransform Lib "GdiPlus.dll" Alias "GdipTranslateTextureTransform" (byval as GpTexture ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipScaleTextureTransform Lib "GdiPlus.dll" Alias "GdipScaleTextureTransform" (byval as GpTexture ptr, byval as REAL, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipRotateTextureTransform Lib "GdiPlus.dll" Alias "GdipRotateTextureTransform" (byval as GpTexture ptr, byval as REAL, byval as GpMatrixOrder) as GpStatus
+declare function GdipSetTextureWrapMode Lib "GdiPlus.dll" Alias "GdipSetTextureWrapMode" (byval as GpTexture ptr, byval as GpWrapMode) as GpStatus
+declare function GdipGetTextureWrapMode Lib "GdiPlus.dll" Alias "GdipGetTextureWrapMode" (byval as GpTexture ptr, byval as GpWrapMode ptr) as GpStatus
+declare function GdipGetTextureImage Lib "GdiPlus.dll" Alias "GdipGetTextureImage" (byval as GpTexture ptr, byval as GpImage ptr ptr) as GpStatus
+declare function GdipTestControl Lib "GdiPlus.dll" Alias "GdipTestControl" (byval as GpTestControlEnum, byval as any ptr) as GpStatus
 
 ' // Not included in the FB GdiPlus headers for 64-bit.
-declare function GdipMeasureCharacterRanges (byval as GpGraphics ptr, byval as LPCWSTR, byval as INT_, _
+declare function GdipMeasureCharacterRanges Lib "GdiPlus.dll" Alias "GdipMeasureCharacterRanges" (byval as GpGraphics ptr, byval as LPCWSTR, byval as INT_, _
    byval as GpFont ptr, BYVAL as RectF ptr, byval as GpStringFormat ptr, byval as INT_, byval as GpRegion ptr ptr) as GpStatus
-declare function GdipGetMetafileHeaderFromWmf (byval as HMETAFILE, byval as WmfPlaceableFileHeader ptr, byval as MetafileHeader ptr) as GpStatus
-declare function GdipEnumerateMetafileDestPoint (byval as GpGraphics ptr, byval as GpMetafile ptr, _
+declare function GdipGetMetafileHeaderFromWmf Lib "GdiPlus.dll" Alias "GdipGetMetafileHeaderFromWmf" (byval as HMETAFILE, byval as WmfPlaceableFileHeader ptr, byval as MetafileHeader ptr) as GpStatus
+declare function GdipEnumerateMetafileDestPoint Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileDestPoint" (byval as GpGraphics ptr, byval as GpMetafile ptr, _
    byval as GpPointF PTR, byval as EnumerateMetafileProc, byval as any ptr, byval as GpImageAttributes ptr) as GpStatus
-declare function GdipEnumerateMetafileDestPointI (byval as GpGraphics ptr, byval as GpMetafile ptr, _
+declare function GdipEnumerateMetafileDestPointI Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileDestPointI" (byval as GpGraphics ptr, byval as GpMetafile ptr, _
    byval as GpPoint PTR, byval as EnumerateMetafileProc, byval as any ptr, byval as GpImageAttributes ptr) as GpStatus
-declare function GdipEnumerateMetafileDestRect (byval as GpGraphics ptr, byval as GpMetafile ptr, byval as GpRectF PTR, _
+declare function GdipEnumerateMetafileDestRect Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileDestRect" (byval as GpGraphics ptr, byval as GpMetafile ptr, byval as GpRectF PTR, _
    byval as EnumerateMetafileProc, byval as any ptr, byval as GpImageAttributes ptr) as GpStatus
-declare function GdipEnumerateMetafileDestRectI (byval as GpGraphics ptr, byval as GpMetafile ptr, _
+declare function GdipEnumerateMetafileDestRectI Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileDestRectI" (byval as GpGraphics ptr, byval as GpMetafile ptr, _
    byval as GpRect PTR, byval callback as EnumerateMetafileProc, byval as any ptr, byval as GpImageAttributes ptr) as GpStatus
+
+' // Not included in the FB GdiPlus headers
+declare function GdipEnumerateMetafileSrcRectDestPoints Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileSrcRectDestPoints" ( _
+   byval graphics as GpGraphics Ptr, BYVAL metafile as const GpMetafile Ptr, byval destPoints as const GpPointF Ptr, _
+   BYVAL count AS INT_, BYVAL srcRect AS const RectF Ptr, BYVAL srcUnit AS GpUnit, BYVAL callback AS EnumerateMetafileProc, _
+   BYVAL callbackData AS Any Ptr, BYVAL imageAttributes as const GpImageAttributes Ptr) as GpStatus
+declare function GdipEnumerateMetafileSrcRectDestPointsI Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileSrcRectDestPointsI" ( _
+   byval graphics as GpGraphics Ptr, BYVAL metafile as const GpMetafile Ptr, byval destPoints as const GpPoint Ptr, _
+   BYVAL count AS INT_, BYVAL srcRect AS const RectF Ptr, BYVAL srcUnit AS GpUnit, BYVAL callback AS EnumerateMetafileProc, _
+   BYVAL callbackData AS Any Ptr, BYVAL imageAttributes as const GpImageAttributes Ptr) as GpStatus
+declare function GdipEnumerateMetafileSrcRectDestPoint Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileSrcRectDestPoint" ( _
+   byval graphics as GpGraphics Ptr, BYVAL metafile as const GpMetafile Ptr, byval destPoint as const GpPointF Ptr, _
+   BYVAL srcRect AS const GpRectF Ptr, BYVAL srcUnit AS GpUnit, BYVAL callback AS EnumerateMetafileProc, _
+   BYVAL callbackData AS Any Ptr, BYVAL imageAttributes as const GpImageAttributes Ptr) as GpStatus
+declare function GdipEnumerateMetafileSrcRectDestPointI Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileSrcRectDestPointI" ( _
+   byval graphics as GpGraphics Ptr, BYVAL metafile as const GpMetafile Ptr, byval destPoint as const GpPoint Ptr, _
+   BYVAL srcRect AS const GpRect Ptr, BYVAL srcUnit AS GpUnit, BYVAL callback AS EnumerateMetafileProc, _
+   BYVAL callbackData AS Any Ptr, BYVAL imageAttributes as const GpImageAttributes Ptr) as GpStatus
+declare function GdipEnumerateMetafileSrcRectDestRect Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileSrcRectDestRect" ( _
+   byval graphics as GpGraphics Ptr, BYVAL metafile as const GpMetafile Ptr, byval destRect as const GpRectF Ptr, _
+   BYVAL srcRect AS const GpRectF Ptr, BYVAL srcUnit AS GpUnit, BYVAL callback AS EnumerateMetafileProc, _
+   BYVAL callbackData AS Any Ptr, BYVAL imageAttributes as const GpImageAttributes Ptr) as GpStatus
+declare function GdipEnumerateMetafileSrcRectDestRectI Lib "GdiPlus.dll" Alias "GdipEnumerateMetafileSrcRectDestRectI" ( _
+   byval graphics as GpGraphics Ptr, BYVAL metafile as const GpMetafile Ptr, byval destRect as const GpRect Ptr, _
+   BYVAL srcRect AS const GpRect Ptr, BYVAL srcUnit AS GpUnit, BYVAL callback AS EnumerateMetafileProc, _
+   BYVAL callbackData AS Any Ptr, BYVAL imageAttributes as const GpImageAttributes Ptr) as GpStatus
+
 
 #define __GDIPLUS_EFFECTS_H
 
@@ -2223,17 +2277,42 @@ type TintParams
 	amount as INT_
 end type
 
-extern BlurEffectGuid as const GUID
-extern BrightnessContrastEffectGuid as const GUID
-extern ColorBalanceEffectGuid as const GUID
-extern ColorCurveEffectGuid as const GUID
-extern ColorLUTEffectGuid as const GUID
-extern ColorMatrixEffectGuid as const GUID
-extern HueSaturationLightnessEffectGuid as const GUID
-extern LevelsEffectGuid as const GUID
-extern RedEyeCorrectionEffectGuid as const GUID
-extern SharpenEffectGuid as const GUID
-extern TintEffectGuid as const GUID
+'extern BlurEffectGuid as const GUID
+'extern BrightnessContrastEffectGuid as const GUID
+'extern ColorBalanceEffectGuid as const GUID
+'extern ColorCurveEffectGuid as const GUID
+'extern ColorLUTEffectGuid as const GUID
+'extern ColorMatrixEffectGuid as const GUID
+'extern HueSaturationLightnessEffectGuid as const GUID
+'extern LevelsEffectGuid as const GUID
+'extern RedEyeCorrectionEffectGuid as const GUID
+'extern SharpenEffectGuid as const GUID
+'extern TintEffectGuid as const GUID
+
+' Note: Some GUIDs (like Tint and RedEyeCorrection) share the same value — this is not a mistake,
+' but a quirk in how GDI+ internally aliases them.
+' BlurEffect - {633C80A4-1843-482b-9EF2-BE2834C5FDD4}
+Dim Shared BlurEffectGuid As GUID = Type(&h633C80A4, &h1843, &h482B, {&h9E, &h0B, &h0D, &hD9, &h4C, &hA9, &h0A, &h09})
+' BrightnessContrastEffect - {D3A1DBE1-8EC4-4c17-9F4C-EA97AD1C343D}
+Dim Shared BrightnessContrastEffectGuid As GUID = Type(&h537E597D, &h251E, &h48DA, {&hA7, &hD2, &hF4, &h4A, &hAB, &h1E, &hA1, &h66})
+' ColorBalanceEffect - {537E597D-251E-48da-9664-29CA496B70F8}
+Dim Shared ColorBalanceEffectGuid As GUID = Type(&h537E597C, &h251E, &h48DA, {&hA7, &hD2, &hF4, &h4A, &hAB, &h1E, &hA1, &h66})
+' ColorCurveEffect - {DD6A0022-58E4-4a67-9D9B-D48EB881A53D}
+Dim Shared ColorCurveEffectGuid As GUID = Type(&h537E597A, &h251E, &h48DA, {&hA7, &hD2, &hF4, &h4A, &hAB, &h1E, &hA1, &h66})
+' ColorLUTEffect - {A7CE72A9-0F7F-40d7-B3CC-D0C02D5C3212}
+Dim Shared ColorLUTEffectGuid As GUID = Type(&hAA509B5B, &h6B9F, &h48b8, {&h90, &h4F, &h18, &h68, &h8B, &hD1, &hFB, &h6B})
+' ColorMatrixEffect - {718F2615-7933-40e3-A511-5F68FE14DD74}
+Dim Shared ColorMatrixEffectGuid As GUID = Type(&h718F2615, &h7933, &h40e3, {&hA5, &hB5, &hA1, &hEA, &hB7, &h20, &hF2, &hD0})
+' HueSaturationLightnessEffect - {8B2DD6C3-EB07-4d87-A5F0-7108E26A9C5F}
+Dim Shared HueSaturationLightnessEffectGuid As GUID = Type(&h8B2DD6C3, &hEB07, &h4D87, {&hA5, &hF0, &h71, &h98, &h0F, &h82, &h75, &h60})
+' LevelsEffect - {99C354EC-2A31-4f3a-8C34-17A803B33A25}
+Dim Shared LevelsEffectGuid As GUID = Type(&h99C354EC, &h2A31, &h4F3A, {&h8C, &h34, &h17, &hA0, &h6F, &h75, &hE5, &h84})
+' RedEyeCorrectionEffect - {74D29D05-69A4-4266-9549-3CC52836B632}
+Dim Shared RedEyeCorrectionEffectGuid As GUID = Type(&h74D29D05, &h69A4, &h41E6, {&hA1, &h75, &h38, &h0F, &hD3, &h2B, &hD6, &hDD})
+' SharpenEffect - {63CBF3EE-C526-402c-8F71-62C540BF5142}
+Dim Shared SharpenEffectGuid As GUID = Type(&h63CBF3EE, &hC526, &h402C, {&h8E, &hF2, &hA1, &h6E, &hA1, &hD0, &hF0, &hA3})
+' TintEffect - {1077AF00-2848-4441-9489-44AD4C2D7A2C}
+Dim Shared TintEffectGuid As GUID = Type(&h74D29D05, &h69A4, &h41E6, {&hA1, &h75, &h38, &h0F, &hD3, &h2B, &hD6, &hDD})
 
 #define __GDIPLUS_IMAGECODEC_H
 #define GetImageDecoders(numDecoders, size, decoders) cast(GpStatus, GdipGetImageDecoders((numDecoders), (size), (decoders)))

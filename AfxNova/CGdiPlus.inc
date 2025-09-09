@@ -115,9 +115,7 @@ PRIVATE FUNCTION CGpBase.RefCount (BYVAL bIncrement AS BOOLEAN) AS LONG
    IF cRef = 0 THEN
       ' // Initialize the GDI+ library
       DIM StartupInput AS GdiplusStartupInput
-      DIM version AS ULONG = 1
-      IF AfxWindowsVersion >= 600 THEN version = 2
-      StartupInput.GdiplusVersion = version
+      StartupInput.GdiplusVersion = 1 ' Version must be 1
       m_Status = GdiplusStartup(@token, @StartupInput, NULL)
       IF m_Status <> 0 THEN MessageBoxW(0, "GDI+ initialization failed - Error: " & STR(m_Status), "Error", MB_OK OR MB_ICONERROR OR MB_APPLMODAL)
       CGDIP_DP("+++ CGpBase.RefCount Initialize GDI+ - version = " & WSTR(version) & "; token = " & WSTR(token))
@@ -188,6 +186,29 @@ Public:
    DECLARE FUNCTION IsInvertible () AS BOOLEAN
    DECLARE FUNCTION IsIdentity () AS BOOLEAN
    DECLARE FUNCTION Equals (BYVAL pMatrix AS CGpMatrix PTR) AS BOOLEAN
+
+END TYPE
+' ########################################################################################
+
+' ########################################################################################
+' CGpEffect class
+' ########################################################################################
+TYPE CGpEffect EXTENDS CGpBase
+
+Public:
+   m_pEffect AS CGpEffect PTR
+   m_auxDataSize AS INT_
+   m_auxData AS ANY PTR
+   m_useAuxData AS BOOLEAN
+
+Public:
+   DECLARE CONSTRUCTOR
+   DECLARE DESTRUCTOR
+   DECLARE FUNCTION GetEffectPtr () AS CGpEffect PTR
+   DEClARE FUNCTION GetAuxDataSize () AS INT_
+   DECLARE FUNCTION GetAuxData () AS ANY PTR
+   DECLARE FUNCTION UseAuxData () AS BOOLEAN
+   DECLARE FUNCTION GetParameterSize () AS UINT
 
 END TYPE
 ' ########################################################################################
@@ -331,11 +352,18 @@ Public:
    DECLARE FUNCTION SetPixel (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL colour AS ARGB) AS GpStatus
    DECLARE FUNCTION SetResolution (BYVAL xdpi AS SINGLE, BYVAL ydpi AS SINGLE) AS GpStatus
 
-   ' // The following functions don't compile with the FV 32-bit import library
+   ' // The following functions don't compile with the FB 32-bit import library
    DECLARE FUNCTION ConvertFormat (BYVAL pxFormat AS PixelFormat, BYVAL nDitherType AS DitherType, BYVAL nPaletteType AS PaletteType, BYVAL colourPalette AS ColorPalette PTR, BYVAL alphaThresholdPercent AS SINGLE) AS GpStatus
    DECLARE FUNCTION InitializePalette (BYVAL colourPalette AS ColorPalette PTR, BYVAL nPaletteType AS PaletteType, BYVAL optimalColors AS INT_, BYVAL useTransparentColor AS BOOL, BYVAL pBitmap AS CGpBitmap PTR) AS GpStatus
    DECLARE FUNCTION GetHistogram (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries AS UINT, BYVAL channel0 AS UINT PTR, BYVAL channel1 AS UINT PTR, BYVAL channel2 AS UINT PTR, BYVAL channel3 AS UINT PTR) AS GpStatus
    DECLARE FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries AS UINT PTR) AS GpStatus
+
+   ' // Effects
+   DECLARE FUNCTION GdipBitmapApplyEffect (BYVAL pBitmap AS CGpBitmap PTR, BYVAL pEffects AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
+      BYVAL useAuxData AS BOOLEAN, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
+   DECLARE FUNCTION GdipBitmapCreateApplyEffect (BYVAL inputBitmaps AS CGpBitmap PTR PTR, BYVAL pEffects AS CGpEffect PTR, _
+      BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT PTR, BYVAL outputBitmap AS GpBitmap PTR PTR, BYVAL useAuxData AS BOOL, _
+      BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_) AS GpStatus
 
 END TYPE
 ' ########################################################################################
@@ -1020,23 +1048,25 @@ Public:
       BYVAL srcx AS SINGLE, BYVAL srcy AS SINGLE, BYVAL srcWidth AS SINGLE, BYVAL srcHeight AS SINGLE, BYVAL srcUnit AS GpUnit, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
    DECLARE FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL destx AS INT_, BYVAL desty AS INT_, BYVAL destWidth AS INT_, BYVAL destHeight AS INT_, _
       BYVAL srcx AS INT_, BYVAL srcy AS INT_, BYVAL srcWidth AS INT_, BYVAL srcHeight AS INT_, BYVAL srcUnit AS GpUnit, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
-'   DECLARE FUNCTION DrawImageFX (BYVAL pImage AS CGpImage PTR, BYVAL sourceRect AS GpRectF PTR, BYVAL pMatrix AS CGpMatrix PTR, _
-'      BYVAL pEffect AS CGpEffect PTR, BYVAL pImageAttributes AS CGpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
-'   DECLARE FUNCTION EnumerateMetafileDestPoint (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destPoint AS GpPointF PTR, _
-'      BYVAL pCallback AS EnumerateMetafileProc = NULL, BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
-'   DECLARE FUNCTION EnumerateMetafileDestRect (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destRect AS GpRectF PTR, BYVAL pCallback AS EnumerateMetafileProc, _
-'      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
-'   DECLARE FUNCTION EnumerateMetafileDestPoints (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destPoints AS GpPointF PTR, BYVAL nCount AS LONG, BYVAL pCallback AS EnumerateMetafileProc, _
-'      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
-'   DECLARE FUNCTION EnumerateMetafileSrcRectDestPoint (BYVAL pMetafile AS CGpMetafile, BYVAL destPoint AS GpPointF PTR, _
-'      BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit, BYVAL pCallback AS EnumerateMetafileProc, _
-'      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
-'   DECLARE FUNCTION EnumerateMetafileSrcRectDestRect (BYVAL pMetafile AS CGpMetafile, BYVAL destRect AS GpRectF PTR, _
-'      BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit, BYVAL pCallback AS EnumerateMetafileProc, _
-'      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
-'   DECLARE FUNCTION EnumerateMetafileSrcRectDestPoints (BYVAL pMetafile AS CGpMetafile, BYVAL destPoints AS GpPointF PTR, _
-'      BYVAL nCount AS INT_, BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit, BYVAL pCallback AS EnumerateMetafileProc, _
-'      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes = NULL) AS GpStatus
+   ' // Begin Metafiles ----------------------------------
+   DECLARE FUNCTION DrawImageFX (BYVAL pImage AS CGpImage PTR, BYVAL sourceRect AS GpRectF PTR, BYVAL pMatrix AS CGpMatrix PTR, _
+      BYVAL pEffect AS CGpEffect PTR, BYVAL pImageAttributes AS CGpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
+   DECLARE FUNCTION EnumerateMetafileDestPoint (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destPoint AS GpPointF PTR, _
+      BYVAL pCallback AS EnumerateMetafileProc = NULL, BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
+   DECLARE FUNCTION EnumerateMetafileDestRect (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destRect AS GpRectF PTR, BYVAL pCallback AS EnumerateMetafileProc, _
+      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
+   DECLARE FUNCTION EnumerateMetafileDestPoints (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destPoints AS GpPointF PTR, BYVAL nCount AS LONG, BYVAL pCallback AS EnumerateMetafileProc, _
+      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
+   DECLARE FUNCTION EnumerateMetafileSrcRectDestPoint (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destPoint AS GpPointF PTR, _
+      BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit, BYVAL pCallback AS EnumerateMetafileProc, _
+      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
+   DECLARE FUNCTION EnumerateMetafileSrcRectDestRect (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destRect AS GpRectF PTR, _
+      BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit, BYVAL pCallback AS EnumerateMetafileProc, _
+      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
+   DECLARE FUNCTION EnumerateMetafileSrcRectDestPoints (BYVAL pMetafile AS CGpMetafile PTR, BYVAL destPoints AS GpPointF PTR, _
+      BYVAL nCount AS INT_, BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit, BYVAL pCallback AS EnumerateMetafileProc, _
+      BYVAL pCallbackData AS ANY PTR = NULL, BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
+   ' // End Metafiles ------------------------------------
    DECLARE FUNCTION SetClip (BYVAL pGraphics AS CGpGraphics PTR, BYVAL nCombineMode AS CombineMode = CombineModeReplace) AS GpStatus
    DECLARE FUNCTION SetClip (BYVAL rc AS GpRectF PTR, BYVAL nCombineMode AS CombineMode = CombineModeReplace) AS GpStatus
    DECLARE FUNCTION SetClip (BYVAL rc AS GpRect PTR, BYVAL nCombineMode AS CombineMode = CombineModeReplace) AS GpStatus
@@ -1207,6 +1237,7 @@ END TYPE
 
 #include once "AfxNova/CGpBitmap.inc"
 #include once "AfxNova/CGpBrush.inc"
+#include once "AfxNova/CGpEffect.inc"
 #include once "AfxNova/CGpFont.inc"
 #include once "AfxNova/CGpGraphics.inc"
 #include once "AfxNova/CGpImageAttributes.inc"
