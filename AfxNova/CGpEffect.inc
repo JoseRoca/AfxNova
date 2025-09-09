@@ -80,6 +80,7 @@ TYPE CGpBlur EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS BlurParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL radius AS REAL, BYVAL expandEdge AS BOOL) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -100,6 +101,13 @@ PRIVATE FUNCTION CGpBlur.SetParameters (BYVAL params AS BlurParams PTR) AS GpSta
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpBlur.SetParameters (BYVAL radius AS REAL, BYVAL expandEdge AS BOOL) AS GpStatus
+   DIM params AS BlurParams = TYPE(radius, expandEdge)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
+END FUNCTION
+' ========================================================================================
 
 ' ========================================================================================
 ' The CGpBlur.GetParameters method gets the current values of the parameters of this Blur object.
@@ -108,6 +116,7 @@ PRIVATE FUNCTION CGpBlur.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
 END FUNCTION
 ' ========================================================================================
+
 
 ' ########################################################################################
 ' CGpSharpen Class
@@ -122,6 +131,7 @@ TYPE CGpSharpen EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS SharpenParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL radius AS REAL, BYVAL amount AS REAL) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -140,6 +150,15 @@ END CONSTRUCTOR
 PRIVATE FUNCTION CGpSharpen.SetParameters (BYVAL params AS SharpenParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(SharpenParams)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' The CGpSharpen.SetParameters method sets the parameters of this Sharpen object.
+' ========================================================================================
+PRIVATE FUNCTION CGpSharpen.SetParameters (BYVAL radius AS REAL, BYVAL amount AS REAL) AS GpStatus
+   DIM params AS SharpenParams = TYPE(radius, amount)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
@@ -166,6 +185,7 @@ TYPE CGpRedEyeCorrection EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS RedEyeCorrectionParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL numberOfAreas AS UINT, BYVAL areas AS ..RECT PTR) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -189,6 +209,14 @@ PRIVATE FUNCTION CGpRedEyeCorrection.SetParameters (BYVAL params AS RedEyeCorrec
       RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
    END IF
    RETURN status
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpRedEyeCorrection.SetParameters (BYVAL numberOfAreas AS UINT, BYVAL areas AS ..RECT PTR) AS GpStatus
+   DIM status AS GpStatus = 2   ' Invalid parameter
+   DIM params AS RedEyeCorrectionParams = TYPE(numberOfAreas, areas)
+   DIM uSize AS UINT = SIZEOF(params) + numberOfAreas * SIZEOF(..RECT)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
@@ -216,6 +244,7 @@ TYPE CGpBrightnessContrast EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS BrightnessContrastParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL brightnessLevel AS INT_, BYVAL contrastLevel AS INT_) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -234,6 +263,13 @@ END CONSTRUCTOR
 PRIVATE FUNCTION CGpBrightnessContrast.SetParameters (BYVAL params AS BrightnessContrastParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(BrightnessContrastParams)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpBrightnessContrast.SetParameters (BYVAL brightnessLevel AS INT_, BYVAL contrastLevel AS INT_) AS GpStatus
+   DIM params AS BrightnessContrastParams = TYPE(brightnessLevel, contrastLevel)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
@@ -261,6 +297,7 @@ TYPE CGpHueSaturationLightness EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS HueSaturationLightnessParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, BYVAL lightnessLevel AS INT_) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -279,6 +316,13 @@ END CONSTRUCTOR
 PRIVATE FUNCTION CGpHueSaturationLightness.SetParameters (BYVAL params AS HueSaturationLightnessParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(HueSaturationLightnessParams)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpHueSaturationLightness.SetParameters (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, BYVAL lightnessLevel AS INT_) AS GpStatus
+   DIM params AS HueSaturationLightnessParams = TYPE(hueLevel, saturationLevel, lightnessLevel)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
@@ -306,6 +350,7 @@ TYPE CGpLevels EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS LevelsParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL highlight AS INT_, BYVAL midtone AS INT_, BYVAL shadow AS INT_) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -324,6 +369,13 @@ END CONSTRUCTOR
 PRIVATE FUNCTION CGpLevels.SetParameters (BYVAL params AS LevelsParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(LevelsParams)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpLevels.SetParameters (BYVAL highlight AS INT_, BYVAL midtone AS INT_, BYVAL shadow AS INT_) AS GpStatus
+   DIM params AS LevelsParams = TYPE(highlight, midtone, shadow)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
@@ -350,6 +402,7 @@ TYPE CGpTint EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS TintParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL hue AS INT_, BYVAL amount AS INT_) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -368,6 +421,13 @@ END CONSTRUCTOR
 PRIVATE FUNCTION CGpTint.SetParameters (BYVAL params AS TintParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(TintParams)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpTint.SetParameters (BYVAL hue AS INT_, BYVAL amount AS INT_) AS GpStatus
+   DIM params AS TintParams = TYPE(hue, amount)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
@@ -395,6 +455,7 @@ TYPE CGpColorBalance EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS ColorBalanceParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL cyanRed AS INT_, BYVAL magentaGreen AS INT_, BYVAL yellowBlue AS INT_) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -413,6 +474,13 @@ END CONSTRUCTOR
 PRIVATE FUNCTION CGpColorBalance.SetParameters (BYVAL params AS ColorBalanceParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(ColorBalanceParams)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpColorBalance.SetParameters (BYVAL cyanRed AS INT_, BYVAL magentaGreen AS INT_, BYVAL yellowBlue AS INT_) AS GpStatus
+   DIM params AS ColorBalanceParams = TYPE(cyanRed, magentaGreen, yellowBlue)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
@@ -534,6 +602,7 @@ TYPE CGpColorCurve EXTENDS CGpEffect
 Public:
    DECLARE CONSTRUCTOR
    DECLARE FUNCTION SetParameters (BYVAL params AS ColorCurveParams PTR) AS GpStatus
+   DECLARE FUNCTION SetParameters (BYVAL adjustment AS CurveAdjustments, BYVAL channel AS CurveChannel, BYVAL adjustValue AS INT_) AS GpStatus
    DECLARE FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 END TYPE
@@ -552,6 +621,13 @@ END CONSTRUCTOR
 PRIVATE FUNCTION CGpColorCurve.SetParameters (BYVAL params AS ColorCurveParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(ColorCurveParams)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, params, uSize))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpColorCurve.SetParameters (BYVAL adjustment AS CurveAdjustments, BYVAL channel AS CurveChannel, BYVAL adjustValue AS INT_) AS GpStatus
+   DIM params AS ColorCurveParams = TYPE(adjustment, channel, adjustValue)
+   DIM uSize AS UINT = SIZEOF(params)
+   RETURN SetStatus(GdipSetEffectParameters(m_pEffect, @params, uSize))
 END FUNCTION
 ' ========================================================================================
 
