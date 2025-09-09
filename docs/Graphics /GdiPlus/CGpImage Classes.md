@@ -83,7 +83,7 @@ Extends the **CGpImage** class. The **Metafile** object defines a graphic metafi
 | [Constructors](#constructorsmetafile) | Creates a Windows GDI+ Metafile. |
 | [EmfToWmfBits](#emftowmfbits) | Converts an enhanced-format metafile to a Windows Metafile Format (WMF) metafile and stores the converted records in a specified buffer. |
 | [GetDownLevelRasterizationLimit](#getdownlevelrasterizationlimit) | Gets the rasterization limit currently set for this metafile. |
-| [GetHENHMETAFILE](#Gethenhmetafile) | Gets a Windows handle to an Enhanced Metafile (EMF) file. |
+| [GetHENHMETAFILE](#gethenhmetafile) | Gets a Windows handle to an Enhanced Metafile (EMF) file. |
 | [GetMetafileHeader](#getmetafileheader) | Gets the metafile header of this metafile. |
 | [PlayRecord](#playrecord) | Plays a metafile record. |
 | [SetDownLevelRasterizationLimit](#setdownlevelrasterizationlimit) | Sets the resolution for certain brush bitmaps that are stored in this metafile. |
