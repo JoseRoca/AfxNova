@@ -458,8 +458,8 @@ FUNCTION GetFolder (BYVAL sigdnName AS SIGDN = SIGDN_NORMALDISPLAY) AS DWSTRING
 | **SIGDN_DESKTOPABSOLUTEPARSING** | Returns the parsing name relative to the desktop. This name is not suitable for use in UI. |
 | **SIGDN_PARENTRELATIVEEDITING** | Returns the editing name relative to the parent folder. In UI this name is suitable for display to the user. |
 | **SIGDN_DESKTOPABSOLUTEEDITING** | Returns the editing name relative to the desktop. In UI this name is suitable for display to the user. |
-| **SIGDN_FILESYSPATH** | Returns the item's file system path, if it has one. Only items that report SFGAO_FILESYSTEM have a file system path. When an item does not have a file system path, a call to IShellItem::GetDisplayName on that item will fail. In UI this name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
-| **SIGDN_URL** | Returns the item's URL, if it has one. Some items do not have a URL, and in those cases a call to IShellItem::GetDisplayName will fail. This name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
+| **SIGDN_FILESYSPATH** | Returns the item's file system path, if it has one. Only items that report SFGAO_FILESYSTEM have a file system path. When an item does not have a file system path, a call to IShellItem.GetDisplayName on that item will fail. In UI this name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
+| **SIGDN_URL** | Returns the item's URL, if it has one. Some items do not have a URL, and in those cases a call to IShellItem.GetDisplayName will fail. This name is suitable for display to the user in some cases, but note that it might not be specified for all items. |
 | **SIGDN_PARENTRELATIVEFORADDRESSBAR** | Returns the path relative to the parent folder in a friendly format as displayed in an address bar. This name is suitable for display to the user. |
 | **SIGDN_PARENTRELATIVE** | Returns the path relative to the parent folder. |
 | **SIGDN_PARENTRELATIVEFORUI** | Introduced in Windows 8. |
