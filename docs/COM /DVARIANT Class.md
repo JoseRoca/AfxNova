@@ -326,7 +326,7 @@ Foo3 DVARIANT(12345, "LONG")
 ```
 ```
 SUB Foo4 (BYVAL dv AS DVARIANT PTR)
-   PRINT dv
+   PRINT AfxDVarToStr(dv)
 END SUB
 Foo4 @DVARIANT(12345, "LONG")
 ```
