@@ -2231,17 +2231,17 @@ END FUNCTION
 ' WARNING: Apparently, AttachThreadInput can lead to a deadlock.
 ' See: https://blogs.msdn.microsoft.com/oldnewthing/20080801-00/?p=21393
 ' ========================================================================================
-'PRIVATE SUB AfxForceSetForegroundWindow (BYVAL hWin AS HWND)
-'   DIM dwProcessId AS DWORD
-'   DIM hwndForeground AS .HWND = GetForegroundWindow
-'   DIM dwThreadId AS DWORD = GetWindowThreadProcessId(hwndForeground, @dwProcessId)
-'   DIM dwCurThreadId AS DWORD = GetCurrentThreadId
-'   AttachThreadInput(dwCurThreadId, dwThreadId, CTRUE)
-'   SetForegroundWindow(hWin)
-'   BringWindowToTop(hWin)
-'   SetFocus(hWin)
-'   AttachThreadInput(dwCurThreadId, dwThreadId, FALSE)
-'END SUB
+PRIVATE SUB AfxForceSetForegroundWindow (BYVAL hWin AS HWND)
+   DIM dwProcessId AS DWORD
+   DIM hwndForeground AS .HWND = GetForegroundWindow
+   DIM dwThreadId AS DWORD = GetWindowThreadProcessId(hwndForeground, @dwProcessId)
+   DIM dwCurThreadId AS DWORD = GetCurrentThreadId
+   AttachThreadInput(dwCurThreadId, dwThreadId, CTRUE)
+   SetForegroundWindow(hWin)
+   BringWindowToTop(hWin)
+   SetFocus(hWin)
+   AttachThreadInput(dwCurThreadId, dwThreadId, FALSE)
+END SUB
 ' ========================================================================================
 
 ' ========================================================================================

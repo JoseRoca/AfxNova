@@ -1206,188 +1206,170 @@ PRIVATE FUNCTION AfxVarToStr OVERLOAD (BYVAL pvarIn AS VARIANT PTR, BYVAL bClear
 
       ' // Array of floats
       CASE VT_ARRAY OR VT_R4
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         ' Get array bounds
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+         ' Access the data
          DIM pvData AS SINGLE PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += STR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & WSTR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         ' Format the array contents
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += WSTR(pvData[i])
+            IF i < uBound_ THEN dws += ";"
          NEXT
-         SafeArrayUnaccessData pvarIn->parray
+         SafeArrayUnaccessData(pvarIn->parray)
 
       ' // Array of doubles
       CASE VT_ARRAY OR VT_R8
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
          DIM pvData AS DOUBLE PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += STR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & STR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += WSTR(pvData[i])
+            IF i < uBound_ THEN dws += ";"
          NEXT
-         SafeArrayUnaccessData pvarIn->parray
+         SafeArrayUnaccessData(pvarIn->parray)
 
       ' // Array of signed shorts or bools
       CASE VT_ARRAY OR VT_I2, VT_ARRAY OR VT_BOOL
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         ' Get array bounds
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+         ' Access the data
          DIM pvData AS SHORT PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += STR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & STR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         ' Format the array contents
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += STR(pvData[i - lBound_])  ' Adjust index relative to base
+            IF i < uBound_ THEN dws += ";"
          NEXT
-         SafeArrayUnaccessData pvarIn->parray
+         SafeArrayUnaccessData(pvarIn->parray)
 
       ' // Array of unsigned shorts
       CASE VT_ARRAY OR VT_UI2
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         ' Get array bounds
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+         ' Access the data
          DIM pvData AS USHORT PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += WSTR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & WSTR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         ' Format the array contents
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += WSTR(pvData[i - lBound_])
+            IF i < uBound_ THEN dws += ";"
          NEXT
          SafeArrayUnaccessData pvarIn->parray
 
       ' // Array of signed longs
       CASE VT_ARRAY OR VT_I4, VT_ARRAY OR VT_INT
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         ' Get array bounds
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+         ' Access the data
          DIM pvData AS LONG PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += STR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & WSTR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         ' Format the array contents
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += WSTR(pvData[i - lBound_])
+            IF i < uBound_ THEN dws += ";"
          NEXT
          SafeArrayUnaccessData pvarIn->parray
 
       ' // Array of unsigned longs
       CASE VT_ARRAY OR VT_UI4, VT_ARRAY OR VT_UINT
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         ' Get array bounds
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+         ' Access the data
          DIM pvData AS ULONG PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += WSTR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & WSTR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         ' Format the array contents
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += WSTR(pvData[i - lBound_])
+            IF i < uBound_ THEN dws += ";"
          NEXT
          SafeArrayUnaccessData pvarIn->parray
 
       ' // Array of longints
       CASE VT_ARRAY OR VT_I8
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         ' Get array bounds
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+         ' Access the data
          DIM pvData AS LONGINT PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += WSTR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & WSTR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         ' Format the array contents
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += WSTR(pvData[i - lBound_])
+            IF i < uBound_ THEN dws += ";"
          NEXT
          SafeArrayUnaccessData pvarIn->parray
 
       ' // Array of unsigned longints
       CASE VT_ARRAY OR VT_UI8
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
          IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
+         ' Get array bounds
+         DIM lBound_ AS LONG, uBound_ AS LONG
+         IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+         IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+         ' Access the data
          DIM pvData AS ULONGINT PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            ' // The first one has not a leading space
-            ' // and the last one has not a trailing ;
-            IF i = 0 THEN dws += WSTR(*pvData)
-            IF i = 0 AND cElements > 1 THEN dws += ";"
-            IF i > 0 THEN dws += " " & WSTR(*pvData)
-            IF i < cElements - 1 AND i > 0 THEN dws += ";"
-            pvData += 1
+         IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+         ' Format the array contents
+         FOR i AS LONG = lBound_ TO uBound_
+            IF i > lBound_ THEN dws += " "
+            dws += WSTR(pvData[i - lBound_])
+            IF i < uBound_ THEN dws += ";"
          NEXT
          SafeArrayUnaccessData pvarIn->parray
 
       ' // Array of variants
-      CASE VT_ARRAY OR VT_VARIANT
-         DIM cElements AS ULONG = AfxVariantGetElementCount(pvarIn)
-         IF cElements < 1 THEN RETURN ""
-         IF pvarIn->parray = NULL THEN RETURN ""
-         ' // Access the data directly and convert it to string
-         DIM pvData AS VARIANT PTR
-         DIM hr AS HRESULT = SafeArrayAccessData(pvarIn->parray, @pvData)
-         IF hr <> S_OK THEN RETURN ""
-         FOR i AS LONG = 0 TO cElements - 1
-            DIM ppwszBuf AS WSTRING PTR
-            DIM hr AS HRESULT = AfxVariantToStringAlloc(pvData, @ppwszBuf)
-            IF hr = S_OK AND ppwszBuf <> NULL THEN
-               ' // The first one has not a leading space
-               ' // and the last one has not a trailing ;
-               IF i = 0 THEN dws += *ppwszBuf
-               IF i = 0 AND cElements > 1 THEN dws += ";"
-               IF i > 0 THEN dws += " " & *ppwszBuf
-               IF i < cElements - 1 AND i > 0 THEN *ppwszBuf += ";"
-               CoTaskMemFree ppwszBuf
-            END IF
-            pvData += 1
-         NEXT
-         SafeArrayUnaccessData pvarIn->parray
+         CASE VT_ARRAY OR VT_VARIANT
+            IF pvarIn->parray = NULL THEN RETURN ""
+            DIM vt AS USHORT
+            IF SafeArrayGetVartype(pvarIn->parray, @vt) <> S_OK THEN RETURN ""
+            IF vt <> VT_VARIANT THEN RETURN ""  ' Ensure it's an array of VARIANTs
+            DIM lBound_ AS LONG, uBound_ AS LONG
+            IF SafeArrayGetLBound(pvarIn->parray, 1, @lBound_) <> S_OK THEN RETURN ""
+            IF SafeArrayGetUBound(pvarIn->parray, 1, @uBound_) <> S_OK THEN RETURN ""
+            DIM pvData AS VARIANT PTR
+            IF SafeArrayAccessData(pvarIn->parray, @pvData) <> S_OK THEN RETURN ""
+            FOR i AS LONG = lBound_ TO uBound_
+               DIM ppwszBuf AS WSTRING PTR
+               IF AfxVariantToStringAlloc(@pvData[i], @ppwszBuf) = S_OK AND ppwszBuf <> NULL THEN
+                  IF i = lBound_ THEN
+                     dws += *ppwszBuf
+                     IF uBound_ > lBound_ THEN dws += ";"
+                  ELSE
+                     dws += " " & *ppwszBuf
+                     IF i < uBound_ THEN dws += ";"
+                  END IF
+                  CoTaskMemFree ppwszBuf
+               END IF
+            NEXT
+            SafeArrayUnaccessData(pvarIn->parray)
 
       ' // Other...
       CASE ELSE

@@ -390,7 +390,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
 ' Initializes a DVARIANT from a LONG value.
-' For some reason, without it, when including CSAfeArray.inc, the constructor with a boolean
+' For some reason, without it, when including DSAfeArray.inc, the constructor with a boolean
 ' throws and overflow error.
 ' ========================================================================================
 PRIVATE CONSTRUCTOR DVARIANT (BYVAL _value AS LONG)
@@ -752,7 +752,7 @@ PRIVATE OPERATOR DVARIANT.LET (BYVAL cy AS CURRENCY)
 END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
-' Assigns a CURRENCY structure.
+' Assigns a DECINAL structure.
 ' ========================================================================================
 PRIVATE OPERATOR DVARIANT.LET (BYVAL dec AS DECIMAL)
    DVARIANT_DP("DECIMAL")
@@ -2780,7 +2780,7 @@ PRIVATE FUNCTION AfxDVarToStr OVERLOAD (BYVAL pcv AS DVARIANT PTR) AS DWSTRING
    RETURN AfxVarToStr(@pcv->vd)
 END FUNCTION
 ' ========================================================================================
-#define DVAR_TOSTR(cv) AfxDVarToStr(cv)
+#define DVAR_TOSTR(dv) AfxDVarToStr(dv)
 ' ========================================================================================
 PRIVATE FUNCTION AfxDVarOptPrm () AS DVARIANT
    DIM v AS VARIANT = TYPE(VT_ERROR, 0, 0, 0, DISP_E_PARAMNOTFOUND)
