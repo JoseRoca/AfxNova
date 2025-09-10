@@ -2417,7 +2417,7 @@ Extracts the contents of a DVARIANT to a DWSTRING.
 
 ```
 FUNCTION AfxDVarToStr (BYVAL pdv AS DVARIANT PTR) AS DWSTRING
-#define DVAR_TOSTR(cv) AfxDVarToStr(cv)
+#define DVAR_TOSTR(dv) AfxDVarToStr(dv)
 ```
 ---
 
