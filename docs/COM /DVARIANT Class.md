@@ -188,6 +188,15 @@ Foo @DVARIANT(12345)
 Foo @DVARIANT(12345, "LONG")```
 ```
 ```
+SUB Foo (BYVAL v AS VARIANT)
+   PRINT AfxVarToStr(v)
+END SUB
+
+Foo DVARIANT("Test string")
+Foo DVARIANT(12345)
+Foo DVARIANT(12345, "LONG")
+```
+```
 SUB Foo (BYVAL v AS VARIANT PTR)
    PRINT AfxVarToStr(v)
 END SUB
