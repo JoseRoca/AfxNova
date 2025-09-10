@@ -172,11 +172,11 @@ DIM dv AS DVARIANT = 123456.78       ' Creates a VT_R8 (5) variant
 We can use the constructors to pass values to parameters in procedures without assigning them first to a variable, e.g.:
 ```
 SUB Foo (BYREF dv AS DVARIANT)
-   PRINT AfxVarToStr(dv)
+   PRINT dv
 END SUB
 
-Foo DVARIANT("Test string")
-Foo DVARIANT(12345)
+Foo "Test string"
+Foo 12345
 Foo DVARIANT(12345, "LONG")
 ```
 ```
@@ -185,10 +185,9 @@ SUB Foo (BYVAL dv AS DVARIANT PTR)
 END SUB
 Foo @DVARIANT("Test string")
 Foo @DVARIANT(12345)
-Foo @DVARIANT(12345, "LONG")
+Foo @DVARIANT(12345, "LONG")```
 ```
-```
-SUB Foo (BYval v AS VARIANT PTR)
+SUB Foo (BYVAL v AS VARIANT PTR)
    PRINT AfxVarToStr(v)
 END SUB
 Foo DVARIANT("Test string")
