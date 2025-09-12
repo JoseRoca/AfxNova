@@ -475,6 +475,10 @@ Retrieves the environment variables for the current process.
 FUNCTION DWStrGetEnvironmentStrings () AS SAFEARRAY PTR
 ```
 
+#### Return value
+
+Pointer to a SafeArray containing the environment variables for the current process.
+
 #### Usage example
 
 ```
