@@ -806,7 +806,7 @@ DWStrRemoveEnviron("TEMP")
 
 #### Return value
 
-If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE. To get extended error information, call GetLastError.
+If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE. To get extended error information, call **GetLastError**.
 
 ---
 
