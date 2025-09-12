@@ -498,6 +498,8 @@ Pointer to a SafeArray containing the environment variables for the current proc
 #### Usage example
 
 ```
+' Remember to include: #include once "AfxNova/DSAFEARRAY.inc"
+
 DIM dsa AS DSAFEARRAY = DSAFEARRAY(DWStrGetEnvironmentStrings, TRUE)
 FOR i AS LONG = dsa.LBound TO dsa.UBOUND
    print dsa.GetStr(i)
