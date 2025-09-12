@@ -41,7 +41,8 @@ PRINT wszOut
 | [DWStrCSet](#dwstrcset) | Returns a string containing a centered (padded) string. |
 | [DWStrCSetAbs](#dwstrcsetabs) | Returns a string containing a centered string within the space of another string. |
 | [DWStrDelete](#dwstrdelete) | Deletes a specified number of characters from a string expression. |
-| [DEStrEnviron](#dwstrenviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
+| [DWStrEnviron](#dwstrenviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
+| [DwStrEnvironCount](#dwstrenvironcount) | Returns the number of environment strings. |
 | [DWStrEscape](#dwstrescape) | Escapes any potential regex syntax characters in a string. |
 | [DWstrExpandEnvironmentStrings](#dwstrexpandenvironmentstrings) | Expands environment-variable strings and replaces them with the values defined for the current user. |
 | [DWStrExtract](#dwstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
@@ -313,6 +314,21 @@ FUNCTION DWStrEnviron (BYVAL pwszName AS LPCWSTR) AS DWSTRING
 
 ```
 DIM dws AS DWSTRING = DWStrEnviron("path")
+```
+---
+
+## DWStrEnvironCount
+
+Returns the number of environment strings-
+
+```
+FUNCTION DWStrEnvironCount () AS LONG
+```
+
+#### Usage example
+
+```
+DIM count AS Long = DWStrEnvironCount
 ```
 ---
 
