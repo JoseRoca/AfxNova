@@ -284,6 +284,34 @@ END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
+' Converts the DWSTRING to OEM.
+' ========================================================================================
+PRIVATE PROPERTY DWSTRING.OEM () AS STRING
+   DWSTRING_DP("buffer: " & ..WSTR(m_pBuffer))
+   DIM cbLen AS INTEGER
+   IF m_BufferLen = 0 THEN RETURN ""
+   DIM buffer AS STRING = STRING(m_BufferLen * 2, 0)
+   ' Convert from Unicode to OEM code page
+   DIM nConverted AS LONG = WideCharToMultiByte(CP_OEMCP, 0, m_pBuffer, -1, STRPTR(buffer), LEN(buffer), NULL, NULL)
+   IF nConverted > 0 THEN
+      RETURN LEFT(buffer, nConverted - 1)  ' Remove null terminator
+   ELSE
+      RETURN *m_pBuffer
+   END IF
+END PROPERTY
+' ========================================================================================
+
+' ========================================================================================
+' Converts OEM to unicode and assigns it to the DWSTRING.
+' ========================================================================================
+PRIVATE PROPERTY DWSTRING.OEM (BYREF OEMString AS STRING)
+   DWSTRING_DP("")
+   this.Clear
+   this.Add(OEMString, CP_OEMCP)
+END PROPERTY
+' ========================================================================================
+
+' ========================================================================================
 ' Resizes the internal buffer capacity
 ' ========================================================================================
 PRIVATE FUNCTION DWSTRING.ResizeBuffer (BYVAL nChars AS UINT, BYVAL bClear AS BOOLEAN = FALSE) AS WSTRING PTR
