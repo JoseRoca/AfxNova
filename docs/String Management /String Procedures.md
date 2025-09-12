@@ -43,6 +43,7 @@ PRINT wszOut
 | [DWStrDelete](#dwstrdelete) | Deletes a specified number of characters from a string expression. |
 | [DEStrEnviron](#dwstrenviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
 | [DWStrEscape](#dwstrescape) | Escapes any potential regex syntax characters in a string. |
+| [DWstrExpandEnvironmentStrings](#DWstrExpandEnvironmentStrings) | Expands environment-variable strings and replaces them with the values defined for the current user. |
 | [DWStrExtract](#dwstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
 | [DWStrFormatByteSize](#dwstrformatbytesize) | Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size. |
 | [DWStrFormatKBSize](#dwstrformatkbsize) | Converts a numeric value into a string that represents the number expressed as a size value in kilobytes. |
@@ -325,6 +326,32 @@ FUNCTION DWStrEscape (BYREF wszStr AS CONST WSTRING) AS DWSTRING
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszStr* | The pattern string. |
+
+---
+
+## DWstrExpandEnvironmentStrings
+
+Expands environment-variable strings and replaces them with the values defined for the current user. To specify the environment block for a particular user or the system, use the Windows API **ExpandEnvironmentStringsForUser** function.
+
+```
+FUNCTION DWstrExpandEnvironmentStrings (BYREF wszInput AS DWSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszInput* | One or more environment-variable strings in the form: *%variableName%*. For each such reference, the *%variableName%* portion is replaced with the current value of that environment variable. |
+
+#### Remarks
+
+The size is limited to 32K.
+
+Case is ignored when looking up the environment-variable name. If the name is not found, the *%variableName%* portion is left unexpanded.
+
+Note that this function does not support all the features that Cmd.exe supports. For example, it does not support *%variableName:str1=str2%* or *%variableName:~offset,length%*.
+
+#### Return value
+
+A unicode string containing the result of expanding the environment variable strings.
 
 ---
 
