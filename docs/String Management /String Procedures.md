@@ -43,11 +43,12 @@ PRINT wszOut
 | [DWStrDelete](#dwstrdelete) | Deletes a specified number of characters from a string expression. |
 | [DEStrEnviron](#dwstrenviron) | Retrieves the contents of the specified variable from the environment block of the calling process. |
 | [DWStrEscape](#dwstrescape) | Escapes any potential regex syntax characters in a string. |
-| [DWstrExpandEnvironmentStrings](#DWstrExpandEnvironmentStrings) | Expands environment-variable strings and replaces them with the values defined for the current user. |
+| [DWstrExpandEnvironmentStrings](#dwstrexpandenvironmentstrings) | Expands environment-variable strings and replaces them with the values defined for the current user. |
 | [DWStrExtract](#dwstrextract) | Extracts characters from a string up to (but not including) the specified matching. |
 | [DWStrFormatByteSize](#dwstrformatbytesize) | Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size. |
 | [DWStrFormatKBSize](#dwstrformatkbsize) | Converts a numeric value into a string that represents the number expressed as a size value in kilobytes. |
 | [DWStrFromTimeInterval](#dwstrfromtimeinterval) | Converts a time interval, specified in milliseconds, to a string. |
+| [DWStrGetEnvironmentStrings](#dwstrgetenvironmentstrings) | Retrieves the environment variables for the current process. |
 | [DWStrInsert](#dwstrinsert) | Inserts a string at a specified position within another string expression. |
 | [DWStrIsNumeric](#dwstrisnumeric) | Returns True if the passed string is numeric. |
 | [DWStrJoin](#dwstrjoin) | Returns a string consisting of all of the strings in an array, each separated by a delimiter. |
@@ -464,6 +465,24 @@ Some examples for *digits*:
 | 74000 | 2 | 1 min 10 sec |
 | 74000 | 2 | 1 min |
 
+---
+
+## DWStrGetEnvironmentStrings
+
+Retrieves the environment variables for the current process.
+
+```
+FUNCTION DWStrGetEnvironmentStrings () AS SAFEARRAY PTR
+```
+
+#### Usage example
+
+```
+DIM dsa AS DSAFEARRAY = DSAFEARRAY(DWStrGetEnvironmentStrings, TRUE)
+FOR i AS LONG = dsa.LBound TO dsa.UBOUND
+   print dsa.GetStr(i)
+NEXT
+```
 ---
 
 ## DWStrInsert
