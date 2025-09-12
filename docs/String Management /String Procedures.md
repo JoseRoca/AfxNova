@@ -60,6 +60,7 @@ PRINT wszOut
 | [DWStrPathScan](#dwstrpathscan) | Searches a path for a file name. |
 | [DWStrRemain](#dwstrremain) | Returns the portion of a string following the first occurrence of a string. |
 | [DWStrRemove](#dwstrremove) | Returns a new string with substrings removed. |
+| [DWStrRemoveEnviron](#dwstrremoveenviron) | Removes the specified environment variable from the current process. |
 | [DWStrRepeat](#dwstrrepeat) | Returns a string consisting of multiple copies of the specified string. |
 | [DWStrReplace](#dwstrreplace) | Replaces all the occurrences of a string with another string. |
 | [DWStrRetain](#dwstrretain) | Returns a string containing only the characters contained in a specified match string. |
@@ -783,6 +784,30 @@ DWStrRemove("abacadabra", "[bac]")      ' Output: "dr"
 DIM dwsText AS DWSTRING = "As Long var1(34), var2(  73 ), var3(any)"
 PRINT DWStrRemove(19, dwsText, "(", ")", TRUE)   ' Returns "var2, var3"
 ```
+---
+
+## DWStrRemoveEnviron
+
+Removes the specified environment variable from the current process.
+
+```
+FUNCTION DWStrRemoveEnviron (BYVAL pwszName AS LPCWSTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszName* | The name of the environment variable to remove. |
+
+#### Usage example
+
+```
+DWStrRemoveEnviron("TEMP")
+```
+
+#### Return value
+
+If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE. To get extended error information, call GetLastError.
+
 ---
 
 ## DWStrRepeat
