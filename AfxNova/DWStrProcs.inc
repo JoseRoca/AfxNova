@@ -1635,7 +1635,7 @@ END FUNCTION
 ' Returns 0 on success, or -1 on failure.
 ' Example: AfxSetEnviron "path=c:"
 ' ========================================================================================
-PRIVATE FUNCTION DWSTRSetEnviron OVERLOAD (BYREF varexp AS WSTRING) AS BOOLEAN
+PRIVATE FUNCTION DWStrSetEnviron OVERLOAD (BYREF varexp AS WSTRING) AS BOOLEAN
    DIM dwsName AS DWSTRING = DWStrExtract(1, varexp, "=")
    IF LEN(dwsName) = 0 THEN RETURN TRUE
    dwsName = TRIM(dwsName)
@@ -1648,7 +1648,86 @@ PRIVATE FUNCTION DWSTRSetEnviron OVERLOAD (BYREF varexp AS WSTRING) AS BOOLEAN
    RETURN NOT SetEnvironmentVariable(dwsName, dwsValue)
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+' Removes the specified environment variable from the current process.
+' - pwszName : The name of the environment variable to remove.
+' Return value:
+'   If the function succeeds, the return value is TRUE.
+'   If the function fails, the return value is FALSE.
+'   To get extended error information, call GetLastError.
+' Example: DWStrRemoveEnviron("TEMP")
+' ========================================================================================
+PRIVATE FUNCTION DWStrRemoveEnviron (BYVAL pwszName AS LPCWSTR) AS BOOLEAN
+   RETURN SetEnvironmentVariableW(pwszName, NULL)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Expands environment-variable strings and replaces them with the values defined for the current user.
+' To specify the environment block for a particular user or the system, use the Windows API
+' ExpandEnvironmentStringsForUser function.
+' ========================================================================================
+PRIVATE FUNCTION DWstrExpandEnvironmentStrings (BYREF wszInput AS WSTRING) AS DWSTRING
+   DIM wszBuffer AS WSTRING * 32767
+   IF ExpandEnvironmentStringsW(wszInput, wszBuffer, 32767) THEN
+      RETURN wszBuffer
+   END IF
+   RETURN ""
+END FUNCTION
+' ========================================================================================
 
+' ========================================================================================
+' Retrieves the environment variables for the current process.
+' ========================================================================================
+PRIVATE FUNCTION DWStrGetEnvironmentStrings () AS SAFEARRAY PTR
+   DIM lpEnv AS LPWSTR = GetEnvironmentStringsW
+   IF lpEnv = NULL THEN RETURN NULL
+   DIM p AS LPWSTR = lpEnv
+   DIM count AS LONG
+   ' First pass: count entries
+   WHILE *p <> 0
+      count += 1
+      DIM entry AS DWSTRING = p
+      p += LEN(entry) + 1
+   WEND
+   ' Create SAFEARRAY
+   DIM bounds AS SAFEARRAYBOUND
+   bounds.lLbound = 0
+   bounds.cElements = count
+   DIM psa AS SAFEARRAY PTR = SafeArrayCreate(VT_BSTR, 1, @bounds)
+   IF psa = NULL THEN
+      FreeEnvironmentStringsW(lpEnv)
+      RETURN NULL
+   END IF
+   ' Second pass: fill array
+   p = lpEnv
+   FOR i AS LONG = 0 TO count - 1
+      DIM bstr AS BSTR = SysAllocString(p)
+      SafeArrayPutElement(psa, @i, bstr)
+      p += LEN(p) + 1
+   NEXT
+   FreeEnvironmentStringsW(lpEnv)
+   RETURN psa
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the number of environment string.
+' ========================================================================================
+PRIVATE FUNCTION DWStrEnvironCount () AS LONG
+   DIM lpEnv AS LPWSTR = GetEnvironmentStringsW
+   IF lpEnv = NULL THEN RETURN 0
+   DIM p AS LPWSTR = lpEnv
+   DIM count AS LONG
+   ' First pass: count entries
+   WHILE *p <> 0
+      count += 1
+      DIM entry AS DWSTRING = p
+      p += LEN(entry) + 1
+   WEND
+   FreeEnvironmentStringsW(lpEnv)
+   RETURN count
+END FUNCTION
+' ========================================================================================
 
 ' ########################################################################################
 '                                      LOCALE INFORMATION
