@@ -49,9 +49,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.SetBackColor(RGB_GOLD)
 
    ' // Add an Edit control
-   DIM hEdit AS HWND = pWindow.AddControl("Edit", hWin, IDC_EDIT1, "First Textbox", 20, 15, 360, 23)
+   DIM hEdit1 AS HWND = pWindow.AddControl("Edit", hWin, IDC_EDIT1, "First Textbox", 20, 15, 360, 23)
    ' // Add a multiline Edit control
-   pWindow.AddControl("EditMultiline", hWin, IDC_EDIT2, "Second Textbox", 20, 45, 360, 110)
+   DIM hEdit2 AS HWND = pWindow.AddControl("Edit", hWin, IDC_EDIT2, "Second Textbox", 20, 45, 360, 110)
    ' // Anchor the controls
    pWindow.AnchorControl(hWin, IDC_EDIT1, AFX_ANCHOR_WIDTH)
    pWindow.AnchorControl(hWin, IDC_EDIT2, AFX_ANCHOR_HEIGHT_WIDTH)
@@ -61,10 +61,11 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Anchors the button to the bottom and the right side of the main window
    pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
-   ' // Set the focus In the edit control
-   SetFocus hEdit
-   ' // Highlight the text
-   Edit_SetSel(hEdit, 0, -1)
+   ' // Set the limits
+   Edit_LimitText(hEdit1, 20)
+   Edit_LimitText(hEdit2, 30)
+   ' // Set the focus in the first edit control
+   SetFocus hEdit1
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
@@ -92,14 +93,15 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
                IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN SendMessageW(hwnd, WM_CLOSE, 0, 0)
-            CASE EN_SETFOCUS
-               SELECT CASE CBCTL(wParam, lParam)
+            CASE IDC_EDIT1
+               IF CBCTLMSG(wParam, lParam) = EN_SETFOCUS THEN
                   ' Note: To deselect, use EM_SETSEL, -1, 0
-                  CASE IDC_EDIT1
-                     Edit_SetSel(GetDlgItem(hWnd, IDC_EDIT1), 0, -1)
-                  CASE IDC_EDIT2
-                     Edit_SetSel(GetDlgItem(hWnd, IDC_EDIT2), 0, -1)
-               END SELECT
+                  Edit_SetSel(GetDlgItem(hWnd, IDC_EDIT1), 0, -1)
+               END IF
+            CASE IDC_EDIT2
+               IF CBCTLMSG(wParam, lParam) = EN_SETFOCUS THEN
+                  Edit_SetSel(GetDlgItem(hWnd, IDC_EDIT2), 0, -1)
+               END IF
          END SELECT
          RETURN 0
 
