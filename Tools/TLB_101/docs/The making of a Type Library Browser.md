@@ -843,7 +843,7 @@ CASE TKIND_ALIAS
          TreeView_AddItem hTreeView, m_hTypedefsNode, NULL, dwsTypedefName
       ELSE
          TreeView_AddItem hTreeView, m_hAliasesNode, NULL, dwsAliasName
-'                  TreeView_AddItem hTreeView, m_hAliasesNode, NULL, dwsAliasName2
+'         TreeView_AddItem hTreeView, m_hAliasesNode, NULL, dwsAliasName2
       END IF
    END IF
 ' ----------------------------------------------------------------------------
