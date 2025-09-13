@@ -278,19 +278,17 @@ END FUNCTION
 
 # Loading the type library
 
-Once we have retrieved the path of the type library, the next step if to load it calling the API functions LoadTypelib or LoadTypeLibEx, that return a pointer of the ITypeLib interface.
+Once we have retrieved the path of the type library, the next step if to load it calling the API functions **LoadTypelib** or **LoadTypeLibEx**, that return a pointer of the **ITypeLib** interface.
 
 This is my definition of that interface:
 
 ```
 ' ########################################################################################
-
 ' Interface name = ITypeLib
 ' Extracts information about a type library, the data that describes a set of objects.
 ' Inherited interface = IUnknown
 ' ########################################################################################
-#ifndef __Afx_ITypeLib_INTERFACE_DEFINED__
-#define __Afx_ITypeLib_INTERFACE_DEFINED__
+
 TYPE Afx_ITypeLib_ EXTENDS Afx_IUnknown
    DECLARE ABSTRACT FUNCTION GetTypeInfoCount () AS UINT
    DECLARE ABSTRACT FUNCTION GetTypeInfo (BYVAL index AS UINT, BYVAL ppTInfo AS Afx_ITypeInfo PTR PTR) AS HRESULT
@@ -303,7 +301,6 @@ TYPE Afx_ITypeLib_ EXTENDS Afx_IUnknown
    DECLARE ABSTRACT FUNCTION FindName (BYVAL szNameBuf AS LPOLESTR, BYVAL lHashVal AS ULONG, BYVAL ppTInfo AS Afx_ITypeInfo PTR PTR, BYVAL rgMemId AS MEMBERID PTR, BYVAL pcFound AS USHORT PTR) AS HRESULT
    DECLARE ABSTRACT SUB      ReleaseTLibAttr (BYVAL pTLibAttr AS TLIBATTR PTR)
 END TYPE
-#endif
 ```
 
 and this is some code to load the type library and extract basic information:
@@ -313,6 +310,7 @@ and this is some code to load the type library and extract basic information:
 ' Load the type library
 ' =====================================================================================
 FUNCTION CParseTypeLib.LoadTypeLibEx (BYVAL pwszPath AS WSTRING PTR) AS HRESULT
+
    DIM pTypeLib AS ITypeLib PTR
    DIM hr AS HRESULT = .LoadTypeLibEx(pwszPath, REGKIND_NONE, @pTypeLib)
    m_pTypeLib = cast(Afx_ITypeLib PTR, cast(ULONG_PTR, pTypeLib))
@@ -322,6 +320,7 @@ FUNCTION CParseTypeLib.LoadTypeLibEx (BYVAL pwszPath AS WSTRING PTR) AS HRESULT
       RETURN hr
    END IF
    m_LibPath = *pwszPath
+
    ' // Gets the documentation
    DIM AS AFX_BSTR bstrLibName, bstrLibHelpString, bstrLibHelpFile
    hr = m_pTypeLib->GetDocumentation(-1, @bstrLibName, @bstrLibHelpString, @m_LibHelpContext, @bstrLibHelpFile)
@@ -336,7 +335,8 @@ FUNCTION CParseTypeLib.LoadTypeLibEx (BYVAL pwszPath AS WSTRING PTR) AS HRESULT
    m_Namespace = TRIM(m_LibName, ANY CHR(32, 34))
    DIM hEditNamespace AS HWND = cast(HWND, m_pWindow->UserData(AFX_HEDITNAMESPACE))
    SetWindowText hEditNamespace, m_Namespace
-  ' // Gets the attributes of the library
+
+   ' // Gets the attributes of the library
    DIM pLibAttr AS TLIBATTR PTR
    hr = m_pTypeLib->GetLibAttr(@pLibAttr)
    IF hr <> S_OK OR pLibAttr = NULL THEN
@@ -397,8 +397,10 @@ FUNCTION CParseTypeLib.LoadTypeLibEx (BYVAL pwszPath AS WSTRING PTR) AS HRESULT
 
    ' // Parse the type infos
    this.ParseTypeInfos
+
    ' // Generate code
    this.GenerateCode
+
    ' // Expands the root node
    TreeView_Expand(hTreeView, m_hRootNode, TVE_EXPAND)
 
@@ -408,7 +410,7 @@ END FUNCTION
 
 # Parsing the information
 
-To parse the type library information we need to call the methods of the ITypeInfo interface.
+To parse the type library information we need to call the methods of the **ITypeInfo** interface.
 
 This is my definition of that interface:
 
@@ -420,8 +422,7 @@ This is my definition of that interface:
 ' ########################################################################################
 
 TYPE Afx_ITypeInfo AS Afx_ITypeInfo_
-#ifndef __Afx_ITypeInfo_INTERFACE_DEFINED__
-#define __Afx_ITypeInfo_INTERFACE_DEFINED__
+
 TYPE Afx_ITypeInfo_ EXTENDS Afx_IUnknown
    DECLARE ABSTRACT FUNCTION GetTypeAttr (BYVAL ppTypeAttr AS TYPEATTR PTR PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION GetTypeComp (BYVAL ppTComp AS ITypeComp PTR PTR) AS HRESULT
@@ -443,52 +444,51 @@ TYPE Afx_ITypeInfo_ EXTENDS Afx_IUnknown
    DECLARE ABSTRACT SUB      ReleaseFuncDesc (BYVAL pFuncDesc AS FUNCDESC PTR)
    DECLARE ABSTRACT SUB      ReleaseVarDesc (BYVAL pVarDesc AS VARDESC PTR)
 END TYPE
-#endif
 ```
 
-To extract the type library information first wee need to rerieve how many TypeInfos it contains:
+To extract the type library information first wee need to rerieve how many **TypeInfos** it contains:
 
 ```
-   ' // Retrieves the number of TypeInfos
-   TypeInfoCount = m_pTypeLib->GetTypeInfoCount
-   IF TypeInfoCount = 0 THEN
-      TLB_MsgBox m_pWindow->hWindow, "This TypeLib doesn't have type infos", _
+' // Retrieves the number of TypeInfos
+DIM TypeInfoCount AS LONG = m_pTypeLib->GetTypeInfoCount
+IF TypeInfoCount = 0 THEN
+   TLB_MsgBox m_pWindow->hWindow, "This TypeLib doesn't have type infos", _
+      MB_OK OR MB_ICONERROR OR MB_APPLMODAL, "CParseTypeLib.ParseTypeInfos"
+   RETURN S_FALSE
+END IF
+```
+
+For each type info we will retrieve the type of a type description, a pointer to its **ITypeInfo** interface and a pointer to the **TYPEATTR** structure that contains the attributes of the type description.
+
+```
+FOR i AS LONG = 0 TO TypeInfoCount - 1
+   ' // Retrieves the TypeKind
+   DIM hr AS HRESULT = m_pTypeLib->GetTypeInfoType(i, @pTKind)
+   IF hr <> S_OK THEN
+      TLB_MsgBox m_pWindow->hWindow, "Error &h" & HEX(hr, 8) & " retrieving the info type", _
          MB_OK OR MB_ICONERROR OR MB_APPLMODAL, "CParseTypeLib.ParseTypeInfos"
-      RETURN S_FALSE
+      EXIT FOR
    END IF
-```
 
-For each type info we will retrieve the type of a type description, a pointer to its ITypeInfo interface and a pointer to the TYPEATTR structure that contains the attributes of the type description.
+   ' // Retrieves the ITypeInfo interface
+   hr = m_pTypeLib->GetTypeInfo(i, @pTypeInfo)
+   IF hr <> S_OK OR pTypeInfo = NULL THEN
+      TLB_MsgBox m_pWindow->hWindow, "Error &h" & HEX(hr, 8) & " retrieving the ITypeInfo interface", _
+         MB_OK OR MB_ICONERROR OR MB_APPLMODAL, "CParseTypeLib.ParseTypeInfos"
+      EXIT FOR
+   END IF
 
-```
-   FOR i = 0 TO TypeInfoCount - 1
-      ' // Retrieves the TypeKind
-      hr = m_pTypeLib->GetTypeInfoType(i, @pTKind)
-      IF hr <> S_OK THEN
-         TLB_MsgBox m_pWindow->hWindow, "Error &H" & HEX$(hr, 8) & " retrieving the info type", _
-            MB_OK OR MB_ICONERROR OR MB_APPLMODAL, "CParseTypeLib.ParseTypeInfos"
-         EXIT FOR
-      END IF
-      ' // Retrieves the ITypeInfo interface
-      hr = m_pTypeLib->GetTypeInfo(i, @pTypeInfo)
-      IF hr <> S_OK OR pTypeInfo = NULL THEN
-         TLB_MsgBox m_pWindow->hWindow, "Error &H" & HEX$(hr, 8) & " retrieving the ITypeInfo interface", _
-            MB_OK OR MB_ICONERROR OR MB_APPLMODAL, "CParseTypeLib.ParseTypeInfos"
-         EXIT FOR
-      END IF
-
-      ' // Gets the address of a pointer to the TYPEATTR structure
-      hr = pTypeInfo->GetTypeAttr(@pTypeAttr)
-      IF hr <> S_OK OR pTypeAttr = NULL THEN
-         TLB_MsgBox m_pWindow->hWindow, "Error &H" & HEX$(hr, 8) & " retrieving the address of the TypeAttr structure", _
-            MB_OK OR MB_ICONERROR OR MB_APPLMODAL, "CParseTypeLib.ParseTypeInfos"
-         EXIT FOR
-      END IF
+   ' // Gets the address of a pointer to the TYPEATTR structure
+   hr = pTypeInfo->GetTypeAttr(@pTypeAttr)
+   IF hr <> S_OK OR pTypeAttr = NULL THEN
+      TLB_MsgBox m_pWindow->hWindow, "Error &h" & HEX(hr, 8) & " retrieving the address of the TypeAttr structure", _
+         MB_OK OR MB_ICONERROR OR MB_APPLMODAL, "CParseTypeLib.ParseTypeInfos"
+      EXIT FOR
+   END IF
       ...
       ...
       ...
-   NEXT
-
+NEXT
 ```
 
 Inside the loop, we will process each block of information separately according its type:
@@ -520,49 +520,51 @@ Inside the loop, we will process each block of information separately according 
 
 # Enumerating the constants
 
-If the retrieved type info is of type TKIND_ENUM or TKIND_MODULE, the cvars member of the TYPEATTR structure ( https://msdn.microsoft.com/en-us/library/windows/desktop/ms221003(v=vs.85).aspx ) contains the number of variables and the GetVarDesc method of the ITypeInfo interface retrieves a VARDESC structure ( https://msdn.microsoft.com/en-us/library/windows/desktop/ms221391(v=vs.85).aspx ) that describes the specified variable.
+If the retrieved type info is of type TKIND_ENUM or TKIND_MODULE, the *cvars* member of the **TYPEATTR** structure ( https://msdn.microsoft.com/en-us/library/windows/desktop/ms221003(v=vs.85).aspx ) contains the number of variables and the **GetVarDesc** method of the **ITypeInfo** interface retrieves a **VARDESC** structure ( https://msdn.microsoft.com/en-us/library/windows/desktop/ms221391(v=vs.85).aspx ) that describes the specified variable.
 
 ```
 ' =====================================================================================
 ' Retrieves information about constants
 ' =====================================================================================
 FUNCTION CParseTypeLib.GetConstants (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL pTypeAttr AS TYPEATTR PTR, BYVAL hTreeView AS HWND, BYVAL hSubNode AS HTREEITEM) AS HRESULT
+
    IF pTypeInfo = NULL OR pTypeAttr = NULL THEN RETURN E_INVALIDARG
+
    FOR x AS LONG = 0 TO pTypeAttr->cVars - 1
       DIM pVarDesc AS VARDESC PTR
       DIM hr AS HRESULT = pTypeInfo->GetVarDesc(x, @pVarDesc)
       IF hr <> S_OK OR pVarDesc = NULL THEN EXIT FOR
-      DIM cwsName AS CWSTR, bstrName AS AFX_BSTR
+      DIM dwsName AS DWSTRING, bstrName AS AFX_BSTR
       pTypeInfo->GetDocumentation(pVarDesc->memid, @bstrName, NULL, NULL, NULL)
-      cwsName = *bstrName : SysFreeString bstrName
+      dwsName = *bstrName
+      SysFreeString bstrName
       ' // Some components use spaces in the names of enumeration members!
-      IF INSTR(**cwsName, " ") THEN
-         cwsName = AfxStrReplace(cwsName, " ", "_")
+      IF INSTR(dwsName, " ") THEN
+         dwsName = DWStrReplace(dwsName, " ", "_")
       END IF
       ' // Pointer to the variant that stores the value of the constant
       DIM vtPtr AS tagVARIANT PTR = pVarDesc->lpvarvalue
       ' // Gets the value of the constant
-      DIM cwsValue AS CWSTR = AfxVarToStr(vtPtr)
-      DIM cwsTypeKind AS CWSTR = TLB_VarTypeToConstant(pVarDesc->elemdescVar.tdesc.vt)
+      DIM dwsValue AS DWSTRING = AfxVarToStr(vtPtr)
+      DIM dwsTypeKind AS DWSTRING = TLB_VarTypeToConstant(pVarDesc->elemdescVar.tdesc.vt)
       SELECT CASE pVarDesc->elemdescVar.tdesc.vt
          CASE VT_I1, VT_UI1, VT_I2, VT_UI2, VT_I4, VT_UI4, VT_INT, VT_UINT
-            cwsValue = **cwsValue & "   ' (&h" & HEX(VAL(**cwsValue), 8) & ")"
+            dwsValue = dwsValue & "   ' (&h" & HEX(VAL(dwsValue), 8) & ")"
          CASE VT_BSTR, VT_LPSTR, VT_LPWSTR
             ' // cdosys.dll contains VT_BSTR constants
-            cwsValue = CHR(34) & **cwsValue & CHR(34)
+            dwsValue = CHR(34) & dwsValue & CHR(34)
          CASE VT_PTR
             DIM ptdesc AS TYPEDESC PTR = pVarDesc->elemdescVar.tdesc.lptdesc
             IF ptdesc THEN
                ' WORD PTR (null terminated unicode string)
                ' hxds.dll contains a module with these kind of constants.
-               IF ptdesc->vt = VT_UI2 THEN cwsValue = CHR(34) & **cwsValue & CHR(34)
+               IF ptdesc->vt = VT_UI2 THEN dwsValue = CHR(34) & dwsValue & CHR(34)
             END IF
          ' // Other types can be VT_CARRAY and VT_USERDEFINED, but don't have a typelib to test
       END SELECT
-
-      DIM hSubNode2 AS HTREEITEM = TreeView_AddItem(hTreeView, hSubNode, NULL, **cwsName & " = " & **cwsValue)
-      TreeView_AddItem(hTreeView, hSubNode2, NULL, "TYPE = " & cwsTypeKind)
-      TreeView_AddItem(hTreeView, hSubNode2, NULL, "VALUE = " & cwsValue)
+      DIM hSubNode2 AS HTREEITEM = TreeView_AddItem(hTreeView, hSubNode, NULL, dwsName & " = " & dwsValue)
+      TreeView_AddItem(hTreeView, hSubNode2, NULL, "TYPE = " & dwsTypeKind)
+      TreeView_AddItem(hTreeView, hSubNode2, NULL, "VALUE = " & dwsValue)
       TreeView_AddItem(hTreeView, hSubNode2, NULL, "ID = " & WSTR(pVarDesc->memid))
       TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
       pTypeInfo->ReleaseVarDesc(pVarDesc) : pVarDesc = NULL
@@ -572,22 +574,25 @@ END FUNCTION
 ' =====================================================================================
 ```
 
-Modules can also contain string constants and declarations of functions and procedures of external DLLs. This is covered by the following code in the GetFunctions method.
+Modules can also contain string constants and declarations of functions and procedures of external DLLs. This is covered by the following code in the **GetFunctions** method.
 
 ```
+DIM wOrdinal AS WORD, bstrDllName AS AFX_BSTR, bstrEntryPoint AS AFX_BSTR
 hr = pTypeInfo->GetDllEntry(pFuncDesc->memid, pFuncDesc->invkind, @bstrDllName, @bstrEntryPoint, @wOrdinal)
-cwsDllName = *bstrDllName : SysFreeString bstrDllName
-cwsEntryPoint = *bstrEntryPoint : SysFreeString bstrEntryPoint
+dwsDllName = *bstrDllName
+SysFreeString bstrDllName
+dwsEntryPoint = *bstrEntryPoint
+SysFreeString bstrEntryPoint
 IF hr = S_OK THEN
-   IF LEN(cwsDllName) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "DLL name = " & cwsDllName)
-   IF LEN(cwsEntryPoint) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Entry point = " & cwsEntryPoint)
+   IF LEN(dwsDllName) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "DLL name = " & dwsDllName)
+   IF LEN(dwsEntryPoint) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Entry point = " & dwsEntryPoint)
    IF wOrdinal THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Ordinal = " & WSTR(wOrdinal))
 END IF
 ```
 
 # Enumerating structures and unions
 
-If the retrieved type info is of type TKIND_RECORD or TKIND_UNION, the cvars member of the TYPEATTR structure contains the number of members or data members and the GetVarDesc method of the ITypeInfo interface retrieves a VARDESC structure that describes the specified member or data member.
+If the retrieved type info is of type TKIND_RECORD or TKIND_UNION, the *cvars* member of the **TYPEATTR** structure contains the number of members or data members and the **GetVarDesc** method of the **ITypeInfo** interface retrieves a **VARDESC** structure that describes the specified member or data member.
 
 The parsing of this type info is more convoluted that in the case of the constants because they don't contain simple values, but the names and types of the members of an structure that can be simple data types, but also pointers, arrays or even other structures.
 
@@ -597,28 +602,33 @@ The parsing of this type info is more convoluted that in the case of the constan
 ' Note: Bined.dll fails to retrieve information of several members of the VSPROPSHEETPAGE structure.
 ' =====================================================================================
 FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL pTypeAttr AS TYPEATTR PTR, BYVAL hTreeView AS HWND, BYVAL hSubNode AS HTREEITEM, BYVAL bIsRecord AS BOOLEAN = FALSE) AS HRESULT
+
    DIM wIndirectionLevel AS WORD           ' // Indirection level
    DIM pRefTypeInfo AS Afx_ITypeInfo PTR   ' // Referenced TypeInfo interface
    DIM pVarTypeAttr AS TYPEATTR PTR        ' // Type attribute for the member
    DIM hSubNode2 AS HTREEITEM              ' // Sub node handle
    DIM hSubNode3 AS HTREEITEM              ' // Sub node handle
-   DIM cwsVarName AS CWSTR                 ' // Variable name
-   DIM cwsVarType AS CWSTR                 ' // Variable type
-   DIM cwsTypeKind AS CWSTR                ' // Type kind
-   DIM cwsFBKeyword AS CWSTR               ' // FB keyword
-   DIM cwsFBSyntax AS CWSTR                ' // FB syntax
+   DIM dwsVarName AS DWSTRING              ' // Variable name
+   DIM dwsVarType AS DWSTRING              ' // Variable type
+   DIM dwsTypeKind AS DWSTRING             ' // Type kind
+   DIM dwsFBKeyword AS DWSTRING            ' // FB keyword
+   DIM dwsFBSyntax AS DWSTRING             ' // FB syntax
 
    IF pTypeInfo = NULL OR pTypeAttr = NULL THEN RETURN E_INVALIDARG
+
    FOR x AS LONG = 0 TO pTypeAttr->cVars - 1
+
       ' // Gets a reference to the VarDesc structure
       DIM pVarDesc AS VARDESC PTR
       DIM hr AS HRESULT = pTypeInfo->GetVarDesc(x, @pVarDesc)
       IF hr <> S_OK OR pVarDesc = NULL THEN EXIT FOR
+
       ' // Retrieve information
       DIM bstrVarName AS AFX_BSTR
       pTypeInfo->GetDocumentation(pVarDesc->memid, @bstrVarName, NULL, NULL, NULL)
-      cwsVarName = *bstrVarName : SysFreeString bstrVarName
-      hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, cwsVarName)
+      dwsVarName = *bstrVarName
+      SysFreeString bstrVarName
+      hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, dwsVarName)
       TreeView_AddItem(hTreeView, hSubNode2, NULL, "DispID = " & WSTR(pVarDesc->memid) & " [&h" & HEX(pVarDesc->memid, 8) & "]")
       IF pVarDesc->wVarFlags THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Attributes = " & WSTR(pVarDesc->wVarFlags) & " [&h" & HEX(pVarDesc->wVarFlags, 8) & "]" & TLB_VarFlagsToStr(pVarDesc->wVarFlags))
       wIndirectionLevel = 0
@@ -628,21 +638,22 @@ FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL p
          IF hr = S_OK AND pRefTypeInfo <> NULL THEN
             DIM bstrVarType AS AFX_BSTR
             hr = pRefTypeInfo->GetDocumentation(-1, @bstrVarType, NULL, NULL, NULL)
-            cwsVarType = *bstrVarType : SysFreeString bstrVarType
+            dwsVarType = *bstrVarType
+            SysFreeString bstrVarType
             hr = pRefTypeInfo->GetTypeAttr(@pVarTypeAttr)
             IF hr = S_OK AND pVarTypeAttr <> NULL THEN
                IF pVarTypeAttr->typekind = TKIND_ALIAS THEN
-                  cwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pVarTypeAttr->tdescalias.vt)
+                  dwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pVarTypeAttr->tdescalias.vt)
                ELSE
-                  cwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind)
+                  dwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind)
                END IF
-               TreeView_AddItem(hTreeView, hSubNode2, NULL, "TypeKind = " & cwsTypeKind)
+               TreeView_AddItem(hTreeView, hSubNode2, NULL, "TypeKind = " & dwsTypeKind)
                pRefTypeInfo->ReleaseTypeAttr(pVarTypeAttr)
                pVarTypeAttr = NULL
             END IF
             IF pRefTypeInfo THEN pRefTypeInfo->Release
          ELSE
-            cwsVarType = "GetRefTypeInfo failed - Error: &h" & HEX(hr, 8)
+            dwsVarType = "GetRefTypeInfo failed - Error: &h" & HEX(hr, 8)
          END IF
       ELSEIF pVarDesc->elemdescVar.tdesc.vt = VT_PTR THEN
          wIndirectionLevel = 1
@@ -658,16 +669,17 @@ FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL p
                   IF hr = S_OK AND pRefTypeInfo <> NULL THEN
                      DIM bstrVarType AS AFX_BSTR
                      hr = pRefTypeInfo->GetDocumentation(-1, @bstrVarType, NULL, NULL, NULL)
-                     cwsVarType = *bstrVarType : SysFreeString bstrVarType
+                     dwsVarType = *bstrVarType
+                     SysFreeString bstrVarType
                      IF hr = S_OK THEN
                         pRefTypeInfo->GetTypeAttr(@pVarTypeAttr)
                         IF hr = S_OK AND pVarTypeAttr <> NULL THEN
                            IF pVarTypeAttr->typekind = TKIND_ALIAS THEN
-                              cwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pVarTypeAttr->tdescalias.vt)
+                              dwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pVarTypeAttr->tdescalias.vt)
                            ELSE
-                              cwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind)
+                              dwsTypeKind = TLB_TypeKindToStr(pVarTypeAttr->typekind)
                            END IF
-                           TreeView_AddItem(hTreeView, hSubNode2, NULL, "TypeKind = " & cwsTypeKind)
+                           TreeView_AddItem(hTreeView, hSubNode2, NULL, "TypeKind = " & dwsTypeKind)
                            pRefTypeInfo->ReleaseTypeAttr(pVarTypeAttr)
                            pVarTypeAttr = NULL
                         END IF
@@ -675,52 +687,52 @@ FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL p
                      IF pRefTypeInfo THEN pRefTypeInfo->Release
                      EXIT DO
                   ELSE
-                     cwsVarType = "GetRefTypeInfo failed - Error: &h" & HEX(hr, 8)
+                     dwsVarType = "GetRefTypeInfo failed - Error: &h" & HEX(hr, 8)
                   END IF
                CASE ELSE
                   ' // Get the equivalent type
-                  cwsVarType = TLB_VarTypeToConstant(ptdesc->vt)
-                  cwsFBKeyword = TLB_VarTypeToKeyword(ptdesc->vt)
+                  dwsVarType = TLB_VarTypeToConstant(ptdesc->vt)
+                  dwsFBKeyword = TLB_VarTypeToKeyword(ptdesc->vt)
                   EXIT DO
             END SELECT
          LOOP
       ELSE
          ' // Get the equivalent type
-         cwsVarType = TLB_VarTypeToConstant(pVarDesc->elemdescVar.tdesc.vt)
-         cwsFBKeyword = TLB_VarTypeToKeyword(pVarDesc->elemdescVar.tdesc.vt)
+         dwsVarType = TLB_VarTypeToConstant(pVarDesc->elemdescVar.tdesc.vt)
+         dwsFBKeyword = TLB_VarTypeToKeyword(pVarDesc->elemdescVar.tdesc.vt)
       END IF
 
       IF bIsRecord = FALSE THEN
-         TreeView_AddItem(hTreeView, hSubNode2, NULL, "VarType = " & cwsVarType)
+         TreeView_AddItem(hTreeView, hSubNode2, NULL, "VarType = " & dwsVarType)
       ELSE   ' // Records and unions only
          TreeView_AddItem(hTreeView, hSubNode2, NULL, "Indirection level = " & WSTR(wIndirectionLevel))
 '           ' // Add the "tag_" prefix to structures and unions
 '            IF cbstrTypeKind = "TKIND_RECORD" OR cbstrTypeKind = "TKIND_UNION" THEN cbstrVarType = "tag" & cbstrVarType
          ' // END isn't allowed as a member name
-         IF UCASE(cwsVarName) = "END" THEN cwsVarName += "_"
+         IF UCASE(dwsVarName) = "END" THEN dwsVarName += "_"
          ' // Use generic data types for enums and interfaces
-         IF cwsFBKeyword = "" THEN cwsFBKeyword = cwsVarType
+         IF dwsFBKeyword = "" THEN dwsFBKeyword = dwsVarType
          ' // Add the "tag_" prefix to structures and unions
-'         IF cwsTypeKind = "TKIND_RECORD" OR cwsTypeKind = "TKIND_UNION" THEN cwsFBKeyword = "tag_" & cwsFBKeyword
-         IF wIndirectionLevel > 0 THEN cwsFBKeyword += " PTR"
-'         IF cwsTypeKind = "TKIND_ALIAS | VT_PTR" THEN cwsFBKeyword = "VOID"
-         IF cwsTypeKind = "TKIND_ALIAS | VT_PTR" THEN cwsFBKeyword = cwsVarType & " PTR"
-         IF cwsTypeKind = "TKIND_ENUM" THEN cwsFBKeyword = cwsVarType
-         IF cwsTypeKind = "TKIND_UNKNOWN" THEN cwsFBKeyword = "IUnknown PTR"
-         IF cwsTypeKind = "TKIND_DISPATCH" THEN cwsFBKeyword = "IDispatch PTR"
+'         IF dwsTypeKind = "TKIND_RECORD" OR dwsTypeKind = "TKIND_UNION" THEN dwsFBKeyword = "tag_" & dwsFBKeyword
+         IF wIndirectionLevel > 0 THEN dwsFBKeyword += " PTR"
+'         IF dwsTypeKind = "TKIND_ALIAS | VT_PTR" THEN dwsFBKeyword = "VOID"
+         IF dwsTypeKind = "TKIND_ALIAS | VT_PTR" THEN dwsFBKeyword = dwsVarType & " PTR"
+         IF dwsTypeKind = "TKIND_ENUM" THEN dwsFBKeyword = dwsVarType
+         IF dwsTypeKind = "TKIND_UNKNOWN" THEN dwsFBKeyword = "IUnknown PTR"
+         IF dwsTypeKind = "TKIND_DISPATCH" THEN dwsFBKeyword = "IDispatch PTR"
          IF pVarDesc->elemdescVar.tdesc.vt = VT_CARRAY THEN
             DIM padesc AS ARRAYDESC PTR = pVarDesc->elemdescVar.tdesc.lpadesc
-            cwsVarType += " | " & TLB_VarTypeToConstant(padesc->tdescElem.vt)
-            cwsVarName += " ("
+            dwsVarType += " | " & TLB_VarTypeToConstant(padesc->tdescElem.vt)
+            dwsVarName += " ("
             FOR y AS LONG = 0 TO padesc->cDims - 1
-               cwsVarName += WSTR(padesc->rgbounds(y).lLBound) & " TO "
-               cwsVarName += WSTR(padesc->rgbounds(y).lLBound + padesc->rgbounds(y).cElements - 1)
-               IF padesc->cDims > 1 THEN cwsVarName += ", "
+               dwsVarName += WSTR(padesc->rgbounds(y).lLBound) & " TO "
+               dwsVarName += WSTR(padesc->rgbounds(y).lLBound + padesc->rgbounds(y).cElements - 1)
+               IF padesc->cDims > 1 THEN dwsVarName += ", "
             NEXT
-            cwsVarName += ")"
-            cwsFBKeyword = TLB_VarTypeToKeyword(padesc->tdescElem.vt)
+            dwsVarName += ")"
+            dwsFBKeyword = TLB_VarTypeToKeyword(padesc->tdescElem.vt)
          END IF
-         TreeView_AddItem(hTreeView, hSubNode2, NULL, "VarType = " & cwsVarType)
+         TreeView_AddItem(hTreeView, hSubNode2, NULL, "VarType = " & dwsVarType)
          IF pVarDesc->elemdescVar.tdesc.vt = VT_CARRAY THEN
             DIM padesc AS ARRAYDESC PTR = pVarDesc->elemdescVar.tdesc.lpadesc
             hSubNode3 = TreeView_AddItem(hTreeView, hSubNode2, NULL, "Dimensions = " & WSTR(padesc->cDims))
@@ -731,15 +743,15 @@ FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL p
             TreeView_Expand(hTreeView, hSubNode3, TVE_EXPAND)
          END IF
 '         ' // FB syntax
-         SELECT CASE **cwsVarType
+         SELECT CASE dwsVarType
             CASE "VT_LPSTR", "VT_CARRAY | VT_LPSTR"
-               cwsFBSyntax = cwsVarName & " AS ZSTRING PTR"
+               dwsFBSyntax = dwsVarName & " AS ZSTRING PTR"
             CASE "VT_LPWSTR", "VT_CARRAY | VT_LPWSTR"
-               cwsFBSyntax = cwsVarName & " AS WSTRING PTR"
+               dwsFBSyntax = dwsVarName & " AS WSTRING PTR"
             CASE ELSE
-               cwsFBSyntax = **cwsVarName & " AS " & **cwsFBKeyword
+               dwsFBSyntax = dwsVarName & " AS " & dwsFBKeyword
          END SELECT
-         TreeView_AddItem(hTreeView, hSubNode2, NULL, "FB syntax = " & cwsFBSyntax)
+         TreeView_AddItem(hTreeView, hSubNode2, NULL, "FB syntax = " & dwsFBSyntax)
       END IF
 
       ' // Expand the nodes
@@ -747,12 +759,15 @@ FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL p
       TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
       ' // Release the VARDESC structure
       pTypeInfo->ReleaseVarDesc(pVarDesc) : pVarDesc = NULL
+
    NEXT
 
    ' // Just to satisfy the compiler rules; it has no useful meaning
    FUNCTION = S_OK
+
 END FUNCTION
 ' =====================================================================================
+```
 
 # Aliases and typedefs
 
@@ -763,22 +778,24 @@ Some type libraries use aliases and typedefs to give alternate names to data typ
 ' Aliases and typedefs
 ' ----------------------------------------------------------------------------
 CASE TKIND_ALIAS
-   cwsOrigName = "" : cwsAliasName = "" : cwsAliasName2 = "" : cwsTypedefName = ""
+   dwsOrigName = "" : dwsAliasName = "" : dwsAliasName2 = "" : dwsTypedefName = ""
    DIM bstrName AS AFX_BSTR
    hr = m_pTypeLib->GetDocumentation(i, @bstrName, NULL, NULL, NULL)
-   cwsName = *bstrName : SysFreeString bstrName
+   dwsName = *bstrName
+   SysFreeString bstrName
    IF hr = S_OK THEN
-      cwsOrigName = cwsName
+      dwsOrigName = dwsName
       IF pTypeAttr->tdescAlias.vt = VT_USERDEFINED THEN
          ' // If it is a user defined type, retrieve its name
          hr = pTypeInfo->GetRefTypeInfo(pTypeAttr->tdescAlias.hreftype, @pRefTypeInfo)
          IF hr = S_OK AND pRefTypeInfo <> NULL THEN
             DIM bstrName AS AFX_BSTR
             hr = pRefTypeInfo->GetDocumentation(-1, @bstrName, NULL, NULL, NULL)
-            cwsName = *bstrName : SysFreeString bstrName
+            dwsName = *bstrName
+            SysFreeString bstrName
             IF hr = S_OK THEN
-               cwsAliasName = **cwsOrigName & " = " & **cwsName
-               cwsAliasName2 = **cwsName & " = " & **cwsOrigName
+               dwsAliasName = dwsOrigName & " = " & dwsName
+               dwsAliasName2 = dwsName & " = " & dwsOrigName
             END IF
             pRefTypeInfo->Release
             pRefTypeInfo = NULL
@@ -797,10 +814,11 @@ CASE TKIND_ALIAS
                   IF hr = S_OK AND pRefTypeInfo <> NULL THEN
                      DIM bstrName AS AFX_BSTR
                      hr = pRefTypeInfo->GetDocumentation(-1, @bstrName, NULL, NULL, NULL)
-                     cwsName = *bstrName : SysFreeString bstrName
+                     dwsName = *bstrName
+                     SysFreeString bstrName
                      IF hr = S_OK THEN
-                        cwsAliasName = **cwsOrigName & " = " & **cwsName
-                        cwsAliasName2 = **cwsName & " = " & **cwsOrigName
+                        dwsAliasName = dwsOrigName & " = " & dwsName
+                        dwsAliasName2 = dwsName & " = " & dwsOrigName
                      END IF
                      pRefTypeInfo->Release
                      pRefTypeInfo = NULL
@@ -808,20 +826,20 @@ CASE TKIND_ALIAS
                   EXIT DO
                CASE ELSE
                   ' // Get the equivalent type
-                  cwsTypedefName = cwsName & " = " & TLB_VarTypeToConstant(ptdesc->vt) & " <" & TLB_VarTypeToKeyword(pTypeAttr->tdescAlias.vt) & ">"
+                  dwsTypedefName = dwsName & " = " & TLB_VarTypeToConstant(ptdesc->vt) & " <" & TLB_VarTypeToKeyword(pTypeAttr->tdescAlias.vt) & ">"
                   EXIT DO
             END SELECT
          LOOP
       ELSE
          ' // Get the equivalent type
-'         cwsTypedefName = cwsName & " = " & TLB_VarTypeToConstant(pTypeAttr->tdescAlias.vt) & " <" & TLB_VarTypeToKeyword(pTypeAttr->tdescAlias.vt) & ">"
-         cwsTypedefName = cwsName & " = " & TLB_VarTypeToKeyword(pTypeAttr->tdescAlias.vt)  & " ' <" & TLB_VarTypeToConstant(pTypeAttr->tdescAlias.vt) & ">"
+'                  dwsTypedefName = dwsName & " = " & TLB_VarTypeToConstant(pTypeAttr->tdescAlias.vt) & " <" & TLB_VarTypeToKeyword(pTypeAttr->tdescAlias.vt) & ">"
+         dwsTypedefName = dwsName & " = " & TLB_VarTypeToKeyword(pTypeAttr->tdescAlias.vt)  & " ' <" & TLB_VarTypeToConstant(pTypeAttr->tdescAlias.vt) & ">"
       END IF
-      IF LEN(cwsTypedefName) THEN
-         TreeView_AddItem hTreeView, m_hTypedefsNode, NULL, cwsTypedefName
+      IF LEN(dwsTypedefName) THEN
+         TreeView_AddItem hTreeView, m_hTypedefsNode, NULL, dwsTypedefName
       ELSE
-         TreeView_AddItem hTreeView, m_hAliasesNode, NULL, cwsAliasName
-'         TreeView_AddItem hTreeView, m_hAliasesNode, NULL, cwsAliasName2
+         TreeView_AddItem hTreeView, m_hAliasesNode, NULL, dwsAliasName
+'                  TreeView_AddItem hTreeView, m_hAliasesNode, NULL, dwsAliasName2
       END IF
    END IF
 ' ----------------------------------------------------------------------------
@@ -829,7 +847,7 @@ CASE TKIND_ALIAS
 
 # CoClasses
 
-CoClasses provide information about each COM class, such the ProgID (Program Identifier), CLSID (Class Identifier), attributes, the in-process server and the implemented interfaces.
+**CoClasses** provide information about each COM class, such the ProgID (Program Identifier), CLSID (Class Identifier), attributes, the in-process server and the implemented interfaces.
 
 ```
 ' ----------------------------------------------------------------------------
@@ -839,83 +857,75 @@ CASE TKIND_COCLASS
    ' // Get the name of the CoClass
    DIM AS AFX_BSTR bstrName, bstrHelpString, bstrHelpFile
    hr = m_pTypeLib->GetDocumentation(i, @bstrName, @bstrHelpString, @dwHelpContext, @bstrHelpFile)
-   cwsName = *bstrName : SysFreeString bstrName
-   cwsHelpString = *bstrHelpString : SysFreeString bstrHelpString
-   cwsHelpFile = *bstrHelpFile : SysFreeString bstrHelpFile
-   hNode = TreeView_AddItem(hTreeView, m_hCoClassesNode, NULL, cwsName)
+   dwsName = *bstrName : SysFreeString bstrName
+   dwsHelpString = *bstrHelpString : SysFreeString bstrHelpString
+   dwsHelpFile = *bstrHelpFile : SysFreeString bstrHelpFile
+   hNode = TreeView_AddItem(hTreeView, m_hCoClassesNode, NULL, dwsName)
    ' // ProgIDs node
    ' Some external programs, such McAffee Antivirus, modify the typelibs of
    ' components such Windows Script Host to redirect it to its own server.
    ' This originates duplicate ProgIDs, so we need to search if the ProgID
    ' is already listed to avoid duplicates.
-   cwsProgID = TLB_GetProgID(AfxGuidText(pTypeAttr->guid))
-   IF LEN(cwsProgID) THEN
-      IF TreeView_ItemExists(hTreeView, m_hProgIDsNode, cwsProgID) = FALSE THEN
-         TreeView_AddItem hTreeView, m_hProgIDsNode, NULL, cwsProgID
+   dwsProgID = TLB_GetProgID(AfxGuidText(pTypeAttr->guid))
+   IF LEN(dwsProgID) THEN
+      IF TreeView_ItemExists(hTreeView, m_hProgIDsNode, dwsProgID) = FALSE THEN
+         TreeView_AddItem hTreeView, m_hProgIDsNode, NULL, dwsProgID
          hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "ProgID")
-         TreeView_AddItem hTreeView, hSubNode, NULL, cwsProgID
+         TreeView_AddItem hTreeView, hSubNode, NULL, dwsProgID
          TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
       END IF
    END IF
-
-' // Version independent ProgIDs node
+   ' // Version independent ProgIDs node
    ' Note: Search if it already exists because there are components like
    ' MSXML that allow side-by-side installation of several versions that have
    ' different ProgIDs but, of course, the same independent version ProgID.
-   cwsProgID = TLB_GetVersionIndependentProgID(AfxGuidText(pTypeAttr->guid))
-   IF LEN(cwsProgID) THEN
-      IF TreeView_ItemExists(hTreeView, m_hVerIndProgIDsNode, cwsProgID) = FALSE THEN
-         TreeView_AddItem hTreeView, m_hVerIndProgIDsNode, NULL, cwsProgID
+   dwsProgID = TLB_GetVersionIndependentProgID(AfxGuidText(pTypeAttr->guid))
+   IF LEN(dwsProgID) THEN
+      IF TreeView_ItemExists(hTreeView, m_hVerIndProgIDsNode, dwsProgID) = FALSE THEN
+         TreeView_AddItem hTreeView, m_hVerIndProgIDsNode, NULL, dwsProgID
          hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Version independent ProgID")
-         TreeView_AddItem hTreeView, hSubNode, NULL, cwsProgID
+         TreeView_AddItem hTreeView, hSubNode, NULL, dwsProgID
          TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
       END IF
    END IF
-
    ' // ClsIDs nodes
-   TreeView_AddItem hTreeView, m_hClsIDsNode, NULL, "CLSID_" & cwsName & " = " & CHR(34) & AfxGuidText(pTypeAttr->guid) & CHR(34)
+   TreeView_AddItem hTreeView, m_hClsIDsNode, NULL, "CLSID_" & dwsName & " = " & CHR(34) & AfxGuidText(pTypeAttr->guid) & CHR(34)
    hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "CLSID")
    TreeView_AddItem hTreeView, hSubNode, NULL, AfxGuidText(pTypeAttr->guid)
    TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
-
    ' // Attributes
    hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Attributes")
    TreeView_AddItem hTreeView, hSubNode, NULL, WSTR(pTypeAttr->wTypeFlags) & " [&h" & HEX(pTypeAttr->wTypeFlags, 8) & "]" & TLB_InterfaceFlagsToStr(pTypeAttr->wTypeFlags)
    TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
-
    ' // Help info
-   IF LEN(cwsHelpString) THEN
+   IF LEN(dwsHelpString) THEN
       hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Help string")
-      TreeView_AddItem hTreeView, hSubNode, NULL, cwsHelpString
+      TreeView_AddItem hTreeView, hSubNode, NULL, dwsHelpString
       TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
    END IF
-
    IF dwHelpContext THEN
       hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Help context")
       TreeView_AddItem hTreeView, hSubNode, NULL, WSTR(dwHelpContext) & " [&h" & HEX(dwHelpContext, 8) & "]"
       TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
    END IF
-
-   IF LEN(cwsHelpFile) THEN
+   IF LEN(dwsHelpFile) THEN
       hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Help file")
-      TreeView_AddItem hTreeView, hSubNode, NULL, cwsHelpFile
+      TreeView_AddItem hTreeView, hSubNode, NULL, dwsHelpFile
       TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
    END IF
-
    ' // InProcServer32
-   cwsInProcServer = TLB_GetInprocServer32(AfxGuidText(pTypeAttr->guid))
-   IF LEN(cwsInProcServer) THEN
+   dwsInProcServer = TLB_GetInprocServer32(AfxGuidText(pTypeAttr->guid))
+   IF LEN(dwsInProcServer) THEN
       hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "InProcServer32")
-      IF INSTR(cwsInProcServer, "%") THEN
+      IF INSTR(dwsInProcServer, "%") THEN
          DIM wszSrc AS WSTRING * MAX_PATH, wszDest AS WSTRING * MAX_PATH, cbLen AS DWORD
-         wszSrc = cwsInProcServer
+         wszSrc = dwsInProcServer
          cbLen = ExpandEnvironmentStringsW(@wszSrc, @wszDest, MAX_PATH)
-         IF cbLen THEN cwsInProcServer = wszDest
+         IF cbLen THEN dwsInProcServer = wszDest
       END IF
-      TreeView_AddItem hTreeView, hSubNode, NULL, cwsInProcServer
+      TreeView_AddItem hTreeView, hSubNode, NULL, dwsInProcServer
       TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
    END IF
-
    ' // Retrieve the implemented interfaces
    ' Note: Don't release pRefType or it will explode
    cImplTypes = pTypeAttr->cImplTypes
@@ -931,15 +941,16 @@ CASE TKIND_COCLASS
       IF hr <> S_OK OR pImplTypeInfo = NULL THEN EXIT FOR
       DIM bstrName AS AFX_BSTR
       hr = pImplTypeInfo->GetDocumentation(-1, @bstrName, NULL, NULL, NULL)
-      cwsName = *bstrName : SysFreeString bstrName
+      dwsName = *bstrName
+      SysFreeString bstrName
       IF hr <> S_OK THEN EXIT FOR
-      TreeView_AddItem hTreeView, hImplIntSubNode, NULL, cwsName
+      TreeView_AddItem hTreeView, hImplIntSubNode, NULL, dwsName
       TreeView_Expand(hTreeView, hImplIntSubNode, TVE_EXPAND)
       pImplTypeAttr = 0
       pImplTypeInfo->GetTypeAttr(@pImplTypeAttr)
       IF lImplTypeFlags = IMPLTYPEFLAG_FDEFAULT THEN   ' // Default interface
          hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Default interface")
-         TreeView_AddItem hTreeView, hSubNode, NULL, cwsName
+         TreeView_AddItem hTreeView, hSubNode, NULL, dwsName
          TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
          hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Default interface IID")
          IF pImplTypeAttr THEN TreeView_AddItem hTreeView, hSubNode, NULL, AfxGuidText(pImplTypeAttr->guid)
@@ -948,14 +959,14 @@ CASE TKIND_COCLASS
          ' // Some components, such Office 12's AccWiz.dll, have deprecated CoClasses that
          ' // implement the same events interfaces that the new one. We need to check if the
          ' // interface is hidden to avoid listing them twice.
-'         IF (pTypeAttr->wTypeFlags AND TYPEFLAG_FHIDDEN) <> TYPEFLAG_FHIDDEN THEN
-'            IF TreeView_ItemExists(hTreeView, m_hEventsNode, cwsName) = FALSE THEN
-'               TreeView_AddItem hTreeView, m_hEventsNode, NULL, cwsName
-'            END IF
-'         END IF
+'                  IF (pTypeAttr->wTypeFlags AND TYPEFLAG_FHIDDEN) <> TYPEFLAG_FHIDDEN THEN
+'                     IF TreeView_ItemExists(hTreeView, m_hEventsNode, dwsName) = FALSE THEN
+'                        TreeView_AddItem hTreeView, m_hEventsNode, NULL, dwsName
+'                     END IF
+'                  END IF
       ELSEIF lImplTypeFlags = (IMPLTYPEFLAG_FDEFAULT OR IMPLTYPEFLAG_FSOURCE) THEN   ' // Default events interface
          hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Default events interface")
-         TreeView_AddItem hTreeView, hSubNode, NULL, cwsName
+         TreeView_AddItem hTreeView, hSubNode, NULL, dwsName
          TreeView_Expand(hTreeView, hSubNode, TVE_EXPAND)
          hSubNode = TreeView_AddItem(hTreeView, hNode, NULL, "Default events interface IID")
          IF pImplTypeAttr THEN TreeView_AddItem hTreeView, hSubNode, NULL, AfxGuidText(pImplTypeAttr->guid)
@@ -963,29 +974,26 @@ CASE TKIND_COCLASS
          ' // Some components, such Office 12's AccWiz.dll, have deprecated CoClasses that
          ' // implement the same events interfaces that the new one. We need to check if the
          ' // interface is hidden to avoid listing them twice.
-'         IF (pTypeAttr->wTypeFlags AND TYPEFLAG_FHIDDEN) <> TYPEFLAG_FHIDDEN THEN
-'            IF TreeView_ItemExists(hTreeView, m_hEventsNode, cwsName) = FALSE THEN
-'               TreeView_AddItem hTreeView, m_hEventsNode, NULL, cwsName
-'            END IF
-'         END IF
+'                  IF (pTypeAttr->wTypeFlags AND TYPEFLAG_FHIDDEN) <> TYPEFLAG_FHIDDEN THEN
+'                     IF TreeView_ItemExists(hTreeView, m_hEventsNode, dwsName) = FALSE THEN
+'                        TreeView_AddItem hTreeView, m_hEventsNode, NULL, dwsName
+'                     END IF
+'                  END IF
       END IF
       IF pImplTypeAttr THEN
          IF pImplTypeInfo THEN pImplTypeInfo->ReleaseTypeAttr(pImplTypeAttr)
          pImplTypeAttr = NULL
       END IF
    NEXT
-
    IF pImplTypeAttr THEN
       IF pImplTypeInfo THEN pImplTypeInfo->ReleaseTypeAttr(pImplTypeAttr)
       pImplTypeAttr = NULL
    END IF
-
    IF pImplTypeInfo THEN
       pImplTypeInfo->Release
       pImplTypeInfo = NULL
    END IF
 ' ----------------------------------------------------------------------------
-
 ```
 
 # Interfaces
@@ -999,14 +1007,16 @@ The type infos TKIND_INTERFACE and TKIND_DISPATCH provide information about the 
 CASE TKIND_INTERFACE, TKIND_DISPATCH
    DIM AS AFX_BSTR bstrName, bstrHelpString
    hr = m_pTypeLib->GetDocumentation(i, @bstrName, @bstrHelpString, NULL, NULL)
-   cwsName = *bstrName : SysFreeString bstrName
-   cwsHelpString = *bstrHelpString : SysFreeString bstrHelpString
+   dwsName = *bstrName
+   SysFreeString bstrName
+   dwsHelpString = *bstrHelpString
+   SysFreeString bstrHelpString
    IF hr = S_OK THEN
-      TreeView_AddItem hTreeView, m_hIIDsNode, NULL, "IID_" & cwsName & " = " & CHR(34) & AfxGuidText(pTypeAttr->guid) & CHR(34)
+      TreeView_AddItem hTreeView, m_hIIDsNode, NULL, "IID_" & dwsName & " = " & CHR(34) & AfxGuidText(pTypeAttr->guid) & CHR(34)
       ' ------------------------------------------------------------------------------------------
-     ' If it is a dual interface and the VTable option has been set, try to change the view.
+      ' If it is a dual interface and the VTable option has been set, try to change the view.
       ' ------------------------------------------------------------------------------------------
-     DIM VTableView AS BOOLEAN = m_VTableView
+      DIM VTableView AS BOOLEAN = m_VTableView
       IF pTKind = TKIND_DISPATCH AND (pTypeAttr->wTypeFlags AND TYPEFLAG_FDUAL) = TYPEFLAG_FDUAL THEN
          IF VTableView = TRUE THEN
             DO   ' // Fake DO LOOP to allow exit without GOTO
@@ -1024,14 +1034,14 @@ CASE TKIND_INTERFACE, TKIND_DISPATCH
                END IF
                pRefTypeAttr = NULL
                hr = pRefTypeInfo->GetTypeAttr(@pRefTypeAttr)
-               hSubNode = TreeView_AddItem(hTreeView, m_hDualIntNode, NULL, cwsName)
+               hSubNode = TreeView_AddItem(hTreeView, m_hDualIntNode, NULL, dwsName)
                IF AfxGuidText(pRefTypeAttr->guid) <> "{00000000-0000-0000-0000-000000000000}" THEN
                   TreeView_AddItem(hTreeView, hSubNode, NULL, "IID: " & AfxGuidText(pRefTypeAttr->guid))
                END IF
-               IF LEN(cwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Documentation string: " & cwsHelpString)
+               IF LEN(dwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Documentation string: " & dwsHelpString)
                IF pRefTypeAttr->wTypeFlags THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Attributes =  " & WSTR(pRefTypeAttr->wTypeFlags) & " [&h" & HEX(pRefTypeAttr->wTypeFlags, 8) & "]" & TLB_InterfaceFlagsToStr(pRefTypeAttr->wTypeFlags))
-               cwsInheritedInterface = TLB_GetImplementedInterface(pRefTypeInfo)
-               TreeView_AddItem(hTreeView, hSubNode, NULL, "Inherited interface = " & cwsInheritedInterface)
+               dwsInheritedInterface = TLB_GetImplementedInterface(pRefTypeInfo)
+               IF LEN(dwsInheritedInterface) THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Inherited interface = " & dwsInheritedInterface)
                ' /*** Datamembers ***/
                IF pRefTypeAttr->cVars THEN
                   hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "Number of datamembers = " & WSTR(pRefTypeAttr->cVars))
@@ -1040,7 +1050,7 @@ CASE TKIND_INTERFACE, TKIND_DISPATCH
                ' /*** Retrieves the methods and properties ***/
                IF @pRefTypeAttr->cFuncs THEN
                   hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "Number of methods = " & WSTR(pRefTypeAttr->cFuncs))
-                  this.GetFunctions(pRefTypeInfo, pREfTypeAttr, hTreeView, hSubNode2, VTableView, TRUE, pTKind, cwsImplInterface)
+                  this.GetFunctions(pRefTypeInfo, pREfTypeAttr, hTreeView, hSubNode2, VTableView, TRUE, pTKind, dwsImplInterface)
                ELSE
                   hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "Number of methods = 0")
                END IF
@@ -1058,36 +1068,37 @@ CASE TKIND_INTERFACE, TKIND_DISPATCH
       ' ------------------------------------------------------------------------------------------
       ' ...else use the default view
       ' ------------------------------------------------------------------------------------------
-     IF pTKind = TKIND_INTERFACE OR pTKind = TKIND_DISPATCH AND CLNG(VTableView) = FALSE THEN
-         cwsImplInterface = TLB_GetImplementedInterface(pTypeInfo)
-         IF cwsImplInterface <> "" THEN
-            IF UCASE(cwsImplInterface) <> "IUNKNOWN" AND UCASE(cwsImplInterface) <> "IDISPATCH" THEN
-               cwsImplInterface = TLB_GetBaseClass(m_pTypeLib, cwsName)
+      IF pTKind = TKIND_INTERFACE OR pTKind = TKIND_DISPATCH AND CLNG(VTableView) = FALSE THEN
+         dwsImplInterface = TLB_GetImplementedInterface(pTypeInfo)
+         IF dwsImplInterface <> "" THEN
+            IF UCASE(dwsImplInterface) <> "IUNKNOWN" AND UCASE(dwsImplInterface) <> "IDISPATCH" THEN
+               dwsImplInterface = TLB_GetBaseClass(m_pTypeLib, dwsName)
             END IF
          END IF
          IF pTKind = TKIND_INTERFACE THEN
-            IF UCASE(cwsImplInterface) = "IUNKNOWN" AND (pTypeAttr->wTypeFlags AND TYPEFLAG_FOLEAUTOMATION) = TYPEFLAG_FOLEAUTOMATION THEN
-               hSubNode = TreeView_AddItem(hTreeView, m_hOleAutIntNode, NULL, cwsName)
-            ELSEIF UCASE(cwsImplInterface) = "IDISPATCH" AND (pTypeAttr->wTypeFlags AND TYPEFLAG_FDUAL) <> TYPEFLAG_FDUAL THEN
-               hSubNode = TreeView_AddItem(hTreeView, m_hDispblIntNode, NULL, cwsName)
+            IF UCASE(dwsImplInterface) = "IUNKNOWN" AND (pTypeAttr->wTypeFlags AND TYPEFLAG_FOLEAUTOMATION) = TYPEFLAG_FOLEAUTOMATION THEN
+               hSubNode = TreeView_AddItem(hTreeView, m_hOleAutIntNode, NULL, dwsName)
+            ELSEIF UCASE(dwsImplInterface) = "IDISPATCH" AND (pTypeAttr->wTypeFlags AND TYPEFLAG_FDUAL) <> TYPEFLAG_FDUAL THEN
+               hSubNode = TreeView_AddItem(hTreeView, m_hDispblIntNode, NULL, dwsName)
             ELSE
-               hSubNode = TreeView_AddItem(hTreeView, m_hIntNode, NULL, cwsName)
+               hSubNode = TreeView_AddItem(hTreeView, m_hIntNode, NULL, dwsName)
             END IF
          ELSEIF pTKind = TKIND_DISPATCH THEN
             IF (pTypeAttr->wTypeFlags AND TYPEFLAG_FDUAL) = TYPEFLAG_FDUAL THEN
-               hSubNode = TreeView_AddItem(hTreeView, m_hDualIntNode, NULL, cwsName)
-            ELSEIF INSTR(cwsEvents, "#" & cwsName & "#") THEN
-               hSubNode = TreeView_AddItem(hTreeView, m_hEventsNode, NULL, cwsName)
+               hSubNode = TreeView_AddItem(hTreeView, m_hDualIntNode, NULL, dwsName)
+            ELSEIF INSTR(dwsEvents, "#" & dwsName & "#") THEN
+               hSubNode = TreeView_AddItem(hTreeView, m_hEventsNode, NULL, dwsName)
             ELSE
-               hSubNode = TreeView_AddItem(hTreeView, m_hDispIntNode, NULL, cwsName)
+               hSubNode = TreeView_AddItem(hTreeView, m_hDispIntNode, NULL, dwsName)
             END IF
          END IF
          IF AfxGuidText(pTypeAttr->guid) <> "{00000000-0000-0000-0000-000000000000}" THEN
             TreeView_AddItem(hTreeView, hSubNode, NULL, "IID: " & AfxGuidText(pTypeAttr->guid))
          END IF
-         IF LEN(cwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Documentation string: " & cwsHelpString)
+         IF LEN(dwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Documentation string: " & dwsHelpString)
          IF pTypeAttr->wTypeFlags THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Attributes =  " & WSTR(pTypeAttr->wTypeFlags) & " [&h" & HEX(pTypeAttr->wTypeFlags, 8) & "]" & TLB_InterfaceFlagsToStr(pTypeAttr->wTypeFlags))
-         IF LEN(cwsImplInterface) THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Inherited interface = " & cwsImplInterface)
+         dwsInheritedInterface = TLB_GetImplementedInterface(pTypeInfo)
+         IF LEN(dwsInheritedInterface) THEN TreeView_AddItem(hTreeView, hSubNode, NULL, "Inherited interface = " & dwsInheritedInterface)
          ' /*** Datamembers ***/
          IF pTypeAttr->cVars THEN
             hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "Number of datamembers = " & WSTR(pTypeAttr->cVars))
@@ -1097,25 +1108,25 @@ CASE TKIND_INTERFACE, TKIND_DISPATCH
          IF pTypeAttr->cFuncs THEN
             hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "Number of methods = " & WSTR(pTypeAttr->cFuncs))
             IF pTKind = TKIND_INTERFACE THEN
-               this.GetFunctions(pTypeInfo, pTypeAttr, hTreeView, hSubNode2, TRUE, TRUE, pTKind, cwsImplInterface)
+               this.GetFunctions(pTypeInfo, pTypeAttr, hTreeView, hSubNode2, TRUE, TRUE, pTKind, dwsImplInterface)
             ELSE
-               this.GetFunctions(pTypeInfo, pTypeAttr, hTreeView, hSubNode2, VTableView, TRUE, pTKind, cwsImplInterface)
+               this.GetFunctions(pTypeInfo, pTypeAttr, hTreeView, hSubNode2, VTableView, TRUE, pTKind, dwsImplInterface)
             END IF
          ELSE
             hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "Number of methods = 0")
          END IF
       END IF
    END IF
-
+   ' ----------------------------------------------------------------------------
 ```
 
-A very important particularity is that the information can be returned in two different kind of views, the VTable view and the Automation view.
+A very important particularity is that the information can be returned in two different kind of views, the **VTable** view and the **Automation** view.
 
-To change the type of views from the default Automation one to the VTable one, we have to call the GetRefTypeOfImplType of the ITypeInfo interface. The meager documentation provided by Microsoft states that "If a type description describes a COM class, it retrieves the type description of the implemented interface types. For an interface, GetRefTypeOfImplType returns the type information for inherited interfaces, if any exist." See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms221569(v=vs.85).aspx
+To change the type of views from the default Automation one to the VTable one, we have to call the **GetRefTypeOfImplType** of the **ITypeInfo** interface. The meager documentation provided by Microsoft states that "If a type description describes a COM class, it retrieves the type description of the implemented interface types. For an interface, GetRefTypeOfImplType returns the type information for inherited interfaces, if any exist." See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms221569(v=vs.85).aspx
 
-There is a remark at the bottom: "If the TKIND_DISPATCH type description is for a dual interface, the TKIND_INTERFACE type description can be obtained by calling GetRefTypeOfImplType with an indexof –1, and by passing the returned pRefTypehandle to GetRefTypeInfo to retrieve the type information."
+There is a remark at the bottom: "If the TKIND_DISPATCH type description is for a dual interface, the TKIND_INTERFACE type description can be obtained by calling **GetRefTypeOfImplType** with an indexof –1, and by passing the returned *pRefTypehandle* to **GetRefTypeInfo** to retrieve the type information."
 
-So, if we have a TKIND_DISPATCH description and be want a TKIND_INTERFACE description (assuming that the Dispatch interface is dual and not a dispatch only interface), we can get it passing -1 to GetRefTypeOfImplType.
+So, if we have a TKIND_DISPATCH description and be want a TKIND_INTERFACE description (assuming that the Dispatch interface is dual and not a dispatch only interface), we can get it passing -1 to **GetRefTypeOfImplType**.
 
 ```
 ' // Attempt to change the view to VTable
@@ -1134,9 +1145,9 @@ pRefTypeAttr = NULL
 hr = pRefTypeInfo->GetTypeAttr(@pRefTypeAttr)
 ```
 
-# Retrievingthe methods and properties
+# Retrieving the methods and properties
 
-The cFuncs member of the TYPEATTR structure contains the number of methods and properties implemented in an interface and the GetFuncDesc method of the ITypeInfo interface retrieves the FUNCDESC structure that contains information about a specified function ( https://msdn.microsoft.com/en-us/library/windows/desktop/ms221425(v=vs.85).aspx ), as well as the return type.
+The *cFuncs* member of the **TYPEATTR** structure contains the number of methods and properties implemented in an interface and the **GetFuncDesc** method of the **ITypeInfo** interface retrieves the **FUNCDESC** structure that contains information about a specified function ( https://msdn.microsoft.com/en-us/library/windows/desktop/ms221425(v=vs.85).aspx ), as well as the return type.
 
 ```
 ' =====================================================================================
@@ -1145,18 +1156,20 @@ The cFuncs member of the TYPEATTR structure contains the number of methods and p
 FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL pTypeAttr AS TYPEATTR PTR, _
    BYVAL hTreeView AS HWND, BYVAL hSubNode AS HTREEITEM, BYVAL bVTableView AS BOOLEAN, BYVAL bIsMethod AS BOOLEAN = FALSE, _
    BYVAL pTKind AS TYPEKIND = -1, BYVAL pwszImplInterface AS WSTRING PTR = NULL) AS HRESULT
+
    DIM hSubNode2 AS HTREEITEM              ' // Sub node handle
    DIM dwHelpContext AS DWORD              ' // Help context number
    DIM pRefTypeInfo AS Afx_ITypeInfo PTR   ' // Referenced TypeInfo interface
    DIM pReturnTypeAttr AS TYPEATTR PTR     ' // Referenced TYPEATTR structure
-   DIM ReturnTypeKind AS TYPEKIND          ' // return value type kind
-   DIM cwsName AS CWSTR                    ' // Name
-   DIM cwsHelpString AS CWSTR              ' // Help string
-   DIM cwsDllName AS CWSTR                 ' // DLL name
-   DIM cwsEntryPoint AS CWSTR              ' // Entry point
-   DIM cwsType AS CWSTR                    ' // Type
+   DIM ReturnTypeKind AS TYPEKIND          ' // Return value type kind
+   DIM dwsName AS DWSTRING                 ' // Name
+   DIM dwsHelpString AS DWSTRING           ' // Help string
+   DIM dwsDllName AS DWSTRING              ' // DLL name
+   DIM dwsEntryPoint AS DWSTRING           ' // Entry point
+   DIM dwsType AS DWSTRING                 ' // Type
 
    IF pTypeInfo = NULL OR pTypeAttr = NULL THEN RETURN E_INVALIDARG
+
    FOR x AS LONG = 0 TO pTypeAttr->cFuncs - 1
       ' // Gets a reference to the FuncDesc structure
       DIM pFuncDesc AS FUNCDESC PTR
@@ -1165,8 +1178,10 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
       ' // Retrieve the name
       DIM AS AFX_BSTR bstrName, bstrHelpString
       pTypeInfo->GetDocumentation(pFuncDesc->memid, @bstrName, @bstrHelpString, @dwHelpContext, NULL)
-      cwsName = *bstrName : SysFreeString bstrName
-      cwsHelpString = *bstrHelpString : SysFreeString bstrHelpString
+      dwsName = *bstrName
+      SysFreeString bstrName
+      dwsHelpString = *bstrHelpString
+      SysFreeString bstrHelpString
       IF bIsMethod THEN
          ' ------------------------------------------------------------------
          ' Workaround for libraries that can have illegal method names.
@@ -1178,43 +1193,45 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
 #else
          vtOffset = 24
 #endif
-         IF UCASE(cwsName) = "QUERYINTERFACE" AND pFuncdesc->oVft > vtOffset THEN cwsName += "_"
-         IF UCASE(cwsName) = "ADDREF" AND pFuncdesc->oVft > vtOffset THEN cwsName += "_"
-         IF UCASE(cwsName) = "RELEASE" AND pFuncdesc->oVft > vtOffset THEN cwsName += "_"
-         IF UCASE(cwsName) = "GETTYPEINFOCOUNT" AND pFuncdesc->oVft > vtOffset THEN cwsName += "_"
-         IF UCASE(cwsName) = "GETTYPEINFO" AND pFuncdesc->oVft > vtOffset THEN cwsName += "_"
-         IF UCASE(cwsName) = "GETIDSOFNAMES" AND pFuncdesc->oVft > vtOffset THEN cwsName += "_"
-         IF UCASE(cwsName) = "INVOKE" AND pFuncdesc->oVft > vtOffset THEN cwsName += "_"
-         IF UCASE(cwsName) = "DELETE" THEN cwsName += "_"
-         IF UCASE(cwsName) = "PROPERTY" THEN cwsName += "_"
+         IF UCASE(dwsName) = "QUERYINTERFACE" AND pFuncdesc->oVft > vtOffset THEN dwsName += "_"
+         IF UCASE(dwsName) = "ADDREF" AND pFuncdesc->oVft > vtOffset THEN dwsName += "_"
+         IF UCASE(dwsName) = "RELEASE" AND pFuncdesc->oVft > vtOffset THEN dwsName += "_"
+         IF UCASE(dwsName) = "GETTYPEINFOCOUNT" AND pFuncdesc->oVft > vtOffset THEN dwsName += "_"
+         IF UCASE(dwsName) = "GETTYPEINFO" AND pFuncdesc->oVft > vtOffset THEN dwsName += "_"
+         IF UCASE(dwsName) = "GETIDSOFNAMES" AND pFuncdesc->oVft > vtOffset THEN dwsName += "_"
+         IF UCASE(dwsName) = "INVOKE" AND pFuncdesc->oVft > vtOffset THEN dwsName += "_"
+         IF UCASE(dwsName) = "DELETE" THEN dwsName += "_"
+         IF UCASE(dwsName) = "PROPERTY" THEN dwsName += "_"
 
          IF pTKind = TKIND_INTERFACE OR pTKind = TKIND_DISPATCH THEN
-            IF pFuncDesc->invkind = INVOKE_FUNC THEN cwsName = "METHOD " & cwsName
-            IF pFuncDesc->invkind = INVOKE_PROPERTYGET THEN cwsName = "PROPERTY GET " & cwsName
-            IF pFuncDesc->invkind = INVOKE_PROPERTYPUT THEN cwsName = "PROPERTY PUT " & cwsName
-            IF pFuncDesc->invkind = INVOKE_PROPERTYPUTREF THEN cwsName = "PROPERTY PUTREF " & cwsName
+            IF pFuncDesc->invkind = INVOKE_FUNC THEN dwsName = "METHOD " & dwsName
+            IF pFuncDesc->invkind = INVOKE_PROPERTYGET THEN dwsName = "PROPERTY GET " & dwsName
+            IF pFuncDesc->invkind = INVOKE_PROPERTYPUT THEN dwsName = "PROPERTY PUT " & dwsName
+            IF pFuncDesc->invkind = INVOKE_PROPERTYPUTREF THEN dwsName = "PROPERTY PUTREF " & dwsName
          END IF
-         hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, cwsName)
+         hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, dwsName)
          TreeView_AddItem(hTreeView, hSubNode2, NULL, "VTable offset = " &  WSTR(pFuncdesc->oVft) & " [&h" & HEX(pFuncdesc->oVft, 8) & "]")
          TreeView_AddItem(hTreeView, hSubNode2, NULL, "DispID = " & WSTR(pFuncDesc->memid) & " [&h" & HEX(pFuncDesc->memid, 8) & "]")
-         IF LEN(cwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Help string = " & cwsHelpString)
+         IF LEN(dwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Help string = " & dwsHelpString)
          IF dwHelpContext THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Help context = " & WSTR(dwHelpContext))
       ELSE
          IF pFuncDesc->elemdescFunc.tdesc.vt = VT_VOID THEN
-            hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "SUB " & cwsName)
+            hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "SUB " & dwsName)
          ELSE
-            hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "FUNCTION " & cwsName)
+            hSubNode2 = TreeView_AddItem(hTreeView, hSubNode, NULL, "FUNCTION " & dwsName)
          END IF
-         IF LEN(cwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Help string = " & cwsHelpString)
+         IF LEN(dwsHelpString) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Help string = " & dwsHelpString)
          IF dwHelpContext THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Help context = " & WSTR(dwHelpContext))
          TreeView_AddItem(hTreeView, hSubNode2, NULL, "DispID = " & WSTR(pFuncDesc->memid) & " [&h" & HEX(pFuncDesc->memid, 8) & "]")
          DIM wOrdinal AS WORD, bstrDllName AS AFX_BSTR, bstrEntryPoint AS AFX_BSTR
          hr = pTypeInfo->GetDllEntry(pFuncDesc->memid, pFuncDesc->invkind, @bstrDllName, @bstrEntryPoint, @wOrdinal)
-         cwsDllName = *bstrDllName : SysFreeString bstrDllName
-         cwsEntryPoint = *bstrEntryPoint : SysFreeString bstrEntryPoint
+         dwsDllName = *bstrDllName
+         SysFreeString bstrDllName
+         dwsEntryPoint = *bstrEntryPoint
+         SysFreeString bstrEntryPoint
          IF hr = S_OK THEN
-            IF LEN(cwsDllName) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "DLL name = " & cwsDllName)
-            IF LEN(cwsEntryPoint) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Entry point = " & cwsEntryPoint)
+            IF LEN(dwsDllName) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "DLL name = " & dwsDllName)
+            IF LEN(dwsEntryPoint) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Entry point = " & dwsEntryPoint)
             IF wOrdinal THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Ordinal = " & WSTR(wOrdinal))
          END IF
       END IF
@@ -1232,7 +1249,6 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
          CASE FUNC_DISPATCH
             TreeView_AddItem(hTreeView, hSubNode2, NULL, "FuncKind = Dispatch")
       END SELECT
-
       ' // Invoke kind
       SELECT CASE pFuncDesc->invkind
          CASE INVOKE_FUNC
@@ -1244,7 +1260,6 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
          CASE INVOKE_PROPERTYPUTREF
             TreeView_AddItem(hTreeView, hSubNode2, NULL, "InvokeKind = PutRef property")
       END SELECT
-
       ' // Calling convention
       SELECT CASE pFuncDesc->callconv
          CASE CC_FASTCALL
@@ -1269,7 +1284,7 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
       IF pFuncDesc->cParamsOpt THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Number of optional variant parameters = " & WSTR(pFuncDesc->cParamsOpt))
       IF pFuncDesc->cScodes THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Count of permitted return values = " & WSTR(pFuncDesc->cScodes))
       IF pFuncDesc->wFuncFlags THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Attributes = " & WSTR(pFuncDesc->wFuncFlags)& " [&h" & HEX(pFuncDesc->wFuncFlags, 8) & "]" & TLB_FuncFlagsToStr(pFuncDesc->wFuncFlags))
-      ' // return type
+      ' // Return type
       ReturnTypeKind = -1  ' // Because the TYPEKIND enum starts at 0
       IF pFuncDesc->elemdescFunc.tdesc.vt = VT_USERDEFINED THEN
          ' // If it is a user defined type, retrieve its name
@@ -1277,7 +1292,8 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
          IF hr = S_OK AND pRefTypeInfo <> NULL THEN
             DIM bstrType AS AFX_BSTR
             hr = pRefTypeInfo->GetDocumentation(-1, @bstrType, NULL, NULL, NULL)
-            cwsType = *bstrType : SysFreeString bstrType
+            dwsType = *bstrType
+            SysFreeString bstrType
             hr = pRefTypeInfo->GetTypeAttr(@pReturnTypeAttr)
             IF hr = S_OK AND pReturnTypeAttr <> NULL THEN
                TreeView_AddItem(hTreeView, hSubNode2, NULL, "Return type typeKind = " & TLB_TypeKindToStr(pReturnTypeAttr->typekind))
@@ -1301,7 +1317,8 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
                   IF hr = S_OK AND pRefTypeInfo <> NULL THEN
                      DIM bstrType AS AFX_BSTR
                      hr = pRefTypeInfo->GetDocumentation(-1, @bstrType, NULL, NULL, NULL)
-                     cwsType = *bstrType : SysFreeString bstrType
+                     dwsType = *bstrType
+                     SysFreeString bstrType
                      hr = pRefTypeInfo->GetTypeAttr(@pReturnTypeAttr)
                      IF hr = S_OK AND pReturnTypeAttr <> NULL THEN
                         TreeView_AddItem(hTreeView, hSubNode2, NULL, "Return type typeKind = " & TLB_TypeKindToStr(pReturnTypeAttr->typekind))
@@ -1314,24 +1331,24 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
                   EXIT DO
                CASE ELSE
                   ' // Get the equivalent type
-                  cwsType = TLB_VarTypeToConstant(ptdesc->vt)
+                  dwsType = TLB_VarTypeToConstant(ptdesc->vt)
                   EXIT DO
             END SELECT
          LOOP
       ELSE
          ' // Get the equivalent type
-         cwsType = TLB_VarTypeToConstant(pFuncDesc->elemdescFunc.tdesc.vt)
+         dwsType = TLB_VarTypeToConstant(pFuncDesc->elemdescFunc.tdesc.vt)
       END IF
-      ' // return type
-      TreeView_AddItem(hTreeView, hSubNode2, NULL, "Return type = " & cwsType)
+      ' // Return type
+      TreeView_AddItem(hTreeView, hSubNode2, NULL, "Return type = " & dwsType)
       DIM strReturn AS STRING = ""
       IF bVTableView = FALSE THEN
          IF ReturnTypeKind = TKIND_INTERFACE OR ReturnTypeKind = TKIND_DISPATCH THEN
-            strReturn = "BYVAL rhs AS " & cwsType & " PTR PTR"
+            strReturn = "BYVAL rhs AS " & dwsType & " PTR PTR"
          ELSEIF ReturnTypeKind = TKIND_ENUM THEN
-            strReturn = "BYVAL rhs AS " & cwsType & " PTR"
+            strReturn = "BYVAL rhs AS " & dwsType & " PTR"
          ELSEIF ReturnTypeKind = TKIND_ALIAS THEN
-            strReturn = "BYVAL rhs AS " & cwsType & " PTR"
+            strReturn = "BYVAL rhs AS " & dwsType & " PTR"
          ELSEIF pFuncDesc->elemdescFunc.tdesc.vt = VT_VOID THEN
             ' // With Automation view, VT_VOID means no return type
             strReturn = ""
@@ -1346,7 +1363,6 @@ FUNCTION CParseTypeLib.GetFunctions (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL
          END IF
          IF LEN(strReturn) THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Return type FB syntax = " & strReturn)
       END IF
-
       ' // Parameters
       IF pFuncDesc->cParams THEN this.GetParameters(pTypeInfo, pFuncDesc, hTreeView, hSubNode2, bVTableView)
       ' // Expand the nodes
@@ -1381,15 +1397,14 @@ FUNCTION CParseTypeLib.GetParameters (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVA
    DIM pReturnTypeAttr AS TYPEATTR PTR     ' // Referenced TYPEATTR structure
    DIM wIndirectionLevel AS WORD           ' // Indirection level
    DIM pRefTypeInfo AS Afx_ITypeInfo PTR   ' // Referenced TypeInfo interface
-   DIM cwsParamName AS CWSTR               ' // Parameter name
-   DIM cwsVarType AS CWSTR                 ' // Variable type
-   DIM cwsTypeKind AS CWSTR                ' // Type kind
-   DIM cwsFBKeyword AS CWSTR               ' // FB keyword
-   DIM cwsFBSyntax AS CWSTR                ' // FB syntax
+   DIM dwsParamName AS DWSTRING            ' // Parameter name
+   DIM dwsVarType AS DWSTRING              ' // Variable type
+   DIM dwsTypeKind AS DWSTRING             ' // Type kind
+   DIM dwsFBKeyword AS DWSTRING            ' // FB keyword
+   DIM dwsFBSyntax AS DWSTRING             ' // FB syntax
 
    hParamsNode = TreeView_AddItem(hTreeView, hSubNode2, NULL, "Number of parameters = " & WSTR(pFuncDesc->cParams))
-
-' ----------------------------------------------------------------------------------
+   ' ----------------------------------------------------------------------------------
    ' Gets the name of all the parameters.
    ' The first one is the name of the function.
    ' If the member ID identifies a property that is implemented with property functions,
@@ -1402,7 +1417,6 @@ FUNCTION CParseTypeLib.GetParameters (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVA
    ' order that they appear elsewhere in the interface (for example, the same order in
    ' the parameter array associated with the FUNCDESC enumeration).
    ' ----------------------------------------------------------------------------------
-
    REDIM rgbstrNames(pFuncDesc->cParams) AS AFX_BSTR
    DIM cNames AS DWORD   ' // Number of names
    DIM hr AS HRESULT = pTypeInfo->GetNames(pFuncDesc->memid, @rgbstrNames(0), pFuncDesc->cParams + 1, @cNames)
@@ -1411,19 +1425,19 @@ FUNCTION CParseTypeLib.GetParameters (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVA
       DIM pParam AS ELEMDESC PTR = pFuncDesc->lprgelemdescParam
       ' // Retrieves information about the parameters
       FOR y AS LONG = 0 TO pFuncDesc->cParams - 1
-         cwsVarType = "" : cwsTypeKind = "" : cwsFBKeyword = ""
+         dwsVarType = "" : dwsTypeKind = "" : dwsFBKeyword = ""
          ' // Attributes
          DIM wFlags AS WORD = pParam[y].paramdesc.wParamFlags
          ' // When using the automation view, it does not return a name for the return type
-         cwsParamName = rgbstrNames(y + 1)
-         IF LEN(cwsParamName) = 0 THEN
+         dwsParamName = rgbstrNames(y + 1)
+         IF LEN(dwsParamName) = 0 THEN
             IF y = pFuncDesc->cParams - 1 THEN
-               cwsParamName = "rhs"
+               dwsParamName = "rhs"
             ELSE
-               cwsParamName = "prm" & WSTR(y + 1)
+               dwsParamName = "prm" & WSTR(y + 1)
             END IF
          END IF
-         hParamNameNode = TreeView_AddItem(hTreeView, hParamsNode, NULL, cwsParamName)
+         hParamNameNode = TreeView_AddItem(hTreeView, hParamsNode, NULL, dwsParamName)
          TreeView_AddItem(hTreeView, hParamNameNode, NULL, "Attributes = " & WSTR(wFlags) & " [&h" & HEX(wFlags, 8) & "] " & TLB_ParamflagsToStr(wFlags))
          wIndirectionLevel = 0
          IF pParam[y].tdesc.vt = VT_USERDEFINED THEN
@@ -1432,15 +1446,16 @@ FUNCTION CParseTypeLib.GetParameters (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVA
             IF hr = S_OK AND pRefTypeInfo <> NULL THEN
                DIM bstrVarType AS AFX_BSTR
                hr = pRefTypeInfo->GetDocumentation(-1, @bstrVarType, NULL, NULL, NULL)
-               cwsVarType = *bstrVarType : SysFreeString bstrVarType
+               dwsVarType = *bstrVarType
+               SysFreeString bstrVarType
                hr = pRefTypeInfo->GetTypeAttr(@pParamTypeAttr)
                IF hr = S_OK AND pParamTypeAttr <> NULL THEN
                   IF pParamTypeAttr->typekind = TKIND_ALIAS THEN
-                     cwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pParamTypeAttr->tdescalias.vt)
+                     dwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pParamTypeAttr->tdescalias.vt)
                   ELSE
-                     cwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind)
+                     dwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind)
                   END IF
-                  TreeView_AddItem(hTreeView, hParamNameNode, NULL, "TypeKind = " & cwsTypeKind)
+                  TreeView_AddItem(hTreeView, hParamNameNode, NULL, "TypeKind = " & dwsTypeKind)
                   pRefTypeInfo->ReleaseTypeAttr(pParamTypeAttr)
                   pParamTypeAttr = NULL
                END IF
@@ -1462,161 +1477,158 @@ FUNCTION CParseTypeLib.GetParameters (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVA
                      IF hr = S_OK AND pRefTypeInfo <> NULL THEN
                         DIM bstrVarType AS AFX_BSTR
                         hr = pRefTypeInfo->GetDocumentation(-1, @bstrVarType, NULL, NULL, NULL)
-                        cwsVarType = *bstrVarType : SysFreeString bstrVarType
+                        dwsVarType = *bstrVarType
+                        SysFreeString bstrVarType
                         hr = pRefTypeInfo->GetTypeAttr(@pParamTypeAttr)
                         IF hr = S_OK AND pParamTypeAttr <> NULL THEN
                            IF pParamTypeAttr->typekind = TKIND_ALIAS THEN
-                              cwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pParamTypeAttr->tdescalias.vt)
+                              dwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind) & " | " & TLB_VarTypeToConstant(pParamTypeAttr->tdescalias.vt)
                            ELSE
-                              cwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind)
+                              dwsTypeKind = TLB_TypeKindToStr(pParamTypeAttr->typekind)
                            END IF
-                           TreeView_AddItem(hTreeView, hParamNameNode, NULL, "TypeKind = " & cwsTypeKind)
+                           TreeView_AddItem(hTreeView, hParamNameNode, NULL, "TypeKind = " & dwsTypeKind)
                            pRefTypeInfo->ReleaseTypeAttr(pParamTypeAttr)
                            pParamTypeAttr = NULL
                         END IF
                         IF pRefTypeInfo THEN pRefTypeInfo->Release
                      END IF
                      EXIT DO
-
                   CASE ELSE
                      ' // Get the equivalent type
-                     cwsVarType = TLB_VarTypeToConstant(ptdesc->vt)
-                     cwsFBKeyword = TLB_VarTypeToKeyword(ptdesc->vt)
+                     dwsVarType = TLB_VarTypeToConstant(ptdesc->vt)
+                     dwsFBKeyword = TLB_VarTypeToKeyword(ptdesc->vt)
                      EXIT DO
-
                END SELECT
             LOOP
          ELSE
             ' // Get the equivalent type
-            cwsVarType = TLB_VarTypeToConstant(pParam[y].tdesc.vt)
-            cwsFBKeyword = TLB_VarTypeToKeyword(pParam[y].tdesc.vt)
+            dwsVarType = TLB_VarTypeToConstant(pParam[y].tdesc.vt)
+            dwsFBKeyword = TLB_VarTypeToKeyword(pParam[y].tdesc.vt)
             ' // Increment indirection level to pointers
-            IF cwsTypeKind = "TKIND_INTERFACE" OR cwsTypeKind = "TKIND_DISPATCH" OR cwsTypeKind = "TKIND_COCLASS" THEN wIndirectionLevel += 1
-            IF cwsVarType = "VT_SAFEARRAY" THEN wIndirectionLevel += 1
+            IF dwsTypeKind = "TKIND_INTERFACE" OR dwsTypeKind = "TKIND_DISPATCH" OR dwsTypeKind = "TKIND_COCLASS" THEN wIndirectionLevel += 1
+            IF dwsVarType = "VT_SAFEARRAY" THEN wIndirectionLevel += 1
          END IF
          TreeView_AddItem(hTreeView, hParamNameNode, NULL, "Indirection level = " & WSTR(wIndirectionLevel))
-         TreeView_AddItem(hTreeView, hParamNameNode, NULL, "VarType = " & cwsVarType)
+         TreeView_AddItem(hTreeView, hParamNameNode, NULL, "VarType = " & dwsVarType)
          ' // Add a prefix to structures that begin with an underscore
-'         IF LEFT$(cwsVarType, 1) = "_" THEN
-'            IF cwsTypeKind = "TKIND_RECORD" OR cwsTypeKind = "TKIND_UNION" THEN cwsVarType = "tag" & cwsVarType
+'         IF LEFT$(dwsVarType, 1) = "_" THEN
+'            IF dwsTypeKind = "TKIND_RECORD" OR dwsTypeKind = "TKIND_UNION" THEN dwsVarType = "tag" & dwsVarType
 '         END IF
-         ' // Parameter name, type and indirection
-         SELECT CASE **cwsTypeKind
+         ' // TODO: IF m_vTableView = TRUE then use BSTRING and DVARIANT
+         SELECT CASE dwsTypeKind
             CASE "TKIND_INTERFACE", "TKIND_DISPATCH", "TKIND_COCLASS"
                IF wIndirectionLevel = 2 THEN
-                  cwsFBSyntax = "BYVAL " & **cwsParamName & " AS " & **cwsVarType & " PTR PTR"
+                  dwsFBSyntax = "BYVAL " & dwsParamName & " AS " & dwsVarType & " PTR PTR"
                ELSE
-                  cwsFBSyntax = "BYVAL " & **cwsParamName & " AS " & **cwsVarType & " PTR"
+                  dwsFBSyntax = "BYVAL " & dwsParamName & " AS " & dwsVarType & " PTR"
                END IF
             CASE "TKIND_RECORD", "TKIND_UNION", "TKIND_ENUM"
                IF wIndirectionLevel = 2 THEN
-                  cwsFBSyntax = "BYVAL " & **cwsParamName & " AS " & **cwsVarType & " PTR PTR"
+                  dwsFBSyntax = "BYVAL " & dwsParamName & " AS " & dwsVarType & " PTR PTR"
                ELSEIF wIndirectionLevel = 1 THEN
-                  cwsFBSyntax = "BYVAL " & **cwsParamName &  " AS " & **cwsVarType & " PTR"
+                  dwsFBSyntax = "BYVAL " & dwsParamName &  " AS " & dwsVarType & " PTR"
                ELSE
-                  cwsFBSyntax = "BYVAL " & **cwsParamName & " AS " & **cwsVarType
+                  dwsFBSyntax = "BYVAL " & dwsParamName & " AS " & dwsVarType
                END IF
             CASE ELSE
-               IF LEFT(**cwsTypeKind, 11) = "TKIND_ALIAS" THEN
+               IF LEFT(dwsTypeKind, 11) = "TKIND_ALIAS" THEN
                   IF wIndirectionLevel = 2 THEN
-                     cwsFBSyntax = "BYVAL " & **cwsParamName & " AS " & **cwsVarType & " PTR PTR"
+                     dwsFBSyntax = "BYVAL " & dwsParamName & " AS " & dwsVarType & " PTR PTR"
                   ELSEIF wIndirectionLevel = 1 THEN
-                     cwsFBSyntax = "BYVAL " & **cwsParamName &  " AS " & **cwsVarType & " PTR"
+                     dwsFBSyntax = "BYVAL " & dwsParamName &  " AS " & dwsVarType & " PTR"
                   ELSE
-                     cwsFBSyntax = "BYVAL " & **cwsParamName & " AS " & **cwsVarType
+                     dwsFBSyntax = "BYVAL " & dwsParamName & " AS " & dwsVarType
                   END IF
                ELSE
-                  SELECT CASE **cwsVarType
+                  SELECT CASE dwsVarType
                      CASE "VT_UNKNOWN"
                         IF wIndirectionLevel = 2 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IUnknown PTR PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS IUnknown PTR PTR"
                         ELSEIF wIndirectionLevel = 1 THEN
                            IF ((wFlags AND PARAMFLAG_FOUT) = PARAMFLAG_FOUT) OR ((wFlags AND PARAMFLAG_FRETVAL) = PARAMFLAG_FRETVAL) THEN
-                              cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IUnknown PTR PTR"
+                              dwsFBSyntax = "BYVAL " & dwsParamName & " AS IUnknown PTR PTR"
                            ELSE
-                              cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IUnknown PTR"
+                              dwsFBSyntax = "BYVAL " & dwsParamName & " AS IUnknown PTR"
                            END IF
                         ELSE
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IUnknown PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS IUnknown PTR"
                         END IF
                      CASE "VT_DISPATCH"
                         IF wIndirectionLevel = 2 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IDispatch PTR PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS IDispatch PTR PTR"
                         ELSEIF wIndirectionLevel = 1 THEN
                            IF ((wFlags AND PARAMFLAG_FOUT) = PARAMFLAG_FOUT) OR ((wFlags AND PARAMFLAG_FRETVAL) = PARAMFLAG_FRETVAL) THEN
-                              cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IDispatch PTR PTR"
+                              dwsFBSyntax = "BYVAL " & dwsParamName & " AS IDispatch PTR PTR"
                            ELSE
-                              cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IDispatch PTR"
+                              dwsFBSyntax = "BYVAL " & dwsParamName & " AS IDispatch PTR"
                            END IF
                         ELSE
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS IDispatch PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS IDispatch PTR"
                         END IF
                      CASE "VT_VOID"
                         IF wIndirectionLevel = 2 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS ANY PTR PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS ANY PTR PTR"
                         ELSEIF wIndirectionLevel = 1 THEN
                            IF ((wFlags AND PARAMFLAG_FOUT) = PARAMFLAG_FOUT) OR ((wFlags AND PARAMFLAG_FRETVAL) = PARAMFLAG_FRETVAL) THEN
-                              cwsFBSyntax = "BYVAL " & **cwsParamName & " AS ANY PTR PTR"
+                              dwsFBSyntax = "BYVAL " & dwsParamName & " AS ANY PTR PTR"
                            ELSE
-                              cwsFBSyntax = "BYVAL " & **cwsParamName & " AS ANY PTR"
+                              dwsFBSyntax = "BYVAL " & dwsParamName & " AS ANY PTR"
                            END IF
                         ELSE
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS ANY PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS ANY PTR"
                         END IF
                      CASE "VT_LPSTR"
-                        IF wIndirectionLevel = 2 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS ZSTRING PTR PTR"
+                        IF wIndirectionLevel = 1 OR wIndirectionLevel = 2 THEN
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS ZSTRING PTR PTR"
                         ELSE
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS ZSTRING PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS ZSTRING PTR"
                         END IF
                      CASE "VT_LPWSTR"
-                        IF wIndirectionLevel = 2 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS WSTRING PTR PTR"
+                        IF wIndirectionLevel = 1 OR wIndirectionLevel = 2 THEN
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS WSTRING PTR PTR"
                         ELSE
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS WSTRING PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS WSTRING PTR"
                         END IF
                      CASE "VT_BSTR"
                         IF wIndirectionLevel = 2 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS BSTR PTR PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS BSTR PTR PTR"
                         ELSEIF wIndirectionLevel = 1 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS BSTR PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS BSTR PTR"
                         ELSE
-                           cwsFBSyntax = "BYVAL " & **cwsParamName & " AS BSTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName & " AS BSTR"
                         END IF
                      CASE ELSE
                         IF wIndirectionLevel = 2 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName &  " AS " & **cwsFBKeyword & " PTR PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName &  " AS " & dwsFBKeyword & " PTR PTR"
                         ELSEIF wIndirectionLevel = 1 THEN
-                           cwsFBSyntax = "BYVAL " & **cwsParamName &  " AS " & **cwsFBKeyword & " PTR"
+                           dwsFBSyntax = "BYVAL " & dwsParamName &  " AS " & dwsFBKeyword & " PTR"
                         ELSE
-                           cwsFBSyntax = "BYVAL " & **cwsParamName &  " AS " & **cwsFBKeyword
+                           dwsFBSyntax = "BYVAL " & dwsParamName &  " AS " & dwsFBKeyword
                         END IF
                   END SELECT
                END IF
          END SELECT
-
          ' // See of it is an optional parameter without a default value
          IF (pParam[y].paramdesc.wParamFlags AND PARAMFLAG_FOPT) = PARAMFLAG_FOPT AND _
             (pParam[y].paramdesc.wParamFlags AND PARAMFLAG_FHASDEFAULT) <> PARAMFLAG_FHASDEFAULT THEN
-            IF RIGHT(**cwsFBSyntax, 4) = " PTR" THEN cwsFBSyntax += " = NULL"
-            IF RIGHT(**cwsFBSyntax, 11) = " AS VARIANT" THEN cwsFBSyntax += " = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND)"
+            IF RIGHT(dwsFBSyntax, 4) = " PTR" THEN dwsFBSyntax += " = NULL"
+            IF RIGHT(dwsFBSyntax, 11) = " AS VARIANT" THEN dwsFBSyntax += " = TYPE(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND)"
          END IF
-
          ' // See if it has a default value
          IF (pParam[y].paramdesc.wParamFlags AND PARAMFLAG_FHASDEFAULT) = PARAMFLAG_FHASDEFAULT THEN
             DIM pex AS PARAMDESCEX PTR = pParam[y].paramdesc.pparamdescex
-            DIM cwsDefaultValue AS CWSTR = AfxVarToStr(@pex->vardefaultvalue)
+            DIM dwsDefaultValue AS DWSTRING = AfxVarToStr(@pex->vardefaultvalue)
             IF pex->vardefaultvalue.vt = VT_BSTR THEN
-               TreeView_AddItem(hTreeView, hParamNameNode, NULL, "Default value = " & CHR(34) & **cwsDefaultValue & CHR(34))
-'               cwsFBSyntax += " = " & CHR(34) & **cwsDefaultValue & CHR(34)
+               TreeView_AddItem(hTreeView, hParamNameNode, NULL, "Default value = " & CHR(34) & dwsDefaultValue & CHR(34))
+'               dwsFBSyntax += " = " & CHR(34) & dwsDefaultValue & CHR(34)
             ELSE
-               TreeView_AddItem(hTreeView, hParamNameNode, NULL, "Default value = " & cwsDefaultValue)
+               TreeView_AddItem(hTreeView, hParamNameNode, NULL, "Default value = " & dwsDefaultValue)
                ' // Some typelibs have unprintable default values, e.g. wbemdisp.tlb,
                ' // that has unprintable IDispatch PTR values.
-               IF LEN(cwsDefaultValue) THEN cwsFBSyntax += " = " & cwsDefaultValue
+               IF LEN(dwsDefaultValue) THEN dwsFBSyntax += " = " & dwsDefaultValue
             END IF
          END IF
-         TreeView_AddItem(hTreeView, hParamNameNode, NULL, "FB syntax = " & cwsFBSyntax)
+         TreeView_AddItem(hTreeView, hParamNameNode, NULL, "FB syntax = " & dwsFBSyntax)
          TreeView_Expand(hTreeView, hParamNameNode, TVE_EXPAND)
       NEXT
    END IF
@@ -1632,6 +1644,7 @@ FUNCTION CParseTypeLib.GetParameters (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVA
 
    ' // Just to satisfy the compiler rules; it has no useful meaning
    RETURN S_OK
+
 END FUNCTION
 ' =====================================================================================
 ```
@@ -1640,6 +1653,7 @@ END FUNCTION
 
 A number of helper procedures have been used to translate numeric values to more descriptive information:
 
+```
 ' ========================================================================================
 ' Converts LibFlags to a descriptive string.
 ' ========================================================================================
@@ -1653,7 +1667,8 @@ FUNCTION TLB_LibFlagsToStr (BYVAL wFlags AS WORD) AS STRING
    FUNCTION = strFlags
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Converts InterfaceFlags to a descriptive string.
 ' ========================================================================================
@@ -1678,7 +1693,8 @@ FUNCTION TLB_InterfaceFlagsToStr (BYVAL wFlags AS WORD) AS STRING
    FUNCTION = strFlags
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Converts ImplTypeFlags to a descriptive string.
 ' ========================================================================================
@@ -1692,7 +1708,8 @@ FUNCTION TLB_ImplTypeFlagsToStr (BYVAL wFlags AS WORD) AS STRING
    FUNCTION = strFlags
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Converts FuncFlags to a descriptive string.
 ' ========================================================================================
@@ -1715,7 +1732,8 @@ FUNCTION TLB_FuncFlagsToStr (BYVAL wFlags AS WORD) AS STRING
    FUNCTION = strFlags
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Converts ParamFlags to a descriptive string.
 ' ========================================================================================
@@ -1732,7 +1750,8 @@ FUNCTION TLB_ParamflagsToStr (BYVAL wFlags AS WORD) AS STRING
    FUNCTION = strFlags
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Converts VarFlags to a descriptive string.
 ' ========================================================================================
@@ -1755,7 +1774,8 @@ FUNCTION TLB_VarFlagsToStr (BYVAL wFlags AS WORD) AS STRING
    FUNCTION = strFlags
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Converts a type kind to a descriptive string.
 ' ========================================================================================
@@ -1774,7 +1794,8 @@ FUNCTION TLB_TypeKindToStr (BYVAL dwTypeKind AS DWORD) AS STRING
    FUNCTION = strType
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Returns the VarType.
 ' ========================================================================================
@@ -1835,7 +1856,8 @@ FUNCTION TLB_VarTypeToStr (BYVAL VarType AS LONG, BYVAL fReturnType AS LONG = 0)
    FUNCTION = s
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Returns the VarType
 ' ========================================================================================
@@ -1891,12 +1913,12 @@ FUNCTION TLB_VarTypeToConstant (BYVAL VarType AS LONG) AS STRING
    FUNCTION = s
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Returns the VarType as a keyword
 ' ========================================================================================
 FUNCTION TLB_VarTypeToKeyword OVERLOAD (BYVAL VarType AS LONG, BYVAL cElements AS WORD = 0) AS STRING
-
    ' Note: VT_I1 is an array of bytes; translate it to a fixed string
    DIM s AS STRING
    SELECT CASE VarType
@@ -1922,9 +1944,9 @@ FUNCTION TLB_VarTypeToKeyword OVERLOAD (BYVAL VarType AS LONG, BYVAL cElements A
 '            s = "BYTE"
 '         END IF
          IF cElements THEN
-            s = "(0 TO " & STR(cElements) & " AS " & IIF&(VarType = 16, "BYTE", "UBYTE") & ")"
+            s = "(0 TO " & STR(cElements) & " AS " & IIF(VarType = 16, "BYTE", "UBYTE") & ")"
          ELSE
-            s = IIF&(VarType = 16, "BYTE", "UBYTE")
+            s = IIF(VarType = 16, "BYTE", "UBYTE")
          END IF
       CASE    18 : s = "USHORT"                            ' VT_UI2
       CASE    19 : s = "ULONG"                             ' VT_UI4
@@ -1960,7 +1982,8 @@ FUNCTION TLB_VarTypeToKeyword OVERLOAD (BYVAL VarType AS LONG, BYVAL cElements A
    FUNCTION = s
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Returns the VarType
 ' ========================================================================================
@@ -2018,7 +2041,8 @@ FUNCTION TLB_VarTypeToKeyword OVERLOAD (BYVAL VarType AS STRING) AS STRING
    FUNCTION = s
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Gets the appropiate member name of the variant union for byref parameters.
 ' Note: VT_HRESULT isn't an automation compatible type, but the CreatePartnershipComplete
@@ -2054,90 +2078,79 @@ And others to get information from the registry and to get the names of implemen
 ' ========================================================================================
 ' Gets the ProgID from the registry.
 ' ========================================================================================
-FUNCTION TLB_GetProgID (BYVAL pwszGuid AS WSTRING PTR) AS CWSTR
+FUNCTION TLB_GetProgID (BYVAL pwszGuid AS WSTRING PTR) AS DWSTRING
 
-   DIM hKey         AS HKEY                 ' // Handle of the opned key
-   DIM dwIdx        AS DWORD                ' // Index of the value to be retrieved
-   DIM wszKey       AS WSTRING * MAX_PATH   ' // Name of the subkey to open
-   DIM wszKeyValue  AS WSTRING * MAX_PATH   ' // Buffer that receives the data
-   DIM wszValueName AS WSTRING * MAX_PATH   ' // Name of the value
-   DIM cValueName   AS DWORD                ' // Size of szValueName
-   DIM cbData       AS DWORD                ' // Size of szKeyValue
-   DIM keyType      AS DWORD                ' // Type of data
-
-   wszKey = "CLSID\" & *pwszGuid & "\ProgID"
+   ' // Name of the subkey to open
+   DIM wszKey AS WSTRING * MAX_PATH = "CLSID\" & *pwszGuid & "\ProgID"
+   DIM hKey AS HKEY   ' // Handle of the opened key
    RegOpenKeyExW HKEY_CLASSES_ROOT, @wszKey, 0, KEY_READ, @hKey
-   IF hKey THEN
-      dwIdx = 0
-      cValueName = MAX_PATH
-      cbData = MAX_PATH
-      RegEnumValueW hKey, dwIdx, @wszValueName, @cValueName, NULL, @keyType, cast(BYTE PTR, @wszKeyValue), @cbData
-      RegCloseKey hKey
-   END IF
+   IF hKey = NULL THEN RETURN ""
+   DIM dwIdx AS DWORD = 0                   ' // Index of the value to be retrieved
+   DIM cValueName AS DWORD = MAX_PATH       ' // Size of wszValueName
+   DIM cbData AS DWORD = MAX_PATH           ' // Size of wszKeyValue
+   DIM keyType AS DWORD                     ' // Type of data
+   DIM wszKeyValue AS WSTRING * MAX_PATH    ' // Buffer that receives the data
+   DIM wszValueName AS WSTRING * MAX_PATH   ' // Name of the value
+   RegEnumValueW hKey, dwIdx, @wszValueName, @cValueName, NULL, @keyType, cast(BYTE PTR, @wszKeyValue), @cbData
+   RegCloseKey hKey
    RETURN wszKeyValue
+
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Gets the Version Independent ProgID from the registry.
 ' ========================================================================================
-FUNCTION TLB_GetVersionIndependentProgID (BYVAL pwszGuid AS WSTRING PTR) AS CWSTR
+FUNCTION TLB_GetVersionIndependentProgID (BYVAL pwszGuid AS WSTRING PTR) AS DWSTRING
 
-   DIM hKey         AS HKEY                 ' // Handle of the opned key
-   DIM dwIdx        AS DWORD                ' // Index of the value to be retrieved
-   DIM wszKey       AS WSTRING * MAX_PATH   ' // Name of the subkey to open
-   DIM wszKeyValue  AS WSTRING * MAX_PATH   ' // Buffer that receives the data
-   DIM wszValueName AS WSTRING * MAX_PATH   ' // Name of the value
-   DIM cValueName   AS DWORD                ' // Size of szValueName
-   DIM cbData       AS DWORD                ' // Size of szKeyValue
-   DIM keyType      AS DWORD                ' // Type of data
-
-   wszKey = "CLSID\" & *pwszGuid & "\VersionIndependentProgID"
+   ' // Name of the subkey to open
+   DIM wszKey AS WSTRING * MAX_PATH = "CLSID\" & *pwszGuid & "\VersionIndependentProgID"
+   DIM hKey AS HKEY   ' // Handle of the opened key
    RegOpenKeyExW HKEY_CLASSES_ROOT, @wszKey, 0, KEY_READ, @hKey
-   IF hKey THEN
-      dwIdx = 0
-      cValueName = MAX_PATH
-      cbData = MAX_PATH
-      RegEnumValueW hKey, dwIdx, @wszValueName, @cValueName, NULL, @keyType, cast(BYTE PTR, @wszKeyValue), @cbData
-      RegCloseKey hKey
-   END IF
+   IF hKey = NULL THEN RETURN ""
+   DIM dwIdx AS DWORD = 0                   ' // Index of the value to be retrieved
+   DIM cValueName AS DWORD = MAX_PATH       ' // Size of wszValueName
+   DIM cbData AS DWORD = MAX_PATH           ' // Size of wszKeyValue
+   DIM keyType AS DWORD                     ' // Type of data
+   DIM wszKeyValue AS WSTRING * MAX_PATH    ' // Buffer that receives the data
+   DIM wszValueName AS WSTRING * MAX_PATH   ' // Name of the value
+   RegEnumValueW hKey, dwIdx, @wszValueName, @cValueName, NULL, @keyType, cast(BYTE PTR, @wszKeyValue), @cbData
+   RegCloseKey hKey
    RETURN wszKeyValue
 
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Gets the InprocServer32 from the registry.
 ' ========================================================================================
-FUNCTION TLB_GetInprocServer32 (BYVAL pwszGuid AS WSTRING PTR) AS CWSTR
+FUNCTION TLB_GetInprocServer32 (BYVAL pwszGuid AS WSTRING PTR) AS DWSTRING
 
-   DIM hKey         AS HKEY                 ' // Handle of the opned key
-   DIM dwIdx        AS DWORD                ' // Index of the value to be retrieved
-   DIM wszKey       AS WSTRING * MAX_PATH   ' // Name of the subkey to open
-   DIM wszKeyValue  AS WSTRING * MAX_PATH   ' // Buffer that receives the data
-   DIM wszValueName AS WSTRING * MAX_PATH   ' // Name of the value
-   DIM cValueName   AS DWORD                ' // Size of szValueName
-   DIM cbData       AS DWORD                ' // Size of szKeyValue
-   DIM keyType      AS DWORD                ' // Type of data
-
-   wszKey = "CLSID\" & *pwszGuid & "\InprocServer32"
+   ' // Name of the subkey to open
+   DIM wszKey AS WSTRING * MAX_PATH = "CLSID\" & *pwszGuid & "\InprocServer32"
+   DIM hKey AS HKEY   ' // Handle of the opened key
    RegOpenKeyExW HKEY_CLASSES_ROOT, @wszKey , 0, KEY_READ, @hKey
-   IF hKey THEN
-      dwIdx = 0
-      cValueName = MAX_PATH
-      cbData = MAX_PATH
-      RegEnumValueW hKey, dwIdx, @wszValueName, @cValueName, NULL, @keyType, cast(BYTE PTR, @wszKeyValue), @cbData
-      RegCloseKey hKey
-   END IF
+   IF hKey = NULL THEN RETURN ""
+   DIM dwIdx AS DWORD = 0                   ' // Index of the value to be retrieved
+   DIM cValueName AS DWORD = MAX_PATH       ' // Size of wszValueName
+   DIM cbData AS DWORD = MAX_PATH           ' // Size of wszKeyValue
+   DIM keyType AS DWORD                     ' // Type of data
+   DIM wszKeyValue AS WSTRING * MAX_PATH    ' // Buffer that receives the data
+   DIM wszValueName AS WSTRING * MAX_PATH   ' // Name of the value
+   RegEnumValueW hKey, dwIdx, @wszValueName, @cValueName, NULL, @keyType, cast(BYTE PTR, @wszKeyValue), @cbData
+   RegCloseKey hKey
    RETURN wszKeyValue
 
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Retrieves the implemented interface.
 ' ========================================================================================
-FUNCTION TLB_GetImplementedInterface (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL idx AS LONG = 0) AS CWSTR
+FUNCTION TLB_GetImplementedInterface (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL idx AS LONG = 0) AS DWSTRING
 
    DIM pRefType AS HREFTYPE   ' // Address to a referenced type description
    DIM hr AS HRESULT = pTypeInfo->GetRefTypeOfImplType(idx, @pRefType)
@@ -2145,19 +2158,21 @@ FUNCTION TLB_GetImplementedInterface (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVA
    DIM pImplTypeInfo AS Afx_ITypeInfo PTR   ' // Implemented interface type info
    hr = pTypeInfo->GetRefTypeInfo(pRefType, @pImplTypeInfo)
    IF hr <> S_OK OR pImplTypeInfo = NULL THEN RETURN ""
-   DIM cwsName AS CWSTR, bstrName AS AFX_BSTR   ' // interface name
+   DIM dwsName AS DWSTRING, bstrName AS AFX_BSTR   ' // interface name
    pImplTypeInfo->GetDocumentation(-1, @bstrName, NULL, NULL, NULL)
    pImplTypeInfo->Release
-   cwsName = *bstrName : SysFreeString bstrName
-   RETURN cwsName
+   dwsName = *bstrName
+   SysFreeString bstrName
+   RETURN dwsName
 
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Retrieves the inherited interface
 ' ========================================================================================
-FUNCTION TLB_GetInheritedInterface (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL idx AS LONG = 0) AS CWSTR
+FUNCTION TLB_GetInheritedInterface (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL idx AS LONG = 0) AS DWSTRING
 
    DIM pRefType AS HREFTYPE   ' // Address to a referenced type description
    DIM hr AS HRESULT = pTypeInfo->GetRefTypeOfImplType(idx, @pRefType)
@@ -2167,30 +2182,31 @@ FUNCTION TLB_GetInheritedInterface (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL 
    IF hr <> S_OK OR pImplTypeInfo = NULL THEN RETURN ""
    DIM pTypeAttr AS TYPEATTR PTR   ' // Address of a pointer to the TYPEATTR structure
    hr = pImplTypeInfo->GetTypeAttr(@pTypeAttr)
-   DIM cwsInterfaceName AS CWSTR
+   DIM dwsInterfaceName AS DWSTRING
    IF hr = S_OK AND pTypeAttr <> NULL THEN
       IF @pTypeAttr->cImplTypes = 1 THEN
-         cwsInterfaceName = TLB_GetImplementedInterface(pImplTypeInfo, 0)
+         dwsInterfaceName = TLB_GetImplementedInterface(pImplTypeInfo, 0)
          pImplTypeInfo->ReleaseTypeAttr(pTypeAttr)
       END IF
    END IF
    pImplTypeInfo->Release
-   RETURN cwsInterfaceName
+   RETURN dwsInterfaceName
 
 END FUNCTION
 ' ========================================================================================
-
+```
+```
 ' ========================================================================================
 ' Retrieves the base class
 ' ========================================================================================
-FUNCTION TLB_GetBaseClass (BYVAL pTypeLib AS Afx_ITypeLib PTR, BYREF cwsItemName AS CWSTR) AS CWSTR
+FUNCTION TLB_GetBaseClass (BYVAL pTypeLib AS Afx_ITypeLib PTR, BYREF dwsItemName AS DWSTRING) AS DWSTRING
 
    DIM pTypeInfo               AS Afx_ITypeInfo PTR   ' // TypeInfo interface
    DIM pTypeAttr               AS TYPEATTR PTR        ' // Address of a pointer to the TYPEATTR structure
    DIM pRefType                AS DWORD               ' // Address to a referenced type description
    DIM pRefTypeInfo            AS Afx_ITypeInfo PTR   ' // Referenced TypeInfo interface
    DIM pRefTypeAttr            AS TYPEATTR PTR        ' // Referenced TYPEATTR structure
-   DIM cwsInheritedInterface   AS CWSTR               ' // Inherited interface
+   DIM dwsInheritedInterface   AS DWSTRING            ' // Inherited interface
 
    ' // Number of type infos
    DIM TypeInfoCount AS LONG = pTypeLib->GetTypeInfoCount
@@ -2210,20 +2226,21 @@ FUNCTION TLB_GetBaseClass (BYVAL pTypeLib AS Afx_ITypeLib PTR, BYREF cwsItemName
       ' // If it is an interface...
       IF pTKind = TKIND_INTERFACE OR pTKind = TKIND_DISPATCH THEN
          ' // Get the name of the interface
-         DIM cwsName AS CWSTR, bstrName AS AFX_BSTR
+         DIM dwsName AS DWSTRING, bstrName AS AFX_BSTR
          hr = pTypeLib->GetDocumentation(i, @bstrName, NULL, NULL, NULL)
-         cwsName = *bstrName : SysFreeString bstrName
+         dwsName = *bstrName
+         SysFreeString bstrName
          ' // If it is the one we are looking for...
-         IF cwsName = cwsItemName THEN
+         IF dwsName = dwsItemName THEN
             ' // If it inherits from another interface, recursively search the methods
             IF (pTypeAttr->wTypeFlags AND TYPEFLAG_FDUAL) = TYPEFLAG_FDUAL THEN
-               cwsInheritedInterface = TLB_GetInheritedInterface(pTypeInfo, -1)
+               dwsInheritedInterface = TLB_GetInheritedInterface(pTypeInfo, -1)
             ELSE
-               cwsInheritedInterface = TLB_GetImplementedInterface(pTypeInfo)
+               dwsInheritedInterface = TLB_GetImplementedInterface(pTypeInfo)
             END IF
             ' // Check also that the interface doesn't inherit from itself!
-            IF UCASE(cwsInheritedInterface) <> "IUNKNOWN" AND UCASE(cwsInheritedInterface) <> "IDISPATCH" AND UCASE(cwsInheritedInterface) <> UCASE(*bstrName) THEN
-               cwsInheritedInterface = TLB_GetBaseClass(pTypeLib, cwsInheritedInterface)
+            IF UCASE(dwsInheritedInterface) <> "IUNKNOWN" AND UCASE(dwsInheritedInterface) <> "IDISPATCH" AND UCASE(dwsInheritedInterface) <> UCASE(*bstrName) THEN
+               dwsInheritedInterface = TLB_GetBaseClass(pTypeLib, dwsInheritedInterface)
             END IF
          END IF
       END IF
@@ -2234,7 +2251,7 @@ FUNCTION TLB_GetBaseClass (BYVAL pTypeLib AS Afx_ITypeLib PTR, BYREF cwsItemName
    IF pTypeAttr THEN pTypeInfo->ReleaseTypeAttr(pTypeAttr)
    IF pTypeInfo THEN pTypeInfo->Release
 
-   RETURN cwsInheritedInterface
+   RETURN dwsInheritedInterface
 
 END FUNCTION
 ' ========================================================================================
