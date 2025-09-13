@@ -1126,7 +1126,7 @@ CASE TKIND_INTERFACE, TKIND_DISPATCH
 
 A very important particularity is that the information can be returned in two different kind of views, the **VTable** view and the **Automation** view.
 
-To change the type of views from the default Automation one to the VTable one, we have to call the **GetRefTypeOfImplType** of the **ITypeInfo** interface. The meager documentation provided by Microsoft states that "If a type description describes a COM class, it retrieves the type description of the implemented interface types. For an interface, GetRefTypeOfImplType returns the type information for inherited interfaces, if any exist." See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms221569(v=vs.85).aspx
+To change the type of views from the default Automation one to the VTable one, we have to call the **GetRefTypeOfImplType** of the **ITypeInfo** interface. The meager documentation provided by Microsoft states that "If a type description describes a COM class, it retrieves the type description of the implemented interface types. For an interface, **GetRefTypeOfImplType** returns the type information for inherited interfaces, if any exist." See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms221569(v=vs.85).aspx
 
 There is a remark at the bottom: "If the TKIND_DISPATCH type description is for a dual interface, the TKIND_INTERFACE type description can be obtained by calling **GetRefTypeOfImplType** with an indexof –1, and by passing the returned *pRefTypehandle* to **GetRefTypeInfo** to retrieve the type information."
 
