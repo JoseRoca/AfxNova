@@ -16,22 +16,13 @@ The first step is to retrieve the type libraries registered in the system.
 All the registered type libraries have an entry in the registry under HKEY_CLASSES_ROOT\TypeLib. Under this section, every subkey is the CLSID of a TypeLibrary. Under the CLSID subkey there are one or more subkeys with the version numbers, that generally take the format MajorVersion.MinorVersion (e.g.: 1.0). Opening these version subkeys, there are other subkeys. The one that we need is the default one (0), which can contain one or two subkeys, "win32" and/or "win64". Opening these subkeys we can retrieve the path of the type library.
 
 ```
-' ########################################################################################
-' TypeLib Browser
-' File: TLB_ENUMTLBS.INC
-' Contents: TypeLib Browser typelibs enumeration
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2016 José Roca. Freeware. Use at your own risk.
-' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
-' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-' ########################################################################################
-
 ' ========================================================================================
 ' Searches for the win32 subkey
 ' ========================================================================================
-FUNCTION TLB_RegSearchWin32 (BYVAL pwszKey AS WSTRING PTR) AS CWSTR
+FUNCTION TLB_RegSearchWin32 (BYVAL pwszKey AS WSTRING PTR) AS DWSTRING
+
    IF pwszKey = NULL THEN RETURN ""
+
    ' // Recursively searches for the win directory
    DIM hr AS LONG, hKey AS HKEY, dwIdx AS DWORD, ft AS FILETIME
    DIM wszKeyName AS WSTRING * MAX_PATH, wszClass AS WSTRING * MAX_PATH
@@ -48,19 +39,21 @@ FUNCTION TLB_RegSearchWin32 (BYVAL pwszKey AS WSTRING PTR) AS CWSTR
       dwIdx += 1
    LOOP WHILE hr = S_OK
 
-  ' // Closes the registry and returns the result
+   ' // Closes the registry and returns the result
    RegCloseKey hKey
    IF hr <> S_OK OR LEN(wszKeyName) = 0 THEN RETURN ""
    RETURN wszKey
+
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Searches for the win64 subkey
 ' ========================================================================================
+FUNCTION TLB_RegSearchWin64 (BYVAL pwszKey AS WSTRING PTR) AS DWSTRING
 
-FUNCTION TLB_RegSearchWin64 (BYVAL pwszKey AS WSTRING PTR) AS CWSTR
    IF pwszKey = NULL THEN RETURN ""
+
    ' // Recursively searches for the win directory
    DIM hr AS LONG, hKey AS HKEY, dwIdx AS DWORD, ft AS FILETIME
    DIM wszKeyName AS WSTRING * MAX_PATH, wszClass AS WSTRING * MAX_PATH
@@ -76,18 +69,22 @@ FUNCTION TLB_RegSearchWin64 (BYVAL pwszKey AS WSTRING PTR) AS CWSTR
       IF UCASE(wszKeyName) = "WIN64" THEN EXIT DO
       dwIdx += 1
    LOOP WHILE hr = S_OK
+
    ' // Closes the registry and returns the result
    RegCloseKey hKey
    IF hr <> S_OK OR LEN(wszKeyName) = 0 THEN RETURN ""
    RETURN wszKey
+
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Returns the path of the typelib.
 ' ========================================================================================
-FUNCTION TLB_RegEnumDirectory (BYVAL pwszKey AS WSTRING PTR) AS CWSTR
+FUNCTION TLB_RegEnumDirectory (BYVAL pwszKey AS WSTRING PTR) AS DWSTRING
+
    IF pwszKey = NULL THEN RETURN ""
+
    ' // Searches the HKEY_CLASSES_ROOT\TypeLib\<LIBID> node.
    DIM hKey AS HKEY, wszKey AS WSTRING * MAX_PATH = *pwszKey
    DIM hr AS LONG = RegOpenKeyExW(HKEY_CLASSES_ROOT, @wszKey, 0, KEY_READ, @hKey)
@@ -118,6 +115,7 @@ FUNCTION TLB_RegEnumDirectory (BYVAL pwszKey AS WSTRING PTR) AS CWSTR
    LOOP
    RegCloseKey hKey
    IF hr <> S_OK OR LEN(wszSubkey) = 0 THEN RETURN ""
+
    hKey = NULL
    hr = RegOpenKeyExW(HKEY_CLASSES_ROOT, @wszKey, 0, KEY_READ, @hKey)
    IF hr <> ERROR_SUCCESS THEN RETURN ""
@@ -128,9 +126,11 @@ FUNCTION TLB_RegEnumDirectory (BYVAL pwszKey AS WSTRING PTR) AS CWSTR
    DIM cbData AS DWORD = MAX_PATH
    dwIdx = 0
    hr = RegEnumValueW(hKey, dwIdx, @wszValueName, @cValueName, NULL, @keyType, cast(BYTE PTR, @wszKeyValue), @cbData)
+
    ' // Closes the registry and returns the value
    RegCloseKey hKey
    RETURN wszKeyValue
+
 END FUNCTION
 ' ========================================================================================
 
@@ -139,16 +139,19 @@ END FUNCTION
 ' Parameter
 ' - hListView = Handle of the list view.
 ' - pwszLibId = Library guid.
-' return value: TRUE or FALSE.
+' Return value: TRUE or FALSE.
 ' ========================================================================================
 FUNCTION TLB_RegEnumVersions (BYVAL hListView AS HWND, BYVAL pwszLibId AS WSTRING PTR) AS BOOLEAN
+
    IF hListView = NULL OR pwszLibId = NULL THEN EXIT FUNCTION
+
    ' // Searches the HKEY_CLASSES_ROOT\TypeLib\<LIBID> node.
    DIM hKey AS HKEY
    DIM wszKey AS WSTRING * MAX_PATH = "TypeLib\" & *pwszLibId
    DIM hr AS LONG = RegOpenKeyExW(HKEY_CLASSES_ROOT, @wszKey, 0, KEY_READ, @hKey)
    IF hr <> ERROR_SUCCESS THEN RETURN FALSE
    IF hKey = NULL THEN RETURN FALSE
+
    ' // Opens the subtrees of the different versions of the TyleLib library
    DIM dwIdx AS DWORD, wszKeyName AS WSTRING * MAX_PATH, wszClass AS WSTRING * MAX_PATH, ft AS FILETIME
    DIM cchName AS DWORD = MAX_PATH, cchClass AS DWORD = MAX_PATH
@@ -190,7 +193,7 @@ FUNCTION TLB_RegEnumVersions (BYVAL hListView AS HWND, BYVAL pwszLibId AS WSTRIN
       ' // If there is not path, skip the typelib because we can't retrieve it
       IF LEN(wszPath) = 0 THEN CONTINUE DO
       ' // Remove double quotes (if any)
-      wszPath = AfxStrRemove(wszPath, """")
+      wszPath = DWStrRemove(wszPath, """")
       ' // Convert short paths to long paths
       ' // Dont use it with all files or these ending with version numbers
       ' // (a \ and a number) will we skipped.
@@ -230,8 +233,10 @@ FUNCTION TLB_RegEnumVersions (BYVAL hListView AS HWND, BYVAL pwszLibId AS WSTRIN
          ListView_SetItemText(hListView, lItemIdx, 3, pwszLibId)
       END IF
    LOOP
+
    ' // Closes the registry key
    RegCloseKey hKey
+
 END FUNCTION
 ' ========================================================================================
 
@@ -239,16 +244,19 @@ END FUNCTION
 ' Enumerates all the typelibs.
 ' Parameter
 ' - hListView = Handle of the list view.
-' return value: TRUE or FALSE.
+' Return value: TRUE or FALSE.
 ' ========================================================================================
 FUNCTION TLB_RegEnumTypeLibs (BYVAL hListView AS HWND) AS BOOLEAN
+
    IF hListView = NULL THEN RETURN FALSE
+
    ' // Opens the HKEY_CLASSES_ROOT\TypeLib subtree
    DIM hKey AS HKEY
    DIM wszKey AS WSTRING * MAX_PATH = "TypeLib"
    DIM hr AS LONG = RegOpenKeyExW(HKEY_CLASSES_ROOT, @wszKey, 0, KEY_READ, @hKey)
    IF hr <> ERROR_SUCCESS THEN RETURN FALSE
    IF hKey = NULL THEN RETURN FALSE
+
    ' // Parses all the TypeLib subtree and gets the CLSIDs of all the TypeLibs
    DIM dwIdx AS DWORD, wszKeyName AS WSTRING * MAX_PATH, wszClass AS WSTRING * MAX_PATH, ft AS FILETIME
    DIM cchName AS DWORD = MAX_PATH, cchClass AS DWORD = MAX_PATH
@@ -261,10 +269,11 @@ FUNCTION TLB_RegEnumTypeLibs (BYVAL hListView AS HWND) AS BOOLEAN
    LOOP
    ' // Closes the registry
    RegCloseKey hKey
+
    RETURN TRUE
+
 END FUNCTION
 ' ========================================================================================
-
 ```
 
 # Loading the type library
