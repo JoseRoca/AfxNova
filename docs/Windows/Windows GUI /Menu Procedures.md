@@ -2296,7 +2296,7 @@ FUNCTION WndProc (BYVAL hWnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
 END FUNCTION
 ' ========================================================================================
----
+```
 ---
 
 ## <a name="cdialogmenu"></a>CDialog Menu
