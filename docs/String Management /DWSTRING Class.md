@@ -14,6 +14,7 @@ The `DWSTRING` class implements a dynamic unicode null terminated string. Free B
 | [bstr](#bstr) | Returns the contents of the `DWSTRING` as a `BSTR`. |
 | [OEM](#oem) | Converts from Unicode to OEM code page. |
 | [Utf8](#utf8) | Converts from UTF8 to Unicode and from Unicode to UTF8. |
+| [vptr](#vptr) | Returns the address of the string buffer. |
 | [wchar](#wchar) | Returns the string data as a new unicode string allocated with **CoTaskMemAlloc**. |
 
 # <a name="constructors"></a>Constructors
@@ -200,6 +201,15 @@ Converts from UTF8 to Unicode and from Unicode to UTF8.
 ```
 PROPERTY Utf8() AS STRING
 PROPERTY Utf8 (BYREF utf8String AS STRING)
+```
+---
+
+### <a name="vptr"></a>vptr
+
+Returns the address of the string buffer.
+
+```
+FUNCTION vptr () AS WSTRING PTR
 ```
 ---
 
