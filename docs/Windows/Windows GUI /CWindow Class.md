@@ -2401,7 +2401,7 @@ Each callback can store a single DWORD_PTR of reference data, which is passed to
 
 ## SetControlCallback
 
-Optional address of a callback function that receives all WM_COMMAND and WM_NOTIFY messages for the control.
+Optional address of a callback function that receives all **WM_COMMAND** and **WM_NOTIFY** messages for the control.
 
 ```
 FUNCTION SetControlCallback (BYVAL hCtl AS HWND, BYVAL pCallback AS ANY PTR) AS BOOLEAN
