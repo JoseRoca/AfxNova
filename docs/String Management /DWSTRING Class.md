@@ -12,6 +12,7 @@ The `DWSTRING` class implements a dynamic unicode null terminated string. Free B
 | [Operator Cast](#operatorcast) | Returns a pointer to the `DWSTRING` buffer or the string data.<br>Casting is automatic. You don't have to call this operator. |
 | [ChrW](#chrw) | Returns a wide-character string from a codepoint. |
 | [bstr](#bstr) | Returns the contents of the `DWSTRING` as a `BSTR`. |
+| [OEM](#oem) | Converts from Unicode to OEM code page. |
 | [Utf8](#utf8) | Converts from UTF8 to Unicode and from Unicode to UTF8. |
 | [wchar](#wchar) | Returns the string data as a new unicode string allocated with **CoTaskMemAlloc**. |
 
@@ -158,7 +159,6 @@ Dereferences the `DWSTRING`.<br>One * returns the address of the `DWSTRING` buff
 ```
 OPERATOR * (BYREF dws AS DWSTRING) AS WSTRING PTR
 ```
-
 ---
 
 # Casting and Conversions
@@ -181,7 +181,16 @@ Returns the contents of the `DWSTRING` as a BSTR.
 ```
 FUNCTION bstr () AS BSTR
 ```
+---
 
+### <a name="oem"></a>OEM
+
+Converts from Unicode to OEM code page and from OEM to Unicode.
+
+```
+PROPERTY OEM () AS STRING
+PROPERTY OEM (BYREF OEMString AS STRING)
+```
 ---
 
 ### <a name="utf8"></a>Utf8
@@ -192,7 +201,6 @@ Converts from UTF8 to Unicode and from Unicode to UTF8.
 PROPERTY Utf8() AS STRING
 PROPERTY Utf8 (BYREF utf8String AS STRING)
 ```
-
 ---
 
 ### <a name="wchar"></a>wchar
