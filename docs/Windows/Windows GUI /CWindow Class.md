@@ -2411,7 +2411,7 @@ FUNCTION SetControlCallback (BYVAL cID AS LONG, BYVAL pCallback AS ANY PTR) AS B
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hCtl* | The handle of the control. |
-| *pCallback* | A pointer to a window procedure. You can use PROCPTR to get the pointer, e.g. PROCPTR(MyCallbackProc). |
+| *pCallback* | A pointer to a window procedure. You can use **PROCPTR** to get the pointer, e.g. PROCPTR(MyCallbackProc). |
 
 #### Return value
 
