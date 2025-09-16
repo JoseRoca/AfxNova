@@ -1,6 +1,6 @@
 # CMoney Class
 
-`CMoney` is a wrapper class for the `CURRENCY` data type. `CURRENCY` is implemented as an 8-byte two's-complement integer value scaled by 10,000. This gives a fixed-point number with 15 digits to the left of the decimal point and 4 digits to the right. The `CURRENCY` data type is extremely useful for calculations involving money, or for any fixed-point calculations where aCMoneyacy is important.
+`CMoney` is a wrapper class for the `CURRENCY` data type. `CURRENCY` is implemented as an 8-byte two's-complement integer value scaled by 10,000. This gives a fixed-point number with 15 digits to the left of the decimal point and 4 digits to the right. The `CURRENCY` data type is extremely useful for calculations involving money, or for any fixed-point calculations where accuracy is important.
 
 The `CMoney` wrapper implements arithmetic, assignment, and comparison operations for this fixed-point type, and provides access to the numbers on either side of the decimal point in the form of two components: an integer component which stores the value to the left of the decimal point, and a fractional component which stores the value to the right of the decimal point. The fractional component is stored internally as an integer value between -9999 (CY_MIN_FRACTION) and +9999 (CY_MAX_FRACTION). The function `GetFraction` returns a value scaled by a factor of 10000 (CY_SCALE).
 
