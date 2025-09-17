@@ -164,7 +164,7 @@ const LOW_SURROGATE_END = &hdfff
 | [DWStrPositiveInfinityString](#dwstrpositiveinfinitystring) | Returns the string value for "positive infinity". |
 | [DWStrPositiveSign](#dwstrpositivesign) | Returns the string value for the positive sign. |
 | [DWStrScriptsList](#dwstrscriptslist) | Returns a string representing a list of scripts, using the 4-character notation used in ISO 15924. |
-| [DWStreShortDateFormatString](#dwstrshortdateformatstring) | Returns the short date formatting string for the locale. |
+| [DWStrShortDateFormatString](#dwstrshortdateformatstring) | Returns the short date formatting string for the locale. |
 | [DWStrShortestDayName](#dwstrshortestdayname) | Returns the short native name of the specified day of the week. |
 | [DWStrShortTimeFormatString](#dwstrshorttimeformatstring) | Returns the short time formatting string for the locale. |
 | [DWStrSortLocale](#dwstrsortlocale) | Returns the mame of the locale to use for sorting or casing behavior. |
@@ -2258,7 +2258,7 @@ FUNCTION DWStrScriptsList (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NAME_USER_DE
 
 ---
 
-## DWStreShortDateFormatString
+## DWStrShortDateFormatString
 
 Short date formatting string for the locale. The maximum number of characters allowed for this string is 80, including a terminating null character. The string can consist of a combination of day, month, year, and era format pictures. For example, "M/d/yyyy" indicates that September 3, 2004 is written 9/3/2004.
 ```
