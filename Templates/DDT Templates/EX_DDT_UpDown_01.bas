@@ -38,7 +38,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Add an UpDown control (the size and position will be automatically adjusted to the buddy control)
    ControlAddUpDown, hDlg, IDC_UPDOWN
 
-   ' // Set the edit control as budy of the updown control
+   ' // Set the edit control as buddy of the updown control
    DIM hUpDown AS HWND = ControlHandle(hDlg, IDC_UPDOWN)
    DIM hTextBox AS HWND = ControlHandle(hDlg, IDC_TEXTBOX)
    UpDown_SetBuddy(hUpDown, hTextBox)
