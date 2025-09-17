@@ -52,7 +52,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM hEdit AS HWND = pWindow.AddControl("Edit", hWin, IDC_EDIT, "", 200, 55, 50, 23)
    ' // Add an UpDown control (the size and position will be automatically adjusted to the buddy control)
    DIM hUpDown AS HWND = pWindow.AddControl("UpDown", hWin, IDC_UPDOWN)
-   ' // Set the edit control as budy of the updown control
+   ' // Set the edit control as buddy of the updown control
    UpDown_SetBuddy(hUpDown, hEdit)
    ' // Set the base
    UpDown_SetBase(hUpDown, 10)
