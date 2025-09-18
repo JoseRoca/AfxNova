@@ -855,3 +855,45 @@ FUNCTION TLB_GetSortOptions (BYVAL hListView AS HWND, BYVAL ColumnToSort AS LONG
    RETURN TRUE
 END FUNCTION
 ' =====================================================================================
+
+' =====================================================================================
+' Formats guids suitable to be used as...
+' DIM SHARED IID_IWshShell AS GUID = (&hF935DC21, &h1CF0, &h11D0, {&hAD, &hB9, &h00, &hC0, &h4F, &hD5, &h8A, &h0B})
+' =====================================================================================
+FUNCTION AfxGuidToFmtStr OVERLOAD (BYVAL gd AS GUID) AS STRING
+   DIM s AS STRING = "("
+   s += "&h" & HEX(gd.Data1, 8) & ", "
+   s += "&h" & HEX(gd.Data2, 4) & ", "
+   s += "&h" & HEX(gd.Data3, 4) & ", "
+   s += "{"
+   FOR i AS LONG = 0 TO 7
+      s += "&h" & HEX(gd.Data4(i), 2)
+      IF i < 7 then s += ", "
+   NEXT
+   s += "})"
+   FUNCTION = s
+END FUNCTION
+' =====================================================================================
+
+' =====================================================================================
+' Formats guids suitable to be used as...
+' CONST AFX_IID_IWshShell = "{F935DC21-1CF0-11D0-ADB9-00C04FD58A0B}"
+' DIM SHARED IID_IWshShell AS GUID = (&hF935DC21, &h1CF0, &h11D0, {&hAD, &hB9, &h00, &hC0, &h4F, &hD5, &h8A, &h0B})
+' =====================================================================================
+FUNCTION AfxGuidToFmtStr OVERLOAD (BYREF wszGuidText AS WSTRING) AS STRING
+   DIM s AS STRING = "(&h" & LEFT(wszGuidText, 8) & ", "
+   s += "&h" & MID(wszGuidText, 10, 4) & ", "
+   s += "&h" & MID(wszGuidText, 15, 4) & ", "
+   s += "{"
+   s += "&h" & MID(wszGuidText, 20, 2) & ", "
+   s += "&h" & MID(wszGuidText, 22, 2) & ", "
+   s += "&h" & MID(wszGuidText, 25, 2) & ", "
+   s += "&h" & MID(wszGuidText, 27, 2) & ", "
+   s += "&h" & MID(wszGuidText, 29, 2) & ", "
+   s += "&h" & MID(wszGuidText, 31, 2) & ", "
+   s += "&h" & MID(wszGuidText, 33, 2) & ", "
+   s += "&h" & MID(wszGuidText, 35, 2)
+   s += "})"
+   FUNCTION = s
+END FUNCTION
+' =====================================================================================

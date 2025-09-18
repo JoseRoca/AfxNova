@@ -269,6 +269,7 @@ FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL p
       TreeView_AddItem(hTreeView, hSubNode2, NULL, "DispID = " & WSTR(pVarDesc->memid) & " [&h" & HEX(pVarDesc->memid, 8) & "]")
       IF pVarDesc->wVarFlags THEN TreeView_AddItem(hTreeView, hSubNode2, NULL, "Attributes = " & WSTR(pVarDesc->wVarFlags) & " [&h" & HEX(pVarDesc->wVarFlags, 8) & "]" & TLB_VarFlagsToStr(pVarDesc->wVarFlags))
       wIndirectionLevel = 0
+      dwsTypeKind = ""
       IF pVarDesc->elemdescVar.tdesc.vt = VT_USERDEFINED THEN
          ' // If it is a user defined type, retrieve its name
          hr = pTypeInfo->GetRefTypeInfo(pVarDesc->elemdescVar.tdesc.hreftype, @pRefTypeInfo)
@@ -355,6 +356,9 @@ FUNCTION CParseTypeLib.GetMembers (BYVAL pTypeInfo AS Afx_ITypeInfo PTR, BYVAL p
 '         IF dwsTypeKind = "TKIND_ALIAS | VT_PTR" THEN dwsFBKeyword = "VOID"
          IF dwsTypeKind = "TKIND_ALIAS | VT_PTR" THEN dwsFBKeyword = dwsVarType & " PTR"
          IF dwsTypeKind = "TKIND_ENUM" THEN dwsFBKeyword = dwsVarType
+         IF dwsTypeKind = "TKIND_UNION" THEN dwsFBKeyword = dwsVarType
+         IF dwsTypeKind = "TKIND_RECORD" THEN dwsFBKeyword = dwsVarType
+         IF dwsTypeKind = "TKIND_RECORD" AND wIndirectionLevel = 1 THEN dwsFBKeyword += " PTR"
          IF dwsTypeKind = "TKIND_UNKNOWN" THEN dwsFBKeyword = "IUnknown PTR"
          IF dwsTypeKind = "TKIND_DISPATCH" THEN dwsFBKeyword = "IDispatch PTR"
          IF pVarDesc->elemdescVar.tdesc.vt = VT_CARRAY THEN
@@ -1593,11 +1597,11 @@ SUB CParseTypeLib.GenerateCode
    dwsCode += "#include once " & CHR(34) & "AfxNova/AfxCOM.inc" & CHR(34) & CHR(13, 10)
    dwsCode += "USING AfxNova" & CHR(13, 10) & CHR(13, 10)
 
-   IF m_vTableView THEN
-      dwsCode += "NAMESPACE AfxNova" & CHR(13,10) & CHR(13,10)
-   ELSE
-      IF LEN(m_Namespace) THEN dwsCode += "NAMESPACE " & m_Namespace & CHR(13,10) & CHR(13,10)
-   END IF
+'   IF m_vTableView THEN
+'      dwsCode += "NAMESPACE AfxNova" & CHR(13,10) & CHR(13,10)
+'   ELSE
+'      IF LEN(m_Namespace) THEN dwsCode += "NAMESPACE " & m_Namespace & CHR(13,10) & CHR(13,10)
+'   END IF
 
    ' // ProgIDs
    IF m_hProgIDsNode THEN
@@ -1647,10 +1651,14 @@ SUB CParseTypeLib.GenerateCode
       DO
          IF hItem = NULL THEN EXIT DO
          IF TreeView_GetItemText(hTreeView, hItem, @wszItemText, MAX_PATH) THEN
+            DIM guidText AS DWSTRING = LEFT(RIGHT(wszItemText, 38), 36)
+            DIM guidName AS DWSTRING = LEFT(wszItemText, LEN(wszItemText) - 43)
             IF m_vTableView THEN
-               dwsCode += "CONST AFX_" & wszItemText & CHR(13, 10)
+'               dwsCode += "CONST AFX_" & wszItemText & CHR(13, 10)
+               dwsCode += "DIM SHARED AFX_" & guidName & " AS GUID = " & AfxGuidToFmtStr(guidText) & CHR(13, 10)
             ELSE
-               dwsCode += "CONST " & wszItemText & CHR(13, 10)
+'               dwsCode += "CONST " & wszItemText & CHR(13, 10)
+               dwsCode += "DIM SHARED " & guidName & " AS GUID = "  & AfxGuidToFmtStr(guidText) & CHR(13, 10)
             END IF
          END IF
          hItem = TreeView_GetNextSibling(hTreeView, hItem)
@@ -1666,10 +1674,14 @@ SUB CParseTypeLib.GenerateCode
       DO
          IF hItem = NULL THEN EXIT DO
          IF TreeView_GetItemText(hTreeView, hItem, @wszItemText, MAX_PATH) THEN
+            DIM guidText AS DWSTRING = LEFT(RIGHT(wszItemText, 38), 36)
+            DIM guidName AS DWSTRING = LEFT(wszItemText, LEN(wszItemText) - 43)
             IF m_vTableView THEN
-               dwsCode += "CONST AFX_" & wszItemText & CHR(13, 10)
+'               dwsCode += "CONST AFX_" & wszItemText & CHR(13, 10)
+               dwsCode += "DIM SHARED AFX_" & guidName & " AS GUID = " & AfxGuidToFmtStr(guidText) & CHR(13, 10)
             ELSE
-               dwsCode += "CONST " & wszItemText & CHR(13, 10)
+'               dwsCode += "CONST " & wszItemText & CHR(13, 10)
+               dwsCode += "DIM SHARED " & guidName & " AS GUID = "  & AfxGuidToFmtStr(guidText) & CHR(13, 10)
             END IF
          END IF
          hItem = TreeView_GetNextSibling(hTreeView, hItem)
@@ -1991,13 +2003,13 @@ SUB CParseTypeLib.GenerateCode
          IF hItem = NULL THEN EXIT DO
          IF TreeView_GetItemText(hTreeView, hItem, @wszItemText, MAX_PATH) THEN
             ' // ADO contains many interfaces that end with "_Deprecated"
-            IF RIGHT(wszItemText, 11) <> "_Deprecated" THEN
+'            IF RIGHT(wszItemText, 11) <> "_Deprecated" THEN
                IF m_vTableView THEN
                   dwsCode += "TYPE Afx_" & wszItemText & " AS Afx_" & wszItemText & "_" & CHR(13, 10)
                ELSE
                   dwsCode += "TYPE " & wszItemText & " AS " & wszItemText & "_" & CHR(13, 10)
                END IF
-            END IF
+'            END IF
          END IF
          hItem = TreeView_GetNextSibling(hTreeView, hItem)
       LOOP
@@ -2009,6 +2021,25 @@ SUB CParseTypeLib.GenerateCode
       dwsCode += "' // Dispatchable interfaces - Forward references" & CHR(13, 10) & CHR(13, 10)
       DIM wszItemText AS WSTRING * MAX_PATH
       DIM hItem AS HTREEITEM = TreeView_GetChild(hTreeView, m_hDispblIntNode)
+      DO
+         IF hItem = NULL THEN EXIT DO
+         IF TreeView_GetItemText(hTreeView, hItem, @wszItemText, MAX_PATH) THEN
+            IF m_vTableView THEN
+               dwsCode += "TYPE Afx_" & wszItemText & " AS Afx_" & wszItemText & "_" & CHR(13, 10)
+            ELSE
+               dwsCode += "TYPE " & wszItemText & " AS " & wszItemText & "_" & CHR(13, 10)
+            END IF
+         END IF
+         hItem = TreeView_GetNextSibling(hTreeView, hItem)
+      LOOP
+      dwsCode += CHR(13, 10)
+   END IF
+
+   ' // Forward references for event interfaces
+   IF m_hEventsNode THEN
+      dwsCode += "' // Event interfaces - Forward references" & CHR(13, 10) & CHR(13, 10)
+      DIM wszItemText AS WSTRING * MAX_PATH
+      DIM hItem AS HTREEITEM = TreeView_GetChild(hTreeView, m_hEventsNode)
       DO
          IF hItem = NULL THEN EXIT DO
          IF TreeView_GetItemText(hTreeView, hItem, @wszItemText, MAX_PATH) THEN
@@ -2536,9 +2567,9 @@ SUB CParseTypeLib.GenerateCode
                   dwsCode += CHR(13, 10)
                END IF
             END IF
-            dwsCode += "#endif" & CHR(13, 10)
+            dwsCode += "#endif" & CHR(13, 10) & CHR(13, 10)
             IF LEN(dwsMacros) THEN
-               dwsCode += "' // C Object Macros" & CHR(13, 10) & CHR(13, 10)
+               dwsCode += "' // C Object Macros" & CHR(13, 10)
                dwsCode += dwsMacros & CHR(13, 10)
                dwsMacros.Clear
             END IF
@@ -2819,11 +2850,260 @@ SUB CParseTypeLib.GenerateCode
       dwsCode += CHR(13, 10)
    END IF
 
-   IF m_vTableView THEN
-      dwsCode += "END NAMESPACE"
-   ELSE
-      IF LEN(m_Namespace) THEN dwsCode += "END NAMESPACE"
+   ' // Event Interfaces
+   IF m_hEventsNode THEN
+      dwsMacros.Clear
+      dwsCode += "' // Event interfaces" & CHR(13, 10) & CHR(13, 10)
+      DIM hMethodsParentNode AS HTREEITEM
+      DIM wszItemText AS WSTRING * MAX_PATH, wszInheritedInterface AS WSTRING * MAX_PATH
+      DIM hItem AS HTREEITEM = TreeView_GetChild(hTreeView, m_hEventsNode)
+      DO
+         IF hItem = NULL THEN EXIT DO
+         IF TreeView_GetItemText(hTreeView, hItem, @wszItemText, MAX_PATH) THEN
+            ' // ADO contains many interfaces that end with "_Deprecated"
+            IF RIGHT(wszItemText, 11) <> "_Deprecated" THEN
+               dwsCode += "' ########################################################################################" & CHR(13, 10)
+               dwsCode += "' Interface name: " & wszItemText & CHR(13, 10)
+               DIM wszSubItemText AS WSTRING * MAX_PATH
+               DIM hSubItem AS HTREEITEM = TreeView_GetChild(hTreeView, hItem)
+               DO
+                  IF hSubItem = NULL THEN EXIT DO
+                  IF TreeView_GetItemText(hTreeView, hSubItem, @wszSubItemText, MAX_PATH) THEN
+                     dwsCode += "' " & wszSubItemText & CHR(13, 10)
+                     IF LEFT(wszSubItemText, 22) = "Inherited interface = " THEN
+                        wszInheritedInterface = MID(wszSubItemText, 23)
+'                        IF wszInheritedInterface = "IUnknown" OR wszInheritedInterface = "IDispatch" THEN wszInheritedInterface = "Afx_" & wszInheritedInterface
+                     END IF
+                     hMethodsParentNode = NULL
+                     IF LEFT(wszSubItemText, 17) = "Number of methods" AND VAL(MID(wszSubItemText, 21)) > 0 THEN
+                        hMethodsParentNode = hSubItem
+                     END IF
+                  END IF
+                  hSubItem = TreeView_GetNextSibling(hTreeView, hSubItem)
+               LOOP
+               dwsCode += "' ########################################################################################" & CHR(13, 10)
+               dwsCode += CHR(13, 10)
+               IF m_vTableView THEN
+                  dwsCode += "#ifndef __Afx_" & wszItemText & "_INTERFACE_DEFINED__" & CHR(13, 10)
+                  dwsCode += "#define __Afx_" & wszItemText & "_INTERFACE_DEFINED__" & CHR(13, 10)
+               ELSE
+                  dwsCode += "#ifndef __" & wszItemText & "_INTERFACE_DEFINED__" & CHR(13, 10)
+                  dwsCode += "#define __" & wszItemText & "_INTERFACE_DEFINED__" & CHR(13, 10)
+               END IF
+               dwsCode += CHR(13, 10)
+               IF hMethodsParentNode THEN
+                  DIM wszText AS WSTRING * MAX_PATH
+                  IF m_VTableView THEN
+                     IF wszInheritedInterface = "IUnknown" THEN
+                        wszText = "_ EXTENDS Afx_IUnknown"
+                     ELSEIF wszInheritedInterface = "IDispatch" THEN
+                        wszText = "_ EXTENDS Afx_IDispatch"
+                     ELSE
+                        wszText = "_ EXTENDS Afx_" & wszInheritedInterface
+                     END IF
+                     dwsCode += "TYPE Afx_" & wszItemText & wszText & CHR(13, 10)
+                  ELSE
+                     dwsCode += "TYPE " & wszItemText & "VTbl" & CHR(13, 10)
+                     dwsCode += "   QueryInterface AS FUNCTION (BYVAL this AS " & wszItemText & " PTR, BYVAL riid AS CONST IID CONST PTR, BYVAL ppvObj AS ANY PTR PTR) AS HRESULT" & CHR(13, 10)
+                     dwsCode += "   AddRef AS FUNCTION (BYVAL this AS " & wszItemText & " PTR) AS ULONG" & CHR(13, 10)
+                     dwsCode += "   Release AS FUNCTION (BYVAL this AS " & wszItemText & " PTR) AS ULONG" & CHR(13, 10)
+                     IF wszInheritedInterface = "IDispatch" THEN
+                        dwsCode += "   GetTypeInfoCount AS FUNCTION (BYVAL this AS " & wszItemText & " PTR, BYVAL pctinfo AS UINT PTR) AS HRESULT" & CHR(13, 10)
+                        dwsCode += "   GetTypeInfo AS FUNCTION (BYVAL this AS " & wszItemText & " PTR, BYVAL iTInfo AS UINT, BYVAL lcid AS LCID, BYVAL ppTInfo AS ITypeInfo PTR PTR) AS HRESULT" & CHR(13, 10)
+                        dwsCode += "   GetIDsOfNames AS FUNCTION (BYVAL this AS " & wszItemText & " PTR, BYVAL iTInfo AS UINT, BYVAL lcid AS LCID, BYVAL ppTInfo AS ITypeInfo PTR PTR) AS HRESULT" & CHR(13, 10)
+                        dwsCode += "   Invoke AS FUNCTION (BYVAL this AS " & wszItemText & " PTR, BYVAL dispIdMember AS DISPID, BYVAL riid AS CONST IID CONST PTR, BYVAL lcid AS LCID, BYVAL wFlags AS WORD, BYVAL pDispParams AS DISPPARAMS PTR, BYVAL pVarResult AS VARIANT PTR, BYVAL pExcepInfo AS EXCEPINFO PTR, BYVAL puArgErr AS UINT PTR) AS HRESULT" & CHR(13, 10)
+                     END IF                           
+                  END IF
+                  ' // Search the methods and properties
+                  DIM hMethods AS HTREEITEM = TreeView_GetChild(hTreeView, hMethodsParentNode)
+                  DIM wszOrigMethodName AS WSTRING * MAX_PATH, wszMethodName AS WSTRING * MAX_PATH
+                  DO
+                     IF hMethods = NULL THEN EXIT DO
+                     IF TreeView_GetItemText(hTreeView, hMethods, @wszOrigMethodName, MAX_PATH) THEN
+                        IF LEFT(wszOrigMethodName, 6) = "METHOD" THEN wszMethodName = MID(wszOrigMethodName, 8)
+                        IF LEFT(wszOrigMethodName, 12) = "PROPERTY GET" THEN wszMethodName = "get_" & MID(wszOrigMethodName, 14)
+                        IF LEFT(wszOrigMethodName, 12) = "PROPERTY PUT" THEN wszMethodName = "put_" & MID(wszOrigMethodName, 14)
+                        IF LEFT(wszOrigMethodName, 15) = "PROPERTY PUTREF" THEN wszMethodName = "putref_" & MID(wszOrigMethodName, 17)
+                        IF m_VTableView THEN
+                           ' --------------------------------------------------------------------------------
+                           DIM dwsParams AS DWSTRING
+                           ' // Get the return type
+                           DIM wszReturnType AS WSTRING * MAX_PATH, wszMethodSubItem AS WSTRING * MAX_PATH
+                           wszReturnType = "" : wszMethodSubItem = ""
+                           DIM hMethodsSubItems AS HTREEITEM = TreeView_GetChild(hTreeView, hMethods)
+                           DO
+                              IF hMethodsSubItems = NULL THEN EXIT DO
+                              IF TreeView_GetItemText(hTreeView, hMethodsSubItems, @wszMethodSubItem, MAX_PATH) THEN
+                                 IF LEFT(wszMethodSubItem, 14) = "Return type = " THEN
+                                    wszReturnType = MID(wszMethodSubItem, 15)
+                                    IF wszReturnType = "VT_VOID" THEN
+                                       wszReturnType = "HRESULT"
+                                    ELSE
+                                       wszReturnType = TLB_VarTypeToKeyword(wszReturnType)
+                                    END IF
+                                 END IF
+                                 ' --------------------------------------------------------------------------
+                                 ' // Get the parameters
+                                 IF LEFT(wszMethodSubItem, 23) = "Number of parameters = " THEN
+                                    DIM hParams AS HTREEITEM = TreeView_GetChild(hTreeView, hMethodsSubItems)
+                                    DIM wszParamName AS WSTRING * MAX_PATH
+                                    DO
+                                       IF hParams = NULL THEN EXIT DO
+                                       IF TreeView_GetItemText(hTreeView, hParams, @wszParamName, MAX_PATH) THEN
+                                          DIM hParam AS HTREEITEM = TreeView_GetChild(hTreeView, hParams)
+                                          DIM wszParam AS WSTRING * MAX_PATH
+                                       DIM wszTypeKind AS WSTRING * 260
+                                          DO
+                                             IF hParam = NULL THEN EXIT DO
+                                             IF TreeView_GetItemText(hTreeView, hParam, @wszParam, MAX_PATH) THEN
+'                                                IF LEFT(wszParam, 12) = "FB syntax = " THEN
+'                                                   dwsParams += MID(wszParam, 13) & ", "
+'                                                END IF
+                                                ' ------------------------------------------------------
+                                                IF LEFT(wszParam, 11) = "TypeKind = " THEN
+                                                   wszTypeKind = MID(wszParam, 12)
+                                                END IF
+                                                IF LEFT(wszParam, 12) = "FB syntax = " THEN
+                                                   IF m_vTableView THEN
+                                                      IF wszTypeKind = "TKIND_INTERFACE" OR wszTypeKind = "TKIND_DISPATCH" THEN
+   '                                                      dwsParams += "Afx_" & MID(wszParam, 13) & ", "
+                                                         wszParam = DWStrReplace(wszParam, " AS ", " AS Afx_")
+                                                         dwsParams += MID(wszParam, 13) & ", "
+                                                      ELSE
+                                                         dwsParams += MID(wszParam, 13) & ", "
+                                                      END IF
+                                                   ELSE
+                                                      dwsParams += MID(wszParam, 13) & ", "
+                                                   END IF
+                                                END IF
+                                                ' ------------------------------------------------------
+                                             END IF
+                                             hParam = TreeView_GetNextSibling(hTreeView, hParam)
+                                          LOOP
+                                       END IF
+                                       hParams = TreeView_GetNextSibling(hTreeView, hParams)
+                                    LOOP
+                                 END IF
+                                 ' --------------------------------------------------------------------------
+                              END IF
+                              hMethodsSubItems = TreeView_GetNextSibling(hTreeView, hMethodsSubItems)
+                           LOOP
+                           IF RIGHT(dwsParams, 2) = ", " THEN dwsParams = LEFT(dwsParams, LEN(dwsParams) - 2)
+                           dwsCode += "   DECLARE ABSTRACT FUNCTION " & wszMethodName & " (" & dwsParams & ") AS " & wszReturnType & CHR(13, 10)
+                           ' --------------------------------------------------------------------------------
+                        ELSE
+                           DIM dwsParamNames AS DWSTRING, dwsParams AS DWSTRING
+                           DIM AS WSTRING * MAX_PATH wszReturnType, wszMethodSubItem, wszRhsParam
+                           ' -----------------------------------------------------------------------------
+                           ' // Get the return type
+                           DIM hMethodsSubItems AS HTREEITEM = TreeView_GetChild(hTreeView, hMethods)
+                           DO
+                              IF hMethodsSubItems = NULL THEN EXIT DO
+                              IF TreeView_GetItemText(hTreeView, hMethodsSubItems, @wszMethodSubItem, MAX_PATH) THEN
+                                 IF LEFT(wszMethodSubItem, 14) = "Return type = " THEN
+                                    wszReturnType = MID(wszMethodSubItem, 15)
+                                    IF LEFT(wszOrigMethodName, 12) <> "PROPERTY GET" THEN
+                                       IF wszReturnType = "VT_VOID" THEN
+                                          wszReturnType = "HRESULT"
+                                       ELSE
+                                          wszReturnType = TLB_VarTypeToKeyword(wszReturnType)
+                                       END IF
+                                    END IF
+                                 END IF
+                                 IF LEFT(wszMethodSubItem, 24) = "Return type FB syntax = " THEN
+                                    wszRhsParam = MID(wszMethodSubItem, 25)
+                                    wszReturnType = "HRESULT"
+                                 END IF
+                                 ' --------------------------------------------------------------------------
+                                 ' // Get the parameters
+                                 IF LEFT(wszMethodSubItem, 23) = "Number of parameters = " THEN
+                                    dwsParamNames = ""
+                                    DIM hParams AS HTREEITEM = TreeView_GetChild(hTreeView, hMethodsSubItems)
+                                    DIM wszParamName AS WSTRING * MAX_PATH
+                                    DO
+                                       IF hParams = NULL THEN EXIT DO
+                                       IF TreeView_GetItemText(hTreeView, hParams, @wszParamName, MAX_PATH) THEN
+                                          dwsParamNames += wszParamName & ", "
+                                          DIM hParam AS HTREEITEM = TreeView_GetChild(hTreeView, hParams)
+                                          DIM wszParam AS WSTRING * MAX_PATH
+                                          DIM wszTypeKind AS WSTRING * 260
+                                          DO
+                                             IF hParam = NULL THEN EXIT DO
+                                             IF TreeView_GetItemText(hTreeView, hParam, @wszParam, MAX_PATH) THEN
+'                                                IF LEFT(wszParam, 12) = "FB syntax = " THEN
+'                                                   dwsParams += MID(wszParam, 13) & ", "
+'                                                END IF
+                                                ' ------------------------------------------------------
+                                                IF LEFT(wszParam, 11) = "TypeKind = " THEN
+                                                   wszTypeKind = MID(wszParam, 12)
+                                                END IF
+                                                IF LEFT(wszParam, 12) = "FB syntax = " THEN
+                                                   IF m_vTableView THEN
+                                                      IF wszTypeKind = "TKIND_INTERFACE" OR wszTypeKind = "TKIND_DISPATCH" THEN
+   '                                                      dwsParams += "Afx_" & MID(wszParam, 13) & ", "
+                                                         wszParam = DWStrReplace(wszParam, " AS ", " AS Afx_")
+                                                         dwsParams += MID(wszParam, 13) & ", "
+                                                      ELSE
+                                                         dwsParams += MID(wszParam, 13) & ", "
+                                                      END IF
+                                                   ELSE
+                                                      dwsParams += MID(wszParam, 13) & ", "
+                                                   END IF
+                                                END IF
+                                                ' ------------------------------------------------------
+                                             END IF
+                                             hParam = TreeView_GetNextSibling(hTreeView, hParam)
+                                          LOOP
+                                       END IF
+                                       hParams = TreeView_GetNextSibling(hTreeView, hParams)
+                                    LOOP
+                                 END IF
+                                 ' --------------------------------------------------------------------------
+                              END IF
+                              hMethodsSubItems = TreeView_GetNextSibling(hTreeView, hMethodsSubItems)
+                           LOOP
+                           dwsParams += wszRhsParam
+                           IF LEN(wszRhsParam) THEN dwsParamNames += "rhs"
+                           ' -----------------------------------------------------------------------------
+                           IF RIGHT(dwsParams, 2) = ", " THEN dwsParams = LEFT(dwsParams, LEN(dwsParams) - 2)
+                           IF RIGHT(dwsParamNames, 2) = ", " THEN dwsParamNames = LEFT(dwsParamNames, LEN(dwsParamNames) - 2)
+                           IF LEN(dwsParams) THEN dwsParams = ", " & dwsParams
+                           IF LEN(dwsParamNames) THEN dwsParamNames = ", " & dwsParamNames
+                           dwsCode += "   " & wszMethodName & " AS FUNCTION (BYVAL this AS " & wszItemText & " PTR" & dwsParams & ") AS " & wszReturnType & CHR(13, 10)
+                        END IF
+                     END IF
+                     hMethods = TreeView_GetNextSibling(hTreeView, hMethods)
+                  LOOP
+                  dwsCode += "END TYPE" & CHR(13, 10)
+               END IF
+            END IF
+         END IF
+         ' // ADO contains many interfaces that end with "_Deprecated"
+         IF RIGHT(wszItemText, 11) <> "_Deprecated" THEN
+            IF hMethodsParentNode THEN
+               dwsCode += CHR(13, 10)
+               IF m_VTableView = FALSE THEN
+                  dwsCode += "TYPE " & wszItemText & "_" & CHR(13, 10)
+                  dwsCode += "   lpVtbl AS " & wszItemText & "VTbl PTR" & CHR(13, 10)
+                  dwsCode += "END TYPE" & CHR(13, 10) & CHR(13, 10)
+                  dwsCode += "TYPE " & "LP" & UCASE(wszItemText) & " AS " & wszItemText & " PTR" & CHR(13, 10)
+                  dwsCode += CHR(13, 10)
+               END IF
+            END IF
+            dwsCode += "#endif" & CHR(13, 10) & CHR(13, 10)
+            dwsCode += "' ########################################################################################" & CHR(13, 10)
+            dwsCode += CHR(13, 10)
+         END IF
+         hItem = TreeView_GetNextSibling(hTreeView, hItem)
+      LOOP
+'      dwsCode += CHR(13, 10)
    END IF
+
+'   IF m_vTableView THEN
+'      dwsCode += "END NAMESPACE"
+'   ELSE
+'      IF LEN(m_Namespace) THEN dwsCode += "END NAMESPACE"
+'   END IF
 
    IF m_pWindow THEN
       DIM hCodeView AS HWND = cast(HWND, m_pWindow->UserData(AFX_HCODEVIEW))

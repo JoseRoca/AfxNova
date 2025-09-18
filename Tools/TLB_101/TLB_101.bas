@@ -63,10 +63,6 @@ FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Initialize the COM library
    OleInitialize NULL
 
-   ' // Set process DPI aware
-   ' // The recommended way is to use a manifest file
-'   AfxSetProcessDPIAware
-
    ' // Create the main window
    DIM pWindow AS CWindow = CLASSNAME
    ' // Retrieve the size of the working area
@@ -76,7 +72,7 @@ FUNCTION WinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Change the class style to avoid flicker
    pWindow.ClassStyle = CS_DBLCLKS
    ' // Centers the window
-   pWindow.Center
+'   pWindow.Center
    ' // Sets the icons
    pWindow.BigIcon   = LoadImage(hInstance, MAKEINTRESOURCE(101), IMAGE_ICON, 48, 48, LR_SHARED)
    pWindow.SmallIcon = LoadImage(hInstance, MAKEINTRESOURCE(100), IMAGE_ICON, 32, 32, LR_SHARED)
@@ -114,6 +110,18 @@ END FUNCTION
 FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
    SELECT CASE uMsg
+
+      ' // If an application processes this message, it should return zero to continue
+      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // and the CreateWindowExW function returns a NULL handle.
+      CASE WM_CREATE
+'         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+'         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
 
       CASE WM_COMMAND
          SELECT CASE LOWORD(wParam)
