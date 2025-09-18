@@ -19,6 +19,7 @@
 ' ########################################################################################
 
 #pragma once
+#include once "windows.bi"
 #include once "win/mmsystem.bi"
 #include once "AfxNova/AfxSpError.bi"
 #include once "AfxNova/AfxCOM.inc"
@@ -1791,7 +1792,6 @@ CONST SPFEI_ALL_SR_EVENTS =  9007191738548224ull
 CONST SPFEI_ALL_EVENTS = &HEFFFFFFFFFFFFFFFull
 #define SPFEI(SPEI_ord) ((1ull shl SPEI_ord) OR SPFEI_FLAGCHECK)
 
-' // Size = 24 bytes
 TYPE SPSERIALIZEDEVENT   ' Must be 8 byte aligned
    eEventId             AS WORD    ' SPEVENTENUM
    elParamType          AS WORD    ' SPEVENTLPARAMTYPE
@@ -1801,7 +1801,6 @@ TYPE SPSERIALIZEDEVENT   ' Must be 8 byte aligned
    SerializedlParam     AS LONG
 END TYPE
 
-' // Size = 32 bytes
 TYPE SPSERIALIZEDEVENT64   ' Must be 8 byte aligned
    eEventId             AS WORD    ' SPEVENTENUM
    elParamType          AS WORD    ' SPEVENTLPARAMTYPE
@@ -1811,7 +1810,6 @@ TYPE SPSERIALIZEDEVENT64   ' Must be 8 byte aligned
    SerializedlParam     AS LONGLONG
 END TYPE
 
-' // Size = 32 bytes
 TYPE SPEVENTEX   ' Must be 8 byte aligned
    eEventId             AS WORD    ' SPEVENTENUM
    elParamType          AS WORD    ' SPEVENTLPARAMTYPE
@@ -2088,16 +2086,12 @@ CONST SPDUI_Tutorial              = WSTR("Tutorial")
 ' // Structures and unions
 
 TYPE SPAUDIOBUFFERINFO
-   ' // Documentation string: Afx_ISpAudio Interface
-   ' // Number of members: 3
    ulMsMinNotification AS ULONG
    ulMsBufferSize AS ULONG
    ulMsEventBias AS ULONG
 END TYPE
 
 TYPE SPAUDIOSTATUS
-   ' // Documentation string: Afx_ISpAudio Interface
-   ' // Number of members: 7
    cbFreeBuffSpace AS LONG
    cbNonBlockingIO AS ULONG
    State AS ULONG
@@ -2108,14 +2102,10 @@ TYPE SPAUDIOSTATUS
 END TYPE
 
 TYPE SPBINARYGRAMMAR
-   ' // Documentation string: Afx_ISpGrammarBuilder Interface
-   ' // Number of members: 1
    ulTotalSerializedSize AS ULONG
 END TYPE
 
 TYPE SPEVENT
-   ' // Documentation string: Afx_ISpNotifySource Interface
-   ' // Number of members: 6
    eEventId AS USHORT
    elParamType AS USHORT
    ulStreamNum AS ULONG
@@ -2124,64 +2114,14 @@ TYPE SPEVENT
    lParam AS ULONGINT
 END TYPE
 
-' // Size = 24 bytes
 TYPE SPEVENTSOURCEINFO
-   ' // Documentation string: Afx_ISpNotifySource Interface
-   ' // Number of members: 3
    ullEventInterest AS ULONGINT
    ullQueuedInterest AS ULONGINT
    ulCount AS ULONG
 END TYPE
 
-TYPE SPPHRASE
-   ' // Documentation string: Afx_ISpPhrase Interface
-   ' // Number of members: 20
-   cbSize AS ULONG
-   LangId AS USHORT
-   wHomophoneGroupId AS USHORT
-   ullGrammarID AS ULONGINT
-   ftStartTime AS ULONGINT
-   ullAudioStreamPosition AS ULONGINT
-   ulAudioSizeBytes AS ULONG
-   ulRetainedSizeBytes AS ULONG
-   ulAudioSizeTime AS ULONG
-   Rule AS ULONG
-   pProperties AS ULONG PTR
-   pElements AS ULONG PTR PTR
-   cReplacements AS ULONG
-   pReplacements AS ULONG PTR
-   SREngineID AS ULONG PTR
-   ulSREnginePrivateDataSize AS ULONG
-   pSREnginePrivateData AS UBYTE PTR
-   pSML AS WSTRING PTR
-   pSemanticErrorInfo AS WSTRING PTR
-   SemanticTagFormat AS SPSEMANTICFORMAT
-END TYPE
 
-' // Size = 44 bytes
-TYPE SPPHRASEELEMENT
-   ' // Documentation string: Afx_ISpPhrase Interface
-   ' // Number of members: 14
-   ulAudioTimeOffset AS ULONG
-   ulAudioSizeTime AS ULONG
-   ulAudioStreamOffset AS ULONG
-   ulAudioSizeBytes AS ULONG
-   ulRetainedStreamOffset AS ULONG
-   ulRetainedSizeBytes AS ULONG
-   pszDisplayText AS WCHAR PTR   ' const WCHAR *
-   pszLexicalForm AS WCHAR PTR   ' const WCHAR *
-   pszPronunciation AS WCHAR PTR   ' const SPPHONEID *
-   bDisplayAttributes AS UBYTE
-   RequiredConfidence AS BYTE
-   ActualConfidence AS BYTE
-   reserved AS UBYTE
-   SREngineConfidence AS SINGLE
-END TYPE
-
-' // Size = 56 bytes (in 32-bit)
 TYPE SPPHRASEPROPERTY   ' Must be 8 byte aligned
-   ' // Documentation string: Afx_ISpPhrase Interface
-   ' // Number of members: 10
    pszName AS WSTRING PTR
    UNION
       ulId AS ULONG
@@ -2201,19 +2141,63 @@ TYPE SPPHRASEPROPERTY   ' Must be 8 byte aligned
    Confidence AS BYTE
 END TYPE
 
-TYPE SPPHRASEREPLACEMENT
-   ' // Documentation string: Afx_ISpPhrase Interface
-   ' // Number of members: 4
+TYPE SPPHRASEELEMENT
+   ' // Number of members: 14
+   ulAudioTimeOffset AS ULONG
+   ulAudioSizeTime AS ULONG
+   ulAudioStreamOffset AS ULONG
+   ulAudioSizeBytes AS ULONG
+   ulRetainedStreamOffset AS ULONG
+   ulRetainedSizeBytes AS ULONG
+   pszDisplayText AS WSTRING PTR   ' const WCHAR *
+   pszLexicalForm AS WSTRING PTR   ' const WCHAR *
+   pszPronunciation AS WSTRING PTR  ' const SPPHONEID *
    bDisplayAttributes AS UBYTE
-   pszReplacementText AS WCHAR PTR   ' const WCHAR *
+   RequiredConfidence AS BYTE
+   ActualConfidence AS BYTE
+   reserved AS UBYTE
+   SREngineConfidence AS SINGLE
+END TYPE
+
+TYPE SPPHRASEREPLACEMENT
+   bDisplayAttributes AS UBYTE
+   pszReplacementText AS WSTRING PTR   ' const WCHAR *
    ulFirstElement AS ULONG
    ulCountOfElements AS ULONG
 END TYPE
 
-' // Size = 32 bytes
+TYPE SPSEMANTICERRORINFO
+   ulLineNumber AS ULONG
+   pszScriptLine AS WSTRING PTR
+   pszSource AS WSTRING PTR
+   pszDescription AS WSTRING PTR
+   hrResultCode AS HRESULT
+END TYPE
+
+TYPE SPPHRASE
+   cbSize AS ULONG
+   LangId AS USHORT
+   wHomophoneGroupId AS USHORT
+   ullGrammarID AS ULONGINT
+   ftStartTime AS ULONGINT
+   ullAudioStreamPosition AS ULONGINT
+   ulAudioSizeBytes AS ULONG
+   ulRetainedSizeBytes AS ULONG
+   ulAudioSizeTime AS ULONG
+   Rule AS ULONG
+   pProperties AS SPPHRASEPROPERTY PTR
+   pElements AS SPPHRASEELEMENT PTR
+   cReplacements AS ULONG
+   pReplacements AS SPPHRASEREPLACEMENT PTR
+   SREngineID AS GUID
+   ulSREnginePrivateDataSize AS ULONG
+   pSREnginePrivateData AS UBYTE PTR
+   pSML AS WSTRING PTR
+   pSemanticErrorInfo AS SPSEMANTICERRORINFO PTR
+   SemanticTagFormat AS SPSEMANTICFORMAT
+END TYPE
+
 TYPE SPPHRASERULE
-   ' // Documentation string: Afx_ISpPhrase Interface
-   ' // Number of members: 8
    pszName AS WSTRING PTR
    ulId AS ULONG
    ulFirstElement AS ULONG
@@ -2225,30 +2209,24 @@ TYPE SPPHRASERULE
 END TYPE
 
 TYPE SPRECOCONTEXTSTATUS
-   ' // Documentation string: Afx_ISpGrammarBuilder Interface
-   ' // Number of members: 4
    eInterference AS SPINTERFERENCE
    szRequestTypeOfUI (0 TO 254) AS WCHAR
-   dwReserved1 AS DWORD
-   dwReserved2 AS DWORD
+   dwReserved1 AS ULONG
+   dwReserved2 AS ULONG
 END TYPE
 
 TYPE SPRECOGNIZERSTATUS
-   ' // Documentation string: Afx_ISpProperties Interface
-   ' // Number of members: 8
    AudioStatus AS SPAUDIOSTATUS
-   ullRecognitionStreamPos AS ULONGLONG
+   ullRecognitionStreamPos AS ULONGINT
    ulStreamNumber AS ULONG
    ulNumActive AS ULONG
-   ClsidEngine AS ULONG
+   ClsidEngine AS GUID
    cLangIDs AS ULONG
    aLangID (0 TO 19) AS LANGID
-   ullRecognitionStreamTime AS ULONGLONG
+   ullRecognitionStreamTime AS ULONGINT
 END TYPE
 
 TYPE SPRECORESULTTIMES
-   ' // Documentation string: Afx_ISpRecoResult Interface
-   ' // Number of members: 4
    ftStreamTime AS FILETIME
    ullLength AS ULONGINT
    dwTickCount AS ULONG
@@ -2256,38 +2234,20 @@ TYPE SPRECORESULTTIMES
 END TYPE
 
 TYPE SPRULE
-   ' // Documentation string: Afx_ISpRecoGrammar2 Interface
-   ' // Number of members: 3
    pszRuleName AS WSTRING PTR
    ulRuleId AS ULONG
    dwAttributes AS ULONG
 END TYPE
 
-TYPE SPSEMANTICERRORINFO
-   ' // Documentation string: Afx_ISpPhrase Interface
-   ' // Number of members: 5
-   ulLineNumber AS ULONG
-   pszScriptLine AS WSTRING PTR
-   pszSource AS WSTRING PTR
-   pszDescription AS WSTRING PTR
-   hrResultCode AS HRESULT
-END TYPE
-
 TYPE SPSERIALIZEDPHRASE
-   ' // Documentation string: Afx_ISpPhrase Interface
-   ' // Number of members: 1
    ulSerializedSize AS ULONG
 END TYPE
 
 TYPE SPSERIALIZEDRESULT
-   ' // Documentation string: Afx_ISpGrammarBuilder Interface
-   ' // Number of members: 1
    ulSerializedSize AS ULONG
 END TYPE
 
 TYPE SPSHORTCUTPAIR
-   ' // Documentation string: Afx_ISpShortcut Interface
-   ' // Number of members: 5
    pNextSHORTCUTPAIR AS SPSHORTCUTPAIR PTR
    LangId AS USHORT
    shType AS SPSHORTCUTTYPE
@@ -2296,16 +2256,12 @@ TYPE SPSHORTCUTPAIR
 END TYPE
 
 TYPE SPSHORTCUTPAIRLIST
-   ' // Documentation string: Afx_ISpShortcut Interface
-   ' // Number of members: 3
    ulSize AS ULONG
    pvBuffer AS UBYTE PTR
    pFirstShortcutPair AS SPSHORTCUTPAIR PTR
 END TYPE
 
 TYPE SPVOICESTATUS
-   ' // Documentation string: Afx_ISpVoice Interface
-   ' // Number of members: 13
    ulCurrentStream AS ULONG
    ulLastStreamQueued AS ULONG
    hrLastResult AS HRESULT
@@ -2317,13 +2273,11 @@ TYPE SPVOICESTATUS
    lBookmarkId AS LONG
    PhonemeId AS USHORT   ' SPPHONEID
    VisemeId AS SPVISEMES
-   dwReserved1 AS DWORD
-   dwReserved2 AS DWORD
+   dwReserved1 AS ULONG
+   dwReserved2 AS ULONG
 END TYPE
 
 TYPE SPWORDPRONUNCIATION
-   ' // Documentation string: Afx_ISpLexicon Interface
-   ' // Number of members: 6
    pNextWordPronunciation AS SPWORDPRONUNCIATION PTR   ' struct SPWORDPRONUNCIATION *
    eLexiconType AS SPLEXICONTYPE   ' SPLEXICONTYPE enum
    LangId AS LANGID
@@ -2333,8 +2287,6 @@ TYPE SPWORDPRONUNCIATION
 END TYPE
 
 TYPE SPWORD
-   ' // Documentation string: Afx_ISpLexicon Interface
-   ' // Number of members: 6
    pNextWord AS SPWORD PTR
    LangId AS USHORT
    wReserved AS USHORT
@@ -2344,33 +2296,25 @@ TYPE SPWORD
 END TYPE
 
 TYPE SPWORDLIST
-   ' // Documentation string: Afx_ISpLexicon Interface
-   ' // Number of members: 3
    ulSize AS ULONG
    pvBuffer AS UBYTE PTR
    pFirstWord AS SPWORD PTR
 END TYPE
 
 TYPE SPWORDPRONUNCIATIONLIST
-   ' // Documentation string: Afx_ISpLexicon Interface
-   ' // Number of members: 3
    ulSize AS ULONG
    pvBuffer AS UBYTE PTR
    pFirstWordPronunciation AS SPWORDPRONUNCIATION PTR
 END TYPE
 
 TYPE tagSPPROPERTYINFO
-   ' // Documentation string: Afx_ISpGrammarBuilder Interface
-   ' // Number of members: 4
-   pszName AS WCHAR PTR   ' const WCHAR *
+   pszName AS WSTRING PTR   ' const WCHAR *
    ulId AS ULONG
-   pszValue AS WCHAR PTR   ' const WCHAR *
+   pszValue AS WSTRING PTR   ' const WCHAR *
    vValue AS VARIANT
 END TYPE
 
 TYPE tagSPTEXTSELECTIONINFO
-   ' // Documentation string: Afx_ISpGrammarBuilder Interface
-   ' // Number of members: 4
    ulStartActiveOffset AS ULONG
    cchActiveChars AS ULONG
    ulStartSelection AS ULONG
