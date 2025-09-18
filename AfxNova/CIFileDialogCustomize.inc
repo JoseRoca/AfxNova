@@ -34,10 +34,11 @@ TYPE CIFileDialogCustomize
 
 Private:
 
-   m_IFileDialogCustomize AS IFileDialogCustomize PTR
+   m_pIFileDialogCustomize AS IFileDialogCustomize PTR
 
 Public:
 
+   DECLARE CONSTRUCTOR (BYVAL pIFileDialogCustomize AS IFileDialogCustomize PTR, BYVAL fAddRef AS BOOLEAN = TRUE)
    DECLARE CONSTRUCTOR (BYVAL pIFileDialog AS IFileDialog PTR)
    DECLARE DESTRUCTOR
    DECLARE FUNCTION GetPtr () AS IFileDialogCustomize PTR
@@ -55,11 +56,10 @@ Public:
    DECLARE FUNCTION EnableOpenDropDown (BYVAL dwIDCtl AS DWORD) AS HRESULT
    DECLARE FUNCTION EndVisualGroup () AS HRESULT
    DECLARE FUNCTION GetCheckButtonState (BYVAL dwIDCtl AS DWORD) AS BOOLEAN
-   DECLARE FUNCTION GetControlItemState (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD, BYREF dwState AS CDCONTROLSTATEF) AS HRESULT
    DECLARE FUNCTION GetControlItemState (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD) AS CDCONTROLSTATEF
    DECLARE FUNCTION GetControlState (BYVAL dwIDCtl AS DWORD) AS CDCONTROLSTATEF
    DECLARE FUNCTION GetEditBoxText (BYVAL dwIDCtl AS DWORD) AS DWSTRING
-   DECLARE FUNCTION GetSelectedControlItem (BYVAL dwIDCtl AS DWORD) AS DWSTRING
+   DECLARE FUNCTION GetSelectedControlItem (BYVAL dwIDCtl AS DWORD) AS DWORD
    DECLARE FUNCTION MakeProminent (BYVAL dwIDCtl AS DWORD) AS HRESULT
 '   DECLARE FUNCTION RemoveAllControlItems (BYVAL dwIDCtl AS DWORD) AS HRESULT
    DECLARE FUNCTION RemoveControlItem (BYVAL dwIDCtl AS DWORD, BYVAL dwItem AS DWORD) AS HRESULT
@@ -79,12 +79,24 @@ END TYPE
 ' ========================================================================================
 ' Creates an instance of the IFileDialogCustomize interface.
 ' ========================================================================================
-CONSTRUCTOR CIFileDialogCustomize (BYVAL pIFileDialog AS IFileDialog PTR)
-   OutputDebugStringW("CONSTRUCTOR CIFileDialogCustomize")
+CONSTRUCTOR CIFileDialogCustomize (BYVAL pIFileDialogCustomize AS IFileDialogCustomize PTR, BYVAL fAddRef AS BOOLEAN = TRUE)
+   COSFD_DP("pIFileDialogCustomize: " & WSTR(pIFileDialogCustomize))
+   IF pIFileDialogCustomize = NULL THEN EXIT CONSTRUCTOR
    CoInitialize NULL
+   m_pIFileDialogCustomize = pIFileDialogCustomize
+   IF fAddRef THEN m_pIFileDialogCustomize->lpvtbl->AddRef(m_pIFileDialogCustomize)
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the IFileDialogCustomize interface.
+' ========================================================================================
+CONSTRUCTOR CIFileDialogCustomize (BYVAL pIFileDialog AS IFileDialog PTR)
+   COSFD_DP("pIFileDialog: " & WSTR(pIFileDialog))
    IF pIFileDialog = NULL THEN EXIT CONSTRUCTOR
-   DIM hr AS HRESULT = pIFileDialog->lpvtbl->QueryInterface(pIFileDialog, @IID_IFileDialogCustomize, @m_IFileDialogCustomize)
-   IF m_IFileDialogCustomize = NULL THEN EXIT CONSTRUCTOR
+   CoInitialize NULL
+   DIM hr AS HRESULT = pIFileDialog->lpvtbl->QueryInterface(pIFileDialog, @IID_IFileDialogCustomize, @m_pIFileDialogCustomize)
+   IF m_pIFileDialogCustomize = NULL THEN EXIT CONSTRUCTOR
 END CONSTRUCTOR
 ' ========================================================================================
 
@@ -92,8 +104,8 @@ END CONSTRUCTOR
 ' Releases the IFileDialogCustomize interface
 ' ========================================================================================
 PRIVATE DESTRUCTOR CIFileDialogCustomize
-   OutputDebugStringW("DESTRUCTOR CIFileDialogCustomize")
-   IF m_IFileDialogCustomize THEN  m_IFileDialogCustomize->lpvtbl->Release(m_IFileDialogCustomize)
+   COSFD_DP("")
+   IF m_pIFileDialogCustomize THEN  m_pIFileDialogCustomize->lpvtbl->Release(m_pIFileDialogCustomize)
    CoUninitialize
 END DESTRUCTOR
 ' ========================================================================================
@@ -102,7 +114,7 @@ END DESTRUCTOR
 ' Returns a pointer to the underlying IFileDialogCustomize interface.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.GetPtr () AS IFileDialogCustomize PTR
-   RETURN m_IFileDialogCustomize
+   RETURN m_pIFileDialogCustomize
 END FUNCTION
 ' ========================================================================================
 
@@ -110,7 +122,7 @@ END FUNCTION
 ' Adds a check button (check box) to the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddCheckButton (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR, BYVAL bChecked AS BOOLEAN = FAlSE) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddCheckButton(m_IFileDialogCustomize, dwIDCtl, pwszLabel, bChecked)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddCheckButton(m_pIFileDialogCustomize, dwIDCtl, pwszLabel, bChecked)
 END FUNCTION
 ' ========================================================================================
 
@@ -118,7 +130,7 @@ END FUNCTION
 ' Adds a combo box to the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddComboBox (BYVAL dwIDCtl AS DWORD) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddComboBox(m_IFileDialogCustomize, dwIDCtl)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddComboBox(m_pIFileDialogCustomize, dwIDCtl)
 END FUNCTION
 ' ========================================================================================
 
@@ -126,7 +138,7 @@ END FUNCTION
 ' Adds an item to a container control in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddControlItem (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddControlItem(m_IFileDialogCustomize, dwIDCtl, dwIDItem, pwszLabel)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddControlItem(m_pIFileDialogCustomize, dwIDCtl, dwIDItem, pwszLabel)
 END FUNCTION
 ' ========================================================================================
 
@@ -134,7 +146,7 @@ END FUNCTION
 ' Adds an edit box control to the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddEditBox (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddEditBox(m_IFileDialogCustomize, dwIDCtl, pwszLabel)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddEditBox(m_pIFileDialogCustomize, dwIDCtl, pwszLabel)
 END FUNCTION
 ' ========================================================================================
 
@@ -142,7 +154,7 @@ END FUNCTION
 ' Adds a menu to the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddMenu (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddMenu(m_IFileDialogCustomize, dwIDCtl, pwszLabel)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddMenu(m_pIFileDialogCustomize, dwIDCtl, pwszLabel)
 END FUNCTION
 ' ========================================================================================
 
@@ -150,7 +162,7 @@ END FUNCTION
 ' Adds a push button to the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddPushButton (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddPushButton(m_IFileDialogCustomize, dwIDCtl, pwszLabel)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddPushButton(m_pIFileDialogCustomize, dwIDCtl, pwszLabel)
 END FUNCTION
 ' ========================================================================================
 
@@ -158,7 +170,7 @@ END FUNCTION
 ' Adds a push button to the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddRadioButtonList (BYVAL dwIDCtl AS DWORD) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddRadioButtonList(m_IFileDialogCustomize, dwIDCtl)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddRadioButtonList(m_pIFileDialogCustomize, dwIDCtl)
 END FUNCTION
 ' ========================================================================================
 
@@ -166,7 +178,7 @@ END FUNCTION
 ' Adds a separator to the dialog, allowing a visual separation of controls.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddSeparator (BYVAL dwIDCtl AS DWORD) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddSeparator(m_IFileDialogCustomize, dwIDCtl)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddSeparator(m_pIFileDialogCustomize, dwIDCtl)
 END FUNCTION
 ' ========================================================================================
 
@@ -174,7 +186,7 @@ END FUNCTION
 ' Adds text content to the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.AddText (BYVAL dwIDCtl AS DWORD, BYVAL pwszText AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddText(m_IFileDialogCustomize, dwIDCtl, pwszText)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddText(m_pIFileDialogCustomize, dwIDCtl, pwszText)
 END FUNCTION
 ' ========================================================================================
 
@@ -182,7 +194,7 @@ END FUNCTION
 ' Enables a drop-down list on the Open or Save button in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.EnableOpenDropDown (BYVAL dwIDCtl AS DWORD) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->EnableOpenDropDown(m_IFileDialogCustomize, dwIDCtl)
+   RETURN m_pIFileDialogCustomize->lpvtbl->EnableOpenDropDown(m_pIFileDialogCustomize, dwIDCtl)
 END FUNCTION
 ' ========================================================================================
 
@@ -190,7 +202,7 @@ END FUNCTION
 ' Stops the addition of elements to a visual group in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.EndVisualGroup () AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->EndVisualGroup(m_IFileDialogCustomize)
+   RETURN m_pIFileDialogCustomize->lpvtbl->EndVisualGroup(m_pIFileDialogCustomize)
 END FUNCTION
 ' ========================================================================================
 
@@ -199,7 +211,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.GetCheckButtonState (BYVAL dwIDCtl AS DWORD) AS BOOLEAN
    DiM bChecked AS WINBOOL
-   SetLastError(m_IFileDialogCustomize->lpvtbl->GetCheckButtonState(m_IFileDialogCustomize, dwIDCtl, @bChecked))
+   SetLastError(m_pIFileDialogCustomize->lpvtbl->GetCheckButtonState(m_pIFileDialogCustomize, dwIDCtl, @bChecked))
    RETURN bChecked
 END FUNCTION
 ' ========================================================================================
@@ -209,7 +221,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.GetControlItemState (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD) AS CDCONTROLSTATEF
    DIM dwState AS CDCONTROLSTATEF
-   SetLastError(m_IFileDialogCustomize->lpvtbl->GetControlItemState(m_IFileDialogCustomize, dwIDCtl, dwIDItem, @dwState))
+   SetLastError(m_pIFileDialogCustomize->lpvtbl->GetControlItemState(m_pIFileDialogCustomize, dwIDCtl, dwIDItem, @dwState))
    RETURN dwState
 END FUNCTION
 ' ========================================================================================
@@ -219,7 +231,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.GetControlState (BYVAL dwIDCtl AS DWORD) AS CDCONTROLSTATEF
    DIM dwState AS CDCONTROLSTATEF
-   SetLastError(m_IFileDialogCustomize->lpvtbl->GetControlState(m_IFileDialogCustomize, dwIDCtl, @dwState))
+   SetLastError(m_pIFileDialogCustomize->lpvtbl->GetControlState(m_pIFileDialogCustomize, dwIDCtl, @dwState))
    RETURN dwState
 END FUNCTION
 ' ========================================================================================
@@ -229,16 +241,26 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.GetEditBoxText (BYVAL dwIDCtl AS DWORD) AS DWSTRING
    DIM pwszText AS WSTRING PTR
-   SetLastError(m_IFileDialogCustomize->lpvtbl->GetEditBoxText(m_IFileDialogCustomize, dwIDCtl, @pwszText))
+   SetLastError(m_pIFileDialogCustomize->lpvtbl->GetEditBoxText(m_pIFileDialogCustomize, dwIDCtl, @pwszText))
    RETURN pwszText
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Gets a particular item from specified container controls in the dialog.
+' ========================================================================================
+PRIVATE FUNCTION CIFileDialogCustomize.GetSelectedControlItem (BYVAL dwIDCtl AS DWORD) AS DWORD
+   DIM dwIDItem AS DWORD
+   SetLastError(m_pIFileDialogCustomize->lpvtbl->GetSelectedControlItem(m_pIFileDialogCustomize, dwIDCtl, @dwIDItem))
+   RETURN dwIDItem
+END FUNCTION
+' ========================================================================================
+   
+' ========================================================================================
 ' Places a control in the dialog so that it stands out compared to other added controls.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.MakeProminent (BYVAL dwIDCtl AS DWORD) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->MakeProminent(m_IFileDialogCustomize, dwIDCtl)
+   RETURN m_pIFileDialogCustomize->lpvtbl->MakeProminent(m_pIFileDialogCustomize, dwIDCtl)
 END FUNCTION
 ' ========================================================================================
 
@@ -246,7 +268,7 @@ END FUNCTION
 ' Not implemented.
 ' ========================================================================================
 'PRIVATE FUNCTION CIFileDialogCustomize.RemoveAllControlItems (BYVAL dwIDCtl AS DWORD) AS HRESULT
-'   RETURN m_IFileDialogCustomize->lpvtbl->RemoveAllControlItems(m_IFileDialogCustomize, dwIDCtl)
+'   RETURN m_pIFileDialogCustomize->lpvtbl->RemoveAllControlItems(m_pIFileDialogCustomize, dwIDCtl)
 'END FUNCTION
 ' ========================================================================================
 
@@ -254,7 +276,7 @@ END FUNCTION
 ' Removes an item from a container control in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.RemoveControlItem (BYVAL dwIDCtl AS DWORD, BYVAL dwItem AS DWORD) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->RemoveControlItem(m_IFileDialogCustomize, dwIDCtl, dwItem)
+   RETURN m_pIFileDialogCustomize->lpvtbl->RemoveControlItem(m_pIFileDialogCustomize, dwIDCtl, dwItem)
 END FUNCTION
 ' ========================================================================================
 
@@ -262,7 +284,7 @@ END FUNCTION
 ' Sets the state of a check button (check box) in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.SetCheckButtonState (BYVAL dwIDCtl AS DWORD, BYVAL bCkecked AS BOOLEAN) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->SetCheckButtonState(m_IFileDialogCustomize, dwIDCtl, bCkecked)
+   RETURN m_pIFileDialogCustomize->lpvtbl->SetCheckButtonState(m_pIFileDialogCustomize, dwIDCtl, bCkecked)
 END FUNCTION
 ' ========================================================================================
 
@@ -270,7 +292,7 @@ END FUNCTION
 ' Sets the state of a check button (check box) in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.SetControlItemState (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD, BYVAL dwState AS CDCONTROLSTATEF) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->SetControlItemState(m_IFileDialogCustomize, dwIDCtl, dwIDItem, dwState)
+   RETURN m_pIFileDialogCustomize->lpvtbl->SetControlItemState(m_pIFileDialogCustomize, dwIDCtl, dwIDItem, dwState)
 END FUNCTION
 ' ========================================================================================
 
@@ -278,7 +300,7 @@ END FUNCTION
 ' Sets the text of a control item. For example, the text that accompanies a radio button or an item in a menu.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.SetControlItemText (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->SetControlItemText(m_IFileDialogCustomize, dwIDCtl, dwIDItem, pwszLabel)
+   RETURN m_pIFileDialogCustomize->lpvtbl->SetControlItemText(m_pIFileDialogCustomize, dwIDCtl, dwIDItem, pwszLabel)
 END FUNCTION
 ' ========================================================================================
 
@@ -286,7 +308,7 @@ END FUNCTION
 ' Sets the text associated with a control, such as button text or an edit box label.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.SetControlLabel (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->SetControlLabel(m_IFileDialogCustomize, dwIDCtl, pwszLabel)
+   RETURN m_pIFileDialogCustomize->lpvtbl->SetControlLabel(m_pIFileDialogCustomize, dwIDCtl, pwszLabel)
 END FUNCTION
 ' ========================================================================================
 
@@ -294,7 +316,7 @@ END FUNCTION
 ' Sets the current visibility and enabled states of a given control.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.SetControlState (BYVAL dwIDCtl AS DWORD, BYVAL dwState AS CDCONTROLSTATEF) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->SetControlState(m_IFileDialogCustomize, dwIDCtl, dwState)
+   RETURN m_pIFileDialogCustomize->lpvtbl->SetControlState(m_pIFileDialogCustomize, dwIDCtl, dwState)
 END FUNCTION
 ' ========================================================================================
 
@@ -302,7 +324,7 @@ END FUNCTION
 ' Sets the text in an edit box control found in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.SetEditBoxText (BYVAL dwIDCtl AS DWORD, BYVAL pwszText AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->SetEditBoxText(m_IFileDialogCustomize, dwIDCtl, pwszText)
+   RETURN m_pIFileDialogCustomize->lpvtbl->SetEditBoxText(m_pIFileDialogCustomize, dwIDCtl, pwszText)
 END FUNCTION
 ' ========================================================================================
 
@@ -310,7 +332,7 @@ END FUNCTION
 ' Sets the selected state of a particular item in an option button group or a combo box found in the dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.SetSelectedControlItem (BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORD) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->SetSelectedControlItem(m_IFileDialogCustomize, dwIDCtl, dwIDItem)
+   RETURN m_pIFileDialogCustomize->lpvtbl->SetSelectedControlItem(m_pIFileDialogCustomize, dwIDCtl, dwIDItem)
 END FUNCTION
 ' ========================================================================================
 
@@ -318,10 +340,8 @@ END FUNCTION
 ' Declares a visual group in the dialog. Subsequent calls to any "add" method add those elements to this group
 ' ========================================================================================
 PRIVATE FUNCTION CIFileDialogCustomize.StartVisualGroup (BYVAL dwIDCtl AS DWORD, BYVAL pwszLabel AS WSTRING PTR) AS HRESULT
-   RETURN m_IFileDialogCustomize->lpvtbl->AddText(m_IFileDialogCustomize, dwIDCtl, pwszLabel)
+   RETURN m_pIFileDialogCustomize->lpvtbl->AddText(m_pIFileDialogCustomize, dwIDCtl, pwszLabel)
 END FUNCTION
 ' ========================================================================================
-
-' ########################################################################################
 
 #endif
