@@ -204,7 +204,7 @@ Public:
       BYVAL dwStyle AS LONG = -1, BYVAL dwExStyle AS LONG = -1, BYVAL lpParam AS LONG_PTR = 0, _
       BYVAL pCallbackProc AS WNDPROC = NULL) AS HWND
    DECLARE PROPERTY hDialog () AS HWND
-   DECLARE PROPERTY hDialog (BYVAL hDlg AS HWND)
+'   DECLARE PROPERTY hDialog (BYVAL hDlg AS HWND)
    DECLARE FUNCTION IsModal () AS BOOLEAN
    DECLARE FUNCTION IsCustom () AS BOOLEAN
    DECLARE PROPERTY UsesPixels () AS BOOLEAN
@@ -884,9 +884,9 @@ END PROPERTY
 ' ========================================================================================
 ' Sets the handle of the dialog
 ' ========================================================================================
-PRIVATE PROPERTY CDialog.hDialog (BYVAL hDlg AS HWND)
-   IF IsWindow(hDlg) THEN m_hDlg = hDlg
-END PROPERTY
+'PRIVATE PROPERTY CDialog.hDialog (BYVAL hDlg AS HWND)
+'   IF IsWindow(hDlg) THEN m_hDlg = hDlg
+'END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
