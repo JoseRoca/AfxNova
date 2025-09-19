@@ -45,10 +45,6 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Centers the window
    pWindow.Center
 
-
-   ' // Store a pointer to the IExplorerBrowser interface
-'   pWindow.UserData(0) = CAST(LONG_PTR, peb.ObjPtr)
-
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
 
