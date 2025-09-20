@@ -3696,8 +3696,8 @@ The return value can be an **HRESULT** value that corresponds to a system error 
 #### Usage example
 
 ```
-DIM cv AS CVAR = AfxGetExePath & $"\Test.rtf"
-pRichEdit.OpenDoc(cv)
+DIM dv AS DVARIANT = AfxGetExePath & $"\Test.rtf"
+pRichEdit.OpenDoc(dv)
 ```
 ## <a name="savedoc"></a>SaveDoc
 
@@ -3774,23 +3774,23 @@ pRichEdit->SaveDoc(BYVAL NULL, tomText, 1200)
 ```
 Saves the current document in RTF format:
 ```
-DIM cv AS CVAR = AfxGetExePath & $"\Test02.rtf"
-pRichEdit->SaveDoc(cv, tomCreateAlways OR tomRTF)
+DIM dv AS DVARIANT = AfxGetExePath & $"\Test02.rtf"
+pRichEdit->SaveDoc(dv, tomCreateAlways OR tomRTF)
 ```
 Saves the current document in text format:
 ```
-DIM cv AS CVAR = AfxGetExePath & $"\Test02.txt"
-pRichEdit->SaveDoc(cv, tomCreateAlways OR tomText)
+DIM dv AS DVARIANT = AfxGetExePath & $"\Test02.txt"
+pRichEdit->SaveDoc(dv, tomCreateAlways OR tomText)
 ```
 Saves the current document in utf-8 (with BOM):
 ```
-DIM cv AS CVAR = AfxGetExePath & $"\Test02.txt"
-pRichEdit->SaveDoc(cv, tomCreateAlways OR tomText, CP_UTF8)
+DIM dv AS DVARIANT = AfxGetExePath & $"\Test02.txt"
+pRichEdit->SaveDoc(dv, tomCreateAlways OR tomText, CP_UTF8)
 ```
 Saves the current document in unicode:
 ```
-DIM cv AS CVAR = AfxGetExePath & $"\Test02.txt"
-pRichEdit->SaveDoc(cv, tomCreateAlways OR tomText, 1200)
+DIM dv AS DVARIANT = AfxGetExePath & $"\Test02.txt"
+pRichEdit->SaveDoc(dv, tomCreateAlways OR tomText, 1200)
 ```
 
 ## <a name="docname"></a>DocName
