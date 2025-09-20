@@ -59,13 +59,13 @@ END TYPE
 ' =====================================================================================
 ' Constructor
 ' =====================================================================================
-PRIVATE CONSTRUCTOR CIFileDialogControlEvents
+CONSTRUCTOR CIFileDialogControlEvents
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
 ' Destructor
 ' =====================================================================================
-PRIVATE DESTRUCTOR CIFileDialogControlEvents
+DESTRUCTOR CIFileDialogControlEvents
 END DESTRUCTOR
 ' =====================================================================================
 
@@ -74,7 +74,7 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
 ' ========================================================================================
-PRIVATE FUNCTION CIFileDialogControlEvents.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+FUNCTION CIFileDialogControlEvents.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
    COSFD_DP("riid: " & AfxGuidText(riid))
    IF ppvObj = NULL THEN RETURN E_INVALIDARG
    IF IsEqualIID(riid, @IID_IFileDialogControlEvents) OR _
@@ -92,7 +92,7 @@ END FUNCTION
 ' Increments the reference count for an interface on an object. This method should be called
 ' for every new copy of a pointer to an interface on an object.
 ' ========================================================================================
-PRIVATE FUNCTION CIFileDialogControlEvents.AddRef () AS ULONG
+FUNCTION CIFileDialogControlEvents.AddRef () AS ULONG
    refCount += 1
    COSFD_DP(WSTR(refCount))
    RETURN refCount
@@ -103,7 +103,7 @@ END FUNCTION
 ' Decrements the reference count for an interface on an object.
 ' If the count reaches 0, it deletes itself.
 ' ========================================================================================
-PRIVATE FUNCTION CIFileDialogControlEvents.Release () AS ULONG
+FUNCTION CIFileDialogControlEvents.Release () AS ULONG
    refCount -= 1
    COSFD_DP(WSTR(refCount))
    IF refCount = 0 THEN
@@ -120,7 +120,7 @@ END FUNCTION
 ' Called when an item is selected in a combo box, when a user clicks an option button
 ' (also known as a radio button), or an item is chosen from the Tools menu.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogControlEvents.OnItemSelected (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORd) AS HRESULT
+FUNCTION CIFileDialogControlEvents.OnItemSelected (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD, BYVAL dwIDItem AS DWORd) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -128,7 +128,7 @@ END FUNCTION
 ' =====================================================================================
 ' Called when the user clicks a command button.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogControlEvents.OnButtonClicked (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD) AS HRESULT
+FUNCTION CIFileDialogControlEvents.OnButtonClicked (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -136,7 +136,7 @@ END FUNCTION
 ' =====================================================================================
 ' Called when the user changes the state of a check button (check box).
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogControlEvents.OnCheckButtonToggled (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD, BYVAL bChecked AS WINBOOL) AS HRESULT
+FUNCTION CIFileDialogControlEvents.OnCheckButtonToggled (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD, BYVAL bChecked AS WINBOOL) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -144,7 +144,7 @@ END FUNCTION
 ' =====================================================================================
 ' Enables an application to respond to sharing violations that arise from Open or Save operations.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogControlEvents.OnControlActivating (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD) AS HRESULT
+FUNCTION CIFileDialogControlEvents.OnControlActivating (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -182,13 +182,13 @@ END TYPE
 ' =====================================================================================
 ' Constructor
 ' =====================================================================================
-PRIVATE CONSTRUCTOR CIFileDialogEvents
+CONSTRUCTOR CIFileDialogEvents
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
 ' Destructor
 ' =====================================================================================
-PRIVATE DESTRUCTOR CIFileDialogEvents
+DESTRUCTOR CIFileDialogEvents
 END DESTRUCTOR
 ' =====================================================================================
 
@@ -197,7 +197,7 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
 ' ========================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
    COSFD_DP("riid: " & AfxGuidText(riid))
    IF ppvObj = NULL THEN RETURN E_INVALIDARG
    IF IsEqualIID(riid, @IID_IFileOpenDialog) OR _
@@ -223,7 +223,7 @@ END FUNCTION
 ' Increments the reference count for an interface on an object. This method should be called
 ' for every new copy of a pointer to an interface on an object.
 ' ========================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.AddRef () AS ULONG
+FUNCTION CIFileDialogEvents.AddRef () AS ULONG
    refCount += 1
    COSFD_DP(WSTR(refCount))
    RETURN refCount
@@ -234,7 +234,7 @@ END FUNCTION
 ' Decrements the reference count for an interface on an object.
 ' If the count reaches 0, it deletes itself.
 ' ========================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.Release () AS ULONG
+FUNCTION CIFileDialogEvents.Release () AS ULONG
    refCount -= 1
    COSFD_DP(WSTR(refCount))
    IF refCount = 0 THEN
@@ -251,7 +251,7 @@ END FUNCTION
 ' Called just before the dialog is about to return with a result.
 ' When this method is called, the IFileDialog::GetResult and GetResults methods can be called.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.OnFileOk (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.OnFileOk (BYVAL pfd AS IFileDialog PTR) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -260,7 +260,7 @@ END FUNCTION
 ' Called before OnFolderChange. This allows the implementer to stop navigation to a particular location.
 ' A pointer to an interface that represents the folder to which the dialog is about to navigate.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.OnFolderChanging (BYVAL pfd AS IFileDialog PTR, BYVAL psiFolder AS IShellItem PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.OnFolderChanging (BYVAL pfd AS IFileDialog PTR, BYVAL psiFolder AS IShellItem PTR) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -271,7 +271,7 @@ END FUNCTION
 ' The code below allows to set the position of the dialog, but can't center it because
 ' the width and height of the dialog isn't settled until it is displayed.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.OnFolderChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.OnFolderChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
 
 '   ' // Before displaying the dialog get its coordinates
 '   DIM pOleWindow AS IOleWindow PTR
@@ -299,7 +299,7 @@ END FUNCTION
 ' =====================================================================================
 ' Called when the user changes the selection in the dialog's view.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.OnSelectionChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.OnSelectionChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -307,7 +307,7 @@ END FUNCTION
 ' =====================================================================================
 ' Enables an application to respond to sharing violations that arise from Open or Save operations.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.OnShareViolation (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR, BYVAL pResponse AS FDE_SHAREVIOLATION_RESPONSE PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.OnShareViolation (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR, BYVAL pResponse AS FDE_SHAREVIOLATION_RESPONSE PTR) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -315,7 +315,7 @@ END FUNCTION
 ' =====================================================================================
 ' Called when the dialog is opened to notify the application of the initial chosen filetype.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.OnTypeChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.OnTypeChange (BYVAL pfd AS IFileDialog PTR) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
@@ -323,7 +323,7 @@ END FUNCTION
 ' =====================================================================================
 ' Called from the save dialog when the user chooses to overwrite a file.
 ' =====================================================================================
-PRIVATE FUNCTION CIFileDialogEvents.OnOverwrite (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR, BYVAL pResponse AS FDE_OVERWRITE_RESPONSE PTR) AS HRESULT
+FUNCTION CIFileDialogEvents.OnOverwrite (BYVAL pfd AS IFileDialog PTR, BYVAL psi AS IShellItem PTR, BYVAL pResponse AS FDE_OVERWRITE_RESPONSE PTR) AS HRESULT
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
