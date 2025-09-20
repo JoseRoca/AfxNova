@@ -91,6 +91,7 @@ Public:
    DECLARE FUNCTION GetCurrentView (BYVAL riid AS IID PTR) AS ANY PTR
    DECLARE FUNCTION NavigateBack () AS HRESULT
    DECLARE FUNCTION NavigateForward () AS HRESULT
+   DECLARE FUNCTION NavigateToParent () AS HRESULT
    DECLARE FUNCTION NavigateTo (BYREF wszPath AS WSTRING) AS HRESULT
    DECLARE FUNCTION SetEvents (BYVAL pebe as IExplorerBrowserEvents PTR) AS HRESULT
 
@@ -355,6 +356,15 @@ END FUNCTION
 PRIVATE FUNCTION CExplorerBrowser.NavigateForward () AS HRESULT
    CEXPBROW_DP("")
    RETURN SetResult(m_pExplorer->lpvtbl->BrowseToIDList(m_pExplorer, NULL, SBSP_NAVIGATEFORWARD))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Navigate to parent programatically.
+' ========================================================================================
+PRIVATE FUNCTION CExplorerBrowser.NavigateToParent () AS HRESULT
+   CEXPBROW_DP("")
+   RETURN SetResult(m_pExplorer->lpvtbl->BrowseToIDList(m_pExplorer, NULL, SBSP_PARENT))
 END FUNCTION
 ' ========================================================================================
 
