@@ -891,7 +891,7 @@ END FUNCTION
 PRIVATE FUNCTION CRichEditCtx.SetCharFormat (BYVAL chfmt AS DWORD, BYREF cf AS CHARFORMATW) AS BOOLEAN
    m_Result = 0
    IF cf.cbSize = 0 THEN cf.cbSize = SIZEOF (cf)
-   DIM hr AS HREsuLT = SendMessageW(m_hRichEdit, EM_SETCHARFORMAT, chfmt, cast (LPARAM, @cf))
+   DIM hr AS HRESULT = SendMessageW(m_hRichEdit, EM_SETCHARFORMAT, chfmt, cast (LPARAM, @cf))
    IF hr = 0 THEN RETURN FALSE ELSE RETURN TRUE
 END FUNCTION
 ' ========================================================================================
@@ -4210,8 +4210,8 @@ END FUNCTION
 ' Opens a new document. If another document is open, this method saves any current changes
 ' and closes the current document before opening a new one.
 ' Example:
-' DIM cv AS CVAR = AfxGetExePath & $"\Test.rtf"
-' pRichEditCtrl.OpenDoc(cv)
+' DIM dv AS DVARIANT = AfxGetExePath & $"\Test.rtf"
+' pRichEditCtrl.OpenDoc(dv)
 ' Default code page is CP_UNICODE (1200).
 ' If it is an ansi text file, pass CP_ANSI.
 ' If it UTF8 pass CP_UTF8.
@@ -4225,8 +4225,8 @@ END FUNCTION
 ' ========================================================================================
 ' Saves the document to a file in the specified format.
 ' pVar = Path and file name, e.g. 
-'    DIM cv AS CVAR = AfxGetExePath & $"\Test.rtf"
-'    pRichEdit->SaveDoc(cv, tomCreateAlways OR tomRTF)
+'    DIM dv AS DVARIANT = AfxGetExePath & $"\Test.rtf"
+'    pRichEdit->SaveDoc(dv, tomCreateAlways OR tomRTF)
 ' Pass NULL to overwrite the file if it already exists.
 ' ========================================================================================
 PRIVATE FUNCTION CRichEditCtx.SaveDoc (BYVAL pVar AS VARIANT PTR, BYVAL Flags AS LONG = tomRTF, BYVAL CodePage AS LONG = CP_ACP) AS HRESULT
