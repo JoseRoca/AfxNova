@@ -3807,8 +3807,6 @@ The path and file name of the document.
 
 ---
 
----
-
 ## <a name="gettextfromfile"></a>GetTextFromFile
 
 Gets text from the specified file
