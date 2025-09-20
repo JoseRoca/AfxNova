@@ -82,6 +82,7 @@ Public:
    DECLARE FUNCTION Unadvise (BYVAL dwCookie AS DWORD) AS HRESULT
    DECLARE FUNCTION SetOptions (BYVAL dwFlag AS EXPLORER_BROWSER_OPTIONS) AS HRESULT
    DECLARE FUNCTION GetOptions (BYVAL pdwFlag AS EXPLORER_BROWSER_OPTIONS PTR) AS HRESULT
+   DECLARE FUNCTION GetOptions () AS EXPLORER_BROWSER_OPTIONS
    DECLARE FUNCTION BrowseToIDList (BYVAL pidl AS LPCITEMIDLIST, BYVAL uFlags AS UINT) AS HRESULT
    DECLARE FUNCTION BrowseToObject (BYVAL punk AS IUnknown PTR, BYVAL uFlags AS UINT) AS HRESULT
    DECLARE FUNCTION FillFromObject (BYVAL punk AS IUnknown PTR, BYVAL dwFlags AS EXPLORER_BROWSER_FILL_FLAGS) AS HRESULT
@@ -275,6 +276,14 @@ END FUNCTION
 PRIVATE FUNCTION CExplorerBrowser.GetOptions (BYVAL pdwFlag AS EXPLORER_BROWSER_OPTIONS PTR) AS HRESULT
    CEXPBROW_DP("")
    RETURN SetResult(m_pExplorer->lpvtbl->GetOptions(m_pExplorer, pdwFlag))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CExplorerBrowser.GetOptions () AS EXPLORER_BROWSER_OPTIONS
+   CEXPBROW_DP("")
+   DIM dwFlag AS EXPLORER_BROWSER_OPTIONS
+   RETURN SetResult(m_pExplorer->lpvtbl->GetOptions(m_pExplorer, @dwFlag))
+   RETURN dwFlag
 END FUNCTION
 ' ========================================================================================
 
