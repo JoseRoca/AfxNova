@@ -56,8 +56,9 @@ NAMESPACE AfxNova
 TYPE CExplorerBrowser
 
 Public:
-   m_Result AS HRESULT
-   m_pExplorer AS IExplorerBrowser PTR
+   m_Result AS HRESULT                   ' // HRESULT code
+   m_pExplorer AS IExplorerBrowser PTR   ' // IExplorerBrowser interface
+   m_dwCookie AS DWORD                   ' // Events cookie
 
 Private:
    m_bUninitCOM AS BOOLEAN
@@ -90,6 +91,7 @@ Public:
    DECLARE FUNCTION NavigateBack () AS HRESULT
    DECLARE FUNCTION NavigateForward () AS HRESULT
    DECLARE FUNCTION NavigateTo (BYREF wszPath AS WSTRING) AS HRESULT
+   DECLARE FUNCTION SetEvents (BYVAL pebe as IExplorerBrowserEvents PTR) AS HRESULT
 
 END TYPE
 ' ========================================================================================
@@ -114,6 +116,8 @@ END CONSTRUCTOR
 ' ========================================================================================
 PRIVATE DESTRUCTOR CExplorerBrowser
    CEXPBROW_DP("- m_pExplorer = " & WSTR(m_pExplorer))
+   ' // Removes an event handler that was attached through the SetEvents method.
+   IF m_dwCookie THEN m_pExplorer->lpvtbl->Unadvise(m_pExplorer, m_dwCookie)
    ' // Destroy the instance of the Explorer browser
    IF m_pExplorer THEN
       m_pExplorer->lpvtbl->Destroy(m_pExplorer)
@@ -356,6 +360,137 @@ PRIVATE FUNCTION CExplorerBrowser.NavigateTo (BYREF wszPath AS WSTRING) AS HRESU
    m_Result = m_pExplorer->lpvtbl->BrowseToIDList(m_pExplorer, pidlBrowse, 0)
    ILFree(pidlBrowse)
    RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Assigns an event handler that listens for events coming from the dialog.
+' ========================================================================================
+PRIVATE FUNCTION CExplorerBrowser.SetEvents (BYVAL pebe AS IExplorerBrowserEvents PTR) AS HRESULT
+   CEXPBROW_DP("pebe: " & WSTR(pebe))
+   IF pebe = NULL THEN RETURN E_POINTER
+   ' // Removes the previous event handler that was attached through the SetEvents method.
+   IF m_dwCookie THEN
+      m_pExplorer->lpvtbl->Unadvise(m_pExplorer, m_dwCookie)
+      m_dwCookie = 0
+   END IF
+   RETURN m_pExplorer->lpvtbl->Advise(m_pExplorer, pebe, @m_dwCookie)
+END FUNCTION
+' ========================================================================================
+
+
+' ########################################################################################
+'                                       EVENTS
+' ########################################################################################
+
+' ========================================================================================
+' CExplorerBrowser events class
+' ========================================================================================
+TYPE CExplorerBrowserEvents EXTENDS Object
+
+   DECLARE VIRTUAL FUNCTION QueryInterface (BYVAL AS REFIID, BYVAL AS PVOID PTR) AS HRESULT
+   DECLARE VIRTUAL FUNCTION AddRef () AS ULONG
+   DECLARE VIRTUAL FUNCTION Release () AS ULONG
+   DECLARE VIRTUAL FUNCTION OnNavigationPending (BYVAL pidlFolder AS LPCITEMIDLIST) AS HRESULT
+   DECLARE VIRTUAL FUNCTION OnViewCreated (BYVAL psv AS IShellView PTR) AS HRESULT
+   DECLARE VIRTUAL FUNCTION OnNavigationComplete (BYVAL pidlFolder AS LPCITEMIDLIST) AS HRESULT
+   DECLARE VIRTUAL FUNCTION OnNavigationFailed (BYVAL pidlFolder AS LPCITEMIDLIST) AS HRESULT
+
+Public:
+   DECLARE CONSTRUCTOR
+   DECLARE DESTRUCTOR
+
+Private:
+   cRef AS ULONG = 0
+
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Constructors
+' ========================================================================================
+CONSTRUCTOR CExplorerBrowserEvents
+   CEXPBROW_DP("")
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Destructor
+' ========================================================================================
+DESTRUCTOR CExplorerBrowserEvents
+   CEXPBROW_DP("")
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns pointers to the implemented classes and supported interfaces.
+' ========================================================================================
+FUNCTION CExplorerBrowserEvents.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+   CEXPBROW_DP("")
+   IF ppvObj = NULL THEN RETURN E_INVALIDARG
+   IF IsEqualIID(riid, @IID_IExplorerBrowserEvents) OR IsEqualIID(riid, @IID_IUnknown) THEN
+      *ppvObj = @this
+      RETURN S_OK
+   END IF
+   RETURN E_NOINTERFACE
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Increments the reference count for an interface on an object. This method should be called
+' for every new copy of a pointer to an interface on an object.
+' ========================================================================================
+FUNCTION CExplorerBrowserEvents.AddRef () AS ULONG
+   InterlockedIncrement(@cRef)
+   CEXPBROW_DP("- AddRef = " & WSTR(this.cRef))
+   RETURN this.cRef
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Decrements the reference count for an interface on an object.
+' If the count reaches 0, it deletes itself.
+' ========================================================================================
+FUNCTION CExplorerBrowserEvents.Release () AS DWORD
+   InterlockedDecrement(@cRef)
+   CEXPBROW_DP("- Release = " & WSTR(this.cRef))
+   FUNCTION = this.cRef
+   IF this.cRef = 0 THEN DELETE @this
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Notifies clients of a pending Explorer browser navigation to a Shell folder.
+' ========================================================================================
+FUNCTION CExplorerBrowserEvents.OnNavigationPending (BYVAL pidlFolder AS LPCITEMIDLIST) AS HRESULT
+   CEXPBROW_DP("- pidlFolder: " & WSTR(pidlFolder))
+   RETURN S_OK
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Notifica a los clientes que se ha creado la vista del explorador Explorador y que se pueden modificar.
+' ========================================================================================
+FUNCTION CExplorerBrowserEvents.OnViewCreated (BYVAL psv AS IShellView PTR) AS HRESULT
+   CEXPBROW_DP("- pShellView: " & WSTR(psv))
+   RETURN S_OK
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Notifies clients that the Explorer browser has successfully navigated to a Shell folder.
+' ========================================================================================
+FUNCTION CExplorerBrowserEvents.OnNavigationComplete (BYVAL pidlFolder AS LPCITEMIDLIST) AS HRESULT
+   CEXPBROW_DP("- pidlFolder: " & WSTR(pidlFolder))
+   RETURN S_OK
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Notifies clients that the Explorer browser has failed to navigate to a Shell folder.
+' ========================================================================================
+FUNCTION CExplorerBrowserEvents.OnNavigationFailed (BYVAL pidlFolder AS LPCITEMIDLIST) AS HRESULT
+   CEXPBROW_DP("- pidlFolder: " & WSTR(pidlFolder))
+   RETURN S_OK
 END FUNCTION
 ' ========================================================================================
 
