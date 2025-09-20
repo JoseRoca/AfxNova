@@ -3619,6 +3619,7 @@ FUNCTION GetLastResult () AS HRESULT
    RETURN m_Result
 END FUNCTION
 ```
+---
 
 ## <a name="setresult"></a>SetResult
 
