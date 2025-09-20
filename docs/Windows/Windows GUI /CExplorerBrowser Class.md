@@ -135,6 +135,7 @@ END FUNCTION
 | [NavigateBack](#navigateback) | Navigate back programatically.  |
 | [NavigateForward](#navigateforward) | Navigate forward programatically. |
 | [NavigateTo](#navigateto) | Navigate to the specified folder. |
+| [NavigateToParent](#navigatetoparent) | Navigate to the parent folder. |
 | [RemoveAll](#removeall) | Removes all items from the results folder. |
 | [SetEmptyText](#setemptytext) | Sets the default empty text. |
 | [SetEvents](#setevents) | Sets a connection with **IExplorerBrowserEvents** for event callbacks. |
@@ -645,6 +646,20 @@ Navigate forward programatically.
 
 ```
 FUNCTION NavigateForward () AS HRESULT
+```
+
+#### Return value
+
+If this method succeeds, it returns **S_OK**. Otherwise, it returns an **HRESULT** error code.
+
+---
+
+## NavigateToParent
+
+Navigate to the parent folder programatically.
+
+```
+FUNCTION NavigateToParent () AS HRESULT
 ```
 
 #### Return value
