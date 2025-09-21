@@ -268,7 +268,7 @@ FUNCTION ToVar () AS VARIANT
 
 #### Remarks
 
-Can be used to assign a currency directly to a CVAR variable.
+Can be used to assign a currency directly to a DVARIANT variable.
 
 ```
 DIM dec AS CDEC = 12345.1234
