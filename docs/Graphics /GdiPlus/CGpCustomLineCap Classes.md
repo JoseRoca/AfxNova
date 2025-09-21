@@ -455,9 +455,9 @@ FUNCTION SetBaseCap (BYVAL baseCap AS LineCap) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -518,9 +518,9 @@ FUNCTION SetBaseInset (BYVAL baseinset AS SINGLE) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -582,9 +582,9 @@ FUNCTION SetStrokeCap (BYVAL strokeCap AS LineCap) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -649,9 +649,9 @@ FUNCTION SetStrokeCaps (BYVAL startCap AS LineCap, BYVAL endCap AS LineCap) AS G
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -715,9 +715,9 @@ FUNCTION SetStrokeJoin (BYVAL nLineJoin AS LineJoin) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -781,9 +781,9 @@ FUNCTION SetWidthScale (BYVAL widthScale AS SINGLE) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1119,9 +1119,9 @@ FUNCTION SetFillState (BYVAL bIsFilled AS BOOL) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1175,9 +1175,9 @@ FUNCTION SetHeight (BYVAL nHeight AS SINGLE) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1235,9 +1235,9 @@ FUNCTION SetMiddleInset (BYVAL middleInset AS SINGLE) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1289,9 +1289,9 @@ FUNCTION SetWidth (BYVAL nWidth AS SINGLE) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
