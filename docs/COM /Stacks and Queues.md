@@ -37,7 +37,7 @@ A Queue` collection is an ordered set of data items, which are accessed on a FIF
 Appends a variant at the end of the collection.
 
 ```
-FUNCTION Push (BYREF cv AS CVAR) AS HRESULT
+FUNCTION Push (BYREF dv AS DVARIANT) AS HRESULT
 ```
 
 #### Return value
@@ -109,7 +109,7 @@ Returns S_OK on success, or an error HRESULT on failure.
 Appends a variant at the end of the collection.
 
 ```
-FUNCTION Enqueue (BYREF cv AS CVAR) AS HRESULT
+FUNCTION Enqueue (BYREF dv AS DVARIANT) AS HRESULT
 ```
 
 #### Return value
@@ -137,7 +137,7 @@ print pQueue.Dequeue
 Gets and removes the first element of the collection.
 
 ```
-FUNCTION Dequeue () AS CVAR
+FUNCTION Dequeue () AS DVARIANT
 ```
 
 #### Return value
