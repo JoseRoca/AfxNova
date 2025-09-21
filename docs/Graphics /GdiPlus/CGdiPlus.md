@@ -20,11 +20,11 @@ FUNCTION GetLastStatus () AS GpStatus
 
 #### Return value
 
-Returns an element of the **Status** enumeration.
+Returns an element of the **GpStatus** enumeration.
 
 If no methods invoked on this object have failed since the previous call to **GetLastStatus**, then **GetLastStatus** returns **Ok** (0). If at least one method has failed since the previous call to **GetLastStatus**, then **GetLastStatus** returns a value that indicates the nature of the most recent failure.
 
-For a detailed list of status codes see the **Status** enumeration.
+For a detailed list of status codes see the **GpStatus** enumeration.
 
 ---
 
@@ -2131,7 +2131,7 @@ Smoothing performed by an 8 X 4 box filter gives better results for nearly verti
 
 ## <a name="status"></a>Status Enumeration
 
-The **Status** enumeration indicates the result of a Microsoft Windows GDI+ function call.
+The **GpStatus** enumeration indicates the result of a Microsoft Windows GDI+ function call.
 
 ```
 Ok = 0
