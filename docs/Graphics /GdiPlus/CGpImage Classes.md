@@ -269,9 +269,9 @@ FUNCTION FindFirstItem (BYVAL pitem AS ImageItemData PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -293,9 +293,9 @@ FUNCTION FindNextItem (BYVAL pitem AS ImageItemData PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -320,9 +320,9 @@ FUNCTION GetAllPropertyItems (BYVAL totalBufferSize AS UINT, BYVAL numProperties
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -349,9 +349,9 @@ FUNCTION GetBounds (BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit PTR) A
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -414,9 +414,9 @@ FUNCTION GetEncoderParameterList (BYVAL clsidEncoder AS GUID PTR, BYVAL uSize AS
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -499,9 +499,9 @@ FUNCTION GetFrameDimensionsList (BYVAL dimensionIDs AS GUID PTR, BYVAL count AS 
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -547,9 +547,9 @@ FUNCTION GetItemData (BYVAL pitem AS ImageItemData PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -568,9 +568,9 @@ FUNCTION GetPalette (BYVAL pal AS ColorPalette PTR, BYVAL nSize AS INT_) AS GpSt
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -597,9 +597,9 @@ FUNCTION GetPhysicalDimension (BYVAL psize AS SizeF PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -641,9 +641,9 @@ FUNCTION GetPropertyIdList (BYVAL numOfProperty AS UINT, BYVAL list AS PROPID PT
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -668,9 +668,9 @@ FUNCTION GetPropertyItem (BYVAL propId AS PROPID, BYVAL propSize AS UINT, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -703,9 +703,9 @@ FUNCTION GetPropertySize (BYVAL totalBufferSize AS UINT PTR, BYVAL numProperties
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -727,9 +727,9 @@ FUNCTION GetRawFormat (BYVAL guidformat AS GUID PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -753,9 +753,9 @@ FUNCTION GetThumbnailImage (BYVAL thumbWidth AS UINT, BYVAL thumbHeight AS UINT,
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -840,9 +840,9 @@ FUNCTION RemovePropertyItem (BYVAL propId AS PROPID) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -864,9 +864,9 @@ FUNCTION RotateFlip (BYVAL rotateFlipType AS RotateFlipType) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -916,9 +916,9 @@ FUNCTION Save (BYVAL pStream AS IStream PTR, BYVAL clsidEncoder AS GUID PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -942,9 +942,9 @@ FUNCTION SaveAdd (BYVAL pNewImage AS CGpImage PTR, BYVAL encoderParams AS Encode
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -963,9 +963,9 @@ FUNCTION SelectActiveFrame (BYVAL dimensionID AS GUID PTR, BYVAL frameIndex AS U
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -989,9 +989,9 @@ FUNCTION SetPalette (BYVAL pal AS ColorPalette PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1009,9 +1009,9 @@ FUNCTION SetPropertyItem (BYVAL pitem AS PropertyItem PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1075,9 +1075,9 @@ FUNCTION Clone (BYVAL rc AS GpRect PTR, BYVAL pxFormat AS PixelFormat, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1129,9 +1129,9 @@ FUNCTION ConvertFormat (BYVAL pxFormat AS PixelFormat, BYVAL nDitherType AS Dith
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1150,9 +1150,9 @@ FUNCTION GetHBITMAP (BYVAL colorBackground AS ARGB, BYVAL hbmReturn AS HBITMAP P
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1170,9 +1170,9 @@ FUNCTION GetHICON (BYVAL hiconReturn AS HICON PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1197,9 +1197,9 @@ FUNCTION GetHistogram (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries A
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1222,9 +1222,9 @@ FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntri
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1244,9 +1244,9 @@ FUNCTION GetPixel (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL colour AS ARGB PTR) A
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1273,9 +1273,9 @@ FUNCTION InitializePalette (BYVAL colourPalette AS ColorPalette PTR, BYVAL nPale
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1297,9 +1297,9 @@ FUNCTION LockBits (BYVAL rc AS GpRect PTR, BYVAL flags AS UINT, BYVAL pxFormat A
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1319,9 +1319,9 @@ FUNCTION SetPixel (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL colour AS ARGB) AS Gp
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1344,9 +1344,9 @@ FUNCTION SetResolution (BYVAL xdpi AS SINGLE, BYVAL ydpi AS SINGLE) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1364,9 +1364,9 @@ FUNCTION UnlockBits (BYVAL lockedBitmapData AS BitmapData PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1475,9 +1475,9 @@ FUNCTION EmfToWmfBits (BYVAL hEmf AS HENHMETAFILE, BYVAL cbData16 AS UINT, BYVAL
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1538,9 +1538,9 @@ FUNCTION GetMetafileHeader (BYVAL pStream AS IStream PTR, BYVAL mh AS MetafileHe
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1562,9 +1562,9 @@ FUNCTION PlayRecord (BYVAL recordType AS EmfPlusRecordType, BYVAL flags AS UINT,
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1582,9 +1582,9 @@ FUNCTION SetDownLevelRasterizationLimit (BYVAL metafileRasterizationLimitDpi AS 
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1640,9 +1640,9 @@ FUNCTION ClearBrushRemapTable () AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1668,9 +1668,9 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1688,9 +1688,9 @@ FUNCTION ClearColorMatrices (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDef
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1716,9 +1716,9 @@ FUNCTION ClearColorMatrix (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefau
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1744,9 +1744,9 @@ FUNCTION ClearGamma (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1772,9 +1772,9 @@ FUNCTION ClearNoOp (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS 
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1805,9 +1805,9 @@ FUNCTION ClearOutputChannel (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDef
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1833,9 +1833,9 @@ FUNCTION ClearOutputChannelColorProfile (BYVAL nType AS ColorAdjustType = ColorA
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1861,9 +1861,9 @@ FUNCTION ClearRemapTable (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefaul
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1889,9 +1889,9 @@ FUNCTION ClearThreshold (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1919,9 +1919,9 @@ FUNCTION Clone (BYVAL pCloneImgAttr AS CGpImageAttributes PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -1940,9 +1940,9 @@ FUNCTION GetAdjustedPalette (BYVAL pColorPalette AS ColorPalette PTR, BYVAL colo
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1966,9 +1966,9 @@ FUNCTION Reset (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpSt
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1995,9 +1995,9 @@ FUNCTION SetBrushRemapTable (BYVAL mapSize AS UINT, BYVAL map AS ANY PTR) AS GpS
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2024,9 +2024,9 @@ FUNCTION SetColorKey (BYVAL colorLow AS ARGB, BYVAL colorHigh AS ARGB, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2060,9 +2060,9 @@ FUNCTION SetColorMatrices (BYVAL pColorMatrix AS ColorMatrix PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2092,9 +2092,9 @@ FUNCTION SetColorMatrix (BYVAL pColorMatrix AS ColorMatrix PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2121,9 +2121,9 @@ FUNCTION SetGamma (BYVAL gamma AS SINGLE, BYVAL nType AS ColorAdjustType = Color
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2150,9 +2150,9 @@ FUNCTION SetNoOp (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS Gp
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -2172,9 +2172,9 @@ FUNCTION SetOutputChannel (BYVAL channelFlags AS LONG, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2204,9 +2204,9 @@ FUNCTION SetOutputChannelColorProfile ( BYVAL pwszColorProfileFilename AS WSTRIN
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2245,9 +2245,9 @@ FUNCTION SetRemapTable (BYVAL mapSize AS UINT, BYVAL map AS ANY PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2277,9 +2277,9 @@ FUNCTION SetThreshold (BYVAL threshold AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2307,9 +2307,9 @@ FUNCTION SetToIdentity (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault)
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -2330,8 +2330,8 @@ FUNCTION SetWrapMode (BYVAL nWrap AS WrapMode, BYVAL colour AS ARGB = &HFF000000
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
