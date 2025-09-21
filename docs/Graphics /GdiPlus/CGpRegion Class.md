@@ -166,9 +166,9 @@ FUNCTION Complement (BYVAL pRegion AS CGpRegion PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -375,9 +375,9 @@ FUNCTION Exclude (BYVAL pRegion AS CGpRegion PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -500,9 +500,9 @@ FUNCTION GetBounds (BYVAL rc AS GpRect PTR, BYVAL pGraphics AS CGpGraphics PTR) 
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -725,9 +725,9 @@ FUNCTION GetRegionScans (BYVAL pMatrix AS CGpMatrix PTR, BYVAL rects AS GpRectF 
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -860,9 +860,9 @@ FUNCTION Intersect (BYVAL pRegion AS CGpRegion PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1165,9 +1165,9 @@ FUNCTION MakeEmpty () AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1217,9 +1217,9 @@ FUNCTION MakeInfinite () AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1270,9 +1270,9 @@ FUNCTION Transform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1324,9 +1324,9 @@ FUNCTION Translate (BYVAL dx AS INT_, BYVAL dy AS INT_) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1391,9 +1391,9 @@ FUNCTION Union_ (BYVAL pRegion AS CGpRegion PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1531,9 +1531,9 @@ FUNCTION Xor_ (BYVAL pRegion AS CGpRegion PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
