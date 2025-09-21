@@ -53,9 +53,9 @@ CONSTRUCTOR CGpStringFormat (BYVAL formatFlags AS INT_ = 0, BYVAL language AS LA
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
@@ -682,9 +682,9 @@ FUNCTION GetTabStops (BYVAL count AS INT_, BYVAL firstTabOffset AS SINGLE PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -814,9 +814,9 @@ FUNCTION SetAlignment (BYVAL nAlign AS StringAlignment) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -874,9 +874,9 @@ FUNCTION SetDigitSubstitution (BYVAL language AS LANGID, BYVAL substitute AS Str
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -908,9 +908,9 @@ FUNCTION SetFormatFlags (BYVAL flags AS INT_) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -967,9 +967,9 @@ FUNCTION SetHotkeyPrefix (BYVAL nHotkeyPrefix AS HotkeyPrefix) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1028,9 +1028,9 @@ FUNCTION SetLineAlignment (BYVAL nAlign AS StringAlignment) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1089,9 +1089,9 @@ FUNCTION SetMeasurableCharacterRanges (BYVAL rangeCount AS INT_, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1195,9 +1195,9 @@ FUNCTION SetTabStops (BYVAL firstTabOffset AS SINGLE, BYVAL nCount AS INT_, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1259,9 +1259,9 @@ FUNCTION SetTrimming (BYVAL trimming AS StringTrimming) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
