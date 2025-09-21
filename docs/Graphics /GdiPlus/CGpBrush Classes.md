@@ -179,9 +179,9 @@ FUNCTION Clone (BYVAL pBrush AS CGpBrush PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -291,9 +291,9 @@ FUNCTION GetColor () AS ARGB
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 The second overloaded function returns the ARGB color as the result of the function.
 
@@ -313,9 +313,9 @@ FUNCTION SetColor (BYVAL colour AS ARGB) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -380,9 +380,9 @@ FUNCTION GetBackgroundColor () AS ARGB
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 The second overloaded function returns the ARGB color as the result of the function.
 
@@ -444,9 +444,9 @@ FUNCTION GetForegroundColor () AS ARGB
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 The second overloaded function returns the ARGB color as the result of the function.
 
@@ -615,9 +615,9 @@ FUNCTION GetBlend (BYVAL blendFactors AS SINGLE PTR, BYVAL blendPositions AS SIN
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -836,9 +836,9 @@ FUNCTION GetInterpolationColors (BYVAL presetColors AS ARGB PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -911,9 +911,9 @@ FUNCTION GetLinearColors (BYVAL colors AS ARGB PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -968,9 +968,9 @@ FUNCTION GetRectangle (BYVAL rc AS GpRect PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1026,9 +1026,9 @@ FUNCTION GetTransform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1153,9 +1153,9 @@ FUNCTION MultiplyTransform (BYVAL pMatrix AS CGpMatrix PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1219,9 +1219,9 @@ FUNCTION ResetTransform () AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1284,9 +1284,9 @@ FUNCTION RotateTransform (BYVAL angle AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1348,9 +1348,9 @@ FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1412,9 +1412,9 @@ FUNCTION SetBlend (BYVAL blendFactors AS SINGLE PTR, BYVAL blendPositions AS SIN
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1467,9 +1467,9 @@ FUNCTION SetBlendBellShape (BYVAL focus AS SINGLE, BYVAL scale AS SINGLE = 1.0) 
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1532,9 +1532,9 @@ FUNCTION SetBlendTriangularShape (BYVAL focus AS SINGLE, BYVAL scale AS SINGLE =
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1596,9 +1596,9 @@ FUNCTION SetGammaCorrection (BYVAL useGammaCorrection AS BOOL) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1620,9 +1620,9 @@ FUNCTION SetGammaCorrection (BYVAL useGammaCorrection AS BOOL) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1647,9 +1647,9 @@ FUNCTION SetInterpolationColors (BYVAL presetColors AS ARGB PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1700,9 +1700,9 @@ FUNCTION SetLinearColors (BYVAL color1 AS ARGB, BYVAL color2 AS ARGB) AS GpStatu
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -1748,9 +1748,9 @@ FUNCTION SetTransform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1809,9 +1809,9 @@ FUNCTION SetWrapMode (BYVAL wrapMode AS WrapMode) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1872,9 +1872,9 @@ FUNCTION TranslateTransform (BYVAL dx AS SINGLE, BYVAL dy AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -1973,9 +1973,9 @@ FUNCTION GetBlend (BYVAL blendFactors AS SINGLE PTR, BYVAL blendPositions AS SIN
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2140,9 +2140,9 @@ FUNCTION GetCenterColor () AS ARGB
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 The second overloaded function returns the ARGB color as the result of the function.
 
@@ -2214,9 +2214,9 @@ FUNCTION GetCenterPoint (BYVAL pt AS Point PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2289,9 +2289,9 @@ FUNCTION GetFocusScales (BYVAL xScale AS SINGLE PTR, BYVAL yScale AS SINGLE PTR)
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2403,9 +2403,9 @@ FUNCTION GetInterpolationColors (BYVAL presetColors AS ARGB PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2492,9 +2492,9 @@ FUNCTION GetRectangle (BYVAL rc AS GpRect PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -2610,9 +2610,9 @@ FUNCTION GetSurroundColors (BYVAL colors AS ARGB PTR, BYVAL count AS INT_ PTR) A
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2679,9 +2679,9 @@ FUNCTION GetTransform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2810,9 +2810,9 @@ FUNCTION MultiplyTransform (BYVAL pMatrix AS CGpMatrix PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -2872,9 +2872,9 @@ FUNCTION ResetTransform () AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -2937,9 +2937,9 @@ FUNCTION RotateTransform (BYVAL angle AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3000,9 +3000,9 @@ FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3063,9 +3063,9 @@ FUNCTION SetBlend (BYVAL blendFactors AS SINGLE PTR, BYVAL blendPositions AS SIN
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3134,9 +3134,9 @@ FUNCTION SetBlendBellShape (BYVAL focus AS SINGLE, BYVAL scale AS SINGLE = 1.0) 
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3204,9 +3204,9 @@ FUNCTION SetBlendTriangularShape (BYVAL focus AS SINGLE, BYVAL scale AS SINGLE =
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3273,9 +3273,9 @@ FUNCTION SetCenterColor (BYVAL colour AS ARGB) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3339,9 +3339,9 @@ FUNCTION SetCenterPoint (BYVAL pt AS Point PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -3403,9 +3403,9 @@ FUNCTION SetFocusScales (BYVAL xScale AS SINGLE, BYVAL yScale AS SINGLE) AS GpSt
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3474,9 +3474,9 @@ FUNCTION SetInterpolationColors (BYVAL presetColors AS ARGB PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -3530,9 +3530,9 @@ FUNCTION SetSurroundColors (BYVAL colors AS ARGB PTR, BYVAL count AS INT_ PTR) A
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3592,9 +3592,9 @@ FUNCTION SetTransform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3659,9 +3659,9 @@ FUNCTION SetWrapMode (BYVAL wrapMode AS WrapMode) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3723,9 +3723,9 @@ FUNCTION TranslateTransform (BYVAL dx AS SINGLE, BYVAL dy AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -3838,9 +3838,9 @@ This method returns the number of preset colors currently specified for this pat
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -3888,9 +3888,9 @@ FUNCTION GetTransform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -4002,9 +4002,9 @@ FUNCTION MultiplyTransform (BYVAL pMatrix AS CGpMatrix PTR, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -4049,9 +4049,9 @@ FUNCTION ResetTransform () AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
@@ -4106,9 +4106,9 @@ FUNCTION RotateTransform (BYVAL angle AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -4162,9 +4162,9 @@ FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -4215,9 +4215,9 @@ FUNCTION SetTransform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -4268,9 +4268,9 @@ FUNCTION SetWrapMode (BYVAL wrapMode AS WrapMode) AS GpStatus
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -4331,9 +4331,9 @@ FUNCTION TranslateTransform (BYVAL dx AS SINGLE, BYVAL dy AS SINGLE, _
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **Status** enumeration.
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **Status** enumeration.
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
 
