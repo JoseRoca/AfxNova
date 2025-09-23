@@ -75,7 +75,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.CreateOverlapped(NULL, "GDI+ AdjustableArrowSetFillState", @WndProc)
+   pWindow.Create(NULL, "GDI+ AdjustableArrowSetFillState", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
@@ -84,6 +84,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Add a graphic control
    DIM pGraphCtx AS CGraphCtx = CGraphCtx(@pWindow, IDC_GRCTX, "", 0, 0, pWindow.ClientWidth, pWindow.ClientHeight)
    pGraphCtx.Clear RGB_FLORALWHITE
+   ' // Anchor the control
+   pWindow.AnchorControl(pGraphCtx.hWindow, AFX_ANCHOR_HEIGHT_WIDTH)
+
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
