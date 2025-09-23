@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: DrawCurve.bas
-' Contents: GDI+ - DrawCurve example
+' File: Restore.bas
+' Contents: GDI+ - Restore example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,9 +27,20 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example draws a cardinal spline.
+' Restoring Nested Saved States
+' The following example sets the world transformation of a Graphics object to a rotation
+' and then saves the state of the Graphics object. Next, the code calls TranslateTransform,
+' and saves the state again. Then the code calls ScaleTransform. At that point, the world
+' transformation of the Graphics object is a composite transformation: first rotate, then
+' translate, then scale. The code uses a red pen to draw an ellipse that is transformed by
+' that composite transformation.
+' The code passes state2, which was returned by the second call to Save, to the Graphics.Restore
+' method, and draws the ellipse again using a green pen. The green ellipse is rotated and
+' translated but not scaled. Finally the code passes state1, which was returned by the
+' first call to Save, to the Graphics.Restore method, and draws the ellipse again using a
+' blue pen. The blue ellipse is rotated but not translated or scaled.
 ' ========================================================================================
-SUB Example_DrawCurve (BYVAL hdc AS HDC)
+SUB Example_Restore (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -39,28 +50,29 @@ SUB Example_DrawCurve (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 3)
+   ' // Three transformations apply: rotate, then translate, then scale.
+   DIM AS GraphicsState state1, state2
+   graphics.RotateTransform(30)
+   state1 = graphics.Save
+   graphics.TranslateTransform(100 * rxRatio, 0, MatrixOrderAppend)
+   state2 = graphics.Save
+   graphics.ScaleTransform(1, 3, MatrixOrderAppend)
 
-   DIM point1 AS GpPointF : point1.x = 100.0 : point1.y = 100.0
-   DIM point2 AS GpPointF : point2.x = 200.0 : point2.y = 50.0
-   DIM point3 AS GpPointF : point3.x = 400.0 : point3.y = 10.0
-   DIM point4 AS GpPointF : point4.x = 500.0 : point4.y = 100.0
+   ' // Draw an ellipse.
+   DIM redPen AS CGpPen = ARGB_RED
+   graphics.DrawEllipse(@redPen, 0, 0, 100, 20)
 
-   DIM curvePoints(3) AS GpPointF
-   curvePoints(0) = point1
-   curvePoints(1) = point2
-   curvePoints(2) = point3
-   curvePoints(3) = point4
+   ' // Restore to state2 and draw the ellipse again.
+   ' // Two transformations apply: rotate then translate.
+   graphics.Restore(state2)
+   DIM greenPen AS CGpPen = ARGB_GREEN
+   graphics.DrawEllipse(@greenPen, 0, 0, 100, 20)
 
-   ' // Draw the curve.
-   graphics.DrawCurve(@greenPen, @curvePoints(0), 4)
-
-   ' // Draw the points in the curve.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   graphics.FillEllipse(@redBrush, 95, 95, 10, 10)
-   graphics.FillEllipse(@redBrush, 195, 45, 10, 10)
-   graphics.FillEllipse(@redBrush, 395, 5, 10, 10)
-   graphics.FillEllipse(@redBrush, 495, 95, 10, 10)
+   ' // Restore to state1 and draw the ellipse again.
+   ' // Only the rotation transformation applies.
+   graphics.Restore(state1)
+   DIM bluePen AS CGpPen = ARGB_BLUE
+   graphics.DrawEllipse(@bluePen, 0, 0, 100, 20)
 
 END SUB
 ' ========================================================================================
@@ -80,9 +92,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ DrawCurve", @WndProc)
+   pWindow.Create(NULL, "GDI+ Restore", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(600, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
@@ -95,7 +107,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_DrawCurve(hdc)
+   Example_Restore(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

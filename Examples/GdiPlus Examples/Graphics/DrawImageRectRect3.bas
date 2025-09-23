@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: DrawCurve.bas
-' Contents: GDI+ - DrawCurve example
+' File: DrawImageRectRect.bas
+' Contents: GDI+ - DrawImageRectRect example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -9,6 +9,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
+'#RESOURCE "Resource.rc"
 #define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
@@ -27,40 +28,34 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example draws a cardinal spline.
+' The following example draws part of an image.
 ' ========================================================================================
-SUB Example_DrawCurve (BYVAL hdc AS HDC)
+SUB Example_DrawImage (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
    ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' // Set scaling
+   graphics.SetPageUnit(UnitPixel)
+   graphics.SetPageScale(rxRatio)
 
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 3)
+   ' // Create an Image object.
+'   DIM pImage AS CGpImage = "climber.jpg"   ' // load from file
+   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
+'   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
 
-   DIM point1 AS GpPointF : point1.x = 100.0 : point1.y = 100.0
-   DIM point2 AS GpPointF : point2.x = 200.0 : point2.y = 50.0
-   DIM point3 AS GpPointF : point3.x = 400.0 : point3.y = 10.0
-   DIM point4 AS GpPointF : point4.x = 500.0 : point4.y = 100.0
+   ' // Draw the original source image.
+   graphics.DrawImage(@pImage, 10, 10)
 
-   DIM curvePoints(3) AS GpPointF
-   curvePoints(0) = point1
-   curvePoints(1) = point2
-   curvePoints(2) = point3
-   curvePoints(3) = point4
+   ' // Part of the source image to draw
+   DIM rcsrc AS GpRectF = TYPE<GpRectF>(80, 30, 80, 80)
+   ' // Destination recangle
+   DIM rcdest AS GpRectF = TYPE<GpRectF>(200, 10, 80, 80)
 
-   ' // Draw the curve.
-   graphics.DrawCurve(@greenPen, @curvePoints(0), 4)
-
-   ' // Draw the points in the curve.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   graphics.FillEllipse(@redBrush, 95, 95, 10, 10)
-   graphics.FillEllipse(@redBrush, 195, 45, 10, 10)
-   graphics.FillEllipse(@redBrush, 395, 5, 10, 10)
-   graphics.FillEllipse(@redBrush, 495, 95, 10, 10)
+   ' // Draw the scaled image.
+   graphics.DrawImage(@pImage, @rcdest, @rcsrc, UnitPixel)
 
 END SUB
 ' ========================================================================================
@@ -80,9 +75,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ DrawCurve", @WndProc)
+   pWindow.Create(NULL, "GDI+ DrawImage", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(600, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
@@ -95,7 +90,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_DrawCurve(hdc)
+   Example_DrawImage(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
@@ -114,12 +109,12 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
       ' // creation of the window. If the application returns –1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
-         AfxEnableDarkModeForWindow(hwnd)
+'         AfxEnableDarkModeForWindow(hwnd)
          RETURN 0
 
       ' // Theme has changed
       CASE WM_THEMECHANGED
-         AfxEnableDarkModeForWindow(hwnd)
+'         AfxEnableDarkModeForWindow(hwnd)
          RETURN 0
 
       CASE WM_COMMAND
