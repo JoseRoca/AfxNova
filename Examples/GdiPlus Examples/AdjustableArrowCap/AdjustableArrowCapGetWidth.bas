@@ -27,13 +27,13 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates an AdjustableArrowCap, myArrow, and sets the height of the
-' cap. The code then creates a Pen, assigns myArrow as the ending line cap for the Pen,
-' and draws a capped line. Next, the code gets the height of the arrow cap, creates a new
-' arrow cap with height equal to the height of myArrow, assigns the new arrow cap as the
-' ending line cap for the Pen, and draws another capped line.
+' The following example creates an AdjustableArrowCap object, myArrow, and sets the width
+' of the cap to 5 pixels. Next, the code creates a Pen object, assigns myArrow as the
+' ending line cap for this Pen object, and draws a capped line. The code obtains the width
+' using GdipGetAdjustableArrowCapWidth and sets the height equal to the width. The code then
+' draws another capped line with the new cap.
 ' ========================================================================================
-SUB Example_GetHeight (BYVAL hdc AS HDC)
+SUB Example_GetWidth (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -44,7 +44,7 @@ SUB Example_GetHeight (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create an AdjustableArrowCap with a height of 10 pixels
-   DIM myArrow AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 10, TRUE)
+   DIM myArrow AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 5, TRUE)
    ' // Adjust to DPI by setting the scale width
    myArrow.SetWidthScale(rxRatio)
 
@@ -53,17 +53,15 @@ SUB Example_GetHeight (BYVAL hdc AS HDC)
    arrowPen.SetCustomEndCap(@myArrow)
 
    ' // Draw a line using arrowPen
-   graphics.DrawLine(@arrowPen, 0, 20, 100, 20)
+   graphics.DrawLine(@arrowPen, 0, 0, 100, 100)
 
-   ' // Create a second arrow cap using the height of the first one
-   DIM AS CGpAdjustableArrowCap otherArrow = CGpAdjustableArrowCap(myArrow.GetHeight, 20, TRUE)
-   otherArrow.SetWidthScale(rxRatio)
+   ' // Get the width of the arrow.
+   DIM nWidth AS SINGLE = myArrow.GetWidth
 
-   ' // Assign the new arrow cap as the end cap for arrowPen
-   arrowPen.SetCustomEndCap(@otherArrow)
-
-   ' // Draw a line using arrowPen
-   graphics.DrawLine(@arrowPen, 0, 55, 100, 55)
+   ' // Set height equal to width and draw another line.
+   myArrow.SetHeight(nWidth)
+   arrowPen.SetCustomEndCap(@myArrow)
+   graphics.DrawLine(@arrowPen, 0, 40, 100, 140)
 
 END SUB
 ' ========================================================================================
@@ -95,7 +93,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_GetHeight(hdc)
+   Example_GetWidth(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
