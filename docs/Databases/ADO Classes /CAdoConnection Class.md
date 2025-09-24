@@ -47,6 +47,7 @@ To execute a query without using a `Command` object, pass a query string to the 
 | [Properties](#properties) | Returns a reference to the **Properties** collection. |
 | [Provider](#provider) | Indicates the name of the provider for a `Connection` object. |
 | [RollbackTrans](#rollbacktrans) | Saves any changes and ends the current transaction. It may also start a new transaction. |
+| [SetEvents](#setevents) | Sets the events sink. |
 | [State](#state) | Indicates if a `Connection` is open or closed. |
 | [Version](#version) | Indicates the ADO version number. |
 
@@ -1089,4 +1090,22 @@ The version of the provider will be available as a dynamic property in the **Pro
 ```
 DIM dwsVersion AS DWSTRING = pConnection.Version
 ```
+---
+
+## SetEvents
+
+Sets the events sink.
+
+```
+FUNCTION SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pEvtSink* | A pointer to the implemented events sink class. |
+
+#### Return value
+
+Returns S_OK (0) if successful or an error value otherwise.
+
 ---
