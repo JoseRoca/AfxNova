@@ -1,4 +1,4 @@
-# Ado events
+# CAdoEvents class
 
 The `CAdoEvents` class serves as a comprehensive event-handling interface for ActiveX Data Objects (ADO) within the AfxNova framework. It is designed to intercept and respond to a wide range of ADO operations, offering developers fine-grained control over database interactions at runtime.
 
@@ -7,6 +7,43 @@ This class encapsulates both **Connection** events and **Recordset** events, ena
 For example, the **WillMove** event is triggered just before the current position in a Recordset changes, giving developers a chance to validate or cancel the move operation based on business rules or application state.
 
 Whether you're building robust data-driven applications or need to enforce strict transactional workflows, `CAdoEvents` offers the hooks necessary to make your ADO interactions both intelligent and responsive.
+
+####Usage example
+
+```
+#include once "AfxNova/CADODB.inc"
+USING AfxNova
+
+' // === Create an instance of the Connection object
+DIM pConnection AS CAdoConnection
+' // === Connect events
+DIM pEvtSink AS ANY PTR = NEW CAdoConnectionEvents
+pConnection.SetEvents pEvtSink
+' // === Open the connection
+pConnection.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=biblio.mdb")
+
+' // === Create a Recordset object
+DIM pRecordset AS CAdoRecordset
+' // === Connect events
+pEvtSink = NEW CAdoRecordsetEvents
+pRecordset.SetEvents pEvtSink
+' // === Open the recordset
+pRecordset.Open("SELECT * FROM Authors", pConnection, adOpenKeyset, adLockOptimistic, adCmdText)
+
+' // === Parse the recordset
+' // While not at the end of the recordset...
+DO WHILE NOT pRecordset.EOF
+   ' // Get the content of the "Author" column
+   PRINT pRecordset.Collect("Author")
+   ' // Fetch the next row
+   IF pRecordset.MoveNext <> S_OK THEN EXIT DO
+LOOP
+
+' // === Close the recordset and the connection
+' // If you don't close them, they will be closed when the application ends
+pRecordset.Close
+pConnection.Close
+```
 
 # Connection events
 
