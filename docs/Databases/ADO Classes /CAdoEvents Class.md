@@ -34,6 +34,56 @@
 
 ---
 
+## ConnectComplete
+
+The **ConnectComplete** event is called after a connection starts.
+
+```
+FUNCTION ConnectComplete (BYVAL pError AS Afx_ADOError PTR, BYVAL adStatus AS EventStatusEnum PTR, _
+   BYVAL pConnection AS Afx_ADOConnection PTR) AS HRESULT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pError* | An **Error** object. It describes the error that occurred if the value of *EventStatusEnum* is *adStatusErrorsOccurred*; otherwise, it is not set. |
+| *adStatus* | *EventStatusEnum*. When **ConnectComplete** is called, this parameter is set to *adStatusCancel* if a **WillConnect** event has requested cancellation of the pending connection. Before either event returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. However, closing and reopening the **Connection** causes these events to occur again. |
+| *pConnection* | The **Connection** object that fired the event. |
+
+---
+
+## Disconnect
+
+Called after a connection ends.
+
+```
+FUNCTION Disconnect (BYVAL adStatus AS EventStatusEnum PTR, BYVAL pConnection AS Afx_ADOConnection PTR) AS HRESULT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adStatus* | An *EventStatusEnum* value indicating the success or failure of the operation that triggered the event.  |
+| *pConnection* | The **Connection** object that fired the event. |
+
+---
+
+## ExecuteComplete
+
+Called after a command has finished executing.
+
+```
+FUNCTION ExecuteComplete (BYVAL RecordsAffected AS LONG, BYVAL pError AS Afx_ADOError PTR, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pCommand AS Afx_ADOCommand PTR, _
+   BYVAL pRecordset AS Afx_ADORecordset PTR, BYVAL pConnection AS Afx_ADOConnection PTR) AS HRESULT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *RecordsAffected* | A Long value indicating the number of records affected by the command. |
+| *pError* | An **Error** object. It describes the error that occurred if the value of *adStatus* is *adStatusErrorsOccurred*; otherwise it is not set. |
+| *adStatus* | *EventStatusEnum*. Before this event returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pCommand* | The **Command** object that was executed. Contains a **Command** object even when calling **Connection.Execute** or **Recordset.Open** without explicitly creating a **Command**, in which cases the **Command** object is created internally by ADO. |
+| *pRecordset* | A **Recordset** object that is the result of the executed command. This **Recordset** may be empty. You should never destroy this **Recordset** object from within this event handler. Doing so will result in an Access Violation when ADO tries to access an object that no longer exists. |
+| *pConnection* | A **Connection** object. The connection over which the operation was executed. |
+
+---
+
 ## BeginTransComplete
 
 Called after the **BeginTrans** operation.
