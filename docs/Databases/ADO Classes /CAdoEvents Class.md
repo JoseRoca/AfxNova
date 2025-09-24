@@ -109,6 +109,10 @@ FUNCTION ExecuteComplete (BYVAL RecordsAffected AS LONG, BYVAL pError AS Afx_ADO
 | *pRecordset* | A **Recordset** object that is the result of the executed command. This **Recordset** may be empty. You should never destroy this **Recordset** object from within this event handler. Doing so will result in an Access Violation when ADO tries to access an object that no longer exists. |
 | *pConnection* | A **Connection** object. The connection over which the operation was executed. |
 
+#### Remarks
+
+An **ExecuteComplete** event may occur due to the **Connection.Execute**, **Command.Execute**, **Recordset.Open**, **Recordset.Requery**, or **Recordset.NextRecordset** methods.
+
 ---
 
 ## InfoMessage
