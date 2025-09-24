@@ -56,6 +56,7 @@ Represents the entire set of records from a base table or the results of an exec
 | [Resync](#resync) | Refreshes the data in the current `Recordset` object from the underlying database. |
 | [Save](#save) | Saves the `Recordset` in a file or **Stream** object. |
 | [Seek](#seek) | Searches the index of a `Recordset` to quickly locate the row that matches the specified values, and changes the current row position to that row. |
+| [SetEvents](#setevents) | Sets the events sink. |
 | [Sort](#sort) | Sets or returns a string value that indicates the field names in the `Recordset` on which to sort. |
 | [Source](#source) | Indicates the data source for a `Recordset` object. |
 | [State](#state) | Indicates for whether the state of the `Recordset` object is open or closed. |
@@ -3127,5 +3128,23 @@ Specifies which records are affected by an operation.
 #### Return value
 
 S_OK (0) or an HRESULT code.
+
+---
+
+## SetEvents
+
+Sets the events sink.
+
+```
+FUNCTION SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pEvtSink* | A pointer to the implemented events sink class. |
+
+#### Return value
+
+Returns S_OK (0) if successful or an error value otherwise.
 
 ---
