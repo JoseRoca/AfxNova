@@ -34,6 +34,33 @@
 
 ---
 
+## WillConnect
+
+Called before a connection starts.
+
+```
+FUNCTION WillConnect (BYVAL ConnectionString AS Afx_BSTR PTR, BYVAL UserID AS Afx_BSTR PTR, _
+   BYVAL Password AS Afx_BSTR PTR, BYVAL Options AS LONG PTR, BYVAL adStatus AS EventStatusEnum PTR, _
+   BYVAL pConnection AS Afx_ADOConnection PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *ConnectionString* | A BSTR that contains connection information for the pending connection. |
+| *UserID* | A BSTR that contains a user name for the pending connection. |
+| *Password* | A BSTR that contains a password for the pending connection. |
+| *Options* | A Long value that indicates how the provider should evaluate the *ConnectionString*. Your only option is *adAsyncOpen*. |
+| *adStatus* | *EventStatusEnum*. When this event is called, this parameter is set to *adStatusOK* by default. It is set to *adStatusCantDeny* if the event cannot request cancellation of the pending operation.Before this event returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. Set this parameter to *adStatusCancel* to request the connection operation that caused cancellation of this notification. |
+| *pConnection* | The **Connection** object for which this event notification applies. Changes to the parameters of the **Connection** by the **WillConnect** event handler will have no effect on the **Connection**. |
+
+#### Remarks
+
+When **WillConnect** is called, the *ConnectionString*, *UserID*, *Password*, and *Options* parameters are set to the values established by the operation that caused this event (the pending connection), and can be changed before the event returns. WillConnect may return a request that the pending connection be canceled.
+
+When this event is canceled, **ConnectComplete** will be called with its *adStatus* parameter set to *adStatusErrorsOccurred*.
+
+---
+
 ## ConnectComplete
 
 The **ConnectComplete** event is called after a connection starts.
@@ -59,7 +86,7 @@ FUNCTION Disconnect (BYVAL adStatus AS EventStatusEnum PTR, BYVAL pConnection AS
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
-| *adStatus* | An *EventStatusEnum* value indicating the success or failure of the operation that triggered the event.  |
+| *adStatus* | An *EventStatusEnum* value indicating the success or failure of the operation that triggered the event. |
 | *pConnection* | The **Connection** object that fired the event. |
 
 ---
@@ -81,6 +108,22 @@ FUNCTION ExecuteComplete (BYVAL RecordsAffected AS LONG, BYVAL pError AS Afx_ADO
 | *pCommand* | The **Command** object that was executed. Contains a **Command** object even when calling **Connection.Execute** or **Recordset.Open** without explicitly creating a **Command**, in which cases the **Command** object is created internally by ADO. |
 | *pRecordset* | A **Recordset** object that is the result of the executed command. This **Recordset** may be empty. You should never destroy this **Recordset** object from within this event handler. Doing so will result in an Access Violation when ADO tries to access an object that no longer exists. |
 | *pConnection* | A **Connection** object. The connection over which the operation was executed. |
+
+---
+
+## InfoMessage
+
+Called whenever a warning occurs during a ConnectionEvent operation.
+
+```
+FUNCTION InfoMessage (BYVAL pError AS Afx_ADOError PTR, BYVAL adStatus AS EventStatusEnum PTR, _
+   BYVAL pConnection AS Afx_ADOConnection PTR) AS HRESULT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pError* | An **Error** object. This parameter contains any errors that are returned. If multiple errors are returned, enumerate the **Errors** collection to find them. |
+| *adStatus* | *EventStatusEnum*. Before this event returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pConnection* | A **Connection** object. The connection for which the warning occurred. For example, warnings can occur when opening a **Connection** object or executing a **Command** on a **Connection**. |
 
 ---
 
