@@ -470,3 +470,25 @@ An **EndOfRecordset** event may occur if the **MoveNext** operation fails.
 This event handler is called when an attempt is made to move past the end of the **Recordset** object, perhaps as a result of calling **MoveNext**. However, while in this event, you could retrieve more records from a database and append them to the end of the **Recordset**. In that case, set *fMoreData* to VARIANT_TRUE, and return from **EndOfRecordset**. Then call **MoveNext** again to access the newly retrieved records.
 
 ---
+
+## FetchProgress
+
+Called periodically during a lengthy asynchronous operation to report how many more rows have currently been retrieved into the **Recordset**.
+
+```
+FUNCTION FetchProgress (BYVAL Progress AS LONG, BYVAL MaxProgress AS LONG, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *Progress* | A Long value indicating the number of records that have currently been retrieved by the fetch operation. |
+| *MaxProgress* | A Long value indicating the maximum number of records expected to be retrieved. |
+| *adStatus* | An *EventStatusEnum* status value. |
+| *pRecordset* | A **Recordset** object that is the object for which the records are being retrieved. |
+
+#### Remarks
+
+When using **FetchProgress** with a child **Recordset**, be aware that the Progress and *MaxProgress* parameter values are derived from the underlying Cursor Service rowset. The values returned represent the total number of records in the underlying rowset, not just the number of records in the current chapter.
+
+---
