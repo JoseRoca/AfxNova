@@ -257,3 +257,57 @@ FUNCTION FieldChangeComplete (BYVAL cFields AS LONG, BYVAL Fields AS VARIANT, _
 A **WillChangeField** or **FieldChangeComplete** event may occur when setting the Value property and calling the **Update** method with field and value array parameters.
 
 ---
+
+## WillChangeRecord
+
+Called before one or more records (rows) in the **Recordset** change.
+
+```
+FUNCTION WillChangeRecord (BYVAL adReason AS EventReasonEnum, BYVAL cRecords AS LONG, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adReason* | An *EventReasonEnum* value that specifies the reason for this event. Its value can be *adRsnAddNew*, *adRsnDelete*, *adRsnUpdate*, *adRsnUndoUpdate*, *adRsnUndoAddNew*, *adRsnUndoDelete*, or *adRsnFirstChange*. |
+| *cRecords* | A Long value that indicates the number of records changing (affected). |
+| *adStatus* | *EventStatusEnum*. When **WillChangeRecord** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful. It is set to *adStatusCantDeny* if this event cannot request cancellation of the pending operation. Before **WillChangeRecord** returns, set this parameter to *adStatusCancel* to request cancellation of the operation that caused this event or set this parameter to *adStatusUnwantedEvent* to prevent subsequent notications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillChangeRecord** or **RecordChangeComplete** event may occur for the first changed field in a row due to the following **Recordset** operations: **Update**, **Delete**, **CancelUpdate**, **AddNew**, **UpdateBatch**, and **CancelBatch**. The value of the **Recordset** *CursorType* determines which operations cause the events to occur.
+
+During the **WillChangeRecord** event, the **Recordset** **Filter** property is set to *adFilterAffectedRecords*. You cannot change this property while processing the event.
+
+You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event noticiation for any event that includes an *adReason* parameter.
+
+---
+
+## RecordChangeComplete
+
+Called after one or more records change.
+
+```
+FUNCTION RecordChangeComplete (BYVAL adReason AS EventReasonEnum, BYVAL cRecords AS LONG, _
+   BYVAL pError AS Afx_ADOError PTR, BYVAL adStatus AS EventStatusEnum PTR, _
+   BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adReason* | An *EventReasonEnum* value that specifies the reason for this event. Its value can be *adRsnAddNew*, *adRsnDelete*, *adRsnUpdate*, *adRsnUndoUpdate*, *adRsnUndoAddNew*, *adRsnUndoDelete*, or *adRsnFirstChange*. |
+| *cRecords* | A Long value that indicates the number of records changing (affected). |
+| *pError* | An **Error** object. It describes the error that occurred if the value of *adStatus* is *adStatusErrorsOccurred*; otherwise it is not set. |
+| *adStatus* | *EventStatusEnum*. When **RecordChangeComplete** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful, or to *adStatusErrorsOccurred* if the operation failed. Before **RecordChangeComplete** returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillChangeRecord** or **RecordChangeComplete** event may occur for the first changed field in a row due to the following **Recordset** operations: **Update**, **Delete**, **CancelUpdate**, **AddNew**, **UpdateBatch**, and **CancelBatch**. The value of the **Recordset** *CursorType* determines which operations cause the events to occur.
+
+During the **WillChangeRecord** event, the **Recordset** **Filter** property is set to *adFilterAffectedRecords*. You cannot change this property while processing the event.
+
+You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event noticiation for any event that includes an *adReason* parameter.
+
+---
