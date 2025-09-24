@@ -337,10 +337,9 @@ You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possib
 
 ---
 
-
 ## RcordsetChangeComplete
 
-Called fter the **Recordset** has changed.
+Called after the **Recordset** has changed.
 
 ```
 FUNCTION RecordsetChangeComplete (BYVAL adReason AS EventReasonEnum, BYVAL pError AS Afx_ADOError PTR, _
@@ -359,6 +358,48 @@ FUNCTION RecordsetChangeComplete (BYVAL adReason AS EventReasonEnum, BYVAL pErro
 A **WillChangeRecordset** or **RecordsetChangeComplete** event may occur due to the **Recordset** **Requery** or **Open** methods.
 
 If the provider does not support bookmarks, a **RecordsetChange** event notification occurs each time new rows are retrieved from the provider. The frequency of this event depends on the **RecordsetCacheSize** property.
+
+You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
+
+---
+
+## WillMove
+
+Called before a pending operation changes the current position in the **Recordset**.
+
+```
+FUNCTION WillMove (BYVAL adReason AS EventReasonEnum, BYVAL adStatus AS EventStatusEnum PTR, _
+   BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adReason* | An *EventReasonEnum* value that specifies the reason for this event. Its value can be *adRsnMoveFirst*, *adRsnMoveLast*, *adRsnMoveNext*, *adRsnMovePrevious*, *adRsnMove*, or *adRsnRequery*. |
+| *adStatus* | *EventStatusEnum*. When **WillMove** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful. It is set to *adStatusCantDeny* if this event cannot request cancellation of the pending operation. Before **WillMove** returns, set this parameter to *adStatusCancel* to request cancellation of the pending operation or set this parameter to *adStatusUnwantedEvent* to prevent subsequent notications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillMove** or **MoveComplete** event may occur due to the following Recordset operations:
+
+* Open
+* Move
+* MoveFirst
+* MoveLast
+* MoveNext
+* MovePrevious
+* AddNew
+* Requery
+
+These events may occur because of the following properties:
+
+* Filter
+* Index
+* Bookmark
+* AbsolutePage
+* AbsolutePosition
+
+These events also occur if a child Recordset has **Recordset** events connected and the parent **Recordset** is moved.
 
 You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
 
