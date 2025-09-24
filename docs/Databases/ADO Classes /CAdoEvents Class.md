@@ -331,7 +331,7 @@ FUNCTION WillChangeRecordset (BYVAL adReason AS EventReasonEnum, _
 
 A **WillChangeRecordset** or **RecordsetChangeComplete** event may occur due to the **Recordset** **Requery** or **Open** methods.
 
-If the provider does not support bookmarks, a **RecordsetChange** event notification occurs each time new rows are retrieved from the provider. The frequency of this event depends on the *RecordsetCacheSize* property.
+If the provider does not support bookmarks, a **RecordsetChange** event notification occurs each time new rows are retrieved from the provider. The frequency of this event depends on the **RecordsetCacheSize** property.
 
 You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
 
