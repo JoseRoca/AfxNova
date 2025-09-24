@@ -33,6 +33,7 @@ TYPE CAdoConnection EXTENDS CAdoBase
 
    m_Result AS HRESULT
    m_pConnection AS Afx_ADOConnection PTR
+   m_dwCookie AS DWORD
 
    DECLARE CONSTRUCTOR
    DECLARE CONSTRUCTOR (BYREF wszConStr AS WSTRING)
@@ -97,6 +98,8 @@ TYPE CAdoConnection EXTENDS CAdoBase
            BYREF dvSchemaID AS DVARIANT = TYPE<VARIANT>(VT_ERROR,0,0,0,DISP_E_PARAMNOTFOUND)) AS Afx_ADORecordset PTR
    ' // Retrieves information from the ADO Errors collection
    DECLARE FUNCTION GetErrorInfo (BYVAL dwError AS HRESULT = 0) AS DWSTRING
+   ' // Sets events
+   DECLARE FUNCTION SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
 
 END TYPE
 ' ########################################################################################
@@ -118,14 +121,13 @@ END CONSTRUCTOR
 ' Creates an instance of the COnnection onject and sets the connection string
 ' ===========================================================================================
 PRIVATE CONSTRUCTOR CAdoConnection (BYREF wszConStr AS WSTRING)
-   'CADODB_DP("BEGIN")
    ' // Creates an instance of the Connection object
    m_pConnection = AfxNewCom("ADODB.Connection")
    ' // Set the connection string
    DIM bstrConStr AS AFX_BSTR = SysAllocString(wszConStr)
    IF m_pConnection THEN SetResult(m_pConnection->put_ConnectionString(bstrConStr))
    SysFreeString bstrConStr
-   CADODB_DP("END " & WSTR(m_pConnection))
+   CADODB_DP(WSTR(m_pConnection))
 END CONSTRUCTOR
 ' ===========================================================================================
 
@@ -133,7 +135,7 @@ END CONSTRUCTOR
 ' Attaches a reference to an Afx_ADOCommand object to the class
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CAdoConnection (BYVAL pConnection AS Afx_ADOConnection PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
-   CADODB_DP("Afx_ADOConnection")
+   CADODB_DP(WSTR(pConnection))
    m_pConnection = pConnection
    IF m_pConnection THEN 
       IF fAddRef THEN m_pConnection->AddRef
@@ -146,6 +148,12 @@ END CONSTRUCTOR
 ' ===========================================================================================
 PRIVATE DESTRUCTOR CAdoConnection
    CADODB_DP(WSTR(m_pConnection))
+   ' // Disconnect events
+   DIM IID_ConnectionEvents_ AS GUID = (&h00001400, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
+   IF m_dwCookie THEN
+      m_Result = AfxUnAdvise(m_pConnection, IID_ConnectionEvents_, m_dwCookie)
+      CADODB_DP("- Unadvise - hr: " & HEX(m_Result))
+   END IF
    ' // Close and release the connection
    IF m_pConnection THEN
       IF this.State = adStateOpen THEN this.Close
@@ -472,3 +480,20 @@ PRIVATE FUNCTION CAdoConnection.GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DW
    RETURN AfxAdoGetErrorInfo(m_pConnection, nError)
 END FUNCTION
 ' ===========================================================================================
+
+' ========================================================================================
+' Sets the events sink.
+' ========================================================================================
+PRIVATE FUNCTION CAdoConnection.SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
+   CADODB_DP(WSTR(pEvtSink))
+   IF pEvtSink = NULL THEN SetResult(E_POINTER) : RETURN E_POINTER
+   DIM IID_ConnectionEvents_ AS GUID = (&h00001400, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
+   IF m_dwCookie THEN
+      DIM hr AS HRESULT = AfxUnadvise(m_pConnection, IID_ConnectionEvents_, m_dwCookie)
+      IF hr <> S_OK THEN RETURN hr
+      m_dwCookie = 0
+   END IF
+   SetResult(AfxAdvise(m_pConnection, pEvtSink, IID_ConnectionEvents_, @m_dwCookie))
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================

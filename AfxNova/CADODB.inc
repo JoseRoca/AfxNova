@@ -263,7 +263,7 @@ PRIVATE FUNCTION AfxAdoGetErrorInfo (BYVAL pConnection AS AFX_ADOConnection PTR,
          DIM dvIndex AS DVARIANT = DVARIANT(i, "LONG")
          pErrors->get_Item(dvIndex, @pError)
          IF pError THEN
-            DIM eNumber AS LONG_PTR
+            DIM eNumber AS LONG
             pError->get_Number(@eNumber)
             dwsErrorText += "OLE DB provider error" & CHR(13, 10)
             dwsErrorText += "Error number: " & WSTR(eNumber) & " [&h" & HEX(eNumber, 8) & "]" & CHR(13, 10)
@@ -279,14 +279,14 @@ PRIVATE FUNCTION AfxAdoGetErrorInfo (BYVAL pConnection AS AFX_ADOConnection PTR,
             pError->get_SQLState(@bstrSqlState)
             IF SysStringLen(bstrSqlState) THEN dwsErrorText += "SqlState: " & *bstrSqlState & CHR(13, 10)
             SysFreeString bstrSqlState
-            DIM eNativeError AS LONG_PTR
+            DIM eNativeError AS LONG
             pError->get_NativeError(@eNativeError)
             dwsErrorText += "Native error: " & WSTR(eNativeError) & CHR(13, 10)
             DIM bstrHelpFile AS AFX_BSTR
             pError->get_HelpFile(@bstrHelpFile)
             IF SysStringLen(bstrHelpFile) THEN dwsErrorText += "Help file: " & *bstrHelpFile & CHR(13, 10)
             SysFreeString bstrHelpFile
-            DIM eHelpContext AS LONG_PTR
+            DIM eHelpContext AS LONG
             pError->get_HelpContext(@eHelpContext)
             dwsErrorText += "Help context: " & WSTR(eHelpContext) & CHR(13, 10)
             ' Release the error object
@@ -336,5 +336,6 @@ END FUNCTION
 #include once "AfxNova/CAdoParameters.inc"
 #include once "AfxNova/CAdoRecord.inc"
 #include once "AfxNova/CAdoStream.inc"
+#include once "AfxNova/CAdoEvents.inc"
 
 END NAMESPACE

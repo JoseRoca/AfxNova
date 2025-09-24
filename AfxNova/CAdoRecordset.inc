@@ -33,6 +33,7 @@ TYPE CAdoRecordset EXTENDS CAdoBase
 
    m_Result AS HRESULT
    m_pRecordset AS Afx_ADORecordset PTR
+   m_dwCookie AS DWORD
 
    DECLARE CONSTRUCTOR
    DECLARE CONSTRUCTOR (BYVAL pRecordset AS Afx_AdoRecordset PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
@@ -193,6 +194,7 @@ TYPE CAdoRecordset EXTENDS CAdoBase
    DECLARE FUNCTION Update (BYVAL vFieldList AS VARIANT, BYVAL vValues AS VARIANT) AS HRESULT
    ' // Retrieves information from the ADO Errors collection
    DECLARE FUNCTION GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DWSTRING
+   DECLARE FUNCTION SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
 
 END TYPE
 
@@ -224,6 +226,12 @@ END CONSTRUCTOR
 ' ===========================================================================================
 DESTRUCTOR CAdoRecordset
    CADODB_DP(WSTR(m_pRecordset))
+   ' // Disconnect events
+   DIM IID_RecordsetEvents_ AS GUID = (&h00001266, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
+   IF m_dwCookie THEN
+      m_Result = AfxUnAdvise(m_pRecordset, IID_RecordsetEvents_, m_dwCookie)
+      CADODB_DP("- Unadvise - hr: " & HEX(m_Result))
+   END IF
    ' // Close and release the recordset
    IF m_pRecordset THEN
       IF this.State = adStateOpen THEN this.Close
@@ -1123,3 +1131,20 @@ PRIVATE FUNCTION CAdoRecordset.GetErrorInfo (BYVAL nError AS HRESULT = 0) AS DWS
    RETURN dwsError
 END FUNCTION
 ' ===========================================================================================
+
+' ========================================================================================
+' Sets the events sink.
+' ========================================================================================
+PRIVATE FUNCTION CAdoRecordset.SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
+   CADODB_DP(WSTR(pEvtSink))
+   IF pEvtSink = NULL THEN SetResult(E_POINTER) : RETURN E_POINTER
+   DIM IID_RecordsetEvents_ AS GUID = (&h00001266, &h0000, &h0010, {&h80, &h00, &h00, &hAA, &h00, &h6D, &h2E, &hA4})
+   IF m_dwCookie THEN
+      DIM hr AS HRESULT = AfxUnadvise(m_pRecordset, IID_RecordsetEvents_, m_dwCookie)
+      IF hr <> S_OK THEN RETURN hr
+      m_dwCookie = 0
+   END IF
+   SetResult(AfxAdvise(m_pRecordset, pEvtSink, IID_RecordsetEvents_, @m_dwCookie))
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
