@@ -492,3 +492,20 @@ FUNCTION FetchProgress (BYVAL Progress AS LONG, BYVAL MaxProgress AS LONG, _
 When using **FetchProgress** with a child **Recordset**, be aware that the Progress and *MaxProgress* parameter values are derived from the underlying Cursor Service rowset. The values returned represent the total number of records in the underlying rowset, not just the number of records in the current chapter.
 
 ---
+
+## FetchComplete
+
+Called after all the records in a lengthy asynchronous operation have been retrieved into the **Recordset**.
+
+```
+FUNCTION FetchComplete (BYVAL pError AS Afx_ADOError PTR, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pError* | An **Error** object. It describes the error that occurred if the value of *adStatus* is *adStatusErrorsOccurred*; otherwise it is not set. |
+| *adStatus* |	*EventStatusEnum*. Before this event returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pRecordset* | A **Recordset** object. The object for which the records were retrieved. |
+
+---
