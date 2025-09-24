@@ -91,6 +91,35 @@ FUNCTION Disconnect (BYVAL adStatus AS EventStatusEnum PTR, BYVAL pConnection AS
 
 ---
 
+## WillExecute
+
+Called ust before a pending command executes on a connection.
+
+```
+FUNCTION WillExecute (BYVAL Source AS Afx_BSTR PTR, BYVAL CursorType AS CursorTypeEnum PTR, _
+   BYVAL LockType AS LockTypeEnum PTR, BYVAL Options AS LONG PTR, BYVAL adStatus AS EventStatusEnum PTR, _
+   BYVAL pCommand AS Afx_ADOCommand PTR, BYVAL pRecordset AS Afx_ADORecordset PTR, _
+   BYVAL pConnection AS Afx_ADOConnection PTR) AS HRESULT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *Source* | A BSTR that contains an SQL command or a stored procedure name. |
+| *CursorType* | 	A *CursorTypeEnum* that contains the type of cursor for the **Recordset** that will be opened. With this parameter, you can change the cursor to any type during a **Recordset** Open operation. *CursorType* will be ignored for any other operation. |
+| *LockType* | A *LockTypeEnum* that contains the lock type for the **Recordset** that will be opened. With this parameter, you can change the lock to any type during a **Recordset** Open operation. LockType will be ignored for any other operation. |
+| *Options* | A Long value that indicates options that can be used to execute the command or open the **Recordset**. |
+| *adStatus* | *EventStatusEnum*. Before this event returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications, or *adStatusCancel* to request cancellation of the operation that caused this event. |
+| *pCommand* | The **Command** object for which this event notification applies. |
+| *pRecordset* | The **Recordset** object for which this event notification applies. |
+| *pConnection* | The **Connection** object for which this event notification applies. |
+
+#### Remarks
+
+A **WillExecute** event may occur due to a **Connection.Execute**, **Command.Execute**, or **Recordset.Open** method The *pConnection* parameter should always contain a valid reference to a **Connection** object. If the event is due to **Connection.Execute**, the *pRecordset* and *pCommand* parameters are set to Nothing. If the event is due to Recordset.Open, the pRecordset parameter will reference the Recordset object and the pCommand parameter is set to NULL. If the event is due to **Command.Execute**, the *pCommand* parameter will reference the **Command** object and the *pRecordset* parameter is set to NULL.
+
+**WillExecute** allows you to examine and modify the pending execution parameters. This event may return a request that the pending command be canceled.
+
+---
+
 ## ExecuteComplete
 
 Called after a command has finished executing.
