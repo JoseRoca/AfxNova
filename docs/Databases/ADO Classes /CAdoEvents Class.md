@@ -336,3 +336,30 @@ If the provider does not support bookmarks, a **RecordsetChange** event notifica
 You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
 
 ---
+
+
+## RcordsetChangeComplete
+
+Called fter the **Recordset** has changed.
+
+```
+FUNCTION RecordsetChangeComplete (BYVAL adReason AS EventReasonEnum, BYVAL pError AS Afx_ADOError PTR, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adReason* | An *EventReasonEnum* value that specifies the reason for this event. Its value can be *adRsnRequery*, *adRsnResynch*, *adRsnClose*, *adRsnOpen*. |
+| *pError* | An **Error** object. It describes the error that occurred if the value of *adStatus* is *adStatusErrorsOccurred*; otherwise it is not set. |
+| *adStatus* | *EventStatusEnum*. When **RecordsetChangeComplete** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful, *adStatusErrorsOccurred* if the operation failed, or *adStatusCancel* if the operation associated with the previously accepted **WillChangeRecordset** event has been canceled. Before **WillChangeRecordset** or **RecordsetChangeComplete** returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillChangeRecordset** or **RecordsetChangeComplete** event may occur due to the **Recordset** **Requery** or **Open** methods.
+
+If the provider does not support bookmarks, a **RecordsetChange** event notification occurs each time new rows are retrieved from the provider. The frequency of this event depends on the **RecordsetCacheSize** property.
+
+You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
+
+---
