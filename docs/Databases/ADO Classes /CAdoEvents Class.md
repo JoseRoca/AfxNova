@@ -311,3 +311,28 @@ During the **WillChangeRecord** event, the **Recordset** **Filter** property is 
 You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event noticiation for any event that includes an *adReason* parameter.
 
 ---
+
+## WillChangeRecordset
+
+Called before a pending operation changes the **Recordset**.
+
+```
+FUNCTION WillChangeRecordset (BYVAL adReason AS EventReasonEnum, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adReason* | An *EventReasonEnum* value that specifies the reason for this event. Its value can be *adRsnRequery*, *adRsnResynch*, *adRsnClose*, *adRsnOpen*. |
+| *adStatus* | *EventStatusEnum*. When **WillChangeRecordset** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful. It is set to *adStatusCantDeny* if this event cannot request cancellation of the pending operation. Before **WillChangeRecordset** returns, set this parameter to *adStatusCancel* to request cancellation of the pending operation or set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillChangeRecordset** or **RecordsetChangeComplete** event may occur due to the **Recordset** **Requery** or **Open** methods.
+
+If the provider does not support bookmarks, a **RecordsetChange** event notification occurs each time new rows are retrieved from the provider. The frequency of this event depends on the *RecordsetCacheSize* property.
+
+You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
+
+---
