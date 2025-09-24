@@ -447,3 +447,26 @@ These events also occur if a child Recordset has **Recordset** events connected 
 You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
 
 ---
+
+## EndOfRecordset
+
+Called when there is an attempt to move to a row past the end of the **Recordset**.
+
+```
+FUNCTION EndOfRecordset (BYVAL fMoreData AS VARIANT_BOOL PTR, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *fMoreData* | A VARIANT_BOOL value that, if set to VARIANT_TRUE, indicates more rows have been added to the **Recordset**. |
+| *adStatus* | *EventStatusEnum*. When **EndOfRecordset** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful. It is set to *adStatusCantDeny* if this event cannot request cancellation of the operation that caused this event. Before **EndOfRecordset** returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+An **EndOfRecordset** event may occur if the **MoveNext** operation fails.
+
+This event handler is called when an attempt is made to move past the end of the **Recordset** object, perhaps as a result of calling **MoveNext**. However, while in this event, you could retrieve more records from a database and append them to the end of the **Recordset**. In that case, set *fMoreData* to VARIANT_TRUE, and return from **EndOfRecordset**. Then call **MoveNext** again to access the newly retrieved records.
+
+---
