@@ -404,3 +404,46 @@ These events also occur if a child Recordset has **Recordset** events connected 
 You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
 
 ---
+
+## MoveComplete
+
+Called after the current position in the **Recordset** changes.
+
+```
+FUNCTION MoveComplete (BYVAL adReason AS EventReasonEnum, BYVAL pError AS Afx_ADOError PTR, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adReason* | An *EventReasonEnum* value that specifies the reason for this event. Its value can be *adRsnMoveFirst*, *adRsnMoveLast*, *adRsnMoveNext*, *adRsnMovePrevious*, *adRsnMove*, or *adRsnRequery*. |
+| *pError* | An **Error** object. It describes the error that occurred if the value of *adStatus* is *adStatusErrorsOccurred*; otherwise it is not set. |
+| *adStatus* | *EventStatusEnum*. When **MoveComplete** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful, or to *adStatusErrorsOccurred* if the operation failed. Before **MoveComplete** returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillMove** or **MoveComplete** event may occur due to the following Recordset operations:
+
+* Open
+* Move
+* MoveFirst
+* MoveLast
+* MoveNext
+* MovePrevious
+* AddNew
+* Requery
+
+These events may occur because of the following properties:
+
+* Filter
+* Index
+* Bookmark
+* AbsolutePage
+* AbsolutePosition
+
+These events also occur if a child Recordset has **Recordset** events connected and the parent **Recordset** is moved.
+
+You must set the *adStatus* parameter to *adStatusUnwantedEvent* for each possible *adReason* value in order to completely stop event notification for any event that includes an *adReason* parameter.
+
+---
