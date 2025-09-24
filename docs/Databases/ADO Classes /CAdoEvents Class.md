@@ -211,3 +211,49 @@ FUNCTION RollbackTransComplete (BYVAL pError AS Afx_ADOError PTR, BYVAL adStatus
 | *pConnection* | The **Connection** object for which this event occurred. |
 
 ---
+
+## WillChangeField
+
+Called before a pending operation changes the value of one or more **Field** objects in the **Recordset**.
+
+```
+FUNCTION WillChangeField (BYVAL cFields AS LONG, BYVAL Fields AS VARIANT, _
+   BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cFields* | A Long that indicates the number of **Field** objects in **Fields**. |
+| *Fields* | For **WillChangeField**, the **Fields** parameter is an array of Variants that contains **Field** objects with the original values. |
+| *adStatus* |	*EventStatusEnum*. When **WillChangeField** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful. It is set to *adStatusCantDeny* if this event cannot request cancellation of the pending operation. Before **WillChangeField** returns, set this parameter to *adStatusCancel* to request cancellation of the pending operation. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillChangeField** or **FieldChangeComplete** event may occur when setting the Value property and calling the **Update** method with field and value array parameters.
+
+---
+
+## FieldChangeComplete 
+
+Called after the value of one or more **Field** objects has changed.
+
+```
+FUNCTION FieldChangeComplete (BYVAL cFields AS LONG, BYVAL Fields AS VARIANT, _
+   BYVAL pError AS Afx_ADOError PTR, BYVAL adStatus AS EventStatusEnum PTR, _
+   BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cFields* | A Long that indicates the number of **Field** objects in **Fields**. |
+| *Fields* | For **FieldChangeComplete**, the **Fields** parameter is an array of Variants that contains **Field** objects with the changed values. |
+| *pError* | An **Error** object. It describes the error that occurred if the value of *adStatus* is *adStatusErrorsOccurred*; otherwise it is not set. |
+| *adStatus* |	*EventStatusEnum*. When **FieldChangeComplete** is called, this parameter is set to *adStatusOK* if the operation that caused the event was successful, or to *adStatusErrorsOccurred* if the operation failed. Before **FieldChangeComplete** returns, set this parameter to *adStatusUnwantedEvent* to prevent subsequent notifications. |
+| *pRecordset* | A **Recordset** object. The **Recordset** for which this event occurred. |
+
+#### Remarks
+
+A **WillChangeField** or **FieldChangeComplete** event may occur when setting the Value property and calling the **Update** method with field and value array parameters.
+
+---
