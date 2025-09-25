@@ -1,6 +1,6 @@
 # CAdoEvents class
 
-The `CAdoEvents` class serves as a comprehensive event-handling interface for ActiveX Data Objects (ADO) within the `AfxNova` framework. It is designed to intercept and respond to a wide range of ADO operations, offering developers fine-grained control over database interactions at runtime.
+The `CAdoEvents` class serves as a comprehensive event-handling interface for ActiveX Data Objects (ADO) within the `AfxNova` framework. It is designed to intercept and respond to a wide range of `ADO` operations, offering developers fine-grained control over database interactions at runtime.
 
 This class encapsulates both **Connection** events and **Recordset** events, enabling developers to monitor and manipulate the behavior of ADO objects during critical operations such as connecting to a data source, executing commands, navigating records, and modifying data. Each event method provides access to relevant parameters and status flags, allowing for custom logic to be injected before or after the underlying `ADO` operation.
 
