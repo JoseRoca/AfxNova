@@ -118,6 +118,7 @@ DECLARE FUNCTION SysLink_HitTest (BYVAL hLM AS HWND, BYVAL lphti AS LHITTESTINFO
 DECLARE FUNCTION SysLink_SetItem (BYVAL hLM AS HWND, BYVAL lpItem AS LITEM PTR) AS BOOLEAN
 ' Listbox
 DECLARE FUNCTION AfxGetListBoxText (BYVAL hListBox AS HWND, BYVAL nIndex AS LONG) AS DWSTRING
+DECLARE FUNCTION AfxListBoxAddString (BYVAL hListBox AS HWND, BYVAL pwszStr AS WSTRING PTR) AS LONG
 DECLARE FUNCTION ListBox_AddFile (BYVAL hListBox AS HWND, BYVAL pwszFileName AS WSTRING PTR) AS LONG
 DECLARE FUNCTION ListBox_GetAnchorIndex (BYVAL hListBox AS HWND) AS LONG
 DECLARE FUNCTION Listbox_GetListboxInfo (BYVAL hListBox AS HWND) AS LONG
@@ -1347,7 +1348,7 @@ END FUNCTION
 
 ' ========================================================================================
 ' Gets a string from a list box.
-' - hComboBox: A handle to the list box.
+' - hListbox: A handle to the list box.
 ' - nIndex: The zero-based index of the item.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetListBoxText (BYVAL hListBox AS HWND, BYVAL nIndex AS LONG) AS DWSTRING
@@ -1355,6 +1356,18 @@ PRIVATE FUNCTION AfxGetListBoxText (BYVAL hListBox AS HWND, BYVAL nIndex AS LONG
    DIM dwsText AS DWSTRING = WSPACE(nLen + 1)
    SendMessageW(hListBox, LB_GETTEXT, nIndex, cast(LPARAM, *dwsText))
    RETURN dwsText
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Adds a string to a list box. If the list box does not have the LBS_SORT style, the string
+' is added to the end of the list. Otherwise, the string is inserted into the list and the
+' list is sorted.
+' - hListbox: A handle to the list box.
+' - pwszStr: A pointer to the un8icode string to add.
+' ========================================================================================
+PRIVATE FUNCTION AfxListBoxAddString (BYVAL hListBox AS HWND, BYVAL pwszStr AS WSTRING PTR) AS LONG
+   RETURN SendMessageW(hListBox, LB_ADDSTRING, 0, cast(WPARAM, pwszStr))
 END FUNCTION
 ' ========================================================================================
 
