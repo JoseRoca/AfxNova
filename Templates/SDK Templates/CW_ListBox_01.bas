@@ -57,6 +57,8 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    FOR i AS LONG = 1 TO 50
       dwsText = "Item " & RIGHT("00" & WSTR(i), 2)
       ListBox_AddString(hListBox, *dwsText)
+      ' -- or --
+      ' AfxListBoxAddString(hListBox, dwsText)
    NEXT
    ' // Select the first item
    ListBox_SetCursel(hListBox, 0)
