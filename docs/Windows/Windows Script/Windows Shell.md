@@ -364,3 +364,101 @@ The [GET] **CurrentDirectory** returns a string that contains the fully qualifie
 The [SET] **CurrentDirectory** sets the current working directory of the active process.
 
 ---
+
+## GetStatus
+
+Provides status information about a script run with the Exec method.
+
+```
+FUNCTION GetStatus () AS WshExecStatus
+```
+
+#### Return value
+
+The **Status** property returns a value from the *WshExecStatus* enumerated type. WshRunning = 0, WshFinished = 1, WshFailed = 2.
+
+---
+
+## GetStdIn
+
+Exposes the stdin input stream of the **IWshExec** interface.
+
+```
+FUNCTION GetStdIn () AS Afx_ITextStream PTR
+```
+
+#### Return value
+
+A pointer to the **ITextStream** interface.
+
+---
+
+## GetStdOut
+
+Exposes the stdin output stream of the **IWshExec** interface.
+
+```
+FUNCTION GetStdOut () AS Afx_ITextStream PTR
+```
+
+#### Return value
+
+A pointer to the **ITextStream** interface.
+
+---
+
+## GetStdErr
+
+Provides access to the stderr output stream of the **IWshExec** interface.
+
+```
+FUNCTION GetStdErr () AS Afx_ITextStream PTR
+```
+
+#### Return value
+
+A pointer to the **ITextStream** interface.
+
+---
+
+## GetExitCode
+
+Returns the exit code set by a script or program run using the **Exec** method (called by the constructor).
+
+```
+FUNCTION GetExitCode () AS LONG
+```
+
+#### Remarks
+
+Executables set an exit code when they finish running. This conveys the status information when a process ends. Often, it is used to send an error code (or some other piece of information) back to the caller. If the process has not finished, the **GetExitCode** property returns 0. The values returned from ^^GetExitCode** depend on the application that was called.
+
+---
+
+## GetProcessID
+
+Returns the process ID (PID) for a process started with the **Exec** method (called by the constructor).
+
+```
+FUNCTION GetProcessID () AS LONG
+```
+
+#### Remarks
+
+You can use the **GetProcessID** property to activate an application (as an argument to the **AppActivate** method).
+
+---
+
+## Terminate
+
+Instructs the script engine to end the process started by the **Exec** method (called by the constructor).
+
+```
+FUNCTION Terminate
+```
+
+#### Remarks
+
+The **Terminate** method does not return a value. Use the **Terminate** method only as a last resort since some applications do not clean up properly. As a general rule, let the process run its course and end on its own. The **Terminate** method attempts to end a process using the **WM_CLOSE** message. If that does not work, it kills the process immediately without going through the normal shutdown procedure.
+
+---
