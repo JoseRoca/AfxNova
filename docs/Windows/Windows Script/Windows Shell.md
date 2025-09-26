@@ -464,7 +464,7 @@ FUNCTION AppActivate (BYREF processID AS LONG, BYVAL bWait AS BOOLEAN = FALSE) A
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszTitle* | Specifies which application to activate. This can be a string containing the title of the application (as it appears in the title bar) or the application's Process ID. |
-| *bWait* | Specifies which application to activate. This can be a string containing the title of the application (as it appears in the title bar) or the application's Process ID. |
+| *processID* | Specifies which application to activate. This can be a string containing the title of the application (as it appears in the title bar) or the application's Process ID. |
 | *bWait* | Boolean. TRUE or FALSE. |
 
 #### Remarks
