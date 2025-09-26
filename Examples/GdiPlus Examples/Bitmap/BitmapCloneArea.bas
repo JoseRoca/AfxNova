@@ -37,6 +37,8 @@ SUB Example_CloneArea (BYVAL hdc AS HDC)
    ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = "climber.jpg"
