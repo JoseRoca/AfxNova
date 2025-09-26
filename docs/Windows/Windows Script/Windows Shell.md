@@ -449,6 +449,31 @@ You can use the **GetProcessID** property to activate an application (as an argu
 
 ---
 
+## AppActivate
+
+Activates an application window.
+
+```
+FUNCTION AppActivate (BYREF wszTitle AS WSTRING, BYVAL bWait AS BOOLEAN = FALSE) AS BOOLEAN
+```
+```
+FUNCTION AppActivate (BYREF processID AS LONG, BYVAL bWait AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszTitle* | Specifies which application to activate. This can be a string containing the title of the application (as it appears in the title bar) or the application's Process ID. |
+| *bWait* | Specifies which application to activate. This can be a string containing the title of the application (as it appears in the title bar) or the application's Process ID. |
+| *bWait* | Boolean. TRUE or FALSE. |
+
+#### Remarks
+
+The **AppActivate** method returns a Boolean value that identifies whether the procedure call is successful. This method changes the focus to the named application or window, but it does not affect whether it is maximized or minimized. Focus moves from the activated application window when the user takes action to change the focus (or closes the window).
+
+In determining which application to activate, the specified title is compared to the title string of each running application. If no exact match exists, any application whose title string begins with title is activated. If an application still cannot be found, any application whose title string ends with title is activated. If more than one instance of the application named by title exists, one instance is arbitrarily activated.
+
+---
+
 ## Terminate
 
 Instructs the script engine to end the process started by the **Exec** method (called by the constructor).
