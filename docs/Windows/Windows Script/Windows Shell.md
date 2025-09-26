@@ -35,6 +35,7 @@ Executes a program or command in a new process, providing methods to interact wi
 | [GetStdErr](#getstderr) | Provides access to the stderr output stream of the IWshExec interface. |
 | [GetStdIn](#getstdin) | Exposes the stdin input stream of the IWshExec interface. |
 | [GetStdOut](#getstdout) | Exposes the stdout output stream of the IWshExec interface. |
+| [AppActivate](#appactivate) | Activates an application window. |
 | [Terminate](#terminate) | Instructs the script engine to end the process started by the Exec method. |
 
 ---
