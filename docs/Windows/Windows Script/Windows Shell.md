@@ -107,6 +107,32 @@ Returns S_OK or an HRESULT error code.
 
 ---
 
+## AfxRun
+
+Runs a program in a new process.
+
+```
+AfxRun (BYREF wszCommand AS WSTRING, BYVAL WindowStyle AS LONG = 0, BYVAL WaitOnReturn AS BOOLEAN = FALSE) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszCommand* | String value indicating the command line you want to run. You must include any parameters you want to pass to the executable file. |
+| *WindowStyle* | Integer value indicating the appearance of the program's window. Note that not all programs make use of this information. |
+| *WaitOnReturn* | Boolean value indicating whether the script should wait for the program to finish executing before continuing to the next statement in your script. If set to true, script execution halts until the program finishes, and **Run** returns any error code returned by the program. If set to false (the default), the **Run** method returns immediately after starting the program, automatically returning 0 (not to be interpreted as an error code). |
+
+#### Return value
+
+Returns S_OK or an HRESULT error code.
+
+#### Usage example
+
+```
+AfxRun("Calc")
+```
+---
+
+
 ## AfxLogEvent
 
 Adds an event entry to a log file.
@@ -119,29 +145,6 @@ FUNCTION AfxLogEvent (BYVAL nType AS LONG, BYREF wszMessage AS WSTRING) AS HRESU
 | ---------- | ----------- |
 | *nType* | Integer value representing the event type. |
 | *wszMessage* | String value containing the log entry text. |
-
-There are six event types.
-
-| Tyoe  | Value |
-| ----- | ----------- |
-| 0 | SUCCESS |
-| 1 | ERROR |
-| 2 | WARNING |
-| 4 | INFORMATION |
-| 8 | AUDIT_SUCCESS |
-| 16 | AUDIT_FAILURE |
-
-#### Usage example
-
-```
-AfxLogEvent(0, "Logon Script Completed Successfully")
-```
-
-#### Return value
-
-Returns S_OK or an HRESULT error code.
-
----
 
 ## AfxSendKeys
 
