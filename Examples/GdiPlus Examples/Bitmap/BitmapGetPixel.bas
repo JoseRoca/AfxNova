@@ -43,12 +43,14 @@ SUB Example_GetPixel (BYVAL hdc AS HDC)
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = "climber.jpg"
+   myBitmap.SetResolution(graphics.GetDpiX, graphics.GetDpiY)
 
    ' // Get the value of a pixel from myBitmap.
    DIM pixelColor AS ARGB
    myBitmap.GetPixel(25, 25, @pixelColor)
 
    ' // Fill a rectangle with the pixel color.
+   ' // FillRectangle ignores ScaleTransform; we have to scale it manually
    DIM brush AS CGpSolidBrush = pixelColor
    graphics.FillRectangle(@brush, 0, 0, 100, 100)
 

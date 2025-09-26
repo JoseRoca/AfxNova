@@ -42,6 +42,7 @@ SUB Example_CloneArea (BYVAL hdc AS HDC)
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = "climber.jpg"
+   myBitmap.SetResolution(graphics.GetDpiX, graphics.GetDpiY)
 
    ' // Clone a portion of the bitmap.
    DIM cloneBitmap AS CGpBitmap

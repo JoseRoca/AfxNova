@@ -38,15 +38,18 @@ SUB Example_CachedBitmap (BYVAL hdc AS HDC)
    ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   ' Can't be used with cached bitmaps, that can't be resized.
+'   graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Load the image
-   DIM pBitmap AS CGpBitmap = "Climber.jpg"
+   DIM myBitmap AS CGpBitmap = "Climber.jpg"
 
    ' // Create a cached bitmap
-   DIM cachedBitmap AS CGpCachedBitmap = CGpCachedBitmap(@pBitmap, @graphics)
+   DIM cachedBitmap AS CGpCachedBitmap = CGpCachedBitmap(@myBitmap, @graphics)
 
    ' // Draw the cached bitmap
-   graphics.DrawCachedBitmap(@cachedBitmap, 10, 10)
+   graphics.DrawCachedBitmap(@cachedBitmap, 10 * rxRatio, 10 * ryRatio)
 
 END SUB
 ' ========================================================================================
