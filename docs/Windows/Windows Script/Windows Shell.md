@@ -107,6 +107,37 @@ Returns S_OK or an HRESULT error code.
 
 ---
 
+## AfxLogEvent
+
+Adds an event entry to a log file.
+
+```
+FUNCTION AfxLogEvent (BYVAL nType AS LONG, BYREF wszMessage AS WSTRING) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nType* | Integer value representing the event type. |
+| *wszMessage* | String value containing the log entry text. |
+
+There are six event types.
+
+| Type  | Value |
+| ----- | ----- |
+| 0 | SUCCESS |
+| 1 | ERROR |
+| 2 | WARNING |
+| 4 | INFORMATION |
+| 8 | AUDIT_SUCCESS |
+| 16 | AUDIT_FAILURE |
+
+#### Usage example
+
+```
+AfxLogEvent(0, "Logon Script Completed Successfully")
+```
+---
+
 ## AfxRun
 
 Runs a program in a new process.
@@ -131,20 +162,6 @@ Returns S_OK or an HRESULT error code.
 AfxRun("Calc")
 ```
 ---
-
-
-## AfxLogEvent
-
-Adds an event entry to a log file.
-
-```
-FUNCTION AfxLogEvent (BYVAL nType AS LONG, BYREF wszMessage AS WSTRING) AS HRESULT
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *nType* | Integer value representing the event type. |
-| *wszMessage* | String value containing the log entry text. |
 
 ## AfxSendKeys
 
