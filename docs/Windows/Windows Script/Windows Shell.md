@@ -340,7 +340,27 @@ FUNCTION GetLastResult () AS HRESULT
 ## GetErrorInfo
 
 Returns a description of the last result code.
+
 ```
 FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
 ```
+---
+
+## CurrentDirectory
+
+Retrieves or changes the current active directory.
+
+```
+[GET] PROPERTY CurrentDirectory () AS DWSTRING
+[SET] PROPERTY CurrentDirectory (BYREF wszDir AS WSTRING) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszDir* | The directory to set. |
+
+The [GET] **CurrentDirectory** returns a string that contains the fully qualified path of the current working directory of the active process.
+
+The [SET] **CurrentDirectory** sets the current working directory of the active process.
+
 ---
