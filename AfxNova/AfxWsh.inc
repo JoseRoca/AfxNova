@@ -220,6 +220,9 @@ END FUNCTION
 ' ========================================================================================
 ' CWhsExec class
 ' Usage example:
+' #include "AfxNova/AfxWsh.inc"
+' #include "AfxNova/CTextStream.inc"
+' USING AfxNova
 ' DIM pWshExec AS CWhsExec = "%comspec% /c dir"
 ' IF pWshExec THEN
 '    DIM pStdOutStm AS CTextStream = pWshExec.GetStdOut
@@ -259,7 +262,9 @@ Public:
    DECLARE FUNCTION GetStdErr () AS Afx_ITextStream PTR
    DECLARE FUNCTION GetProcessID () AS LONG
    DECLARE FUNCTION GetExitCode () AS LONG
-   DECLARE FUNCTION Terminate () AS HRESULT
+   DECLARE FUNCTION AppActivate (BYREF wszTitle AS WSTRING, BYVAL bWait AS BOOLEAN = FALSE) AS BOOLEAN
+   DECLARE FUNCTION AppActivate (BYVAL processID AS LONG, BYVAL bWait AS BOOLEAN = FALSE) AS BOOLEAN
+   DECLARE SUB Terminate
 
 END TYPE
 ' ========================================================================================
@@ -327,7 +332,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves or changes the current active directory.
+' Retrieves the current active directory.
 ' ========================================================================================
 PRIVATE PROPERTY CWhsExec.CurrentDirectory () AS DWSTRING
    DIM bstrDir AS AFX_BSTR
@@ -338,6 +343,8 @@ PRIVATE PROPERTY CWhsExec.CurrentDirectory () AS DWSTRING
    RETURN dws
 END PROPERTY
 ' ========================================================================================
+' ========================================================================================
+' Changes the current active directory.
 ' ========================================================================================
 PRIVATE PROPERTY CWhsExec.CurrentDirectory (BYREF wszDir AS WSTRING) AS HRESULT
    DIM bstrDir AS AFX_BSTR = SysAllocString(wszDir)
@@ -388,7 +395,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The process ID (PID) for a process started with the Exec method.
+' Returns the process ID (PID) for a process started with the Exec method.
 ' ========================================================================================
 PRIVATE FUNCTION CWhsExec.GetProcessID () AS LONG
    DIM nPID AS LONG
@@ -408,10 +415,40 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Activates an application window.
+' ========================================================================================
+PRIVATE FUNCTION CWhsExec.AppActivate (BYREF wszTitle AS WSTRING, BYVAL bWait AS BOOLEAN = FALSE) AS BOOLEAN
+   DIM vApp AS VARIANT
+   DIM bstrTitle AS Afx_BSTR = SysAllocString(wszTitle)
+   vApp.vt = VT_BSTR
+   vApp.bstrVal = bstrTitle
+   DIM vWait AS VARIANT
+   vWait.vt = VT_BOOL
+   vWait.boolVal = bWait
+   DIM vSuccess AS VARIANT_BOOL
+   m_Result = m_pWshShell3->AppActivate(@vApp, @vWait, @vSuccess)
+   VariantClear(@vApp)
+   RETURN vSuccess
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWhsExec.AppActivate (BYVAL processID AS LONG, BYVAL bWait AS BOOLEAN = FALSE) AS BOOLEAN
+   DIM vApp AS VARIANT
+   vApp.vt = VT_I4
+   vApp.lVal = processID
+   DIM vWait AS VARIANT
+   vWait.vt = VT_BOOL
+   vWait.boolVal = bWait
+   DIM vSuccess AS VARIANT_BOOL
+   m_Result = m_pWshShell3->AppActivate(@vApp, @vWait, @vSuccess)
+   RETURN vSuccess
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Instructs the script engine to end the process started by the Exec method.
 ' ========================================================================================
-PRIVATE FUNCTION CWhsExec.Terminate () AS HRESULT
-   m_Result = m_pWshExec->Terminate
-   FUNCTION = m_Result
-END FUNCTION
+PRIVATE SUB CWhsExec.Terminate
+   m_pWshExec->Terminate
+END SUB
 ' ========================================================================================
