@@ -30,14 +30,13 @@
 #INCLUDE ONCE "AfxNova/DVARIANT.inc"
 USING AfxNova
 
-' ########################################################################################
-'                                   *** REGISTRY ***
-' ########################################################################################
-
 ' ========================================================================================
 ' Returns the value of a key or value-name from the registry.
+' Usage examples:
+' print AfxRegRead("HKLM\HARDWARE\DESCRIPTION\System\CentralProcessor\0\ProcessorNameString")
+' print AfxRegRead("HKLM\HARDWARE\DESCRIPTION\System\CentralProcessor\0\~Mhz")
 ' ========================================================================================
-PRIVATE FUNCTION AfxWshRegRead (BYREF wszKey AS WSTRING) AS DWSTRING
+PRIVATE FUNCTION AfxRegRead (BYREF wszKey AS WSTRING) AS DWSTRING
    CoInitialize NULL
       ' // Create an instance of the IWshShell interface
    DIM pWsh AS Afx_IWshShell PTR
@@ -57,15 +56,20 @@ PRIVATE FUNCTION AfxWshRegRead (BYREF wszKey AS WSTRING) AS DWSTRING
       END IF
       pWsh->Release
    END IF
+   SetLastError hr
    CoUninitialize
    RETURN dws
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns the value of a key or value-name from the registry.
+' Creates a new key, adds another value-name to an existing key (and assigns it a value),
+' or changes the value of an existing value-name.
+' Usage examples:
+' AfxRegWrite("HKCU\Software\ACME\FortuneTeller\", 1, "REG_BINARY")
+' AfxRegWrite("HKCU\Software\ACME\FortuneTeller\MindReader"", "Goocher!", "REG_SZ")
 ' ========================================================================================
-PRIVATE FUNCTION AfxWshRegWrite (BYREF wszKey AS WSTRING, BYREF dvValue AS DVARIANT, BYREF wszType AS WSTRING) AS HRESULT
+PRIVATE FUNCTION AfxRegWrite (BYREF wszKey AS WSTRING, BYREF dvValue AS DVARIANT, BYREF wszType AS WSTRING) AS HRESULT
    CoInitialize NULL
       ' // Create an instance of the IWshShell interface
    DIM pWsh AS Afx_IWshShell PTR
@@ -91,8 +95,12 @@ END FUNCTION
 
 ' ========================================================================================
 ' Deletes a key or one of its values from the registry.
+' Usage examples:
+' AfxRegDelete("HKCU\Software\ACME\FortuneTeller\MindReader")
+' AfxRegDelete("HKCU\Software\ACME\FortuneTeller\")
+' AfxRegDelete("HKCU\Software\ACME\")
 ' ========================================================================================
-PRIVATE FUNCTION AfxReWshgDelete (BYREF wszKey AS WSTRING) AS HRESULT
+PRIVATE FUNCTION AfxRegDelete (BYREF wszKey AS WSTRING) AS HRESULT
    CoInitialize NULL
       ' // Create an instance of the IWshShell interface
    DIM pWsh AS Afx_IWshShell PTR
@@ -112,8 +120,9 @@ END FUNCTION
 
 ' ========================================================================================
 ' Adds an event entry to a log file.
+' Usage example: AfxLogEvent(0, "Logon Script Completed Successfully")
 ' ========================================================================================
-PRIVATE FUNCTION AfxWshLogEvent (BYVAL nType AS LONG, BYREF wszMessage AS WSTRING) AS HRESULT
+PRIVATE FUNCTION AfxLogEvent (BYVAL nType AS LONG, BYREF wszMessage AS WSTRING) AS HRESULT
    CoInitialize NULL
       ' // Create an instance of the IWshShell interface
    DIM pWsh AS Afx_IWshShell2 PTR
@@ -143,7 +152,7 @@ END FUNCTION
 ' Example:
 ' AfxRun("calc")
 ' AfxForceSetForegroundWindow(FindWindow("Windows.UI.Core.CoreWindow", NULL))
-' ---or-- AfxForceSetForegroundWindow(FindWindow(NULL, "Calc"))
+' ---or-- AfxForceSetForegroundWindow(FindWindow(NULL, "calc"))
 ' SLEEP 1000
 ' AfxSendKeys("1{+}")
 ' SLEEP 500
@@ -156,7 +165,7 @@ END FUNCTION
 ' AfxSendKeys("~")
 ' SLEEP 2500
 ' ========================================================================================
-PRIVATE FUNCTION AfxWshSendKeys (BYREF wszKeys AS WSTRING, BYVAL bWait AS BOOLEAN = FALSE) AS HRESULT
+PRIVATE FUNCTION AfxSendKeys (BYREF wszKeys AS WSTRING, BYVAL bWait AS BOOLEAN = FALSE) AS HRESULT
    CoInitialize NULL
       ' // Create an instance of the IWshShell2 interface
    DIM pWsh AS Afx_IWshShell2 PTR
@@ -180,8 +189,9 @@ END FUNCTION
 
 ' ========================================================================================
 ' Runs a program in a new process.
+' Usage example: AfxRun("Calc")
 ' ========================================================================================
-PRIVATE FUNCTION AfxWshRun (BYREF wszCommand AS WSTRING, BYVAL WindowStyle AS LONG = 0, BYVAL WaitOnReturn AS BOOLEAN = FALSE) AS HRESULT
+PRIVATE FUNCTION AfxRun (BYREF wszCommand AS WSTRING, BYVAL WindowStyle AS LONG = 0, BYVAL WaitOnReturn AS BOOLEAN = FALSE) AS HRESULT
    CoInitialize NULL
       ' // Create an instance of the IWshShell interface
    DIM pWsh AS Afx_IWshShell PTR
