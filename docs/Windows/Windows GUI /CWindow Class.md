@@ -343,7 +343,7 @@ If the application is DPI aware, controls created with the **AddControl** method
 
 ### <a name="topic4"></a>Popup windows
 
-To create a popup window you simply create a new instance of the `CWindow` class and, in the **Create** method, you make it child of the main window and use the WS_POPUPWINDOW style.
+To create a popup window you simply create a new instance of the `CWindow` class and, in the **Create** method, you make it child of the main window and use the **WS_POPUPWINDOW** style.
 
 ```
 DIM pWindow AS CWindow
