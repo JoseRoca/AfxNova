@@ -554,7 +554,7 @@ LOOP WHILE IsWindow(hWndPopUp)
 FUNCTION = uMsg.wParam
 ```
 
-and remove PostQuitMessage(0) in WM_DESTROY.
+and remove `PostQuitMessage(0)` in **WM_DESTROY**.
 
 ---
 
