@@ -522,6 +522,40 @@ FUNCTION PopupWndProc (BYVAL hWnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS W
 END FUNCTION
 ' ========================================================================================
 ```
+
+#### Modeless Popup Windows and Custom Message Pump
+
+In the above example, if you remove **EnableWindow** to keep the popup window modeless, you must replace the default message pump (**CWindow.DoEvents**) with a custom loop. Otherwise, the popup may not exit cleanly when the main window closes.
+
+**Problem**: When the main window is destroyed, it sends **WM_DESTROY** to its children—including the modeless popup. The popup may call **PostQuitMessage**, but if it doesn't have focus, it won't receive **WM_QUIT**, and its message loop will continue running.
+
+**Solution**: Use a custom message pump that checks if the popup window still exists. Once `IsWindow(hWnd)` returns FALSE, the loop exits cleanly.
+
+Therefore, replace
+
+```
+' / Process Windows messages
+FUNCTION = pWindow.DoEvents
+```
+
+with a custom message pump like this:
+
+```
+DIM hWndPopUp AS HWND = pWindow.hWindow
+DIM uMsg AS tagMsg
+DO
+   IF PeekMessageW(@uMsg, NULL, 0, 0, PM_REMOVE) THEN
+      IF IsDialogMessageW(hWndPopUp, @uMsg) = 0 THEN
+         TranslateMessage @uMsg
+         DispatchMessage @uMsg
+      END IF
+   END IF
+LOOP WHILE IsWindow(hWndPopUp)
+FUNCTION = uMsg.wParam
+```
+
+and remove PostQuitMessage(0) in WM_DESTROY.
+
 ---
 
 ### <a name="topic5"></a>Using PNG icons in toolbars
