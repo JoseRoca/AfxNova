@@ -783,18 +783,18 @@ enum
 	TestControlGetBuildNumber = 2
 end enum
 
-type GraphicsContainer as DWORD
-type GraphicsState as DWORD
-const FlatnessDefault = cast(REAL, 0.25f)
+TYPE GraphicsContainer AS DWORD
+TYPE GraphicsState AS DWORD
+CONST FlatnessDefault = CAST(REAL, 0.25f)
 
-private function ObjectTypeIsValid (byval type_ as ObjectType) as BOOLEAN
-	function = -((type_ >= ObjectTypeMin) and (type_ <= ObjectTypeMax))
-end function
+PRIVATE FUNCTION ObjectTypeIsValid (BYVAL type_ as ObjectType) AS BOOLEAN
+	FUNCTION = -((type_ >= ObjectTypeMin) AND (type_ <= ObjectTypeMax))
+END FUNCTION
 
 ' #define __GDIPLUS_TYPES_H
 ' #define WINGDIPAPI __stdcall
 
-type GpStatus as long
+type Status_ as long
 enum
 	Ok = 0
 	GenericError = 1
@@ -818,6 +818,32 @@ enum
 	PropertyNotFound = 19
 	PropertyNotSupported = 20
 	ProfileNotFound = 21
+end enum
+
+type GpStatus as long
+enum
+	StatusOk = 0
+	StatusGenericError = 1
+	StatusInvalidParameter = 2
+	StatusOutOfMemory = 3
+	StatusObjectBusy = 4
+	StatusInsufficientBuffer = 5
+	StatusNotImplemented = 6
+	StatusWin32Error = 7
+	StatusWrongState = 8
+	StatusAborted = 9
+	StatusFileNotFound = 10
+	StatusValueOverflow = 11
+	StatusAccessDenied = 12
+	StatusUnknownImageFormat = 13
+	StatusFontFamilyNotFound = 14
+	StatusFontStyleNotFound = 15
+	StatusNotTrueTypeFont = 16
+	StatusUnsupportedGdiplusVersion = 17
+	StatusGdiplusNotInitialized = 18
+	StatusPropertyNotFound = 19
+	StatusPropertyNotSupported = 20
+	StatusProfileNotFound = 21
 end enum
 
 type GpSize
@@ -1551,6 +1577,7 @@ type ColorMatrix
 	m(0 to 4, 0 to 4) as REAL
 end type
 type GpColorMatrix AS ColorMatrix
+' // Use an array (0 TO 4, 0 TO 4) AS SINGLE, and pass @array(0, 0)
 
 ' #define __GDIPLUS_FLAT_H
 
@@ -1789,8 +1816,8 @@ DECLARE FUNCTION GdipFillPie (BYVAL graphics AS GpGraphics PTR, BYVAL brush AS G
 DECLARE FUNCTION GdipFillPieI (BYVAL graphics AS GpGraphics PTR, BYVAL brush AS GpBrush PTR, BYVAL x AS INT_, BYVAL y AS INT_, _
                  BYVAL width AS INT_, BYVAL height AS INT_, BYVAL startAngle AS REAL, BYVAL sweepAngle AS REAL) AS GpStatus
 DECLARE FUNCTION GdipFillPath (BYVAL graphics AS GpGraphics PTR, BYVAL brush AS GpBrush PTR, BYVAL path AS GpPath PTR) AS GpStatus
-DECLARE FUNCTION GdipFillClosedCurve (BYVAL AS GpGraphics PTR, BYVAL AS GpBrush PTR, BYVAL AS const GpPointF PTR, BYVAL AS INT_) AS GpStatus
-DECLARE FUNCTION GdipFillClosedCurveI (BYVAL AS GpGraphics PTR, BYVAL AS GpBrush PTR, BYVAL AS const GpPoint PTR, BYVAL AS INT_) AS GpStatus
+DECLARE FUNCTION GdipFillClosedCurve (BYVAL AS GpGraphics PTR, BYVAL AS GpBrush PTR, BYVAL AS const GpPointF PTR, BYVAL count AS INT_) AS GpStatus
+DECLARE FUNCTION GdipFillClosedCurveI (BYVAL AS GpGraphics PTR, BYVAL AS GpBrush PTR, BYVAL AS const GpPoint PTR, BYVAL count AS INT_) AS GpStatus
 DECLARE FUNCTION GdipFillClosedCurve2 (BYVAL AS GpGraphics PTR, BYVAL AS GpBrush PTR, BYVAL points AS CONST GpPointF PTR, _
                  BYVAL count AS INT_, BYVAL tension AS REAL, BYVAL fillmode AS GpFillMode) AS GpStatus
 DECLARE FUNCTION GdipFillClosedCurve2I (BYVAL AS GpGraphics PTR, BYVAL AS GpBrush PTR, BYVAL points AS CONST GpPoint PTR, _
@@ -1998,7 +2025,7 @@ DECLARE FUNCTION GdipAddPathPieI (BYVAL path AS GpPath PTR, BYVAL x AS INT_, BYV
 DECLARE FUNCTION GdipAddPathPolygonI (BYVAL path AS GpPath PTR, BYVAL points AS CONST GpPoint PTR, BYVAL count AS INT_) AS GpStatus
 DECLARE FUNCTION GdipFlattenPath (BYVAL path AS GpPath PTR, BYVAL matrix AS GpMatrix PTR, BYVAL flatness AS REAL) AS GpStatus
 DECLARE FUNCTION GdipWindingModeOutline (BYVAL path AS GpPath PTR, BYVAL matrix AS GpMatrix PTR, BYVAL flatness AS REAL) AS GpStatus
-DECLARE FUNCTION GdipWidenPath (BYVAL path AS GpPath PTR, BYVAL pen AS GpPen PTR, BYVAL mateix AS GpMatrix PTR, BYVAL flatness AS REAL) AS GpStatus
+DECLARE FUNCTION GdipWidenPath (BYVAL path AS GpPath PTR, BYVAL pen AS GpPen PTR, BYVAL matrix AS GpMatrix PTR, BYVAL flatness AS REAL) AS GpStatus
 DECLARE FUNCTION GdipWarpPath (BYVAL path AS GpPath PTR, BYVAL matrix AS GpMatrix PTR, BYVAL points AS CONST GpPointF PTR, _
                  BYVAL count AS INT_, BYVAL srcx AS REAL, BYVAL srcy AS REAL, BYVAL srcwidth AS REAL, BYVAL srcheight AS REAL, _
                  BYVAL warpMode AS WarpMode, BYVAL flatness AS REAL) AS GpStatus
@@ -2124,7 +2151,7 @@ DECLARE FUNCTION GdipSetLineGammaCorrection (BYVAL brush AS GpLineGradient PTR, 
 DECLARE FUNCTION GdipGetLineGammaCorrection (BYVAL brush AS GpLineGradient PTR, BYVAL useGammaCorrection AS BOOL PTR) AS GpStatus
 DECLARE FUNCTION GdipGetLineBlendCount (BYVAL brush AS GpLineGradient PTR, BYVAL count AS INT_ PTR) AS GpStatus
 DECLARE FUNCTION GdipGetLineBlend (BYVAL brush AS GpLineGradient PTR, BYVAL blend AS REAL PTR, BYVAL positions AS REAL PTR, BYVAL count AS INT_) AS GpStatus
-DECLARE FUNCTION GdipSetLineBlend (BYVAL brush AS GpLineGradient PTR, BYVAL blend AS CONST REAL PTR, BYVAL positions AS const REAL PTR, BYVAL  count AS INT_) AS GpStatus
+DECLARE FUNCTION GdipSetLineBlend (BYVAL brush AS GpLineGradient PTR, BYVAL blend AS CONST REAL PTR, BYVAL positions AS const REAL PTR, BYVAL count AS INT_) AS GpStatus
 DECLARE FUNCTION GdipGetLinePresetBlendCount (BYVAL brush AS GpLineGradient PTR, BYVAL count AS INT_ PTR) AS GpStatus
 DECLARE FUNCTION GdipGetLinePresetBlend (BYVAL brush AS GpLineGradient PTR, BYVAL blend AS ARGB PTR, BYVAL positions AS REAL PTR, BYVAL count AS INT_) AS GpStatus
 DECLARE FUNCTION GdipSetLinePresetBlend (BYVAL brush AS GpLineGradient PTR, BYVAL blend AS CONST ARGB PTR, BYVAL positions AS CONST REAL PTR, BYVAL count AS INT_) AS GpStatus
@@ -2188,8 +2215,8 @@ DECLARE FUNCTION GdipCreatePathGradientI (BYVAL points AS CONST GpPoint PTR, BYV
 DECLARE FUNCTION GdipCreatePathGradientFromPath (BYVAL path AS CONST GpPath PTR, BYVAL polyGradient AS GpPathGradient PTR PTR) AS GpStatus
 DECLARE FUNCTION GdipGetPathGradientCenterColor (BYVAL brush AS GpPathGradient PTR, BYVAL colors AS ARGB PTR) AS GpStatus
 DECLARE FUNCTION GdipSetPathGradientCenterColor (BYVAL brush AS GpPathGradient PTR, BYVAL colors AS ARGB) AS GpStatus
-DECLARE FUNCTION GdipGetPathGradientSurroundColorsWithCount (BYVAL brush AS GpPathGradient PTR, BYVAL color AS ARGB PTR, BYVAL count AS INT_ PTR) AS GpStatus
-DECLARE FUNCTION GdipSetPathGradientSurroundColorsWithCount (BYVAL brush AS GpPathGradient PTR, BYVAL color AS CONST ARGB PTR, BYVAL count AS INT_ PTR) AS GpStatus
+DECLARE FUNCTION GdipGetPathGradientSurroundColorsWithCount (BYVAL brush AS GpPathGradient PTR, BYVAL colors AS ARGB PTR, BYVAL count AS INT_ PTR) AS GpStatus
+DECLARE FUNCTION GdipSetPathGradientSurroundColorsWithCount (BYVAL brush AS GpPathGradient PTR, BYVAL colors AS CONST ARGB PTR, BYVAL count AS INT_ PTR) AS GpStatus
 DECLARE FUNCTION GdipGetPathGradientPath (BYVAL brush AS GpPathGradient PTR, BYVAL path AS GpPath PTR) AS GpStatus
 DECLARE FUNCTION GdipSetPathGradientPath (BYVAL brush AS GpPathGradient PTR, BYVAL path AS CONST GpPath PTR) AS GpStatus
 DECLARE FUNCTION GdipGetPathGradientCenterPoint (BYVAL brush AS GpPathGradient PTR, BYVAL points AS GpPointF PTR) AS GpStatus
@@ -2297,7 +2324,7 @@ DECLARE FUNCTION GdipGetPenCompoundArray (BYVAL pen AS GpPen PTR, BYVAL dash AS 
 
 
 ' // Region APIs
-DECLARE FUNCTION GdipCreateRegion (BYVAL  region AS GpRegion PTR PTR) AS GpStatus
+DECLARE FUNCTION GdipCreateRegion (BYVAL region AS GpRegion PTR PTR) AS GpStatus
 DECLARE FUNCTION GdipCreateRegionRect (BYVAL rcf AS CONST GpRectF PTR, BYVAL region AS GpRegion PTR PTR) AS GpStatus
 DECLARE FUNCTION GdipCreateRegionRectI (BYVAL rc AS CONST GpRect PTR, BYVAL region AS GpRegion PTR PTR) AS GpStatus
 DECLARE FUNCTION GdipCreateRegionPath (BYVAL path AS GpPath PTR, BYVAL region AS GpRegion PTR PTR) AS GpStatus
@@ -2369,7 +2396,7 @@ DECLARE FUNCTION GdipSetStringFormatMeasurableCharacterRanges (BYVAL format AS G
 ' // Text APIs
 DECLARE FUNCTION GdipDrawString (BYVAL graphics AS GpGraphics PTR, BYVAL string AS CONST WSTRING PTR, BYVAL length AS INT_, _
                  BYVAL font AS CONST GpFont PTR, BYVAL layoutRect AS CONST GpRectF PTR, BYVAL stringFormat AS CONST GpStringFormat PTR, BYVAL brush AS CONST GpBrush PTR) AS GpStatus
-DECLARE FUNCTION GdipMeasureString (BYVAL graphics AS GpGraphics PTR, BYVAL string AS CONST wstring PTR, BYVAL length AS INT_, _
+DECLARE FUNCTION GdipMeasureString (BYVAL graphics AS GpGraphics PTR, BYVAL string AS CONST WSTRING PTR, BYVAL length AS INT_, _
                  BYVAL font AS CONST GpFont PTR, BYVAL layoutRect AS CONST GpRectF PTR, BYVAL stringFormat AS CONST GpStringFormat PTR, _
                  BYVAL boundingBox AS GpRectF PTR, BYVAL codepointsFitted AS INT_ PTR, BYVAL linesFilled AS INT_ PTR) AS GpStatus
 DECLARE FUNCTION GdipMeasureCharacterRanges (BYVAL graphics AS GpGraphics PTR, BYVAL string AS CONST WSTRING PTR, BYVAL length AS INT_, _

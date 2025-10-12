@@ -26,10 +26,9 @@
 
 #pragma once
 #include once "windows.bi"
+#include once "win/commctrl.bi"
 #include once "win/winspool.bi"
 #include once "AfxNova/AfxGdiPlus.bi"
-#include once "AfxNova/AfxWin.inc"
-USING AfxNova
 
 NAMESPACE AfxNova
 
@@ -192,47 +191,61 @@ END FUNCTION
 
 ' ========================================================================================
 ' Returns the version of Gdiplus.dll, e.g. 601 for version 6.01.
+' * Returns the version of specified file multiplied by 100, e.g. 601 for version 6.01.
+' Example: DIM ver AS LONG = AfxGetFileVersion("COMCTL32.DLL")
 ' ========================================================================================
 PRIVATE FUNCTION AfxGdipDllVersion () AS LONG
-   FUNCTION = AfxGetFileVersion("GDIPLUS.DLL")
+   DIM pvsffi AS VS_FIXEDFILEINFO PTR, dwHandle AS DWORD
+   DIM cbLen AS DWORD = GetFileVersionInfoSizeW("gdiplus.dll", @dwHandle)
+   IF cbLen = 0 THEN EXIT FUNCTION
+   DIM pVerInfo AS HANDLE = HeapAlloc(GetProcessHeap, HEAP_ZERO_MEMORY, cbLen)
+   IF pVerInfo = NULL THEN EXIT FUNCTION
+   IF GetFileVersionInfoW("gdiplus.dll", dwHandle, cbLen, pVerInfo) THEN
+      IF VerQueryValueW(pVerInfo, "\", @pvsffi, @cbLen) THEN
+         DIM wMajor AS WORD = HIWORD(pvsffi->dwFileVersionMS)
+         DIM wMinor AS WORD = LOWORD(pvsffi->dwFileVersionMS)
+         FUNCTION = (wMajor + wMinor / 100) * 100
+      END IF
+   END IF
+   HeapFree(GetProcessHeap, 0, pVerInfo)
 END FUNCTION
 ' ========================================================================================
 
 ' =====================================================================================
 ' Returns the description of a GdiPlus status code.
 ' =====================================================================================
-PRIVATE FUNCTION AfxGdipStatusStr (BYVAL status AS GpStatus) AS DWSTRING
+PRIVATE FUNCTION AfxGdipStatusStr (BYVAL status AS GpStatus) AS STRING
 
-   DIM wszMsg AS WSTRING * 260 = "Unknown"
+   DIM strMsg AS STRING * 260 = "Unknown"
 
    SELECT CASE status
-      CASE Ok                        : wszMsg = "Ok"
-      CASE GenericError              : wszMsg = "Generic error"
-      CASE InvalidParameter          : wszMsg = "Invalid parameter"
-      CASE OutOfMemory               : wszMsg = "Out of memory"
-      CASE ObjectBusy                : wszMsg = "Object busy"
-      CASE InsufficientBuffer        : wszMsg = "Insufficient buffer"
-      CASE NotImplemented            : wszMsg = "Not implemented"
-      CASE Win32Error                : wszMsg = "Win 32 error"
-      CASE WrongState                : wszMsg = "Wrong state"
-      CASE Aborted                   : wszMsg = "Aborted"
-      CASE FileNotFound              : wszMsg = "File not found"
-      CASE ValueOverflow             : wszMsg = "Value overflow"
-      CASE AccessDenied              : wszMsg = "Access denied"
-      CASE UnknownImageFormat        : wszMsg = "Unknown image format"
-      CASE FontFamilyNotFound        : wszMsg = "Font family not found"
-      CASE FontStyleNotFound         : wszMsg = "Font style not found"
-      CASE NotTrueTypeFont           : wszMsg = "Not TrueType font"
-      CASE UnsupportedGdiplusVersion : wszMsg = "Unsupported GdiPlus version"
-      CASE GdiplusNotInitialized     : wszMsg = "GdiPlus not initialized"
-      CASE PropertyNotFound          : wszMsg = "Property not found"
-      CASE PropertyNotSupported      : wszMsg = "Property not supported"
+      CASE Ok                        : strMsg = "Ok"
+      CASE GenericError              : strMsg = "Generic error"
+      CASE InvalidParameter          : strMsg = "Invalid parameter"
+      CASE OutOfMemory               : strMsg = "Out of memory"
+      CASE ObjectBusy                : strMsg = "Object busy"
+      CASE InsufficientBuffer        : strMsg = "Insufficient buffer"
+      CASE NotImplemented            : strMsg = "Not implemented"
+      CASE Win32Error                : strMsg = "Win 32 error"
+      CASE WrongState                : strMsg = "Wrong state"
+      CASE Aborted                   : strMsg = "Aborted"
+      CASE FileNotFound              : strMsg = "File not found"
+      CASE ValueOverflow             : strMsg = "Value overflow"
+      CASE AccessDenied              : strMsg = "Access denied"
+      CASE UnknownImageFormat        : strMsg = "Unknown image format"
+      CASE FontFamilyNotFound        : strMsg = "Font family not found"
+      CASE FontStyleNotFound         : strMsg = "Font style not found"
+      CASE NotTrueTypeFont           : strMsg = "Not TrueType font"
+      CASE UnsupportedGdiplusVersion : strMsg = "Unsupported GdiPlus version"
+      CASE GdiplusNotInitialized     : strMsg = "GdiPlus not initialized"
+      CASE PropertyNotFound          : strMsg = "Property not found"
+      CASE PropertyNotSupported      : strMsg = "Property not supported"
 '   #IF (GDIPVER >= &H0110)
-'      CASE ProfileNotFound           : wszMsg = "Profile not found"
+'      CASE ProfileNotFound           : strMsg = "Profile not found"
 '   #ENDIF   ' //(GDIPVER >= &H0110)
    END SELECT
 
-   RETURN wszMsg
+   RETURN strMsg
 
 END FUNCTION
 ' =====================================================================================
@@ -242,9 +255,9 @@ END FUNCTION
 ' Returns a token or 0 if it fails.
 ' Pass the token to AfxGdipShutdown when you have finished using GDI+.
 ' ========================================================================================
-PRIVATE FUNCTION AfxGdipInit (BYVAL version AS UINT32 = 1) AS ULONG_PTR
+PRIVATE FUNCTION AfxGdipInit () AS ULONG_PTR
    DIM token AS ULONG_PTR, StartupInput AS GdiplusStartupInput
-   StartupInput.GdiplusVersion = version
+   StartupInput.GdiplusVersion = 1   ' Version must be 1
    GdiplusStartup(@token, @StartupInput, NULL)
    FUNCTION = token
 END FUNCTION
@@ -257,6 +270,24 @@ END FUNCTION
 PRIVATE SUB AfxGdipShutdown (BYVAL token AS ULONG_PTR)
    IF token THEN GdiplusShutdown(token)
 END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Convert font pont sizes to pixels and scale then dor dpi awareness if needed.
+' IF scale world transform has been set with GdipScaleWorldTransform, it only needs to be
+' scaled by multiplying the point size by 1.3333 (one point is one point is approximately
+' 1.3333 pixel). If the dpi ratios have been set with GdipScaleWorldTransform, GDI+ will
+' scale the font automatically. Otherwise, we will convert and scale the font size using
+' the value returned by the GetDeviceCaps API function.
+' ========================================================================================
+PRIVATE FUNCTION AfxGdipPointsToPixels (BYVAL ptSize AS SINGLE, BYVAL fUsingWorldTransform AS BOOLEAN = FALSE) AS SINGLE
+   IF fUsingWorldTransform THEN RETURN ptSize * 1.3333
+   ' // Scale according the DPI settings of the computer
+   DIM hDC AS HDC = GetDC(HWND_DESKTOP)
+   DIM LPX AS LONG = GetDeviceCaps(hDC, LOGPIXELSX)
+   ReleaseDC(HWND_DESKTOP, hDC)
+   RETURN MulDiv(ptSize, LPX, 72)
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
