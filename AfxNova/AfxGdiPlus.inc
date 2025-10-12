@@ -30,8 +30,6 @@
 #include once "win/winspool.bi"
 #include once "AfxNova/AfxGdiPlus.bi"
 
-NAMESPACE AfxNova
-
 UNION GDIP_COLORMAP
    ' // For compatibility with GDI+
    TYPE
@@ -241,7 +239,7 @@ PRIVATE FUNCTION AfxGdipStatusStr (BYVAL status AS GpStatus) AS STRING
       CASE PropertyNotFound          : strMsg = "Property not found"
       CASE PropertyNotSupported      : strMsg = "Property not supported"
 '   #IF (GDIPVER >= &H0110)
-'      CASE ProfileNotFound           : strMsg = "Profile not found"
+      CASE ProfileNotFound           : strMsg = "Profile not found"
 '   #ENDIF   ' //(GDIPVER >= &H0110)
    END SELECT
 
@@ -1260,6 +1258,3 @@ PRIVATE FUNCTION AfxImageStreamFromRes (BYVAL hInstance AS HINSTANCE, BYREF wszI
 
 END FUNCTION
 ' =======================================================================================
-
-
-END NAMESPACE
