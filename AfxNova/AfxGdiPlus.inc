@@ -29,6 +29,7 @@
 #include once "win/commctrl.bi"
 #include once "win/winspool.bi"
 #include once "AfxNova/AfxGdiPlus.bi"
+#include once "AfxNova/ARGB_Colors.bi"
 
 UNION GDIP_COLORMAP
    ' // For compatibility with GDI+
@@ -144,6 +145,17 @@ PRIVATE FUNCTION GDIP_GetBlue (BYVAL argbcolor AS COLORREF) AS BYTE
    DIM clr AS GDIP_BGRA
    clr.color = argbcolor
    RETURN clr.blue
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the alpga component of an ARGB color
+' ========================================================================================
+FUNCTION GDIP_ARGB_SetAlpha (BYVAL argbcolor AS COLORREF, BYVAL bAlpha AS BYTE) AS ARGB
+   DIM clr AS GDIP_BGRA
+   clr.color = argbcolor
+   clr.alpha = bAlpha
+   FUNCTION  = clr.color
 END FUNCTION
 ' ========================================================================================
 

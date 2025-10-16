@@ -1531,9 +1531,10 @@ enum
 	ColorChannelFlagsLast = 4
 end enum
 
-type Color
+type Color_
 	Value as ARGB
 end type
+TYPE GpColor AS ARGB
 
 ' #define __GDIPLUS_COLORMATRIX_H
 
@@ -1568,10 +1569,13 @@ enum
 end enum
 
 type ColorMap_
-	oldColor as Color
-	newColor as Color
+	oldColor as Color_
+	newColor as Color_
 end type
-TYPE GpColorMap AS ColorMap_
+TYPE GpColorMap
+	oldColor AS ARGB
+	newColor AS ARGB
+END TYPE
 
 type ColorMatrix
 	m(0 to 4, 0 to 4) as REAL
@@ -2141,11 +2145,11 @@ DECLARE FUNCTION GdipCreateLineBrushFromRectI (BYVAL rc AS CONST GpRect PTR, BYV
                  BYVAL mode AS LinearGradientMode, BYVAL wrapMode AS GpWrapMode, BYVAL lineGradient AS GpLineGradient PTR PTR) AS GpStatus
 DECLARE FUNCTION GdipCreateLineBrushFromRectWithAngle (BYVAL rc AS CONST GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, _
                  BYVAL angle AS REAL, BYVAL isAngleScalable AS BOOL, BYVAL wrapMode AS GpWrapMode, BYVAL lineGradient AS GpLineGradient PTR PTR) AS GpStatus
-DECLARE FUNCTION GdipCreateLineBrushFromRectWithAngleO (BYVAL rc AS CONST GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, _
+DECLARE FUNCTION GdipCreateLineBrushFromRectWithAngleI (BYVAL rc AS CONST GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, _
                  BYVAL angle AS REAL, BYVAL isAngleScalable AS BOOL, BYVAL wrapMode AS GpWrapMode, BYVAL lineGradient AS GpLineGradient PTR PTR) AS GpStatus
 DECLARE FUNCTION GdipSetLineColors (BYVAL brush AS GpLineGradient PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB) AS GpStatus
 DECLARE FUNCTION GdipGetLineColors (BYVAL brush AS GpLineGradient PTR, BYVAL colors AS ARGB PTR) AS GpStatus
-DECLARE FUNCTION GdipGetLineRect (BYVAL brush AS GpLineGradient PTR, BYVAL rc AS GpRectF PTR) AS GpStatus
+DECLARE FUNCTION GdipGetLineRect (BYVAL brush AS GpLineGradient PTR, BYVAL rcf AS GpRectF PTR) AS GpStatus
 DECLARE FUNCTION GdipGetLineRectI (BYVAL brush AS GpLineGradient PTR, BYVAL rc AS GpRect PTR) AS GpStatus
 DECLARE FUNCTION GdipSetLineGammaCorrection (BYVAL brush AS GpLineGradient PTR, BYVAL useGammaCorrection AS BOOL) AS GpStatus
 DECLARE FUNCTION GdipGetLineGammaCorrection (BYVAL brush AS GpLineGradient PTR, BYVAL useGammaCorrection AS BOOL PTR) AS GpStatus
