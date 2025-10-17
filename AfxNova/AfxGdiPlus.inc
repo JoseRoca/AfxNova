@@ -154,10 +154,40 @@ END FUNCTION
 ' reinterpret the color as individual channels, allowing direct control over opacity.
 ' Perfect for creating translucent effects in gradients, shadows, and overlays.
 ' ========================================================================================
-FUNCTION GDIP_ARGB_SetAlpha (BYVAL argbcolor AS COLORREF, BYVAL bAlpha AS BYTE) AS ARGB
+FUNCTION GDIP_ARGB_SetAlpha (BYVAL argbcolor AS COLORREF, BYVAL alphaColor AS BYTE) AS ARGB
    DIM clr AS GDIP_BGRA
    clr.color = argbcolor
-   clr.alpha = bAlpha
+   clr.alpha = alphaColor
+   FUNCTION  = clr.color
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Sets the red component of an ARGB color.
+' ========================================================================================
+FUNCTION GDIP_ARGB_SetRed (BYVAL argbcolor AS COLORREF, BYVAL redColor AS BYTE) AS ARGB
+   DIM clr AS GDIP_BGRA
+   clr.color = argbcolor
+   clr.red = redColor
+   FUNCTION  = clr.color
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Sets the green component of an ARGB color.
+' ========================================================================================
+FUNCTION GDIP_ARGB_SetGreen (BYVAL argbcolor AS COLORREF, BYVAL greenColor AS BYTE) AS ARGB
+   DIM clr AS GDIP_BGRA
+   clr.color = argbcolor
+   clr.green = greenColor
+   FUNCTION  = clr.color
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Sets the blue component of an ARGB color.
+' ========================================================================================
+FUNCTION GDIP_ARGB_SetBlue (BYVAL argbcolor AS COLORREF, BYVAL blueColor AS BYTE) AS ARGB
+   DIM clr AS GDIP_BGRA
+   clr.color = argbcolor
+   clr.blue = blueColor
    FUNCTION  = clr.color
 END FUNCTION
 ' ========================================================================================
