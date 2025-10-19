@@ -29,7 +29,7 @@
 #include once "AfxNova/RGB_Colors.bi"
 #include once "AfxNova/ARGB_Colors.bi"
 #include once "AfxNova/AfxGdiPlus.inc"
-USING AfxNova
+'USING AfxNova
 
 ' ========================================================================================
 ' Macro for debug
@@ -282,7 +282,7 @@ Public:
    DECLARE FUNCTION SaveAdd (BYVAL pNewImage AS CGpImage PTR, BYVAL encoderParams AS EncoderParameters PTR) AS GpStatus
    DECLARE FUNCTION GetType () AS ImageType
    DECLARE FUNCTION GetPhysicalDimension (BYVAL psize AS GpSizeF PTR) AS GpStatus
-   DECLARE FUNCTION GetBounds (BYVAL srcRect AS RectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
+   DECLARE FUNCTION GetBounds (BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
    DECLARE FUNCTION GetWidth () AS UINT
    DECLARE FUNCTION GetHeight () AS UINT
    DECLARE FUNCTION GetHorizontalResolution () AS SINGLE
@@ -861,7 +861,7 @@ Public:
    DECLARE FUNCTION GetDigitSubstitutionMethod () AS StringDigitSubstitute
    DECLARE FUNCTION SetTrimming (BYVAL trimming AS StringTrimming) AS GpStatus
    DECLARE FUNCTION GetTrimming () AS StringTrimming
-   DECLARE FUNCTION SetMeasurableCharacterRanges (BYVAL rangeCount AS INT_, BYVAL ranges AS CharacterRange PTR) AS GpStatus
+   DECLARE FUNCTION SetMeasurableCharacterRanges (BYVAL rangeCount AS INT_, BYVAL ranges AS GpCharacterRange PTR) AS GpStatus
    DECLARE FUNCTION GetMeasurableCharacterRangeCount () AS INT_
 
 END TYPE

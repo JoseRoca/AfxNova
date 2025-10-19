@@ -232,7 +232,7 @@ END FUNCTION
 ' Sets a series of character ranges for this StringFormat object that, when in a string,
 ' can be measured by the MeasureCharacterRanges function.
 ' =====================================================================================
-PRIVATE FUNCTION CGpStringFormat.SetMeasurableCharacterRanges (BYVAL rangeCount AS INT_, BYVAL ranges AS CharacterRange PTR) AS GpStatus
+PRIVATE FUNCTION CGpStringFormat.SetMeasurableCharacterRanges (BYVAL rangeCount AS INT_, BYVAL ranges AS GpCharacterRange PTR) AS GpStatus
    RETURN SetStatus(GdipSetStringFormatMeasurableCharacterRanges(m_pStringFormat, rangeCount, ranges))
 END FUNCTION
 ' =====================================================================================

@@ -145,7 +145,7 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the bounding rectangle for this image.
 ' ========================================================================================
-PRIVATE FUNCTION CGpImage.GetBounds (BYVAL srcRect AS RectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
+PRIVATE FUNCTION CGpImage.GetBounds (BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
    RETURN SetStatus(GdipGetImageBounds(m_pImage, srcRect, srcUnit))
 END FUNCTION
 ' ========================================================================================
