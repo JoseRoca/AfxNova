@@ -1443,7 +1443,6 @@ CONSTRUCTOR CGpMetafile (BYVAL pStream AS IStream PTR, BYVAL referenceHdc AS HDC
 | *pwszFileName* | Pointer to a wide-character string that specifies the name of an existing disk file used to create the **Metafile** object for playback.  |
 | *hWmf* | Windows handle to an windows metafile format. |
 | *wmfPFH* | Pointer to a **WmfPlaceableFileHeader** structure that specifies a preheader preceding the metafile header. |
-deleted. The default value is FALSE. |
 | *deleteWmf* | Optional. Boolean value that specifies whether the Windows handle to a metafile is deleted when the **Metafile** object is deleted. TRUE specifies that the *hWmf* Windows handle is deleted, and FALSE specifies that the *hWmf* Windows handle is not | *referenceHdc* | Windows handle to a metafile. |
 | *frameRect* | Reference to a rectangle that bounds the metafile display. |
 | *frameUnit* | Optional. Element of the **MetafileFrameUnit** enumeration that specifies the unit of measure for **frameRect**. The default value is **MetafileFrameUnitGdi**. |
