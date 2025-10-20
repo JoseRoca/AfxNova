@@ -1135,7 +1135,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="Gethbirmap"></a>GetHBITMAP (CGpBitmap)
+## <a name="gethbitmap"></a>GetHBITMAP (CGpBitmap)
 
 Creates a Windows Graphics Device Interface (GDI) bitmap from this **Bitmap** object.
 
@@ -1156,7 +1156,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="GetHICON"></a>Gethicon (CGpBitmap)
+## <a name="gethicon"></a>GetHICON (CGpBitmap)
 
 Creates an icon from this **Bitmap** object.
 
