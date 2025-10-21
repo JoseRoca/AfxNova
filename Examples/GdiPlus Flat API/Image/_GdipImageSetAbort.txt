@@ -1,0 +1,34 @@
+Type MyAbort Extends GdiplusAbort
+    Declare Function Abort() As HRESULT
+End Type
+
+Function MyAbort.Abort() As HRESULT
+    ' You can add logic here to check for user input or timeout
+    Return E_ABORT  ' Cancel the operation
+End Function
+
+Sub Example_SetAbort()
+    Dim token As ULONG_PTR
+    Dim startupInput As GdiplusStartupInput
+    startupInput.GdiplusVersion = 1
+    GdiplusStartup(@token, @startupInput, NULL)
+
+    ' Load image
+    Dim image As GpImage Ptr
+    GdipLoadImageFromFile("largeimage.jpg", @image)
+
+    ' Create abort handler
+    Dim abortHandler As MyAbort Ptr = New MyAbort
+
+    ' Set abort callback
+    GdipImageSetAbort(image, abortHandler)
+
+    ' Try a long operation (e.g., thumbnail generation)
+    Dim thumb As GpImage Ptr
+    GdipGetImageThumbnail(image, 100, 100, @thumb, NULL, NULL)
+
+    ' Cleanup
+    If thumb Then GdipDisposeImage(thumb)
+    If image Then GdipDisposeImage(image)
+    GdiplusShutdown(token)
+End Sub
