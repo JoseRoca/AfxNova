@@ -60,7 +60,7 @@ SUB Example_BlurEffect (BYVAL hdc AS HDC)
 
    ' // Set parameters: radius = 6.0, expandEdge = FALSE
    DIM blurParams(0 TO 1) AS SINGLE = {6.0, FALSE}
-   DIM array_size AS UNIT = (UBOUND(blurParams) - LBOUND(blurParams) + 1) * SIZEOF(SINGLE)
+   DIM array_size AS GpUnit = (UBOUND(blurParams) - LBOUND(blurParams) + 1) * SIZEOF(SINGLE)
    hStatus = GdipSetEffectParameters(effect, @blurParams(0), array_size)
 
    ' // Apply effects to the whole image
