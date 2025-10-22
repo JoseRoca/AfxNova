@@ -108,7 +108,7 @@ FUNCTION GdipCreateCustomLineCap (BYVAL fillPath AS GpPath PTR, BYVAL strokePath
 | *strokePath* | [in] Pointer to a **Path** object. |
 | *baseCap* | [in] Element of the *LineCap* enumeration that specifies the line cap that will be used. The default value is *LineCapFlat*. |
 | *baseInset* | [in] The default value is 0. |
-| *customCap* | [out] Pointer to a **CustomLineCap*^* variable that receives a pointer to the new **CustomLineCap** object. |
+| *customCap* | [out] Pointer to a variable that receives a pointer to the new **CustomLineCap** object. |
 
 #### Remarks
 
