@@ -222,6 +222,7 @@ SUB Example_GetBaseInset (BYVAL hdc AS HDC)
 
 END SUB
 ' ========================================================================================
+```
 ---
 
 ## <a name="getstrokecaps"></a>GetStrokeCaps (CGpCustomLineCap)
