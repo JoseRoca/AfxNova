@@ -9,7 +9,7 @@ A line cap defines the style of graphic used to draw the ends of a line. It can 
 | [GdipDeleteCustomLineCap](#gdipdeletecustomlinecap) | Deletes a **CustomLineCap** object. |
 | [GdipGetCustomLineCapBaseCap](#gdipgetcustomlinecapbasecap) | Gets the style of the base cap. The base cap is a **LineCap** object used as a cap at the end of a line along with this **CustomLineCap** object. |
 | [GdipGetCustomLineCapBaseInset](#gdipgetcustomlinecapbaseinset) | Gets the base inset value of this custom line cap. This is the distance between the end of a line and the base cap. |
-| [GdipGetCustomLineCapStrokeCaps](#gdipcreatecustomlinestrokecaps) | Gets the end cap styles for both the start line cap and the end line cap. Line caps are **LineCap** objects that end the individual lines within a path. |
+| [GdipGetCustomLineCapStrokeCaps](#gdipgetcustomlinecapstrokecaps) | Gets the end cap styles for both the start line cap and the end line cap. Line caps are **LineCap** objects that end the individual lines within a path. |
 | [GdipGetCustomLineCapStrokeJoin](#gdipgetcustomlinecapstrokejoin) | Returns the style of **LineJoin** used to join multiple lines in the same **GraphicsPath** object. |
 | [GdipGetCustomLineCapType](#gdipgetcustomlinecaptype) | Gets the type of the **CustomLineCap** specified by *customCap*. |
 | [GdipGetCustomLineCapWidthScale](#gdipgetcustomlinecapwidthscale) | Gets the value of the scale width. |
