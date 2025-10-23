@@ -1065,8 +1065,8 @@ type ImageCodecInfo
 	Version as DWORD
 	SigCount as DWORD
 	SigSize as DWORD
-	SigPattern as UBYTE ptr
-	SigMask as UBYTE ptr
+	SigPattern as BYTE ptr
+	SigMask as BYTE ptr
 end type
 
 type ImageItemData
@@ -1513,6 +1513,12 @@ type ColorPalette
 	Flags as UINT
 	Count as UINT
 	Entries(0 to 0) as ARGB
+end type
+
+type GpColorPalette
+	Flags as UINT
+	Count as UINT
+	Entries(0 to 255) as ARGB
 end type
 
 #define GetPixelFormatSize(pixfmt) cast(UINT, (cast(UINT, (pixfmt)) and &hff00u) shr 8)
@@ -2482,10 +2488,10 @@ type ColorCurveParams
 end type
 
 type ColorLUTParams
-	lutB(0 to 255) as UBYTE
-	lutG(0 to 255) as UBYTE
-	lutR(0 to 255) as UBYTE
-	lutA(0 to 255) as UBYTE
+	lutB(0 TO 255) AS BYTE
+	lutG(0 TO 255) AS BYTE
+	lutR(0 TO 255) AS BYTE
+	lutA(0 TO 255) AS BYTE
 end type
 
 type HueSaturationLightnessParams
@@ -2551,9 +2557,9 @@ Dim Shared SharpenEffectGuid As GUID = Type(&h63CBF3EE, &hC526, &h402c, {&h8F, &
 Dim Shared TintEffectGuid As GUID = Type(&h1077AF00, &h2848, &h4441, {&h94, &h89, &h44, &hAD, &h4C, &h2D, &h7A, &h2C})
 
 ' #define __GDIPLUS_IMAGECODEC_H
-#define GetImageDecoders(numDecoders, size, decoders) cast(GpStatus, GdipGetImageDecoders((numDecoders), (size), (decoders)))
-#define GetImageDecodersSize(numDecoders, size) cast(GpStatus, GdipGetImageDecodersSize((numDecoders), (size)))
-#define GetImageEncoders(numEncoders, size, encoders) cast(GpStatus, GdipGetImageEncoders((numEncoders), (size), (encoders)))
-#define GetImageEncodersSize(numEncoders, size) cast(GpStatus, GdipGetImageEncodersSize((numEncoders), (size)))
+'#define GetImageDecoders(numDecoders, size, decoders) cast(GpStatus, GdipGetImageDecoders((numDecoders), (size), (decoders)))
+'#define GetImageDecodersSize(numDecoders, size) cast(GpStatus, GdipGetImageDecodersSize((numDecoders), (size)))
+'#define GetImageEncoders(numEncoders, size, encoders) cast(GpStatus, GdipGetImageEncoders((numEncoders), (size), (encoders)))
+'#define GetImageEncodersSize(numEncoders, size) cast(GpStatus, GdipGetImageEncodersSize((numEncoders), (size)))
 
 end extern

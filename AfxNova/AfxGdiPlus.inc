@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
 ' Filename: AfxGdiPlus.inc
-' Purpose:  Windows file controls
+' Purpose:  Fdi+ helper functions
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
 '
@@ -316,7 +316,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Convert font pont sizes to pixels and scale then dor dpi awareness if needed.
+' Convert font point sizes to pixels and scale then for dpi awareness if needed.
 ' IF scale world transform has been set with GdipScaleWorldTransform, it only needs to be
 ' scaled by multiplying the point size by 1.3333 (one point is one point is approximately
 ' 1.3333 pixel). If the dpi ratios have been set with GdipScaleWorldTransform, GDI+ will

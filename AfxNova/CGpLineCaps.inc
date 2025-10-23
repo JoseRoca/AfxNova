@@ -94,7 +94,7 @@ END FUNCTION
 ' =====================================================================================
 ' * Sets the LineCap that appears as part of this CustomLineCap at the end of a line.
 ' =====================================================================================
-PRIVATE FUNCTION CGpCustomLineCap.SetBaseCap (BYVAL baseCap AS LineCap) AS GpStatus
+PRIVATE FUNCTION CGpCustomLineCap_SetBaseCap (BYVAL baseCap AS LineCap) AS GpStatus
    RETURN SetStatus(GdipSetCustomLineCapBaseCap(m_pCustomLineCap, baseCap))
 END FUNCTION
 ' =====================================================================================

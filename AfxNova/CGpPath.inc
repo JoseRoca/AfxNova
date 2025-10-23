@@ -33,7 +33,7 @@ END CONSTRUCTOR
 
 ' =====================================================================================
 ' Creates a GraphicsPath object based on an array of points, an array of types, and a fill mode.
-' Default value for filolMode: FillModeAlternate(0).
+' Default value for fillMode: FillModeAlternate(0).
 ' =====================================================================================
 PRIVATE CONSTRUCTOR CGpGraphicsPath (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
    m_Status = GdipCreatePath2(pts, types, nCount, nFillmode, @m_pPath)
