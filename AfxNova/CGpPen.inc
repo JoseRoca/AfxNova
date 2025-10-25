@@ -3,7 +3,7 @@
 ' File: CGpPen.inc
 ' Contents: GDI+ pen class.
 ' Compiler: Free Basic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -411,7 +411,7 @@ END FUNCTION
 ' =====================================================================================
 ' Gets the number of elements in a dash pattern array.
 ' =====================================================================================
-PRIVATE FUNCTION CGpPen.GetCompoundArrayCount () AS GpStatus
+PRIVATE FUNCTION CGpPen.GetCompoundArrayCount () AS INT_
    DIM nCount AS INT_
    m_Status = GdipGetPenCompoundCount(m_pPen, @nCount)
    RETURN nCount
@@ -425,3 +425,4 @@ PRIVATE FUNCTION CGpPen.GetCompoundArray (BYVAL compoundArray AS SINGLE PTR, BYV
    RETURN SetStatus(GdipGetPenCompoundArray(m_pPen, compoundArray, nCount))
 END FUNCTION
 ' =====================================================================================
+
