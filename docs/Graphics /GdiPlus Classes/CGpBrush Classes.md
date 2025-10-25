@@ -36,7 +36,7 @@ The **SolidBrush** object defines a solid color Brush object. A **Brush** object
 
 # CGpHatchBrush Class
 
-Creates a **HatchBrush** object based on a hatch style, a foreground color, and a background color.
+Creates a **HatchBrush** object.
 
 **Inherits from**: CGpBrush.<br>
 **Include file**: CGpBrush.inc.
@@ -45,7 +45,7 @@ Creates a **HatchBrush** object based on a hatch style, a foreground color, and 
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructors](#constructorhatchbrush) | Creates a **HatchBrush** object based on a hatch style, a foreground color, and a background color. |
+| [Constructors](#constructorhatchbrush) | Creates a **HatchBrush** object. |
 | [GetBackgroundColor](#getbackgroundcolor) | Gets the background color of this hatch brush. |
 | [GetForegroundColor](#getforegroundcolor) | Gets the foreground color of this hatch brush. |
 | [GetHatchStyle](#gethatchdtyle) | Gets the hatch style of this hatch brush. |
@@ -349,11 +349,16 @@ END SUB
 
 ## <a name="constructorhatchbrush"></a>Constructors (CGpHatchBrush)
 
-Creates a **HatchBrush** object based on a hatch style, a foreground color, and a background color.
+Creates a **HatchBrush** object from another hatch brush object.
 
 ```
 CONSTRUCTOR CGpHatchBrush (BYVAL pHatchBrush AS CGpHatchBrush PTR)
-FUNCTION HatchBrush (BYVAL hatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, _
+```
+
+Creates a **HatchBrush** object based on a hatch style, a foreground color, and a background color.
+
+```
+CONSTRUCTOR GpHatchBrush (BYVAL hatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, _
    BYVAL backColor AS ARGB = &HFF000000)
 ```
 
