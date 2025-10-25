@@ -347,7 +347,7 @@ END SUB
 Gets the number of elements in a compound array.
 
 ```
-FUNCTION GetCompoundArrayCount () AS GpStatus
+FUNCTION GetCompoundArrayCount () AS INT_
 ```
 
 #### Example
