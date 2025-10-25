@@ -355,6 +355,10 @@ Creates a **HatchBrush** object from another hatch brush object.
 CONSTRUCTOR CGpHatchBrush (BYVAL pHatchBrush AS CGpHatchBrush PTR)
 ```
 
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pHatchBrush* | Pointer to a **GpHatchBrush** object. |
+
 Creates a **HatchBrush** object based on a hatch style, a foreground color, and a background color.
 
 ```
