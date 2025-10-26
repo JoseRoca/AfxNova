@@ -1208,9 +1208,9 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
    DIM S AS CGpMatrix = CGpMatrix(2, 0, 0, 1, 0, 0)    ' // horizontal doubling
    DIM T AS CGpMatrix = CGpMatrix(1, 0, 0, 1, 50, 0)   '  // horizontal translation of 50 units
 
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 200, 100)
+   DIM rc AS GpRect = (0, 0, 200, 100)
    DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rc, _
-       GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+       ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
 
    ' // Fill a large area with the gradient brush (no transformation).
    graphics.FillRectangle(@linGrBrush, 0, 0, 800, 100)
