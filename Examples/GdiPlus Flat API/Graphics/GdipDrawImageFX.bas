@@ -67,7 +67,7 @@ SUB Example_DrawImageFX (BYVAL hdc AS HDC)
    hStatus = GdipRotateMatrix(matrix, 30.0, MatrixOrderAppend)
 
    ' Create blur effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(BlurEffectGuid, @effect)
    DIM blurParams(0 TO 0) AS SINGLE = {5.0}  ' Radius
    hStatus = GdipSetEffectParameters(effect, @blurParams(0), SIZEOF(SINGLE))
