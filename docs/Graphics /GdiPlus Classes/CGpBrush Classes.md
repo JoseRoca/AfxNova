@@ -962,7 +962,7 @@ SUB Example_GetLinearColors (BYVAL hdc AS HDC)
    ' // Create a linear gradient brush.
    DIM rc AS GpRect = GDIP_RECT(0, 0, 100, 50)
    DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rc, _
-      GDIP_ARGB(255, 0, 0, 0), GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+      ARGB_BLACK, ARGB_BLUE, LinearGradientModeHorizontal)
 
    ' // Obtain information about the linear gradient brush.
    DIM colors(0 TO 1) AS ARGB
