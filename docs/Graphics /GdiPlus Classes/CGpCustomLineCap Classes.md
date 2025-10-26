@@ -916,10 +916,11 @@ SUB Example_GetMiddleInset (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create an AdjustableArrowCap with a height of 10 pixels
    DIM myArrow AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 10, CTRUE)
@@ -927,7 +928,7 @@ SUB Example_GetMiddleInset (BYVAL hdc AS HDC)
    myArrow.SetWidthScale(rxRatio)
 
    ' // Create a Pen, and assign myArrow as the end cap
-   DIM arrowPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM arrowPen AS CGpPen = ARGB_Violet
    arrowPen.SetCustomEndCap(@myArrow)
 
    ' // Draw a line using arrowPen
