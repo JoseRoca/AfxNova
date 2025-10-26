@@ -674,8 +674,8 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
    DIM positions(0 TO 3) AS SINGLE = {0.0, 0.2, 0.8, 1.0}
    DIM rcf AS GpRectF = GDIP_RECTF(0, 0, 100, 50)
 
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rcf, GDIP_ARGB(255, 255, 0, 0), _
-       GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rcf, ARGB_RED, _
+       ARGB_BLUE, LinearGradientModeHorizontal)
 
    linGrBrush.SetBlend(@factors(0), @positions(0), 4)
    graphics.FillRectangle(@linGrBrush, @rcf)
@@ -689,7 +689,7 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
    FOR j AS LONG = 0 TO blendCount - 1
 '      // Inspect or use the value in rgFactors(j)
 '      // Inspect or use the value in rgPositions(j)
-      OutputDebugString STR(rgFactors(j)) & STR(rgPositions(j))
+      OutputDebugStringW STR(rgFactors(j)) & STR(rgPositions(j))
    NEXT
 
 END SUB
