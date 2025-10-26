@@ -384,7 +384,7 @@ SUB Example_GetWidthScale (BYVAL hdc AS HDC)
 
    ' // If the width scale is 3, assign custCap as the end cap of a Pen object and draw a line.
    IF widthScale = 3 THEN
-      DIM widthScalePen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 1.0)
+      DIM widthScalePen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 1.0)
       widthScalePen.SetCustomEndCap(@custCap)
       graphics.DrawLine(@widthScalePen, 0, 0, 200, 200)
    END IF
@@ -441,7 +441,7 @@ SUB Example_SetBaseCap (BYVAL hdc AS HDC)
    custCap.SetBaseCap(LineCapRound)
 
    ' // Create a Pen object, assign baseCap as the end cap, and draw a line
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 5.3)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 5.3)
    pen.SetCustomEndCap(@custCap)
    graphics.DrawLine(@pen, 10, 10, 200, 200)
 
@@ -496,7 +496,7 @@ SUB Example_SetBaseInset (BYVAL hdc AS HDC)
    custCap.SetBaseInset(5)
 
   ' // Create a Pen object, assign custCap as the custom end cap, and then draw a line.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 5.1)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLACK, 5.1)
    pen.SetCustomEndCap(@custCap)
    graphics.DrawLine(@pen, 10, 10, 200, 200)
 
@@ -553,7 +553,7 @@ SUB Example_SetStrokeCap (BYVAL hdc AS HDC)
 
    ' // Create a Pen object, assign startStrokeCap and endStrokeCap as the
    ' // start and end caps, and draw a line.
-   DIM strokeCapPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 4.8)
+   DIM strokeCapPen AS CGpPen = CGpPen(ARGB_RED, 4.8)
    strokeCapPen.SetCustomEndCap(@custCap)
    graphics.DrawLine(@strokeCapPen, 100, 100, 300, 100)
 
@@ -611,7 +611,7 @@ SUB Example_SetStrokeCaps (BYVAL hdc AS HDC)
 
    ' // Create a Pen object, assign startStrokeCap and endStrokeCap as the
    ' // start and end caps, and draw a line.
-   DIM strokeCapPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 255), 5.0!)
+   DIM strokeCapPen AS CGpPen = CGpPen(ARGB_Violet, 5.0!)
    strokeCapPen.SetCustomEndCap(@custCap)
    graphics.DrawLine(@strokeCapPen, 100, 100, 300, 100)
 
@@ -668,7 +668,7 @@ SUB Example_SetStrokeJoin (BYVAL hdc AS HDC)
 
   ' // Create a Pen object, assign strokeJoin as the line join,
   ' // and draw two joined lines in a path.
-   DIM strokeJoinPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 15.1)
+   DIM strokeJoinPen AS CGpPen = CGpPen(ARGB_RED, 15.1)
    strokeJoinPen.SetCustomEndCap(@custCap)
    graphics.DrawLine(@strokeJoinPen, 0, 0, 200, 200)
 
