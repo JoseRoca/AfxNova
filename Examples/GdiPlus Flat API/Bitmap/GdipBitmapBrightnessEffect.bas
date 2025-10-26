@@ -56,7 +56,7 @@ SUB Example_BrightnessEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a brightness and contrast effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(BrightnessContrastEffectGuid, @effect)
 
    ' // Set parameters: Brightness = 50, contrast = 50

@@ -55,7 +55,7 @@ SUB Example_GetEffectParameters (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a tint effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(TintEffectGuid, @effect)
 
    ' // Set parameters: Hue = +120 (green), Amount = 60 (moderate tint)

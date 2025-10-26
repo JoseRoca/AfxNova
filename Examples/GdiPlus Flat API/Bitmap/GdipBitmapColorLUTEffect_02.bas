@@ -64,7 +64,7 @@ SUB Example_ColorLUTEffectRegion (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create ColorLUT effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(ColorLUTEffectGuid, @effect)
 
    ' // Create LUTs: identity (no change)

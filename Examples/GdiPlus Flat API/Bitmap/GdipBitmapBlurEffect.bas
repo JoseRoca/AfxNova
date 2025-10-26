@@ -55,7 +55,7 @@ SUB Example_BlurEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a blur effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(BlurEffectGuid, @effect)
 
    ' // Set parameters: radius = 6.0, expandEdge = FALSE
