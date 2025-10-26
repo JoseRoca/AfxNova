@@ -56,7 +56,7 @@ SUB Example_GetWidthScale (BYVAL hdc AS HDC)
 
    ' // If the width scale is 3, assign custCap as the end cap of a Pen object and draw a line.
    IF widthScale = 3 THEN
-      DIM widthScalePen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 1.0)
+      DIM widthScalePen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 1.0)
       widthScalePen.SetCustomEndCap(@custCap)
       graphics.DrawLine(@widthScalePen, 0, 0, 200, 200)
    END IF

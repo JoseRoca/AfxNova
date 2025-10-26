@@ -53,7 +53,7 @@ SUB Example_SetStrokeCaps (BYVAL hdc AS HDC)
 
    ' // Create a Pen object, assign startStrokeCap and endStrokeCap as the
    ' // start and end caps, and draw a line.
-   DIM strokeCapPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 255), 5.0!)
+   DIM strokeCapPen AS CGpPen = CGpPen(ARGB_Violet, 5.0!)
    strokeCapPen.SetCustomEndCap(@custCap)
    graphics.DrawLine(@strokeCapPen, 100, 100, 300, 100)
 

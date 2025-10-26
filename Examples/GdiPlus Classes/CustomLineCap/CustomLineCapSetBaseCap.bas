@@ -50,7 +50,7 @@ SUB Example_SetBaseCap (BYVAL hdc AS HDC)
    custCap.SetBaseCap(LineCapRound)
 
    ' // Create a Pen object, assign baseCap as the end cap, and draw a line
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 5.3)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 5.3)
    pen.SetCustomEndCap(@custCap)
    graphics.DrawLine(@pen, 10, 10, 200, 200)
 
