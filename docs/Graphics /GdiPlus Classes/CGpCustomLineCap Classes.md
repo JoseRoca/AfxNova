@@ -847,7 +847,7 @@ FUNCTION GetHeight () AS SINGLE
 #### Example
 
 ```
- ========================================================================================
+ ' ========================================================================================
 ' The following example creates an AdjustableArrowCap, myArrow, and sets the height of the
 ' cap. The code then creates a Pen, assigns myArrow as the ending line cap for the Pen,
 ' and draws a capped line. Next, the code gets the height of the arrow cap, creates a new
@@ -858,25 +858,26 @@ SUB Example_GetHeight (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create an AdjustableArrowCap with a height of 10 pixels
-   DIM myArrow AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 10, CTRUE)
+   DIM myArrow AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 10, TRUE)
    ' // Adjust to DPI by setting the scale width
    myArrow.SetWidthScale(rxRatio)
 
    ' // Create a Pen, and assign myArrow as the end cap
-   DIM arrowPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM arrowPen AS CGpPen = ARGB_Violet
    arrowPen.SetCustomEndCap(@myArrow)
 
    ' // Draw a line using arrowPen
    graphics.DrawLine(@arrowPen, 0, 20, 100, 20)
 
    ' // Create a second arrow cap using the height of the first one
-   DIM AS CGpAdjustableArrowCap otherArrow = CGpAdjustableArrowCap(myArrow.GetHeight, 20, CTRUE)
+   DIM AS CGpAdjustableArrowCap otherArrow = CGpAdjustableArrowCap(myArrow.GetHeight, 20, TRUE)
    otherArrow.SetWidthScale(rxRatio)
 
    ' // Assign the new arrow cap as the end cap for arrowPen
