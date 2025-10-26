@@ -200,7 +200,7 @@ SUB Example_CloneBrush (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, rxRatio)
 
    ' // Create a SolidBrush object
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
 
    ' // Create a clone of solidBrush
    DIM cloneBrush AS CGpSolidBrush
