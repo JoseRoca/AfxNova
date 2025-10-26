@@ -327,7 +327,7 @@ SUB Example_GetStrokeJoin (BYVAL hdc AS HDC)
 
   ' // Create a Pen object, assign strokeJoin as the line join,
   ' // and draw two joined lines in a path.
-   DIM strokeJoinPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 15.1)
+   DIM strokeJoinPen AS CGpPen = CGpPen(ARGB_RED, 15.1)
    strokeJoinPen.SetLineJoin(strokeJoin)
    DIM joinPath AS CGpGraphicsPath
    joinPath.AddLine(10, 10, 10, 200)
