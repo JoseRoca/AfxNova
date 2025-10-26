@@ -1078,13 +1078,12 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a linear gradient brush.
-   DIM pt1 AS GpPoint = GDIP_POINT(0, 0)
-   DIM pt2 AS GpPoint = GDIP_POINT(200, 0)
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, _
-      GDIP_ARGB(255, 0, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM pt1 AS GpPoint = (0, 0)
+   DIM pt2 AS GpPoint = (200, 0)
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, ARGB_BLACK, ARGB_BLUE)
 
+   ' // Set the transformation
    DIM matrixSet AS CGpMatrix = CGpMatrix(0, 1, -1, 0, 0, 0)
-
    linGrBrush.SetTransform(@matrixSet)
 
    ' // Obtain information about the linear gradient brush.
@@ -1094,11 +1093,11 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
    linGrBrush.GetTransform(@matrixGet)
    matrixGet.GetElements(@elements(0))
 
-   graphics.FillRectangle(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 0)), 0, 0, 20, 20)
+   graphics.FillRectangle(@CGpSolidBrush(ARGB_BLACK), 0, 0, 20, 20)
 
    FOR j AS LONG = 0 TO 5
       ' // Inspect or use the value in elements[j].
-      PRINT STR(elements(j))
+      OutputDebugStringW WSTR(elements(j))
    NEXT
 
 END SUB
