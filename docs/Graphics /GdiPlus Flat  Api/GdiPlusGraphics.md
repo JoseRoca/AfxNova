@@ -1803,7 +1803,7 @@ Draws a portion of an image after applying a specified effect.
 
 ```
 FUNCTION GdipDrawImageFX (BYVAL graphics AS GpGraphics PTR, BYVAL image AS GpImage PTR, _
-   BYVAL source AS GpRectF PTR, BYVAL xForm AS GpMatrix PTR, BYVAL effect AS CGpEffect PTR, _
+   BYVAL source AS GpRectF PTR, BYVAL xForm AS GpMatrix PTR, BYVAL effect AS GpEffect PTR, _
    BYVAL imageAttributes AS GpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
 ```
 
@@ -1860,7 +1860,7 @@ SUB Example_DrawImageFX (BYVAL hdc AS HDC)
    hStatus = GdipRotateMatrix(matrix, 30.0, MatrixOrderAppend)
 
    ' Create blur effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(BlurEffectGuid, @effect)
    DIM blurParams(0 TO 0) AS SINGLE = {5.0}  ' Radius
    hStatus = GdipSetEffectParameters(effect, @blurParams(0), SIZEOF(SINGLE))
