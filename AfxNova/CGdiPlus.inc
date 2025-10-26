@@ -614,7 +614,7 @@ Public:
    DECLARE FUNCTION GetDashPatternCount () AS INT_
    DECLARE FUNCTION GetDashPattern (BYVAL dashArray AS SINGLE PTR, BYVAL nCount AS INT_) AS GpStatus
    DECLARE FUNCTION SetCompoundArray (BYVAL compoundArray AS SINGLE PTR, BYVAL nCount AS INT_) AS GpStatus
-   DECLARE FUNCTION GetCompoundArrayCount () AS GpStatus
+   DECLARE FUNCTION GetCompoundArrayCount () AS INT_
    DECLARE FUNCTION GetCompoundArray (BYVAL compoundArray AS SINGLE PTR, BYVAL nCount AS INT_) AS GpStatus
 
 END TYPE

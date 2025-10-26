@@ -3,7 +3,7 @@
 ' File: CGpPen.inc
 ' Contents: GDI+ pen class.
 ' Compiler: Free Basic 32 & 64 bit
-' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -240,8 +240,6 @@ END FUNCTION
 
 ' =====================================================================================
 ' Gets the world transformation of this Pen object.
-' GdipGetPenTransform is wrongly defined in the FB headers. The second parameter must be
-' BYVAL matrix AS GpMatrix PTR PTR, not BYVAL matrix AS GpMatrix PTR.
 ' =====================================================================================
 PRIVATE FUNCTION CGpPen.GetTransform (BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
    RETURN SetStatus(GdipGetPenTransform(m_pPen, cast(GpMatrix PTR, @pMatrix->m_pMatrix)))
@@ -425,4 +423,3 @@ PRIVATE FUNCTION CGpPen.GetCompoundArray (BYVAL compoundArray AS SINGLE PTR, BYV
    RETURN SetStatus(GdipGetPenCompoundArray(m_pPen, compoundArray, nCount))
 END FUNCTION
 ' =====================================================================================
-

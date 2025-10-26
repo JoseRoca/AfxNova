@@ -884,7 +884,7 @@ END FUNCTION
 ' #####################################################################################
 
 ' ========================================================================================
-' * Creates and initializes a texture brush object from another texture brush object.
+' * Creates and initializes an hatch brush object from another hatch brush object.
 ' =====================================================================================
 PRIVATE CONSTRUCTOR CGpHatchBrush (BYVAL pHatchBrush AS CGpHatchBrush PTR)
    m_Status = GdipCloneBrush(pHatchBrush->m_pBrush, @m_pBrush)
