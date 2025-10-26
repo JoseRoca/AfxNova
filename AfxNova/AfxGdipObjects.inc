@@ -111,10 +111,20 @@ END OPERATOR
 TYPE GdiPlusAdjustableArrowCap
 Public:
    m_AdjustableArrowCap AS GpAdjustableArrowCap PTR
+   DECLARE CONSTRUCTOR (BYVAL cap AS GpAdjustableArrowCap PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL nHeight AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL bIsFilled AS BOOL = CTRUE)
    DECLARE OPERATOR @ () AS GpAdjustableArrowCap PTR
    DECLARE DESTRUCTOR
 END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Creates a AdjustableArrowCap
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusAdjustableArrowCap (BYVAL cap AS GpAdjustableArrowCap PTR = NULL)
+   GDIP_DP(WSTR(cap))
+   IF cap THEN SetLastError(GdipCloneCustomLineCap(cap, @m_AdjustableArrowCap))
+END CONSTRUCTOR
 ' ========================================================================================
 
 ' =====================================================================================
@@ -304,7 +314,91 @@ PRIVATE OPERATOR * (BYREF brush AS GdiPlusHatchBrush) AS GpHatchBrush PTR
 END OPERATOR
 ' ========================================================================================
 
-'+++++++++++++++++++++++++++++++++++
+
+' ########################################################################################
+' GdiPlusImage object
+' ########################################################################################
+
+' ========================================================================================
+TYPE GdiPlusImage
+Public:
+   m_Image AS GpImage PTR
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+   DECLARE CONSTRUCTOR (BYVAL stream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+   DECLARE CONSTRUCTOR (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpImage PTR
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Creates and initializes an Image object from another Image object.
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusImage (BYVAL image AS GpImage PTR)
+   IF image THEN SetLastError(GdipCloneImage(image, @m_Image))
+   GDIP_DP("m_Image: " & WSTR(m_Image))
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an Image object based on a file.
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusImage (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+   IF useEmbeddedColorManagement THEN
+      SetLastError(GdipLoadImageFromFileICM(pwszFileName, @m_Image))
+   ELSE
+      SetLastError(GdipLoadImageFromFile(pwszFileName, @m_Image))
+   END IF
+   GDIP_DP("m_Image: " & WSTR(m_Image))
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Creates an Image object based on a stream.
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusImage (BYVAL stream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+   IF useEmbeddedColorManagement THEN
+      SetLastError(GdipLoadImageFromStreamICM(stream, @m_Image))
+   ELSE
+      SetLastError(GdipLoadImageFromStream(stream, @m_Image))
+   END IF
+   GDIP_DP("m_Image: " & WSTR(m_Image))
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Creates an Image object from a resource file.
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusImage (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
+   DIM stream AS IStream PTR = AfxImageStreamFromRes(hInst, wszImageName)
+   IF stream = NULL THEN SetLastError(InvalidParameter): EXIT CONSTRUCTOR
+   SetLastError(GdipLoadImageFromStream(stream, @m_Image))
+   stream->lpVtbl->Release(stream)
+   GDIP_DP("m_Image: " & WSTR(m_Image))
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' * Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusImage
+   GDIP_DP("m_Image: " & WSTR(m_Image))
+   IF m_Image THEN SetLastError(GdipDisposeImage(m_Image))
+END DESTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpImage object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusImage.@ () AS GpImage PTR
+   RETURN m_Image
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpImage object
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF img AS GdiPlusImage) AS GpImage PTR
+   RETURN img.m_Image
+END OPERATOR
+' ========================================================================================
+
 
 ' ########################################################################################
 ' GdiPlusBitmap object
@@ -314,6 +408,10 @@ END OPERATOR
 TYPE GdiPlusBitmap
 Public:
    m_Bitmap AS GpBitmap PTR
+   DECLARE CONSTRUCTOR (BYVAL bmp AS GpBitmap PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL x AS REAL, BYVAL y AS REAL, BYVAL nWidth AS REAL, BYVAL nHeight AS REAL, _
+           BYVAL pxFormat AS PixelFormat, BYVAL srcBitmap AS GpBitmap PTR)
+   DECLARE CONSTRUCTOR (BYVAL rcf AS GpRectF PTR, BYVAL pxFormat AS PixelFormat, BYVAL srcBitmap AS GpBitmap PTR)
    DECLARE CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
    DECLARE CONSTRUCTOR (BYVAL stream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
    DECLARE CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL stride AS INT_, BYVAL pxFormat AS PixelFormat, BYVAL scan0 AS UBYTE PTR)
@@ -331,6 +429,29 @@ Public:
 END TYPE
 ' ========================================================================================
 
+' ========================================================================================
+' Creates and initializes a Bitmap object from another Bitmap object.
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusBitmap (BYVAL bmp AS GpBitmap PTR = NULL)
+   IF bmp THEN SetLastError(GdipCloneImage(bmp, @m_Bitmap))
+   GDIP_DP("m_Bitmap: " & WSTR(m_Bitmap))
+END CONSTRUCTOR
+' ========================================================================================
+' =====================================================================================
+' Creates a new Bitmap object by copying a portion of the specified bitmap.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusBitmap (BYVAL x AS REAL, BYVAL y AS REAL, BYVAL nWidth AS REAL, BYVAL nHeight AS REAL, _
+BYVAL pxFormat AS PixelFormat, BYVAL srcBitmap AS GpBitmap PTR)
+   SetLastError(GdipCloneBitmapArea(x, y, nWidth, nHeight, pxFormat, srcBitmap, @m_Bitmap))
+END CONSTRUCTOR
+' ========================================================================================
+' =====================================================================================
+' Creates a new Bitmap object by copying a portion of the specified bitmap.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusBitmap (BYVAL rcf AS GpRectF PTR, BYVAL pxFormat AS PixelFormat, BYVAL srcBitmap AS GpBitmap PTR)
+   SetLastError(GdipCloneBitmapArea(rcf->x, rcf->y, rcf->Width, rcf->Height, pxFormat, srcBitmap, @m_Bitmap))
+END CONSTRUCTOR
+' ========================================================================================
 ' ========================================================================================
 ' Creates an Bitmap object based on a file.
 ' ========================================================================================
@@ -448,80 +569,6 @@ END OPERATOR
 
 
 ' ########################################################################################
-' GdiPlusImage object
-' ########################################################################################
-
-' ========================================================================================
-TYPE GdiPlusImage
-Public:
-   m_Image AS GpImage PTR
-   DECLARE CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
-   DECLARE CONSTRUCTOR (BYVAL stream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
-   DECLARE CONSTRUCTOR (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
-   DECLARE DESTRUCTOR
-   DECLARE OPERATOR @ () AS GpImage PTR
-END TYPE
-' ========================================================================================
-
-' ========================================================================================
-' Creates an Image object based on a file.
-' ========================================================================================
-PRIVATE CONSTRUCTOR GdiPlusImage (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
-   IF useEmbeddedColorManagement THEN
-      SetLastError(GdipLoadImageFromFileICM(pwszFileName, @m_Image))
-   ELSE
-      SetLastError(GdipLoadImageFromFile(pwszFileName, @m_Image))
-   END IF
-   GDIP_DP("m_Bitmap: " & WSTR(m_Image))
-END CONSTRUCTOR
-' ========================================================================================
-' ========================================================================================
-' Creates an Image object based on a stream.
-' ========================================================================================
-PRIVATE CONSTRUCTOR GdiPlusImage (BYVAL stream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
-   IF useEmbeddedColorManagement THEN
-      SetLastError(GdipLoadImageFromStreamICM(stream, @m_Image))
-   ELSE
-      SetLastError(GdipLoadImageFromStream(stream, @m_Image))
-   END IF
-   GDIP_DP("m_Bitmap: " & WSTR(m_Image))
-END CONSTRUCTOR
-' ========================================================================================
-' ========================================================================================
-' Creates an Image object from a resource file.
-' ========================================================================================
-PRIVATE CONSTRUCTOR GdiPlusImage (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
-   DIM stream AS IStream PTR = AfxImageStreamFromRes(hInst, wszImageName)
-   IF stream = NULL THEN SetLastError(InvalidParameter): EXIT CONSTRUCTOR
-   SetLastError(GdipLoadImageFromStream(stream, @m_Image))
-   stream->lpVtbl->Release(stream)
-   GDIP_DP("m_Bitmap: " & WSTR(m_Image))
-END CONSTRUCTOR
-' ========================================================================================
-' ========================================================================================
-' * Cleanup
-' ========================================================================================
-PRIVATE DESTRUCTOR GdiPlusImage
-   GDIP_DP("m_Image: " & WSTR(m_Image))
-   IF m_Image THEN SetLastError(GdipDisposeImage(m_Image))
-END DESTRUCTOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpImage object
-' ========================================================================================
-PRIVATE OPERATOR GdiPlusImage.@ () AS GpImage PTR
-   RETURN m_Image
-END OPERATOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpImage object
-' ========================================================================================
-PRIVATE OPERATOR * (BYREF img AS GdiPlusImage) AS GpImage PTR
-   RETURN img.m_Image
-END OPERATOR
-' ========================================================================================
-
-' ########################################################################################
 ' GdiPlusImageAttributes object
 ' ########################################################################################
 
@@ -572,13 +619,15 @@ END OPERATOR
 ' ========================================================================================
 TYPE GdiPlusEffect
 Public:
-   m_Effect AS CGpEffect PTR
+'   m_Effect AS CGpEffect PTR
+   m_Effect AS GpEffect PTR
    m_auxDataSize AS INT_
    m_auxData AS ANY PTR
    m_useAuxData AS BOOLEAN
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR
-   DECLARE OPERATOR @ () AS CGpEffect PTR
+'   DECLARE OPERATOR @ () AS CGpEffect PTR
+   DECLARE OPERATOR @ () AS GpEffect PTR
 END TYPE
 ' ========================================================================================
 
@@ -603,14 +652,16 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Returns a pointer to the CGpEffect object
 ' ========================================================================================
-PRIVATE OPERATOR GdiPlusEffect.@ () AS CGpEffect PTR
+'PRIVATE OPERATOR GdiPlusEffect.@ () AS CGpEffect PTR
+PRIVATE OPERATOR GdiPlusEffect.@ () AS GpEffect PTR
    RETURN m_Effect
 END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
 ' Returns a pointer to the CGpEffect object
 ' ========================================================================================
-PRIVATE OPERATOR * (BYREF effect AS GdiPlusEffect) AS CGpEffect PTR
+'PRIVATE OPERATOR * (BYREF effect AS GdiPlusEffect) AS CGpEffect PTR
+PRIVATE OPERATOR * (BYREF effect AS GdiPlusEffect) AS GpEffect PTR
    RETURN effect.m_Effect
 END OPERATOR
 ' ========================================================================================

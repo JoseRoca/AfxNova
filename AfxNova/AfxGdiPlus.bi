@@ -940,7 +940,8 @@ type GpTextRenderingHint as TextRenderingHint
 type GpUnit as Unit
 type GpWarpMode as WarpMode
 type GpWrapMode as WrapMode
-type CGpEffect as any
+'type CGpEffect as any   ' // conflicts with the CGpEffect class
+type GpEffect as any
 type GpAdjustableArrowCap as any
 type GpBitmap as any
 type GpBrush as any
@@ -1643,10 +1644,16 @@ DECLARE FUNCTION GdipBitmapConvertFormat (BYVAL pInputBitmap AS GpBitmap PTR, BY
                  BYVAL alphaThresholdPercent AS REAL) AS GpStatus
 DECLARE FUNCTION GdipInitializePalette (BYVAL palette AS ColorPalette PTR, BYVAL palettetype AS PaletteType, _
                  BYVAL optimalColors AS INT_, BYVAL useTransparentColor AS BOOL, BYVAL bmp AS GpBitmap PTR) AS GpStatus
-DECLARE FUNCTION GdipBitmapApplyEffect (BYVAL bmp AS GpBitmap PTR, BYVAL effect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
+'DECLARE FUNCTION GdipBitmapApplyEffect (BYVAL bmp AS GpBitmap PTR, BYVAL effect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
+'                 BYVAL useAuxData AS BOOL, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
+DECLARE FUNCTION GdipBitmapApplyEffect (BYVAL bmp AS GpBitmap PTR, BYVAL effect AS GpEffect PTR, BYVAL roi AS RECT PTR, _
                  BYVAL useAuxData AS BOOL, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
+'DECLARE FUNCTION GdipBitmapCreateApplyEffect (BYVAL inputBitmaps AS GpBitmap PTR PTR, BYVAL numInputs AS INT_, _
+'                 BYVAL effect AS CGpEffect PTR, BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT PTR, _
+'                 BYVAL outputBitmap AS GpBitmap PTR PTR, BYVAL useAuxData AS BOOL, BYVAL auxData AS ANY PTR PTR, _
+'                 BYVAL auxDataSize AS INT_ PTR) AS GpStatus
 DECLARE FUNCTION GdipBitmapCreateApplyEffect (BYVAL inputBitmaps AS GpBitmap PTR PTR, BYVAL numInputs AS INT_, _
-                 BYVAL effect AS CGpEffect PTR, BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT PTR, _
+                 BYVAL effect AS GpEffect PTR, BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT PTR, _
                  BYVAL outputBitmap AS GpBitmap PTR PTR, BYVAL useAuxData AS BOOL, BYVAL auxData AS ANY PTR PTR, _
                  BYVAL auxDataSize AS INT_ PTR) AS GpStatus
 DECLARE FUNCTION GdipBitmapGetHistogram (BYVAL bmp AS GpBitmap PTR, BYVAL format AS HistogramFormat, BYVAL NumberOfEntries AS UINT, _
@@ -1684,11 +1691,16 @@ DECLARE FUNCTION GdipSetCustomLineCapWidthScale (BYVAL customCap AS GpCustomLine
 DECLARE FUNCTION GdipGetCustomLineCapWidthScale (BYVAL customCap AS GpCustomLineCap PTR, BYVAL widthScale As REAL PTR) AS GpStatus
 
 ' // Effect APIs
-DECLARE FUNCTION GdipCreateEffect (BYVAL guid AS CONST GUID, BYVAL effect AS CGpEffect PTR PTR) AS GpStatus
-DECLARE FUNCTION GdipDeleteEffect (BYVAL effect AS CGpEffect PTR) AS GpStatus
-DECLARE FUNCTION GdipGetEffectParameterSize (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR) AS GpStatus
-DECLARE FUNCTION GdipSetEffectParameters (BYVAL effect AS CGpEffect PTR, BYVAL params AS CONST ANY PTR, BYVAL size AS CONST UINT) AS GpStatus
-DECLARE FUNCTION GdipGetEffectParameters (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+'DECLARE FUNCTION GdipCreateEffect (BYVAL guid AS CONST GUID, BYVAL effect AS CGpEffect PTR PTR) AS GpStatus
+DECLARE FUNCTION GdipCreateEffect (BYVAL guid AS CONST GUID, BYVAL effect AS GpEffect PTR PTR) AS GpStatus
+'DECLARE FUNCTION GdipDeleteEffect (BYVAL effect AS CGpEffect PTR) AS GpStatus
+DECLARE FUNCTION GdipDeleteEffect (BYVAL effect AS GpEffect PTR) AS GpStatus
+'DECLARE FUNCTION GdipGetEffectParameterSize (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR) AS GpStatus
+DECLARE FUNCTION GdipGetEffectParameterSize (BYVAL effect AS GpEffect PTR, BYVAL size AS UINT PTR) AS GpStatus
+'DECLARE FUNCTION GdipSetEffectParameters (BYVAL effect AS CGpEffect PTR, BYVAL params AS CONST ANY PTR, BYVAL size AS CONST UINT) AS GpStatus
+DECLARE FUNCTION GdipSetEffectParameters (BYVAL effect AS GpEffect PTR, BYVAL params AS CONST ANY PTR, BYVAL size AS CONST UINT) AS GpStatus
+'DECLARE FUNCTION GdipGetEffectParameters (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+DECLARE FUNCTION GdipGetEffectParameters (BYVAL effect AS GpEffect PTR, BYVAL size AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 ' // Font APIs
 DECLARE FUNCTION GdipCreateFontFromDC (BYVAL hdc AS HDC, BYVAL font AS GpFont PTR PTR) AS GpStatus
@@ -1840,8 +1852,10 @@ DECLARE FUNCTION GdipFillClosedCurve2I (BYVAL AS GpGraphics PTR, BYVAL AS GpBrus
                  BYVAL count AS INT_, BYVAL tension AS REAL, BYVAL fillmode AS GpFillMode) AS GpStatus
 DECLARE FUNCTION GdipFillRegion (BYVAL graphics AS GpGraphics PTR, BYVAL brush AS GpBrush PTR, BYVAL region AS GpRegion PTR) AS GpStatus
 '#if (GDIPVER >= 0x0110)
+'DECLARE FUNCTION GdipDrawImageFX (BYVAL graphics AS GpGraphics PTR, BYVAL image AS GpImage PTR, BYVAL source AS GpRectF PTR, _
+'                 BYVAL xForm AS GpMatrix PTR, BYVAL effect AS CGpEffect PTR, BYVAL imageAttributes AS GpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
 DECLARE FUNCTION GdipDrawImageFX (BYVAL graphics AS GpGraphics PTR, BYVAL image AS GpImage PTR, BYVAL source AS GpRectF PTR, _
-                 BYVAL xForm AS GpMatrix PTR, BYVAL effect AS CGpEffect PTR, BYVAL imageAttributes AS GpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
+                 BYVAL xForm AS GpMatrix PTR, BYVAL effect AS GpEffect PTR, BYVAL imageAttributes AS GpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
 '#endif
 DECLARE FUNCTION GdipDrawImage (BYVAL graphics AS GpGraphics PTR, BYVAL image AS GpImage PTR, BYVAL x AS REAL, BYVAL y AS REAL) AS GpStatus
 DECLARE FUNCTION GdipDrawImageI (BYVAL graphics AS GpGraphics PTR, BYVAL image AS GpImage PTR, BYVAL x AS INT_, BYVAL y AS INT_) AS GpStatus
