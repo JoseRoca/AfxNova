@@ -246,7 +246,7 @@ SUB Example_GetType (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a SolidBrush object
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
 
    ' // Get the type of solidBrush
    DIM nType AS BrushType = solidBrush.GetType
