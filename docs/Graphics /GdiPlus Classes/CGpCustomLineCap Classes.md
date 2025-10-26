@@ -848,7 +848,7 @@ FUNCTION GetHeight () AS SINGLE
 #### Example
 
 ```
- ' ========================================================================================
+' ========================================================================================
 ' The following example creates an AdjustableArrowCap, myArrow, and sets the height of the
 ' cap. The code then creates a Pen, assigns myArrow as the ending line cap for the Pen,
 ' and draws a capped line. Next, the code gets the height of the arrow cap, creates a new
