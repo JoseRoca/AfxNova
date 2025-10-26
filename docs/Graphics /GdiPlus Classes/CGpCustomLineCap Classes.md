@@ -962,34 +962,35 @@ FUNCTION GetWidth () AS SINGLE
 ' The following example creates an AdjustableArrowCap object, myArrow, and sets the width
 ' of the cap to 5 pixels. Next, the code creates a Pen object, assigns myArrow as the
 ' ending line cap for this Pen object, and draws a capped line. The code obtains the width
-' using IGdipAdjustableArrowCap.GetWidth and sets the height equal to the width. The code then
+' using GdipGetAdjustableArrowCapWidth and sets the height equal to the width. The code then
 ' draws another capped line with the new cap.
 ' ========================================================================================
 SUB Example_GetWidth (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
-   ' // Create an AdjustableArrowCap with a height of 10 pixels.
-   DIM myArrow AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 5, CTRUE)
+   ' // Create an AdjustableArrowCap with a height of 10 pixels
+   DIM myArrow AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 5, TRUE)
    ' // Adjust to DPI by setting the scale width
    myArrow.SetWidthScale(rxRatio)
 
    ' // Create a Pen, and assign myArrow as the end cap
-   DIM arrowPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM arrowPen AS CGpPen = ARGB_Violet
    arrowPen.SetCustomEndCap(@myArrow)
-
-   ' // Get the width of the arrow
-   DIM nWidth AS SINGLE = myArrow.GetWidth
 
    ' // Draw a line using arrowPen
    graphics.DrawLine(@arrowPen, 0, 0, 100, 100)
 
-   ' // Set height equal to width and draw another line
+   ' // Get the width of the arrow.
+   DIM nWidth AS SINGLE = myArrow.GetWidth
+
+   ' // Set height equal to width and draw another line.
    myArrow.SetHeight(nWidth)
    arrowPen.SetCustomEndCap(@myArrow)
    graphics.DrawLine(@arrowPen, 0, 40, 100, 140)
