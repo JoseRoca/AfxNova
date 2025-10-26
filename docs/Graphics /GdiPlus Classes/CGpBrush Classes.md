@@ -730,10 +730,9 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
    DIM factors(0 TO 3) AS SINGLE = {0.0, 0.4, 0.6, 1.0}
    DIM positions(0 TO 3) AS SINGLE = {0.0, 0.2, 0.8, 1.0}
 
-   DIM pt1 AS GpPoint = GDIP_POINT(0, 0)
-   DIM pt2 AS GpPoint = GDIP_POINT(100, 0)
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, _
-      GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM pt1 AS GpPoint = (0, 0)
+   DIM pt2 AS GpPoint = (100, 0)
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, ARGB_RED, ARGB_BLUE)
    linGrBrush.SetBlend(@factors(0), @positions(0), 4)
 
    ' // Use the linear gradient brush to fill a rectangle.
@@ -749,7 +748,7 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
    FOR j AS LONG = 0 TO blendCount - 1
 '      // Inspect or use the value in rgFactors(j)
 '      // Inspect or use the value in rgPositions(j)
-      OutputDebugString STR(rgFactors(j)) & STR(rgPositions(j))
+      OutputDebugStringW WSTR(rgFactors(j)) & WSTR(rgPositions(j))
    NEXT
 
 END SUB
