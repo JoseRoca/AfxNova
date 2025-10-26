@@ -964,6 +964,12 @@ type GpRegion as any
 type GpSolidFill as any
 type GpStringFormat as any
 type GpTexture as any
+#define GpSolidBrush GpSolidFill
+#define GpHatchBrush GpHatch
+#define GpLinearGradientBrush GpLineGradient
+#define GpPathGradientBrush GpPathGradient
+#define GpGraphicsPath GpPath
+#define GpTextureBrush GpTexture
 
 ' #define __GDIPLUS_IMAGING_H
 
