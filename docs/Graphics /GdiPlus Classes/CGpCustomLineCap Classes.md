@@ -804,10 +804,11 @@ SUB Example_CreateAdjustableArrowCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create an AdjustableArrowCap that is filled
    DIM arrowCapStart AS CGpAdjustableArrowCap = CGpAdjustableArrowCap(10, 10, CTRUE)
@@ -820,7 +821,7 @@ SUB Example_CreateAdjustableArrowCap (BYVAL hdc AS HDC)
    arrowCapEnd.SetWidthScale(rxRatio)
 
    ' // Create a Pen
-   DIM arrowPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM arrowPen AS CGpPen = ARGB_Violet
 
    ' // Assign arrowStart as the start cap
    arrowPen.SetCustomStartCap(@arrowCapStart)
