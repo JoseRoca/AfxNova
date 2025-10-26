@@ -1140,15 +1140,14 @@ SUB Example_GetWrapMode (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a linear gradient brush.
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 100, 50)
+   DIM rc AS GpRect = (0, 0, 100, 50)
    DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rc, _
-      GDIP_ARGB(255, 0, 0, 0), GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+      ARGB_BLACK, ARGB_BLUE, LinearGradientModeHorizontal)
 
    linGrBrush.SetWrapMode(WrapModeTileFlipX)
 
    ' // Obtain information about the linear gradient brush.
-   DIM nWrapMode AS WrapMode
-   nWrapMode = linGrBrush.GetWrapMode
+   DIM nWrapMode AS WrapMode = linGrBrush.GetWrapMode
 
    IF nWrapMode = WrapModeTileFlipX THEN
       ' // Do some task
