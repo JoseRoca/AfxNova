@@ -58,7 +58,7 @@ A **CachedBitmap** object stores a bitmap in a format that is optimized for disp
 Alters a **Bitmap** object by applying a specified effect.
 
 ```
-FUNCTION GdipBitmapApplyEffect (BYVAL bmp AS GpBitmap PTR, BYVAL effect AS CGpEffect PTR, _
+FUNCTION GdipBitmapApplyEffect (BYVAL bmp AS GpBitmap PTR, BYVAL effect AS GpEffect PTR, _
    BYVAL roi AS RECT PTR, BYVAL useAuxData AS BOOL, BYVAL auxData AS VOID PTR PTR, _
    BYVAL auxDataSize AS INT_ PTR) AS GpStatus
 ```
@@ -104,7 +104,7 @@ SUB Example_BrightnessEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a brightness and contrast effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(BrightnessContrastEffectGuid, @effect)
 
    ' // Set parameters: Brightness = 50, contrast = 50
@@ -216,7 +216,7 @@ Creates a new **Bitmap** object by applying a specified effect to an existing **
 
 ```
 FUNCTION GdipBitmapCreateApplyEffect (BYVAL inputBitmaps AS GpBitmap PTR PTR, BYVAL numInputs AS INT_, _
-   BYVAL effect AS CGpEffect PTR, BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT P=TR, _
+   BYVAL effect AS GpEffect PTR, BYVAL roi AS RECT PTR, BYVAL outputRect AS RECT P=TR, _
    BYVAL outputBitmap AS GpBitmap PTR PTR, BYVAL useAuxData AS BOOL, BYVAL auxData AS VOID PTR PTR, _
    BYVAL auxDataSize AS INT_ PTR) AS GpStatus
 ```
@@ -265,7 +265,7 @@ SUB Example_CreateBitmapWithApplyEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(srcBitmap, dpiX, dpiY)
 
    ' // Create the tint effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(TintEffectGuid, @effect)
 
    ' // Set parameters: Hue = 120 (green), Amount = 60
@@ -1840,7 +1840,7 @@ FUNCTION GdipCreateBitmapFromStreamICM (BYVAL stream AS IStream PTR, BYVAL bmp A
 Creates an **Effect** object of the type specified by the guid parameter.
 
 ```
-FUNCTION GdipCreateEffect (BYVAL gd AS GUID, BYVAL effect AS CGpEffect PTR PTR) AS GpStatus
+FUNCTION GdipCreateEffect (BYVAL gd AS GUID, BYVAL effect AS GpEffect PTR PTR) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -1879,7 +1879,7 @@ SUB Example_BlurEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a blur effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(BlurEffectGuid, @effect)
 
    ' // Set parameters: radius = 6.0, expandEdge = FALSE
@@ -1936,7 +1936,7 @@ SUB Example_GrayScale (BYVAL hdc AS HDC)
                             (UBOUND(grayMatrix, 2) - LBOUND(grayMatrix, 2) + 1) * SIZEOF(SINGLE)
 
    ' // Create effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(ColorMatrixEffectGuid, @effect)
    ' // Set parameters
    hStatus = GdipSetEffectParameters(effect, @grayMatrix(0, 0), array_size)
@@ -1984,7 +1984,7 @@ SUB Example_GdipBitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create ColorLUT effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(HueSaturationLightnessEffectGuid, @effect)
 
    ' // Set the parameters
@@ -2040,7 +2040,7 @@ SUB Example_Gdip_RedEyeCorrectionEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a levels effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(RedEyeCorrectionEffectGuid, @effect)
 
    ' // We need to specify one or more rectangles that enclose the red-eye areas.
@@ -2112,7 +2112,7 @@ SUB Example_TintEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a tint effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(TintEffectGuid, @effect)
 
    ' // Set parameters: Hue = +120 (green), Amount = 60 (moderate tint)
@@ -2296,7 +2296,7 @@ END SUB
 Deletes the specified **Effect** object.
 
 ```
-FUNCTION GdipDeleteEffect (BYVAL effect AS CGpEffect PTR) AS GpStatus
+FUNCTION GdipDeleteEffect (BYVAL effect AS GpEffect PTR) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -2315,7 +2315,7 @@ IF effect THEN GdipDeleteEffect(effect)
 Returns the parameters for the specified **Effect** object.
 
 ```
-FUNCTION GdipGetEffectParameters (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR, _
+FUNCTION GdipGetEffectParameters (BYVAL effect AS GpEffect PTR, BYVAL size AS UINT PTR, _
    BYVAL params AS VOID PTR) AS GpStatus
 ```
 
@@ -2351,7 +2351,7 @@ SUB Example_GetEffectParameters (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a tint effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(TintEffectGuid, @effect)
 
    ' // Set parameters: Hue = +120 (green), Amount = 60 (moderate tint)
@@ -2391,7 +2391,7 @@ END SUB
 Gets the total size, in bytes, of the parameters currently set for the specified effect.
 
 ```
-FUNCTION GdipGetEffectParameterSize (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR) AS GpStatus
+FUNCTION GdipGetEffectParameterSize (BYVAL effect AS GpEffect PTR, BYVAL size AS UINT PTR) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -2425,7 +2425,7 @@ SUB Example_GetEffectParameters (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a tint effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(TintEffectGuid, @effect)
 
    ' // Set parameters: Hue = +120 (green), Amount = 60 (moderate tint)
@@ -2602,7 +2602,7 @@ SUB Example_BlurEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a sharpen effect
-   DIM sharpenEffect AS CGpEffect PTR
+   DIM sharpenEffect AS GpEffect PTR
    hStatus = GdipCreateEffect(SharpenEffectGuid, @sharpenEffect)
 
    ' // Set parameters: radius = 3.0, expandEdge = FALSE
@@ -2665,7 +2665,7 @@ SUB Example_ColorLUTEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create ColorBalance effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(ColorLUTEffectGuid, @effect)
 
    ' // Create LUTs: identity (no change)
@@ -2731,7 +2731,7 @@ SUB Example_ColorLUTEffectRegion (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create ColorLUT effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(ColorLUTEffectGuid, @effect)
 
    ' // Create LUTs: identity (no change)
