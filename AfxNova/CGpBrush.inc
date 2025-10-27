@@ -613,7 +613,7 @@ END FUNCTION
 ' Gets the surround colors currently specified for this path gradient brush.
 ' =====================================================================================
 PRIVATE FUNCTION CGpPathGradientBrush.GetSurroundColors (BYVAL colors AS ARGB PTR, BYVAL nCount AS INT_ PTR) AS GpStatus
-   IF colors = NULL OR *nCount = 0 THEN RETURN SetStatus(InvalidParameter)
+   IF colors = NULL OR nCount = NULL THEN RETURN SetStatus(InvalidParameter)
    DIM nCount1 AS INT_
    m_Status = GdipGetPathGradientSurroundColorCount(cast(GpPathGradient PTR, m_pBrush), @nCount1)
    IF m_Status <> OK THEN RETURN m_Status
@@ -628,15 +628,37 @@ END FUNCTION
 ' Sets the surround colors currently specified for this path gradient brush.
 ' =====================================================================================
 PRIVATE FUNCTION CGpPathGradientBrush.SetSurroundColors (BYVAL colors AS ARGB PTR, BYVAL nCount AS INT_ PTR) AS GpStatus
-   IF colors = NULL OR *nCount = 0 THEN RETURN SetStatus(InvalidParameter)
+   IF colors = NULL OR nCount = NULL THEN RETURN SetStatus(InvalidParameter)
    DIM nCount1 AS INT_
-   nCount1 = this.GetPointCount
+   m_Status = GdipGetPathGradientPointCount(cast(GpPathGradient PTR, m_pBrush), @nCount1)
    IF *nCount > nCount1 OR nCount1 <= 0 THEN RETURN SetStatus(InvalidParameter)
+   nCount1 = *nCount
    m_Status = GdipSetPathGradientSurroundColorsWithCount(cast(GpPathGradient PTR, m_pBrush), colors, @nCount1)
    IF m_Status = Ok THEN *nCount = nCount1
    RETURN m_Status
 END FUNCTION
 ' =====================================================================================
+'+++++++++++
+'        ARGB* argbs = (ARGB*) new ARGB[count1];
+'        if(argbs == NULL)
+'            return SetStatus(OutOfMemory);
+
+'        for(INT i = 0; i < count1; i++)
+'        {
+'            argbs[i] = colors[i].GetValue();
+'        }
+
+'        SetStatus(DllExports::GdipSetPathGradientSurroundColorsWithCount(
+'                    (GpPathGradient*)nativeBrush, argbs, &count1));
+
+'        if(lastResult == Ok)
+'            *count = count1;
+
+'        delete [] argbs;
+
+'        return lastResult;
+'    }
+
 
 ' =====================================================================================
 ' Not implemented in Windows GDI+ version 1.0.
