@@ -42,7 +42,7 @@ SUB Example_Multiply (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE)
 
    ' // Horizontal scale
    DIM matrix1 AS CGpMatrix = CGpMatrix(3.0, 0.0, 0.0, 1.0, 0.0, 0.0)

@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -43,7 +42,7 @@ SUB Example_Invert (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 30.0 * rxRatio, 20.0 * ryRatio)
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
 
    graphics.SetTransform(@matrix)
    graphics.DrawRectangle(@myPen, 0, 0, 200 * rxRatio, 100 * ryRatio)

@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -41,7 +40,7 @@ SUB Example_TransformPoints (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
    DIM rgPoints(0 TO 4) AS GpPointF = {(50 * rxRatio, 100 * ryRatio), (100 * rxRatio, 50 * ryRatio), _
        (160 * rxRatio, 125 * rxRatio), (200 * rxRatio, 100 * ryRatio), (250 * rxRatio, 150 * ryRatio)}
 

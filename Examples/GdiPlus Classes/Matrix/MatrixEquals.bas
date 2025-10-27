@@ -9,9 +9,8 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
+'#CONSOLE ON
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
-#INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
 
 ' // Must be constructed with NEW to we able to delete them before the call to AfxGdipShutdown

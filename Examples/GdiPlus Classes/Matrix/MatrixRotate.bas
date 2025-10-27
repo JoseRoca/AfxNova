@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -43,7 +42,7 @@ SUB Example_Rotate (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
 
    DIM matrix AS CGpMatrix
    ' // First a translation

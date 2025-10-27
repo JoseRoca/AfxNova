@@ -10,7 +10,6 @@
 ' ########################################################################################
 
 '#CONSOLE ON
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 USING AfxNova
 

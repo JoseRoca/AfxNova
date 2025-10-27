@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -47,13 +46,13 @@ SUB Example_TransformVectors (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
    myPen.SetEndCap(LineCapArrowAnchor)
-   DIM myBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM myBrush AS CGpSolidBrush = ARGB_RED
 
    ' // A point and a vector, same representation but different behavior
-   DIM pt AS GpPointF = GDIP_POINTF(100.0, 50.0)
-   DIM vector AS GpPointF = GDIP_POINTF(100.0, 50.0)
+   DIM pt AS GpPointF = (100.0, 50.0)
+   DIM vector AS GpPointF = (100.0, 50.0)
 
    ' // Draw the original point and vector in blue
    graphics.FillEllipse(@myBrush, pt.X - 5.0, pt.Y - 5.0, 10.0, 10.0)
