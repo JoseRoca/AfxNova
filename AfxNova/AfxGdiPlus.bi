@@ -1852,8 +1852,6 @@ DECLARE FUNCTION GdipFillClosedCurve2I (BYVAL AS GpGraphics PTR, BYVAL AS GpBrus
                  BYVAL count AS INT_, BYVAL tension AS REAL, BYVAL fillmode AS GpFillMode) AS GpStatus
 DECLARE FUNCTION GdipFillRegion (BYVAL graphics AS GpGraphics PTR, BYVAL brush AS GpBrush PTR, BYVAL region AS GpRegion PTR) AS GpStatus
 '#if (GDIPVER >= 0x0110)
-'DECLARE FUNCTION GdipDrawImageFX (BYVAL graphics AS GpGraphics PTR, BYVAL image AS GpImage PTR, BYVAL source AS GpRectF PTR, _
-'                 BYVAL xForm AS GpMatrix PTR, BYVAL effect AS CGpEffect PTR, BYVAL imageAttributes AS GpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
 DECLARE FUNCTION GdipDrawImageFX (BYVAL graphics AS GpGraphics PTR, BYVAL image AS GpImage PTR, BYVAL source AS GpRectF PTR, _
                  BYVAL xForm AS GpMatrix PTR, BYVAL effect AS GpEffect PTR, BYVAL imageAttributes AS GpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
 '#endif

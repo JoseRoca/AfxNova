@@ -996,7 +996,6 @@ PRIVATE FUNCTION CGpGraphics.MeasureDriverString (BYVAL pText AS UINT16 PTR, BYV
               positions, flags, pMatrix->m_pMatrix, boundingBox))
 END FUNCTION
 ' ========================================================================================
-
 ' ========================================================================================
 ' * Draws a cached bitmap on this graphics destination offset by x, y. Note this will fail
 ' with WrongState if the CachedBitmap native format differs from this Graphics.
@@ -1161,7 +1160,6 @@ END FUNCTION
 ' ========================================================================================
 
 '#IF (GDIPVER >= &H0110)
-
 ' ========================================================================================
 PRIVATE FUNCTION CGpGraphics.DrawImageFX (BYVAL pImage AS CGpImage PTR, BYVAL sourceRect AS GpRectF PTR, BYVAL pMatrix AS CGpMatrix PTR, _
 BYVAL pEffect AS CGpEffect PTR, BYVAL pImageAttributes AS CGpImageAttributes PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
@@ -1169,7 +1167,6 @@ BYVAL pEffect AS CGpEffect PTR, BYVAL pImageAttributes AS CGpImageAttributes PTR
           IIF(pEffect, pEffect->m_pEFfect, NULL), IIF(pImageAttributes, pImageAttributes->m_pImgAttr, NULL), srcUnit))
 END FUNCTION
 ' ========================================================================================
-
 '#ENDIF   ' //(GDIPVER >= 0x0110)
 
 ' ========================================================================================
