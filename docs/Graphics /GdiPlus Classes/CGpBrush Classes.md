@@ -370,11 +370,11 @@ SUB Example_SetColor (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, rxRatio)
 
    ' // Create a solid brush, and use it to fill a rectangle
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillRectangle(@solidBrush, 10, 10, 200, 100)
 
    ' // Change the color of the brush to red, and fill another rectangle
-   solidBrush.SetColor(GDIP_ARGB(255, 255, 0, 0))
+   solidBrush.SetColor(ARGB_RED)
    graphics.FillRectangle(@solidBrush, 220, 10, 200, 100)
 
 END SUB
@@ -3189,10 +3189,10 @@ SUB Example_SetBlendBellShape (BYVAL hdc AS HDC)
    DIM pthGrBrush AS CGpPathGradientBrush = @path
 
    ' // Set the color at the center of the path to blue.
-   pthGrBrush.SetCenterColor(GDIP_ARGB(255, 0, 0, 255))
+   pthGrBrush.SetCenterColor(ARGB_BLUE)
 
    ' // Set the color along the entire boundary of the path to aqua.
-   DIM colors(0) AS ARGB = {GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0) AS ARGB = {ARGB_AQUA}
    DIM count AS LONG = 1
    pthGrBrush.SetSurroundColors(@colors(0), @count)
 
@@ -3259,10 +3259,10 @@ SUB Example_SetBlendTriangularShape (BYVAL hdc AS HDC)
    DIM pthGrBrush AS CGpPathGradientBrush = @path
 
    ' // Set the color at the center of the path to blue.
-   pthGrBrush.SetCenterColor(GDIP_ARGB(255, 0, 0, 255))
+   pthGrBrush.SetCenterColor(ARGB_BLUE)
 
    ' // Set the color along the entire boundary of the path to aqua.
-   DIM colors(0) AS ARGB = {GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0) AS ARGB = {ARGB_AQUA}
    DIM count AS LONG = 1
    pthGrBrush.SetSurroundColors(@colors(0), @count)
 
@@ -3329,10 +3329,10 @@ SUB Example_SetCenterColor (BYVAL hdc AS HDC)
    DIM pthGrBrush AS CGpPathGradientBrush = @path
 
    ' // Set the color at the center of the path to blue.
-   pthGrBrush.SetCenterColor(GDIP_ARGB(255, 0, 0, 255))
+   pthGrBrush.SetCenterColor(ARGB_BLUE)
 
    ' // Set the color along the entire boundary of the path to aqua.
-   DIM colors(0) AS ARGB = {GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0) AS ARGB = {ARGB_AQUA}
    DIM count AS LONG = 1
    pthGrBrush.SetSurroundColors(@colors(0), @count)
 
@@ -3390,14 +3390,14 @@ SUB Example_SetCenterPoint (BYVAL hdc AS HDC)
    DIM pthGrBrush AS CGpPathGradientBrush = @path
 
    ' // Set the color at the center of the path to blue.
-   pthGrBrush.SetCenterColor(GDIP_ARGB(255, 0, 0, 255))
+   pthGrBrush.SetCenterColor(ARGB_BLUE)
 
    ' // Set the center point.
-   DIM pt AS GpPointF = GDIP_POINTF(180.5, 50.0)
+   DIM pt AS GpPointF = (180.5, 50.0)
    pthGrBrush.SetCenterPoint(@pt)
 
    ' // Set the color along the entire boundary of the path to aqua.
-   DIM colors(0) AS ARGB = {GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0) AS ARGB = {ARGB_AQUA}
    DIM count AS LONG = 1
    pthGrBrush.SetSurroundColors(@colors(0), @count)
 
@@ -3450,13 +3450,13 @@ SUB Example_SetFocusScales (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(100, 0), GDIP_POINT(200, 200), GDIP_POINT(0, 200)}
+   DIM points(0 TO 2) AS GpPoint = {(100, 0), (200, 200), (0, 200)}
 
    ' // No GraphicsPath object is created. The PathGradientBrush
    ' // object is constructed directly from the array of points.
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
-   DIM colors(0 TO 1) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255)}
+   DIM colors(0 TO 1) AS ARGB = {ARGB_RED, ARGB_BLUE}
 
    ' // red at the boundary of the outer triangle
    ' // blue at the boundary of the inner triangle
@@ -3521,10 +3521,10 @@ SUB Example_SetInterpolationColors (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(100, 0), GDIP_POINT(200, 200), GDIP_POINT(0, 200)}
+   DIM points(0 TO 2) AS GpPoint = {(100, 0), (200, 200), (0, 200)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_AQUA}
    DIM positions(0 TO 2) AS SINGLE = {0.0, 0.4, 1.0}
 
    pthGrBrush.SetInterpolationColors(@colors(0), @positions(0), 3)
@@ -3584,11 +3584,11 @@ SUB Example_SetSurroundColors (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(100, 20), GDIP_POINT(100, 100)}
+   DIM points(0 TO 2) AS GpPoint = {(20, 20), (100, 20), (100, 100)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
    DIM nCount AS LONG = 3
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_AQUA}
    pthGrBrush.SetSurroundColors(@colors(0), @nCount)
 
    graphics.FillRectangle(@pthGrBrush, 0, 0, 200, 200)
@@ -3644,11 +3644,11 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(0, 0), GDIP_POINT(100, 0), GDIP_POINT(100, 100)}
+   DIM points(0 TO 2) AS GpPoint = {(0, 0), (100, 0), (100, 100)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
    DIM nCount AS LONG = 3
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 255, 0), GDIP_ARGB(255, 0, 0, 0)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_LIGHTGREEN, ARGB_BLACK}
    pthGrBrush.SetSurroundColors(@colors(0), @nCount)
 
    graphics.FillRectangle(@pthGrBrush, 0, 0, 200, 200)
@@ -3711,8 +3711,8 @@ SUB Example_SetWrapMode (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(0, 0), GDIP_POINT(100, 0), GDIP_POINT(100, 100)}
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 0)}
+   DIM points(0 TO 2) AS GpPoint = {(0, 0), (100, 0), (100, 100)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_LIGHTGREEN}
 
    DIM nCount AS LONG = 3
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
@@ -3772,7 +3772,7 @@ SUB Example_TranslateTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(0, 0), GDIP_POINT(50, 0), GDIP_POINT(50, 50)}
+   DIM points(0 TO 2) AS GpPoint = {(0, 0), (50, 0), (50, 50)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
    ' // Fill an area with the path gradient brush (no transformation).
