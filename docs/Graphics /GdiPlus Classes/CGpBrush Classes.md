@@ -2922,7 +2922,7 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(0, 0), GDIP_POINT(50, 0), GDIP_POINT(50, 50)}
+   DIM points(0 TO 2) AS GpPoint = {(0, 0), (50, 0), (50, 50)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
    pthGrBrush.ScaleTransform(3.0, 1.0)
