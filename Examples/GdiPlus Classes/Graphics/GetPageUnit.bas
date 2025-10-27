@@ -42,8 +42,8 @@ SUB Example_GetPageUnit (BYVAL hdc AS HDC)
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 0)
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACk, 0)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 0)
 
    graphics.SetPageUnit(UnitPixel)
    graphics.DrawRectangle(@blackPen, 0, 0, 100 * rxRatio, 100 * ryRatio)

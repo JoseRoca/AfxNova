@@ -45,12 +45,10 @@ SUB Example_TransformPoints (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-'   Pen pen(Color(255, 0, 0, 255));
-   DIM bluePen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM bluePen AS CGpPen = ARGB_BLUE
 
    ' // Create an array of two Point objects.
-   DIM rgPoints(0 TO 1) AS GpPoint
-   rgPoints(1).x = 100 : rgPoints(1).y = 50
+   DIM rgPoints(0 TO 1) AS GpPoint = {(0, 0), (100, 50)}
 
    ' // Draw a line that connects the two points.
    ' // No transformation has been performed yet.

@@ -43,10 +43,7 @@ SUB Example_FillRectangles (BYVAL hdc AS HDC)
    DIM blackBrush AS CGpSolidBrush = CGpSolidBrush(ARGB_BLACK)
 
    ' // Create an array of RectF objects.
-   DIM rects(0 TO 2) AS GpRectF
-   rects(0).x =   0.0 : rects(0).y =   0.0 : rects(0).Width = 100.0 : rects(0).Height = 200.0
-   rects(1).x = 100.5 : rects(1).y = 200.5 : rects(1).Width = 200.5 : rects(1).Height = 50.5
-   rects(2).x = 300.8 : rects(2).y =   0.8 : rects(2).Width =  50.8 : rects(2).Height = 150.8
+   DIM rects(0 TO 2) AS GpRectF = {(0, 0, 100, 200), (100.5, 200.5, 200.5, 50.5), (300.8, 0.8, 50.8, 150.8)}
 
    ' // Draw the rectangles
    graphics.FillRectangles(@blackBrush, @rects(0), 3)

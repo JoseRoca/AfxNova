@@ -48,7 +48,7 @@ SUB Example_TranslateClip (BYVAL hdc AS HDC)
    graphics.TranslateClip(40, 30)
 
    ' // Fill an ellipse that is clipped by the translated clipping region.
-   DIM redBrush AS CGpSolidBrush = CGpSolidBrush(GDIP_ARGB(255, 255, 0, 0))
+   DIM redBrush AS CGpSolidBrush = CGpSolidBrush(ARGB_RED)
    graphics.FillEllipse(@redBrush, 20, 40, 100, 80)
 
    ' // Draw the outline of the clipping region (rectangle).

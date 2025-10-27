@@ -43,13 +43,10 @@ SUB Example_DrawRectangles (BYVAL hdc AS HDC)
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
    ' // Create an array of GpRect objects
-   DIM rect1 AS GpRect : rect1.x =   0 : rect1.y =   0 : rect1.Width = 100 : rect1.Height = 200
-   DIM rect2 AS GpRect : rect2.x = 100 : rect2.y = 200 : rect2.Width = 250 : rect2.Height = 50
-   DIM rect3 AS GpRect : rect3.x = 300 : rect3.y =   0 : rect3.Width =   50 : rect3.Height = 100
-   DIM rects(2) AS GpRect
-   rects(0) = rect1
-   rects(1) = rect2
-   rects(2) = rect3
+   DIM rect1 AS GpRect = (0, 0, 100, 100)
+   DIM rect2 AS GpRect = (100, 200, 250, 50)
+   DIM rect3 AS GpRect = (300, 0, 50, 100)
+   DIM rects(2) AS GpRect = {rect1, rect2, rect3}
 
    ' // Draw the rectangles
    graphics.DrawRectangles(@blackPen, @rects(0), 3)

@@ -44,7 +44,7 @@ SUB Example_GetClipBounds (BYVAL hdc AS HDC)
    DIM myRegion AS CGpRegion = CGpRegion(25, 25, 100, 50)
 
    ' // Modify the region by using a rectangle
-   DIM rcf AS GpRectF : rcf.x = 40 : rcf.y = 50 : rcf.Width = 100 : rcf.Height = 50
+   DIM rcf AS GpRectF = (40, 50, 100, 50)
    myRegion.Union_(@rcf)
 
    ' // Set the clipping region of the graphics object
@@ -53,14 +53,14 @@ SUB Example_GetClipBounds (BYVAL hdc AS HDC)
    ' // Now, get the clipping region, and fill it
    DIM gRegion AS CGpRegion
    graphics.GetClip(@gRegion)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(100, 0, 0, 255)
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillRegion(@blueBrush, @gRegion)
 
    ' // Get a rectangle that encloses the clipping region, and draw the enclosing rectangle
    DIM enclosingRect AS GpRectF
    graphics.GetClipBounds(@enclosingRect)
    graphics.ResetClip
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 1.5)
+   DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 1.5)
    graphics.DrawRectangle(@greenPen, @enclosingRect)
 
 END SUB

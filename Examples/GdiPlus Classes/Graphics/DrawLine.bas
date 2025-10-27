@@ -41,7 +41,7 @@ SUB Example_DrawLine (BYVAL hdc AS HDC)
 
    ' // Draw the line
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
-   graphics.DrawLine(@blackPen, 100.0, 100.0, 500.0, 100.0)
+   graphics.DrawLine(@blackPen, 50.0, 100.0, 350.0, 100.0)
 
 END SUB
 ' ========================================================================================
@@ -63,7 +63,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"
    pWindow.Create(NULL, "GDI+ DrawLine", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(600, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 

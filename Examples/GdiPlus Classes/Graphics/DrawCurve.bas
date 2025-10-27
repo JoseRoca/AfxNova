@@ -39,7 +39,7 @@ SUB Example_DrawCurve (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 3)
+   DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 3)
 
    DIM point1 AS GpPointF : point1.x = 100.0 : point1.y = 100.0
    DIM point2 AS GpPointF : point2.x = 200.0 : point2.y = 50.0
@@ -56,7 +56,7 @@ SUB Example_DrawCurve (BYVAL hdc AS HDC)
    graphics.DrawCurve(@greenPen, @curvePoints(0), 4)
 
    ' // Draw the points in the curve.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
    graphics.FillEllipse(@redBrush, 95, 95, 10, 10)
    graphics.FillEllipse(@redBrush, 195, 45, 10, 10)
    graphics.FillEllipse(@redBrush, 395, 5, 10, 10)

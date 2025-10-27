@@ -46,7 +46,7 @@ SUB Example_GetHDC (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM bluePen AS CGpPen = ARGB_RED
+   DIM bluePen AS CGpPen = ARGB_BLUE
    graphics.DrawEllipse(@bluepen, 10, 10, 100, 50)   ' // GDI+
 
    DIM hdc2 AS HDC = graphics.GetHDC
@@ -56,7 +56,7 @@ SUB Example_GetHDC (BYVAL hdc AS HDC)
    Rectangle(hdc2, 120 * rxRatio, 10 * rxRatio, 220 * rxRatio, 60 * rxRatio)   ' // GDI
    graphics.ReleaseHDC(hdc)
 
-   ' // Ok to call methods on g again.
+   ' // Ok to call methods on graphics again.
    graphics.DrawLine(@bluePen, 240, 10, 340, 60)
 
 END SUB

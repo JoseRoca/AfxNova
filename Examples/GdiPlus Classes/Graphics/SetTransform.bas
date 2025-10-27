@@ -49,7 +49,7 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
    graphics.SetTransform(@transformMatrix)
 
    ' // Draw a rotated rectangle.
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0))
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK)
    graphics.DrawRectangle(@blackPen, 120, 0, 100, 50)
 
 END SUB

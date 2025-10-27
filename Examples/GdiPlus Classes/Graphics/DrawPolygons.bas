@@ -40,21 +40,15 @@ SUB Example_DrawPolygons (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
    ' // Create an array of GpPoint objects that define the lines to draw
-   DIM point1 AS GpPoint : point1.x = 100 : point1.y = 100
-   DIM point2 AS GpPoint : point2.x = 200 : point2.y = 130
-   DIM point3 AS GpPoint : point3.x = 150 : point3.y = 200
-   DIM point4 AS GpPoint : point4.x =  50 : point4.y = 200
-   DIM point5 AS GpPoint : point5.x =   0 : point5.y = 130
-
-   DIM pts(0 TO 4) AS GpPoint
-   pts(0) = point1
-   pts(1) = point2
-   pts(2) = point3
-   pts(3) = point4
-   pts(4) = point5
+   DIM point1 AS GpPoint = (100, 100)
+   DIM point2 AS GpPoint = (200, 130)
+   DIM point3 AS GpPoint = (150, 200)
+   DIM point4 AS GpPoint = (50, 200)
+   DIM point5 AS GpPoint = (0, 130)
+   DIM pts(0 TO 4) AS GpPoint = {point1, point2, point3, point4, point5}
 
    ' // Draw the polygon
    graphics.DrawPolygon(@blackPen, @pts(0), 5)

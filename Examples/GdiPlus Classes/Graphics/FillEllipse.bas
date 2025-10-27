@@ -40,7 +40,7 @@ SUB Example_FillEllipse (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Fill the ellipse.
    graphics.FillEllipse(@blackBrush, 0, 0, 200.1, 100.4)

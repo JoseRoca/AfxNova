@@ -41,14 +41,12 @@ SUB Example_IntersectClip (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Set the clipping region.
-   DIM clipRect AS GpRectF
-   clipRect.x = 0.5 : clipRect.y = 0.5 : clipRect.Width = 200.5 : clipRect.Height = 200.5
+   DIM clipRect AS GpRectF = (0.5, 0.5, 200.5, 200.5)
    graphics.SetClip(@clipRect)
 
    ' // Update the clipping region to the portion of the rectangle that
    ' // intersects with the current clipping region.
-   DIM rcIntersect AS GpRectF
-   rcIntersect.x = 100.5 : rcIntersect.y = 100.5 : rcIntersect.Width = 200.5 : rcIntersect.Height = 200.5
+   DIM rcIntersect AS GpRectF = (100.5, 100.5, 200.5, 200.5)
    graphics.IntersectClip(@rcIntersect)
 
    ' // Fill a rectangle to demonstrate the effective clipping region.

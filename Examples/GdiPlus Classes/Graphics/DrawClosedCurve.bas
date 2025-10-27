@@ -40,7 +40,7 @@ SUB Example_DrawClosedCurve (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Define a Pen object and an array of PointF objects.
-   DIM greenPen AS CGpPen = GDIP_ARGB(255, 0, 255, 0)
+   DIM greenPen AS CGpPen = ARGB_LIGHTGREEN
    DIM point1 AS GpPointF : point1.x = 100.0 : point1.y = 100.0
    DIM point2 AS GpPointF : point2.x = 200.0 : point2.y = 50.0
    DIM point3 AS GpPointF : point3.x = 400.0 : point3.y = 10.0
@@ -62,7 +62,7 @@ SUB Example_DrawClosedCurve (BYVAL hdc AS HDC)
    graphics.DrawClosedCurve(@greenPen, @curvePoints(0), 7, 1.0)
 
    ' // Draw the points in the curve.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
    graphics.FillEllipse(@redBrush, 95, 95, 10, 10)
    graphics.FillEllipse(@redBrush, 495, 95, 10, 10)
    graphics.FillEllipse(@redBrush, 495, 495, 10, 10)

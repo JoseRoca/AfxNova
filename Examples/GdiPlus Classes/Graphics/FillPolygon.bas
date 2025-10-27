@@ -40,15 +40,10 @@ SUB Example_FillPolygon (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Create an array of GpPointF objects that define the polygon
-   DIM rgPoints(4) AS GpPointF
-   rgPoints(0).x = 100.0 : rgPoints(0).y = 200.0
-   rgPoints(1).x = 200.0 : rgPoints(1).y = 130.0
-   rgPoints(2).x = 150.0 : rgPoints(2).y = 200.0
-   rgPoints(3).x =  50.0 : rgPoints(3).y = 200.0
-   rgPoints(4).x =   0.0 : rgPoints(4).y = 130.0
+   DIM rgPoints(4) AS GpPointF = {(100, 200), (200, 130), (150, 200), (50, 200), (0, 130)}
 
    ' // Fill the polygon
    graphics.FillPolygon(@blackBrush, @rgPoints(0), 5)

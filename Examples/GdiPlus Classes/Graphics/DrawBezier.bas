@@ -40,12 +40,12 @@ SUB Example_DrawBezier (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the curve.
-   DIM greenPen AS CGpPen = GDIP_ARGB(255, 0, 255, 0)
+   DIM greenPen AS CGpPen = ARGB_LIGHTGREEN
    graphics.DrawBezier(@greenPen, 100.0, 100.0, 200.0, 10.0, 350.0, 50.0, 500.0, 100.0)
 
    ' // Draw the end points and control points.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillEllipse(@redBrush, 100 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@redBrush, 500 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@blueBrush, 200 - 5, 10 - 5, 10, 10)

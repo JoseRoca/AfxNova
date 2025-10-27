@@ -40,7 +40,7 @@ SUB Example_DrawArc (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the arc
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 3)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 3)
    graphics.DrawArc(@redPen, 0, 0, 200, 100, 0.0, 90.0)
 
 END SUB

@@ -43,16 +43,11 @@ SUB Example_DrawLines (BYVAL hdc AS HDC)
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
    ' // Create an array of PointF objects that define the lines to draw
-   DIM point1 AS GpPointF : point1.x =  10 : point1.y = 10
-   DIM point2 AS GpPointF : point2.x =  10 : point2.y = 100
-   DIM point3 AS GpPointF : point3.x = 200 : point3.y = 50
-   DIM point4 AS GpPointF : point4.x = 250 : point4.y = 300
-
-   DIM pts(0 TO 3) AS GpPointF
-   pts(0) = point1
-   pts(1) = point2
-   pts(2) = point3
-   pts(3) = point4
+   DIM point1 AS GpPointF = (10, 10)
+   DIM point2 AS GpPointF = (10, 100)
+   DIM point3 AS GpPointF = (200, 50)
+   DIM point4 AS GpPointF = (250, 300)
+   DIM pts(0 TO 3) AS GpPointF = {point1, point2, point3, point4}
 
    ' // Draw the lines
    graphics.DrawLines(@blackPen, @pts(0), 4)

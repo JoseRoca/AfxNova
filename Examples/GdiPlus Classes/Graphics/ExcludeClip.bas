@@ -41,8 +41,7 @@ SUB Example_ExcludeClip (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a GpRect object, and set the clipping region to its exclusion.
-   DIM excludeRect AS GpRect
-   excludeRect.x = 125 : excludeRect.y = 50 : excludeRect.Width = 150 : excludeRect.Height = 150
+   DIM excludeRect AS GpRect = (125, 50, 150, 150)
    graphics.ExcludeClip(@excludeRect)
 
    ' // Fill a rectangle to demonstrate the clipping region.

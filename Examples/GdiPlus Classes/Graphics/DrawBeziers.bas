@@ -40,7 +40,7 @@ SUB Example_DrawBeziers (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Define a Pen object and an array of PointF objects.
-   DIM greenPen AS CGpPen = GDIP_ARGB(255, 0, 255, 0)
+   DIM greenPen AS CGpPen = ARGB_LIGHTGREEN
    DIM startPoint AS GpPointF : startPoint.x = 100.0 : startPoint.y = 100.0
    DIM ctrlPoint1 AS GpPointF : ctrlPoint1.x = 200.0 : ctrlPoint1.y = 50.0
    DIM ctrlPoint2 AS GpPointF : ctrlPoint2.x = 400.0 : ctrlPoint2.y = 10.0
@@ -62,11 +62,11 @@ SUB Example_DrawBeziers (BYVAL hdc AS HDC)
    graphics.DrawBeziers(@greenPen, @curvePoints(0), 7)
 
    ' // Draw the control and end points.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
    graphics.FillEllipse(@redBrush, 100 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@redBrush, 500 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@redBrush, 500 - 5, 500 - 5, 10, 10)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillEllipse(@blueBrush, 200 - 5, 50 - 5, 10, 10)
    graphics.FillEllipse(@blueBrush, 400 - 5, 10 - 5, 10, 10)
    graphics.FillEllipse(@blueBrush, 600 - 5, 200 - 5, 10, 10)

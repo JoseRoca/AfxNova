@@ -40,17 +40,12 @@ SUB Example_FillClosedCurve (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Define a Brush object and an array of Point objects.
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
-   DIM point1 AS GpPoint : point1.x = 100 : point1.y = 100
-   DIM point2 AS GpPoint : point2.x = 200 : point2.y = 50
-   DIM point3 AS GpPoint : point3.x = 250 : point3.y = 200
-   DIM point4 AS GpPoint : point4.x =  50 : point4.y = 150
-
-   DIM pts(3) AS GpPoint
-   pts(0) = point1
-   pts(1) = point2
-   pts(2) = point3
-   pts(3) = point4
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
+   DIM point1 AS GpPoint = (100, 100)
+   DIM point2 AS GpPoint = (200, 50)
+   DIM point3 AS GpPoint = (250, 200)
+   DIM point4 AS GpPoint = (50, 150)
+   DIM pts(3) AS GpPoint = {point1, point2, point3, point4}
 
    ' //Fill the curve.
    graphics.FillClosedCurve(@blackBrush, @pts(0), 4)

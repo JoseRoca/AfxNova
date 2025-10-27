@@ -41,7 +41,7 @@ SUB Example_SetRenderingOrigin (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleDiagonalCross, GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 255, 255))
+   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleDiagonalCross, ARGB_RED, ARGB_AQUA)
    graphics.FillRectangle(@hatchBrush, 0, 0, 100, 50)
    graphics.SetRenderingOrigin(3, 0)
    graphics.FillRectangle(@hatchBrush, 0, 50, 100, 50)

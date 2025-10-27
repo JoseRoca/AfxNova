@@ -41,7 +41,7 @@ SUB Example_GetVisibleClipBounds (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    '// Set the clipping region.
-   DIM rc AS GpRect : rc.x = 100 : rc.y = 100 : rc.Width = 200 : rc.Height = 100
+   DIM rc AS GpRect = (100, 100, 200, 100)
    graphics.SetClip(@rc)
 
    ' // Get a bounding rectangle for the clipping region.
