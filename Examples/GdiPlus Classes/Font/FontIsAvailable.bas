@@ -47,7 +47,7 @@ SUB Example_IsAvailable (BYVAL hdc AS HDC)
 
    ' // Draw text using font, if it is availiable
    IF available THEN
-      DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+      DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
       DIM wszText AS WSTRING * 260 = "Here is some text"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
    END IF

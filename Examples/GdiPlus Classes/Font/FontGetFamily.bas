@@ -51,7 +51,7 @@ SUB Example_GetFamily (BYVAL hdc AS HDC)
    DIM familyFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
 
    ' // Draw Text with familyFont
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "This is a Font created from a FontFamily"
    graphics.DrawString(@wszText, -1, @familyFont, 0, 0, @solidbrush)
 

@@ -55,7 +55,7 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
    DIM logfontFont AS CGpFont = CGpFont(hdc, @logFont)
 
    ' // Draw text using logfontFont.
-   DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "Font from a LOGFONTA"
    graphics.DrawString(@wszText, -1, @logfontFont, 0, 0, @solidbrush)
 

@@ -50,7 +50,7 @@ SUB Example_GetStyle (BYVAL hdc AS HDC)
    DIM styleFont AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(20) / rxRatio, style)
 
    ' // Draw text using sizeFont
-   DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "Font with an acquired style"
    graphics.DrawString(@wszText, -1, @styleFont, 0, 0, @solidbrush)
 

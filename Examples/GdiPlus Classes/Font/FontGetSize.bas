@@ -49,7 +49,7 @@ SUB Example_GetSize (BYVAL hdc AS HDC)
    DIM sizeFont AS CGpFont = CGpFont("Arial", size)
 
    ' // Draw text using sizeFont
-   DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "Font with an acquired size"
    graphics.DrawString(@wszText, -1, @sizeFont, 0, 0, @solidbrush)
 

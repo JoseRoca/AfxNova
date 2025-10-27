@@ -46,7 +46,7 @@ SUB Example_CloneFont (BYVAL hdc AS HDC)
    font.Clone(@cloneFont)
 
    ' // Draw Text with cloneFont.
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "This is a cloned Font"
    graphics.DrawString(@wszText, -1, @cloneFont, 0, 0, @solidbrush)
 

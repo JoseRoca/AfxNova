@@ -47,7 +47,7 @@ SUB Example_GetLastStatus (BYVAL hdc AS HDC)
 
    ' // If the call to create myFont succeeded, use myFont to write text.
    IF nStatus = Ok THEN
-      DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+      DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
       DIM wszText AS WSTRING * 260 = "The call succeeded"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
    END IF
