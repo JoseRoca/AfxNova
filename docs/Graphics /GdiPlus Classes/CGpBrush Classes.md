@@ -3049,7 +3049,7 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(0, 0), GDIP_POINT(50, 0), GDIP_POINT(50, 50)}
+   DIM points(0 TO 2) AS GpPoint = {(0, 0), (50, 0), (50, 50)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
    ' // Fill an area with the path gradient brush (no transformation).
