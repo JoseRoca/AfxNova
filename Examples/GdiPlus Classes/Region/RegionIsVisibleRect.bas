@@ -8,7 +8,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -44,7 +43,7 @@ SUB Example_IsVisibleRect (BYVAL hdc AS HDC)
    path.AddClosedCurve(@pts(0), 6)
 
    ' // Create a region from a path
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    DIM pathRegion AS CGpRegion = @path
    graphics.FillRegion(@solidBrush, @pathRegion)
 

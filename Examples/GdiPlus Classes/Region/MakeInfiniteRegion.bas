@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -41,8 +40,8 @@ SUB Example_MakeInfiniteRegion (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create red and blue solid brushes
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
 
    ' // Create a region, and fill it with a red brush
    DIM rc AS GpRect = (65, 15, 70, 45)

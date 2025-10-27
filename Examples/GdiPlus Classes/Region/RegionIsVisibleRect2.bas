@@ -8,7 +8,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -40,7 +39,7 @@ SUB Example_IsVisibleRect (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a RectF structure
-   DIM visibleRect AS GpRectF = GDIP_RECTF(0.0, 0.0, 100.2, 100.2)
+   DIM visibleRect AS GpRectF = (0.0, 0.0, 100.2, 100.2)
 
    ' // Determine whether the rectangle is visible and, if it is, fill it.
    IF graphics.IsVisible(@visibleRect) THEN

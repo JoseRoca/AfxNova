@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -39,7 +38,7 @@ SUB Example_GetRegionScans (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM pen AS CGpPen = ARGB_BLACK
    DIM pPath AS CGpGraphicsPath
    DIM matrix AS CGpMatrix
 
