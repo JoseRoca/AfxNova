@@ -24,6 +24,7 @@ Assorted GDI+ helper procedures.
 | [AfxGdipImageStreamFromRes](#afxgdipimagestreamfromres) | Retrieves an RT_RCDATA resource (PNG/JPG/GIF/TIFF) and wraps it in an IStream backed by a movable HGLOBAL block handle. |
 | [AfxGdipInit](#afxgdipinit) | Initializes GDI+. |
 | [AfxGdipLoadTexture](#afxgdiploadtexture) | Loads an image from disk or a resource an converts it to a texture for use with OpenGL. |
+| [AfxGdipPointsToPixels](#afxgdippointstopixels) | Convert font point sizes to pixels and scale then for dpi awareness if needed. |
 | [AfxGdipPrintHBITMAP](#afxgdipprinthbitmap) | Prints a Windows bitmap in the default printer. |
 | [AfxGdipSaveHBITMAPToFile](#afxgdipsavehbitmaptofile) | Saves a Windows bitmap to file. |
 | [AfxGdipSaveImageToFile](#afxgdipsaveimagetofile) | Saves a GDI+ image to file. |
@@ -522,6 +523,21 @@ PRIVATE FUNCTION AfxGdipLoadTexture (BYVAL hInstance AS HINSTANCE, BYREF wszReso
 ERROR_FILE_NOT_FOUND = File not found.<br>
 ERROR_INVALID_DATA = Bad image size..<br>
 A GdiPlus status value.
+
+---
+
+## AfxGdipPointsToPixels
+
+Convert font point sizes to pixels and scale then for dpi awareness if needed. IF scale world transform has been set with GdipScaleWorldTransform, it only needs to be scaled by multiplying the point size by 1.3333 (one point is one point is approximately 1.3333 pixel). If the dpi ratios have been set with GdipScaleWorldTransform, GDI+ will scale the font automatically. Otherwise, we will convert and scale the font size using the value returned by the GetDeviceCaps API function.
+
+```
+FUNCTION AfxGdipPointsToPixels (BYVAL ptSize AS SINGLE, BYVAL fUsingWorldTransform AS BOOLEAN = FALSE) AS SINGLE
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *ptSize* | The point size. |
+| *fUsingWorldTransform* | Boolean value that inficated if scale world transform has been set. |
 
 ---
 
