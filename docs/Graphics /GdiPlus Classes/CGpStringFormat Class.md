@@ -89,11 +89,11 @@ SUB Example_Clone (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the alignment
    DIM stringFormat AS CGpStringFormat
@@ -110,7 +110,7 @@ SUB Example_Clone (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 200, 200, @pStringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 200, 200)
 
 END SUB
@@ -160,12 +160,12 @@ SUB Example_GenericDefault (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
    ' // Points must not be scaled for a generic font, so we are unscaling them dividing by rxRatio
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(12) / rxRatio, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a generic default string format
    DIM stringFormat AS CGpStringFormat
@@ -173,11 +173,11 @@ SUB Example_GenericDefault (BYVAL hdc AS HDC)
 
    ' // Use the generic StringFormat object in a call to DrawString.
    DIM wszText AS WSTRING * 260 = "This text was formatted by a generic StringFormat object."
-   graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 100, 120, @stringFormat, @solidBrush)
+   graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 200, 200, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
-   graphics.DrawRectangle(@pen, 30, 30, 100, 120)
+   DIM pen AS CGpPen = ARGB_RED
+   graphics.DrawRectangle(@pen, 30, 30, 200, 200)
 
 END SUB
 ' ========================================================================================
@@ -226,12 +226,12 @@ SUB Example_GenericTypographic (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
    ' // Points must not be scaled for a typographic font, so we are unscaling them dividing by rxRatio
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(12) / rxRatio, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a typographic string format object
    DIM stringFormat AS CGpStringFormat
@@ -239,11 +239,11 @@ SUB Example_GenericTypographic (BYVAL hdc AS HDC)
 
    ' // Use the generic StringFormat object in a call to DrawString.
    DIM wszText AS WSTRING * 260 = "Formatted by a generic typographic StringFormat object."
-   graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 100, 120, @stringFormat, @solidBrush)
+   graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 200, 200, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text.
    DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
-   graphics.DrawRectangle(@pen, 30, 30, 100, 120)
+   graphics.DrawRectangle(@pen, 30, 30, 200, 200)
 
 END SUB
 ' ========================================================================================
@@ -272,18 +272,18 @@ SUB Example_GetAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the alignment
    DIM stringFormat AS CGpStringFormat
@@ -301,7 +301,7 @@ SUB Example_GetAlignment (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 150, 200, @stringFormat2, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 150, 200)
 
 END SUB
@@ -371,11 +371,11 @@ SUB Example_GetFormatFlags (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its format flags
    DIM stringFormat AS CGpStringFormat
@@ -393,7 +393,7 @@ SUB Example_GetFormatFlags (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 150, 200, @stringFormat2, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 150, 200)
 
 END SUB
@@ -439,11 +439,11 @@ SUB Example_GetHotKeyPrefix (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its hot key prefix
    DIM stringFormat AS CGpStringFormat
@@ -461,7 +461,7 @@ SUB Example_GetHotKeyPrefix (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 160, 200, @stringFormat2, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 160, 200)
 
 END SUB
@@ -498,11 +498,11 @@ SUB Example_GetLineAlignment (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the alignment
    DIM stringFormat AS CGpStringFormat
@@ -520,7 +520,7 @@ SUB Example_GetLineAlignment (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 150, 200, @stringFormat2, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 150, 200)
 
 END SUB
@@ -554,52 +554,98 @@ This method returns an integer that indicates the number of character ranges tha
 ' Remarks: It doesn't work with the 64-bit headers because they lack a declare for the
 ' GdipMeasureCharacterRanges function.
 ' ========================================================================================
-SUB Example_GetMeasurableCharacterRanges (BYVAL hdc AS HDC)
+SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
 
-   ' // Create a graphics object from the window device context
-   DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   DIM hStatus AS LONG
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GpGraphics PTR
+   hStatus = GdipCreateFromHDC(hdc, @graphics)
+
+   ' // Get the DPI scaling ratios
+   DIM dpiX AS SINGLE
+   hStatus = GdipGetDpiX(graphics, @dpiX)
+   DIM rxRatio AS SINGLE = dpiX / 96
+   DIM dpiY AS SINGLE
+   hStatus = GdipGetDpiY(graphics, @dpiY)
+   Dim ryRatio AS SINGLE = dpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   hStatus = GdipScaleWorldTransform(graphics, rxRatio, ryRatio, MatrixOrderPrepend)
 
-   ' // Brushes and pens used for drawing and painting
-   DIM blueBrush AS CGpSOlidBrush = GDIP_ARGB(255, 0, 0, 255)
-   DIM redBrush AS CGpSOlidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blackPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   ' // Create font
+   DIM fontFamily AS GpFontFamily PTR
+   DIM font AS GpFont PTR
+   hStatus = GdipCreateFontFamilyFromName("Times New Roman", NULL, @fontFamily)
+   hStatus = GdipCreateFont(fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel, @font)
+   IF fontFamily THEN GdipDeleteFontFamily(fontFamily)
 
-   ' // Layout rectangles used for drawing strings
-   DIM layoutRect AS GpRectF = TYPE<GpRectF>(20.0, 20.0, 130.0, 130.0)
+   ' // Create brushes and pen
+   DIM blueBrush AS GpBrush PTR
+   hStatus = GdipCreateSolidFill(ARGB_BLUE, @blueBrush)
+   DIM redBrush AS GpBrush PTR
+   hStatus = GdipCreateSolidFill(GDIP_ARGB(100, 255, 0, 0), @redBrush)
+   DIM blackPen AS GpPen PTR
+   hStatus = GdipCreatePen1(ARGB_BLACK, 1.0, UnitPixel, @blackPen)
+   hStatus = GdipScalePenTransform(blackPen, rxRatio, ryRatio, MatrixOrderPrepend)
 
-   ' // Three ranges of character positions within the string
-   DIM charRanges(2) AS CharacterRange
+   ' // Create string format
+   DIM stringFormat As GpStringFormat PTR
+   hStatus = GdipStringFormatGetGenericDefault(@stringFormat)
+
+   ' // Define character ranges
+   DIM charRanges(2) As GpCharacterRange
    charRanges(0).First = 3  : charRanges(0).Length = 5
    charRanges(1).First = 15 : charRanges(1).Length = 2
    charRanges(2).First = 30 : charRanges(2).Length = 15
+   hStatus = GdipSetStringFormatMeasurableCharacterRanges(stringFormat, 3, @charRanges(0))
 
-   ' // Font and string format used to apply to string when drawing
-   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxPointsToPixelsX(16) / rxRatio, FontStyleRegular, UnitPixel)
-   DIM strFormat AS CGpStringFormat
-
-   DIM wszText AS WSTRING * 260
-   wszText = "The quick, brown fox easily jumps over the lazy dog."
-
-   ' // Set three ranges of character positions.
-   strFormat.SetMeasurableCharacterRanges(3, @charRanges(0))
-
-   ' // Get the number of ranges that have been set, and allocate memory to
-   ' // store the regions that correspond to the ranges.
-   DIM nCount AS LONG = strFormat.GetMeasurableCharacterRangeCount
-   DIM rgCharRangeRegions(nCount - 1) AS CGpRegion
-
-   ' // Get the regions that correspond to the ranges within the string
-   graphics.MeasureCharacterRanges(@wszText, -1, @myFont, @layoutRect, @strFormat, nCount, @rgCharRangeRegions(0))
-   graphics.DrawString(@wszText, -1, @myFont, @layoutRect, @strFormat, @blueBrush)
-   graphics.DrawRectangle(@blackPen, @layoutRect)
-   FOR i AS LONG = 0 TO nCount - 1
-      graphics.FillRegion(@redBrush, @rgCharRangeRegions(i))
+   ' // Allocate regions
+   DIM regions(2) AS GpRegion PTR
+   FOR i AS LONG = 0 TO 2
+      hStatus = GdipCreateRegion(@regions(i))
    NEXT
+
+   ' // Text to draw
+   DIM text AS WSTRING * 128 = "The quick, brown fox easily jumps over the lazy dog."
+
+   ' // Measure and draw for layoutRectA
+   DIM layoutRectA AS GpRectF = (20.0, 20.0, 130.0, 130.0)
+   hStatus = GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectA, stringFormat, 3, @regions(0))
+   hStatus = GdipDrawString(graphics, @text, -1, font, @layoutRectA, stringFormat, blueBrush)
+   hStatus = GdipDrawRectangle(graphics, blackPen, layoutRectA.X, layoutRectA.Y, layoutRectA.Width, layoutRectA.Height)
+   FOR i AS LONG = 0 TO 2
+      hStatus = GdipFillRegion(graphics, redBrush, regions(i))
+   NEXT
+
+   ' // Measure and draw for layoutRectB
+   DIM layoutRectB AS GpRectF = (160.0, 20.0, 165.0, 130.0)
+   hStatus = GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectB, stringFormat, 3, @regions(0))
+   hStatus = GdipDrawString(graphics, @text, -1, font, @layoutRectB, stringFormat, blueBrush)
+   hStatus = GdipDrawRectangle(graphics, blackPen, layoutRectB.X, layoutRectB.Y, layoutRectB.Width, layoutRectB.Height)
+   FOR i AS LONG = 0 TO 2
+      hStatus = GdipFillRegion(graphics, redBrush, regions(i))
+   NEXT
+
+   ' // Set trailing space flag and draw for layoutRectC
+   DIM layoutRectC As GpRectF = (335.0, 20.0, 165.0, 130.0)
+   hStatus = GdipSetStringFormatFlags(stringFormat, StringFormatFlagsMeasureTrailingSpaces)
+   hStatus = GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectC, stringFormat, 3, @regions(0))
+   hStatus = GdipDrawString(graphics, @text, -1, font, @layoutRectC, stringFormat, blueBrush)
+   hStatus = GdipDrawRectangle(graphics, blackPen, layoutRectC.X, layoutRectC.Y, layoutRectC.Width, layoutRectC.Height)
+   FOR i AS LONG = 0 TO 2
+      hStatus = GdipFillRegion(graphics, redBrush, regions(i))
+   NEXT
+
+   ' // Cleanup
+   FOR i AS LONG = 0 TO 2
+      IF regions(i) THEN GdipDeleteRegion(regions(i))
+   NEXt
+   IF font THEN GdipDeleteFont(font)
+   IF stringFormat THEN GdipDeleteStringFormat(stringFormat)
+   IF blueBrush THEN GdipDeleteBrush(blueBrush)
+   IF redBrush THEN GdipDeleteBrush(redBrush)
+   IF blackPen THEN GdipDeletePen(blackPen)
+   IF graphics THEN GdipDeleteGraphics(graphics)
 
 END SUB
 ' ========================================================================================
@@ -627,17 +673,18 @@ SUB Example_GetTabStopCount (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 16, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the tab stops
    DIM tabs(0 TO 2) AS SINGLE = {150, 100, 100}
@@ -699,17 +746,17 @@ SUB Example_GetTabStops (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 16, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the tab stops
    DIM tabs(0 TO 2) AS SINGLE = {150, 100, 100}
@@ -721,7 +768,7 @@ SUB Example_GetTabStops (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 20, 20, 500, 100, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0))
+   DIM pen AS CGpPen = CGpPen(ARGB_RED)
    graphics.DrawRectangle(@pen, 20, 20, 500, 100)
 
    ' // Get the tab stops
@@ -770,11 +817,11 @@ SUB Example_GetTrimming (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its trimming style
    DIM stringFormat AS CGpStringFormat
@@ -792,7 +839,7 @@ SUB Example_GetTrimming (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 160, 60, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 160, 60)
 
 END SUB
@@ -836,11 +883,11 @@ SUB Example_SetAlignment (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the alignment
    DIM stringFormat AS CGpStringFormat
@@ -851,7 +898,7 @@ SUB Example_SetAlignment (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 150, 200, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 150, 200)
 
 END SUB
@@ -923,18 +970,20 @@ SUB Example_SetFormatFlags (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its format flags
    DIM stringFormat AS CGpStringFormat
@@ -945,7 +994,7 @@ SUB Example_SetFormatFlags (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 150, 200, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 150, 200)
 
 END SUB
@@ -991,11 +1040,11 @@ SUB Example_SetHotKeyPrefix (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its hot key prefix
    DIM stringFormat AS CGpStringFormat
@@ -1006,7 +1055,7 @@ SUB Example_SetHotKeyPrefix (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 150, 200, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 150, 200)
 
 END SUB
@@ -1050,11 +1099,11 @@ SUB Example_SetLineAlignment (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the alignment
    DIM stringFormat AS CGpStringFormat
@@ -1065,7 +1114,7 @@ SUB Example_SetLineAlignment (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 150, 200, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 150, 200)
 
 END SUB
@@ -1221,11 +1270,11 @@ SUB Example_SetTabStops (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, rxRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 16, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the tab stops
    DIM tabs(0 TO 2) AS SINGLE = {150, 100, 100}
@@ -1237,7 +1286,7 @@ SUB Example_SetTabStops (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 20, 20, 500, 100, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_BLUE
    graphics.DrawRectangle(@pen, 20, 20, 500, 100)
 
 END SUB
@@ -1280,11 +1329,11 @@ SUB Example_SetTrimming (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, rxRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its trimming style
    DIM stringFormat AS CGpStringFormat
@@ -1295,7 +1344,7 @@ SUB Example_SetTrimming (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 160, 60, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawRectangle(@pen, 30, 30, 160, 60)
 
 END SUB
