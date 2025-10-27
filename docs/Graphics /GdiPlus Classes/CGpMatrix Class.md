@@ -94,7 +94,7 @@ SUB Example_Clone (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
@@ -103,14 +103,12 @@ SUB Example_Clone (BYVAL hdc AS HDC)
    ' // Clone the matrix
    DIM clonedMatrix AS CGpMatrix
    matrix.Clone(@clonedMatrix)
-   ' // You can also use:
-   ' DIM clonedMatrix AS CGpMatrix = @matrix)
 
    ' // Translate the cloned matrix
    clonedMatrix.Translate(40.0 * rxRatio, 25.0 * ryRatio, MatrixOrderAppend)
 
    ' // Create a pem
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE)
    ' // Scale
    graphics.SetTransform(@matrix)
    graphics.DrawRectangle(@myPen, 0, 0, 100 * rxRatio, 100 * ryRatio)
@@ -144,6 +142,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 #### Example
 
 ```
+'#CONSOLE ON
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 USING AfxNova
 
@@ -160,6 +159,10 @@ END IF
 ' // Must be deleted before the call to AfxGdipShutdown
 Delete pMat1
 Delete pMat2
+
+PRINT
+PRINT "Press any key"
+SLEEP
 ```
 ---
 
@@ -220,12 +223,12 @@ SUB Example_Invert (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 30.0 * rxRatio, 20.0 * ryRatio)
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
 
    graphics.SetTransform(@matrix)
    graphics.DrawRectangle(@myPen, 0, 0, 200 * rxRatio, 100 * ryRatio)
@@ -253,6 +256,7 @@ If this matrix is the identity matrix, this method returns TRUE; otherwise, it r
 #### Example
 
 ```
+'#CONSOLE ON
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 USING AfxNova
 
@@ -267,6 +271,10 @@ END IF
 
 ' // Must be deleted before the call to AfxGdipShutdown
 Delete pMatrix
+
+PRINT
+PRINT "Press any key"
+SLEEP
 ```
 ---
 
@@ -285,6 +293,7 @@ If this matrix is the invertible, this method returns TRUE; otherwise, it return
 #### Example
 
 ```
+'#CONSOLE ON
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 USING AfxNova
 
@@ -299,7 +308,10 @@ END IF
 
 ' // Must be deleted before the call to AfxGdipShutdown
 Delete pMatrix
-```
+
+PRINT
+PRINT "Press any key"
+SLEEP
 ---
 
 ## Multiply
@@ -336,12 +348,12 @@ SUB Example_Multiply (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE)
 
    ' // Horizontal scale
    DIM matrix1 AS CGpMatrix = CGpMatrix(3.0, 0.0, 0.0, 1.0, 0.0, 0.0)
@@ -384,12 +396,12 @@ SUB Example_Offset (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
 
    DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 50.0 * rxRatio, 30.0 * ryRatio)
    DIM AS SINGLE xTranslation, yTranslation
@@ -432,12 +444,12 @@ SUB Example_Offset (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
 
    DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 50.0 * rxRatio, 30.0 * ryRatio)
    DIM AS SINGLE xTranslation, yTranslation
@@ -484,12 +496,12 @@ SUB Example_Reset (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
 
    DIM matrix AS CGpMatrix = CGpMatrix(5.0, 0.0, 0.0, 3.0, 0.0, 0.0)
    matrix.Reset
@@ -542,7 +554,7 @@ SUB Example_Rotate (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
 
    DIM matrix AS CGpMatrix
    ' // First a translation
@@ -601,7 +613,7 @@ SUB Example_RotateAt (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
 
    DIM matrix AS CGpMatrix
    matrix.Translate(150.0 * rxRatio, 100.0 * ryRatio)
@@ -664,7 +676,7 @@ SUB Example_Scale (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
 
    DIM matrix AS CGpMatrix
    matrix.Rotate(30.0)
@@ -723,7 +735,7 @@ SUB Example_MatrixSetElements (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
 
    DIM matrix AS CGpMatrix
    matrix.SetElements(1.0, 0.0, 0.0, 1.0, 30.0 * rxRatio, 50.0 * ryRatio)
@@ -781,7 +793,7 @@ SUB Example_Shear (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED)
 
    DIM matrix AS CGpMatrix
    ' // First a scaling
@@ -835,7 +847,7 @@ SUB Example_TransformPoints (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
    DIM rgPoints(0 TO 4) AS GpPointF = {(50 * rxRatio, 100 * ryRatio), (100 * rxRatio, 50 * ryRatio), _
        (160 * rxRatio, 125 * rxRatio), (200 * rxRatio, 100 * ryRatio), (250 * rxRatio, 150 * ryRatio)}
 
@@ -894,13 +906,13 @@ SUB Example_TransformVectors (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen
-   DIM myPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM myPen AS CGpPen = CGpPen(ARGB_RED, rxRatio)
    myPen.SetEndCap(LineCapArrowAnchor)
-   DIM myBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM myBrush AS CGpSolidBrush = ARGB_RED
 
    ' // A point and a vector, same representation but different behavior
-   DIM pt AS GpPointF = GDIP_POINTF(100.0, 50.0)
-   DIM vector AS GpPointF = GDIP_POINTF(100.0, 50.0)
+   DIM pt AS GpPointF = (100.0, 50.0)
+   DIM vector AS GpPointF = (100.0, 50.0)
 
    ' // Draw the original point and vector in blue
    graphics.FillEllipse(@myBrush, pt.X - 5.0, pt.Y - 5.0, 10.0, 10.0)
@@ -912,8 +924,8 @@ SUB Example_TransformVectors (BYVAL hdc AS HDC)
    matrix.TransformVectors(@vector)
 
    ' // Draw the transformed point and vector in red.
-   myPen.SetColor(GDIP_ARGB(255, 255, 0, 0))
-   myBrush.SetColor(GDIP_ARGB(255, 255, 0, 0))
+   myPen.SetColor(ARGB_RED)
+   myBrush.SetColor(ARGB_RED)
    graphics.FillEllipse(@myBrush, pt.X - 5.0, pt.Y - 5.0, 10.0, 10.0)
    graphics.DrawLine(@MyPen, 0, 0, vector.x, vector.y)
 
@@ -963,7 +975,7 @@ SUB Example_Translate (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    ' // Create a pen
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
 
    DIM matrix AS CGpMatrix
    ' // First a rotation
