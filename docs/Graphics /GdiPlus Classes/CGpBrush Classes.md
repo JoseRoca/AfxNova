@@ -1462,10 +1462,10 @@ SUB Example_SetBlend (BYVAL hdc AS HDC)
 
    DIM factors(0 TO 3) AS SINGLE = {0.0, 0.4, 0.6, 1.0}
    DIM positions(0 TO 3) AS SINGLE = {0.0, 0.2, 0.8, 1.0}
-   DIM rcf AS GpRectF = GDIP_RECTF(0, 0, 100, 50)
+   DIM rcf AS GpRectF = (0, 0, 100, 50)
 
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rcf, GDIP_ARGB(255, 255, 0, 0), _
-       GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rcf, ARGB_RED, _
+       ARGB_BLUE, LinearGradientModeHorizontal)
 
    linGrBrush.SetBlend(@factors(0), @positions(0), 4)
    graphics.FillRectangle(@linGrBrush, @rcf)
