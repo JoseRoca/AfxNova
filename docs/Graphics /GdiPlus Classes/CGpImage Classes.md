@@ -379,18 +379,18 @@ SUB Example_GetBounds (BYVAL hdc AS HDC)
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+'   graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pImage AS CGpImage = "climber.emf"
+   DIM pImage AS CGpImage = "climber.jpg"
    graphics.DrawImage(@pImage, 0, 0)
 
    ' // Get the bounding rectangle for the image (metafile).
-   DIM boundsRect AS RectF
+   DIM boundsRect AS GpRectF
    DIM nUnit AS GpUnit
    pImage.GetBounds(@boundsRect, @nUnit)
 
    ' // Draw 75 percent of the image.
-   graphics.DrawImage(@pImage, 230.0, 0.0, boundsRect.X, boundsRect.Y, 0.75 * boundsRect.Width, boundsRect.Height, UnitPixel)
+   graphics.DrawImage(@pImage, 350.0, 0.0, boundsRect.X, boundsRect.Y, 0.75 * boundsRect.Width, boundsRect.Height, UnitPixel)
 
 END SUB
 ' ========================================================================================
