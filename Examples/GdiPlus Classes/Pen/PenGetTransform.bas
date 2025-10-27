@@ -40,7 +40,7 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen and set its transformation.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    pen.RotateTransform(45)
 
    ' // Obtain information about the pen.

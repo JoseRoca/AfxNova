@@ -40,7 +40,7 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen, and use it to draw a rectangle
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 2)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
    graphics.DrawRectangle(@pen, 50, 50, 150, 100)
 
    ' // Apply a scaling transformation to the pen

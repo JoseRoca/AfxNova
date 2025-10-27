@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -41,7 +40,7 @@ SUB Example_GetEndCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the end cap of the pen, and draw a line.
    pen.SetEndCap(LineCapArrowAnchor)
@@ -52,7 +51,7 @@ SUB Example_GetEndCap (BYVAL hdc AS HDC)
    nLineCap = pen.GetEndCap
 
    ' // Create another pen, and use the same end cap.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 9)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_RED, 9)
    pen2.SetEndCap(nLineCap)
 
    ' // Draw a second line.

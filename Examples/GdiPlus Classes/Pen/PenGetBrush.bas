@@ -42,7 +42,7 @@ SUB Example_GetBrush (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a HatchBrush object
-   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
 
    ' // Create a pen, and set the brush for the pen
    DIM pen AS CGpPen = CGpPen(ARGB_RED, 10)

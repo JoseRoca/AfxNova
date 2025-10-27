@@ -41,7 +41,7 @@ SUB Example_GetWidth (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen and use it to draw a rectangle
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
    graphics.DrawRectangle(@pen, 20, 20, 200, 100)
 
    ' // Get the width of the pen.

@@ -42,8 +42,7 @@ SUB Example_GetPenType (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a HatchBrush object.
-   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, _
-      GDIP_ARGB(255, 255, 0, 0), ARGB_BLUE)
+   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
 
    ' // Create a pen based on a hatch brush, and use that pen to draw a line.
    DIM pen AS CgpPen = CgpPen(@hatchBrush, 15)
