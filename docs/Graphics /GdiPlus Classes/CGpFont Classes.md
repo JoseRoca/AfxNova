@@ -860,7 +860,7 @@ SUB Example_GenericMonospace (BYVAL hdc AS HDC)
    DIM genericMonoFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
 
    ' // Draw text using the new font
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    graphics.DrawString("This is a generic monospace font", -1, @genericMonoFont, 0, 0, @solidbrush)
 
 END SUB
@@ -909,7 +909,7 @@ SUB Example_GenericSansSerif (BYVAL hdc AS HDC)
    DIM genericSansSerifFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
 
    ' // Draw text using the new font
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    graphics.DrawString("This is a generic sans serif font", -1, @genericSansSerifFont, 0, 0, @solidbrush)
 
 END SUB
@@ -958,7 +958,7 @@ SUB Example_GenericSerif (BYVAL hdc AS HDC)
    DIM genericSerifFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
 
    ' // Draw text using the new font
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    graphics.DrawString("This is a generic serif font", -1, @genericSerifFont, 0, 0, @solidbrush)
 
 END SUB
@@ -1006,7 +1006,7 @@ SUB Example_GetCellAscent (BYVAL hdc AS HDC)
    DIM cellAscent AS LONG = ascentFontFamily.GetCellAscent(FontStyleRegular)
 
    ' // Copy the cell ascent into a string and draw the string
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM font AS CGpFont = CGpFont(@ascentFontFamily, AfxPointsToPixelsX(16) / rxRatio)
    DIM wszText AS WSTRING * 260
    wszText = "ascentFontFamily.GetCellAscent() returns " & STR(cellAscent)
@@ -1057,7 +1057,7 @@ SUB Example_GetCellDescent (BYVAL hdc AS HDC)
    DIM cellDescent AS LONG = descentFontFamily.GetCellDescent(FontStyleRegular)
 
    ' // Copy the cell descent into a string and draw the string
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM font AS CGpFont = CGpFont(@descentFontFamily, AfxPointsToPixelsX(16) / rxRatio)
    DIM wszText AS WSTRING * 260
    wszText = "ascentFontFamily.GetCellAscent() returns " & STR(cellDescent)
@@ -1108,7 +1108,7 @@ SUB Example_GetEmHeight (BYVAL hdc AS HDC)
    DIM emHeight AS LONG = emHeightFontFamily.GetEmHeight(FontStyleRegular)
 
    ' // Copy the height into a string and draw the string.
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM font AS CGpFont = CGpFont(@emHeightFontFamily, AfxPointsToPixelsX(16) / rxRatio)
    DIM wszText AS WSTRING * 260
    wszText = "emHeightFontFamily.GetEmHeight() returns " & STR(emHeight)
@@ -1163,7 +1163,7 @@ SUB Example_GetFamilyName (BYVAL hdc AS HDC)
    nameFontFamily.GetFamilyName(@familyName)
 
    ' // Draw the family name
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM font AS CGpFont = CGpFont(@nameFontFamily, AfxPointsToPixelsX(16) / rxRatio)
    graphics.DrawString(@familyName, -1, @font, 0, 0, @solidbrush)
 
@@ -1212,7 +1212,7 @@ SUB Example_GetLineSpacing (BYVAL hdc AS HDC)
    DIM lineSpacing AS LONG = lineSpacingFontFamily.GetLineSpacing(FontStyleRegular)
 
    ' // Copy the line spacing into a string and draw the string.
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM font AS CGpFont = CGpFont(@lineSpacingFontFamily, AfxPointsToPixelsX(16) / rxRatio)
    DIM wszText AS WSTRING * 260 = "lineSpacingFontFamily.GetLineSpacing() returns " & STR(lineSpacing)
    graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
@@ -1259,7 +1259,7 @@ SUB Example_IsAvailable (BYVAL hdc AS HDC)
 
    ' // If myFontFamily is available, draw text.
    IF isAvailable THEN
-      DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+      DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
       DIM font AS CGpFont = CGpFont(@myFontFamily, AfxPointsToPixelsX(16) / rxRatio)
       DIM wszText AS WSTRING * 260 = "myFontFamily is available"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
@@ -1315,7 +1315,7 @@ SUB Example_IsStyleAvailable (BYVAL hdc AS HDC)
    
    ' // If regular style is available, draw text.
    IF isStyleAvailable THEN
-      DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+      DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
       DIM font AS CGpFont = CGpFont(@myFontFamily, AfxPointsToPixelsX(16) / rxRatio)
       DIM wszText AS WSTRING * 260 = "myFontFamily is available in regular style"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
