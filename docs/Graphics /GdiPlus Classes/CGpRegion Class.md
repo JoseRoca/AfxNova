@@ -1417,7 +1417,7 @@ SUB Example_UnionRegion (BYVAL hdc AS HDC)
    DIM pRegion AS CGpRegion = @pPath
 
    ' // Form the union of the region and a rectangle
-   DIM rcf AS GpRectF = GDIP_RECTF(65.3, 15.1, 70.0, 45.8)
+   DIM rcf AS GpRectF = (65.3, 15.1, 70.0, 45.8)
    pRegion.Union_(@rcf)
    graphics.FillRegion(@solidBrush, @pRegion)
 
