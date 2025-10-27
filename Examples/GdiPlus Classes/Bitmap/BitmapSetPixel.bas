@@ -53,7 +53,7 @@ SUB Example_SetPixel (BYVAL hdc AS HDC)
    DIM nHeight AS DWORD = myBitmap.GetHeight
 
    ' // Make an ARGB color
-   DIM pixelColor AS ARGB = GDIP_ARGB(255, 0, 0, 0)
+   DIM pixelColor AS ARGB = ARGB_BLACK
 
    FOR row AS LONG = 0 TO nWidth - 1 STEP 2
       FOR col AS LONG = 0 TO nHeight STEP 2
