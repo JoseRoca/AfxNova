@@ -3081,7 +3081,7 @@ END SUB
 ```
 ---
 
-## <a name="isvisible"></a>IsVisible (CGpGRaphics)
+## <a name="isvisible"></a>IsVisible (CGpGraphics)
 
 Determines whether the specified point is inside the visible clipping region of this **Graphics** object. The visible clipping region is the intersection of the clipping region of this **Graphics** object and the clipping region of the window.
 
@@ -3126,7 +3126,7 @@ SUB Example_IsVisible (BYVAL hdc AS HDC)
 
    ' // Determine whether the point is visible and, if it is, draw an ellipse.
    IF graphics.IsVisible(100, 100) THEN
-      graphics.FillEllipse(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 0)), 100, 100, 5, 5)
+      graphics.FillEllipse(@CGpSolidBrush(ARGB_BLACK), 100, 100, 5, 5)
    END IF
 
 END SUB
@@ -4331,14 +4331,14 @@ SUB Example_AddArc (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM rc AS GpRect = GDIP_RECT(20, 20, 50, 100)
+   DIM rc AS GpRect = (20, 20, 50, 100)
 
    DIM path AS CGpGraphicsPath
    path.AddArc(@rc, 0.0, 180.0)
    path.CloseFigure
    
    ' // Draw the path.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4376,6 +4376,34 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Exaample
+
+```
+' ========================================================================================
+' The following example creates a GraphicsPath object path, adds a Bézier spline to path,
+' closes the current figure (the only figure in this case), and then draws path.
+' ========================================================================================
+SUB Example_AddBezier (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   DIM path AS CGpGraphicsPath
+   path.AddBezier(50, 50, 60, 20, 70, 100, 80, 50)
+   path.CloseFigure
+
+   ' // Draw the path.
+   DIM pen AS CGpPen = ARGB_RED
+   graphics.DrawPath(@pen, @path)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="addbeziers"></a>AddBeziers (CGpGraphicsPath)
@@ -4415,13 +4443,13 @@ SUB Example_AddBeziers (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM pts(0 TO 6) AS GpPoint = {GDIP_POINT(50, 50), GDIP_POINT(60, 20), GDIP_POINT(70, 100), GDIP_POINT(80, 50), GDIP_POINT(120, 40), GDIP_POINT(150, 80), GDIP_POINT(170, 30)}
+   DIM pts(0 TO 6) AS GpPoint = {(50, 50), (60, 20), (70, 100), (80, 50), (120, 40), (150, 80), (170, 30)}
    DIM path AS CGpGraphicsPath
    path.AddBeziers(@pts(0), 7)
    path.CloseFigure
-   
+
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
    
 END SUB
@@ -4472,12 +4500,12 @@ SUB Example_AddClosedCurve (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM pts(0 TO 3) AS GpPoint = {GDIP_POINT(50, 50), GDIP_POINT(60, 20), GDIP_POINT(70, 100), GDIP_POINT(80, 50)}
+   DIM pts(0 TO 3) AS GpPoint = {(50, 50), (60, 20), (70, 100), (80, 50)}
    DIM path AS CGpGraphicsPath
    path.AddClosedCurve(@pts(0), 4)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4530,12 +4558,12 @@ SUB Example_AddCurve (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM pts(0 TO 3) AS GpPoint = {GDIP_POINT(50, 50), GDIP_POINT(60, 20), GDIP_POINT(70, 100), GDIP_POINT(80, 50)}
+   DIM pts(0 TO 3) AS GpPoint = {(50, 50), (60, 20), (70, 100), (80, 50)}
    DIM path AS CGpGraphicsPath
    path.AddCurve(@pts(0), 4)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4563,12 +4591,17 @@ SUB Example_AddCurve (BYVAL hdc AS HDC)
       GDIP_POINT(130, 40), GDIP_POINT(150, 90), GDIP_POINT(180, 30), GDIP_POINT(210, 120), GDIP_POINT(240, 80)}
    path.AddCurve(@pts(0), 8, 2, 4, 1.0)
    
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM path AS CGpGraphicsPath
+   DIM pts(0 TO 7) AS GpPoint = {(50, 50), (70, 80), (100, 100), _
+      (130, 40), (150, 90), (180, 30), (210, 120), (240, 80)}
+   path.AddCurve(@pts(0), 8, 2, 4, 1.0)
+
+   DIM pen AS CGpPen = ARGB_BLUE
    graphics.DrawPath(@pen, @path)
 
    ' // Draw all eight points in the array.
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   
+   DIM brush AS CGpSolidBrush = ARGB_RED
+
    FOR j AS LONG = 0 TO 7
       graphics.FillEllipse(@brush, pts(j).x - 3, pts(j).y - 3, 6, 6)
    NEXT
@@ -4625,7 +4658,7 @@ SUB Example_AddEllipse (BYVAL hdc AS HDC)
    path.AddEllipse(20, 20, 200, 100)
 
    ' // Draw the path
-   DIM pen AS CgpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4676,7 +4709,7 @@ SUB Example_AddLine (BYVAL hdc AS HDC)
    path.AddLine(20, 20, 200, 100)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4720,13 +4753,12 @@ SUB Example_AddLines (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM pts(0 TO 4) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(30, 30), GDIP_POINT(40, 24), _
-      GDIP_POINT(50, 30), GDIP_POINT(60, 20)}
+   DIM pts(0 TO 4) AS GpPoint = {(20, 20), (30, 30), (40, 24), (50, 30), (60, 20)}
    DIM path AS CGpGraphicsPath
    path.AddLines(@pts(0), 5)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4786,7 +4818,7 @@ SUB Example_AddPath (BYVAL hdc AS HDC)
 
    path1.AddPath(@path2, TRUE)
 
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM pen AS CGpPen = ARGB_BLUE
    graphics.DrawPath(@pen, @path1)
 
 END SUB
@@ -4845,7 +4877,7 @@ SUB Example_AddPie (BYVAL hdc AS HDC)
    path.AddPie(50, 50, 100, 100, 20.0, 45.0)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4888,12 +4920,12 @@ SUB Example_AddPolygon (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM pts(0 TO 2) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(120, 20), GDIP_POINT(120, 70)}
+   DIM pts(0 TO 2) AS GpPoint = {(20, 20), (120, 20), (120, 70)}
    DIM path AS CGpGraphicsPath
    path.AddPolygon(@pts(0), 3)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4942,12 +4974,12 @@ SUB Example_AddRectangle (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM rc AS GpRect = GDIP_RECT(20, 20, 100, 50)
+   DIM rc AS GpRect = (20, 20, 100, 50)
    DIM path AS CGpGraphicsPath
    path.AddRectangle(@rc)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4990,12 +5022,12 @@ SUB Example_AddRectangles (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM rects(0 TO 1) AS GpRect = {GDIP_RECT(20, 20, 100, 50), GDIP_RECT(30, 30, 50, 100)}
+   DIM rects(0 TO 1) AS GpRect = {(20, 20, 100, 50), (30, 30, 50, 100)}
    DIM path AS CGpGraphicsPath
    path.AddRectangles(@rects(0), 2)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -5059,11 +5091,11 @@ SUB Example_AddString (BYVAL hdc AS HDC)
 
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    DIM path AS CGpGraphicsPath
-   DIM rc AS GpRect = GDIP_RECT(50, 50, 150, 100)
+   DIM rc AS GpRect = (50, 50, 150, 100)
    path.AddString("Hello World", -1, @fontFamily, FontStyleRegular, 48, @rc, NULL)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -5137,8 +5169,8 @@ SUB Example_CloseAllFigures (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM rect1 AS GpRect = GDIP_RECT(20, 20, 50, 100)
-   DIM rect2 AS GpRect = GDIP_RECT(40, 40, 50, 100)
+   DIM rect1 AS GpRect = (20, 20, 50, 100)
+   DIM rect2 AS GpRect = (40, 40, 50, 100)
 
    DIM path AS CGpGraphicsPath
    path.AddArc(@rect1, 0, 180)   '  // first figure
@@ -5147,7 +5179,7 @@ SUB Example_CloseAllFigures (BYVAL hdc AS HDC)
    path.CloseAllFigures
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -5185,8 +5217,8 @@ SUB Example_CloseFigure (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM rect1 AS GpRect = GDIP_RECT(20, 20, 50, 100)
-   DIM rect2 AS GpRect = GDIP_RECT(40, 40, 50, 100)
+   DIM rect1 AS GpRect = (20, 20, 50, 100)
+   DIM rect2 AS GpRect = (40, 40, 50, 100)
 
    DIM path AS CGpGraphicsPath
    path.AddArc(@rect1, 0, 180)   ' // first figure
@@ -5194,7 +5226,7 @@ SUB Example_CloseFigure (BYVAL hdc AS HDC)
    path.AddArc(@rect2, 0, 180)   ' // second figure
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -5240,20 +5272,20 @@ SUB Example_Flatten (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM pts(0 TO 3) AS GpPoint = {GDIP_POINT(20, 50), GDIP_POINT(40, 70), GDIP_POINT(60, 10), GDIP_POINT(80, 50)}
+   DIM pts(0 TO 3) AS GpPoint = {(20, 50), (40, 70), (60, 10), (80, 50)}
    DIM path AS CGpGraphicsPath
    path.AddCurve(@pts(0), 4)
    path.AddEllipse(20, 100, 150, 80)
    path.AddBezier(20, 200, 20, 250, 50, 210, 100, 260)
 
    ' // Draw the path before flattening
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM pen AS CGpPen = ARGB_BLUE
    graphics.DrawPath(@pen, @path)
 
    path.Flatten(NULL, 8.0)
 
    ' // Draw the flattened path
-   pen.SetColor(GDIP_ARGB(255, 0, 255, 0))
+   pen.SetColor(ARGB_LIGHTGREEN)
    graphics.DrawPath(@pen, @path)
 
    ' // Get the path data from the flattened path.
@@ -5261,7 +5293,7 @@ SUB Example_Flatten (BYVAL hdc AS HDC)
    path.GetPathData(@pathData)
 
    ' // Draw the data points of the flattened path
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM brush AS CGpSolidBrush = ARGB_RED
    FOR j AS LONG = 0 TO pathData.Count - 1
       graphics.FillEllipse(@brush, pathData.Points[j].x - 3.0, _
          pathData.Points[j].y - 3.0, 6.0, 6.0)
@@ -5313,11 +5345,11 @@ SUB Example_GetBounds (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 1)
-   DIM yellowPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 255, 0), 10)
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 1)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
+   DIM yellowPen AS CGpPen = CGpPen(ARGB_YELLOW, 10)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 1)
 
-   DIM pts(0 TO 3) AS GpPoint = {GDIP_POINT(120, 120), GDIP_POINT(200, 130), GDIP_POINT(150, 200), GDIP_POINT(130, 180)}
+   DIM pts(0 TO 3) AS GpPoint = {(120, 120), (200, 130), (150, 200), (130, 180)}
 
    ' // Create a path that has one curve and one ellipse.
    DIM path AS CGpGraphicsPath
@@ -5327,11 +5359,11 @@ SUB Example_GetBounds (BYVAL hdc AS HDC)
    ' // Draw the path with a thick yellow pen and a thin black pen.
    graphics.DrawPath(@yellowPen, @path)
    graphics.DrawPath(@blackPen, @path)
- 
+
    ' // Get the path's bounding rectangle.
    DIM rc AS GpRect
    path.GetBounds(@rc, NULL, @yellowPen)
-   graphics.DrawRectangle(@redPen, @rc)  
+   graphics.DrawRectangle(@redPen, @rc)
 
 END SUB
 ' ========================================================================================
@@ -5407,8 +5439,7 @@ SUB Example_GetPathData (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM points(0 TO 4) AS GpPoint = {GDIP_POINT(200, 200), GDIP_POINT(250, 240), _
-      GDIP_POINT(200, 300), GDIP_POINT(300, 310), GDIP_POINT(250, 350)}
+   DIM points(0 TO 4) AS GpPoint = {(200, 200), (250, 240), (200, 300), (300, 310), (250, 350)}
    DIM path AS CGpGraphicsPath
    path.AddLine(20, 100, 150, 200)
    path.AddRectangle(40, 30, 80, 60)
@@ -5416,7 +5447,7 @@ SUB Example_GetPathData (BYVAL hdc AS HDC)
    path.AddCurve(@points(0), 5)
 
     ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM pen AS CGpPen = ARGB_BLUE
    graphics.DrawPath(@pen, @path)
 
    ' // Get the path data
@@ -5424,7 +5455,7 @@ SUB Example_GetPathData (BYVAL hdc AS HDC)
    path.GetPathData(@pathData)
 
    ' // Draw the path's data points
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM brush AS CGpSolidBrush = ARGB_RED
    FOR j AS LONG = 0 TO pathData.Count - 1
       graphics.FillEllipse(@brush, pathData.Points[j].x - 3.0, _
          pathData.Points[j].y - 3.0, 6.0, 6.0)
@@ -5467,19 +5498,9 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 ' enough to receive the array of data points and passes the address of that buffer to the
 ' GraphicsPath.GetPathPoints method. Finally, the code draws each of the path's data points.
 ' ========================================================================================
-SUB Example_GetPathPoints (BYVAL hdc AS HDC)
-
-   ' // Create a graphics object from the window device context
-   DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
-
    ' // Create a path that has a line, a rectangle, an ellipse, and a curve.
    DIM path AS CGpGraphicsPath
-   DIM points(0 TO 4) AS GpPoint = {GDIP_POINT(200, 200), GDIP_POINT(250, 240), _
-      GDIP_POINT(200, 300), GDIP_POINT(300, 310), GDIP_POINT(250, 350)}
+   DIM points(0 TO 4) AS GpPoint = {(200, 200), (250, 240), (200, 300), (300, 310), (250, 350)}
 
    path.AddLine(20, 100, 150, 200)
    path.AddRectangle(40, 30, 80, 60)
@@ -5487,7 +5508,7 @@ SUB Example_GetPathPoints (BYVAL hdc AS HDC)
    path.AddCurve(@points(0), 5)
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
    ' // Get the path points.
@@ -5496,7 +5517,7 @@ SUB Example_GetPathPoints (BYVAL hdc AS HDC)
    path.GetPathPoints(@dataPoints(0), nCount)
 
    ' // Draw the path's data points
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM brush AS CGpSolidBrush = ARGB_RED
    FOR j AS LONG = 0 TO nCount - 1
       graphics.FillEllipse(@brush, dataPoints(j).x - 3.0, _
          dataPoints(j).y - 3.0, 6.0, 6.0)
@@ -5571,7 +5592,7 @@ SUB Example_GetPointCount (BYVAL hdc AS HDC)
    DIM nCount AS LONG = path.GetPointCount
 
    ' // Draw the path points
-   DIM RedBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM RedBrush AS CGpSolidBrush = ARGB_RED
    DIM points(nCount - 1) AS GpPointF
    path.GetPathPoints(@points(0), nCount)
 
@@ -5628,24 +5649,24 @@ SUB Example_IsOutlineVisible (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM yellowPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 255, 0), 20)
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0,  0)
+   DIM yellowPen AS CGpPen = CGpPen(ARGB_YELLOW, 20)
+   DIM brush AS CGpSolidBrush = ARGB_RED
 
    ' // Create and draw a path
    DIM path AS CGpGraphicsPath
    path.AddEllipse(50, 50, 200, 100)
    graphics.DrawPath(@yellowPen, @path)
-   
+
    ' // Create an array of three points, and determine whether each
    ' // point in the array touches the outline of the path.
    ' // If a point touches the outline, paint it green.
    ' // If a point does not touch the outline, paint it red.
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(230, 138), GDIP_POINT(100, 120), GDIP_POINT(150, 170)}
+   DIM points(0 TO 2) AS GpPoint = {(230, 138), (100, 120), (150, 170)}
    FOR j AS LONG = 0 TO 2
       IF path.IsOutlineVisible(points(j).x, points(j).y, @yellowPen, NULL) THEN
-         brush.SetColor(GDIP_ARGB(255, 0, 255,  0))
+         brush.SetColor(ARGB_GREEN)
       ELSE
-         brush.SetColor(GDIP_ARGB(255, 255, 0,  0))
+         brush.SetColor(ARGB_RED)
       END IF
       graphics.FillEllipse(@brush, points(j).x - 3, points(j).y - 3, 6, 6)
    NEXT
@@ -5694,8 +5715,8 @@ SUB Example_IsVisible (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 1)
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0,  0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
+   DIM brush AS CGpSolidBrush = ARGB_RED
 
    ' // Create and draw a path
    DIM path AS CGpGraphicsPath
@@ -5706,13 +5727,12 @@ SUB Example_IsVisible (BYVAL hdc AS HDC)
    ' // point in the array touches the outline of the path.
    ' // If a point touches the outline, paint it green.
    ' // If a point does not touch the outline, paint it red.
-   DIM points(0 TO 3) AS GpPoint = {GDIP_POINT(50, 100), GDIP_POINT(250, 100), _
-       GDIP_POINT(150, 170), GDIP_POINT(180, 60)}
+   DIM points(0 TO 3) AS GpPoint = {(50, 100), (250, 100), (150, 170), (180, 60)}
    FOR j AS LONG = 0 TO 3
       IF path.IsVisible(points(j).x, points(j).y, @graphics) THEN
-         brush.SetColor(GDIP_ARGB(255, 0, 255,  0))
+         brush.SetColor(ARGB_GREEN)
       ELSE
-         brush.SetColor(GDIP_ARGB(255, 255, 0,  0))
+         brush.SetColor(ARGB_RED)
       END IF
       graphics.FillEllipse(@brush, points(j).x - 3, points(j).y - 3, 6, 6)
    NEXT
@@ -5758,12 +5778,11 @@ SUB Example_Outline (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM bluePen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 10)
+   DIM bluePen AS CGpPen = ARGB_BLUE
+   DIM greenPen AS CGpPen = CGpPen(ARGB_GREEN, 10)
 
-   DIM points(0 TO 3) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(160, 100), _
-       GDIP_POINT(140, 60), GDIP_POINT(60, 100)}
-  
+   DIM points(0 TO 3) AS GpPoint = {(20, 20), (160, 100), (140, 60), (60, 100)}
+
    DIM path AS CGpGraphicsPath
    path.AddClosedCurve(@points(0), 4)
 
@@ -5810,6 +5829,37 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a GraphicsPath object path, adds two lines to path, calls
+' the Reverse method, and then draws path.
+' ========================================================================================
+SUB Example_Reverse (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   DIM points(0 TO 3) AS GpPoint = {(20, 20), (160, 100), (140, 60), (60, 100)}
+
+   ' // Set up and call Reverse
+   DIM path AS CGpGraphicsPath
+   DIM pts(0 TO 2) AS GpPoint = {(10, 60), (50, 110), (90, 60)}
+   path.AddLines(@pts(0), 3)
+   path.Reverse
+
+   ' // Draw the path.
+   graphics.DrawPath(@CGpPen(GDIP_ARGB(128, 255, 0, 0), 2), @path)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setfillmode"></a>SetFillMode (CGpGraphicsPath)
@@ -5888,8 +5938,8 @@ SUB Example_StartFigure (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 100, 50)
+   DIM pen AS CGpPen = ARGB_BLUE
+   DIM rc AS GpRect = (0, 0, 100, 50)
    DIM path AS CGpGraphicsPath
 
    path.AddArc(0, 0, 100, 50, 0.0, 180.0)
@@ -5949,7 +5999,7 @@ SUB Example_Transform (BYVAL hdc AS HDC)
    path.AddRectangle(40, 10, 200, 50)
 
    ' // Draw the path in blue before applying a transformation
-   graphics.DrawPath(@CGpPen(GDIP_ARGB(255, 0, 0, 255)), @path)
+   graphics.DrawPath(@CGpPen(ARGB_BLUE), @path)
 
    ' // Transform the path
    DIM matrix AS CGpMatrix
@@ -5957,7 +6007,7 @@ SUB Example_Transform (BYVAL hdc AS HDC)
    path.Transform(@matrix)
 
    ' // Draw the transformed path in red.
-   graphics.DrawPath(@CGpPen(GDIP_ARGB(255, 255, 0,  0)), @path)
+   graphics.DrawPath(@CGpPen(ARGB_RED), @path)
 
 END SUB
 ' ========================================================================================
@@ -6009,28 +6059,26 @@ SUB Example_Warp (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, rxRatio)
 
    ' // Create a path.
-   DIM points(0 TO 7) AS GpPointF = {GDIP_POINTF(20.0, 60.0), GDIP_POINTF(30.0, 90.0), _
-      GDIP_POINTF(15.0, 110.0), GDIP_POINTF(15.0, 145.0), GDIP_POINTF(55.0, 145.0), _
-      GDIP_POINTF(55.0, 110.0), GDIP_POINTF(40.0, 90.0), GDIP_POINTF(50.0, 60.0)}
+   DIM points(0 TO 7) AS GpPointF = {(20.0, 60.0), (30.0, 90.0), _
+      (15.0, 110.0), (15.0, 145.0), (55.0, 145.0), (55.0, 110.0), (40.0, 90.0), (50.0, 60.0)}
    DIM path AS CGpGraphicsPath
    path.AddLines(@points(0), 8)
    path.CloseFigure
 
    ' // Draw the path before applying a warp transformation.
-   DIM bluePen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM bluePen AS CGpPen = ARGB_RED
    graphics.DrawPath(@bluePen, @path)
 
    ' // Define a warp transformation, and warp the path.
-   DIM srcRect AS GpRectF = GDIP_RECTF(10.0, 50.0, 50.0, 100.0)
-   DIM destPts(0 TO 3) AS GpPointF = {GDIP_POINTF(220.0, 10.0), GDIP_POINTF(280.0, 10.0), _
-       GDIP_POINTF(100.0, 150.0), GDIP_POINTF(400.0, 150.0)}
+   DIM srcRect AS GpRectF = (10.0, 50.0, 50.0, 100.0)
+   DIM destPts(0 TO 3) AS GpPointF = {(220.0, 10.0), (280.0, 10.0), (100.0, 150.0), (400.0, 150.0)}
    path.Warp(@destPts(0), 4, @srcRect)
 
    ' // Draw the warped path.
    graphics.DrawPath(@bluePen, @path)
 
    ' // Draw the source rectangle and the destination polygon.
-   DIM blackPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackPen AS CGpPen = ARGB_BLACK
    graphics.DrawRectangle(@blackPen, @srcRect)
    graphics.DrawLine(@blackPen, @destPts(0), @destPts(1))
    graphics.DrawLine(@blackPen, @destPts(0), @destPts(2))
@@ -6080,10 +6128,9 @@ SUB Example_Widen (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, rxRatio)
 
-   DIM bluePen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255,  0), 10)
-   DIM points(0 TO 3) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(160, 100), _
-       GDIP_POINT(140, 60), GDIP_POINT(60, 100)}
+   DIM bluePen AS CGpPen = ARGB_BLUE
+   DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 10)
+   DIM points(0 TO 3) AS GpPoint = {(20, 20), (160, 100), (140, 60), (60, 100)}
 
    DIM path AS CGpGraphicsPath
    path.AddClosedCurve(@points(0), 4)
