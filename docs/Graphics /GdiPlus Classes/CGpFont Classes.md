@@ -199,7 +199,7 @@ SUB Example_CloneFont (BYVAL hdc AS HDC)
    font.Clone(@cloneFont)
 
    ' // Draw Text with cloneFont.
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "This is a cloned Font"
    graphics.DrawString(@wszText, -1, @cloneFont, 0, 0, @solidbrush)
 
@@ -255,7 +255,7 @@ SUB Example_GetFamily (BYVAL hdc AS HDC)
    DIM familyFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
 
    ' // Draw Text with familyFont
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "This is a Font created from a FontFamily"
    graphics.DrawString(@wszText, -1, @familyFont, 0, 0, @solidbrush)
 
@@ -318,6 +318,43 @@ If the font unit is set to anything other than **UnitPixel**, the height, in pix
 ```
 2355*(0.3/2048)*96 = 33.1171875
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Font object, retrieves the height of the Font object, and
+' uses the height to position two lines of text, with the second line directly below the first.
+' ========================================================================================
+SUB Example_GetHeight (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create a Font object.
+   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+
+   ' // Draw text with myFont.
+   DIM solidbrush_1 AS CGpSolidBrush = ARGB_BLACK
+   DIM wszText AS WSTRING * 260 = "The first line of text"
+   graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush_1)
+
+   ' // Get the height of myFont.
+   DIM height AS SINGLE = font.GetHeight(@graphics)
+
+   ' // Draw text immediately below the first line of text
+   DIM solidbrush_2 AS CGpSolidBrush = ARGB_RED
+   DIM wszText2 AS WSTRING * 260 = "The second line of text"
+   graphics.DrawString(@wszText2, -1, @font, 0, height, @solidbrush_2)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getlogfont"></a>GetLogFontA (CGpFont)
@@ -371,7 +408,7 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
    DIM logfontFont AS CGpFont = CGpFont(hdc, @logFont)
 
    ' // Draw text using logfontFont.
-   DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "Font from a LOGFONTA"
    graphics.DrawString(@wszText, -1, @logfontFont, 0, 0, @solidbrush)
 
@@ -410,7 +447,7 @@ SUB Example_GetLogFontW (BYVAL hdc AS HDC)
    DIM logfontFont AS CGpFont = CGpFont(hdc, @logFont)
 
    ' // Draw text using logfontFont.
-   DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "Font from a LOGFONTW"
    graphics.DrawString(@wszText, -1, @logfontFont, 0, 0, @solidbrush)
 
@@ -431,6 +468,40 @@ FUNCTION GetSize () AS SINGLE
 
 The method returns the font size. The size is in the units of this **Font** object.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Font object, gets the size of the font, and creates a second
+' Font object of the same size as the first. The second Font object is then used to draw text.
+' ========================================================================================
+SUB Example_GetSize (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create a Font object according to the DPI setting
+   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+
+   ' // Get the size of font
+   DIM size AS SINGLE = font.GetSize
+
+   ' // Create a second Font object with the same emSize as myFont.
+   DIM sizeFont AS CGpFont = CGpFont("Arial", size)
+
+   ' // Draw text using sizeFont
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
+   DIM wszText AS WSTRING * 260 = "Font with an acquired size"
+   graphics.DrawString(@wszText, -1, @sizeFont, 0, 0, @solidbrush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getstyle"></a>GetStyle (CGpFont)
@@ -473,7 +544,7 @@ SUB Example_GetStyle (BYVAL hdc AS HDC)
    DIM styleFont AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(20) / rxRatio, style)
 
    ' // Draw text using sizeFont
-   DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "Font with an acquired style"
    graphics.DrawString(@wszText, -1, @styleFont, 0, 0, @solidbrush)
 
@@ -521,7 +592,7 @@ SUB Example_GetUnit (BYVAL hdc AS HDC)
    graphics.SetPageUnit(unit)
 
    ' // Draw text using font
-   DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
    DIM wszText AS WSTRING * 260 = "Here is some text"
    graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
 
@@ -567,7 +638,7 @@ SUB Example_IsAvailable (BYVAL hdc AS HDC)
 
    ' // Draw text using font, if it is availiable
    IF available THEN
-      DIM solidbrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+      DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
       DIM wszText AS WSTRING * 260 = "Here is some text"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
    END IF
