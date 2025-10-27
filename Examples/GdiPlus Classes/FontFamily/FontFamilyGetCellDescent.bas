@@ -46,7 +46,7 @@ SUB Example_GetCellDescent (BYVAL hdc AS HDC)
    DIM cellDescent AS LONG = descentFontFamily.GetCellDescent(FontStyleRegular)
 
    ' // Copy the cell descent into a string and draw the string
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    DIM font AS CGpFont = CGpFont(@descentFontFamily, AfxPointsToPixelsX(16) / rxRatio)
    DIM wszText AS WSTRING * 260
    wszText = "ascentFontFamily.GetCellAscent() returns " & STR(cellDescent)
