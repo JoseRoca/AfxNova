@@ -2456,10 +2456,10 @@ SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(100, 0), GDIP_POINT(200, 200), GDIP_POINT(0, 200)}
+   DIM points(0 TO 2) AS GpPoint = {(100, 0), (200, 200), (0, 200)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_AQUA}
    DIM positions(0 TO 2) AS SINGLE = {0.0, 0.6, 1.0}
 
    pthGrBrush.SetInterpolationColors(@colors(0), @positions(0), 3)
