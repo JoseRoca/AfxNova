@@ -2866,7 +2866,7 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(0, 0), GDIP_POINT(50, 0), GDIP_POINT(50, 50)}
+   DIM points(0 TO 2) AS GpPoint = {(0, 0), (50, 0), (50, 50)}
 
    ' // Translate 10 right, 30 down.
    DIM Matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 10.0, 30.0)
