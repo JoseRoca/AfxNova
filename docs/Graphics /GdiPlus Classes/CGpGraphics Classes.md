@@ -1045,6 +1045,81 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+```
+' ========================================================================================
+' Draws a portion of an image after applying a blur effect.
+' ========================================================================================
+SUB Example_DrawImageFX (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set scaling
+   graphics.SetPageUnit(UnitPixel)
+   graphics.SetPageScale(rxRatio)
+
+   ' // Create an Image object.
+   DIM pImage AS CGpImage = "climber.jpg"
+
+   ' // Get image dimensions
+   DIM nWidth AS UINT = pImage.GetWidth
+   DIM nHeight AS UINT = pImage.GetHeight
+
+   ' // Define source rectangle using actual image size
+   DIM srcRect AS GpRectF = (0, 0, nWidth, nHeight)
+
+   ' // Create transformation matrix
+   DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 10.0, 10.0)
+
+   ' // Create blur effect
+   DIM pBlurEffect AS CGpBlur
+   DIM blurPrms AS BlurParams = (5.0, CTRUE)
+   pBlurEffect.SetParameters(@blurPrms)
+
+   ' // Draw image with effect
+   graphics.DrawImageFX(@pImage, @srcRect, @matrix, @pBlurEffect, NULL, UnitPixel)
+
+END SUB
+' ========================================================================================
+```
+```
+' ========================================================================================
+' Draws an image.
+' ========================================================================================
+SUB Example_DrawImageFX (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set scaling
+   graphics.SetPageUnit(UnitPixel)
+   graphics.SetPageScale(rxRatio)
+
+   ' // Create an Image object.
+   DIM pImage AS CGpImage = "climber.jpg"
+
+   ' // Get image dimensions
+   DIM nWidth AS UINT = pImage.GetWidth
+   DIM nHeight AS UINT = pImage.GetHeight
+
+   ' // Define source rectangle using actual image size
+   DIM srcRect AS GpRectF = (0, 0, nWidth, nHeight)
+
+   ' // Create transformation matrix
+   ' // Position image at 10, 10.
+   DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 10.0, 10.0)
+
+   ' // Draw image with effect
+   graphics.DrawImageFX(@pImage, @srcRect, @matrix, NULL, NULL, UnitPixel)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="drawline"></a>DrawLine (CGpGraphics)
