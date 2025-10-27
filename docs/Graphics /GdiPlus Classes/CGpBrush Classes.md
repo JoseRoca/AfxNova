@@ -1584,11 +1584,10 @@ SUB Example_SetBlendTriangularShape (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pt1 AS GpPoint = GDIP_POINT(0, 0)
-   DIM pt2 AS GpPoint = GDIP_POINT(500, 0)
+   DIM pt1 AS GpPoint = (0, 0)
+   DIM pt2 AS GpPoint = (500, 0)
 
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, _
-      GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, ARGB_RED, ARGB_BLUE)
 
    linGrBrush.SetBlendTriangularShape(0.5, 0.6)
    graphics.FillRectangle(@linGrBrush, 0, 0, 500, 50)
