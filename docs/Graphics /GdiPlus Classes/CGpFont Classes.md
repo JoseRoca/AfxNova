@@ -811,7 +811,7 @@ SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
    DIM arialFont AS CGpFont = CGpFont(@cloneFontFamily, AfxPointsToPixelsX(16) / rxRatio)
 
    ' // Draw text using the new font
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
    graphics.DrawString("This is an Arial font", -1, @arialFont, 0, 0, @solidbrush)
 
 END SUB
