@@ -113,7 +113,7 @@ SUB Example_ClonePen (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create and clone a Pen object.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 4)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 4)
    DIM clonedPen AS CGpPen
    pen.Clone(@clonedPen)
    ' // You can also use:
@@ -157,7 +157,7 @@ SUB Example_GetAlignment (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object and set its alignment.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_GREEN, 15)
    pen.SetAlignment(PenAlignmentCenter)
    
    ' // Draw a line.
@@ -208,10 +208,10 @@ SUB Example_GetBrush (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a HatchBrush object
-   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
 
    ' // Create a pen, and set the brush for the pen
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 10)
+   DIM pen AS CGpPen = CGpPen(ARGB_RED, 10)
    pen.SetBrush(@hatchBrush)
 
    ' // Draw a line with the pen
@@ -318,7 +318,7 @@ SUB Example_GetCompoundArray (BYVAL hdc AS HDC)
 
    ' // Create an array of real numbers and a Pen object.
    DIM compVals(0 TO 5) AS SINGLE = {0.0, 0.2, 0.5, 0.7, 0.9, 1.0}
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 30)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 30)
 
    ' // Set the compound array of the pen.
    pen.SetCompoundArray(@compVals(0), 6)
@@ -369,7 +369,7 @@ SUB Example_GetCompoundArray (BYVAL hdc AS HDC)
 
    ' // Create an array of real numbers and a Pen object.
    DIM compVals(0 TO 5) AS SINGLE = {0.0, 0.2, 0.5, 0.7, 0.9, 1.0}
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 30)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 30)
 
    ' // Set the compound array of the pen.
    pen.SetCompoundArray(@compVals(0), 6)
@@ -435,7 +435,7 @@ SUB Example_GetCustomEndCap (BYVAL hdc AS HDC)
    pStrokePath.AddRectangle(-10, -5, 20, 10)
 
    ' // Create a pen, and set the custom end cap based on the GraphicsPath object.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE)
    DIM custCap AS CGpCustomLineCap = CGpCustomLineCap(NULL, @pStrokePath)
    pen.SetCustomEndCap(@custCap)
 
@@ -447,7 +447,7 @@ SUB Example_GetCustomEndCap (BYVAL hdc AS HDC)
    pen.GetCustomEndCap(@customLineCap)
 
    ' // Create another pen, and use the same custom end cap.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 3)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_GREEN, 3)
    pen2.SetCustomEndCap(@customLineCap)
 
    ' // Draw a line using the second pen.
@@ -500,7 +500,7 @@ SUB Example_GetCustomStartCap (BYVAL hdc AS HDC)
    pStrokePath.AddRectangle(-10, -5, 20, 10)
 
    ' // Create a pen, and set the custom start cap based on the GraphicsPath object.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE)
    DIM custCap AS CGpCustomLineCap = CGpCustomLineCap(NULL, @pStrokePath)
    pen.SetCustomStartCap(@custCap)
 
@@ -512,7 +512,7 @@ SUB Example_GetCustomStartCap (BYVAL hdc AS HDC)
    pen.GetCustomStartCap(@customLineCap)
 
    ' // Create another pen, and use the same custom end cap.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 3)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_GREEN, 3)
    pen2.SetCustomStartCap(@customLineCap)
 
    ' // Draw a line using the second pen.
@@ -554,7 +554,7 @@ SUB Example_GetDashCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 20)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 20)
 
    ' // Set the dash style for the pen
    pen.SetDashStyle(DashStyleDash)
@@ -569,7 +569,7 @@ SUB Example_GetDashCap (BYVAL hdc AS HDC)
    DIM nDashCap AS DashCap = pen.GetDashCap
 
    ' // Create another pen, and use the same dash cap.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 15)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_GREEN, 15)
    pen2.SetDashStyle(DashStyleDash)
    pen2.SetDashCap(nDashCap)
 
@@ -637,7 +637,7 @@ SUB Example_GetDashPattern (BYVAL hdc AS HDC)
    DIM dashVals(0 TO 3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
 
    ' // Create a Pen
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 5)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLACK, 5)
 
    ' // Set the dash pattern for the custom dashed line.
    pen.SetDashPattern(@dashVals(0), 4)
@@ -689,7 +689,7 @@ SUB Example_GetDashPattern (BYVAL hdc AS HDC)
    DIM dashVals(0 TO 3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
 
    ' // Create a Pen
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 5)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLACK, 5)
 
    ' // Set the dash pattern for the custom dashed line.
    pen.SetDashPattern(@dashVals(0), 4)
@@ -743,7 +743,7 @@ SUB Example_GetDashStyle (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 9)
+   DIM pen AS CGpPen = CGpPen(ARGB_RED, 9)
 
    ' // Set the dash style for the pen
    pen.SetDashStyle(DashStyleDashDot)
@@ -754,7 +754,7 @@ SUB Example_GetDashStyle (BYVAL hdc AS HDC)
    nDashStyle = pen.GetDashStyle
 
    ' // Create another pen, and use the same dash style.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 9)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_GREEN, 9)
    pen2.SetDashStyle(nDashStyle)
 
    ' // Draw a second dashed line.
@@ -795,7 +795,7 @@ SUB Example_GetEndCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the end cap of the pen, and draw a line.
    pen.SetEndCap(LineCapArrowAnchor)
@@ -806,7 +806,7 @@ SUB Example_GetEndCap (BYVAL hdc AS HDC)
    nLineCap = pen.GetEndCap
 
    ' // Create another pen, and use the same end cap.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 9)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_RED, 9)
    pen2.SetEndCap(nLineCap)
 
    ' // Draw a second line.
@@ -847,7 +847,7 @@ SUB Example_GetLineJoin (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_GREEN, 15)
 
    ' // Set the join style, and draw a rectangle.
    pen.SetLineJoin(LineJoinRound)
@@ -858,7 +858,7 @@ SUB Example_GetLineJoin (BYVAL hdc AS HDC)
    DIM nLineJoin AS LineJoin = pen.GetLineJoin
 
    ' // Create another pen, and use the same line join.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 15)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_GREEN, 15)
    pen2.SetLineJoin(nLineJoin)
 
    ' // Draw a second rectangle.
@@ -915,13 +915,12 @@ SUB Example_GetPenType (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a HatchBrush object.
-   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, _
-      GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
 
    ' // Create a pen based on a hatch brush, and use that pen to draw a line.
    DIM pen AS CgpPen = CgpPen(@hatchBrush, 15)
    graphics.DrawLine(@pen, 20, 20, 200, 100)
-   
+
    ' // Obtain information about the pen.
    DIM nPenType AS PenType = pen.GetPenType
 
@@ -966,7 +965,7 @@ SUB Example_GetStartCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the start cap of the pen, and draw a line.
    pen.SetStartCap(LineCapArrowAnchor)
@@ -977,7 +976,7 @@ SUB Example_GetStartCap (BYVAL hdc AS HDC)
    nLineCap = pen.GetStartCap
 
    ' // Create another pen, and use the same end cap.
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_BLUE, 15)
    pen2.SetStartCap(nLineCap)
 
    ' // Draw a second line.
@@ -1024,7 +1023,7 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen and set its transformation.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    pen.RotateTransform(45)
 
    ' // Obtain information about the pen.
@@ -1075,14 +1074,14 @@ SUB Example_GetWidth (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen and use it to draw a rectangle
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
    graphics.DrawRectangle(@pen, 20, 20, 200, 100)
 
    ' // Get the width of the pen.
    DIM nWidth AS SINGLE = pen.GetWidth
 
    ' // Create another pen that has the same width
-   DIM pen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), nWidth)
+   DIM pen2 AS CGpPen = CGpPen(ARGB_GREEN, nWidth)
 
    ' // Draw a second line.
    graphics.DrawLine(@pen2, 20, 60, 200, 140)
@@ -1134,7 +1133,7 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
    DIM matrix AS CGpMatrix = CGpMatrix(1, 0, 0, 4, 0, 0)
 
    ' // Create a pen, and use it to draw a rectangle.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM pen AS CGpPen = ARGB_BLUE
 
    pen.SetWidth(5)
    pen.RotateTransform(30)   ' // first rorate
@@ -1184,7 +1183,7 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen, and set its transformation
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 2)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
    pen.ScaleTransform(8, 4)
 
    ' // Draw a rectangle with the transformed pen
@@ -1286,7 +1285,7 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen, and use it to draw a rectangle
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 2)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
    graphics.DrawRectangle(@pen, 50, 50, 150, 100)
 
    ' // Apply a scaling transformation to the pen
@@ -1340,8 +1339,8 @@ SUB Example_SetAlignment (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a black and a green pen.
-   DIM blackPen AS CgpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 1)
-   DIM greenPen AS CgpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 15)
+   DIM blackPen AS CgpPen = CGpPen(ARGB_BLACK, 1)
+   DIM greenPen AS CgpPen = CGpPen(ARGB_GREEN, 15)
 
    ' // Set the alignment of the green pen.
    greenPen.SetAlignment(PenAlignmentInset)
@@ -1392,10 +1391,10 @@ SUB Example_SetBrush (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a HatchBrush object
-   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
 
    ' // Create a pen, and set the brush for the pen
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 10)
+   DIM pen AS CGpPen = CGpPen(ARGB_RED, 10)
    pen.SetBrush(@hatchBrush)
 
    ' // Draw a line with the pen
@@ -1442,7 +1441,7 @@ SUB Example_SetColor (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red pen, and use it to draw a line.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 5)
+   DIM pen AS CGpPen = CGpPen(ARGB_RED, 5)
    graphics.DrawLine(@pen, 0, 0, 200, 100)
 
    ' // Change the pen's color to blue, and draw a second line.
@@ -1492,7 +1491,7 @@ SUB Example_SetCompoundArray (BYVAL hdc AS HDC)
 
    ' // Create an array of real numbers and a Pen object.
    DIM compVals(0 TO 5) AS SINGLE = {0.0, 0.2, 0.5, 0.7, 0.9, 1.0}
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 30)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 30)
 
    ' // Set the compound array of the pen.
    pen.SetCompoundArray(@compVals(0), 6)
@@ -1546,7 +1545,7 @@ SUB Example_SetCustomEndCap (BYVAL hdc AS HDC)
    pStrokePath.AddRectangle(-10, -5, 20, 10)
 
    ' // Create a pen, and set the custom end cap based on the GraphicsPath object.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE)
    DIM custCap AS CGpCustomLineCap = CGpCustomLineCap(NULL, @pStrokePath)
    pen.SetCustomEndCap(@custCap)
 
@@ -1599,7 +1598,7 @@ SUB Example_SetCustomStartCap (BYVAL hdc AS HDC)
    pStrokePath.AddRectangle(-10, -5, 20, 10)
 
    ' // Create a pen, and set the custom start cap based on the GraphicsPath object.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255))
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE)
    DIM custCap AS CGpCustomLineCap = CGpCustomLineCap(NULL, @pStrokePath)
    pen.SetCustomStartCap(@custCap)
 
@@ -1647,7 +1646,7 @@ SUB Example_SetDashCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 20)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 20)
 
    ' // Set the dash style for the pen
    pen.SetDashStyle(DashStyleDash)
@@ -1699,7 +1698,7 @@ SUB Example_SetDashOffset (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+      DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the dash style for the pen
    pen.SetDashStyle(DashStyleDash)
@@ -1756,7 +1755,7 @@ SUB Example_SetDashPattern (BYVAL hdc AS HDC)
    DIM dashVals(0 TO 3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
 
    ' // Create a Pen
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 5)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLACK, 5)
 
    ' // Set the dash pattern for the custom dashed line.
    pen.SetDashPattern(@dashVals(0), 4)
@@ -1806,7 +1805,7 @@ SUB Example_SetDashStyle (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 20)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 20)
 
    ' // Set the dash style for the pen
    pen.SetDashStyle(DashStyleDashDot)
@@ -1867,7 +1866,7 @@ SUB Example_SetEndCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the end cap of the pen, and draw a line.
    pen.SetEndCap(LineCapArrowAnchor)
@@ -1925,7 +1924,7 @@ SUB Example_SetLineCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set line caps for the pen.
    pen.SetLineCap(LineCapArrowAnchor, LineCapTriangle, DashCapRound)
@@ -1977,7 +1976,7 @@ SUB Example_SetLineJoin (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the join style, and draw a rectangle.
    pen.SetLineJoin(LineJoinRound)
@@ -2049,7 +2048,7 @@ SUB Example_SetStartCap (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the start cap of the pen, and draw a line.
    pen.SetStartCap(LineCapArrowAnchor)
@@ -2104,7 +2103,7 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen, and use it to draw a rectangle
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 2)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
    graphics.DrawRectangle(@pen, 10, 50, 150, 100)
 
    ' // Scale the pen width by a factor of 20 in the horizontal
@@ -2138,6 +2137,34 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Pen object with a specified width and draws a rectangle.
+' The code then resets the width of the pen and draws a second rectangle.
+' ========================================================================================
+SUB Example_SetWidth (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create a pen of width 2, and use it to draw a rectangle.
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
+   graphics.DrawRectangle(@pen, 10, 50, 150, 100)
+
+   ' // Reset the pen's width to 15, and draw another rectangle.
+   pen.SetWidth(15)
+   graphics.DrawRectangle(@pen, 200, 50, 150, 100)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## TranslateTransform
@@ -2183,7 +2210,7 @@ SUB Example_TranslateTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM pen AS CGpPen = ARGB_RED
    pen.RotateTransform(30.0, MatrixOrderAppend)
    graphics.TranslateTransform(100.0, 50.0, MatrixOrderAppend)
    graphics.DrawEllipse(@pen, 0, 0, 200, 80)
