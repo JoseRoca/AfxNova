@@ -45,8 +45,7 @@ SUB Example_GetPathPoints (BYVAL hdc AS HDC)
 
    ' // Create a path that has a line, a rectangle, an ellipse, and a curve.
    DIM path AS CGpGraphicsPath
-   DIM points(0 TO 4) AS GpPoint = {GDIP_POINT(200, 200), GDIP_POINT(250, 240), _
-      GDIP_POINT(200, 300), GDIP_POINT(300, 310), GDIP_POINT(250, 350)}
+   DIM points(0 TO 4) AS GpPoint = {(200, 200), (250, 240), (200, 300), (300, 310), (250, 350)}
 
    path.AddLine(20, 100, 150, 200)
    path.AddRectangle(40, 30, 80, 60)

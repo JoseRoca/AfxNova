@@ -40,12 +40,11 @@ SUB Example_Reverse (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 3) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(160, 100), _
-       GDIP_POINT(140, 60), GDIP_POINT(60, 100)}
+   DIM points(0 TO 3) AS GpPoint = {(20, 20), (160, 100), (140, 60), (60, 100)}
 
    ' // Set up and call Reverse
    DIM path AS CGpGraphicsPath
-   DIM pts(0 TO 2) AS GpPoint = {GDIP_POINT(10, 60), GDIP_POINT(50, 110), GDIP_POINT(90, 60)}
+   DIM pts(0 TO 2) AS GpPoint = {(10, 60), (50, 110), (90, 60)}
    path.AddLines(@pts(0), 3)
    path.Reverse
 

@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: GraphicsPathWiden.bas
-' Contents: GDI+ - GraphicsPathWiden example
+' File: GraphicsPathTransform.bas
+' Contents: GDI+ - GraphicsPathTransform example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,11 +27,12 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a GraphicsPath object and adds a closed curve to the path.
-' The code creates a green pen that has a width of 10 and passes the address of that pen
-' to the GraphicsPath.Widen method. Then the code draws the path with a blue pen of width 1.
+' The following example creates a path and adds two figures to that path. The first figure
+' has three arcs, and the second figure has two arcs. The arcs within a figure are connected
+' by straight lines, but there is no connecting line between the last arc in the first
+' figure and the first arc in the second figure.
 ' ========================================================================================
-SUB Example_Widen (BYVAL hdc AS HDC)
+SUB Example_Transform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -41,14 +42,19 @@ SUB Example_Widen (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM bluePen AS CGpPen = ARGB_BLUE
-   DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 10)
-   DIM points(0 TO 3) AS GpPoint = {(20, 20), (160, 100), (140, 60), (60, 100)}
-
    DIM path AS CGpGraphicsPath
-   path.AddClosedCurve(@points(0), 4)
-   path.Widen(@greenPen)
-   graphics.DrawPath(@bluePen, @path)
+   path.AddRectangle(40, 10, 200, 50)
+
+   ' // Draw the path in blue before applying a transformation
+   graphics.DrawPath(@CGpPen(ARGB_BLUE), @path)
+
+   ' // Transform the path
+   DIM matrix AS CGpMatrix
+   matrix.Rotate(30.0)
+   path.Transform(@matrix)
+
+   ' // Draw the transformed path in red.
+   graphics.DrawPath(@CGpPen(ARGB_RED), @path)
 
 END SUB
 ' ========================================================================================
@@ -68,7 +74,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ GraphicsPathWiden", @WndProc)
+   pWindow.Create(NULL, "GDI+ GraphicsPathTransform", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(420, 250)
    ' // Center the window
@@ -83,7 +89,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_Widen(hdc)
+   Example_Transform(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

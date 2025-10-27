@@ -40,8 +40,7 @@ SUB Example_AddLines (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pts(0 TO 4) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(30, 30), GDIP_POINT(40, 24), _
-      GDIP_POINT(50, 30), GDIP_POINT(60, 20)}
+   DIM pts(0 TO 4) AS GpPoint = {(20, 20), (30, 30), (40, 24), (50, 30), (60, 20)}
    DIM path AS CGpGraphicsPath
    path.AddLines(@pts(0), 5)
 

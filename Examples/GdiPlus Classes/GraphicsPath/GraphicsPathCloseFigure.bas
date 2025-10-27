@@ -40,8 +40,8 @@ SUB Example_CloseFigure (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM rect1 AS GpRect = GDIP_RECT(20, 20, 50, 100)
-   DIM rect2 AS GpRect = GDIP_RECT(40, 40, 50, 100)
+   DIM rect1 AS GpRect = (20, 20, 50, 100)
+   DIM rect2 AS GpRect = (40, 40, 50, 100)
 
    DIM path AS CGpGraphicsPath
    path.AddArc(@rect1, 0, 180)   ' // first figure
@@ -49,7 +49,7 @@ SUB Example_CloseFigure (BYVAL hdc AS HDC)
    path.AddArc(@rect2, 0, 180)   ' // second figure
 
    ' // Draw the path
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
+   DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
 
 END SUB

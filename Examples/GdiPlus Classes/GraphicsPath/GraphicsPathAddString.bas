@@ -42,7 +42,7 @@ SUB Example_AddString (BYVAL hdc AS HDC)
 
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    DIM path AS CGpGraphicsPath
-   DIM rc AS GpRect = GDIP_RECT(50, 50, 150, 100)
+   DIM rc AS GpRect = (50, 50, 150, 100)
    path.AddString("Hello World", -1, @fontFamily, FontStyleRegular, 48, @rc, NULL)
 
    ' // Draw the path

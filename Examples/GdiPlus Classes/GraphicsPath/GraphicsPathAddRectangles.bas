@@ -39,7 +39,7 @@ SUB Example_AddRectangles (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM rects(0 TO 1) AS GpRect = {GDIP_RECT(20, 20, 100, 50), GDIP_RECT(30, 30, 50, 100)}
+   DIM rects(0 TO 1) AS GpRect = {(20, 20, 100, 50), (30, 30, 50, 100)}
    DIM path AS CGpGraphicsPath
    path.AddRectangles(@rects(0), 2)
 

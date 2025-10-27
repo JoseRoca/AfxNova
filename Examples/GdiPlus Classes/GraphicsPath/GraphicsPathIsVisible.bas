@@ -42,8 +42,8 @@ SUB Example_IsVisible (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 1)
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0,  0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
+   DIM brush AS CGpSolidBrush = ARGB_RED
 
    ' // Create and draw a path
    DIM path AS CGpGraphicsPath
@@ -54,8 +54,7 @@ SUB Example_IsVisible (BYVAL hdc AS HDC)
    ' // point in the array touches the outline of the path.
    ' // If a point touches the outline, paint it green.
    ' // If a point does not touch the outline, paint it red.
-   DIM points(0 TO 3) AS GpPoint = {GDIP_POINT(50, 100), GDIP_POINT(250, 100), _
-       GDIP_POINT(150, 170), GDIP_POINT(180, 60)}
+   DIM points(0 TO 3) AS GpPoint = {(50, 100), (250, 100), (150, 170), (180, 60)}
    FOR j AS LONG = 0 TO 3
       IF path.IsVisible(points(j).x, points(j).y, @graphics) THEN
          brush.SetColor(ARGB_GREEN)

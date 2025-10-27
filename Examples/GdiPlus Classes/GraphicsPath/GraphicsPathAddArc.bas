@@ -40,7 +40,7 @@ SUB Example_AddArc (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM rc AS GpRect = GDIP_RECT(20, 20, 50, 100)
+   DIM rc AS GpRect = (20, 20, 50, 100)
 
    DIM path AS CGpGraphicsPath
    path.AddArc(@rc, 0.0, 180.0)

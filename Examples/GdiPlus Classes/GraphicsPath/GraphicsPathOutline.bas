@@ -46,8 +46,7 @@ SUB Example_Outline (BYVAL hdc AS HDC)
    DIM bluePen AS CGpPen = ARGB_BLUE
    DIM greenPen AS CGpPen = CGpPen(ARGB_GREEN, 10)
 
-   DIM points(0 TO 3) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(160, 100), _
-       GDIP_POINT(140, 60), GDIP_POINT(60, 100)}
+   DIM points(0 TO 3) AS GpPoint = {(20, 20), (160, 100), (140, 60), (60, 100)}
 
    DIM path AS CGpGraphicsPath
    path.AddClosedCurve(@points(0), 4)

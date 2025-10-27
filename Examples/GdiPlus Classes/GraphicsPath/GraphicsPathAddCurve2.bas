@@ -41,8 +41,8 @@ SUB Example_AddCurve (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    DIM path AS CGpGraphicsPath
-   DIM pts(0 TO 7) AS GpPoint = {GDIP_POINT(50, 50), GDIP_POINT(70, 80), GDIP_POINT(100, 100), _
-      GDIP_POINT(130, 40), GDIP_POINT(150, 90), GDIP_POINT(180, 30), GDIP_POINT(210, 120), GDIP_POINT(240, 80)}
+   DIM pts(0 TO 7) AS GpPoint = {(50, 50), (70, 80), (100, 100), _
+      (130, 40), (150, 90), (180, 30), (210, 120), (240, 80)}
    path.AddCurve(@pts(0), 8, 2, 4, 1.0)
 
    DIM pen AS CGpPen = ARGB_BLUE

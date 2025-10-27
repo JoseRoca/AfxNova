@@ -44,9 +44,8 @@ SUB Example_Warp (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a path.
-   DIM points(0 TO 7) AS GpPointF = {GDIP_POINTF(20.0, 60.0), GDIP_POINTF(30.0, 90.0), _
-      GDIP_POINTF(15.0, 110.0), GDIP_POINTF(15.0, 145.0), GDIP_POINTF(55.0, 145.0), _
-      GDIP_POINTF(55.0, 110.0), GDIP_POINTF(40.0, 90.0), GDIP_POINTF(50.0, 60.0)}
+   DIM points(0 TO 7) AS GpPointF = {(20.0, 60.0), (30.0, 90.0), _
+      (15.0, 110.0), (15.0, 145.0), (55.0, 145.0), (55.0, 110.0), (40.0, 90.0), (50.0, 60.0)}
    DIM path AS CGpGraphicsPath
    path.AddLines(@points(0), 8)
    path.CloseFigure
@@ -56,9 +55,8 @@ SUB Example_Warp (BYVAL hdc AS HDC)
    graphics.DrawPath(@bluePen, @path)
 
    ' // Define a warp transformation, and warp the path.
-   DIM srcRect AS GpRectF = GDIP_RECTF(10.0, 50.0, 50.0, 100.0)
-   DIM destPts(0 TO 3) AS GpPointF = {GDIP_POINTF(220.0, 10.0), GDIP_POINTF(280.0, 10.0), _
-       GDIP_POINTF(100.0, 150.0), GDIP_POINTF(400.0, 150.0)}
+   DIM srcRect AS GpRectF = (10.0, 50.0, 50.0, 100.0)
+   DIM destPts(0 TO 3) AS GpPointF = {(220.0, 10.0), (280.0, 10.0), (100.0, 150.0), (400.0, 150.0)}
    path.Warp(@destPts(0), 4, @srcRect)
 
    ' // Draw the warped path.

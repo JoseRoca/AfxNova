@@ -43,7 +43,7 @@ SUB Example_Flatten (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pts(0 TO 3) AS GpPoint = {GDIP_POINT(20, 50), GDIP_POINT(40, 70), GDIP_POINT(60, 10), GDIP_POINT(80, 50)}
+   DIM pts(0 TO 3) AS GpPoint = {(20, 50), (40, 70), (60, 10), (80, 50)}
    DIM path AS CGpGraphicsPath
    path.AddCurve(@pts(0), 4)
    path.AddEllipse(20, 100, 150, 80)
@@ -56,7 +56,7 @@ SUB Example_Flatten (BYVAL hdc AS HDC)
    path.Flatten(NULL, 8.0)
 
    ' // Draw the flattened path
-   pen.SetColor(ARGB_GREEN)
+   pen.SetColor(ARGB_LIGHTGREEN)
    graphics.DrawPath(@pen, @path)
 
    ' // Get the path data from the flattened path.
@@ -64,7 +64,7 @@ SUB Example_Flatten (BYVAL hdc AS HDC)
    path.GetPathData(@pathData)
 
    ' // Draw the data points of the flattened path
-   DIM brush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM brush AS CGpSolidBrush = ARGB_RED
    FOR j AS LONG = 0 TO pathData.Count - 1
       graphics.FillEllipse(@brush, pathData.Points[j].x - 3.0, _
          pathData.Points[j].y - 3.0, 6.0, 6.0)

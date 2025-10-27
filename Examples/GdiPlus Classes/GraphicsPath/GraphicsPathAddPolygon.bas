@@ -39,7 +39,7 @@ SUB Example_AddPolygon (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pts(0 TO 2) AS GpPoint = {GDIP_POINT(20, 20), GDIP_POINT(120, 20), GDIP_POINT(120, 70)}
+   DIM pts(0 TO 2) AS GpPoint = {(20, 20), (120, 20), (120, 70)}
    DIM path AS CGpGraphicsPath
    path.AddPolygon(@pts(0), 3)
 

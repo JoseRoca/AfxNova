@@ -43,7 +43,7 @@ SUB Example_StartFigure (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    DIM pen AS CGpPen = ARGB_BLUE
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 100, 50)
+   DIM rc AS GpRect = (0, 0, 100, 50)
    DIM path AS CGpGraphicsPath
 
    path.AddArc(0, 0, 100, 50, 0.0, 180.0)

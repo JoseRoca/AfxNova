@@ -40,7 +40,7 @@ SUB Example_AddCurve (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pts(0 TO 3) AS GpPoint = {GDIP_POINT(50, 50), GDIP_POINT(60, 20), GDIP_POINT(70, 100), GDIP_POINT(80, 50)}
+   DIM pts(0 TO 3) AS GpPoint = {(50, 50), (60, 20), (70, 100), (80, 50)}
    DIM path AS CGpGraphicsPath
    path.AddCurve(@pts(0), 4)
 

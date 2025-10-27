@@ -43,10 +43,10 @@ SUB Example_GetBounds (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
-   DIM yellowPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 255, 0), 10)
+   DIM yellowPen AS CGpPen = CGpPen(ARGB_YELLOW, 10)
    DIM redPen AS CGpPen = CGpPen(ARGB_RED, 1)
 
-   DIM pts(0 TO 3) AS GpPoint = {GDIP_POINT(120, 120), GDIP_POINT(200, 130), GDIP_POINT(150, 200), GDIP_POINT(130, 180)}
+   DIM pts(0 TO 3) AS GpPoint = {(120, 120), (200, 130), (150, 200), (130, 180)}
 
    ' // Create a path that has one curve and one ellipse.
    DIM path AS CGpGraphicsPath
