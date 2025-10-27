@@ -202,7 +202,6 @@ SUB Example_ComplementRegion (BYVAL hdc AS HDC)
 
 END SUB
 ' ========================================================================================
-' ========================================================================================
 ```
 
 #### Example
@@ -237,7 +236,6 @@ SUB Example_ComplementRegion (BYVAL hdc AS HDC)
    graphics.FillRegion(@solidBrush, @pRegion)
 
 END SUB
-' ========================================================================================
 ' ========================================================================================
 ```
 
@@ -315,8 +313,8 @@ SUB Example_Equals (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create solid brushes
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM alphaBrush AS CGpSolidBrush = GDIP_ARGB(128, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
+   DIM alphaBrush AS CGpSolidBrush = ARGB(128, 0, 0, 255)
 
    DIM pts(0 TO 5) AS GpPoint = {(20, 20), (120, 20), (120, 70), (20, 70)}
    DIM path AS CGpGraphicsPath
@@ -395,7 +393,7 @@ SUB Example_ExcludeRegion (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    DIM pts(0 TO 5) AS GpPoint = {(110, 20), (120, 30), (100, 60), (120, 70), (150, 60), (140, 10)}
    DIM pPath AS CGpGraphicsPath
    pPath.AddClosedCurve(@pts(0), 6)
@@ -409,7 +407,6 @@ SUB Example_ExcludeRegion (BYVAL hdc AS HDC)
    graphics.FillRegion(@solidBrush, @pRegion)
 
 END SUB
-' ========================================================================================
 ' ========================================================================================
 ```
 
@@ -463,7 +460,7 @@ SUB Example_ExcludeRegion (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    DIM pts(0 TO 5) AS GpPoint = {(110, 20), (120, 30), (100, 60), (120, 70), (150, 60), (140, 10)}
    DIM pPath AS CGpGraphicsPath
    pPath.AddClosedCurve(@pts(0), 6)
@@ -533,8 +530,8 @@ SUB Example_GetBoundsRect (BYVAL hdc AS HDC)
    pathRegion.GetBounds(@rc, @graphics)
 
    ' // Show the region and the enclosing rectangle.
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
+   DIM pen AS CGpPen = ARGB_RED
    graphics.FillRegion(@solidBrush, @pathRegion)
    graphics.DrawRectangle(@pen, @rc)
 
@@ -806,7 +803,7 @@ SUB Example_GetRegionScansCount (BYVAL hdc AS HDC)
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
 
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM pen AS CGpPen = ARGB_BLACK
    DIM pPath AS CGpGraphicsPath
    DIM matrix AS CGpMatrix
 
@@ -880,7 +877,7 @@ SUB Example_IntersectRegion (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
 
    DIM pts(0 TO 5) AS GpPoint = {(110, 20), (120, 30), (100, 60), (120, 70), (150, 60), (140, 10)}
    DIM pPath AS CGpGraphicsPath
@@ -895,7 +892,6 @@ SUB Example_IntersectRegion (BYVAL hdc AS HDC)
    graphics.FillRegion(@solidBrush, @pRegion)
 
 END SUB
-' ========================================================================================
 ' ========================================================================================
 ```
 
@@ -915,7 +911,7 @@ SUB Example_IntersectRegion (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
 
    DIM pts(0 TO 5) AS GpPoint = {(110, 20), (120, 30), (100, 60), (120, 70), (150, 60), (140, 10)}
    DIM pPath AS CGpGraphicsPath
@@ -950,7 +946,7 @@ SUB Example_IntersectRegion (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    DIM pts(0 TO 5) AS GpPoint = {(110, 20), (120, 30), (100, 60), (120, 70), (150, 60), (140, 10)}
    DIM pPath AS CGpGraphicsPath
    pPath.AddClosedCurve(@pts(0), 6)
@@ -1135,7 +1131,7 @@ SUB Example_IsVisibleRect (BYVAL hdc AS HDC)
    path.AddClosedCurve(@pts(0), 6)
 
    ' // Create a region from a path
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    DIM pathRegion AS CGpRegion = @path
    graphics.FillRegion(@solidBrush, @pathRegion)
 
@@ -1239,8 +1235,8 @@ SUB Example_MakeInfiniteRegion (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create red and blue solid brushes
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
 
    ' // Create a region, and fill it with a red brush
    DIM rc AS GpRect = (65, 15, 70, 45)
@@ -1412,7 +1408,7 @@ SUB Example_UnionRegion (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    DIM pts(0 TO 5) AS GpPoint = {(110, 20), (120, 30), (100, 60), (120, 70), (150, 60), (140, 10)}
    DIM pPath AS CGpGraphicsPath
    pPath.AddClosedCurve(@pts(0), 6)
@@ -1481,7 +1477,7 @@ SUB Example_UnionRegion (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    DIM pts(0 TO 5) AS GpPoint = {(110, 20), (120, 30), (100, 60), (120, 70), (150, 60), (140, 10)}
    DIM pPath AS CGpGraphicsPath
    pPath.AddClosedCurve(@pts(0), 6)
