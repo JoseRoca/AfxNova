@@ -554,98 +554,52 @@ This method returns an integer that indicates the number of character ranges tha
 ' Remarks: It doesn't work with the 64-bit headers because they lack a declare for the
 ' GdipMeasureCharacterRanges function.
 ' ========================================================================================
-SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
+SUB Example_GetMeasurableCharacterRangesCount (BYVAL hdc AS HDC)
 
-   DIM hStatus AS LONG
-
-   ' // Create a graphics object from the device context
-   DIM graphics AS GpGraphics PTR
-   hStatus = GdipCreateFromHDC(hdc, @graphics)
-
-   ' // Get the DPI scaling ratios
-   DIM dpiX AS SINGLE
-   hStatus = GdipGetDpiX(graphics, @dpiX)
-   DIM rxRatio AS SINGLE = dpiX / 96
-   DIM dpiY AS SINGLE
-   hStatus = GdipGetDpiY(graphics, @dpiY)
-   Dim ryRatio AS SINGLE = dpiY / 96
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratio
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   hStatus = GdipScaleWorldTransform(graphics, rxRatio, ryRatio, MatrixOrderPrepend)
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
-   ' // Create font
-   DIM fontFamily AS GpFontFamily PTR
-   DIM font AS GpFont PTR
-   hStatus = GdipCreateFontFamilyFromName("Times New Roman", NULL, @fontFamily)
-   hStatus = GdipCreateFont(fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel, @font)
-   IF fontFamily THEN GdipDeleteFontFamily(fontFamily)
+   ' // Brushes and pens used for drawing and painting
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
+   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(100, 255, 0, 0) ' partially transparent
+   DIM blackPen AS CGpPen = ARGB_RED
 
-   ' // Create brushes and pen
-   DIM blueBrush AS GpBrush PTR
-   hStatus = GdipCreateSolidFill(ARGB_BLUE, @blueBrush)
-   DIM redBrush AS GpBrush PTR
-   hStatus = GdipCreateSolidFill(GDIP_ARGB(100, 255, 0, 0), @redBrush)
-   DIM blackPen AS GpPen PTR
-   hStatus = GdipCreatePen1(ARGB_BLACK, 1.0, UnitPixel, @blackPen)
-   hStatus = GdipScalePenTransform(blackPen, rxRatio, ryRatio, MatrixOrderPrepend)
+   ' // Layout rectangles used for drawing strings
+   DIM layoutRect AS GpRectF = (20.0, 20.0, 130.0, 130.0)
 
-   ' // Create string format
-   DIM stringFormat As GpStringFormat PTR
-   hStatus = GdipStringFormatGetGenericDefault(@stringFormat)
-
-   ' // Define character ranges
-   DIM charRanges(2) As GpCharacterRange
+   ' // Three ranges of character positions within the string
+   DIM charRanges(2) AS GpCharacterRange
    charRanges(0).First = 3  : charRanges(0).Length = 5
    charRanges(1).First = 15 : charRanges(1).Length = 2
    charRanges(2).First = 30 : charRanges(2).Length = 15
-   hStatus = GdipSetStringFormatMeasurableCharacterRanges(stringFormat, 3, @charRanges(0))
 
-   ' // Allocate regions
-   DIM regions(2) AS GpRegion PTR
-   FOR i AS LONG = 0 TO 2
-      hStatus = GdipCreateRegion(@regions(i))
+   ' // Font and string format used to apply to string when drawing
+   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
+   DIM strFormat AS CGpStringFormat
+
+   DIM wszText AS WSTRING * 260
+   wszText = "The quick, brown fox easily jumps over the lazy dog."
+
+   ' // Set three ranges of character positions.
+   strFormat.SetMeasurableCharacterRanges(3, @charRanges(0))
+
+   ' // Get the number of ranges that have been set, and allocate memory to
+   ' // store the regions that correspond to the ranges.
+   DIM nCount AS LONG = strFormat.GetMeasurableCharacterRangeCount
+   DIM rgCharRangeRegions(nCount - 1) AS CGpRegion
+
+   ' // Get the regions that correspond to the ranges within the string
+   graphics.MeasureCharacterRanges(@wszText, -1, @myFont, @layoutRect, @strFormat, nCount, @rgCharRangeRegions(0))
+   graphics.DrawString(@wszText, -1, @myFont, @layoutRect, @strFormat, @blueBrush)
+   graphics.DrawRectangle(@blackPen, @layoutRect)
+   FOR i AS LONG = 0 TO nCount - 1
+      graphics.FillRegion(@redBrush, @rgCharRangeRegions(i))
    NEXT
-
-   ' // Text to draw
-   DIM text AS WSTRING * 128 = "The quick, brown fox easily jumps over the lazy dog."
-
-   ' // Measure and draw for layoutRectA
-   DIM layoutRectA AS GpRectF = (20.0, 20.0, 130.0, 130.0)
-   hStatus = GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectA, stringFormat, 3, @regions(0))
-   hStatus = GdipDrawString(graphics, @text, -1, font, @layoutRectA, stringFormat, blueBrush)
-   hStatus = GdipDrawRectangle(graphics, blackPen, layoutRectA.X, layoutRectA.Y, layoutRectA.Width, layoutRectA.Height)
-   FOR i AS LONG = 0 TO 2
-      hStatus = GdipFillRegion(graphics, redBrush, regions(i))
-   NEXT
-
-   ' // Measure and draw for layoutRectB
-   DIM layoutRectB AS GpRectF = (160.0, 20.0, 165.0, 130.0)
-   hStatus = GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectB, stringFormat, 3, @regions(0))
-   hStatus = GdipDrawString(graphics, @text, -1, font, @layoutRectB, stringFormat, blueBrush)
-   hStatus = GdipDrawRectangle(graphics, blackPen, layoutRectB.X, layoutRectB.Y, layoutRectB.Width, layoutRectB.Height)
-   FOR i AS LONG = 0 TO 2
-      hStatus = GdipFillRegion(graphics, redBrush, regions(i))
-   NEXT
-
-   ' // Set trailing space flag and draw for layoutRectC
-   DIM layoutRectC As GpRectF = (335.0, 20.0, 165.0, 130.0)
-   hStatus = GdipSetStringFormatFlags(stringFormat, StringFormatFlagsMeasureTrailingSpaces)
-   hStatus = GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectC, stringFormat, 3, @regions(0))
-   hStatus = GdipDrawString(graphics, @text, -1, font, @layoutRectC, stringFormat, blueBrush)
-   hStatus = GdipDrawRectangle(graphics, blackPen, layoutRectC.X, layoutRectC.Y, layoutRectC.Width, layoutRectC.Height)
-   FOR i AS LONG = 0 TO 2
-      hStatus = GdipFillRegion(graphics, redBrush, regions(i))
-   NEXT
-
-   ' // Cleanup
-   FOR i AS LONG = 0 TO 2
-      IF regions(i) THEN GdipDeleteRegion(regions(i))
-   NEXt
-   IF font THEN GdipDeleteFont(font)
-   IF stringFormat THEN GdipDeleteStringFormat(stringFormat)
-   IF blueBrush THEN GdipDeleteBrush(blueBrush)
-   IF redBrush THEN GdipDeleteBrush(redBrush)
-   IF blackPen THEN GdipDeletePen(blackPen)
-   IF graphics THEN GdipDeleteGraphics(graphics)
 
 END SUB
 ' ========================================================================================
@@ -1163,23 +1117,23 @@ SUB Example_SetMeasurableCharacterRanges (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Brushes and pens used for drawing and painting
-   DIM blueBrush AS CGpSOlidBrush = GDIP_ARGB(255, 0, 0, 255)
-   DIM redBrush AS CGpSOlidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blackPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
+   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(100, 255, 0, 0) ' partially transparent
+   DIM blackPen AS CGpPen = ARGB_BLACK
 
    ' // Layout rectangles used for drawing strings
-   DIM layoutRect_A AS GpRectF = TYPE<GpRectF>(20.0, 20.0, 130.0, 130.0)
-   DIM layoutRect_B AS GpRectF = TYPE<GpRectF>(160.0, 20.0, 165.0, 130.0)
-   DIM layoutRect_C AS GpRectF = TYPE<GpRectF>(335.0, 20.0, 165.0, 130.0)
+   DIM layoutRect_A AS GpRectF = (20.0, 20.0, 130.0, 130.0)
+   DIM layoutRect_B AS GpRectF = (160.0, 20.0, 165.0, 130.0)
+   DIM layoutRect_C AS GpRectF = (335.0, 20.0, 165.0, 130.0)
 
    ' // Three ranges of character positions within the string
-   DIM charRanges(2) AS CharacterRange
+   DIM charRanges(2) AS GpCharacterRange
    charRanges(0).First = 3  : charRanges(0).Length = 5
    charRanges(1).First = 15 : charRanges(1).Length = 2
    charRanges(2).First = 30 : charRanges(2).Length = 15
 
    ' // Font and string format used to apply to string when drawing
-   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxPointsToPixelsX(16) / rxRatio, FontStyleRegular, UnitPixel)
+   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
    DIM strFormat AS CGpStringFormat
 
    DIM wszText AS WSTRING * 260
