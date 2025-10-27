@@ -44,10 +44,10 @@ SUB Example_GetRectangle (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM pen AS CGpPen = ARGB_BLACK
 
    ' // Create a path gradient brush based on an array of points.
-   DIM points(0 TO 3) AS GpPoint = {GDIP_POINT(30, 20), GDIP_POINT(150, 40), GDIP_POINT(100, 100), GDIP_POINT(60, 200)}
+   DIM points(0 TO 3) AS GpPoint = {(30, 20), (150, 40), (100, 100), (60, 200)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 4)
 
    ' // Obtain information about the path gradient brush.

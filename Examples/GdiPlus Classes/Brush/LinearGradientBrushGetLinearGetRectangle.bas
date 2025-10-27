@@ -41,17 +41,16 @@ SUB Example_GetRectangle (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a linear gradient brush.
-   DIM pt1 AS GpPoint = GDIP_POINT(20, 10)
-   DIM pt2 AS GpPoint = GDIP_POINT(60, 110)
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, _
-      GDIP_ARGB(255, 0, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM pt1 AS GpPoint = (20, 10)
+   DIM pt2 AS GpPoint = (60, 110)
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, ARGB_BLACK, ARGB_BLUE)
 
    ' // Obtain information about the linear gradient brush.
    DIM rc AS GpRect
    linGrBrush.GetRectangle(@rc)
 
    ' // Draw the retrieved rectangle.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM pen AS CGpPen = ARGB_BLACK
    graphics.DrawRectangle(@pen, @rc)
 
 END SUB

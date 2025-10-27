@@ -45,11 +45,11 @@ SUB Example_GetSurroundColors (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(100, 0), GDIP_POINT(200, 200), GDIP_POINT(0, 200)}
+   DIM points(0 TO 2) AS GpPoint = {(100, 0), (200, 200), (0, 200)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
    DIM nCount AS LONG = 3
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_AQUA}
    pthGrBrush.SetSurroundColors(@colors(0), @nCount)
 
    ' // Obtain information about the path gradient brush.
@@ -58,7 +58,7 @@ SUB Example_GetSurroundColors (BYVAL hdc AS HDC)
    pthGrBrush.GetSurroundColors(@rgColors(0), @colorCount)
 
    ' // Fill a small square with each of the surround colors.
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 255, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_WHITE
    FOR j AS LONG = 0 TO colorCount - 1
       solidBrush.SetColor(rgColors(j))
       graphics.FillRectangle(@solidBrush, 15 * j, 0, 10, 10)

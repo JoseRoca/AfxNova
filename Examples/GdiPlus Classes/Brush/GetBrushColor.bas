@@ -46,11 +46,11 @@ SUB Example_GetColor (BYVAL hdc AS HDC)
    graphics.FillRectangle(@solidBrush, 10, 10, 200, 100)
 
    ' // Get the color of the solid brush
-   DIM colour AS ARGB
-   solidBrush.GetColor(@colour)
-
+   DIM colour AS ARGB = solidBrush.GetColor(@colour)
    ' // Create a second solid brush with that same color
    DIM solidBrush2 AS CGpSolidBrush = colour
+   ' // Alternate way
+'   DIM solidBrush2 AS CGpSolidBrush = solidBrush.GetColor
 
    ' // Paint a second rectangle with the second solid brush
    graphics.FillRectangle(@solidBrush2, 220, 10, 200, 100)

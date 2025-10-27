@@ -49,27 +49,26 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
 
    ' // Create a path that consists of a single ellipse.
    DIM path AS CGpGraphicsPath
-   path.AddEllipse(0, 0, 200, 100)
+   path.AddEllipse(100, 70, 200, 100)
 
    ' // Use the path to construct a brush.
    DIM pthGrBrush AS CGpPathGradientBrush = @path
 
    ' // Set the color at the center of the path to blue.
-   pthGrBrush.SetCenterColor(GDIP_ARGB(255, 0, 0, 255))
+   pthGrBrush.SetCenterColor(ARGB_BLUE)
 
    ' // Set the color along the entire boundary of the path to aqua.
-   DIM colors(0) AS ARGB = {GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0) AS ARGB = {ARGB_RED}
    DIM count AS LONG = 1
    pthGrBrush.SetSurroundColors(@colors(0), @count)
 
    ' // Set blend factors and positions for the path gradient brush.
    DIM factors(0 TO 3) AS SINGLE = {0.0, 0.4, 0.8, 1.0}
    DIM positions(0 TO 3) AS SINGLE = {0.0, 0.3, 0.7, 1.0}
-
    pthGrBrush.SetBlend(@factors(0), @positions(0), 4)
 
    ' // Fill the ellipse with the path gradient brush.
-   graphics.FillEllipse(@pthGrBrush, 0, 0, 200, 100)
+   graphics.FillEllipse(@pthGrBrush, 100, 70, 200, 100)
 
    ' // Obtain information about the path gradient brush.
    DIM blendCount AS LONG = pthGrBrush.GetBlendCount
@@ -81,7 +80,7 @@ SUB Example_GetBlend (BYVAL hdc AS HDC)
    FOR j AS LONG = 0 TO blendCount - 1
 '      // Inspect or use the value in rgFactors(j)
 '      // Inspect or use the value in rgPositions(j)
-      OutputDebugString STR(rgFactors(j)) & STR(rgPositions(j))
+      OutputDebugStringW WSTR(rgFactors(j)) & wSTR(rgPositions(j))
    NEXT
 
 END SUB

@@ -44,11 +44,11 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(0, 0), GDIP_POINT(100, 0), GDIP_POINT(100, 100)}
+   DIM points(0 TO 2) AS GpPoint = {(0, 0), (100, 0), (100, 100)}
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
    DIM nCount AS LONG = 3
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 255, 0), GDIP_ARGB(255, 0, 0, 0)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_LIGHTGREEN, ARGB_BLACK}
    pthGrBrush.SetSurroundColors(@colors(0), @nCount)
 
    graphics.FillRectangle(@pthGrBrush, 0, 0, 200, 200)

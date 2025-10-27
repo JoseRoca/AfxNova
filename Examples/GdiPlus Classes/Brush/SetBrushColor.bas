@@ -42,11 +42,11 @@ SUB Example_SetColor (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a solid brush, and use it to fill a rectangle
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillRectangle(@solidBrush, 10, 10, 200, 100)
 
    ' // Change the color of the brush to red, and fill another rectangle
-   solidBrush.SetColor(GDIP_ARGB(255, 255, 0, 0))
+   solidBrush.SetColor(ARGB_RED)
    graphics.FillRectangle(@solidBrush, 220, 10, 200, 100)
 
 END SUB

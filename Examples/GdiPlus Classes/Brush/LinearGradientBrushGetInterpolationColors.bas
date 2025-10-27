@@ -45,13 +45,13 @@ SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a linear gradient brush, and set the colors to be interpolated.
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 0)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_LIGHTGREEN}
    DIM positions(0 TO 2) AS SINGLE = {0.0, 0.3, 1.0}
 
-   DIM pt1 AS GpPoint = GDIP_POINT(0, 0)
-   DIM pt2 AS GpPoint = GDIP_POINT(100, 0)
+   DIM pt1 AS GpPoint = (0, 0)
+   DIM pt2 AS GpPoint = (100, 0)
 
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, GDIP_ARGB(255, 0, 0, 0), GDIP_ARGB(255, 255, 255, 255))
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, ARGB_BLACK, ARGB_WHITE)
    linGrBrush.SetInterpolationColors(@colors(0), @positions(0), 3)
 
    ' // Obtain information about the linear gradient brush.

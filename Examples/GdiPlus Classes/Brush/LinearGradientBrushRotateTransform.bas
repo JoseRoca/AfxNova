@@ -41,9 +41,9 @@ SUB Example_RotateTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 80, 40)
+   DIM rc AS GpRect = (0, 0, 80, 40)
    DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rc, _
-       GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+       ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
 
    ' // Fill a large area with the gradient brush (no transformation).
    graphics.FillRectangle(@linGrBrush, 0, 0, 800, 150)

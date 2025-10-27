@@ -41,11 +41,11 @@ SUB Example_SetLinearColors (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a linear gradient brush.
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 100, 50)
+   DIM rc AS GpRect = (0, 0, 100, 50)
    DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rc, _
-      GDIP_ARGB(255, 0, 0, 0), GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+      ARGB_BLACK, ARGB_BLUE, LinearGradientModeHorizontal)
 
-   linGrBrush.SetLinearColors(GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 0))
+   linGrBrush.SetLinearColors(ARGB_BLUE, ARGB_LIGHTGREEN)
    graphics.FillRectangle(@linGrBrush, 0, 75, 100, 50)
 
 END SUB

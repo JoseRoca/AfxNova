@@ -41,13 +41,13 @@ SUB Example_SetFocusScales (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM points(0 TO 2) AS GpPoint = {GDIP_POINT(100, 0), GDIP_POINT(200, 200), GDIP_POINT(0, 200)}
+   DIM points(0 TO 2) AS GpPoint = {(100, 0), (200, 200), (0, 200)}
 
    ' // No GraphicsPath object is created. The PathGradientBrush
    ' // object is constructed directly from the array of points.
    DIM pthGrBrush AS CGpPathGradientBrush = CGpPathGradientBrush(@points(0), 3)
 
-   DIM colors(0 TO 1) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255)}
+   DIM colors(0 TO 1) AS ARGB = {ARGB_RED, ARGB_BLUE}
 
    ' // red at the boundary of the outer triangle
    ' // blue at the boundary of the inner triangle

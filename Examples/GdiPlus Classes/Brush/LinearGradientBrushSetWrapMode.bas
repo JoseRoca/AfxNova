@@ -42,9 +42,9 @@ SUB Example_SetWrapMode (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a linear gradient brush.
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 100, 50)
+   DIM rc AS GpRect = (0, 0, 100, 50)
    DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rc, _
-      GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+      ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
 
    ' // Fill a large area using the gradient brush with the default wrap mode.
    graphics.FillRectangle(@linGrBrush, 0, 0, 800, 50)

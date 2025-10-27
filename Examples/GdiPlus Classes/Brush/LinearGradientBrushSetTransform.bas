@@ -41,9 +41,9 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM rc AS GpRect = GDIP_RECT(0, 0, 80, 40)
+   DIM rc AS GpRect = (0, 0, 80, 40)
    DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@rc, _
-       GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), LinearGradientModeHorizontal)
+       ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
 
    DIM matrix AS CGpMatrix = CGpMatrix(2.0, 0, 0, 1, 0, 0)   ' // horizontal doubling
 

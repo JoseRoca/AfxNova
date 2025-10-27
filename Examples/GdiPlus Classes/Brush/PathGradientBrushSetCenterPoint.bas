@@ -49,14 +49,14 @@ SUB Example_SetCenterPoint (BYVAL hdc AS HDC)
    DIM pthGrBrush AS CGpPathGradientBrush = @path
 
    ' // Set the color at the center of the path to blue.
-   pthGrBrush.SetCenterColor(GDIP_ARGB(255, 0, 0, 255))
+   pthGrBrush.SetCenterColor(ARGB_BLUE)
 
    ' // Set the center point.
-   DIM pt AS GpPointF = GDIP_POINTF(180.5, 50.0)
+   DIM pt AS GpPointF = (180.5, 50.0)
    pthGrBrush.SetCenterPoint(@pt)
 
    ' // Set the color along the entire boundary of the path to aqua.
-   DIM colors(0) AS ARGB = {GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0) AS ARGB = {ARGB_AQUA}
    DIM count AS LONG = 1
    pthGrBrush.SetSurroundColors(@colors(0), @count)
 

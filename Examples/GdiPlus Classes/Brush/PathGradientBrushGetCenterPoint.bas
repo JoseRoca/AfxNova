@@ -50,10 +50,10 @@ SUB Example_GetCenterPoint (BYVAL hdc AS HDC)
    DIM pthGrBrush AS CGpPathGradientBrush = @path
 
    ' // Set the color at the center of the path to blue.
-   pthGrBrush.SetCenterColor(GDIP_ARGB(255, 0, 0, 255))
+   pthGrBrush.SetCenterColor(ARGB_BLUE)
 
    ' // Set the color along the entire boundary of the path to aqua.
-   DIM colors(0) AS ARGB = {GDIP_ARGB(255, 0, 255, 255)}
+   DIM colors(0) AS ARGB = {ARGB_RED}
    DIM count AS LONG = 1
    pthGrBrush.SetSurroundColors(@colors(0), @count)
 
@@ -65,8 +65,8 @@ SUB Example_GetCenterPoint (BYVAL hdc AS HDC)
    pthGrBrush.GetCenterPoint(@centerPoint)
 
    ' // Draw a line from the origin to the center of the ellipse.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 0, 255, 0)
-   DIM pt AS GpPointF = GDIP_POINTF(0, 0)
+   DIM pen AS CGpPen = ARGB_LIGHTGREEN
+   DIM pt AS GpPointF = (0, 0)
    graphics.DrawLine(@pen, @pt, @centerPoint)
 
 END SUB
