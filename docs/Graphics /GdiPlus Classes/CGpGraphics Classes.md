@@ -347,7 +347,7 @@ SUB Example_DrawArc (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the arc
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 3)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 3)
    graphics.DrawArc(@redPen, 0, 0, 200, 100, 0.0, 90.0)
 
 END SUB
@@ -405,12 +405,12 @@ SUB Example_DrawBezier (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the curve.
-   DIM greenPen AS CGpPen = GDIP_ARGB(255, 0, 255, 0)
+   DIM greenPen AS CGpPen = ARGB_LIGHTGREEN
    graphics.DrawBezier(@greenPen, 100.0, 100.0, 200.0, 10.0, 350.0, 50.0, 500.0, 100.0)
 
    ' // Draw the end points and control points.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillEllipse(@redBrush, 100 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@redBrush, 500 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@blueBrush, 200 - 5, 10 - 5, 10, 10)
@@ -462,7 +462,7 @@ SUB Example_DrawBeziers (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Define a Pen object and an array of PointF objects.
-   DIM greenPen AS CGpPen = GDIP_ARGB(255, 0, 255, 0)
+   DIM greenPen AS CGpPen = ARGB_LIGHTGREEN
    DIM startPoint AS GpPointF : startPoint.x = 100.0 : startPoint.y = 100.0
    DIM ctrlPoint1 AS GpPointF : ctrlPoint1.x = 200.0 : ctrlPoint1.y = 50.0
    DIM ctrlPoint2 AS GpPointF : ctrlPoint2.x = 400.0 : ctrlPoint2.y = 10.0
@@ -484,11 +484,11 @@ SUB Example_DrawBeziers (BYVAL hdc AS HDC)
    graphics.DrawBeziers(@greenPen, @curvePoints(0), 7)
 
    ' // Draw the control and end points.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
    graphics.FillEllipse(@redBrush, 100 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@redBrush, 500 - 5, 100 - 5, 10, 10)
    graphics.FillEllipse(@redBrush, 500 - 5, 500 - 5, 10, 10)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillEllipse(@blueBrush, 200 - 5, 50 - 5, 10, 10)
    graphics.FillEllipse(@blueBrush, 400 - 5, 10 - 5, 10, 10)
    graphics.FillEllipse(@blueBrush, 600 - 5, 200 - 5, 10, 10)
@@ -577,7 +577,7 @@ SUB Example_DrawClosedCurve (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Define a Pen object and an array of PointF objects.
-   DIM greenPen AS CGpPen = GDIP_ARGB(255, 0, 255, 0)
+   DIM greenPen AS CGpPen = ARGB_LIGHTGREEN
    DIM point1 AS GpPointF : point1.x = 100.0 : point1.y = 100.0
    DIM point2 AS GpPointF : point2.x = 200.0 : point2.y = 50.0
    DIM point3 AS GpPointF : point3.x = 400.0 : point3.y = 10.0
@@ -599,7 +599,7 @@ SUB Example_DrawClosedCurve (BYVAL hdc AS HDC)
    graphics.DrawClosedCurve(@greenPen, @curvePoints(0), 7, 1.0)
 
    ' // Draw the points in the curve.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
    graphics.FillEllipse(@redBrush, 95, 95, 10, 10)
    graphics.FillEllipse(@redBrush, 495, 95, 10, 10)
    graphics.FillEllipse(@redBrush, 495, 495, 10, 10)
@@ -667,7 +667,7 @@ SUB Example_DrawCurve (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 3)
+   DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 3)
 
    DIM point1 AS GpPointF : point1.x = 100.0 : point1.y = 100.0
    DIM point2 AS GpPointF : point2.x = 200.0 : point2.y = 50.0
@@ -684,7 +684,7 @@ SUB Example_DrawCurve (BYVAL hdc AS HDC)
    graphics.DrawCurve(@greenPen, @curvePoints(0), 4)
 
    ' // Draw the points in the curve.
-   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(255, 255, 0, 0)
+   DIM redBrush AS CGpSolidBrush = ARGB_RED
    graphics.FillEllipse(@redBrush, 95, 95, 10, 10)
    graphics.FillEllipse(@redBrush, 195, 45, 10, 10)
    graphics.FillEllipse(@redBrush, 395, 5, 10, 10)
@@ -771,7 +771,7 @@ SUB Example_DrawEllipse (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the ellipse
-   DIM bluePen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 3)
+   DIM bluePen AS CGpPen = CGpPen(ARGB_BLUE, 3)
    graphics.DrawEllipse(@bluePen, 100.0, 70.0, 200.0, 100.0)
 
 END SUB
@@ -976,7 +976,7 @@ SUB Example_DrawImageRectRect (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set scaling
@@ -1001,19 +1001,8 @@ SUB Example_DrawImageRectRect (BYVAL hdc AS HDC)
    destPoints(1).x = 350 : destPoints(1).y = 50
    destPoints(2).x = 275 : destPoints(2).y = 120
 
-   ' Yet another mess of the FB GdiPlus declares.
-'#ifdef __FB_64BIT__
-'   DIM redToBlue AS ColorMap_
-'   redToBlue.oldColor.value = GDIP_ARGB(255, 255, 0, 0)
-'   redToBlue.newColor.value = GDIP_ARGB(255, 0, 0, 255)
-'#else
-'   DIM redToBlue AS ColorMap
-'   redToBlue.from = GDIP_ARGB(255, 255, 0, 0)
-'   redToBlue.to = GDIP_ARGB(255, 0, 0, 255)
-'#endif
-
    ' // GDIP_COLORMAP is an union that solves the 32/64-bit incompatibility
-   DIM redToBlue AS GDIP_COLORMAP = (GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255))
+   DIM redToBlue AS GDIP_COLORMAP = (ARGB_RED, ARGB_BLUE)
 
    ' // Create an ImageAttributes object that specifies a recoloring from red to blue.
    DIM remapAttributes AS CGpImageAttributes
@@ -1095,15 +1084,15 @@ SUB Example_DrawLine (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the line
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
-   graphics.DrawLine(@blackPen, 100.0, 100.0, 500.0, 100.0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
+   graphics.DrawLine(@blackPen, 50.0, 100.0, 350.0, 100.0)
 
 END SUB
 ' ========================================================================================
@@ -1141,32 +1130,26 @@ SUB Example_DrawLines (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
    ' // Create an array of PointF objects that define the lines to draw
-   DIM point1 AS GpPointF : point1.x =  10 : point1.y = 10
-   DIM point2 AS GpPointF : point2.x =  10 : point2.y = 100
-   DIM point3 AS GpPointF : point3.x = 200 : point3.y = 50
-   DIM point4 AS GpPointF : point4.x = 250 : point4.y = 300
-
-   DIM pts(0 TO 3) AS GpPointF
-   pts(0) = point1
-   pts(1) = point2
-   pts(2) = point3
-   pts(3) = point4
+   DIM point1 AS GpPointF = (10, 10)
+   DIM point2 AS GpPointF = (10, 100)
+   DIM point3 AS GpPointF = (200, 50)
+   DIM point4 AS GpPointF = (250, 300)
+   DIM pts(0 TO 3) AS GpPointF = {point1, point2, point3, point4}
 
    ' // Draw the lines
    graphics.DrawLines(@blackPen, @pts(0), 4)
 
 END SUB
-' ========================================================================================
 ```
 ---
 
@@ -1199,7 +1182,7 @@ SUB Example_DrawPath (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
@@ -1210,7 +1193,7 @@ SUB Example_DrawPath (BYVAL hdc AS HDC)
    ellipsePath.AddEllipse(100, 70, 200, 100)
 
    ' // Create a Pen object
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
    ' // Draw ellipsePath.
    graphics.DrawPath(@blackPen, @ellipsePath)
@@ -1263,14 +1246,14 @@ SUB Example_DrawPie (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the pie
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
    graphics.DrawPie(@blackPen, 0.0, 0.0, 200.0, 100.0, 0.0, 45.0)
 
 END SUB
@@ -1309,28 +1292,22 @@ SUB Example_DrawPolygons (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Pen object
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
    ' // Create an array of GpPoint objects that define the lines to draw
-   DIM point1 AS GpPoint : point1.x = 100 : point1.y = 100
-   DIM point2 AS GpPoint : point2.x = 200 : point2.y = 130
-   DIM point3 AS GpPoint : point3.x = 150 : point3.y = 200
-   DIM point4 AS GpPoint : point4.x =  50 : point4.y = 200
-   DIM point5 AS GpPoint : point5.x =   0 : point5.y = 130
-
-   DIM pts(0 TO 4) AS GpPoint
-   pts(0) = point1
-   pts(1) = point2
-   pts(2) = point3
-   pts(3) = point4
-   pts(4) = point5
+   DIM point1 AS GpPoint = (100, 100)
+   DIM point2 AS GpPoint = (200, 130)
+   DIM point3 AS GpPoint = (150, 200)
+   DIM point4 AS GpPoint = (50, 200)
+   DIM point5 AS GpPoint = (0, 130)
+   DIM pts(0 TO 4) AS GpPoint = {point1, point2, point3, point4, point5}
 
    ' // Draw the polygon
    graphics.DrawPolygon(@blackPen, @pts(0), 5)
@@ -1385,7 +1362,7 @@ SUB Example_DrawRectangle (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the rectangle
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
    graphics.DrawRectangle(@blackPen, 0, 0, 200, 200)
 
 END SUB
@@ -1424,23 +1401,20 @@ SUB Example_DrawRectangles (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen object
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 3)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
    ' // Create an array of GpRect objects
-   DIM rect1 AS GpRect : rect1.x =   0 : rect1.y =   0 : rect1.Width = 100 : rect1.Height = 200
-   DIM rect2 AS GpRect : rect2.x = 100 : rect2.y = 200 : rect2.Width = 250 : rect2.Height = 50
-   DIM rect3 AS GpRect : rect3.x = 300 : rect3.y =   0 : rect3.Width =   50 : rect3.Height = 100
-   DIM rects(2) AS GpRect
-   rects(0) = rect1
-   rects(1) = rect2
-   rects(2) = rect3
+   DIM rect1 AS GpRect = (0, 0, 100, 100)
+   DIM rect2 AS GpRect = (100, 200, 250, 50)
+   DIM rect3 AS GpRect = (300, 0, 50, 100)
+   DIM rects(2) AS GpRect = {rect1, rect2, rect3}
 
    ' // Draw the rectangles
    graphics.DrawRectangles(@blackPen, @rects(0), 3)
@@ -1638,19 +1612,18 @@ SUB Example_ExcludeClip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a GpRect object, and set the clipping region to its exclusion.
-   DIM excludeRect AS GpRect
-   excludeRect.x = 125 : excludeRect.y = 50 : excludeRect.Width = 150 : excludeRect.Height = 150
+   DIM excludeRect AS GpRect = (125, 50, 150, 150)
    graphics.ExcludeClip(@excludeRect)
 
    ' // Fill a rectangle to demonstrate the clipping region.
-   graphics.FillRectangle(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 255)), 0, 0, 400, 250)
+   graphics.FillRectangle(@CGpSolidBrush(ARGB_BLUE), 0, 0, 400, 250)
 
 END SUB
 ' ========================================================================================
@@ -1701,17 +1674,12 @@ SUB Example_FillClosedCurve (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Define a Brush object and an array of Point objects.
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
-   DIM point1 AS GpPoint : point1.x = 100 : point1.y = 100
-   DIM point2 AS GpPoint : point2.x = 200 : point2.y = 50
-   DIM point3 AS GpPoint : point3.x = 250 : point3.y = 200
-   DIM point4 AS GpPoint : point4.x =  50 : point4.y = 150
-
-   DIM pts(3) AS GpPoint
-   pts(0) = point1
-   pts(1) = point2
-   pts(2) = point3
-   pts(3) = point4
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
+   DIM point1 AS GpPoint = (100, 100)
+   DIM point2 AS GpPoint = (200, 50)
+   DIM point3 AS GpPoint = (250, 200)
+   DIM point4 AS GpPoint = (50, 150)
+   DIM pts(3) AS GpPoint = {point1, point2, point3, point4}
 
    ' //Fill the curve.
    graphics.FillClosedCurve(@blackBrush, @pts(0), 4)
@@ -1765,7 +1733,7 @@ SUB Example_FillEllipse (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Fill the ellipse.
    graphics.FillEllipse(@blackBrush, 0, 0, 200.1, 100.4)
@@ -1815,7 +1783,7 @@ SUB Example_FillPath (BYVAL hdc AS HDC)
    ellipsePath.AddEllipse(0, 0, 200, 100)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Draw ellipsePath
    graphics.FillPath(@blackBrush, @ellipsePath)
@@ -1878,7 +1846,7 @@ SUB Example_FillPie (BYVAL hdc AS HDC)
    ellipsePath.AddEllipse(0, 0, 200, 100)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Fill the pie.
    graphics.FillPie(@blackBrush, 0, 0, 200, 100, 0, 45)
@@ -1930,15 +1898,10 @@ SUB Example_FillPolygon (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Create an array of GpPointF objects that define the polygon
-   DIM rgPoints(4) AS GpPointF
-   rgPoints(0).x = 100.0 : rgPoints(0).y = 200.0
-   rgPoints(1).x = 200.0 : rgPoints(1).y = 130.0
-   rgPoints(2).x = 150.0 : rgPoints(2).y = 200.0
-   rgPoints(3).x =  50.0 : rgPoints(3).y = 200.0
-   rgPoints(4).x =   0.0 : rgPoints(4).y = 130.0
+   DIM rgPoints(4) AS GpPointF = {(100, 200), (200, 130), (150, 200), (50, 200), (0, 130)}
 
    ' // Fill the polygon
    graphics.FillPolygon(@blackBrush, @rgPoints(0), 5)
@@ -1992,7 +1955,7 @@ SUB Example_FillRectangle (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Fill the rectangle
    graphics.FillRectangle(@blackBrush, 0, 0, 100, 100)
@@ -2040,13 +2003,10 @@ SUB Example_FillRectangles (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a pen object
-   DIM blackBrush AS CGpSolidBrush = CGpSolidBrush(GDIP_ARGB(255, 0, 0, 0))
+   DIM blackBrush AS CGpSolidBrush = CGpSolidBrush(ARGB_BLACK)
 
    ' // Create an array of RectF objects.
-   DIM rects(0 TO 2) AS GpRectF
-   rects(0).x =   0.0 : rects(0).y =   0.0 : rects(0).Width = 100.0 : rects(0).Height = 200.0
-   rects(1).x = 100.5 : rects(1).y = 200.5 : rects(1).Width = 200.5 : rects(1).Height = 50.5
-   rects(2).x = 300.8 : rects(2).y =   0.8 : rects(2).Width =  50.8 : rects(2).Height = 150.8
+   DIM rects(0 TO 2) AS GpRectF = {(0, 0, 100, 200), (100.5, 200.5, 200.5, 50.5), (300.8, 0.8, 50.8, 150.8)}
 
    ' // Draw the rectangles
    graphics.FillRectangles(@blackBrush, @rects(0), 3)
@@ -2096,7 +2056,7 @@ SUB Example_FillRegion (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a SolidBrush object
-   DIM blackBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 0)
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
 
    ' // Create a Region object from a rectangle.
    DIM ellipseRegion AS CGpRegion = CGpRegion(0, 0, 200, 100)
@@ -2164,7 +2124,7 @@ SUB Example_FromHDC (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Draw the rectangle
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 1)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 1)
    graphics.DrawRectangle(@redPen, 10, 10, 200, 100)
 
 END SUB
@@ -2268,7 +2228,7 @@ SUB Example_GetClip (BYVAL hdc AS HDC)
    graphics.GetClip(@clipRegion)
 
    ' // Fill the clipping region of the graphics object.
-   graphics.FillRegion(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 255)), @clipRegion)
+   graphics.FillRegion(@CGpSolidBrush(ARGB_BLUE), @clipRegion)
 
 END SUB
 ' ========================================================================================
@@ -2321,7 +2281,7 @@ SUB Example_GetClipBounds (BYVAL hdc AS HDC)
    DIM myRegion AS CGpRegion = CGpRegion(25, 25, 100, 50)
 
    ' // Modify the region by using a rectangle
-   DIM rcf AS GpRectF : rcf.x = 40 : rcf.y = 50 : rcf.Width = 100 : rcf.Height = 50
+   DIM rcf AS GpRectF = (40, 50, 100, 50)
    myRegion.Union_(@rcf)
 
    ' // Set the clipping region of the graphics object
@@ -2330,14 +2290,14 @@ SUB Example_GetClipBounds (BYVAL hdc AS HDC)
    ' // Now, get the clipping region, and fill it
    DIM gRegion AS CGpRegion
    graphics.GetClip(@gRegion)
-   DIM blueBrush AS CGpSolidBrush = GDIP_ARGB(100, 0, 0, 255)
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillRegion(@blueBrush, @gRegion)
 
    ' // Get a rectangle that encloses the clipping region, and draw the enclosing rectangle
    DIM enclosingRect AS GpRectF
    graphics.GetClipBounds(@enclosingRect)
    graphics.ResetClip
-   DIM greenPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 255, 0), 1.5)
+   DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 1.5)
    graphics.DrawRectangle(@greenPen, @enclosingRect)
 
 END SUB
@@ -2499,7 +2459,7 @@ SUB Example_GetDpiX (BYVAL hdc AS HDC)
 
    ' // Use dpiX to convert pixels to inches, and draw a
    DIM side AS SINGLE = 100.0 / dpiX
-   DIM bluePen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 0)
+   DIM bluePen AS CGpPen = CGpPen(ARGB_BLUE, 0)
    graphics.DrawRectangle(@bluePen, 0.0, 0.0, side, side)
 
    ' // Set the unit of measure for graphics to pixels
@@ -2507,7 +2467,7 @@ SUB Example_GetDpiX (BYVAL hdc AS HDC)
    graphics.SetPageScale(dpiX / 96)
 
    ' // Draw a 100-pixel square.
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 1)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 1)
    graphics.DrawRectangle(@redPen, 120, 0, 100, 100)
 
 END SUB
@@ -2550,7 +2510,7 @@ SUB Example_GetDpiY (BYVAL hdc AS HDC)
    ' // Use dpiY to convert pixels to inches, and draw a
    ' // rectangle that has a width of 100 pixels
    DIM side AS SINGLE = 100.0 / dpiY
-   DIM bluePen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 0)
+   DIM bluePen AS CGpPen = CGpPen(ARGB_BLUE, 0)
    graphics.DrawRectangle(@bluePen, 0.0, 0.0, side, side)
 
    ' // Set the unit of measure for graphics to pixels
@@ -2558,7 +2518,7 @@ SUB Example_GetDpiY (BYVAL hdc AS HDC)
    graphics.SetPageScale(dpiY / 96)
 
    ' // Draw a 100-pixel square.
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 1)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 1)
    graphics.DrawRectangle(@redPen, 120, 0, 100, 100)
 
 END SUB
@@ -2658,7 +2618,7 @@ SUB Example_GetHDC (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM bluePen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM bluePen AS CGpPen = ARGB_BLUE
    graphics.DrawEllipse(@bluepen, 10, 10, 100, 50)   ' // GDI+
 
    DIM hdc2 AS HDC = graphics.GetHDC
@@ -2668,7 +2628,7 @@ SUB Example_GetHDC (BYVAL hdc AS HDC)
    Rectangle(hdc2, 120 * rxRatio, 10 * rxRatio, 220 * rxRatio, 60 * rxRatio)   ' // GDI
    graphics.ReleaseHDC(hdc)
 
-   ' // Ok to call methods on g again.
+   ' // Ok to call methods on graphics again.
    graphics.DrawLine(@bluePen, 240, 10, 340, 60)
 
 END SUB
@@ -2757,7 +2717,7 @@ SUB Example_GetPageScale (BYVAL hdc AS HDC)
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
 
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK)
 
    '// Set the world transformation of the Graphics object.
    graphics.TranslateTransform(4, 1)
@@ -2802,8 +2762,8 @@ SUB Example_GetPageUnit (BYVAL hdc AS HDC)
    ' // Get the DPI scaling ratio
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
 
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 0)
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0), 0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACk, 0)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 0)
 
    graphics.SetPageUnit(UnitPixel)
    graphics.DrawRectangle(@blackPen, 0, 0, 100 * rxRatio, 100 * rxRatio)
@@ -2998,7 +2958,7 @@ SUB Example_GetVisibleClipBounds (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    '// Set the clipping region.
-   DIM rc AS GpRect : rc.x = 100 : rc.y = 100 : rc.Width = 200 : rc.Height = 100
+   DIM rc AS GpRect = (100, 100, 200, 100)
    graphics.SetClip(@rc)
 
    ' // Get a bounding rectangle for the clipping region.
@@ -3006,7 +2966,7 @@ SUB Example_GetVisibleClipBounds (BYVAL hdc AS HDC)
    graphics.GetVisibleClipBounds(@boundRect)
 
    ' // Fill the bounding rectangle.
-   graphics.FillRectangle(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 0)), @boundRect)
+   graphics.FillRectangle(@CGpSolidBrush(ARGB_BLACK), @boundRect)
 
 END SUB
 ' ========================================================================================
@@ -3055,25 +3015,23 @@ SUB Example_IntersectClip (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Set the clipping region.
-   DIM clipRect AS GpRectF
-   clipRect.x = 0.5 : clipRect.y = 0.5 : clipRect.Width = 200.5 : clipRect.Height = 200.5
+   DIM clipRect AS GpRectF = (0.5, 0.5, 200.5, 200.5)
    graphics.SetClip(@clipRect)
 
    ' // Update the clipping region to the portion of the rectangle that
    ' // intersects with the current clipping region.
-   DIM rcIntersect AS GpRectF
-   rcIntersect.x = 100.5 : rcIntersect.y = 100.5 : rcIntersect.Width = 200.5 : rcIntersect.Height = 200.5
+   DIM rcIntersect AS GpRectF = (100.5, 100.5, 200.5, 200.5)
    graphics.IntersectClip(@rcIntersect)
 
    ' // Fill a rectangle to demonstrate the effective clipping region.
-   graphics.FillRectangle(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 255)), 0, 0, 500, 500)
+   graphics.FillRectangle(@CGpSolidBrush(ARGB_BLACK), 0, 0, 500, 500)
 
    ' // Reset the clipping region to infinite.
    graphics.ResetClip
 
    ' // Draw clipRect and intersectRect.
-   graphics.DrawRectangle(@CGpPen(GDIP_ARGB(255, 0, 0, 0)), @clipRect)
-   graphics.DrawRectangle(@CGpPen(GDIP_ARGB(255, 255, 0, 0)), @rcIntersect)
+   graphics.DrawRectangle(@CGpPen(ARGB_BLACK), @clipRect)
+   graphics.DrawRectangle(@CGpPen(ARGB_RED), @rcIntersect)
 
 END SUB
 ' ========================================================================================
@@ -3115,7 +3073,7 @@ SUB Example_IsClipEmpty (BYVAL hdc AS HDC)
 
    ' // If the clipping region is not empty, draw a rectangle.
    IF graphics.IsClipEmpty = FALSE THEN
-      graphics.DrawRectangle(@CGpPen(GDIP_ARGB(255, 0, 0, 0), 3), 0, 0, 100, 100)
+      graphics.DrawRectangle(@CGpPen(ARGB_BLACK, 3), 0, 0, 100, 100)
    END IF
 
 END SUB
@@ -3211,7 +3169,7 @@ SUB Example_IsVisibleClipEmpty (BYVAL hdc AS HDC)
 
    ' // If the clipping region is not empty, draw a rectangle
    IF graphics.IsVisibleClipEmpty = FALSE THEN
-      graphics.DrawRectangle(@CGpPen(GDIP_ARGB(255, 0, 0, 0), 3), 0, 0, 100, 100)
+      graphics.FillEllipse(@CGpSolidBrush(ARGB_BLACK), 100, 100, 5, 5)
    END IF
 
 END SUB
@@ -3369,7 +3327,7 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
    graphics.RotateTransform(30)   ' // first rotate
    graphics.MultiplyTransform(@matrix, MatrixOrderAppend)   ' // then translate
 
-   DIM bluePen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM bluePen AS CGpPen = ARGB_BLUE
    graphics.DrawEllipse(@bluePen, -80, -40, 160, 80)
 
 END SUB
@@ -3466,6 +3424,36 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example sets the world transformation of a Graphics object to a translation.
+' The call to Graphics.RotateTransform multiplies the Graphics object's existing world
+' transformation matrix (translation) by a rotation matrix. The MatrixOrderAppend argument
+' specifies that the multiplication is done with the rotation matrix on the right. At that
+' point, the world transformation matrix of the Graphics object represents a composite
+' transformation: first translate, then rotate. The call to DrawEllipse draws a translated
+' and rotated ellipse.
+' ========================================================================================
+SUB Example_RotateTransform (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED)
+   graphics.TranslateTransform(100, 0)   ' // first translate
+   graphics.RotateTransform(30, MatrixOrderAppend)   ' // then rotate
+   graphics.DrawEllipse(@redPen, 0, 0, 200, 80)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="save"></a>Save (CGpGRaphics)
@@ -3560,13 +3548,13 @@ SUB Example_SetClip (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a Rect object.
-   DIM clipRect AS GpRectF = GDIP_RECTF(0, 0, 200, 100)
+   DIM clipRect AS GpRectF = (0, 0, 200, 100)
 
    ' // Set the clipping region
    graphics.SetClip(@clipRect)
 
    ' // Fill a rectangle to demonstrate the clipping region.
-   graphics.FillRectangle(@CGpSolidBrush(GDIP_ARGB(255, 0, 0, 0)), 0, 0, 500, 500)
+   graphics.FillRectangle(@CGpSolidBrush(ARGB_BLACK), 10, 10, 500, 500)
 
 END SUB
 ' ========================================================================================
@@ -3761,7 +3749,7 @@ SUB Example_PageScale (BYVAL hdc AS HDC)
    graphics.SetPageUnit(UnitMillimeter)
    graphics.SetPageScale(10)
 
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 0)
    graphics.DrawRectangle(@blackPen, 0, 0, 3, 2)
 
 END SUB
@@ -3803,12 +3791,12 @@ SUB Example_SetPageUnit (BYVAL hdc AS HDC)
 
    ' // Set the page units to pixels, and draw a rectangle.
    graphics.SetPageUnit(UnitPixel)
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 0.0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 0.0)
    graphics.DrawRectangle(@blackPen, 0, 0, 100 * rxRatio, 100 * rxRatio)
 
    ' // Set the page units to inches, and draw a rectangle.
    graphics.SetPageUnit(UnitInch)
-   DIM bluePen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), 0.0)
+   DIM bluePen AS CGpPen = CGpPen(ARGB_BLUE, 0.0)
    graphics.DrawRectangle(@bluePen, 2, 0, 1, 1)
 
 END SUB
@@ -3890,7 +3878,7 @@ SUB Example_SetRenderingOrigin (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleDiagonalCross, GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 255, 255))
+   DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleDiagonalCross, ARGB_RED, ARGB_AQUA)
    graphics.FillRectangle(@hatchBrush, 0, 0, 100, 50)
    graphics.SetRenderingOrigin(3, 0)
    graphics.FillRectangle(@hatchBrush, 0, 50, 100, 50)
@@ -3960,7 +3948,7 @@ SUB Example_SmoothingMode (BYVAL hdc AS HDC)
    graphics.SetSmoothingMode(SmoothingModeHighSpeed)
 
    ' // Draw an ellipse.
-   graphics.DrawEllipse(@CGpPen(GDIP_ARGB(255, 0, 0, 0), 3), 10, 50, 200, 100)
+   graphics.DrawEllipse(@CGpPen(ARGB_BLACK, 3), 10, 50, 200, 100)
 
    ' // Get the smoothing mode.
    DIM nMode AS SmoothingMode = graphics.GetSmoothingMode
@@ -3971,7 +3959,7 @@ SUB Example_SmoothingMode (BYVAL hdc AS HDC)
    END IF
 
    ' // Draw an ellipse to demonstrate the difference.
-   graphics.DrawEllipse(@CGpPen(GDIP_ARGB(255, 255, 0, 0), 3), 220, 50, 200, 100)
+   graphics.DrawEllipse(@CGpPen(ARGB_RED, 3), 220, 50, 200, 100)
 
 END SUB
 ' ========================================================================================
@@ -4080,7 +4068,7 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
    graphics.SetTransform(@transformMatrix)
 
    ' // Draw a rotated rectangle.
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0))
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK)
    graphics.DrawRectangle(@blackPen, 120, 0, 100, 50)
 
 END SUB
@@ -4134,12 +4122,10 @@ SUB Example_TransformPoints (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-'   Pen pen(Color(255, 0, 0, 255));
-   DIM bluePen AS CGpPen = GDIP_ARGB(255, 0, 0, 255)
+   DIM bluePen AS CGpPen = ARGB_BLUE
 
    ' // Create an array of two Point objects.
-   DIM rgPoints(0 TO 1) AS GpPoint
-   rgPoints(1).x = 100 : rgPoints(1).y = 50
+   DIM rgPoints(0 TO 1) AS GpPoint = {(0, 0), (100, 50)}
 
    ' // Draw a line that connects the two points.
    ' // No transformation has been performed yet.
@@ -4158,7 +4144,7 @@ SUB Example_TransformPoints (BYVAL hdc AS HDC)
 
    ' // Draw a line that connects the transformed points.
    graphics.ResetTransform
-   DIM bluePen2 AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 255), rxRatio)
+   DIM bluePen2 AS CGpPen = CGpPen(ARGB_BLUE, rxRatio)
    graphics.DrawLine(@bluePen2, @rgPoints(0), @rgPoints(1))
 
 END SUB
@@ -4210,11 +4196,11 @@ SUB Example_TranslateClip (BYVAL hdc AS HDC)
    graphics.TranslateClip(40, 30)
 
    ' // Fill an ellipse that is clipped by the translated clipping region.
-   DIM redBrush AS CGpSolidBrush = CGpSolidBrush(GDIP_ARGB(255, 255, 0, 0))
+   DIM redBrush AS CGpSolidBrush = CGpSolidBrush(ARGB_RED)
    graphics.FillEllipse(@redBrush, 20, 40, 100, 80)
 
    ' // Draw the outline of the clipping region (rectangle).
-   DIM blackPen AS CGpPen = CGpPen(GDIP_ARGB(255, 0, 0, 0), 2)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 2)
    graphics.DrawRectangle(@blackPen, 40, 30, 100, 50)
 
 END SUB
@@ -4269,7 +4255,7 @@ SUB Example_TranslateTransform (BYVAL hdc AS HDC)
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   DIM redPen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0))
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED)
    graphics.RotateTransform(30)
    graphics.TranslateTransform(100, 50, MatrixOrderAppend)
    graphics.DrawEllipse(@redPen, 0, 0, 200, 80)
