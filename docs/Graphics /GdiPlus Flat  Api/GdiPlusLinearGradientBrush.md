@@ -297,7 +297,7 @@ SUB Example_GetLineBlend (BYVAL hdc AS HDC)
    GdipSetLineBlend(brush, @setFactors(0), @setPositions(0), 4)
 
    ' // Get blend count
-   DIM count AS INTEGER
+   DIM count AS LONG
    GdipGetLineBlendCount(brush, @count)
 
    ' // Retrieve blend factors and positions
