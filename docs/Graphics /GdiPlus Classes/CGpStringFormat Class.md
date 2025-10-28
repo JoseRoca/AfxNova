@@ -1277,20 +1277,22 @@ SUB Example_SetTrimming (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its trimming style
    DIM stringFormat AS CGpStringFormat
+   stringFormat.SetFormatFlags(StringFormatFlagsLineLimit)
    stringFormat.SetTrimming(StringTrimmingEllipsisWord)
 
    ' // Use the StringFormat object in a call to DrawString
@@ -1302,6 +1304,5 @@ SUB Example_SetTrimming (BYVAL hdc AS HDC)
    graphics.DrawRectangle(@pen, 30, 30, 160, 60)
 
 END SUB
-' ========================================================================================
 ```
 ---
