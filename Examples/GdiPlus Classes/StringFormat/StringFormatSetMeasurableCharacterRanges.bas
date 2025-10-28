@@ -44,23 +44,23 @@ SUB Example_SetMeasurableCharacterRanges (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Brushes and pens used for drawing and painting
-   DIM blueBrush AS CGpSOlidBrush = GDIP_ARGB(255, 0, 0, 255)
-   DIM redBrush AS CGpSOlidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blackPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
+   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(100, 255, 0, 0) ' partially transparent
+   DIM blackPen AS CGpPen = ARGB_BLACK
 
    ' // Layout rectangles used for drawing strings
-   DIM layoutRect_A AS GpRectF = TYPE<GpRectF>(20.0, 20.0, 130.0, 130.0)
-   DIM layoutRect_B AS GpRectF = TYPE<GpRectF>(160.0, 20.0, 165.0, 130.0)
-   DIM layoutRect_C AS GpRectF = TYPE<GpRectF>(335.0, 20.0, 165.0, 130.0)
+   DIM layoutRect_A AS GpRectF = (20.0, 20.0, 130.0, 130.0)
+   DIM layoutRect_B AS GpRectF = (160.0, 20.0, 165.0, 130.0)
+   DIM layoutRect_C AS GpRectF = (335.0, 20.0, 165.0, 130.0)
 
    ' // Three ranges of character positions within the string
-   DIM charRanges(2) AS CharacterRange
+   DIM charRanges(2) AS GpCharacterRange
    charRanges(0).First = 3  : charRanges(0).Length = 5
    charRanges(1).First = 15 : charRanges(1).Length = 2
    charRanges(2).First = 30 : charRanges(2).Length = 15
 
    ' // Font and string format used to apply to string when drawing
-   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxPointsToPixelsX(16) / rxRatio, FontStyleRegular, UnitPixel)
+   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
    DIM strFormat AS CGpStringFormat
 
    DIM wszText AS WSTRING * 260

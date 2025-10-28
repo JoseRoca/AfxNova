@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -46,7 +45,7 @@ SUB Example_GenericDefault (BYVAL hdc AS HDC)
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
    ' // Points must not be scaled for a generic font, so we are unscaling them dividing by rxRatio
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(12) / rxRatio, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a generic default string format
    DIM stringFormat AS CGpStringFormat
@@ -54,11 +53,11 @@ SUB Example_GenericDefault (BYVAL hdc AS HDC)
 
    ' // Use the generic StringFormat object in a call to DrawString.
    DIM wszText AS WSTRING * 260 = "This text was formatted by a generic StringFormat object."
-   graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 100, 120, @stringFormat, @solidBrush)
+   graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 200, 200, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text.
-   DIM pen AS CGpPen = GDIP_ARGB(255, 255, 0, 0)
-   graphics.DrawRectangle(@pen, 30, 30, 100, 120)
+   DIM pen AS CGpPen = ARGB_RED
+   graphics.DrawRectangle(@pen, 30, 30, 200, 200)
 
 END SUB
 ' ========================================================================================

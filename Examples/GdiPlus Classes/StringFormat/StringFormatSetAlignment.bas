@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -45,11 +44,11 @@ SUB Example_SetAlignment (BYVAL hdc AS HDC)
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the alignment
    DIM stringFormat AS CGpStringFormat
-   stringFormat.SetAlignment(StringAlignmentFar)
+   stringFormat.SetAlignment(StringAlignmentNear)
 
    ' // Use the StringFormat object in a call to DrawString
    DIM wszText AS WSTRING * 260 = "This text was formatted by a StringFormat object."

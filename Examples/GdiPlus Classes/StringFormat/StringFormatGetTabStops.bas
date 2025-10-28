@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -42,11 +41,11 @@ SUB Example_GetTabStops (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, rxRatio)
 
    ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = GDIP_ARGB(255, 0, 0, 255)
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 16, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the tab stops
    DIM tabs(0 TO 2) AS SINGLE = {150, 100, 100}
@@ -58,7 +57,7 @@ SUB Example_GetTabStops (BYVAL hdc AS HDC)
    graphics.DrawString(@wszText, LEN(wszText), @pFont, 20, 20, 500, 100, @stringFormat, @solidBrush)
 
    ' // Draw the rectangle that encloses the text.
-   DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 255, 0, 0))
+   DIM pen AS CGpPen = CGpPen(ARGB_RED)
    graphics.DrawRectangle(@pen, 20, 20, 500, 100)
 
    ' // Get the tab stops

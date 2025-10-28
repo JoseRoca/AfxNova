@@ -9,7 +9,6 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
 #INCLUDE ONCE "AfxNova/CGdiPlus.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -37,7 +36,7 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' Remarks: It doesn't work with the 64-bit headers because they lack a declare for the
 ' GdipMeasureCharacterRanges function.
 ' ========================================================================================
-SUB Example_GetMeasurableCharacterRanges (BYVAL hdc AS HDC)
+SUB Example_GetMeasurableCharacterRangesCount (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -48,21 +47,21 @@ SUB Example_GetMeasurableCharacterRanges (BYVAL hdc AS HDC)
    graphics.ScaleTransform(rxRatio, ryRatio)
 
    ' // Brushes and pens used for drawing and painting
-   DIM blueBrush AS CGpSOlidBrush = GDIP_ARGB(255, 0, 0, 255)
-   DIM redBrush AS CGpSOlidBrush = GDIP_ARGB(255, 255, 0, 0)
-   DIM blackPen AS CGpPen = GDIP_ARGB(255, 0, 0, 0)
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
+   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(100, 255, 0, 0) ' partially transparent
+   DIM blackPen AS CGpPen = ARGB_RED
 
    ' // Layout rectangles used for drawing strings
-   DIM layoutRect AS GpRectF = TYPE<GpRectF>(20.0, 20.0, 130.0, 130.0)
+   DIM layoutRect AS GpRectF = (20.0, 20.0, 130.0, 130.0)
 
    ' // Three ranges of character positions within the string
-   DIM charRanges(2) AS CharacterRange
+   DIM charRanges(2) AS GpCharacterRange
    charRanges(0).First = 3  : charRanges(0).Length = 5
    charRanges(1).First = 15 : charRanges(1).Length = 2
    charRanges(2).First = 30 : charRanges(2).Length = 15
 
    ' // Font and string format used to apply to string when drawing
-   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxPointsToPixelsX(16) / rxRatio, FontStyleRegular, UnitPixel)
+   DIM myFont AS CGpFont = CGpFont("Times New Roman", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
    DIM strFormat AS CGpStringFormat
 
    DIM wszText AS WSTRING * 260
@@ -117,7 +116,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_GetMeasurableCharacterRanges(hdc)
+   Example_GetMeasurableCharacterRangesCount(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

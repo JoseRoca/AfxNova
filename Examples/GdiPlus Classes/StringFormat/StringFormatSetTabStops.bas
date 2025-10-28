@@ -46,7 +46,7 @@ SUB Example_SetTabStops (BYVAL hdc AS HDC)
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 16, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set the tab stops
    DIM tabs(0 TO 2) AS SINGLE = {150, 100, 100}

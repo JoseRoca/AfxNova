@@ -45,10 +45,11 @@ SUB Example_SetTrimming (BYVAL hdc AS HDC)
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, 24, FontStyleRegular, UnitPixel)
+   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its trimming style
    DIM stringFormat AS CGpStringFormat
+   stringFormat.SetFormatFlags(StringFormatFlagsLineLimit)
    stringFormat.SetTrimming(StringTrimmingEllipsisWord)
 
    ' // Use the StringFormat object in a call to DrawString
