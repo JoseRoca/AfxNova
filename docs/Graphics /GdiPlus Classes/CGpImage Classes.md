@@ -1020,20 +1020,21 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 ## <a name="constructorsbitmap"></a>Constructors (CGpBitmap)
 
 ```
-DECLARE CONSTRUCTOR
-DECLARE CONSTRUCTOR (BYVAL pBitmap AS CGpBitmap PTR)
-DECLARE CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
-DECLARE CONSTRUCTOR (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
-DECLARE CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL stride AS INT_, _
-        BYVAL pxFormat AS PixelFormat, BYVAL scan0 AS UBYTE PTR)
-DECLARE CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat = PixelFormat32bppPARGB)
-DECLARE CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pTarget AS CGpGraphics_ PTR)
-DECLARE CONSTRUCTOR (BYVAL gdiBitmapInfo AS BITMAPINFO PTR, BYVAL gdiBitmapData AS ANY PTR)
-DECLARE CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
-DECLARE CONSTRUCTOR (BYVAL hicon AS HICON)
-DECLARE CONSTRUCTOR (BYVAL hInstance AS HINSTANCE, BYVAL pwszbitmapName AS WSTRING PTR)
-DECLARE CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
+CONSTRUCTOR
+CONSTRUCTOR (BYVAL pBitmap AS CGpBitmap PTR)
+CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+CONSTRUCTOR (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL stride AS INT_, _
+            BYVAL pxFormat AS PixelFormat, BYVAL scan0 AS UBYTE PTR)
+CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat = PixelFormat32bppPARGB)
+CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pTarget AS CGpGraphics_ PTR)
+CONSTRUCTOR (BYVAL gdiBitmapInfo AS BITMAPINFO PTR, BYVAL gdiBitmapData AS ANY PTR)
+CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
+CONSTRUCTOR (BYVAL hicon AS HICON)
+CONSTRUCTOR (BYVAL hInstance AS HINSTANCE, BYVAL pwszbitmapName AS WSTRING PTR)
+CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
 ```
+---
 
 Creates a **Bitmap** object based on another **Bitmap** obejct (clones it).
 ```
@@ -1113,16 +1114,6 @@ CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
 
 ---
 
-Creates a **Bitmap** object based on a **DirectDraw surface**. The **Bitmap** object maintains a reference to the **DirectDraw** surface until the **Bitmap** object is deleted or goes out of scope.
-```
-CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
-```
-| Parameter  | Description |
-| ---------- | ----------- |
-| *surface* | Pointer to an **IDrectDrawSurface7** COM interface. |
-
----
-
 Creates a **Bitmap** object based on a **BITMAPINFO** structure and an array of pixel data.
 ```
 CONSTRUCTOR (BYVAL gdiBitmapInfo AS BITMAPINFO PTR, BYVAL gdiBitmapData AS ANY PTR)
@@ -1152,6 +1143,14 @@ CONSTRUCTOR CGpBitmap (BYVAL hInstance AS HINSTANCE, BYVAL pwszBitmapName AS WST
 | ---------- | ----------- |
 | *hInstance* | Handle to an instance of a module whose executable file contains a bitmap resource. |
 | *pwszBitmapName* | Pointer to a null-terminated string that specifies the path name of the bitmap resource to be loaded. Alternatively, this parameter can consist of the resource identifier in the low-order word and zero in the high-order word. You can use the **MAKEINTRESOURCE** macro to create this value. |
+
+Creates a **Bitmap** object based on a **DirectDraw surface**. The **Bitmap** object maintains a reference to the **DirectDraw** surface until the **Bitmap** object is deleted or goes out of scope.
+```
+CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *surface* | Pointer to an **IDrectDrawSurface7** COM interface. |
 
 ---
 
