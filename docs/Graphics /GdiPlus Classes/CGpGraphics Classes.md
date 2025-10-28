@@ -3552,12 +3552,13 @@ Updates this **Graphics** object's world transformation matrix with the product 
 ```
 FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, _
    BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+FUNCTION ScaleTransform (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *sx* | The horizontal scaling factor in the scaling matrix. |
-| *sy* | The vertical scaling factor in the scaling matrix. |
+| *sx* | Optional. The horizontal scaling factor in the scaling matrix. |
+| *sy* | Optional The vertical scaling factor in the scaling matrix. |
 | *order* | Optional. Element of the **MatrixOrder** enumeration that specifies the order of multiplication. **MatrixOrderPrepend** specifies that the passed matrix is on the left, and **MatrixOrderAppend** specifies that the passed matrix is on the right. The default value is **MatrixOrderPrepend**. |
 
 #### Return value
@@ -3565,6 +3566,10 @@ FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, _
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Remarks
+
+If *sx* and *sy" are omitted, **ScaleTransform** calculates the scaling factors calling the **GetDpiX** and **GetDpy" methods to use the DPI settings of the computer.
 
 ---
 
