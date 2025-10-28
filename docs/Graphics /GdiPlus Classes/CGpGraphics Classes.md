@@ -43,7 +43,7 @@ The `CGpGraphics` class provides methods for drawing lines, curves, figures, ima
 | [Flush](#flush) | Flushes all pending graphics operations. |
 | [FromHDC](#fromhdc) | Creates a **Graphics** object that is associated with a specified device context. |
 | [FromHWND](#fromhwnd) | Creates a **Graphics** object that is associated with a specified window. |
-| [FromImage](#fromimage) | Creates a **Graphics** object that is associated with a specified device context. |
+| [FromImage](#fromimage) | Creates a **Graphics** object that is associated with a specified **Image** object. |
 | [GetClip](#getclip) | Gets the clipping region of this **Graphics** object. |
 | [GetClipBounds](#getclipbounds) | Gets a rectangle that encloses the clipping region of this **Graphics** object. |
 | [GetCompositingMode](#getcompositingmode) | Gets the compositing mode currently set for this **Graphics** object. |
@@ -2230,7 +2230,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="fromimage"></a>FromImage (CGpGRaphics)
 
-Creates a **Graphics** object that is associated with a specified device context.
+Creates a **Graphics** object that is associated with a specified **Image** object.
 
 ```
 FUNCTION FromImage (BYVAL pImage AS CGpImage PTR) AS GpStatus
