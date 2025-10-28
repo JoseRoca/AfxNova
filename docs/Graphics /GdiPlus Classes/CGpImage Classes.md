@@ -613,7 +613,7 @@ FUNCTION GetPixelFormat () AS PixelFormat
 
 #### Return value
 
-This method returns an integer that indicates the pixel format of this **Image** object. The **PixelFormat** data type and constants that represent various pixel formats are defined in Gdipluspixelformats.inc.
+This method returns an integer that indicates the pixel format of this **Image** object. The **PixelFormat** data type and constants that represent various pixel formats are defined in Gdipluspixelformats.h.
 
 ---
 
