@@ -1624,9 +1624,13 @@ CONSTRUCTOR CGpImageAttributes
 
 Creates and initializes an **ImageAttributes** object from another **ImageAttributes** object.
 
+Flat API function: **GdipCreateImageAttributes**.
+
 ```
 CONSTRUCTOR CGpImageAttributes (BYVAL pImgAttr AS CGpImageAttributes PTR)
 ```
+Flat API function: **GdipCloneImageAttributes**.
+
 ---
 
 ## <a name="clearbrushremaptable"></a>ClearBrushRemapTable (CGpImageAttributes)
@@ -1642,6 +1646,8 @@ FUNCTION ClearBrushRemapTable () AS GpStatus
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipSetImageAttributesRemapTable**.
 
 ---
 
@@ -1671,6 +1677,8 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+Flat API function: **GdipSetImageAttributesColorKeys**.
+
 ---
 
 ## <a name="clearcolormatrices"></a>ClearColorMatrices (CGpImageAttributes)
@@ -1698,6 +1706,8 @@ An **ImageAttributes** object maintains color and grayscale settings for five ad
 The default color- and grayscale-adjustment settings apply to all categories that don't have adjustment settings of their own. For example, if you never specify any adjustment settings for the pen category, then the default settings apply to the pen category.
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a pair (color and grayscale) of adjustment matrices and a gamma value for the default category. If you set a pair of adjustment matrices for the pen category by calling **SetColorMatrices**, then the default adjustment matrices will not apply to pens. If you later clear the pen adjustment matrices by calling **ClearColorMatrices**, the pen category will not revert to the default adjustment matrices; rather, the pen category will have no adjustment matrices. Similarly, the pen category will not revert to the default gamma value; rather, the pen category will have no gamma value.
+
+Flat API function: **GdipSetImageAttributesColorMatrix**.
 
 ---
 
@@ -1727,6 +1737,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a color-adjustment matrix and a gamma value for the default category. If you set a color-adjustment matrix for the pen category by calling **SetColorMatrix**, then the default color-adjustment matrix will not apply to pens. If you later clear the pen color-adjustment matrix by calling **ClearColorMatrix**, the pen category will not revert to the default adjustment matrix; rather, the pen category will have no adjustment matrix. Similarly, the pen category will not revert to the default gamma value; rather, the pen category will have no gamma value.
 
+Flat API function: **GdipSetImageAttributesColorMatrix**.
+
 ---
 
 ## <a name="cleargamma"></a>ClearGamma (CGpImageAttributes)
@@ -1754,6 +1766,8 @@ An **ImageAttributes** object maintains color and grayscale settings for five ad
 The default color- and grayscale-adjustment settings apply to all categories that don't have adjustment settings of their own. For example, if you never specify any adjustment settings for the pen category, then the default settings apply to the pen category.
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a gamma value and a color-adjustment matrix for the default category. If you set the gamma value for the pen category by calling **SetGamma**, then the default gamma value will not apply to pens. If you later clear the pen gamma value by calling **ClearGamma**, the pen category will not revert to the default gamma value; rather, the pen category will have no gamma value. Similarly, the pen category will not revert to the default color-adjustment matrix; rather, the pen category will have no color-adjustment matrix.
+
+Flat API function: **GdipSetImageAttributesGamma**.
 
 ---
 
@@ -1788,6 +1802,9 @@ The following statement reinstates the brush color adjustment that was in place 
 ```
 myImageAttributes.ClearNoOp(ColorAdjustTypeBrush)
 ```
+
+Flat API function: **GdipSetImageAttributesNoOp**.
+
 ---
 
 ## <a name="clearoutputchannel"></a>ClearOutputChannel (CGpImageAttributes)
@@ -1815,6 +1832,9 @@ An **ImageAttributes** object maintains color and grayscale settings for five ad
 The default color- and grayscale-adjustment settings apply to all categories that don't have adjustment settings of their own. For example, if you never specify any adjustment settings for the bitmap category, then the default settings apply to the bitmap category.
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify an output channel and an adjustment matrix for the default category. If you set the output channel for the bitmap category by calling **SetOutputChannel**, then the default output channel will not apply to bitmaps. If you later clear the bitmap output channel by calling **ClearOutputChannel**, the bitmap category will not revert to the default output channel; rather, the bitmap category will have no output channel setting. Similarly, the bitmap category will not revert to the default color-adjustment matrix; rather, the bitmap category will have no color-adjustment matrix.
+
+
+Flat API function: **GdipSetImageAttributesOutputChannel**.
 
 ---
 
@@ -1844,6 +1864,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify an output channel profile and an adjustment matrix for the default category. If you set the output channel profile for the bitmap category by calling **SetOutputChannelColorProfile**, then the default output channel profile will not apply to bitmaps. If you later clear the bitmap output channel profile by calling **ClearOutputChannelColorProfile**, the bitmap category will not revert to the default output channel profile; rather, the bitmap category will have no output channel profile setting. Similarly, the bitmap category will not revert to the default color-adjustment matrix; rather, the bitmap category will have no color-adjustment matrix.
 
+Flat API function: **GdipSetImageAttributesOutputChannelColorProfile**.
+
 ---
 
 ## <a name="clearremaptable"></a>ClearRemapTable (CGpImageAttributes)
@@ -1871,6 +1893,8 @@ An **ImageAttributes** object maintains color and grayscale settings for five ad
 The default color- and grayscale-adjustment settings apply to all categories that don't have adjustment settings of their own. For example, if you never specify any adjustment settings for the pen category, then the default settings apply to the pen category.
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a remap table and a gamma value for the default category. If you set the remap table for the pen category by calling **SetRemapTable**, then the default remap table will not apply to pens. If you later clear the pen remap table by calling **ClearRemapTable**, the pen category will not revert to the default remap table; rather, the pen category will have no remap table. Similarly, the pen category will not revert to the default gamma value; rather, the pen category will have no gamma value.
+
+Flat API function: **GdipSetImageAttributesRemapTable**.
 
 ---
 
@@ -1902,6 +1926,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a threshold and a gamma value for the default category. If you set the threshold for the pen category by calling **SetThreshold**, then the default threshold will not apply to pens. If you later clear the pen threshold by calling **ClearThreshold**, the pen category will not revert to the default threshold; rather, the pen category will have no threshold. Similarly, the pen category will not revert to the default gamma value; rather, the pen category will have no gamma value.
 
+Flat API function: **GdipSetImageAttributesThreshold**.
+
 ---
 
 ## <a name="clone"></a>Clone (CGpImageAttributes)
@@ -1921,6 +1947,8 @@ FUNCTION Clone (BYVAL pCloneImgAttr AS CGpImageAttributes PTR) AS GpStatus
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipCloneImageAttributes**.
 
 ---
 
@@ -1948,6 +1976,8 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 An **ImageAttributes** object maintains color and grayscale settings for five adjustment categories: default, bitmap, brush, pen, and text. For example, you can specify a color-remap table for the default category, a different color-remap table for the bitmap category, and still a different color-remap table for the pen category.
 
 When you call **GetAdjustedPalette**, you can specify the adjustment category that is used to adjust the palette colors. For example, if you pass **ColorAdjustTypeBitmap** to the **GetAdjustedPalette** method, then the adjustment settings of the bitmap category are used to adjust the palette colors.
+
+Flat API function: **GdipGetImageAttributesAdjustedPalette**.
 
 ---
 
@@ -1977,6 +2007,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. You can reinstate the default settings for that category by calling **Reset**. For example, suppose you specify a gamma value for the default category. If you set the gamma value for the pen category by calling **SetGamma**, then the default gamma value will not apply to pens. If you later pass **ColorAdjustTypePen** to the **Reset** method, the pen category will revert to the default gamma value.
 
+Flat API function: **GdipResetImageAttributes**.
+
 ---
 
 ## <a name="setbrushremaptable"></a>SetBrushRemapTable (CGpImageAttributes)
@@ -2003,6 +2035,8 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 A color-remap table is an array of **ColorMap** structures. Each **ColorMap** structure has two colors: one that specifies an old color and one that specifies a corresponding new color. During rendering, any color that matches one of the old colors in the remap table is changed to the corresponding new color.
 
 Calling the **SetBrushRemapTable** method has the same effect as passing **ColorAdjustTypeBrush** to the **SetRemapTable**. The specified remap table applies to items in metafiles that are filled with a brush.
+
+Flat API function: **GdipSetImageAttributesRemapTable**.
 
 ---
 
@@ -2036,6 +2070,8 @@ An **ImageAttributes** object maintains color and grayscale settings for five ad
 The default color- and grayscale-adjustment settings apply to all categories that don't have adjustment settings of their own. For example, if you never specify any adjustment settings for the pen category, then the default settings apply to the pen category.
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the color key for the pen category by passing **ColorAdjustTypePen** to the **SetColorKey** method, then none of the default adjustment settings will apply to pens.
+
+Flat API function: **GdipSetImageAttributesColorKeys**.
 
 ---
 
@@ -2071,6 +2107,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the color-adjustment and grayscale-adjustment matrices for the pen category by passing **ColorAdjustTypePen** to the **SetColorMatrices** method, then none of the default adjustment settings will apply to pens.
 
+Flat API function: **GdipSetImageAttributesColorMatrix**.
+
 ---
 
 ## <a name="setcolormatrix"></a>SetColorMatrix (CGpImageAttributes)
@@ -2103,6 +2141,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the color-adjustment matrix for the pen category by passing **ColorAdjustTypePen** to the **SetColorMatrix** method, then none of the default adjustment settings will apply to pens.
 
+Flat API function: **GdipSetImageAttributesColorMatrix**.
+
 ---
 
 ## <a name="setgamma"></a>SetGamma (CGpImageAttributes)
@@ -2132,6 +2172,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the gamma value for the pen category by passing **ColorAdjustTypePen** to the **SetGamma** method, then none of the default adjustment settings will apply to pens.
 
+Flat API function: **GdipSetImageAttributesGamma**.
+
 ---
 
 ## <a name="setnoop"></a>SetNoOp (CGpImageAttributes)
@@ -2152,6 +2194,8 @@ FUNCTION SetNoOp (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS Gp
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipSetImageAttributesNoOp**.
 
 ---
 
@@ -2184,6 +2228,8 @@ An **ImageAttributes** object maintains color and grayscale settings for five ad
 The default color- and grayscale-adjustment settings apply to all categories that don't have adjustment settings of their own. For example, if you never specify any adjustment settings for the bitmap category, then the default settings apply to the bitmap category.
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the output channel for the bitmap category by passing **ColorAdjustTypeBitmap** to the **SetOutputChannel** method, then none of the default adjustment settings will apply to bitmaps.
+
+Flat API function: **GdipSetImageAttributesOutputChannel**.
 
 ---
 
@@ -2225,6 +2271,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the output channel color-profile file for the bitmap category by passing **ColorAdjustTypeBitmap** to the **SetOutputChannelColorProfile** method, then none of the default adjustment settings will apply to bitmaps.
 
+Flat API function: **GdipSetImageAttributesOutputChannelColorProfile**.
+
 ---
 
 ## <a name="setremaptable"></a>SetRemapTable (CGpImageAttributes)
@@ -2258,6 +2306,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the color-remap table for the pen category by passing **ColorAdjustTypePen** to the **SetRemapTable** method, then none of the default adjustment settings will apply to pens.
 
+Flat API function: **GdipSetImageAttributesRemapTable**.
+
 ---
 
 ## <a name="setthreshold"></a>SetThreshold (CGpImageAttributes)
@@ -2290,6 +2340,8 @@ The default color- and grayscale-adjustment settings apply to all categories tha
 
 As soon as you specify a color- or grayscale-adjustment setting for a certain category, the default adjustment settings no longer apply to that category. For example, suppose you specify a collection of adjustment settings for the default category. If you set the threshold for the pen category by passing **ColorAdjustTypePen** to the **SetThreshold** method, then none of the default adjustment settings will apply to pens.
 
+Flat API function: **GdipSetImageAttributesThreshold**.
+
 ---
 
 # <a name="settoidentity"></a>SetToIdentity (CGpImageAttributes)
@@ -2309,6 +2361,8 @@ FUNCTION SetToIdentity (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault)
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipSetImageAttributesToIdentity**.
 
 ---
 
@@ -2332,5 +2386,7 @@ FUNCTION SetWrapMode (BYVAL nWrap AS WrapMode, BYVAL colour AS ARGB = &HFF000000
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipSetImageAttributesWrapMode**.
 
 ---
