@@ -55,7 +55,7 @@ Extends the **CGpImage** class. The **Bitmap** object expands on the capabilitie
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructors](#constructorsbitmap) | Creates a **Bitmap** object based on an icon or resource file. |
+| [Constructors](#constructorsbitmap) | Creates a **Bitmap** object. |
 | [Clone](#clonebitmap) | Creates a new Bitmap object by copying a portion of this bitmap. |
 | [ConvertFormat](#convertformat) | Converts a bitmap to a specified pixel format. |
 | [GetHBITMAP](#gethbitmap) | Creates a Windows Graphics Device Interface (GDI) bitmap from this Bitmap object. |
@@ -1019,29 +1019,139 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="constructorsbitmap"></a>Constructors (CGpBitmap)
 
-Creates a **Bitmap** object based on another **Bitmap** obejct (clones it).
+```
+DECLARE CONSTRUCTOR
+DECLARE CONSTRUCTOR (BYVAL pBitmap AS CGpBitmap PTR)
+DECLARE CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+DECLARE CONSTRUCTOR (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+DECLARE CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL stride AS INT_, _
+        BYVAL pxFormat AS PixelFormat, BYVAL scan0 AS UBYTE PTR)
+DECLARE CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat = PixelFormat32bppPARGB)
+DECLARE CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pTarget AS CGpGraphics_ PTR)
+DECLARE CONSTRUCTOR (BYVAL gdiBitmapInfo AS BITMAPINFO PTR, BYVAL gdiBitmapData AS ANY PTR)
+DECLARE CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
+DECLARE CONSTRUCTOR (BYVAL hicon AS HICON)
+DECLARE CONSTRUCTOR (BYVAL hInstance AS HINSTANCE, BYVAL pwszbitmapName AS WSTRING PTR)
+DECLARE CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
+```
 
+Creates a **Bitmap** object based on another **Bitmap** obejct (clones it).
 ```
 CONSTRUCTOR CGpBitmap (BYVAL pBitmap AS CGpBitmap PTR)
 ```
+---
+
+Creates a **Bitmap** object based on an image file.
+```
+CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszFileName* | Pointer to a null-terminated string that specifies the path name of the image file. The graphics file formats supported by GDI+ are BMP, GIF, JPEG, PNG, TIFF, Exif, WMF, and EMF. |
+| *useEmbeddedColorManagement* | Optional. Boolean value that specifies whether the new **Bitmap** object applies color correction according to color management information that is embedded in the image file. Embedded information can include International Color Consortium (ICC) profiles, gamma values, and chromaticity information. **TRUE** specifies that color correction is enabled, and **FALSE** specifies that color correction is not enabled. The default value is **FALSE**. |
+
+---
+
+Creates a **Bitmap** object based on an **IStream** COM interface..
+```
+CONSTRUCTOR (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pStream* | Pointer to an **IStream** COM interface. |
+| *useEmbeddedColorManagement* | Optional. Boolean value that specifies whether the new **Bitmap** object applies color correction according to color management information that is embedded in the image file. Embedded information can include International Color Consortium (ICC) profiles, gamma values, and chromaticity information. **TRUE** specifies that color correction is enabled, and **FALSE** specifies that color correction is not enabled. The default value is **FALSE**. |
+
+---
+
+Creates a **Bitmap** object based on a **Graphics** object, a width, and a height.
+```
+CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pTarget AS CGpGraphics_ PTR)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nWidth* | Integer that specifies the width, in pixels, of the bitmap. |
+| *nHeight* | Integer that specifies the height, in pixels, of the bitmap. |
+| *pTarget* | Pointer to a **Graphics** object that contains information used to initialize certain properties (for example, dots per inch) of the new **Bitmap** object. |
+
+---
+
+Creates a **Bitmap** object based on an array of bytes along with size and format information.
+```
+CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL stride AS INT_, _
+             BYVAL pxFormat AS PixelFormat, BYVAL scan0 AS UBYTE PTR)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nWidth* | Integer that specifies the width, in pixels, of the bitmap. |
+| *nHeight* | Integer that specifies the height, in pixels, of the bitmap. |
+| *stride* | Integer that specifies the byte offset between the beginning of one scan line and the next. This is usually (but not necessarily) the number of bytes in the pixel format (for example, 2 for 16 bits per pixel) multiplied by the width of the bitmap. The value passed to this parameter must be a multiple of four. |
+| *pxFormat* | Integer that specifies the pixel format of the bitmap. For more information about pixel format constants, see [Image Pixel Format Constants](https://learn.microsoft.com/en-us/windows/win32/gdiplus/-gdiplus-constant-image-pixel-format-constants). |
+| *scan0* | Pointer to an array of bytes that contains the pixel data. The caller is responsible for allocating and freeing the block of memory pointed to by this parameter. |
+
+---
+
+Creates a **Bitmap** object of a specified size and pixel format. The pixel data must be provided after the **Bitmap** object is constructed.
+```
+CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat = PixelFormat32bppPARGB)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *nWidth* | Integer that specifies the width, in pixels, of the bitmap. |
+| *nHeight* | Integer that specifies the height, in pixels, of the bitmap. |
+| *pxFormat* | Integer that specifies the pixel format of the bitmap. The default value is **PixelFormat32bppARGB**. For more information about pixel format constants, see [Image Pixel Format Constants](https://learn.microsoft.com/en-us/windows/win32/gdiplus/-gdiplus-constant-image-pixel-format-constants). |
+
+---
+
+Creates a **Bitmap** object based on a handle to a Windows Windows Graphics Device Interface (GDI) bitmap and a handle to a GDI palette.
+```
+CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hbm* | Handle to a GDI bitmap. |
+| *hPal* | Handle to a GDI palette used to define the bitmap colors if hbm is not a device-independent bitmap (DIB). |
+
+---
+
+Creates a **Bitmap** object based on a **DirectDraw surface**. The **Bitmap** object maintains a reference to the **DirectDraw** surface until the **Bitmap** object is deleted or goes out of scope.
+```
+CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *surface* | Pointer to an **IDrectDrawSurface7** COM interface. |
+
+---
+
+Creates a **Bitmap** object based on a **BITMAPINFO** structure and an array of pixel data.
+```
+CONSTRUCTOR (BYVAL gdiBitmapInfo AS BITMAPINFO PTR, BYVAL gdiBitmapData AS ANY PTR)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *gdiBitmapInfo* | Pointer to a GDI **BITMAPINFO** structure. This structure defines several bitmap attributes, such as size and pixel format. |
+| *gdiBitmapData* | Pointer to an array of bytes that contains the pixel data. |
+
+---
 
 Creates a **Bitmap** object based on an icon.
-
 ```
 CONSTRUCTOR CGpBitmap (BYVAL hicon AS HICON)
 ```
-
-Creates a **Bitmap** object based on an application or DLL instance handle and the name of a bitmap resource.
-
-```
-CONSTRUCTOR CGpBitmap (BYVAL hInstance AS HINSTANCE, BYVAL pwszBitmapName AS WSTRING PTR)
-```
-
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hIcon* | Handle to a GDI icon. |
+
+---
+
+Creates a **Bitmap** object based on an application or DLL instance handle and the name of a bitmap resource.
+```
+CONSTRUCTOR CGpBitmap (BYVAL hInstance AS HINSTANCE, BYVAL pwszBitmapName AS WSTRING PTR)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
 | *hInstance* | Handle to an instance of a module whose executable file contains a bitmap resource. |
-| *pwszBitmapName* | Pointer to a null-terminated string that specifies the path name of the bitmap resource to be loaded. Alternatively, this parameter can consist of the resource identifier in the low-order word and zero in the high-order word. You can use the MAKEINTRESOURCE macro to create this value. |
+| *pwszBitmapName* | Pointer to a null-terminated string that specifies the path name of the bitmap resource to be loaded. Alternatively, this parameter can consist of the resource identifier in the low-order word and zero in the high-order word. You can use the **MAKEINTRESOURCE** macro to create this value. |
 
 ---
 
