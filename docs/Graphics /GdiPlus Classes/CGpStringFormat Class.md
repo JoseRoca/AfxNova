@@ -764,33 +764,36 @@ SUB Example_GetTrimming (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
+   ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
    graphics.ScaleTransform(rxRatio, ryRatio)
 
-   ' // Create a red solid brush
-   DIM solidBrush AS CGpSolidBrush = ARGB_RED
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    ' // Create a font from the font family
-   DIM pFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a string format object and set its trimming style
    DIM stringFormat AS CGpStringFormat
+   stringFormat.SetFormatFlags(StringFormatFlagsLineLimit)
    stringFormat.SetTrimming(StringTrimmingEllipsisWord)
+
+   ' // Create a red solid brush
+   DIM solidBrush AS CGpSolidBrush = ARGB_RED
 
    ' // Get the trimming style from the StringFormat object.
    DIM nStringTrimming AS StringTrimming = stringFormat.GetTrimming
 
    ' // Create a second StringFormat object with the same trimming style.
    DIM stringFormat2 AS CGpStringFormat
+   stringFormat2.SetFormatFlags(StringFormatFlagsLineLimit)
    stringFormat2.SetTrimming(nStringTrimming)
 
    ' // Use the second StringFormat object in a call to DrawString.
    DIM wszText AS WSTRING * 260 = "One two three four five six seven eight nine ten"
-   graphics.DrawString(@wszText, LEN(wszText), @pFont, 30, 30, 160, 60, @stringFormat, @solidBrush)
+   graphics.DrawString(@wszText, LEN(wszText), @font, 30, 30, 160, 60, @stringFormat2, @solidBrush)
 
    ' // Draw the rectangle that encloses the text
    DIM pen AS CGpPen = ARGB_RED
