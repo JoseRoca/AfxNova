@@ -137,7 +137,7 @@ Creates an **ImageAttributes** object that contains information about how bitmap
 | [SetRemapTable](#setremaptable) | Sets the color-remap table for a specified category. |
 | [SetThreshold](#setthreshold) | Sets the threshold (transparency range) for a specified category. |
 | [SetToIdentity](#settoidentity) | Sets the color-adjustment matrix of a specified category to identity matrix. |
-| [SetWrapMode](#setwrapmode) | Sets the the wrap mode of this **ImageAttributes** object. |
+| [SetWrapMode](#setwrapmode) | Sets the the wrap mode of the **ImageAttributes** object. |
 
 ---
 
@@ -2368,7 +2368,7 @@ Flat API function: **GdipSetImageAttributesToIdentity**.
 
 ## <a name="setwrapmode"></a>SetWrapMode (CGpImageAttributes)
 
-Sets the the wrap mode of this **ImageAttributes** object.
+Sets the wrap mode and color used to decide how to tile a texture across a shape, or at shape boundaries. A texture is tiled across a shape to fill it in when the texture is smaller than the shape it is filling.
 
 ```
 FUNCTION SetWrapMode (BYVAL nWrap AS WrapMode, BYVAL colour AS ARGB = &HFF000000, _
@@ -2378,7 +2378,7 @@ FUNCTION SetWrapMode (BYVAL nWrap AS WrapMode, BYVAL colour AS ARGB = &HFF000000
 | Parameter  | Description |
 | ---------- | ----------- |
 | *nWrap* | Element of the **WrapMode** enumeration that specifies how repeated copies of an image are used to tile an area. |
-| *colour* | Optional. ARGB color that specifies the color of pixels outside of a rendered image. This color is visible if the wrap parameter is set to **WrapModeClamp** and the source rectangle passed to DrawImage is larger than the image itself. |
+| *colour* | Optional. ARGB color that specifies the color of pixels outside of a rendered image. This color is visible if the wrap parameter is set to **WrapModeClamp** and the source rectangle passed to **DrawImage** is larger than the image itself. The default color is black. |
 | *clamp* | Optional. This parameter has no effect in GDI+ version 1.0. Set this parameter to FALSE. The default value is FALSE. |
 
 #### Return value
