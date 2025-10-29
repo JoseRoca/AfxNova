@@ -1432,6 +1432,46 @@ SUB Example_BitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' The Levels effect encompasses three bitmap adjustments: highlight, midtone, and shadow.
+' You can apply one or more of those adjustments to a bitmap by passing calling the
+' ApplyEffect method. To specify the intensities of the adjustments, pass the
+' address of a LevelsParams structure to the SetParameters method.
+' ========================================================================================
+SUB Example_LevelsEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a levels effect
+   DIM levelsEffect AS CGpLevels
+   ' // Set the parameters
+   DIM levelsParams AS LevelsParams
+   levelsParams.highlight =  20    ' Boost highlights
+   levelsParams.midtone   =  10    ' Slightly brighten midtones
+   levelsParams.shadow    = -15    ' Deepen shadows
+   levelsEffect.SetParameters(@levelsParams)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@levelsEffect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clonebitmap"></a>Clone (CGpBitmap)
