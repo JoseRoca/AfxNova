@@ -58,7 +58,7 @@ SUB Example_CreateHICONFromBitmap (BYVAL hdc AS HDC)
    DIM hIcon AS HICON
    hStatus = GdipCreateHICONFromBitmap(bmp, @hIcon)
 
-   ' // Get width and heig ht of the icon
+   ' // Get width and height of the icon
    DIM iconInfo AS ICONINFO
    DIM iconWidth AS LONG
    DIM iconHeight AS LONG
