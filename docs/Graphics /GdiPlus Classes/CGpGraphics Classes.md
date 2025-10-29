@@ -3568,6 +3568,8 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+---
+
 ## <a name="scaletransformfordpi"></a>ScaleTransformForDpi (CGpGRaphics)
 
 Updates this **Graphics** object's world transformation matrix with the product of itself and a scaling matrix. Uses the DPI settings to set the horizontal and vertical scaling factors.
