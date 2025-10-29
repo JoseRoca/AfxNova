@@ -1514,6 +1514,59 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+Flat API function: **GdipBitmapLockBits**
+
+#### Example
+
+```
+' ========================================================================================
+' Demonstrates the use of GdipBitmapLockBits/GdipBitmapUnlockBits.
+' This example inverts the colors of a Bitmap.
+' ========================================================================================
+SUB Example_LockBits (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Get the width and height of the bitmap
+   DIM nWidth AS DWORD = bmp.GetWidth
+   DIM nHeight AS DWORD = bmp.GetHeight
+
+   ' // Define lock rectangle
+   DIM rc AS GpRect = (0, 0, nWidth, nHeight)
+
+   ' // Lock bitmap bits
+   DIM bmpData AS BitmapData
+   bmp.LockBits(@rc, ImageLockModeRead OR ImageLockModeWrite, PixelFormat32bppARGB, @bmpData)
+
+   ' // Invert colors
+   DIM pPixels AS UBYTE PTR = bmpData.Scan0
+   FOR y AS LONG = 0 TO nHeight - 1
+      FOR x AS LONG = 0 TO nWidth - 1
+         DIM offset AS LONG = y * bmpData.Stride + x * 4
+         pPixels[offset + 0] = 255 - pPixels[offset + 0] ' Blue
+         pPixels[offset + 1] = 255 - pPixels[offset + 1] ' Green
+         pPixels[offset + 2] = 255 - pPixels[offset + 2] ' Red
+         ' Alpha remains unchanged
+      NEXT
+   NEXT
+
+   ' // Unlock bitmap bits
+   bmp.UnlockBits(@bmpData)
+
+   ' // Draw the modified bitmap.
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setpixel"></a>SetPixel (CGpBitmap)
@@ -1643,6 +1696,59 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 **LockBits** and **UnlockBits** must be used as a pair. A call to the **LockBits** method of a **Bitmap** object establishes a temporary buffer that you can use to read or write pixel data in a specified format. After you write to the temporary buffer, a call to **UnlockBits** copies the pixel data in the buffer to the **Bitmap** object. If the pixel format of the temporary buffer is different from the pixel format of the **Bitmap** object, the pixel data is converted appropriately.
 
+Flat API function: **GdipBitmapUnlockBits**
+
+#### Example
+
+```
+' ========================================================================================
+' Demonstrates the use of GdipBitmapLockBits/GdipBitmapUnlockBits.
+' This example inverts the colors of a Bitmap.
+' ========================================================================================
+SUB Example_LockBits (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Get the width and height of the bitmap
+   DIM nWidth AS DWORD = bmp.GetWidth
+   DIM nHeight AS DWORD = bmp.GetHeight
+
+   ' // Define lock rectangle
+   DIM rc AS GpRect = (0, 0, nWidth, nHeight)
+
+   ' // Lock bitmap bits
+   DIM bmpData AS BitmapData
+   bmp.LockBits(@rc, ImageLockModeRead OR ImageLockModeWrite, PixelFormat32bppARGB, @bmpData)
+
+   ' // Invert colors
+   DIM pPixels AS UBYTE PTR = bmpData.Scan0
+   FOR y AS LONG = 0 TO nHeight - 1
+      FOR x AS LONG = 0 TO nWidth - 1
+         DIM offset AS LONG = y * bmpData.Stride + x * 4
+         pPixels[offset + 0] = 255 - pPixels[offset + 0] ' Blue
+         pPixels[offset + 1] = 255 - pPixels[offset + 1] ' Green
+         pPixels[offset + 2] = 255 - pPixels[offset + 2] ' Red
+         ' Alpha remains unchanged
+      NEXT
+   NEXT
+
+   ' // Unlock bitmap bits
+   bmp.UnlockBits(@bmpData)
+
+   ' // Draw the modified bitmap.
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="constructorsmetafile"></a>Constructors (CGpMetafile)
