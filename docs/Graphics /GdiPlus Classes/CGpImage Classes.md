@@ -1344,6 +1344,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 Gets the color of a specified pixel in this bitmap.
 
 ```
+FUNCTION GetPixel (BYVAL x AS LONG, BYVAL y AS LONG) AS ARGB
 FUNCTION GetPixel (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL colour AS ARGB PTR) AS GpStatus
 ```
 
@@ -1355,9 +1356,9 @@ FUNCTION GetPixel (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL colour AS ARGB PTR) A
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
+First overloaded function: Returns the color value.
 
-If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+Second overloaded function: If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration. If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
