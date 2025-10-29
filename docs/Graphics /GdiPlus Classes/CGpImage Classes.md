@@ -1106,13 +1106,55 @@ CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS Pixe
 
 Creates a **Bitmap** object based on a handle to a Windows Windows Graphics Device Interface (GDI) bitmap and a handle to a GDI palette.
 ```
-CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
+CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE = FALSE)
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hbm* | Handle to a GDI bitmap. |
-| *hPal* | Handle to a GDI palette used to define the bitmap colors if hbm is not a device-independent bitmap (DIB). |
+| *hPal* | Optional. Handle to a GDI palette used to define the bitmap colors if *hbm* is not a device-independent bitmap (DIB). |
 
+#### Example
+
+```
+' ========================================================================================
+' This example creates a GpBitmap from a legacy HBITMAP and renders it using GDI+.
+' ========================================================================================
+SUB Example_SetPixel (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a legacy HBITMAP using GDI
+   DIM hbm AS HBITMAP
+   DIM memDC AS HDC = CreateCompatibleDC(hdc)
+   DIM bmpInfo AS BITMAPINFOHEADER
+   bmpInfo.biSize = SIZEOF(BITMAPINFOHEADER)
+   bmpInfo.biWidth = 100
+   bmpInfo.biHeight = -100 ' Top-down
+   bmpInfo.biPlanes = 1
+   bmpInfo.biBitCount = 32
+   bmpInfo.biCompression = BI_RGB
+   bmpInfo.biSizeImage = 0
+
+   DIM pBits AS ANY PTR
+   hbm = CreateDIBSection(memDC, CAST(BITMAPINFO PTR, @bmpInfo), DIB_RGB_COLORS, @pBits, NULL, 0)
+
+   ' // Fill with red pixels
+   FOR i AS LONG = 0 TO 100 * 100 - 1
+      CAST(ULONG PTR, pBits)[i] = ARGB_RED
+   NEXT
+
+   ' // Create GDI+ Bitmap from HBITMAP
+   DIM bmp AS CGpBitmap = CGpBitmap(hbm)
+
+   ' // Draw the bitmap
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 Creates a **Bitmap** object based on a **BITMAPINFO** structure and an array of pixel data.
