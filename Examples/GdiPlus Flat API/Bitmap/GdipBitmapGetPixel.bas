@@ -28,8 +28,8 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap from an image file, clones the upper-left
-' portion of the image, and then draws the cloned image.
+' The following example creates a Bitmap from an image file, gets the color of the
+' specified pixel, creates a brush with this color and uses it to fill a rectangle.
 ' ========================================================================================
 SUB Example_CloneArea (BYVAL hdc AS HDC)
 
@@ -51,17 +51,15 @@ SUB Example_CloneArea (BYVAL hdc AS HDC)
 
    DIM myBitmap AS GpBitmap PTR
    hStatus = GdipCreateBitmapFromFile("climber.jpg", @myBitmap)
-   ' // Set the resolution of this Bitmap object to the user's DPI settings
-   hStatus = GdipBitmapSetResolution(myBitmap, dpiX, dpiY)
 
    ' // Get the value of a pixel from myBitmap.
    DIM pixelColor AS ARGB
-   hStatus = GdipBitmapGetPixel(myBitmap, 25, 25, @pixelColor)
+   hStatus = GdipBitmapGetPixel(myBitmap, 50, 50, @pixelColor)
 
    ' // Fill a rectangle with the pixel color.
    DIM pSolidBrush AS GpBrush PTR
    hStatus = GdipCreateSolidFill(pixelColor, @pSolidBrush)
-   hStatus = GdipFillRectangleI(graphics, pSolidBrush, 0, 0, 100, 100)
+   hStatus = GdipFillRectangle(graphics, pSolidBrush, 10, 10, 100, 100)
 
    ' // Cleanup
    IF myBitmap THEN hStatus = GdipDisposeImage(cast(GpImage PTR, myBitmap))
