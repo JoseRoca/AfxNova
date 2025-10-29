@@ -1119,7 +1119,7 @@ CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE = FALSE)
 ' ========================================================================================
 ' This example creates a GpBitmap from a legacy HBITMAP and renders it using GDI+.
 ' ========================================================================================
-SUB Example_CreateFromBITMAP (BYVAL hdc AS HDC)
+SUB Example_CreateFromHBITMAP (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
