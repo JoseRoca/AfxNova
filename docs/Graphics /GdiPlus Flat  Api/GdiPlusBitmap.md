@@ -1429,11 +1429,8 @@ SUB Example_CreateBitmapFromHICON  (BYVAL hdc AS HDC)
    DIM bmp AS GpBitmap PTR
    hStatus = GdipCreateBitmapFromHICON(hIcon, @bmp)
 
-   ' // Set the bitmap resolution to match the display DPI
-   hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
-
    ' // Draw the bitmap
-   hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 0, 0)
+   hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 10, 10)
 
    ' // Cleanup
    IF bmp THEN hStatus = GdipDisposeImage(CAST(GpImage PTR, bmp))
