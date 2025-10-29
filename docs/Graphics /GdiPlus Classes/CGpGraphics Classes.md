@@ -78,6 +78,7 @@ The `CGpGraphics` class provides methods for drawing lines, curves, figures, ima
 | [RotateTransform](#rotatetransform) | Updates the world transformation matrix of this **Graphics** object with the product of itself and a rotation matrix. |
 | [Save](#save) | Saves the current state (transformations, clipping region, and quality settings) of this **Graphics** object. |
 | [ScaleTransform](#scaletransform) | Updates this **Graphics** object's world transformation matrix with the product of itself and a scaling matrix. |
+| [ScaleTransformForDpi](#scaletransformfordpi) | Updates this **Graphics** object's world transformation matrix with the product of itself and a scaling matrix. Uses the DPI settings to calculate the scales. |
 | [SetClip](#setclip) | Updates the clipping region of this **Graphics** object to a region that is the combination of itself and the clipping region of another **Graphics** object. |
 | [SetCompositingMode](#setcompositingmode) | Sets the compositing mode of this **Graphics** object. |
 | [SetCompositingQuality](#setcompositingquality) | Sets the compositing quality of this **Graphics** object. |
@@ -3552,7 +3553,7 @@ Updates this **Graphics** object's world transformation matrix with the product 
 ```
 FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, _
    BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
-FUNCTION ScaleTransform (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+FUNCTION ScaleTransformForDPi (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -3567,9 +3568,23 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
-#### Remarks
+## <a name="scaletransformfordpi"></a>ScaleTransformForDpi (CGpGRaphics)
 
-If *sx* and *sy" are omitted, **ScaleTransform** calculates the scaling factors calling the **GetDpiX** and **GetDpy" methods to use the DPI settings of the computer.
+Updates this **Graphics** object's world transformation matrix with the product of itself and a scaling matrix. Uses the DPI settings to set the horizontal and vertical scaling factors.
+
+```
+FUNCTION ScaleTransformForDPi (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *order* | Optional. Element of the **MatrixOrder** enumeration that specifies the order of multiplication. **MatrixOrderPrepend** specifies that the passed matrix is on the left, and **MatrixOrderAppend** specifies that the passed matrix is on the right. The default value is **MatrixOrderPrepend**. |
+
+#### Return value
+
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
+
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
