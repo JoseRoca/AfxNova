@@ -1113,6 +1113,8 @@ CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE = FALSE)
 | *hbm* | Handle to a GDI bitmap. |
 | *hPal* | Optional. Handle to a GDI palette used to define the bitmap colors if *hbm* is not a device-independent bitmap (DIB). |
 
+Flat API function: **GdipCreateBitmapFromHBITMAP**
+
 #### Example
 
 ```
@@ -1175,6 +1177,8 @@ CONSTRUCTOR CGpBitmap (BYVAL hicon AS HICON)
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hIcon* | Handle to a GDI icon. |
+
+Flat API function: **GdipCreateBitmapFromHICON**
 
 #### Example
 
@@ -1257,6 +1261,8 @@ FUNCTION Clone (BYVAL rc AS GpRect PTR, BYVAL pxFormat AS PixelFormat, _
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipCloneBitmapArea**
 
 #### Example
 
@@ -1449,12 +1455,10 @@ SUB Example_GetPixel (BYVAL hdc AS HDC)
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = "climber.jpg"
-   ' // Set the resolution of theimage using the DPI ratios
-   myBitmap.SetResolutionForDpi
 
    ' // Fill a rectangle with the pixel color.
    DIM brush AS CGpSolidBrush = myBitmap.GetPixel(50, 50)
-   graphics.FillRectangle(@brush, 0, 0, 100, 100)
+   graphics.FillRectangle(@brush, 10, 10, 100, 100)
 
 END SUB
 ' ========================================================================================
