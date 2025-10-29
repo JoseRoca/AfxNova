@@ -67,6 +67,7 @@ The **CGpBitmap** class inherits from the **CGpImage** class. The **CGpImage** c
 | [LockBits](#lockbits) | Locks a rectangular portion of this bitmap and provides a temporary buffer that you can use to read or write pixel data in a specified format. |
 | [SetPixel](#setpixel) | Sets the color of a specified pixel in this **Bitmap** object. |
 | [SetResolution](#setresolution) | Sets the resolution of this **Bitmap** object. |
+| [SetResolutionForDpi](#setresolutionfordpi) | Sets the resolution of this **Bitmap** object. This function uses the current DPI settings. |
 | [UnlockBits](#unlockbits) | Unlocks a portion of this bitmap that was previously locked by a call to **LockBits**. |
 
 ---
@@ -1453,6 +1454,22 @@ FUNCTION SetResolution (BYVAL xdpi AS SINGLE, BYVAL ydpi AS SINGLE) AS GpStatus
 | ---------- | ----------- |
 | *xdpi* | The horizontal resolution in dots per inch. |
 | *ydpi* | The vertical resolution in dots per inch. |
+
+#### Return value
+
+If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
+
+If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setresolutionfordpi"></a>SetResolutionForDpi (CGpBitmap)
+
+Sets the resolution of this **Bitmap** object. Uses the current DPI seetings to set the horizontal and vertical resolution in dots per inch.
+
+```
+FUNCTION SetResolutionForDpi () AS GpStatus
+```
 
 #### Return value
 
