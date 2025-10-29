@@ -65,7 +65,7 @@ SUB Example_CreateBitmapFromHBITMAP  (BYVAL hdc AS HDC)
 
    ' // Fill with red pixels
    FOR i AS LONG = 0 TO 100 * 100 - 1
-      CAST(ULONG PTR, pBits)[i] = &HFFFF0000 ' ARGB Red
+      CAST(ULONG PTR, pBits)[i] = ARGB_RED
    NEXT
 
    ' // Create GDI+ Bitmap from HBITMAP
@@ -73,10 +73,10 @@ SUB Example_CreateBitmapFromHBITMAP  (BYVAL hdc AS HDC)
    hStatus = GdipCreateBitmapFromHBITMAP(hbm, NULL, @bmp)
 
    ' // Set resolution
-   hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
+'   hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Draw the bitmap
-   hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 0, 0)
+   hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 10, 10)
 
    ' // Cleanup
    IF bmp THEN hStatus = GdipDisposeImage(CAST(GpImage PTR, bmp))
