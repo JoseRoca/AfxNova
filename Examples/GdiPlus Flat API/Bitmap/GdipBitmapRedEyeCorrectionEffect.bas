@@ -56,8 +56,8 @@ SUB Example_Gdip_RedEyeCorrectionEffect (BYVAL hdc AS HDC)
    ' // Set the resolution of this Bitmap object to the user's DPI settings
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
-   ' // Create a levels effect
-   DIM effect AS CGpEffect PTR
+   ' // Create a red eyes correction effect
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(RedEyeCorrectionEffectGuid, @effect)
 
    ' // We need to specify one or more rectangles that enclose the red-eye areas.
