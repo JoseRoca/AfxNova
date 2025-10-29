@@ -1533,7 +1533,7 @@ SUB Example_ColorLUTEffect (BYVAL hdc AS HDC)
    ' // Set the resolution of the image using the DPI ratios
    bmp.SetResolutionForDpi
 
-   ' // Create a blur effect
+   ' // Create a ColorLUT effect
    DIM colorLUTEffect AS CGpColorLUT
 
    ' // Create LUTs: identity (no change)
@@ -1590,7 +1590,7 @@ SUB Example_ColorLUTEffectRegion (BYVAL hdc AS HDC)
    ' // Set the resolution of the image using the DPI ratios
    bmp.SetResolutionForDpi
 
-   ' // Create a blur effect
+   ' // Create a ColorLut effect
    DIM colorLUTEffect AS CGpColorLUT
 
    ' // Create LUTs: identity (no change)
