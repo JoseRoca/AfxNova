@@ -72,9 +72,6 @@ SUB Example_CreateBitmapFromHBITMAP  (BYVAL hdc AS HDC)
    DIM bmp AS GpBitmap PTR
    hStatus = GdipCreateBitmapFromHBITMAP(hbm, NULL, @bmp)
 
-   ' // Set resolution
-'   hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
-
    ' // Draw the bitmap
    hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 10, 10)
 
