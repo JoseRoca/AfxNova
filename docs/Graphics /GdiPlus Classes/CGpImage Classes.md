@@ -56,6 +56,7 @@ The **CGpBitmap** class inherits from the **CGpImage** class. The **CGpImage** c
 | Name       | Description |
 | ---------- | ----------- |
 | [Constructors](#constructorsbitmap) | Creates a **Bitmap** object. |
+| [ApplyEffect](#applyeffect) | Alters a **Bitmap** object by applying a specified effect. |
 | [Clone](#clonebitmap) | Creates a new **Bitmap** object by copying a portion of this bitmap. |
 | [ConvertFormat](#convertformat) | Converts a bitmap to a specified pixel format. |
 | [GetHBITMAP](#gethbitmap) | Creates a Windows Graphics Device Interface (GDI) bitmap from this **Bitmap** object. |
@@ -1224,6 +1225,90 @@ CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
 | ---------- | ----------- |
 | *surface* | Pointer to an **IDrectDrawSurface7** COM interface. |
 
+---
+
+## <a name="applyeffect"></a>ApplyEffect (CGpBitmap)
+
+Alters a **Bitmap** object by applying a specified effect.
+
+```
+FUNCTION ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
+   BYVAL useAuxData AS BOOLEAN, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *effect* | [in] The effect to be applied. |
+| *roi* | in] Pointer to a **RECT** structure that specifies the portion of the input bitmap to which the effect is applied. Pass **NULL** to specify that the effect applies to the entire input bitmap. |
+| *useAuxData* | [in] Flag that specifies whether the function should return a pointer to the auxiliary data that it creates. |
+| *auxData* | [out] Pointer to a set of lookup tables. |
+| *auxDataSize* | [out] Size, in bytes, of the auxiliary data. |
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a blur effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_BlurEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a blur effect
+   DIM blurEffect AS CGpBlur
+   ' // Set parameters: radius = 6.0, expandEdge = FALSE
+   DIM blurPrms AS BlurParams = (6.0, FALSE)
+   blurEffect.SetParameters(@blurPrms)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@blurEffect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a brightness effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_Brightnessffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a brightness and contrast effect
+   DIM brightnessEffect AS CGpBrightnessContrast
+   ' // Set parameters: brightness = 50, contrast = 50
+   DIM bcParams AS BrightnessContrastParams = (50, 20)
+   brightnessEffect.SetParameters(@bcParams)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@brightnessEffect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clonebitmap"></a>Clone (CGpBitmap)
