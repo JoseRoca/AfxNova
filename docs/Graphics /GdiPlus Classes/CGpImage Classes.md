@@ -1438,6 +1438,8 @@ Second overloaded function: If the function succeeds, it returns **Ok**, which i
 
 Depending on the format of the bitmap, **GetPixel** might not return the same value as was set by **SetPixel**. For example, if you call **SetPixel** on a **Bitmap** object whose pixel format is 32bppPARGB, the pixel's RGB components are premultiplied. A subsequent call to **GetPixel** might return a different value because of rounding. Also, if you call **SetPixel** on a **Bitmap** object whose color depth is 16 bits per pixel, information could be lost during the conversion from 32 to 16 bits, and a subsequent call to **GetPixel** might return a different value.
 
+Flat API function: **GdipBitmapGetPixel**
+
 #### Example
 
 ```
@@ -1537,6 +1539,8 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 #### Remarks
 
 Depending on the format of the bitmap, **GetPixel** might not return the same value as was set by **SetPixel**. For example, if you call SetPixel on a Bitmap object whose pixel format is 32bppPARGB, the RGB components are premultiplied. A subsequent call to **GetPixel** might return a different value because of rounding. Also, if you call **SetPixel** on a **Bitmap** whose color depth is 16 bits per pixel, information could be lost in the conversion from 32 to 16 bits, and a subsequent call to **GetPixel** return a different value.
+
+Flat API function: **GdipBitmapSetPixel**
 
 #### Example
 
