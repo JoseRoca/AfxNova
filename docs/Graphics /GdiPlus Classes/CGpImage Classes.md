@@ -1309,6 +1309,39 @@ SUB Example_Brightnessffect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a sharpen effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_SharpenEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a sharpen effect
+   DIM sharpenEffect AS CGpSharpen
+   ' // Set parameters: radius = 3.0, expandEdge = FALSE
+   DIM sharpenParams AS SharpenParams = (3.0, FALSE)
+   sharpenEffect.SetParameters(@sharpenParams)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@sharpenEffect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clonebitmap"></a>Clone (CGpBitmap)
