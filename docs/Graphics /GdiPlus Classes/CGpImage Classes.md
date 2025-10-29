@@ -1806,8 +1806,38 @@ CONSTRUCTOR CGpCachedBitmap (BYVAL pBitmap AS CGpBitmap PTR, BYVAL pGraphics AS 
 
 #### Remarks
 
-You can display a cached bitmap by passing the address of a **CachedBitmap** object to the **DrawCachedBitmap** method of a Graphics object. Use the **Graphics** object that was passed to the **CachedBitmap** constructor or another **Graphics** object that represents the same device.
+You can display a cached bitmap by passing the address of a **CachedBitmap** object to the **DrawCachedBitmap** method of a **Graphics** object. Use the **Graphics** object that was passed to the **CachedBitmap** constructor or another **Graphics** object that represents the same device.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a CachedBitmap object based on a Bitmap object and a
+' Graphics object. The code calls the DrawCachedBitmap method of that Graphics object
+' to display the cached bitmap.
+' ========================================================================================
+SUB Example_CachedBitmap (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' ScaleTransform can't be used with cached bitmaps, that can't be resized
+
+   ' // Load the image
+   DIM myBitmap AS CGpBitmap = "Climber.jpg"
+
+   ' // Create a cached bitmap
+   DIM cachedBitmap AS CGpCachedBitmap = CGpCachedBitmap(@myBitmap, @graphics)
+
+   ' // Draw the cached bitmap
+   graphics.DrawCachedBitmap(@cachedBitmap, 10 * rxRatio, 10 * ryRatio)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="constructorimageattributes"></a>Constructor (CGpImageAttributes)
