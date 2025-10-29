@@ -1393,6 +1393,45 @@ SUB Example_BitmapRedEyeCorrectionEffect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' The HueSaturationLightness effecty enables you to change the hue, saturation, and lightness
+' of a bitmap. To specify the magnitudes of the changes in hue, saturation, and lightness,
+' pass a HueSaturationLightnessParams structure to the GdipSetEffectParameters function.
+' ========================================================================================
+SUB Example_BitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a HueSaturationLightness effect
+   DIM hueEffect AS CGpHueSaturationLightness
+   ' // Set the parameters
+   DIM hslParams AS HueSaturationLightnessParams
+   hslParams.hueLevel = 45            ' Rotate hue slightly
+   hslParams.saturationLevel = 30     ' Boost saturation
+   hslParams.lightnessLevel = -10     ' Slightly darken
+   hueEffect.SetParameters(@hslParams)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@hueEffect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clonebitmap"></a>Clone (CGpBitmap)
