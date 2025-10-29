@@ -82,7 +82,7 @@ SUB Example_LockBits (BYVAL hdc AS HDC)
    hStatus = GdipBitmapUnlockBits(bmp, @bmpData)
 
    ' // Draw the modified bitmap
-   hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 0, 0)
+   hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 10, 10)
 
    ' // Cleanup
    IF bmp THEN hStatus = GdipDisposeImage(CAST(GpImage PTR, bmp))
