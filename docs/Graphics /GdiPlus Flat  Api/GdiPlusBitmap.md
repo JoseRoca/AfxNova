@@ -458,18 +458,14 @@ FUNCTION GdipBitmapGetPixel (BYVAL bmp AS GpBitmap PTR, BYVAL x AS INT_, BYVAL y
 
 Depending on the format of the bitmap, **GdipBitmapGetPixel** might not return the same value as was set by **GdipBitmapSetPixel**. For example, if you call **GdipBitmapSetPixel** on a **Bitmap** object whose pixel format is 32bppPARGB, the pixel's RGB components are premultiplied. A subsequent call to **GdipBitmapGetPixel** might return a different value because of rounding. Also, if you call **GdipBitmapSetPixel** on a **Bitmap** object whose color depth is 16 bits per pixel, information could be lost during the conversion from 32 to 16 bits, and a subsequent call to **GdipBitmapGetPixel** might return a different value.
 
-## Example
+#### Example
 
 ```
 ' ========================================================================================
-' This example demonstrates how to create a GpBitmap object from a manually filled pixel
-' buffer using GdipCreateBitmapFromScan0. It generates a 100×100 pixel image with a vertical
-' gradient and renders it to the screen using GDI+.
-' The example is DPI-aware thanks to GdipScaleWorldTransform, which scales the graphics
-' context according to the user's display DPI. This ensures consistent rendering across
-' different screen resolutions.
+' The following example creates a Bitmap from an image file, gets the color of the
+' specified pixel, creates a brush with this color and uses it to fill a rectangle.
 ' ========================================================================================
-SUB Example_CreateBitmapFromScan0 (BYVAL hdc AS HDC)
+SUB Example_CloneArea (BYVAL hdc AS HDC)
 
    DIM hStatus AS LONG
 
@@ -483,38 +479,24 @@ SUB Example_CreateBitmapFromScan0 (BYVAL hdc AS HDC)
    DIM rxRatio AS SINGLE = dpiX / 96
    DIM dpiY AS SINGLE
    hStatus = GdipGetDpiY(graphics, @dpiY)
-   DIM ryRatio AS SINGLE = dpiY / 96
+   Dim ryRatio AS SINGLE = dpiY / 96
    ' // Set the scale transform
    hStatus = GdipScaleWorldTransform(graphics, rxRatio, ryRatio, MatrixOrderPrepend)
 
-   ' // Define dimensions and pixel format
-   DIM nWidth AS LONG = 100
-   DIM nHeight AS LONG = 100
-   DIM bytesPerPixel AS LONG = 4
-   DIM stride AS LONG = nWidth * bytesPerPixel
+   DIM myBitmap AS GpBitmap PTR
+   hStatus = GdipCreateBitmapFromFile("climber.jpg", @myBitmap)
 
-   ' // Allocate pixel buffer
-   DIM buffer(stride * nHeight - 1) AS UBYTE
-   ' // Fill buffer with a gradient
-   FOR y AS LONG = 0 TO nHeight - 1
-      FOR x AS LONG = 0 TO nWidth - 1
-         DIM _offset AS LONGINT = y * stride + x * bytesPerPixel
-         buffer(_offset + 0) = x * 255 \ nWidth    ' Blue
-         buffer(_offset + 1) = y * 255 \ nHeight   ' Green
-         buffer(_offset + 2) = 128                 ' Red
-         buffer(_offset + 3) = 255                 ' Alpha
-      NEXT
-   NEXT
+   ' // Get the value of a pixel from myBitmap.
+   DIM pixelColor AS ARGB
+   hStatus = GdipBitmapGetPixel(myBitmap, 50, 50, @pixelColor)
 
-   ' // Create bitmap from buffer
-   DIM bmp AS GpBitmap PTR
-   hStatus = GdipCreateBitmapFromScan0(nWidth, nHeight, stride, PixelFormat32bppARGB, @buffer(0), @bmp)
-
-   ' // Draw the bitmap
-   hStatus = GdipDrawImage(graphics, CAST(GpImage PTR, bmp), 0, 0)
+   ' // Fill a rectangle with the pixel color.
+   DIM pSolidBrush AS GpBrush PTR
+   hStatus = GdipCreateSolidFill(pixelColor, @pSolidBrush)
+   hStatus = GdipFillRectangle(graphics, pSolidBrush, 10, 10, 100, 100)
 
    ' // Cleanup
-   IF bmp THEN hStatus = GdipDisposeImage(CAST(GpImage PTR, bmp))
+   IF myBitmap THEN hStatus = GdipDisposeImage(cast(GpImage PTR, myBitmap))
    IF graphics THEN hStatus = GdipDeleteGraphics(graphics)
 
 END SUB
