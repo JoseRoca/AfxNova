@@ -1365,6 +1365,33 @@ Second overloaded function: If the function succeeds, it returns **Ok**, which i
 
 Depending on the format of the bitmap, **GetPixel** might not return the same value as was set by **SetPixel**. For example, if you call **SetPixel** on a **Bitmap** object whose pixel format is 32bppPARGB, the pixel's RGB components are premultiplied. A subsequent call to **GetPixel** might return a different value because of rounding. Also, if you call **SetPixel** on a **Bitmap** object whose color depth is 16 bits per pixel, information could be lost during the conversion from 32 to 16 bits, and a subsequent call to **GetPixel** might return a different value.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Bitmap object based on a JPEG file. The code calls the
+' GetPixel method to obtain the color of a pixel in the bitmap and then fills a rectangle
+' with the retrieved color.
+' ========================================================================================
+SUB Example_GetPixel (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of theimage using the DPI ratios
+   myBitmap.SetResolutionForDpi
+
+   ' // Fill a rectangle with the pixel color.
+   DIM brush AS CGpSolidBrush = myBitmap.GetPixel(50, 50)
+   graphics.FillRectangle(@brush, 0, 0, 100, 100)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="initializepalette"></a>InitializePalette (CGpBitmap)
