@@ -1400,7 +1400,7 @@ END SUB
 ' ========================================================================================
 ' The HueSaturationLightness effecty enables you to change the hue, saturation, and lightness
 ' of a bitmap. To specify the magnitudes of the changes in hue, saturation, and lightness,
-' pass a HueSaturationLightnessParams structure to the GdipSetEffectParameters function.
+' pass a HueSaturationLightnessParams structure to the SetParameters method.
 ' ========================================================================================
 SUB Example_BitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
 
