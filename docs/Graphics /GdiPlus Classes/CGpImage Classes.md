@@ -1472,6 +1472,40 @@ SUB Example_LevelsEffect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' The Tint effect enables you to apply a tint to a bitmap. To specify the nature of the tint,
+' pass the address of a TintParams structure to the SetParameters method.
+' ========================================================================================
+SUB Example_TintEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a tint effect
+   DIM tintEffect AS CGpTint
+   ' // Set parameters: Hue = +120 (green), Amount = 60 (moderate tint)
+   DIM tintPrms AS TintParams = (120, 60)
+   tintEffect.SetParameters(@tintPrms)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@tintEffect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clonebitmap"></a>Clone (CGpBitmap)
