@@ -1176,6 +1176,31 @@ CONSTRUCTOR CGpBitmap (BYVAL hicon AS HICON)
 | ---------- | ----------- |
 | *hIcon* | Handle to a GDI icon. |
 
+#### Example
+
+```
+' ========================================================================================
+' This example creates a GpBitmap from an icon and renders it using GDI+.
+' ========================================================================================
+SUB Example_CreateFromHICON (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Load a system icon (e.g., information icon)
+   DIM hIcon AS HICON = LoadIcon(NULL, IDI_INFORMATION)
+
+   ' // Create a GDI+ Bitmap from the HICON
+   DIM bmp AS CGpBitmap = CGpBitmap(hIcon)
+
+   ' // Draw the bitmap
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 Creates a **Bitmap** object based on an application or DLL instance handle and the name of a bitmap resource.
