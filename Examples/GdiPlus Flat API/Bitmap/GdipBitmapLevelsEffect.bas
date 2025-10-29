@@ -30,7 +30,7 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 ' The Levels effect encompasses three bitmap adjustments: highlight, midtone, and shadow.
 ' You can apply one or more of those adjustments to a bitmap by passing calling the
-' GdipBitmapApplyEffect functon. To specify the intensities of the adjustments, pass the
+' GdipBitmapApplyEffect function. To specify the intensities of the adjustments, pass the
 ' address of a LevelsParams structure to the GdipSetEffectParameters function.
 ' ========================================================================================
 SUB Example_LevelsEffect (BYVAL hdc AS HDC)
@@ -58,7 +58,7 @@ SUB Example_LevelsEffect (BYVAL hdc AS HDC)
    hStatus = GdipBitmapSetResolution(bmp, dpiX, dpiY)
 
    ' // Create a levels effect
-   DIM effect AS CGpEffect PTR
+   DIM effect AS GpEffect PTR
    hStatus = GdipCreateEffect(LevelsEffectGuid, @effect)
 
    ' // Set the parameters
