@@ -1342,6 +1342,57 @@ SUB Example_SharpenEffect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a red eyes correction effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_BitmapRedEyeCorrectionEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "RedEyes.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a red eyes correction effect
+   DIM redEyeEffect AS CGpRedEyeCorrection
+
+   ' // We need to specify one or more rectangles that enclose the red-eye areas.
+   ' // These are passed as an array of RECT structures.
+
+   ' // Define two rectangles around the eyes
+   ' // Change the values according the coordinates of your image
+   DIM eyeRects(0 TO 1) AS RECT
+   eyeRects(0).left   =   1 : eyeRects(0).top    =   1
+   eyeRects(0).right  = 400 : eyeRects(0).bottom = 250
+   eyeRects(1).left   =   1 : eyeRects(1).top    =   1
+   eyeRects(1).right  = 400 : eyeRects(1).bottom = 250
+
+   ' // Fill a RedEyeCorrectionParams structure
+   DIM redeyeParams AS RedEyeCorrectionParams
+   redeyeParams.numberOfAreas = 2
+   redeyeParams.areas = @eyeRects(0)
+   ' // Calculate the size of the paameters
+   DIM paramsSize AS UINT = SIZEOF(RedEyeCorrectionParams) + redeyeParams.numberOfAreas * SIZEOF(RECT)
+   ' // Set the parameters
+   redEyeEffect.SetParameters(@redeyeParams)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@redEyeEffect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 5, 5)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clonebitmap"></a>Clone (CGpBitmap)
