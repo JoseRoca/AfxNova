@@ -1440,6 +1440,46 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Depending on the format of the bitmap, **GetPixel** might not return the same value as was set by **SetPixel**. For example, if you call SetPixel on a Bitmap object whose pixel format is 32bppPARGB, the RGB components are premultiplied. A subsequent call to **GetPixel** might return a different value because of rounding. Also, if you call **SetPixel** on a **Bitmap** whose color depth is 16 bits per pixel, information could be lost in the conversion from 32 to 16 bits, and a subsequent call to **GetPixel** return a different value.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Bitmap object based on a JPEG file. The code draws the
+' bitmap once unaltered. Then the code calls the SetPixel method to create a
+' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' ========================================================================================
+SUB Example_SetPixel (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   myBitmap.SetResolutionForDpi
+
+   '// Draw the bitmap
+   graphics.DrawImage(@myBitmap, 10, 10)
+
+   ' // Get the width and height of the bitmap
+   DIM nWidth AS DWORD = myBitmap.GetWidth
+   DIM nHeight AS DWORD = myBitmap.GetHeight
+
+   ' // Make a checkered pattern of black pixels
+   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
+      FOR col AS LONG = 0 TO nHeight STEP 2
+         myBitmap.SetPixel(row, col, ARGB_BLACK)
+      NEXT
+   NEXT
+
+   ' // Draw the altered bitmap.
+   graphics.DrawImage(@myBitmap, 200, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setresolution"></a>SetResolution (CGpBitmap)
