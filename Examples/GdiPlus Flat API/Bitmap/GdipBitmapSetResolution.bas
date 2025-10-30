@@ -29,7 +29,7 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 
 ' ========================================================================================
 ' This example loads a .jpg image from file and sets the resolution to the DPI used by the;
-' computer. Otherwise, as Each image can use a different internal DPI, an image with a
+' computer. Otherwise, as each image can use a different internal DPI, an image with a
 ' DPI of 72 will be rendered bigger and an image with a DPI of 300 will be rendered smaller.
 ' ========================================================================================
 SUB Example_SetResolution (BYVAL hdc AS HDC)
