@@ -1627,6 +1627,43 @@ SUB Example_ColorLUTEffectRegion (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' Converts the image to grayscale by averaging RGB channels.
+' ========================================================================================
+SUB Example_GrayScaleEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create grayscale matrix
+   DIM grayMatrix(0 TO 4, 0 TO 4) AS SINGLE = {{0.3, 0.3, 0.3, 0.0, 0.0}, _
+      {0.59, 0.59, 0.59, 0.0, 0.0}, {0.11, 0.11, 0.11, 0.0, 0.0}, _
+      {0.0, 0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 0.0, 1.0}}
+
+   ' // Create a gray matrix effect
+   DIM grayEffect AS CGpColorMatrix
+   ' // Set parameters
+   grayEffect.SetParameters(cast(ColorMatrix PTR, @grayMatrix(0, 0)))
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@grayEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clonebitmap"></a>Clone (CGpBitmap)
