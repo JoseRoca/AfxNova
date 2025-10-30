@@ -1232,6 +1232,7 @@ CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
 Alters a **Bitmap** object by applying a specified effect.
 
 ```
+FUNCTION ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR = NULL) AS GpStatus
 FUNCTION ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
    BYVAL useAuxData AS BOOLEAN, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
 ```
@@ -1268,7 +1269,7 @@ SUB Example_BlurEffect (BYVAL hdc AS HDC)
    DIM blurPrms AS BlurParams = (6.0, FALSE)
    blurEffect.SetParameters(@blurPrms)
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@blurEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@blurEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
@@ -1301,7 +1302,7 @@ SUB Example_Brightnessffect (BYVAL hdc AS HDC)
    DIM bcParams AS BrightnessContrastParams = (50, 20)
    brightnessEffect.SetParameters(@bcParams)
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@brightnessEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@brightnessEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
@@ -1334,7 +1335,7 @@ SUB Example_SharpenEffect (BYVAL hdc AS HDC)
    DIM sharpenParams AS SharpenParams = (3.0, FALSE)
    sharpenEffect.SetParameters(@sharpenParams)
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@sharpenEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@sharpenEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
@@ -1385,7 +1386,7 @@ SUB Example_BitmapRedEyeCorrectionEffect (BYVAL hdc AS HDC)
    redEyeEffect.SetParameters(@redeyeParams)
 
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@redEyeEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@redEyeEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 5, 5)
@@ -1424,7 +1425,7 @@ SUB Example_BitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
    hueEffect.SetParameters(@hslParams)
 
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@hueEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@hueEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
@@ -1464,7 +1465,7 @@ SUB Example_LevelsEffect (BYVAL hdc AS HDC)
    levelsEffect.SetParameters(@levelsParams)
 
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@levelsEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@levelsEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
@@ -1498,7 +1499,7 @@ SUB Example_TintEffect (BYVAL hdc AS HDC)
    DIM tintPrms AS TintParams = (120, 60)
    tintEffect.SetParameters(@tintPrms)
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@tintEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@tintEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
@@ -1554,7 +1555,7 @@ SUB Example_ColorLUTEffect (BYVAL hdc AS HDC)
    colorLUTEffect.SetParameters(@lut)
 
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@colorLUTEffect, NULL, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@colorLUTEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
@@ -1618,7 +1619,7 @@ SUB Example_ColorLUTEffectRegion (BYVAL hdc AS HDC)
    roi.bottom = 100
 
    ' // Apply effect to the whole image
-   bmp.ApplyEffect(@colorLUTEffect, @roi, FALSE, NULL, NULL)
+   bmp.ApplyEffect(@colorLUTEffect, @roi)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
