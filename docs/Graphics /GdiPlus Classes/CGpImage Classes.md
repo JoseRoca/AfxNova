@@ -1916,6 +1916,41 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipCreateHBITMAPFromBitmap**
 
+#### Example
+
+```
+' ========================================================================================
+' This example converts a GDI+ Bitmap into a legacy HBITMAP and draws it using GDI.
+' ========================================================================================
+SUB Example_GetHBITMAP (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Convert to HBITMAP
+   DIM hbm AS HBITMAP = bmp.GetHBITMAP(ARGB_WHITE)
+
+   ' // Draw using classic GDI
+   DIM memDC AS HDC = CreateCompatibleDC(hdc)
+   DIM oldBmp AS HBITMAP = SelectObject(memDC, hbm)
+
+   ' // Retrieve bitmap dimensions from HBITMAP
+   DIM bmpInfo AS BITMAP
+   GetObject(hbm, SIZEOF(BITMAP), @bmpInfo)
+
+   ' // Apply DPI scaling
+   DIM scaledWidth AS LONG = bmpInfo.bmWidth * graphics.GetDpiX / 96
+   DIM scaledHeight AS LONG = bmpInfo.bmHeight * graphics.GetDpiY / 96
+   StretchBlt(hdc, 0, 0, scaledWidth, scaledHeight, memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, SRCCOPY)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="gethicon"></a>GetHICON (CGpBitmap)
