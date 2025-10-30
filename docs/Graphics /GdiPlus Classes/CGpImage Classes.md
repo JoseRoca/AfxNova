@@ -1,14 +1,18 @@
 # CGpImage Class
 
-The `CGpImage` class provides methods for loading and saving raster images (bitmaps) and vector images (metafiles). An Image object encapsulates a bitmap or a metafile and stores attributes that you can retrieve by calling various Get methods. You can construct **Image** objects from a variety of file types including BMP, ICON, GIF, JPEG, Exif, PNG, TIFF, WMF, and EMF.
+`CGpImage`is an abstract base class that provides functionality for the `CGpBitmap` and `CGpMetafile` descended classes.
+
+`CGpImage` provides methods for loading and saving raster images (bitmaps) and vector images (metafiles). An **Image** object encapsulates a bitmap or a metafile and stores attributes that you can retrieve by calling various methods. You can construct **Image** objects from a variety of file types including BMP, ICON, GIF, JPEG, Exif, PNG, TIFF, WMF, and EMF.
+
+While it can be used directly, it is not recommended for most scenarios because it lacks essential functionality like resolution control, pixel access, and image effects. Use `CGpBitmap` for regular image files (e.g., JPEG, PNG, BMP, TIFF) and `CGpMetafile` for vector-based images (e.g., EMF, WMF). 
 
 **Inherits from**: CGpBase.<br>
 **Include file**: CGpBitmap.inc.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructors](#constructorsimage) | Creates an **Image** object based on a file or stream. |
-| [Clone](#cloneimage) | Copies the contents of the existing **Image** object into a new Image object. |
+| [Constructors](#constructorsimage) | Creates an Image object based on a file or stream. |
+| [Clone](#cloneimage) | Copies the contents of the existing Image object into a new Image object. |
 | [FindFirstItem](#findfirstitem) | Retrieves the description and the data size of the first metadata item in this Image object. |
 | [FindNextItem](#findnextitem) | Retrieves the description and the data size of the next metadata item in this Image object. |
 | [GetAllPropertyItems](#getallpropertyitems) | Gets all the property items (metadata) stored in this Image object. |
@@ -48,7 +52,7 @@ The `CGpImage` class provides methods for loading and saving raster images (bitm
 
 # CGpBitmap Class
 
-The **CGpBitmap** class inherits from the **CGpImage** class. The **CGpImage** class provides methods for loading and saving vector images (metafiles) and raster images (bitmaps). The **CGpBitmap** class expands on the capabilities of the **CGpImage** class by providing additional methods for creating and manipulating raster images.
+The **CGpBitmap** class inherits from the **CGpImage** class. It encapsulates a GDI+ bitmap, which consists of the pixel data for a graphics image and its attributes. A **Bitmap** is an object used to work with images defined by pixel data.
 
 **Inherits from**: CGpImage.<br>
 **Include file**: CGpBitmap.inc.
