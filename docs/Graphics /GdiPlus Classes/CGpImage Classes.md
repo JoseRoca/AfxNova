@@ -2466,6 +2466,22 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipBitmapSetResolution**
 
+#### Usage example
+
+```
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolution(rxRatio, ryRatio)
+```
 ---
 
 ## <a name="setresolutionfordpi"></a>SetResolutionForDpi (CGpBitmap)
@@ -2483,6 +2499,20 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 Flat API function: **GdipBitmapSetResolution**
+
+#### Usage example
+
+```
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform using the DPI settings
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI settings
+   bmp.SetResolutionForDpi
+```
 
 ---
 
