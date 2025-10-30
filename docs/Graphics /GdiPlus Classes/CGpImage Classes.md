@@ -145,6 +145,13 @@ Creates an **ImageAttributes** object that contains information about how bitmap
 
 # <a name="constructorsimage"></a>Constructors (CGpImage)
 
+```
+CONSTRUCTOR CGpImage (BYVAL pImage AS CGpImage PTR)
+CONSTRUCTOR CGpImage (BYVAL pwszFileName AS WSTRING PTR,  BYVAL useicm AS BOOLEAN = FALSE)
+CONSTRUCTOR CGpImage (BYVAL pStream AS IStream PTR, BYVAL useicm AS BOOLEAN = FALSE)
+CONSTRUCTOR CGpImage (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
+```
+
 Creates an **Image** object from another **Image** object.
 
 ```
