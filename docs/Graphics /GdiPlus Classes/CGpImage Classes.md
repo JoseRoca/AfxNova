@@ -2025,6 +2025,56 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipCreateHICONFromBitmap**
 
+#### Example
+
+```
+' ========================================================================================
+' This example converts a GDI+ Bitmap into a Windows HICON and displays it.
+' ========================================================================================
+SUB Example_GetHICON (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Convert to HBITMAP
+   DIM hIcon AS HICON = bmp.GetHICON
+
+   ' // Get width and height of the icon
+   DIM iconInfo AS ICONINFO
+   DIM iconWidth AS LONG
+   DIM iconHeight AS LONG
+   IF GetIconInfo(hIcon, @iconInfo) THEN
+      DIM bmp AS BITMAP
+      IF iconInfo.hbmColor THEN
+         ' Icon has a color bitmap
+         GetObject(iconInfo.hbmColor, SIZEOF(BITMAP), @bmp)
+         iconWidth = bmp.bmWidth
+         iconHeight = bmp.bmHeight
+         DeleteObject(iconInfo.hbmColor)
+      ELSEIF iconInfo.hbmMask THEN
+         ' Monochrome icon: height is double, so divide by 2
+         GetObject(iconInfo.hbmMask, SIZEOF(BITMAP), @bmp)
+         iconWidth = bmp.bmWidth
+         iconHeight = bmp.bmHeight \ 2
+      END IF
+      IF iconInfo.hbmMask THEN DeleteObject(iconInfo.hbmMask)
+   END IF
+
+   ' // Scale it according to the DPI settings
+   DIM scaledWidth AS LONG = iconWidth * graphics.GetDpiX / 96
+   DIM scaledHeight AS LONG = iconHeight * graphics.GetDpiY / 96
+
+   ' // Draw the icon
+   DrawIconEx(hdc, 0, 0, hIcon, scaledWidth, scaledHeight, 0, NULL, DI_NORMAL)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="gethistogram"></a>GetHistogram (CGpBitmap)
