@@ -2108,6 +2108,49 @@ The number of histograms returned depends on the HistogramFormat enumeration ele
 
 Flat API function: **GdipBitmapGetHistogram**
 
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and gets the histogram.
+' ========================================================================================
+SUB Example_GetHistogram (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform to the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Get histogram size
+   DIM entries AS UINT = bmp.GetHistogramSize(HistogramFormatARGB)
+
+   ' // Allocate histogram arrays
+   DIM red(entries - 1) AS UINT
+   DIM green(entries - 1) AS UINT
+   DIM blue(entries - 1) AS UINT
+   DIM alpha(entries - 1) AS UINT
+
+   ' // Extract histograms
+   bmp.GetHistogram(HistogramFormatARGB, entries, @red(0), @green(0), @blue(0), @alpha(0))
+
+   ' // Example: print peak red value
+   DIM maxRed AS UINT = 0
+   FOR i AS UINT = 0 TO entries - 1
+      IF red(i) > maxRed THEN maxRed = red(i)
+   NEXT
+   AfxMsg ("Max red intensity count: " & WSTR(maxRed))
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 0, 0)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="gethistogramsize"></a>GetHistogramSize (CGpBitmap)
@@ -2131,6 +2174,49 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipBitmapGetHistogramSize**
 
+#### Usage example
+
+```
+' ========================================================================================
+' This example loads an image from disk and gets the histogram.
+' ========================================================================================
+SUB Example_GetHistogram (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform to the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Get histogram size
+   DIM entries AS UINT = bmp.GetHistogramSize(HistogramFormatARGB)
+
+   ' // Allocate histogram arrays
+   DIM red(entries - 1) AS UINT
+   DIM green(entries - 1) AS UINT
+   DIM blue(entries - 1) AS UINT
+   DIM alpha(entries - 1) AS UINT
+
+   ' // Extract histograms
+   bmp.GetHistogram(HistogramFormatARGB, entries, @red(0), @green(0), @blue(0), @alpha(0))
+
+   ' // Example: print peak red value
+   DIM maxRed AS UINT = 0
+   FOR i AS UINT = 0 TO entries - 1
+      IF red(i) > maxRed THEN maxRed = red(i)
+   NEXT
+   AfxMsg ("Max red intensity count: " & WSTR(maxRed))
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 0, 0)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getpixel"></a>GetPixel (CGpBitmap)
