@@ -215,7 +215,7 @@ END SUB
 ' ========================================================================================
 ```
 
-This version is DPI aware. The coordinates will be scaled and the image will be displayed with the same relative size regardless of the DPI of the image. As the SetResolution and SetResolutionFordpi methods aren'r available in the CGpImage class, we must use the CGpBitmap class.
+This version is DPI aware. The coordinates will be scaled and the image will be displayed with the same relative size regardless of the DPI of the image. As the **SetResolution** and **SetResolutionForDpi** methods aren't available in the `CGpImage` class, we must use the `CGpBitmap` class.
 
 ```
 ' ========================================================================================
