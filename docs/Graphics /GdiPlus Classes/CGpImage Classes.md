@@ -6,6 +6,8 @@
 
 While it can be used directly, it is not recommended for most scenarios because it lacks essential functionality like resolution control, pixel access, and image effects. Use `CGpBitmap` for regular image files (e.g., JPEG, PNG, BMP, TIFF) and `CGpMetafile` for vector-based images (e.g., EMF, WMF). 
 
+**DPI Awareness**: When working with raster images, predictable rendering size depends on correctly setting the image’s resolution. The **SetResolution** method, available only in `CGpBitmap`, allows you to define the horizontal and vertical DPI (dots per inch) of the image. Without explicitly setting the resolution, GDI+ assumes a default of 96 DPI, which can lead to incorrect scaling on high-DPI displays. This means the image may appear smaller or larger than intended depending on its internal DPI metadata. To ensure consistent and accurate rendering across different screen resolutions and printing contexts, it is essential to use `CGpBitmap` instead  of `CGpImage` and call **SetResolution** or **SetResolutionForDpi** after loading the image.
+
 **Inherits from**: CGpBase.<br>
 **Include file**: CGpBitmap.inc.
 
