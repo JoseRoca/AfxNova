@@ -1076,6 +1076,34 @@ CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pTarget AS CGpGr
 | *nHeight* | Integer that specifies the height, in pixels, of the bitmap. |
 | *pTarget* | Pointer to a **Graphics** object that contains information used to initialize certain properties (for example, dots per inch) of the new **Bitmap** object. |
 
+#### Example
+
+```
+' ========================================================================================
+' This example creates a GpBitmap from a graphics object, inheriting DPI and rendering settings.
+' ========================================================================================
+SUB Example_CreateFromGraphics (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create bitmap from graphics context
+   DIM bmp AS CGpBitmap = CGpBitmap(200, 100, @graphics)
+
+   ' // Create graphics object from bitmap
+   DIM bmpGraphics AS CGpGraphics = @bmp
+
+   ' // Fill bitmap with color
+   bmpGraphics.Clear(ARGB_RED)
+
+   ' // Draw the bitmap
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 Creates a **Bitmap** object based on an array of bytes along with size and format information.
