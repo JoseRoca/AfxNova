@@ -1900,6 +1900,51 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipBitmapConvertFormat**
 
+
+#### Example
+
+```
+' ========================================================================================
+' The CGpBitmap ConvertFormat method wraps the GdipBitmapConvertFormat, which is a GDI+ 1.1
+' function that converts the pixel format of an existing bitmap to another format—such as
+' from 32bpp ARGB to 8bpp indexed. It replaces the original pixel data with new data that
+' matches the target format.
+' ========================================================================================
+SUB Example_ConvertFormat (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create original bitmap from buffer
+   DIM nWidth AS LONG = 100
+   DIM nHeight AS LONG = 100
+   DIM bytesPerPixel AS LONG = 4
+   DIM stride AS LONG = nWidth * bytesPerPixel
+   DIM buffer(stride * nHeight - 1) AS UBYTE
+
+   FOR y AS LONG = 0 TO nHeight - 1
+      FOR x AS LONG = 0 TO nWidth - 1
+         DIM offset AS LONGINT = y * stride + x * bytesPerPixel
+         buffer(offset + 0) = x * 255 \ nWidth    ' Blue
+         buffer(offset + 1) = y * 255 \ nHeight   ' Green
+         buffer(offset + 2) = 128                 ' Red
+         buffer(offset + 3) = 255                 ' Alpha
+      NEXT
+   NEXT
+
+   DIM bmp AS CGpBitmap = CGpBitmap(nWidth, nHeight, stride, PixelFormat32bppARGB, @buffer(0))
+
+   ' // Convert to 8bpp indexed format
+   bmp.ConvertFormat(PixelFormat8bppIndexed, DitherTypeNone, PaletteTypeFixedHalftone216, NULL, 0)
+
+   ' // Draw the converted bitmap.
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="gethbitmap"></a>GetHBITMAP (CGpBitmap)
