@@ -1169,6 +1169,64 @@ CONSTRUCTOR (BYVAL gdiBitmapInfo AS BITMAPINFO PTR, BYVAL gdiBitmapData AS ANY P
 | *gdiBitmapInfo* | Pointer to a GDI **BITMAPINFO** structure. This structure defines several bitmap attributes, such as size and pixel format. |
 | *gdiBitmapData* | Pointer to an array of bytes that contains the pixel data. |
 
+Flat API function: **GdipCreateBitmapFromGdiDib**
+
+#### Example
+
+```
+' ========================================================================================
+' This example creates a GpBitmap from a manually constructed BITMAPINFO and pixel buffer.
+' ========================================================================================
+SUB Example_CreateFromGdiDib (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Define bitmap dimensions
+   DIM nWidth AS LONG = 100
+   DIM nHeight AS LONG = 100
+   DIM bytesPerPixel AS LONG = 4
+   DIM stride AS LONG = nWidth * bytesPerPixel
+
+   ' // Allocate pixel buffer
+   DIM buffer(stride * nHeight - 1) AS UBYTE
+
+   ' // Fill buffer with gradient
+   FOR y AS LONG = 0 TO nHeight - 1
+      FOR x AS LONG = 0 TO nWidth - 1
+         DIM offset AS LONG = y * stride + x * bytesPerPixel
+         buffer(offset + 0) = x * 255 \ nWidth   ' Blue
+         buffer(offset + 1) = y * 255 \ nHeight  ' Green
+         buffer(offset + 2) = 128                ' Red
+         buffer(offset + 3) = 255                ' Alpha
+      NEXT
+   NEXT
+
+   ' // Define BITMAPINFO header
+   DIM bmi AS BITMAPINFO
+   WITH bmi.bmiHeader
+      .biSize = SIZEOF(BITMAPINFOHEADER)
+      .biWidth = nWidth
+      .biHeight = -nHeight ' Top-down DIB
+      .biPlanes = 1
+      .biBitCount = 32
+      .biCompression = BI_RGB
+      .biSizeImage = stride * nHeight
+      .biXPelsPerMeter = 39.3701 * graphics.GetDpiX
+      .biYPelsPerMeter = 39.3701 * graphics.GetDpiY
+   END WITH
+
+   ' // Create bitmap from DIB
+   DIM bmp AS CGpBitmap = CGpBitmap(@bmi, @buffer(0))
+
+   ' // Draw the modified bitmap.
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 Creates a **Bitmap** object based on an icon.
@@ -1225,6 +1283,8 @@ CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
 | ---------- | ----------- |
 | *surface* | Pointer to an **IDrectDrawSurface7** COM interface. |
 
+Flat API function: **GdipCreateBitmapFromDirectDrawSurface**
+
 ---
 
 ## <a name="applyeffect"></a>ApplyEffect (CGpBitmap)
@@ -1244,6 +1304,8 @@ FUNCTION ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
 | *useAuxData* | [in] Flag that specifies whether the function should return a pointer to the auxiliary data that it creates. |
 | *auxData* | [out] Pointer to a set of lookup tables. |
 | *auxDataSize* | [out] Size, in bytes, of the auxiliary data. |
+
+Flat API function: **GdipBitmapApplyEffect**
 
 #### Example
 
@@ -1702,7 +1764,7 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
-Flat API function: **GdipCloneBitmapArea**
+Flat API functions: **GdipCloneImage** and **GdipCloneBitmapArea**
 
 #### Example
 
@@ -1758,6 +1820,8 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+Flat API function: **GdipBitmapConvertFormat**
+
 ---
 
 ## <a name="gethbitmap"></a>GetHBITMAP (CGpBitmap)
@@ -1779,6 +1843,8 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+Flat API function: **GdipCreateHBITMAPFromBitmap**
+
 ---
 
 ## <a name="gethicon"></a>GetHICON (CGpBitmap)
@@ -1798,6 +1864,8 @@ FUNCTION GetHICON (BYVAL hiconReturn AS HICON PTR) AS GpStatus
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipCreateHICONFromBitmap**
 
 ---
 
@@ -1830,6 +1898,8 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 The number of histograms returned depends on the HistogramFormat enumeration element passed to the format parameter. For example, if format is equal to **HistogramFormatRGB**, then three histograms are returned: one each for the red, green, and blue channels. In that case, *channel0* points to the array that receives the red-channel histogram, *channel1* points to the array that receives the green-channel histogram, and *channel2* points to the array that receives the blue-channel histogram. For **HistogramFormatRGB**, *channel3* must be set to NULL because there is no fourth histogram. For more details, see the **HistogramFormat** enumeration.
 
+Flat API function: **GdipBitmapGetHistogram**
+
 ---
 
 ## <a name="gethistogramsize"></a>GetHistogramSize (CGpBitmap)
@@ -1850,6 +1920,8 @@ FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntri
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipBitmapGetHistogramSize**
 
 ---
 
@@ -1929,6 +2001,8 @@ FUNCTION InitializePalette (BYVAL colourPalette AS ColorPalette PTR, BYVAL nPale
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API format: **GdipInitializePalette**
 
 ---
 
@@ -2096,6 +2170,8 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+Flat API function: **GdipBitmapSetResolution**
+
 ---
 
 ## <a name="setresolutionfordpi"></a>SetResolutionForDpi (CGpBitmap)
@@ -2111,6 +2187,8 @@ FUNCTION SetResolutionForDpi () AS GpStatus
 If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+Flat API function: **GdipBitmapSetResolution**
 
 ---
 
