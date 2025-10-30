@@ -1068,7 +1068,7 @@ SUB Example_CloneConstructor (BYVAL hdc AS HDC)
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = "climber.jpg"
-   ' // Set the resolution of theimage using the DPI ratios
+   ' // Set the resolution of the image using the DPI ratios
    myBitmap.SetResolutionForDpi
 
    ' // Clone a portion of the bitmap.
@@ -1101,7 +1101,7 @@ CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = "climber.jpg"
-   ' // Set the resolution of theimage using the DPI ratios
+   ' // Set the resolution of the image using the DPI ratios
    myBitmap.SetResolutionForDpi
 ```
 ---
@@ -1125,7 +1125,7 @@ CONSTRUCTOR (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS B
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = pstream
-   ' // Set the resolution of theimage using the DPI ratios
+   ' // Set the resolution of the image using the DPI ratios
    myBitmap.SetResolutionForDpi
 ```
 ---
