@@ -1046,8 +1046,39 @@ CONSTRUCTOR (BYVAL surface AS IDirectDrawSurface7 PTR)
 ---
 
 Creates a **Bitmap** object based on another **Bitmap** obejct (clones it).
+
+Flat API function: **GdipCloneImage**
+
 ```
 CONSTRUCTOR CGpBitmap (BYVAL pBitmap AS CGpBitmap PTR)
+```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Bitmap object from another image object.
+' ========================================================================================
+SUB Example_CloneConstructor (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of theimage using the DPI ratios
+   myBitmap.SetResolutionForDpi
+
+   ' // Clone a portion of the bitmap.
+   DIM cloneBitmap AS CGpBitmap = @myBitmap
+
+   ' // Draw the clone.
+   graphics.DrawImage(@cloneBitmap, 10, 10)
+
+END SUB
+' ========================================================================================
 ```
 ---
 
@@ -1060,6 +1091,19 @@ CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement
 | *pwszFileName* | Pointer to a null-terminated string that specifies the path name of the image file. The graphics file formats supported by GDI+ are BMP, GIF, JPEG, PNG, TIFF, Exif, WMF, and EMF. |
 | *useEmbeddedColorManagement* | Optional. Boolean value that specifies whether the new **Bitmap** object applies color correction according to color management information that is embedded in the image file. Embedded information can include International Color Consortium (ICC) profiles, gamma values, and chromaticity information. **TRUE** specifies that color correction is enabled, and **FALSE** specifies that color correction is not enabled. The default value is **FALSE**. |
 
+#### Usage example
+
+```
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of theimage using the DPI ratios
+   myBitmap.SetResolutionForDpi
+```
 ---
 
 Creates a **Bitmap** object based on an **IStream** COM interface..
@@ -1071,6 +1115,19 @@ CONSTRUCTOR (BYVAL pStream AS IStream PTR, BYVAL useEmbeddedColorManagement AS B
 | *pStream* | Pointer to an **IStream** COM interface. |
 | *useEmbeddedColorManagement* | Optional. Boolean value that specifies whether the new **Bitmap** object applies color correction according to color management information that is embedded in the image file. Embedded information can include International Color Consortium (ICC) profiles, gamma values, and chromaticity information. **TRUE** specifies that color correction is enabled, and **FALSE** specifies that color correction is not enabled. The default value is **FALSE**. |
 
+#### Usage example
+
+```
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM myBitmap AS CGpBitmap = pstream
+   ' // Set the resolution of theimage using the DPI ratios
+   myBitmap.SetResolutionForDpi
+```
 ---
 
 Creates a **Bitmap** object based on a **Graphics** object, a width, and a height.
