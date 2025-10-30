@@ -193,6 +193,55 @@ CONSTRUCTOR CGpImage (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
 
 #### Example
 
+This example is not DPI aware. Therefore, unless it is run virtualized, the coordinates won't be scaled, and the image will be displayed smaller or bigger if its resolution is not 96.
+
+```
+' ========================================================================================
+' The following example creates an Image object based on a JPEG file. Then the code calls
+' the DrawImage method to draw the image.
+' ========================================================================================
+SUB Example_Constructor (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+
+   ' // Create an Image object, and then clone it.
+   DIM image AS CGpImage = "climber.jpg"
+
+   ' // Draw the original image and the cloned image.
+   graphics.DrawImage(@image, 10, 10)
+
+END SUB
+' ========================================================================================
+```
+
+This version is DPI aware. The coordinates will be scaled and the image will be displayed with the same relative size regardless of the DPI of the image. As the SetResolution and SetResolutionFordpi methods aren'r available in the CGpImage class, we must use the CGpBitmap class.
+
+```
+' ========================================================================================
+' The following example creates an Image object based on a JPEG file. Then the code calls
+' the DrawImage method to draw the image.
+' ========================================================================================
+SUB Example_Constructor_HDPI (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object
+   DIM image AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios od the device
+   image.SetResolutionForDpi
+
+   ' // Draw the original image and the cloned image.
+   graphics.DrawImage(@image, 10, 10)
+
+END SUB
+' ========================================================================================
+```
+#### Example
+
 The following example draws part of an image.
 
 ```
