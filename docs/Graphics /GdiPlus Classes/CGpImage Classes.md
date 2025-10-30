@@ -205,20 +205,20 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
    graphics.SetPageUnit(UnitPixel)
    graphics.SetPageScale(rxRatio)
 
-   ' // Create an Image object.
-   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
-'   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
+   ' // Create an Image object from a resource
+   DIM image AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
+'   DIM image AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
 
    ' // Draw the original source image.
-   graphics.DrawImage(@pImage, 10, 10)
+   graphics.DrawImage(@image, 10, 10)
 
    ' // Part of the source image to draw
-   DIM rcsrc AS GpRectF = TYPE<GpRectF>(80, 30, 80, 80)
+   DIM rcsrc AS GpRectF = (80, 30, 80, 80)
    ' // Destination recangle
-   DIM rcdest AS GpRectF = TYPE<GpRectF>(200, 10, 80, 80)
+   DIM rcdest AS GpRectF = (200, 10, 80, 80)
 
    ' // Draw the scaled image.
-   graphics.DrawImage(@pImage, @rcdest, @rcsrc, UnitPixel)
+   graphics.DrawImage(@image, @rcdest, @rcsrc, UnitPixel)
 
 END SUB
 ```
