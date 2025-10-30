@@ -28,18 +28,16 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 
 ' ========================================================================================
 ' The following example creates a solid brush and uses it to fill a rectangle. The code
-' uses GdipSetSolidFillColor to change the color of the solid brush and then paints a
-' second rectangle the new color.
+' uses CGpSolidBrush to change the color of the solid brush and then paints a second
+' rectangle the new color.
 ' ========================================================================================
 SUB Example_SetColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
    ' // Create a solid brush, and use it to fill a rectangle
    DIM solidBrush AS CGpSolidBrush = ARGB_BLUE

@@ -27,33 +27,30 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a solid brush and uses it to fill a rectangle. The code
-' gets the color of the solid brush and stores it. Then, the code creates a second solid
-' brush using the stored color and paints a second rectangle with the second solid brush.
+' The following example creates a solid brush and uses it to fill a rectangle. Then, the
+' code creates a second solid brush using the stored color and paints a second rectangle
+' with the second solid brush.
 ' ========================================================================================
 SUB Example_GetColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
    ' // Create a solid brush, and use it to fill a rectangle
    DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
    graphics.FillRectangle(@solidBrush, 10, 10, 200, 100)
 
-   ' // Get the color of the solid brush
-   DIM colour AS ARGB = solidBrush.GetColor(@colour)
-   ' // Create a second solid brush with that same color
-   DIM solidBrush2 AS CGpSolidBrush = colour
-   ' // Alternate way
-'   DIM solidBrush2 AS CGpSolidBrush = solidBrush.GetColor
+   ' // Create a second solid brush with the same color
+   DIM solidBrush2 AS CGpSolidBrush = solidBrush.GetColor
 
    ' // Paint a second rectangle with the second solid brush
    graphics.FillRectangle(@solidBrush2, 220, 10, 200, 100)
+
+   ' // Alternate way
+   ' graphics.FillRectangle(@CGpSolidBrush(solidBrush.GetColor), 220, 10, 200, 100)
 
 END SUB
 ' ========================================================================================
