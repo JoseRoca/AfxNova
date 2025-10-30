@@ -216,7 +216,7 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
 
    ' // Part of the source image to draw
    DIM rcsrc AS GpRectF = (80, 30, 80, 80)
-   ' // Destination recangle
+   ' // Destination rectangle
    DIM rcdest AS GpRectF = (200, 10, 80, 80)
 
    ' // Draw the scaled image.
