@@ -1119,6 +1119,49 @@ CONSTRUCTOR (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL stride AS INT_, 
 | *pxFormat* | Integer that specifies the pixel format of the bitmap. For more information about pixel format constants, see [Image Pixel Format Constants](https://learn.microsoft.com/en-us/windows/win32/gdiplus/-gdiplus-constant-image-pixel-format-constants). |
 | *scan0* | Pointer to an array of bytes that contains the pixel data. The caller is responsible for allocating and freeing the block of memory pointed to by this parameter. |
 
+#### Example
+
+```
+' ========================================================================================
+' This example demonstrates how to create a GpBitmap object from a manually filled pixel
+' buffer. It generates a 100×100 pixel image with a vertical gradient and renders it to
+' the screen using GDI+.
+' ========================================================================================
+SUB Example_CreateFromScan0 (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Define dimensions and pixel format
+   DIM nWidth AS LONG = 100
+   DIM nHeight AS LONG = 100
+   DIM bytesPerPixel AS LONG = 4
+   DIM stride AS LONG = nWidth * bytesPerPixel
+
+   ' // Allocate pixel buffer
+   DIM buffer(stride * nHeight - 1) AS UBYTE
+   ' // Fill buffer with a gradient
+   FOR y AS LONG = 0 TO nHeight - 1
+      FOR x AS LONG = 0 TO nWidth - 1
+         DIM _offset AS LONGINT = y * stride + x * bytesPerPixel
+         buffer(_offset + 0) = x * 255 \ nWidth    ' Blue
+         buffer(_offset + 1) = y * 255 \ nHeight   ' Green
+         buffer(_offset + 2) = 128                 ' Red
+         buffer(_offset + 3) = 255                 ' Alpha
+      NEXT
+   NEXT
+
+   ' // Create bitmap from buffer
+   DIM bmp AS CGpBitmap = CGpBitmap(nWidth, nHeight, stride, PixelFormat32bppARGB, @buffer(0))
+
+   ' // Draw the bitmap
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 Creates a **Bitmap** object of a specified size and pixel format. The pixel data must be provided after the **Bitmap** object is constructed.
