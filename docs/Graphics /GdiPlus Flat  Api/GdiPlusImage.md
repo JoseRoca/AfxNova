@@ -982,7 +982,7 @@ DIM token AS ULONG_PTR = AfxGdipInit
 
 ' // Load the original image from file
 DIM image AS GpImage PTR
-hStatus = GdipLoadImageFromFile("MultiFrame.tif", @image)
+hStatus = GdipLoadImageFromFile("MultiFrame.tiff", @image)
 
 ' // How many frame dimensions does the Image object have?
 DIM nCount AS UINT
@@ -1044,7 +1044,7 @@ DIM token AS ULONG_PTR = AfxGdipInit
 
 ' // Load the original image from file
 DIM image AS GpImage PTR
-hStatus = GdipLoadImageFromFile("MultiFrame.tif", @image)
+hStatus = GdipLoadImageFromFile("MultiFrame.tiff", @image)
 
 ' // How many frame dimensions does the Image object have?
 DIM nCount AS UINT
@@ -1096,7 +1096,7 @@ DIM token AS ULONG_PTR = AfxGdipInit
 
 ' // Load the original image from file
 DIM image AS GpImage PTR
-hStatus = GdipLoadImageFromFile("MultiFrame.tif", @image)
+hStatus = GdipLoadImageFromFile("MultiFrame.tiff", @image)
 
 ' // How many frame dimensions does the Image object have?
 DIM nCount AS UINT
@@ -2350,7 +2350,7 @@ DIM token AS ULONG_PTR = AfxGdipInit
 
 ' // Load the original image from file
 DIM image AS GpImage PTR
-hStatus = GdipLoadImageFromFile("MultiFrame.tif", @image)
+hStatus = GdipLoadImageFromFile("MultiFrame.tiff", @image)
 
 ' // Get the CLSID of the TIFF encoder.
 DIM EncoderClsid AS GUID = AfxGdipGetEncoderClsid("image/tiff")
@@ -2697,7 +2697,7 @@ encoderParams.Parameter(0).Value = @paramValue
 
 ' // Save first frame
 paramValue = EncoderValueMultiFrame
-hStatus = GdipSaveImageToFile(multi, "multiframe.tif", @clsid, @encoderParams)
+hStatus = GdipSaveImageToFile(multi, "multiframe.tiff", @clsid, @encoderParams)
 
 ' // Add second frame
 paramValue = EncoderValueFrameDimensionPage
