@@ -875,7 +875,7 @@ SUB Example_GetThumbnailImage (BYVAL hdc AS HDC)
    ' // Set the resolution of the image using the DPI ratios
    bmp.SetResolutionForDpi
 
-   ' // Get a thumbnail of the image of the spicified width and height
+   ' // Get a thumbnail of the image of the specified width and height
    DIM thumbnail AS CGpBitmap
    bmp.GetThumbnailImage(70, 50, @thumbnail)
 
