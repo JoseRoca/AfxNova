@@ -15,40 +15,40 @@ While it can be used directly, it is not recommended for most scenarios because 
 | ---------- | ----------- |
 | [Constructors](#constructorsimage) | Creates an Image object based on a file or stream. |
 | [Clone](#cloneimage) | Copies the contents of the existing Image object into a new Image object. |
-| [FindFirstItem](#findfirstitem) | Retrieves the description and the data size of the first metadata item in this Image object. |
-| [FindNextItem](#findnextitem) | Retrieves the description and the data size of the next metadata item in this Image object. |
-| [GetAllPropertyItems](#getallpropertyitems) | Gets all the property items (metadata) stored in this Image object. |
-| [GetBounds](#getbounds) | Gets the bounding rectangle for this image. |
+| [FindFirstItem](#findfirstitem) | Retrieves the description and the data size of the first metadata item in the Image object. |
+| [FindNextItem](#findnextitem) | Retrieves the description and the data size of the next metadata item in the Image object. |
+| [GetAllPropertyItems](#getallpropertyitems) | Gets all the property items (metadata) stored in the Image object. |
+| [GetBounds](#getbounds) | Gets the bounding rectangle for the image. |
 | [GetEncoderParameterList](#getencoderparameterlist) | Gets a list of the parameters supported by a specified image encoder. |
 | [GetEncoderParameterListSize](#getencoderparameterlistsize) | Gets the size, in bytes, of the parameter list for a specified image encoder. |
-| [GetFlags](#getflags) | Gets a set of flags that indicate certain attributes of this Image object. |
-| [GetFrameCount](#getframecount) | Gets the number of frames in a specified dimension of this Image object. |
-| [GetFrameDimensionsCount](#getframedimensionscount) | Gets the number of frame dimensions in this Image object. |
-| [GetFrameDimensionsList](#getframedimensionslist) | Gets the identifiers for the frame dimensions of this Image object. |
-| [GetHeight](#getheight) | Gets the image height, in pixels, of this image. |
-| [GetHorizontalResolution](#gethorizontalresolution) | Gets the horizontal resolution, in dots per inch, of this image. |
-| [GetItemData](#getitemdata) | Gets one piece of metadata from this Image object. |
-| [GetPalette](#getpalette) | Gets the **ColorPalette** of this Image object. |
-| [GetPaletteSize](#getpalettesize) | Gets the size, in bytes, of the color palette of this Image object. |
-| [GetPhysicalDimension](#getphysicaldimension) | Gets the width and height of this image. |
-| [GetPixelFormat](#getpixelformat) | Gets the pixel format of this Image object. |
-| [GetPropertyCount](#getpropertycount) | Gets the number of properties (pieces of metadata) stored in this Image object. |
-| [GetPropertyIdList](#getpropertyidlist) | Gets a list of the property identifiers used in the metadata of this Image object. |
-| [GetPropertyItem](#getpropertyitem) | Gets a specified property item (piece of metadata) from this Image object. |
-| [GetPropertyItemSize](#getpropertyitemsize) | Gets the size, in bytes, of a specified property item of this Image object. |
-| [GetPropertySize](#getpropertysize) | Gets the total size, in bytes, of all the property items stored in this Image object. |
-| [GetRawFormat](#getrawformat) | Gets a globally unique identifier ( GUID) that identifies the format of this Image object. |
-| [GetThumbnailImage](#getthumbnailimage) | Gets a thumbnail image from this Image object. |
-| [GetType](#gettype) | Gets the type (bitmap or metafile) of this Image object. |
-| [GetVerticalResolution](#getverticalresolution) | Gets the vertical resolution, in dots per inch, of this image. |
-| [GetWidth](#getwidth) | Gets the width, in pixels, of this image. |
-| [RemovePropertyItem](#removepropertyitem) | Removes a property item (piece of metadata) from this Image object. |
-| [RotateFlip](#rotateflip) | Rotates and flips this image. |
-| [Save](#save) | Saves this image to a file. |
+| [GetFlags](#getflags) | Gets a set of flags that indicate certain attributes of the Image object. |
+| [GetFrameCount](#getframecount) | Gets the number of frames in a specified dimension of the Image object. |
+| [GetFrameDimensionsCount](#getframedimensionscount) | Gets the number of frame dimensions in the Image object. |
+| [GetFrameDimensionsList](#getframedimensionslist) | Gets the identifiers for the frame dimensions of the Image object. |
+| [GetHeight](#getheight) | Gets the image height, in pixels, of the image. |
+| [GetHorizontalResolution](#gethorizontalresolution) | Gets the horizontal resolution, in dots per inch, of the image. |
+| [GetItemData](#getitemdata) | Gets one piece of metadata from the Image object. |
+| [GetPalette](#getpalette) | Gets the **ColorPalette** of the Image object. |
+| [GetPaletteSize](#getpalettesize) | Gets the size, in bytes, of the color palette of the Image object. |
+| [GetPhysicalDimension](#getphysicaldimension) | Gets the width and height of the image. |
+| [GetPixelFormat](#getpixelformat) | Gets the pixel format of the Image object. |
+| [GetPropertyCount](#getpropertycount) | Gets the number of properties (pieces of metadata) stored in the Image object. |
+| [GetPropertyIdList](#getpropertyidlist) | Gets a list of the property identifiers used in the metadata of the Image object. |
+| [GetPropertyItem](#getpropertyitem) | Gets a specified property item (piece of metadata) from the Image object. |
+| [GetPropertyItemSize](#getpropertyitemsize) | Gets the size, in bytes, of a specified property item of the Image object. |
+| [GetPropertySize](#getpropertysize) | Gets the total size, in bytes, of all the property items stored in the Image object. |
+| [GetRawFormat](#getrawformat) | Gets a globally unique identifier ( GUID) that identifies the format of the Image object. |
+| [GetThumbnailImage](#getthumbnailimage) | Gets a thumbnail image from the Image object. |
+| [GetType](#gettype) | Gets the type (bitmap or metafile) of the Image object. |
+| [GetVerticalResolution](#getverticalresolution) | Gets the vertical resolution, in dots per inch, of the image. |
+| [GetWidth](#getwidth) | Gets the width, in pixels, of the image. |
+| [RemovePropertyItem](#removepropertyitem) | Removes a property item (piece of metadata) from the Image object. |
+| [RotateFlip](#rotateflip) | Rotates and flips the image. |
+| [Save](#save) | Saves the image to a file. |
 | [SaveAdd](#saveadd) | Adds a frame to a file or stream specified in a previous call to the Save method. |
-| [SelectActiveFrame](#selectactiveframe) | Selects the frame in this Image object specified by a dimension and an index. |
-| [SetPalette](#setpalette) | Sets the color palette of this Image object. |
-| [SetPropertyItem](#setpropertyitem) | Sets a property item (piece of metadata) for this Image object. |
+| [SelectActiveFrame](#selectactiveframe) | Selects the frame in the Image object specified by a dimension and an index. |
+| [SetPalette](#setpalette) | Sets the color palette of the Image object. |
+| [SetPropertyItem](#setpropertyitem) | Sets a property item (piece of metadata) for the Image object. |
 
 ---
 
@@ -323,7 +323,7 @@ END SUB
 
 ## <a name="findfirstitem"></a>FindFirstItem (CGpImage)
 
-Retrieves the description and the data size of the first metadata item in this **Image** object.
+Retrieves the description and the data size of the first metadata item in an **Image** object.
 
 ```
 FUNCTION FindFirstItem (BYVAL pitem AS ImageItemData PTR) AS GpStatus
@@ -347,7 +347,7 @@ Use **FindFirstItem** along with **FindNextItem** to enumerate the metadata item
 
 ## <a name="findnextitem"></a>FindNextItem (CGpImage)
 
-The **FindNextItem** method is used along with the **FindFirstItem** method to enumerate the metadata items stored in this **Image** object. The **FindNextItem** method retrieves the description and the data size of the next metadata item in this **Image** object. 
+The **FindNextItem** method is used along with the **FindFirstItem** method to enumerate the metadata items stored in an **Image** object. The **FindNextItem** method retrieves the description and the data size of the next metadata item in an **Image** object. 
 
 ```
 FUNCTION FindNextItem (BYVAL pitem AS ImageItemData PTR) AS GpStatus
@@ -371,7 +371,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 # <a name="getallpropertyitems"></a>GetAllPropertyItems (CGpImage)
 
-Gets all the property items (metadata) stored in this **Image** object.
+Gets all the property items (metadata) stored in an **Image** object.
 
 ```
 FUNCTION GetAllPropertyItems (BYVAL totalBufferSize AS UINT, BYVAL numProperties AS UINT, _
@@ -402,7 +402,7 @@ Several enumerations and constants related to image metadata are defined in Gdip
 
 ## <a name="getbounds"></a>GetBounds (CGpImage)
 
-Gets the bounding rectangle for this image.
+Gets the bounding rectangle for the image.
 
 ```
 FUNCTION GetBounds (BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
@@ -532,7 +532,7 @@ FUNCTION GetEncoderParameterListSize (BYVAL clsidEncoder AS GUID PTR) AS UINT
 
 ## <a name="getflags"></a>GetFlags (CGpImage)
 
-Gets a set of flags that indicate certain attributes of this **Image** object.
+Gets a set of flags that indicate certain attributes of an **Image** object.
 
 ```
 FUNCTION GetFlags () AS UINT
@@ -593,7 +593,7 @@ SLEEP
 
 ## <a name="getframecount"></a>GetFrameCount (CGpImage)
 
-Gets the number of frames in a specified dimension of this **Image** object.
+Gets the number of frames in a specified dimension of an **Image** object.
 
 ```
 FUNCTION GetFrameCount (BYVAL dimensionID AS GUID PTR) AS UINT
@@ -613,7 +613,7 @@ FUNCTION GetFrameCount (BYVAL dimensionID AS GUID PTR) AS UINT
 USING AfxNova
 
 ' ========================================================================================
-' Gets the number of frames in a specified dimension of this Image object.
+' Gets the number of frames in a specified dimension of an Image object.
 ' ========================================================================================
 
 ' // Create a Bitmap object from a JPEG file.
@@ -644,7 +644,7 @@ SLEEP
 
 ## <a name="getframedimensionscount"></a>GetFrameDimensionsCount (CGpImage)
 
-Gets the number of frame dimensions in this **Image** object.
+Gets the number of frame dimensions in an **Image** object.
 
 ```
 FUNCTION GetFrameDimensionsCount () AS UINT
@@ -701,7 +701,7 @@ SLEEP
 
 ## <a name="getframedimensionslist"></a>GetFrameDimensionsList (CGpImage)
 
-Gets the identifiers for the frame dimensions of this Image object.
+Gets the identifiers for the frame dimensions of an **Image** object.
 
 ```
 FUNCTION GetFrameDimensionsList (BYVAL dimensionIDs AS GUID PTR, BYVAL count AS UINT) AS GpStatus
@@ -769,7 +769,7 @@ SLEEP
 
 ## <a name="getheight"></a>GetHeight (CGpImage)
 
-Gets the image height, in pixels, of this image.
+Gets the image height, in pixels, of an image.
 
 ```
 FUNCTION GetHeight () AS UINT
@@ -802,7 +802,7 @@ SLEEP
 
 ## <a name="gethorizontalresolution"></a>GetHorizontalResolution (CGpImage)
 
-Gets the horizontal resolution, in dots per inch, of this image.
+Gets the horizontal resolution, in dots per inch, of an image.
 
 ```
 FUNCTION GetHorizontalResolution () AS SINGLE
@@ -830,7 +830,7 @@ SLEEP
 
 ## <a name="getitemdata"></a>GetItemData (CGpImage)
 
-Gets one piece of metadata from this **Image** object.
+Gets one piece of metadata from an **Image** object.
 
 ```
 FUNCTION GetItemData (BYVAL pitem AS ImageItemData PTR) AS GpStatus
@@ -850,7 +850,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="getpalette"></a>GetPalette (CGpImage)
 
-Gets the **ColorPalette** of this **Image** object.
+Gets the **ColorPalette** of an **Image** object.
 
 ```
 FUNCTION GetPalette (BYVAL pal AS ColorPalette PTR, BYVAL nSize AS INT_) AS GpStatus
@@ -871,7 +871,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="getpalettesize"></a>GetPaletteSize (CGpImage)
 
-Gets the size, in bytes, of the color palette of this **Image** object.
+Gets the size, in bytes, of the color palette of an **Image** object.
 
 ```
 FUNCTION GetPaletteSize () AS INT_
@@ -880,7 +880,7 @@ FUNCTION GetPaletteSize () AS INT_
 
 ## <a name="getphysicaldimension"></a>GetPhysicalDimension (CGpImage)
 
-Gets the width and height of this **Image** object.
+Gets the width and height of an **Image** object.
 
 ```
 FUNCTION GetPhysicalDimension (BYVAL psize AS SizeF PTR) AS GpStatus
@@ -888,7 +888,7 @@ FUNCTION GetPhysicalDimension (BYVAL psize AS SizeF PTR) AS GpStatus
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *psize* | Pointer to a **GpSizeF** object that receives the width and height of this image. |
+| *psize* | Pointer to a **GpSizeF** object that receives the width and height of the image. |
 
 #### Return value
 
@@ -900,7 +900,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="getpixelformat"></a>GetPixelFormat (CGpImage)
 
-Gets the pixel format of this **Image** object.
+Gets the pixel format of an **Image** object.
 
 ```
 FUNCTION GetPixelFormat () AS PixelFormat
@@ -908,13 +908,13 @@ FUNCTION GetPixelFormat () AS PixelFormat
 
 #### Return value
 
-This method returns an integer that indicates the pixel format of this **Image** object. The **PixelFormat** data type and constants that represent various pixel formats are defined in Gdipluspixelformats.h.
+This method returns an integer that indicates the pixel format of an **Image** object. The **PixelFormat** data type and constants that represent various pixel formats are defined in Gdipluspixelformats.h.
 
 ---
 
 # <a name="getpropertycount"></a>GetPropertyCount (CGpImage)
 
-Gets the number of properties (pieces of metadata) stored in this **Image** object.
+Gets the number of properties (pieces of metadata) stored in an **Image** object.
 
 ```
 FUNCTION GetPropertyCount () AS UINT
@@ -923,7 +923,7 @@ FUNCTION GetPropertyCount () AS UINT
 
 # <a name="getpropertyiidlist"></a>GetPropertyIdList (CGpImage)
 
-Gets a list of the property identifiers used in the metadata of this **Image** object.
+Gets a list of the property identifiers used in the metadata of an **Image** object.
 
 ```
 FUNCTION GetPropertyIdList (BYVAL numOfProperty AS UINT, BYVAL list AS PROPID PTR) AS GpStatus
@@ -948,7 +948,7 @@ The **GetPropertyIdList** method returns an array of **PROPIDs**. Before you cal
 
 # <a name="getpropertyitem"></a>GetPropertyItem (CGpImage)
 
-Gets a specified property item (piece of metadata) from this **Image** object.
+Gets a specified property item (piece of metadata) from an **Image** object.
 
 ```
 FUNCTION GetPropertyItem (BYVAL propId AS PROPID, BYVAL propSize AS UINT, _
@@ -1008,7 +1008,7 @@ SLEEP
 
 ## <a name="getpropertyitemsize"></a>GetPropertyItemSize (CGpImage)
 
-Gets the size, in bytes, of a specified property item of this **Image** object.
+Gets the size, in bytes, of a specified property item of an **Image** object.
 
 ```
 FUNCTION GetPropertyItemSize (BYVAL propId AS PROPID) AS UINT
@@ -1040,7 +1040,7 @@ DIM itemSize AS UINT = image.GetPropertyItemSize(PropertyTagLuminanceTable)
 
 ## <a name="getpropertysize"></a>GetPropertySize (CGpImage)
 
-Gets the total size, in bytes, of all the property items stored in this **Image** object. The **GetPropertySize** method also gets the number of property items stored in this Image object.
+Gets the total size, in bytes, of all the property items stored in an **Image** object. The **GetPropertySize** method also gets the number of property items stored in an **Image** object.
 
 ```
 FUNCTION GetPropertySize (BYVAL totalBufferSize AS UINT PTR, BYVAL numProperties AS UINT PTR) AS GpStatus
@@ -1103,7 +1103,7 @@ SLEEP
 
 ## <a name="getrawformat"></a>GetRawFormat (CGpImage)
 
-Gets a globally unique identifier ( GUID) that identifies the format of this **Image** object.
+Gets a globally unique identifier ( GUID) that identifies the format of an **Image** object.
 
 ```
 FUNCTION GetRawFormat (BYVAL guidformat AS GUID PTR) AS GpStatus
@@ -1123,7 +1123,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="getthumbnailimage"></a>GetThumbnailImage (CGpImage)
 
-Gets a thumbnail image from this **Image** object.
+Gets a thumbnail image from an **Image** object.
 
 ```
 FUNCTION GetThumbnailImage (BYVAL thumbWidth AS UINT, BYVAL thumbHeight AS UINT, _
@@ -1185,7 +1185,7 @@ END SUB
 
 ## <a name="gettype"></a>GetType (CGpImage)
 
-Gets the type (bitmap or metafile) of this **Image** object.
+Gets the type (bitmap or metafile) of an **Image** object.
 
 ```
 FUNCTION GetType () AS ImageType
@@ -1222,7 +1222,7 @@ SLEEP
 
 ## <a name="getverticalresolution"></a>GetVerticalResolution (CGpImage)
 
-Gets the vertical resolution, in dots per inch, of this image.
+Gets the vertical resolution, in dots per inch, of the image.
 
 ```
 FUNCTION GetVerticalResolution () AS SINGLE
@@ -1255,7 +1255,7 @@ SLEEP
 
 ## <a name="getwidth"></a>GetWidth (CGpImage)
 
-Gets the width, in pixels, of this image
+Gets the width, in pixels, of an image
 
 ```
 FUNCTION GetWidth () AS UINT
@@ -1288,7 +1288,7 @@ SLEEP
 
 # <a name="removepropertyitem"></a>RemovePropertyItem (CGpImage)
 
-Removes a property item (piece of metadata) from this **Image** object.
+Removes a property item (piece of metadata) from an **Image** object.
 
 ```
 FUNCTION RemovePropertyItem (BYVAL propId AS PROPID) AS GpStatus
@@ -1312,7 +1312,7 @@ The **RemovePropertyItem** method removes a specified property from an **Image**
 
 ## <a name="rotateflip"></a>RotateFlip (CGpImage)
 
-Rotates and flips this image.
+Rotates and flips an image.
 
 ```
 FUNCTION RotateFlip (BYVAL rotateFlipType AS RotateFlipType) AS GpStatus
@@ -1390,7 +1390,7 @@ END SUB
 
 ## <a name="save"></a>Save (CGpImage)
 
-Saves this image to a file.
+Saves the image to a file.
 
 ```
 FUNCTION Save (BYVAL pwszFileName AS WSTRING PTR, BYVAL clsidEncoder AS GUID PTR, _
@@ -1442,7 +1442,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="selectactiveframe"></a>SelectActiveFrame (CGpImage)
 
-Selects the frame in this **Image** object specified by a dimension and an index.
+Selects the frame in an **Image** object specified by a dimension and an index.
 
 ```
 FUNCTION SelectActiveFrame (BYVAL dimensionID AS GUID PTR, BYVAL frameIndex AS UINT) AS GpStatus
@@ -1469,7 +1469,7 @@ Among all the image formats currently supported by GDI+, the only formats that s
 
 ## <a name="setpalette"></a>SetPalette (CGpImage)
 
-Sets the color palette of this **Image** object.
+Sets the color palette of an **Image** object.
 
 ```
 FUNCTION SetPalette (BYVAL pal AS ColorPalette PTR) AS GpStatus
@@ -1489,7 +1489,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ## <a name="setpropertyitem"></a>SetPropertyItem (CGpImage)
 
-Sets a property item (piece of metadata) for this Image object. If the item already exists, then its contents are updated; otherwise, a new item is added.
+Sets a property item (piece of metadata) for an **Image** object. If the item already exists, then its contents are updated; otherwise, a new item is added.
 
 ```
 FUNCTION SetPropertyItem (BYVAL pitem AS PropertyItem PTR) AS GpStatus
@@ -2370,7 +2370,7 @@ FUNCTION Clone (BYVAL rc AS GpRect PTR, BYVAL pxFormat AS PixelFormat, _
 | *x* | The x-coordinate of the upper-left corner of the rectangle that specifies the portion of this bitmap to copy. |
 | *y* | The width of the rectangle that specifies the portion of this bitmap to copy. |
 | *nWidth* | The y-coordinate of the upper-left corner of the rectangle that specifies the portion of this bitmap to copy. |
-| *nHeight* | The height of the rectangle that specifies the portion of this image to copy. |
+| *nHeight* | The height of the rectangle that specifies the portion of the image to copy. |
 | *pxFormat* | Integer that specifies the pixel format of the new bitmap. The **PixelFormat** data type and constants that represent various pixel formats are defined in Gdipluspixelformats.h. |
 | *pCloneBitmap* | Pointer to the **Bitmap** object where to copy the contents of the existing object. |
 
