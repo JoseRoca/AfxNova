@@ -966,24 +966,21 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ```
 ' ========================================================================================
-' The following example creates an Image object based on a JPEG file. The code creates a
-' second Image object by cloning the first. Then the code calls the DrawImage method twice
-' to draw the two images.
+' The following example creates an Image object based on a JPEG file. The code calls the
+' RotateFlip method to rotate and flip the image 90 degrees.
 ' ========================================================================================
 SUB Example_RotateFlip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
-   DIM pImage AS CGpImage = "climber.jpg"
-   graphics.DrawImage(@pImage, 10, 10, pImage.GetWidth, pImage.GetHeight)
-   pImage.RotateFlip(Rotate90FlipY)
-   graphics.DrawImage(@pImage, 220, 10, pImage.GetWidth, pImage.GetHeight)
+   DIM image AS CGpBitmap = "climber.jpg"
+   graphics.DrawImage(@image, 10, 10, image.GetWidth, image.GetHeight)
+   image.SetResolutionForDpi
+   image.RotateFlip(Rotate90FlipY)
+   graphics.DrawImage(@image, 220, 10, image.GetWidth, image.GetHeight)
 
 END SUB
 ' ========================================================================================
