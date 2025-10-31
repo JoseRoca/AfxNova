@@ -603,6 +603,43 @@ FUNCTION GetFrameCount (BYVAL dimensionID AS GUID PTR) AS UINT
 | ---------- | ----------- |
 | *dimensionID* | Pointer to a GUID that specifies the dimension. GUIDs that identify various dimensions are defined in Gdiplusimaging.inc. |
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+#INCLUDE ONCE "AfxNova/AfxCOM.inc"
+USING AfxNova
+
+' ========================================================================================
+' Gets the number of frames in a specified dimension of this Image object.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "MultiFrame.tiff"
+
+' // How many frame dimensions does the Image object have?
+DIM nCount AS UINT = image.GetFrameDimensionsCount
+PRINT "The number of dimensions is " & STR(nCount)
+
+' // Get the list of frame dimensions from the Image object.
+DIM rgDimensionIDs(nCount - 1) AS GUID
+image.GetFrameDimensionsList(@rgDimensionIDs(0), nCount)
+
+' // Display the GUID of the first (and only) frame dimension.
+DIM strGuid AS STRING = AfxGuidText(rgDimensionIDs(0))
+'   strGuid = AfxGuidText(rgDimensionIDs(0))
+PRINT "The first (and only) dimension ID is " & strGuid
+
+' // Get the number of frames in the first dimension.
+DIM frameCount AS UINT = image.GetFrameCount(@rgDimensionIDs(0))
+PRINT "The number of frames in that dimension is " & STR(frameCount)
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="getframedimensionscount"></a>GetFrameDimensionsCount (CGpImage)
@@ -623,6 +660,43 @@ A multiple-resolution image is an image that contains more than one copy of an i
 
 Windows GDI+ can support an arbitrary number of pages (or images, or frames), as well as an arbitrary number of resolutions.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+#INCLUDE ONCE "AfxNova/AfxCOM.inc"
+USING AfxNova
+
+' ========================================================================================
+' Gets the number of frame dimensions in the image object and the identifier of the frame.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "MultiFrame.tiff"
+
+' // How many frame dimensions does the Image object have?
+DIM nCount AS UINT = image.GetFrameDimensionsCount
+PRINT "The number of dimensions is " & STR(nCount)
+
+' // Get the list of frame dimensions from the Image object.
+DIM rgDimensionIDs(nCount - 1) AS GUID
+image.GetFrameDimensionsList(@rgDimensionIDs(0), nCount)
+
+' // Display the GUID of the first (and only) frame dimension.
+DIM strGuid AS STRING = AfxGuidText(rgDimensionIDs(0))
+'   strGuid = AfxGuidText(rgDimensionIDs(0))
+PRINT "The first (and only) dimension ID is " & strGuid
+
+' // Get the number of frames in the first dimension.
+DIM frameCount AS UINT = image.GetFrameCount(@rgDimensionIDs(0))
+PRINT "The number of frames in that dimension is " & STR(frameCount)
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="getframedimensionslist"></a>GetFrameDimensionsList (CGpImage)
@@ -654,6 +728,43 @@ A multiple-resolution image is an image that contains more than one copy of an i
 
 Windows GDI+ can support an arbitrary number of pages (or images, or frames), as well as an arbitrary number of resolutions.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+#INCLUDE ONCE "AfxNova/AfxCOM.inc"
+USING AfxNova
+
+' ========================================================================================
+' Get the list of frame dimensions from the Image object.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "MultiFrame.tiff"
+
+' // How many frame dimensions does the Image object have?
+DIM nCount AS UINT = image.GetFrameDimensionsCount
+PRINT "The number of dimensions is " & STR(nCount)
+
+' // Get the list of frame dimensions from the Image object.
+DIM rgDimensionIDs(nCount - 1) AS GUID
+image.GetFrameDimensionsList(@rgDimensionIDs(0), nCount)
+
+' // Display the GUID of the first (and only) frame dimension.
+DIM strGuid AS STRING = AfxGuidText(rgDimensionIDs(0))
+'   strGuid = AfxGuidText(rgDimensionIDs(0))
+PRINT "The first (and only) dimension ID is " & strGuid
+
+' // Get the number of frames in the first dimension.
+DIM frameCount AS UINT = image.GetFrameCount(@rgDimensionIDs(0))
+PRINT "The number of frames in that dimension is " & STR(frameCount)
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="getheight"></a>GetHeight (CGpImage)
