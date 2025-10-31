@@ -2056,7 +2056,7 @@ DIM rguid AS GUID
 hStatus = GdipGetImageRawFormat(image, @rguid)
 
 ' // Get the number of properties
-DIm count AS UINT
+DIM count AS UINT
 hStatus = GdipGetPropertyCount(image, @count)
 PRINT "Number of properties =" & STR(count)
 
