@@ -561,6 +561,11 @@ DIM image AS CGpImage = "climber.jpg"
 DIM flags AS UINT = image.GetFlags
 PRINT "Image flags &h" & HEX(flags)
 
+' // Interpret the flags
+IF (flags AND ImageFlagsHasAlpha) THEN PRINT "Has Alpha Channel"
+IF (flags AND ImageFlagsHasRealDPI) THEN PRINT "Has real DPI"
+' ... etc.
+
 PRINT
 PRINT "Press any key"
 SLEEP
