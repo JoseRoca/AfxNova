@@ -919,6 +919,30 @@ Gets the number of properties (pieces of metadata) stored in an **Image** object
 ```
 FUNCTION GetPropertyCount () AS UINT
 ```
+
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' The following example retrieves the property count of an image.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the property count
+DIM count AS UINT = image.GetPropertyCount
+PRINT "Property count: " & WSTR(count)
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 # <a name="getpropertyiidlist"></a>GetPropertyIdList (CGpImage)
