@@ -859,29 +859,30 @@ A thumbnail image is a small copy of an image. Some image files have a thumbnail
 
 ```
 ' ========================================================================================
-' The following example creates an Image object based on a metafile and then draws the image.
-' Next, the code calls the Image.GetBounds method to get the bounding rectangle for the image.
-' The code makes two attempts to display 75 percent of the image. The first attempt fails
-' because it specifies (0, 0) for the upper-left corner of the source rectangle. The second
-' attempt succeeds because it uses the X and Y data members returned by Image.GetBounds to
-' specify the upper-left corner of the source rectangle.
+' The following example creates a Bitmap object based on a JPEG file. The code calls the
+' Bitmao.GetThumbnailImage method of that Bitmap object and then displays the thumbnail image
+' along with the main image.
 ' ========================================================================================
 SUB Example_GetThumbnailImage (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
-   DIM pImage AS CGpImage = "climber.jpg"
-   DIM pThumbnail AS CGpImage
-   pImage.GetThumbnailImage(40, 40, @pThumbnail)
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
 
-   graphics.DrawImage(@pImage, 10, 10, pImage.GetWidth, pImage.GetHeight)
-   graphics.DrawImage(@pThumbnail, 220, 10, pThumbnail.GetWidth, pThumbnail.GetHeight)
+   ' // Get a thumbnail of the image of the spicified width and height
+   DIM thumbnail AS CGpBitmap
+   bmp.GetThumbnailImage(70, 50, @thumbnail)
+
+   ' // Draw the original image
+   graphics.DrawImage(@bmp, 10, 10)
+   ' // Draw the thumbnail image
+   graphics.DrawImage(@thumbnail, 220, 10)
 
 END SUB
 ' ========================================================================================
@@ -966,7 +967,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ```
 ' ========================================================================================
-' The following example creates an Image object based on a JPEG file. The code calls the
+' The following example creates a Bitmap object based on a JPEG file. The code calls the
 ' RotateFlip method to rotate and flip the image 90 degrees.
 ' ========================================================================================
 SUB Example_RotateFlip (BYVAL hdc AS HDC)
@@ -976,11 +977,17 @@ SUB Example_RotateFlip (BYVAL hdc AS HDC)
    ' // Set the scaling factors using the DPI ratios
    graphics.ScaleTransformForDpi
 
+   ' // Create a Bitmap object from a JPEG file.
    DIM image AS CGpBitmap = "climber.jpg"
-   graphics.DrawImage(@image, 10, 10, image.GetWidth, image.GetHeight)
+   ' // Set the resolution of the image using the DPI ratios
    image.SetResolutionForDpi
+   ' // Draw the bitmap
+   graphics.DrawImage(@image, 10, 10)
+
+   ' // Rotate and flip the birmap 90 degrees
    image.RotateFlip(Rotate90FlipY)
-   graphics.DrawImage(@image, 220, 10, image.GetWidth, image.GetHeight)
+   ' // Draw the rotated bitmap
+   graphics.DrawImage(@image, 220, 10)
 
 END SUB
 ' ========================================================================================
@@ -1000,6 +1007,7 @@ SUB Example_RotateFlipMetafile (BYVAL hdc AS HDC)
    ' // Set the scaling factors using the DPI ratios
    graphics.ScaleTransformForDpi
 
+   ' // Create a Metafile object from file.
    DIM image AS CGpBitmap = "SampleMetafile.emf"
 
    ' // Translate to rotation origin
