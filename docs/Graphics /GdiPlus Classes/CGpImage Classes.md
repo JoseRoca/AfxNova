@@ -1714,6 +1714,49 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 GDI+ does not allow you to save an image to the same file that you used to construct the image. The following code creates an **Image** object by passing the file name MyImage.jpg to an **Image** constructor. That same file name is passed to the **Save** method of the **Image** object, so the **Save** method fails.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' The following example retrieves the width of an image.
+' ========================================================================================
+
+' // Create two image objects.
+DIM image1 AS CGpImage = "Iron.jpg"
+DIM image2 AS CGpImage = "House.jpg"
+
+' // Create compound file
+DIM storage AS IStorage PTR
+DIM compoundFileName AS WSTRING * 260 = "CompoundFile.cmp"
+StgCreateDocfile(@compoundFileName, STGM_READWRITE OR STGM_CREATE OR STGM_SHARE_EXCLUSIVE, 0, @storage)
+
+' Create two streams
+DIM stream1 AS IStream PTR
+DIM stream2 AS IStream PTR
+DIM streamName1 AS WSTRING * 260 = "StreamImage1"
+DIM streamName2 AS WSTRING * 260 = "StreamImage2"
+storage->lpvtbl->CreateStream(storage, @streamName1, STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, 0, @stream1)
+storage->lpvtbl->CreateStream(storage, @streamName2, STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, 0, @stream2)
+
+' // Get encoder CLSIDs
+DIM jpgClsid AS CLSID = AfxGdipGetEncoderClsid("image/jpeg")
+DIM pngClsid AS CLSID = AfxGdipGetEncoderClsid("image/png")
+
+' // Save images to streams
+image1.Save(stream1, @jpgClsid, NULL)
+image2.Save(stream2, @pngClsid, NULL)
+
+PRINT "File saved"
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="saveadd"></a>SaveAdd (CGpImage)
