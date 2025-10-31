@@ -433,30 +433,56 @@ Then the bounding rectangle for the metafile will enclose that one ellipse. The 
 
 ```
 ' ========================================================================================
-' The following example creates an Image object based on a metafile and then draws the image.
+' The following example creates an Image object based on a file and then draws the image.
 ' Next, the code calls the Image.GetBounds method to get the bounding rectangle for the image
-' and redraws the a 75 per cent of the image.
+' and redraws a 75 per cent of the image.
 ' ========================================================================================
 SUB Example_GetBounds (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-'   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
-   DIM pImage AS CGpImage = "climber.jpg"
-   graphics.DrawImage(@pImage, 0, 0)
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+   graphics.DrawImage(@image, 10, 10)
 
-   ' // Get the bounding rectangle for the image (metafile).
-   DIM boundsRect AS GpRectF
-   DIM nUnit AS GpUnit
-   pImage.GetBounds(@boundsRect, @nUnit)
+   ' // Get the bounding rectangle for the image
+   DIM rcf AS GpRectF, unit AS GpUnit
+   image.GetBounds(@rcf, @unit)
 
    ' // Draw 75 percent of the image.
-   graphics.DrawImage(@pImage, 350.0, 0.0, boundsRect.X, boundsRect.Y, 0.75 * boundsRect.Width, boundsRect.Height, UnitPixel)
+   graphics.DrawImage(@image, 200, 10, rcf.X, rcf.Y, 0.75 * rcf.Width, rcf.Height, unit)
+
+END SUB
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example creates an Image object based on a metafile and then draws the image.
+' Next, the code calls the Image.GetBounds method to get the bounding rectangle for the image
+' and redraws a 75 per cent of the image.
+' ========================================================================================
+SUB Example_GetBounds (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "SampleMetafile.emf"
+   graphics.DrawImage(@image, 10, 10)
+
+   ' // Get the bounding rectangle for the image
+   DIM rcf AS GpRectF, unit AS GpUnit
+   image.GetBounds(@rcf, @unit)
+
+   ' // Draw 75 percent of the image.
+   graphics.DrawImage(@image, 200, 10, rcf.X, rcf.Y, 0.75 * rcf.Width, rcf.Height, unit)
 
 END SUB
 ' ========================================================================================
