@@ -26,9 +26,9 @@ DIM token AS ULONG_PTR = AfxGdipInit
 DIM image AS GpImage PTR
 hStatus = GdipLoadImageFromFile("climber.jpg", @image)
 
-' // Get the width and height of the image
+' // Get the image flags
 DIM flags AS UINT
-hStatus = GdipGetImageFlags (image, @flags)
+hStatus = GdipGetImageFlags(image, @flags)
 PRINT "Image flags &h" & HEX(flags)
 
 ' // Cleanup
