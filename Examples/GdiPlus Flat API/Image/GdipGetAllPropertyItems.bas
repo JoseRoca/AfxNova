@@ -3,7 +3,7 @@
 ' File: GdipGetAllPropertyItems.bas
 ' Contents: GDI+ Flat API - GdipGetAllPropertyItems example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -15,7 +15,7 @@
 
 ' ========================================================================================
 ' The following example creates an Image object based on a JPEG file. The code calls the
-' GdipGetAllPropertyItems functionto obtain its property items (metadata).
+' GdipGetAllPropertyItems function to obtain its property items (metadata).
 ' ========================================================================================
 
 '#CONSOLE ON
@@ -87,3 +87,4 @@ PRINT "Press any key"
 SLEEP
 
 ' ========================================================================================
+
