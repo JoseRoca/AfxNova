@@ -802,6 +802,10 @@ FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS SINGLE, BYVAL y AS 
    BYVAL srcUnit AS GpUnit) AS GpStatus
 FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS INT_, BYVAL y AS INT_, BYVAL srcx AS INT_, _
    BYVAL srcy AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL srcUnit AS GpUnit) AS GpStatus
+FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS SINGLE, BYVAL y AS SINGLE, _
+   BYVAL srcrect AS GpRectF PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
+FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS INT_, BYVAL y AS INT_, _
+   BYVAL srcrect AS GpRect PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
 FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL destRect AS GpRectF PTR, _
    BYVAL sourceRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit, _
    BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL) AS GpStatus
