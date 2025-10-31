@@ -962,6 +962,30 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' The following example retrieves the width and height of an image.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the width and height of the image
+DIM sizef AS GpSizeF = image.GetPhysicalDimension
+PRINT "Image width: " & WSTR(sizef.Width)
+PRINT "Image height: " & WSTR(sizef.Height)
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="getpixelformat"></a>GetPixelFormat (CGpImage)
