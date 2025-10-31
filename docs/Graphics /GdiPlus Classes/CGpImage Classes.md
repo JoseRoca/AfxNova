@@ -1083,6 +1083,29 @@ FUNCTION GetType () AS ImageType
 
 This method returns an element of the ImageType enumeration that indicates the image type.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' The following example gets the type (bitmap or metafile) of an Image object.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the type of the image
+DIM imageType AS LONG = image.GetType
+IF imageType = ImageTypeBitmap THEN PRINT "The type of image is ImageTypeBitmap"
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="getverticalresolution"></a>GetVerticalResolution (CGpImage)
