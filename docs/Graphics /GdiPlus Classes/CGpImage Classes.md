@@ -950,12 +950,12 @@ SLEEP
 Gets a list of the property identifiers used in the metadata of an **Image** object.
 
 ```
-FUNCTION GetPropertyIdList (BYVAL numOfProperty AS UINT, BYVAL list AS PROPID PTR) AS GpStatus
+FUNCTION GetPropertyIdList (BYVAL numOfProperties AS UINT, BYVAL list AS PROPID PTR) AS GpStatus
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *numOfProperty* | Integer that specifies the number of elements in the list array. Call the **GetPropertyCount** method to determine this number. |
+| *numOfProperties* | Integer that specifies the number of elements in the list array. Call the **GetPropertyCount** method to determine this number. |
 | *list* | Pointer to an array that receives the property identifiers. |
 
 #### Return value
@@ -968,6 +968,41 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 The **GetPropertyIdList** method returns an array of **PROPIDs**. Before you call **GetPropertyIdList**, you must allocate a buffer large enough to receive that array. You can call the **GetPropertyCount** method of an **Image** object to determine the size of the required buffer. The size of the buffer should be the return value of **GetPropertyCount** multiplied by **SIZEOF(PROPID)**.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+#INCLUDE ONCE "AfxNova/AfxCOM.inc"
+USING AfxNova
+
+' ========================================================================================
+' Gets a list of the property identifiers used in the metadata of an Image object.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the pixel format
+DIM rguid AS GUID = image.GetRawFormat
+PRINT "Gud: " & AfxGuidText(rguid)
+
+' // Get the number of properties
+DIM count AS UINT = Image.GetPropertyCount
+PRINT "Number of properties = " & STR(count)
+
+' // Get the list of properties
+DIM propIDs(count - 1) AS PROPID
+image.GetPropertyIdList(count, @propIDs(0))
+FOR i AS LONG = 0 TO count - 1
+   PRINT "PROPID: &h" & HEX(propIDs(i))
+NEXT
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 # <a name="getpropertyitem"></a>GetPropertyItem (CGpImage)
