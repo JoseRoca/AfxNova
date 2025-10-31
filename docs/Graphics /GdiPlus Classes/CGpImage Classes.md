@@ -790,10 +790,6 @@ USING AfxNova
 ' // Create a Bitmap object from a JPEG file.
 DIM image AS CGpImage = "climber.jpg"
 
-' // Get the image flags
-DIM flags AS UINT = image.GetFlags
-PRINT "Image flags &h" & HEX(flags)
-
 ' // Get the height of the image
 DIM nHeight AS UINT = image.GetHeight
 PRINT "Image height: " & WSTR(nHeight)
@@ -1104,6 +1100,30 @@ Gets the width, in pixels, of this image
 
 ```
 FUNCTION GetWidth () AS UINT
+```
+
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' The following example retrieves the width of an image.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the width of the image
+DIM nWidth AS UINT = image.GetWidth
+PRINT "Image width: " & WSTR(nWidth)
+
+PRINT
+PRINT "Press any key"
+SLEEP
 ```
 ---
 
