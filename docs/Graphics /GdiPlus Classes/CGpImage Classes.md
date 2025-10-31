@@ -217,6 +217,8 @@ END SUB
 
 This version is DPI aware. The coordinates will be scaled and the image will be displayed with the same relative size regardless of the DPI of the image. As the **SetResolution** and **SetResolutionForDpi** methods aren't available in the `CGpImage` class, we must use the `CGpBitmap` class.
 
+**Tip**: Always normalize image resolution when displaying multiple images. It’s the only way to guarantee consistent rendering size and layout across devices and formats.
+
 ```
 ' ========================================================================================
 ' The following example creates an Image object based on a JPEG file. Then the code calls
