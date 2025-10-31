@@ -812,7 +812,7 @@ FUNCTION GetHorizontalResolution () AS SINGLE
 
 ```
 ' ========================================================================================
-' The following example retrieves the the horizontal resolution, in dots per inch, of an image.
+' The following example retrieves the horizontal resolution, in dots per inch, of an image.
 ' ========================================================================================
 
 ' // Create a Bitmap object from a JPEG file.
@@ -1133,6 +1133,30 @@ Gets the vertical resolution, in dots per inch, of this image.
 
 ```
 FUNCTION GetVerticalResolution () AS SINGLE
+```
+
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' The following example retrieves the the vertical resolution, in dots per inch, of an image.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the vertical resolution of the image
+DIM resolution AS SINGLE = image.GetVerticalResolution
+PRINT "The vertical resolution is " & STR(resolution) & " dots per inch"
+
+PRINT
+PRINT "Press any key"
+SLEEP
 ```
 ---
 
