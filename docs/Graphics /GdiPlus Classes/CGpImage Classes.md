@@ -26,7 +26,7 @@ While it can be used directly, it is not recommended for most scenarios because 
 | [GetFrameDimensionsCount](#getframedimensionscount) | Gets the number of frame dimensions in this Image object. |
 | [GetFrameDimensionsList](#getframedimensionslist) | Gets the identifiers for the frame dimensions of this Image object. |
 | [GetHeight](#getheight) | Gets the image height, in pixels, of this image. |
-| [GetHorizontalResolution](#GetHorizontalResolution) | Gets the horizontal resolution, in dots per inch, of this image. |
+| [GetHorizontalResolution](#gethorizontalresolution) | Gets the horizontal resolution, in dots per inch, of this image. |
 | [GetItemData](#getitemdata) | Gets one piece of metadata from this Image object. |
 | [GetPalette](#getpalette) | Gets the **ColorPalette** of this Image object. |
 | [GetPaletteSize](#getpalettesize) | Gets the size, in bytes, of the color palette of this Image object. |
@@ -806,6 +806,25 @@ Gets the horizontal resolution, in dots per inch, of this image.
 
 ```
 FUNCTION GetHorizontalResolution () AS SINGLE
+```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example retrieves the the horizontal resolution, in dots per inch, of an image.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the width of the image
+DIM resolution AS SINGLE = image.GetHorizontalResolution
+PRINT "The horizontal resolution is " & STR(resolution) & " dots per inch"
+
+PRINT
+PRINT "Press any key"
+SLEEP
 ```
 ---
 
