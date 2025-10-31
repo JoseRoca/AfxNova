@@ -542,6 +542,29 @@ FUNCTION GetFlags () AS UINT
 
 This method returns a value that holds a set of single-bit flags. The flags are defined in the **ImageFlags** enumeration.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' The following example retrieves the flags of an image.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the image flags
+DIM flags AS UINT = image.GetFlags
+PRINT "Image flags &h" & HEX(flags)
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="getframecount"></a>GetFrameCount (CGpImage)
