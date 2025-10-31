@@ -1061,6 +1061,44 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Windows GDI+ stores an individual piece of metadata in a **PropertyItem** structure. The **GetAllPropertyItems** method returns an array of **PropertyItem** structures. Before you call **GetAllPropertyItems**, you must allocate a buffer large enough to receive that array. You can call the **GetPropertySize** method of an **Image** object to get the size, in bytes, of the required buffer. The **GetPropertySize** method also gives you the number of properties (pieces of metadata) in the image.
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/AfxGdiPlus.inc"
+
+' ========================================================================================
+' Gets the total size, in bytes, of all the property items stored in an Image object.
+' It also gets the number of property items stored in the Image object.
+' ========================================================================================
+
+DIM hStatus AS LONG
+
+' // Initialize GDI+
+DIM token AS ULONG_PTR = AfxGdipInit
+
+' // Load the original image from file
+DIM image AS GpImage PTR
+hStatus = GdipLoadImageFromFile("BERRY_Halle_01.jpg", @image)
+
+DIM AS UINT totalBufferSize, numProperties
+hStatus = GdipGetPropertySize(image, @totalBufferSize, @numProperties)
+IF hStatus = StatusOK THEN
+   print "Total buffer size: " & WSTR(totalBufferSize)
+   print "Number of properties: " & WSTR(numProperties)
+END IF
+
+' // Cleanup
+IF image THEN GdipDisposeImage(image)
+
+' // Shutdown GDI+
+AfxGdipShutdown token
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 ---
 
 ## <a name="getrawformat"></a>GetRawFormat (CGpImage)
