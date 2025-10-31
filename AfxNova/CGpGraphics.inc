@@ -308,6 +308,19 @@ PRIVATE FUNCTION CGpGraphics.ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SIN
    RETURN SetStatus(GdipScaleWorldTransform(m_pGraphics, sx, sy, order))
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+' * Updates this Graphic object's current transformation matrix with the product of itself
+' and a scaling matrix. Uses the DPI settings to set the horizontal and vertical scaling
+' factors in the scaling matrix.
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpGraphics.ScaleTransformForDpi (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+   ' // Get the DPI scaling ratios
+   DIM sx AS SINGLE = this.GetDpiX / 96
+   DIM sy AS SINGLE = this.GetDpiY / 96
+   RETURN SetStatus(GdipScaleWorldTransform(m_pGraphics, sx, sy, order))
+END FUNCTION
+' ========================================================================================
 
 ' ========================================================================================
 ' Resets the transformation matrix of this Graphic o0bject to the identity matrix. This
@@ -1061,7 +1074,7 @@ END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CGpGraphics.DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS SINGLE, BYVAL y AS SINGLE, _
-   BYVAL srcx AS SINGLE, BYVAL srcy AS SINGLE, BYVAL srcwidth AS SINGLE, BYVAL srcheight AS SINGLE, BYVAL srcUnit AS gpUnit) AS GpStatus
+   BYVAL srcx AS SINGLE, BYVAL srcy AS SINGLE, BYVAL srcwidth AS SINGLE, BYVAL srcheight AS SINGLE, BYVAL srcUnit AS GpUnit) AS GpStatus
    RETURN SetStatus(GdipDrawImagePointRect(m_pGraphics, pImage->m_pImage, x, y, srcx, srcy, srcwidth, srcheight, srcUnit))
 END FUNCTION
 ' ========================================================================================
@@ -1069,6 +1082,18 @@ END FUNCTION
 PRIVATE FUNCTION CGpGraphics.DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS INT_, BYVAL y AS INT_, _
    BYVAL srcx AS INT_, BYVAL srcy AS INT_, BYVAL srcwidth AS INT_, BYVAL srcheight AS INT_, BYVAL srcUnit AS gpUnit) AS GpStatus
    RETURN SetStatus(GdipDrawImagePointRectI(m_pGraphics, pImage->m_pImage, x, y, srcx, srcy, srcwidth, srcheight, srcUnit))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpGraphics.DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS SINGLE, BYVAL y AS SINGLE, _
+   BYVAL srcrect AS GpRectF PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
+   RETURN SetStatus(GdipDrawImagePointRect(m_pGraphics, pImage->m_pImage, x, y, srcrect->x, srcrect->y, srcrect->Width, srcrect->Height, srcUnit))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpGraphics.DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS INT_, BYVAL y AS INT_, _
+   BYVAL srcrect AS GpRect PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
+   RETURN SetStatus(GdipDrawImagePointRectI(m_pGraphics, pImage->m_pImage, x, y, srcrect->x, srcrect->y, srcrect->width, srcrect->height, srcUnit))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
