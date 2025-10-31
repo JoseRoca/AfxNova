@@ -1220,7 +1220,7 @@ DIM token AS ULONG_PTR = AfxGdipInit
 DIM image AS GpImage PTR
 hStatus = GdipLoadImageFromFile("climber.jpg", @image)
 
-' // Get the width of the image
+' // Get the height of the image
 DIM nHeight AS UINT
 hStatus = GdipGetImageHeight(image, @nHeight)
 PRINT "Image height: " & WSTR(nHeight)
