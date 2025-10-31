@@ -2133,6 +2133,7 @@ ELSE
 END IF
 
 ' // Cleanup
+IF buffer THEN Deallocate buffer
 IF image THEN GdipDisposeImage(image)
 
 ' // Shutdown GDI+
