@@ -985,6 +985,34 @@ SUB Example_RotateFlip (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+Because metafiles are a list of drawing commands, not a raster representation, **RotateFlip** can't be used with them. A simulation can be doneusing the **TranslateTransform** and **RotateTransform** methods.
+
+```
+' ========================================================================================
+' The following example creates an Image object based on a metafile. The code calls the
+' TranslateTransform and RotateTransform methods to rotate and flip the image 90 degrees.
+' ========================================================================================
+SUB Example_RotateFlipMetafile (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "SampleMetafile.emf"
+
+   ' // Translate to rotation origin
+   graphics.TranslateTransform(250, 10) ' Adjust as needed
+
+   ' // Rotate 90 degrees clockwise
+   graphics.RotateTransform(90)
+
+   graphics.DrawImage(@image, 0, 0)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="Save"></a>save (CGpImage)
