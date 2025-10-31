@@ -863,6 +863,7 @@ FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL destPoints AS GpPoint PT
 | *srcy* | The y-coordinate of the upper-left corner of the portion of the source image to be drawn. |
 | *srcwidth* | The width of the portion of the source image to be drawn. |
 | *srcheight* | The height of the portion of the source image to be drawn. |
+| *srcrect* | The coordinates, width and height of the portion of the source image to be drawn. |
 | *srcUnit* | Element of the Unit enumeration that specifies the unit of measure for the image. The default value is **UnitPixel**. |
 | *destPoints* | Pointer to an array of **GpPointF** objects that specify the area, in a parallelogram, in which to draw the image. |
 | *nCount* | Integer that specifies the number of elements in the *destPoints* array. |
