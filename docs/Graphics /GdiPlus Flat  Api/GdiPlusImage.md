@@ -2251,6 +2251,7 @@ PRINT
 PRINT "Press any key"
 SLEEP
 ```
+---
 
 ## GdipImageRotateFlip
 
