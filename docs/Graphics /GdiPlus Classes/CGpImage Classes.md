@@ -1023,7 +1023,7 @@ END SUB
 ```
 ---
 
-## <a name="Save"></a>save (CGpImage)
+## <a name="save"></a>Save (CGpImage)
 
 Saves this image to a file.
 
