@@ -1018,6 +1018,24 @@ FUNCTION GetPropertyItemSize (BYVAL propId AS PROPID) AS UINT
 | ---------- | ----------- |
 | *propId* | Integer that identifies the property item. |
 
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/CGdiPlus.inc"
+USING AfxNova
+
+' ========================================================================================
+' Gets a specified property item (piece of metadata) from an image.
+' ========================================================================================
+
+' // Create a Bitmap object from a JPEG file.
+DIM image AS CGpImage = "climber.jpg"
+
+' // Get the size of the specified property item.
+DIM itemSize AS UINT = image.GetPropertyItemSize(PropertyTagLuminanceTable)
+```
 ---
 
 ## <a name="getpropertysize"></a>GetPropertySize (CGpImage)
