@@ -991,11 +991,34 @@ The **ImageCodecFlags** enumeration indicates attributes of an image codec.
 
 Specifies the attributes of the pixel data contained in an image. The **GdipGetImageFlags** function returns an element of this enumeration.
 
+| Name  | Value | Description |
+| ----- | ----- | ----------- |
+| *ImageFlagsNone* | 0 | Specifies no format information. |
+| *ImageFlagsScalable* | &h0001 | Specifies that the image can be scaled. |
+| *ImageFlagsHasAlpha* | &h0002 | Specifies that the pixel data contains alpha values. |
+| *ImageFlagsHasTranslucent* | &h0004 | Specifies that the pixel data has alpha values other than 0 (transparent) and 255 (opaque). |
+| *ImageFlagsPartiallyScalable* | &h0008 | Specifies that the pixel data is partially scalable with some limitations. |
+| *ImageFlagsColorSpaceRGB* | &h0010 | Specifies that the image is stored using an RGB color space. |
+| *ImageFlagsColorSpaceCMYK* | &h0020 | Specifies that the image is stored using a CMYK color space. |
+| *ImageFlagsColorSpaceGRAY* | &h0040 | Specifies that the image is a grayscale image. |
+| *ImageFlagsColorSpaceYCBCR* | &h0080 | Specifies that the image is stored using a YCBCR color space. |
+| *ImageFlagsColorSpaceYCCK* | &h0100 | Specifies that the image is stored using a YCCK color space. |
+| *ImageFlagsHasRealDPI* | &h1000 | Specifies that dots per inch information is stored in the image. |
+| *ImageFlagsHasRealPixelSize* | &h2000 | Specifies that the pixel size is stored in the image. |
+| *ImageFlagsReadOnly* | &h00010000 | Specifies that the pixel data is read-only. |
+| *ImageFlagsCaching* | &h00020000 | Specifies that the pixel data can be cached for faster access. |
+
 ---
 
 ## ImageLockMode
 
 Specifies flags that are passed to the flags parameter of the **GdipBitmapLockBits** function. The GdipBitmapLockBits function locks a portion of an image so that you can read or write the pixel data.
+
+| Name  | Value | Description |
+| ----- | ----- | ----------- |
+| *ImageLockModeRead* | &h0001 | Specifies that a portion of the image is locked for reading. |
+| *ImageLockModeWrite* | &h0002 | Specifies that a portion of the image is locked for writing. |
+| *ImageLockModeUserInputBuf* | &h0004 | Specifies that the buffer used for reading or writing pixel data is allocated by the user. If this flag is set, then the *lockedBitmapData* parameter of the **GdipBitmapLockBits** method serves as an input parameter (and possibly as an output parameter). If this flag is cleared, then the *lockedBitmapData* parameter serves only as an output parameter. |
 
 ---
 
