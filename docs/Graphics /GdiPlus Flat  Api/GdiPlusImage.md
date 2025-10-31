@@ -2036,7 +2036,13 @@ FUNCTION GdipGetPropertyIdList (BYVAL image AS GpImage PTR, BYVAL numOfProperty 
 | *numOfProperty* | [in] Integer that specifies the number of elements in the list array. Call the **GetPropertyCount** method to determine this number. |
 | *list* | [out] Pointer to an array that receives the property identifiers. |
 
+#### Example
+
 ```
+' ========================================================================================
+' Gets a list of the property identifiers used in the metadata of an Image object.
+' ========================================================================================
+
 '#CONSOLE ON
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/AfxGdiPlus.inc"
