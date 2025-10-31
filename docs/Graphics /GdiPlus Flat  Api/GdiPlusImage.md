@@ -39,6 +39,7 @@ The **Image** functions allow loading and saving raster images (bitmaps) and vec
 | [GdipImageGetFrameCount](#gdipimagegetframecount) | Gets the number of frames in a specified dimension of an image. |
 | [GdipImageGetFrameDimensionsCount](#gdipimagegetframedimensionscount) | Gets the number of frame dimensions in an image. |
 | [GdipImageGetFrameDimensionsList](#gdipimagegetframedimensionslist) | Gets the identifiers for the frame dimensions of an image. |
+| [GdipGetPropertySize](#gdipgetpropertysize) | Gets the total size, in bytes, of all the property items stored in an **Image** object and also the number of property items stored in the **Image** object. |
 | [GdipImageRotateFlip](#gdipimagerotateflip) | Rotates and flips the image. |
 | [GdipImageSelectActiveFrame](#gdipimageselectactiveframe) | Selects the frame in the **Image** object specified by a dimension and an index. |
 | [GdipImageSetAbort](#gdipimagesetabort) | Sets an application-defined function that is called periodically by Windows GDI+ during time-consuming rendering operations. |
@@ -2194,6 +2195,62 @@ PRINT "Press any key"
 SLEEP
 ```
 ---
+
+## GdipGetPropertySize
+
+The **GdipGetPropertySize** function gets the total size, in bytes, of all the property items stored in an **Image** object. It also also gets the number of property items stored in the **Image** object.
+
+```
+FUNCTION GdipGetPropertySize (BYVAL image AS GpImage PTR, BYVAL totalBufferSize AS UINT PTR, _
+   BYVAL numProperties AS UINT PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *image* | [in] Pointer to the **Image** object. |
+| *totalBufferSize* | [out] Pointer to a UINT that receives the total size, in bytes, of all the property items. |
+| *numProperties* | [out] Pointer to a UINT that receives the number of property items. |
+
+#### Example
+
+```
+'#CONSOLE ON
+#define _WIN32_WINNT &h0602
+#INCLUDE ONCE "AfxNova/AfxGdiPlus.inc"
+#INCLUDE ONCE "AfxNova/AfxCOM.inc"
+USING AfxNova
+
+' ========================================================================================
+' Gets the total size, in bytes, of all the property items stored in an Image object.
+' It also gets the number of property items stored in the Image object.
+' ========================================================================================
+
+DIM hStatus AS LONG
+
+' // Initialize GDI+
+DIM token AS ULONG_PTR = AfxGdipInit
+
+' // Load the original image from file
+DIM image AS GpImage PTR
+hStatus = GdipLoadImageFromFile("BERRY_Halle_01.jpg", @image)
+
+DIM AS UINT totalBufferSize, numProperties
+hStatus = GdipGetPropertySize(image, @totalBufferSize, @numProperties)
+IF hStatus = StatusOK THEN
+   print "Total buffer size: " & WSTR(totalBufferSize)
+   print "Number of properties: " & WSTR(numProperties)
+END IF
+
+' // Cleanup
+IF image THEN GdipDisposeImage(image)
+
+' // Shutdown GDI+
+AfxGdipShutdown token
+
+PRINT
+PRINT "Press any key"
+SLEEP
+```
 
 ## GdipImageRotateFlip
 
