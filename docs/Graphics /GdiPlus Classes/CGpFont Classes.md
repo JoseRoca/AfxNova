@@ -185,14 +185,11 @@ SUB Example_CloneFont (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object.
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
    ' // Create a clone of the Font object
    DIM cloneFont AS CGpFont
@@ -238,21 +235,18 @@ SUB Example_GetFamily (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object.
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
    ' // Get the FontFamily of myFont.
    DIM fontFamily AS CGpFontFamily
    font.GetFamily(@fontFamily)
 
    ' // Create a new Font object from fontFamily.
-   DIM familyFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM familyFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw Text with familyFont
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
@@ -330,14 +324,11 @@ SUB Example_GetHeight (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object.
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw text with myFont.
    DIM solidbrush_1 AS CGpSolidBrush = ARGB_BLACK
@@ -389,14 +380,11 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
    ' // Get attributes of font
    DIM logFont AS LOGFONTA
@@ -428,14 +416,11 @@ SUB Example_GetLogFontW (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
    ' // Get attributes of font
    DIM logFont AS LOGFONTW
@@ -479,14 +464,11 @@ SUB Example_GetSize (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
    ' // Get the size of font
    DIM size AS SINGLE = font.GetSize
@@ -528,20 +510,17 @@ SUB Example_GetStyle (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio, FontStyleItalic)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE)), FontStyleItalic)
 
    ' // Get the style of font
    DIM style AS SINGLE = font.GetStyle
 
    ' // Create a second Font object with the same emSize as myFont.
-   DIM styleFont AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(20) / rxRatio, style)
+   DIM styleFont AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(20, TRUE)), style)
 
    ' // Draw text using sizeFont
    DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
@@ -577,14 +556,11 @@ SUB Example_GetUnit (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(12) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(12, TRUE))
 
    ' // Get the unit of measure for font
    DIM unit AS GpUnit = font.GetUnit
@@ -624,14 +600,11 @@ SUB Example_IsAvailable (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(18) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(18, TRUE))
 
    ' // Check whether font is available
    DIM available AS BOOLEAN = font.IsAvailable
@@ -796,11 +769,8 @@ SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM arialFontFamily AS CGpFontFamily = "arial"
@@ -808,7 +778,7 @@ SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
    ' // Clone the FontFamily object and use it to create a Font object
    DIM cloneFontFamily AS CGpFontFamily
    arialFontFamily.Clone(@cloneFontFamily)
-   DIM arialFont AS CGpFont = CGpFont(@cloneFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM arialFont AS CGpFont = CGpFont(@cloneFontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw text using the new font
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
@@ -848,16 +818,13 @@ SUB Example_GenericMonospace (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Use a generic monospace FontFamily object to create a Font object.
    DIM fontFamily AS CGpFontFamily
    fontFamily.GenericMonospace(@fontFamily)
-   DIM genericMonoFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM genericMonoFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw text using the new font
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
@@ -897,16 +864,13 @@ SUB Example_GenericSansSerif (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Use a generic sans serif FontFamily object to create a Font object.
    DIM fontFamily AS CGpFontFamily
    fontFamily.GenericSansSerif(@fontFamily)
-   DIM genericSansSerifFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM genericSansSerifFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw text using the new font
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
@@ -946,16 +910,13 @@ SUB Example_GenericSerif (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Use a generic serif FontFamily object to create a Font object.
    DIM fontFamily AS CGpFontFamily
    fontFamily.GenericSerif(@fontFamily)
-   DIM genericSerifFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM genericSerifFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw text using the new font
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
@@ -993,11 +954,8 @@ SUB Example_GetCellAscent (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM ascentFontFamily AS CGpFontFamily = "arial"
@@ -1007,7 +965,7 @@ SUB Example_GetCellAscent (BYVAL hdc AS HDC)
 
    ' // Copy the cell ascent into a string and draw the string
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-   DIM font AS CGpFont = CGpFont(@ascentFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont(@ascentFontFamily, AfxGdipPointsToPixels(16, TRUE))
    DIM wszText AS WSTRING * 260
    wszText = "ascentFontFamily.GetCellAscent() returns " & STR(cellAscent)
    graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
@@ -1044,11 +1002,8 @@ SUB Example_GetCellDescent (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM descentFontFamily AS CGpFontFamily = "arial"
@@ -1058,7 +1013,7 @@ SUB Example_GetCellDescent (BYVAL hdc AS HDC)
 
    ' // Copy the cell descent into a string and draw the string
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-   DIM font AS CGpFont = CGpFont(@descentFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont(@descentFontFamily, AfxGdipPointsToPixels(16, TRUE))
    DIM wszText AS WSTRING * 260
    wszText = "ascentFontFamily.GetCellAscent() returns " & STR(cellDescent)
    graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
@@ -1095,11 +1050,8 @@ SUB Example_GetEmHeight (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM emHeightFontFamily AS CGpFontFamily = "arial"
@@ -1109,7 +1061,7 @@ SUB Example_GetEmHeight (BYVAL hdc AS HDC)
 
    ' // Copy the height into a string and draw the string.
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-   DIM font AS CGpFont = CGpFont(@emHeightFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont(@emHeightFontFamily, AfxGdipPointsToPixels(16, TRUE))
    DIM wszText AS WSTRING * 260
    wszText = "emHeightFontFamily.GetEmHeight() returns " & STR(emHeight)
    graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
@@ -1149,11 +1101,8 @@ SUB Example_GetFamilyName (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM nameFontFamily AS CGpFontFamily = "arial"
@@ -1164,7 +1113,7 @@ SUB Example_GetFamilyName (BYVAL hdc AS HDC)
 
    ' // Draw the family name
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-   DIM font AS CGpFont = CGpFont(@nameFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont(@nameFontFamily, AfxGdipPointsToPixels(16, TRUE))
    graphics.DrawString(@familyName, -1, @font, 0, 0, @solidbrush)
 
 END SUB
@@ -1199,11 +1148,8 @@ SUB Example_GetLineSpacing (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM lineSpacingFontFamily AS CGpFontFamily = "arial"
@@ -1213,7 +1159,7 @@ SUB Example_GetLineSpacing (BYVAL hdc AS HDC)
 
    ' // Copy the line spacing into a string and draw the string.
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-   DIM font AS CGpFont = CGpFont(@lineSpacingFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont(@lineSpacingFontFamily, AfxGdipPointsToPixels(16, TRUE))
    DIM wszText AS WSTRING * 260 = "lineSpacingFontFamily.GetLineSpacing() returns " & STR(lineSpacing)
    graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
 
@@ -1245,11 +1191,8 @@ SUB Example_IsAvailable (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM myFontFamily AS CGpFontFamily = "arial"
@@ -1260,7 +1203,7 @@ SUB Example_IsAvailable (BYVAL hdc AS HDC)
    ' // If myFontFamily is available, draw text.
    IF isAvailable THEN
       DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxGdipPointsToPixels(16, TRUE))
       DIM wszText AS WSTRING * 260 = "myFontFamily is available"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
    END IF
@@ -1301,11 +1244,8 @@ SUB Example_IsStyleAvailable (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM myFontFamily AS CGpFontFamily = "arial"
@@ -1316,7 +1256,7 @@ SUB Example_IsStyleAvailable (BYVAL hdc AS HDC)
    ' // If regular style is available, draw text.
    IF isStyleAvailable THEN
       DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxGdipPointsToPixels(16, TRUE))
       DIM wszText AS WSTRING * 260 = "myFontFamily is available in regular style"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
    END IF
