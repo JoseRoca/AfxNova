@@ -282,6 +282,7 @@ Public:
    DECLARE FUNCTION SaveAdd (BYVAL pNewImage AS CGpImage PTR, BYVAL encoderParams AS EncoderParameters PTR) AS GpStatus
    DECLARE FUNCTION GetType () AS ImageType
    DECLARE FUNCTION GetPhysicalDimension (BYVAL psize AS GpSizeF PTR) AS GpStatus
+   DECLARE FUNCTION GetPhysicalDimension () AS GpSizeF
    DECLARE FUNCTION GetBounds (BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
    DECLARE FUNCTION GetWidth () AS UINT
    DECLARE FUNCTION GetHeight () AS UINT
@@ -289,6 +290,7 @@ Public:
    DECLARE FUNCTION GetVerticalResolution () AS SINGLE
    DECLARE FUNCTION GetFlags () AS UINT
    DECLARE FUNCTION GetRawFormat (BYVAL guidformat AS GUID PTR) AS GpStatus
+   DECLARE FUNCTION GetRawFormat () AS GUID
    DECLARE FUNCTION GetPixelFormat () AS PixelFormat
    DECLARE FUNCTION GetPaletteSize () AS INT_
    DECLARE FUNCTION GetPalette (BYVAL pal AS ColorPalette PTR, BYVAL nSize AS INT_) AS GpStatus
@@ -344,7 +346,6 @@ Public:
    DECLARE FUNCTION Clone (BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
    DECLARE FUNCTION Clone (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight AS SINGLE, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
    DECLARE FUNCTION Clone (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight AS SINGLE, BYVAL pxFormat AS PixelFormat) AS CGpBitmap
-
    DECLARE FUNCTION Clone (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
    DECLARE FUNCTION Clone (BYVAL rcf AS GpRectF PTR, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
    DECLARE FUNCTION Clone (BYVAL rc AS GpRect PTR, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
@@ -359,7 +360,8 @@ Public:
    DECLARE FUNCTION InitializePalette (BYVAL colourPalette AS ColorPalette PTR, BYVAL nPaletteType AS PaletteType, BYVAL optimalColors AS INT_, BYVAL useTransparentColor AS BOOL, BYVAL pBitmap AS CGpBitmap PTR) AS GpStatus
    DECLARE FUNCTION GetHistogram (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries AS UINT, BYVAL channel0 AS UINT PTR, BYVAL channel1 AS UINT PTR, BYVAL channel2 AS UINT PTR, BYVAL channel3 AS UINT PTR) AS GpStatus
    DECLARE FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries AS UINT PTR) AS GpStatus
-
+   DECLARE FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat) AS UINT
+   
    ' // Effects
    DECLARE FUNCTION ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
       BYVAL useAuxData AS BOOLEAN, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
@@ -1022,6 +1024,10 @@ Public:
    DECLARE FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL destPoints AS GpPoint PTR, BYVAL nCount AS INT_) AS GpStatus
    DECLARE FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL srcx AS SINGLE, BYVAL srcy AS SINGLE, BYVAL srcwidth AS SINGLE, BYVAL srcheight AS SINGLE, BYVAL srcUnit AS gpUnit) AS GpStatus
    DECLARE FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS INT_, BYVAL y AS INT_, BYVAL srcx AS INT_, BYVAL srcy AS INT_, BYVAL srcwidth AS INT_, BYVAL srcheight AS INT_, BYVAL srcUnit AS gpUnit) AS GpStatus
+   DECLARE FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS SINGLE, BYVAL y AS SINGLE, _
+      BYVAL srcrect AS GpRectF PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
+   DECLARE FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL x AS INT_, BYVAL y AS INT_, _
+      BYVAL srcrect AS GpRect PTR, BYVAL srcUnit AS GpUnit) AS GpStatus
    DECLARE FUNCTION DrawImage (BYVAL pImage AS CGpImage PTR, BYVAL destRect AS GpRectF PTR, _
       BYVAL srcx AS SINGLE, BYVAL srcy AS SINGLE, BYVAL srcwidth AS SINGLE, BYVAL srcheight AS SINGLE, BYVAL srcUnit AS GpUnit, _
       BYVAL pImageAttributes AS CGpImageAttributes PTR = NULL, BYVAL pcallback AS DrawImageAbort = NULL, BYVAL pcallbackData AS ANY PTR = NULL) AS GpStatus

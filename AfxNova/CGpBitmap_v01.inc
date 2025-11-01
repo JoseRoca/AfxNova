@@ -54,21 +54,10 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' Creates an Image object from a resource file.
-' ========================================================================================
-PRIVATE CONSTRUCTOR CGpImage (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
-   m_pStream = AfxImageStreamFromRes(hInst, wszImageName)
-   IF m_pStream = 0 THEN EXIT CONSTRUCTOR
-   IF GdipLoadImageFromStream(m_pStream, @m_pImage) <> S_OK THEN m_pStream->lpVtbl->Release(m_pStream)
-END CONSTRUCTOR
-' ========================================================================================
-
-' ========================================================================================
 ' * Cleanup
 ' ========================================================================================
 PRIVATE DESTRUCTOR CGpImage
    IF m_pImage THEN GdipDisposeImage(m_pImage)
-   IF m_pStream THEN m_pStream->lpVtbl->Release(m_pStream)
 END DESTRUCTOR
 ' ========================================================================================
 
@@ -141,18 +130,11 @@ PRIVATE FUNCTION CGpImage.GetPhysicalDimension (BYVAL psize AS GpSizeF PTR) AS G
    RETURN SetStatus(GdipGetImageDimension(m_pImage, @psize->Width, @psize->Height))
 END FUNCTION
 ' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CGpImage.GetPhysicalDimension () AS GpSizeF
-   DIM sizef AS GpSizeF
-   SetStatus(GdipGetImageDimension(m_pImage, @sizef.Width, @sizef.Height))
-   RETURN sizef
-END FUNCTION
-' ========================================================================================
 
 ' ========================================================================================
 ' Gets the bounding rectangle for this image.
 ' ========================================================================================
-PRIVATE FUNCTION CGpImage.GetBounds (BYVAL srcRect AS GpRectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
+PRIVATE FUNCTION CGpImage.GetBounds (BYVAL srcRect AS RectF PTR, BYVAL srcUnit AS GpUnit PTR) AS GpStatus
    RETURN SetStatus(GdipGetImageBounds(m_pImage, srcRect, srcUnit))
 END FUNCTION
 ' ========================================================================================
@@ -213,13 +195,6 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CGpImage.GetRawFormat (BYVAL guidformat AS GUID PTR) AS GpStatus
    RETURN SetStatus(GdipGetImageRawFormat(m_pImage, guidformat))
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CGpImage.GetRawFormat () AS GUID
-   DIM guidformat AS GUID
-   SetStatus(GdipGetImageRawFormat(m_pImage, @guidformat))
-   RETURN guidformat
 END FUNCTION
 ' ========================================================================================
 
@@ -441,7 +416,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' Creates a Bitmap object based on a file.
+' Creates an Bitmap object based on a file.
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CGpBitmap (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
    IF useEmbeddedColorManagement THEN
@@ -475,7 +450,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' Creates a Bitmap object based on size and format information.
 ' ========================================================================================
-PRIVATE CONSTRUCTOR CGpBitmap (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat = PixelFormat32bppPARGB)
+PRIVATE CONSTRUCTOR CGpBitmap (BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat)
    m_Status = GdipCreateBitmapFromScan0(nWidth, nHeight, 0, pxFormat, NULL, @cast(GpBitmap PTR, m_pImage))
 END CONSTRUCTOR
 ' ========================================================================================
@@ -511,7 +486,7 @@ END CONSTRUCTOR
 ' Creates a Bitmap object based on a handle to a Windows Windows Graphics Device
 ' Interface (GDI) bitmap and a handle to a GDI palette.
 ' ========================================================================================
-PRIVATE CONSTRUCTOR CGpBitmap (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE = NULL)
+PRIVATE CONSTRUCTOR CGpBitmap (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
    m_Status = GdipCreateBitmapFromHBITMAP(hbm, hpal, @cast(GpBitmap PTR, m_pImage))
 END CONSTRUCTOR
 ' ========================================================================================
@@ -539,26 +514,12 @@ PRIVATE FUNCTION CGpBitmap.GetHBITMAP (BYVAL colorBackground AS ARGB, BYVAL hbmR
    RETURN SetStatus(GdipCreateHBITMAPFromBitmap(cast(GpBitmap PTR, m_pImage), hbmReturn, colorBackground))
 END FUNCTION
 ' =====================================================================================
-' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.GetHBITMAP (BYVAL colorBackground AS ARGB) AS HBITMAP
-   DIM hbmReturn AS HBITMAP
-   SetStatus(GdipCreateHBITMAPFromBitmap(cast(GpBitmap PTR, m_pImage), @hbmReturn, colorBackground))
-   RETURN hbmReturn
-END FUNCTION
-' =====================================================================================
 
 ' =====================================================================================
 ' Creates an icon from this Bitmap object.
 ' =====================================================================================
 PRIVATE FUNCTION CGpBitmap.GetHICON (BYVAL hiconReturn AS HICON PTR) AS GpStatus
    RETURN SetStatus(GdipCreateHICONFromBitmap(cast(GpBitmap PTR, m_pImage), hiconReturn))
-END FUNCTION
-' =====================================================================================
-' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.GetHICON () AS HICON
-   DIM hiconReturn AS HICON
-   SetStatus(GdipCreateHICONFromBitmap(cast(GpBitmap PTR, m_pImage), @hiconReturn))
-   RETURN hiconReturn
 END FUNCTION
 ' =====================================================================================
 
@@ -632,13 +593,6 @@ PRIVATE FUNCTION CGpBitmap.GetPixel (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL col
    RETURN SetStatus(GdipBitmapGetPixel(cast(GpBitmap PTR, m_pImage), x, y, colour))
 END FUNCTION
 ' =====================================================================================
-' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.GetPixel (BYVAL x AS LONG, BYVAL y AS LONG) AS ARGB
-   DIM colour AS ARGB
-   SetStatus(GdipBitmapGetPixel(cast(GpBitmap PTR, m_pImage), x, y, @colour))
-   RETURN colour
-END FUNCTION
-' =====================================================================================
 
 ' =====================================================================================
 ' Sets the color of a specified pixel in this bitmap.
@@ -655,19 +609,6 @@ PRIVATE FUNCTION CGpBitmap.SetResolution (BYVAL xdpi AS SINGLE, BYVAL ydpi AS SI
    RETURN SetStatus(GdipBitmapSetResolution(cast(GpBitmap PTR, m_pImage), xdpi, ydpi))
 END FUNCTION
 ' =====================================================================================
-' =====================================================================================
-' Sets the resolution of this Bitmap object using the DPI settings.
-' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.SetResolutionForDpi () AS GpStatus
-   ' // Get the DPI scaling ratios
-   DIM hDC AS HDC = GetDC(HWND_DESKTOP)
-   DIM dpiX AS LONG = GetDeviceCaps(hDC, LOGPIXELSX)
-   DIM dpiY AS LONG = GetDeviceCaps(hDC, LOGPIXELSY)
-   ReleaseDC HWND_DESKTOP, hDC
-   RETURN SetStatus(GdipBitmapSetResolution(cast(GpBitmap PTR, m_pImage), dpiX, dpiY))
-END FUNCTION
-' =====================================================================================
-
 
 ' // The following functions don't compile with the FB 32-bit import library
 '#if (GDIPVER >= &H0110)
@@ -701,29 +642,7 @@ PRIVATE FUNCTION CGpBitmap.GetHistogramSize (BYVAL nFormat AS HistogramFormat, B
    RETURN SetStatus(GdipBitmapGetHistogramSize(nFormat, NumberOfEntries))
 END FUNCTION
 ' =====================================================================================
-' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.GetHistogramSize (BYVAL nFormat AS HistogramFormat) AS UINT
-   DIM NumberOfEntries AS UINT
-   SetStatus(GdipBitmapGetHistogramSize(nFormat, @NumberOfEntries))
-   RETURN NumberOfEntries
-END FUNCTION
-' =====================================================================================
 '#endif ' (GDIPVER >= &H0110)
-
-' // Effects
-' =====================================================================================
-' Alters a Bitmap object by applying a specified effect.
-' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
-BYVAL useAuxData AS BOOLEAN, BYVAL auxData AS ANY PTR PTR, BYVAL auxDataSize AS INT_ PTR) AS GpStatus
-   RETURN SetStatus(GdipBitmapApplyEffect(cast(GpBitmap PTR, m_pImage), cast(ANY PTR, pEffect->m_pEffect), roi, useAuxData, auxData, auxDataSize))
-END FUNCTION
-' =====================================================================================
-' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR = NULL) AS GpStatus
-   RETURN SetStatus(GdipBitmapApplyEffect(cast(GpBitmap PTR, m_pImage), cast(ANY PTR, pEffect->m_pEffect), roi, FALSE, NULL, NULL))
-END FUNCTION
-' =====================================================================================
 
 ' ########################################################################################
 ' CGpCachedBitmap Class
@@ -754,7 +673,7 @@ END DESTRUCTOR
 ' ########################################################################################
 
 ' =====================================================================================
-' Creates a Windows GDI+ Metafile object for playback based on a Windows
+' Creates a Windows GDI+ Metafile.Metafile object for playback based on a Windows
 ' Graphics Device Interface (GDI) Enhanced Metafile (EMF) file.
 ' =====================================================================================
 PRIVATE CONSTRUCTOR CGpMetafile (BYVAL hEmf AS HENHMETAFILE, BYVAL deleteEmf AS BOOL = FALSE)
