@@ -875,7 +875,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ```
 ' ========================================================================================
-' The following example draws an image.
+' The following example draws an image
 ' ========================================================================================
 SUB Example_DrawImage (BYVAL hdc AS HDC)
 
@@ -888,11 +888,8 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
    DIM image AS CGpBitmap = "climber.jpg"
    image.SetResolutionForDpi
 
-   ' // Draw the original source image.
+   ' // Draw the image.
    graphics.DrawImage(@image, 10, 10)
-
-   ' // Draw the scaled image.
-   graphics.DrawImage(@image, 200, 50, 150, 75)
 
 END SUB
 ' ========================================================================================
@@ -909,21 +906,18 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
 
    ' // Draw the original source image.
-   graphics.DrawImage(@pImage, 10, 10)
+   graphics.DrawImage(@image, 10, 10)
 
    ' // Draw the scaled image.
-   graphics.DrawImage(@pImage, 200.0, 30.0, 70.0, 20.0, 100.0, 200.0, UnitPixel)
+   graphics.DrawImage(@image, 200.0, 30.0, 70.0, 20.0, 100.0, 200.0, UnitPixel)
 
 END SUB
 ' ========================================================================================
@@ -939,15 +933,12 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
 
    ' // Create an array of PointF objects that specify the destination of the image.
    DIM destPoints(0 TO 2) AS GpPointF
@@ -956,7 +947,7 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
    destPoints(2).x = 175 : destPoints(2).y = 120
 
    ' // Draw the image.
-   graphics.DrawImage(@pImage, @destPoints(0), 3)
+   graphics.DrawImage(@image, @destPoints(0), 3)
 
 END SUB
 ' ========================================================================================
@@ -973,18 +964,15 @@ SUB Example_DrawImageRectRect (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "pattern.png"
+   DIM image AS CGpBitmap = "pattern.png"
+   image.SetResolutionForDpi
 
    ' // Draw the original source image.
-   graphics.DrawImage(@pImage, 10, 10)
+   graphics.DrawImage(@image, 10, 10)
 
    ' // Define the portion of the image to draw.
    DIM srcX AS SINGLE = 70.0
@@ -999,14 +987,14 @@ SUB Example_DrawImageRectRect (BYVAL hdc AS HDC)
    destPoints(2).x = 275 : destPoints(2).y = 120
 
    ' // GDIP_COLORMAP is an union that solves the 32/64-bit incompatibility
-   DIM redToBlue AS GDIP_COLORMAP = (ARGB_RED, ARGB_BLUE)
+   DIM redToBlue AS GpColorMap = (ARGB_RED, ARGB_BLUE)
 
    ' // Create an ImageAttributes object that specifies a recoloring from red to blue.
    DIM remapAttributes AS CGpImageAttributes
    RemapAttributes.SetRemapTable(1, @redToBlue)
 
    ' // Draw the cropped image
-   graphics.DrawImage(@pImage, @destPoints(0), 3, srcX, srcY, srcWidth, srcHeight, _
+   graphics.DrawImage(@image, @destPoints(0), 3, srcX, srcY, srcWidth, srcHeight, _
                      UnitPixel, @remapAttributes, NULL, NULL)
 
 
@@ -1043,6 +1031,40 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Example
+
+```
+' ========================================================================================
+' Draws an image.
+' ========================================================================================
+SUB Example_DrawImageFX (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object.
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Get image dimensions
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Define source rectangle using actual image size
+   DIM srcRect AS GpRectF = (0, 0, nWidth, nHeight)
+
+   ' // Create transformation matrix
+   ' // Position image at 10, 10.
+   DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 10.0, 10.0)
+
+   ' // Draw image with effect
+   graphics.DrawImageFX(@image, @srcRect, @matrix, NULL, NULL, UnitPixel)
+
+END SUB
+' ========================================================================================
+```
+#### Example
 ```
 ' ========================================================================================
 ' Draws a portion of an image after applying a blur effect.
@@ -1051,19 +1073,16 @@ SUB Example_DrawImageFX (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
 
    ' // Get image dimensions
-   DIM nWidth AS UINT = pImage.GetWidth
-   DIM nHeight AS UINT = pImage.GetHeight
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
 
    ' // Define source rectangle using actual image size
    DIM srcRect AS GpRectF = (0, 0, nWidth, nHeight)
@@ -1077,42 +1096,7 @@ SUB Example_DrawImageFX (BYVAL hdc AS HDC)
    pBlurEffect.SetParameters(@blurPrms)
 
    ' // Draw image with effect
-   graphics.DrawImageFX(@pImage, @srcRect, @matrix, @pBlurEffect, NULL, UnitPixel)
-
-END SUB
-' ========================================================================================
-```
-```
-' ========================================================================================
-' Draws an image.
-' ========================================================================================
-SUB Example_DrawImageFX (BYVAL hdc AS HDC)
-
-   ' // Create a graphics object from the window device context
-   DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
-
-   ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
-
-   ' // Get image dimensions
-   DIM nWidth AS UINT = pImage.GetWidth
-   DIM nHeight AS UINT = pImage.GetHeight
-
-   ' // Define source rectangle using actual image size
-   DIM srcRect AS GpRectF = (0, 0, nWidth, nHeight)
-
-   ' // Create transformation matrix
-   ' // Position image at 10, 10.
-   DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 10.0, 10.0)
-
-   ' // Draw image with effect
-   graphics.DrawImageFX(@pImage, @srcRect, @matrix, NULL, NULL, UnitPixel)
+   graphics.DrawImageFX(@image, @srcRect, @matrix, @pBlurEffect, NULL, UnitPixel)
 
 END SUB
 ' ========================================================================================
