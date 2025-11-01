@@ -106,11 +106,8 @@ SUB Example_ClonePen (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create and clone a Pen object.
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 4)
@@ -150,11 +147,8 @@ SUB Example_GetAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object and set its alignment.
    DIM pen AS CGpPen = CGpPen(ARGB_GREEN, 15)
@@ -201,11 +195,8 @@ SUB Example_GetBrush (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a HatchBrush object
    DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
@@ -257,11 +248,8 @@ SUB Example_GetColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen, and use it to draw a line.
    DIM pen AS CGpPen = CGpPen(GDIP_ARGB(255, 200, 150, 100), 5)
@@ -310,11 +298,8 @@ SUB Example_GetCompoundArray (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create an array of real numbers and a Pen object.
    DIM compVals(0 TO 5) AS SINGLE = {0.0, 0.2, 0.5, 0.7, 0.9, 1.0}
@@ -361,11 +346,8 @@ SUB Example_GetCompoundArray (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create an array of real numbers and a Pen object.
    DIM compVals(0 TO 5) AS SINGLE = {0.0, 0.2, 0.5, 0.7, 0.9, 1.0}
@@ -424,11 +406,8 @@ SUB Example_GetCustomEndCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GraphicsPath object, and add a rectangle to it.
    DIM pStrokePath AS CGpGraphicsPath
@@ -489,11 +468,8 @@ SUB Example_GetCustomStartCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GraphicsPath object, and add a rectangle to it.
    DIM pStrokePath AS CGpGraphicsPath
@@ -547,11 +523,8 @@ SUB Example_GetDashCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 20)
@@ -627,11 +600,8 @@ SUB Example_GetDashPattern (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create and set an array of real numbers.
    DIM dashVals(0 TO 3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
@@ -679,11 +649,8 @@ SUB Example_GetDashPattern (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create and set an array of real numbers.
    DIM dashVals(0 TO 3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
@@ -788,11 +755,8 @@ SUB Example_GetEndCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
@@ -840,11 +804,8 @@ SUB Example_GetLineJoin (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_GREEN, 15)
@@ -908,11 +869,8 @@ SUB Example_GetPenType (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a HatchBrush object.
    DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
@@ -958,11 +916,8 @@ SUB Example_GetStartCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
@@ -1016,11 +971,8 @@ SUB Example_GetTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen and set its transformation.
    DIM pen AS CGpPen = ARGB_RED
@@ -1067,11 +1019,8 @@ SUB Example_GetWidth (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen and use it to draw a rectangle
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
@@ -1123,11 +1072,8 @@ SUB Example_MultiplyTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Vertical stretch
    DIM matrix AS CGpMatrix = CGpMatrix(1, 0, 0, 4, 0, 0)
@@ -1176,11 +1122,8 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen, and set its transformation
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
@@ -1230,11 +1173,8 @@ SUB Example_RotateTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pen AS CGpPen = CGpPen(&hFF0000FF, 5)   ' // Blue
    pen.ScaleTransform(1, 4)   ' // first stretch
@@ -1278,11 +1218,8 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen, and use it to draw a rectangle
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
@@ -1332,15 +1269,12 @@ SUB Example_SetAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a black and a green pen.
-   DIM blackPen AS CgpPen = CGpPen(ARGB_BLACK, 1)
-   DIM greenPen AS CgpPen = CGpPen(ARGB_GREEN, 15)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
+   DIM greenPen AS CGpPen = CGpPen(ARGB_GREEN, 15)
 
    ' // Set the alignment of the green pen.
    greenPen.SetAlignment(PenAlignmentInset)
@@ -1384,11 +1318,8 @@ SUB Example_SetBrush (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a HatchBrush object
    DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleVertical, ARGB_RED, ARGB_BLUE)
@@ -1434,11 +1365,8 @@ SUB Example_SetColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red pen, and use it to draw a line.
    DIM pen AS CGpPen = CGpPen(ARGB_RED, 5)
@@ -1483,11 +1411,8 @@ SUB Example_SetCompoundArray (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create an array of real numbers and a Pen object.
    DIM compVals(0 TO 5) AS SINGLE = {0.0, 0.2, 0.5, 0.7, 0.9, 1.0}
@@ -1534,11 +1459,8 @@ SUB Example_SetCustomEndCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GraphicsPath object, and add a rectangle to it.
    DIM pStrokePath AS CGpGraphicsPath
@@ -1587,11 +1509,8 @@ SUB Example_SetCustomStartCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GraphicsPath object, and add a rectangle to it.
    DIM pStrokePath AS CGpGraphicsPath
@@ -1639,11 +1558,8 @@ SUB Example_SetDashCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 20)
@@ -1691,14 +1607,11 @@ SUB Example_SetDashOffset (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
-      DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
 
    ' // Set the dash style for the pen
    pen.SetDashStyle(DashStyleDash)
@@ -1745,11 +1658,8 @@ SUB Example_SetDashPattern (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create and set an array of real numbers.
    DIM dashVals(0 TO 3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
@@ -1798,11 +1708,8 @@ SUB Example_SetDashStyle (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 20)
@@ -1859,11 +1766,8 @@ SUB Example_SetEndCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
@@ -1917,11 +1821,8 @@ SUB Example_SetLineCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
@@ -1969,11 +1870,8 @@ SUB Example_SetLineJoin (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
@@ -2041,11 +1939,8 @@ SUB Example_SetStartCap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 15)
@@ -2096,11 +1991,8 @@ SUB Example_SetTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen, and use it to draw a rectangle
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
@@ -2148,11 +2040,8 @@ SUB Example_SetWidth (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen of width 2, and use it to draw a rectangle.
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2)
@@ -2204,11 +2093,8 @@ SUB Example_TranslateTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pen AS CGpPen = ARGB_RED
    pen.RotateTransform(30.0, MatrixOrderAppend)
