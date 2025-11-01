@@ -33,11 +33,8 @@ SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM arialFontFamily AS CGpFontFamily = "arial"
@@ -45,7 +42,7 @@ SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
    ' // Clone the FontFamily object and use it to create a Font object
    DIM cloneFontFamily AS CGpFontFamily
    arialFontFamily.Clone(@cloneFontFamily)
-   DIM arialFont AS CGpFont = CGpFont(@cloneFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM arialFont AS CGpFont = CGpFont(@cloneFontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw text using the new font
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK

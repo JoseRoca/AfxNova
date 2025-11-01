@@ -33,11 +33,8 @@ SUB Example_IsStyleAvailable (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM myFontFamily AS CGpFontFamily = "arial"
@@ -48,7 +45,7 @@ SUB Example_IsStyleAvailable (BYVAL hdc AS HDC)
    ' // If regular style is available, draw text.
    IF isStyleAvailable THEN
       DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxGdipPointsToPixels(16, TRUE))
       DIM wszText AS WSTRING * 260 = "myFontFamily is available in regular style"
       graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
    END IF
@@ -73,7 +70,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"
    pWindow.Create(NULL, "GDI+ FontFamilyIsStyleAvailable", @WndProc)
    ' // Sizes it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(550, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Centers the window
    pWindow.Center
 

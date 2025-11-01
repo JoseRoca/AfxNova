@@ -33,11 +33,8 @@ SUB Example_GetLineSpacing (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM lineSpacingFontFamily AS CGpFontFamily = "arial"
@@ -47,7 +44,7 @@ SUB Example_GetLineSpacing (BYVAL hdc AS HDC)
 
    ' // Copy the line spacing ascent into a string and draw the string.
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-   DIM font AS CGpFont = CGpFont(@lineSpacingFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont(@lineSpacingFontFamily, AfxGdipPointsToPixels(16, TRUE))
    DIM wszText AS WSTRING * 260 = "lineSpacingFontFamily.GetLineSpacing() returns " & STR(lineSpacing)
    graphics.DrawString(@wszText, -1, @font, 0, 0, @solidbrush)
 

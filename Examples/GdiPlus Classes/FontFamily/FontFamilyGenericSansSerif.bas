@@ -33,16 +33,13 @@ SUB Example_GenericSansSerif (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Use a generic sans serif FontFamily object to create a Font object.
    DIM fontFamily AS CGpFontFamily
    fontFamily.GenericSansSerif(@fontFamily)
-   DIM genericSansSerifFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM genericSansSerifFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw text using the new font
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK

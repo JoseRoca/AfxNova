@@ -33,11 +33,8 @@ SUB Example_GetLastStatus (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM myFontFamily AS CGpFontFamily = "arial"
@@ -48,7 +45,7 @@ SUB Example_GetLastStatus (BYVAL hdc AS HDC)
    ' // If the last call succeeded, draw text.
    IF nStatus = Ok THEN
       DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+      DIM font AS CGpFont = CGpFont(@myFontFamily, AfxGdipPointsToPixels(16, TRUE))
       graphics.DrawString("status = ok", -1, @font, 0, 0, @solidbrush)
    END IF
 

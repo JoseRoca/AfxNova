@@ -33,11 +33,8 @@ SUB Example_GetFamilyName (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a FontFamily object
    DIM nameFontFamily AS CGpFontFamily = "arial"
@@ -48,7 +45,7 @@ SUB Example_GetFamilyName (BYVAL hdc AS HDC)
 
    ' // Draw the family name
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK
-   DIM font AS CGpFont = CGpFont(@nameFontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont(@nameFontFamily, AfxGdipPointsToPixels(16, TRUE))
    graphics.DrawString(@familyName, -1, @font, 0, 0, @solidbrush)
 
 END SUB
