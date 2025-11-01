@@ -33,15 +33,12 @@ SUB Example_SetAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transforms
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create a black and a green pen.
-   DIM blackPen AS CgpPen = CGpPen(ARGB_BLACK, 1)
-   DIM greenPen AS CgpPen = CGpPen(ARGB_GREEN, 15)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
+   DIM greenPen AS CGpPen = CGpPen(ARGB_GREEN, 15)
 
    ' // Set the alignment of the green pen.
    greenPen.SetAlignment(PenAlignmentInset)
