@@ -32,10 +32,10 @@ DIM token AS ULONG_PTR = AfxGdipInit
 
 ' // Load the original image from file
 DIM image AS GpImage PTR
-hStatus = GdipLoadImageFromFile("MultiFrame.tif", @image)
+hStatus = GdipLoadImageFromFile("MultiFrame.tiff", @image)
 
-' // Get the CLSID of the TIFF encoder.
-DIM EncoderClsid AS GUID = AfxGdipGetEncoderClsid("image/tiff")
+' // Get the CLSID of the PNG encoder.
+DIM EncoderClsid AS GUID = AfxGdipGetEncoderClsid("image/png")
 
 ' // Save the first page (index 0).
 hStatus = GdipImageSelectActiveFrame(image, @FrameDimensionPage, 0)
