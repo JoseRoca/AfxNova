@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: ImageGetThumbnailImage.bas
-' Contents: GDI+ - ImageGetThumbnailImage example
+' File: ImageConstructor.bas
+' Contents: GDI+ - ImageConstructor example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,30 +27,19 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code calls the
-' Bitmao.GetThumbnailImage method of that Bitmap object and then displays the thumbnail image
-' along with the main image.
+' The following example creates an Image object based on a JPEG file. Then the code calls
+' the DrawImage method to draw the image.
 ' ========================================================================================
-SUB Example_GetThumbnailImage (BYVAL hdc AS HDC)
+SUB Example_Constructor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Set the scaling factors using the DPI ratios
-   graphics.ScaleTransformForDpi
 
-   ' // Create a Bitmap object from a JPEG file.
-   DIM bmp AS CGpBitmap = "climber.jpg"
-   ' // Set the resolution of the image using the DPI ratios
-   bmp.SetResolutionForDpi
+   ' // Create an Image object, and then clone it.
+   DIM image AS CGpImage = "climber2.jpg"
 
-   ' // Get a thumbnail of the image of the specified width and height
-   DIM thumbnail AS CGpBitmap
-   bmp.GetThumbnailImage(70, 50, @thumbnail)
-
-   ' // Draw the original image
-   graphics.DrawImage(@bmp, 10, 10)
-   ' // Draw the thumbnail image
-   graphics.DrawImage(@thumbnail, 220, 10)
+   ' // Draw the original image and the cloned image.
+   graphics.DrawImage(@image, 10, 10)
 
 END SUB
 ' ========================================================================================
@@ -64,13 +53,13 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                    BYVAL nCmdShow AS LONG) AS LONG
 
    ' // Set process DPI aware
-   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
+'   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
    ' // Enable visual styles without including a manifest file
-   AfxEnableVisualStyles
+'   AfxEnableVisualStyles
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ ImageGetThumbnailImage", @WndProc)
+   pWindow.Create(NULL, "GDI+ ImageConstructor", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
@@ -85,7 +74,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_GetThumbnailImage(hdc)
+   Example_Constructor(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

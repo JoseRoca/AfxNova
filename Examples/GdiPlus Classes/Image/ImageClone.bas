@@ -35,18 +35,17 @@ SUB Example_Clone (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object, and then clone it.
-   DIM image1 AS CGpImage = "climber.jpg"
-   DIM pImage2 AS CGpImage
-   image1.Clone(@pImage2)
+   DIM image1 AS CGpBitmap = "climber.jpg"
+   image1.SetResolutionForDpi
+   DIM image2 AS CGpBitmap = @image1
 
    ' // Draw the original image and the cloned image.
-   graphics.DrawImage(@image1, 20 * rxRatio, 20 * ryRatio)
-   graphics.DrawImage(@pImage2, 230 * rxRatio, 20 * ryRatio)
+   graphics.DrawImage(@image1, 10, 10)
+   graphics.DrawImage(@image2, 200, 10)
 
 END SUB
 ' ========================================================================================
@@ -68,7 +67,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"
    pWindow.Create(NULL, "GDI+ ImageClone", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(430, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 

@@ -27,24 +27,27 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates an Image object based on a JPEG file. The code creates a
-' second Image object by cloning the first. Then the code calls the DrawImage method twice
-' to draw the two images.
+' The following example creates a Bitmap object based on a JPEG file. The code calls the
+' RotateFlip method to rotate and flip the image 90 degrees.
 ' ========================================================================================
 SUB Example_RotateFlip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
-   DIM pImage AS CGpImage = "climber.jpg"
-   graphics.DrawImage(@pImage, 10, 10, pImage.GetWidth, pImage.GetHeight)
-   pImage.RotateFlip(Rotate90FlipY)
-   graphics.DrawImage(@pImage, 220, 10, pImage.GetWidth, pImage.GetHeight)
+   ' // Create a Bitmap object from a JPEG file.
+   DIM image AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   image.SetResolutionForDpi
+   ' // Draw the bitmap
+   graphics.DrawImage(@image, 10, 10)
+
+   ' // Rotate and flip the birmap 90 degrees
+   image.RotateFlip(Rotate90FlipY)
+   ' // Draw the rotated bitmap
+   graphics.DrawImage(@image, 220, 10)
 
 END SUB
 ' ========================================================================================
@@ -66,7 +69,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"
    pWindow.Create(NULL, "GDI+ ImageRotateFlip", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(430, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
