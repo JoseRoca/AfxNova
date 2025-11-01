@@ -1205,11 +1205,8 @@ SUB Example_DrawLine (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Draw the line
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
@@ -1251,11 +1248,8 @@ SUB Example_DrawLines (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
@@ -1303,11 +1297,8 @@ SUB Example_DrawPath (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GraphicsPath, and add an ellipse
    DIM ellipsePath AS CGpGraphicsPath
@@ -1367,11 +1358,8 @@ SUB Example_DrawPie (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Draw the pie
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
@@ -1409,15 +1397,12 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 ' ========================================================================================
 ' The following example draws a sequence of connected lines.
 ' ========================================================================================
-SUB Example_DrawPolygons (BYVAL hdc AS HDC)
+SUB Example_DrawPolygon (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Pen object
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
@@ -1476,11 +1461,8 @@ SUB Example_DrawRectangle (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Draw the rectangle
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
@@ -1522,11 +1504,8 @@ SUB Example_DrawRectangles (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen object
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
@@ -1545,7 +1524,7 @@ END SUB
 ```
 ---
 
-## <a name="drawstring"></a>DrawString (CGpGRaphics)
+## <a name="drawstring"></a>DrawString (CGpGraphics)
 
 Draws a string based on a font and an origin for the string.
 
@@ -1733,11 +1712,8 @@ SUB Example_ExcludeClip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GpRect object, and set the clipping region to its exclusion.
    DIM excludeRect AS GpRect = (125, 50, 150, 150)
@@ -1788,11 +1764,8 @@ SUB Example_FillClosedCurve (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Define a Brush object and an array of Point objects.
    DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
@@ -1847,11 +1820,8 @@ SUB Example_FillEllipse (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a SolidBrush object
    DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
@@ -1893,11 +1863,8 @@ SUB Example_FillPath (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GraphicsPath and add an ellipse
    DIM ellipsePath AS CGpGraphicsPath
@@ -1956,11 +1923,8 @@ SUB Example_FillPie (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a GraphicsPath and add an ellipse
    DIM ellipsePath AS CGpGraphicsPath
@@ -2012,11 +1976,8 @@ SUB Example_FillPolygon (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a SolidBrush object
    DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
@@ -2069,11 +2030,8 @@ SUB Example_FillRectangle (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a SolidBrush object
    DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
@@ -2117,11 +2075,8 @@ SUB Example_FillRectangles (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a pen object
    DIM blackBrush AS CGpSolidBrush = CGpSolidBrush(ARGB_BLACK)
@@ -2170,11 +2125,8 @@ SUB Example_FillRegion (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a SolidBrush object
    DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
@@ -2238,11 +2190,8 @@ SUB Example_FromHDC (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Draw the rectangle
    DIM redPen AS CGpPen = CGpPen(ARGB_RED, 1)
@@ -2335,11 +2284,8 @@ SUB Example_GetClip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Set a clipping region.
    graphics.SetClip(0, 0, 200, 100)
@@ -2392,11 +2338,8 @@ SUB Example_GetClipBounds (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a region using a rectangle
    DIM myRegion AS CGpRegion = CGpRegion(25, 25, 100, 50)
@@ -2461,11 +2404,8 @@ SUB Example_CompositingMode (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    graphics.SetCompositingMode(CompositingModeSourceCopy)
    DIM alphaBrush AS CGpSolidBrush = GDIP_ARGB(128, 255, 0, 0)
@@ -2520,11 +2460,8 @@ SUB Example_CompositingQuality (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    graphics.SetCompositingQuality(CompositingQualityHighQuality)
    DIM alphaBrush AS CGpSolidBrush = GDIP_ARGB(128, 255, 0, 0)
@@ -2679,22 +2616,24 @@ SUB Example_GetHalfTonePalette (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
+   DIM pImage AS CGpBitmap = "climber.jpg"
+   pImage.SetResolutionForDpi
 
    DIM graphics1 AS CGpGraphics = hdc
-   graphics1.DrawImage(@pImage, 10 * rxRatio, 10 * rxRatio)
+   graphics1.ScaleTransformForDpi
+   graphics1.DrawImage(@pImage, 10, 10)
 
    DIM hPalette AS HPALETTE
    hPalette = graphics1.GetHalfTonePalette
    SelectPalette(hdc, hPalette, FALSE)
    RealizePalette(hdc)
    DIM graphics2 AS CGpGraphics = hdc
-   graphics2.DrawImage(@pImage, 210 *rxRatio, 10 * rxRatio)
+   graphics2.ScaleTransformForDpi
+   graphics2.DrawImage(@pImage, 210, 10)
    DeleteObject(hPalette)
 
 END SUB
@@ -2795,11 +2734,8 @@ SUB Example_GetNearestColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Color object, and fill a rectangle with that color.
    DIM colour AS ARGB = &hFFA53F88
@@ -2807,7 +2743,7 @@ SUB Example_GetNearestColor (BYVAL hdc AS HDC)
 
    ' // Get the nearest 8-bit color, and fill a second rectangle with that color.
    graphics.GetNearestColor(@colour)
-   graphics.FillRectangle(@CGpSolidBrush(colour), 100, 0, 100, 100)
+   graphics.FillRectangle(@CGpSolidBrush(colour), 110, 0, 100, 100)
 
 END SUB
 ' ========================================================================================
@@ -3072,11 +3008,8 @@ SUB Example_GetVisibleClipBounds (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    '// Set the clipping region.
    DIM rc AS GpRect = (100, 100, 200, 100)
@@ -3129,11 +3062,8 @@ SUB Example_IntersectClip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Set the clipping region.
    DIM clipRect AS GpRectF = (0.5, 0.5, 200.5, 200.5)
@@ -3186,11 +3116,8 @@ SUB Example_IsClipEmpty (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // If the clipping region is not empty, draw a rectangle.
    IF graphics.IsClipEmpty = FALSE THEN
@@ -3239,11 +3166,8 @@ SUB Example_IsVisible (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Determine whether the point is visible and, if it is, draw an ellipse.
    IF graphics.IsVisible(100, 100) THEN
@@ -3282,11 +3206,8 @@ SUB Example_IsVisibleClipEmpty (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // If the clipping region is not empty, draw a rectangle
    IF graphics.IsVisibleClipEmpty = FALSE THEN
@@ -3484,6 +3405,40 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Graphics object and sets its clipping region to a rectangle.
+' The code fills two ellipses that intersect the rectangular clipping region. The first
+' ellipse is clipped, but the second ellipse is not clipped because it is filled after a
+' call to Graphics.ResetClip.
+' ========================================================================================
+SUB Example_ResetClip (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Set the clipping region, and draw its outline.
+   graphics.SetClip(100, 50, 200, 120)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 2)
+
+   ' // Fill a clipped ellipse in red.
+   DIM redBrush AS CGpSolidBrush = CGpSolidBrush(ARGB_RED)
+   graphics.FillEllipse(@redBrush, 80, 40, 100, 70)
+
+   ' // Reset the clipping region.
+   graphics.ResetClip
+
+   ' // Fill an unclipped ellipse with blue.
+   DIM blueBrush AS CGpSolidBrush = CGpSolidBrush(ARGB_BLUE)
+   graphics.FillEllipse(@blueBrush, 160, 150, 100, 60)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="resettransform"></a>ResetTransform (CGpGRaphics)
@@ -3504,6 +3459,36 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 The identity matrix represents a transformation that does nothing. If the world transformation matrix of a **Graphics** object is the identity matrix, then no world transformation is applied to items drawn by that **Graphics** object.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example sets the world transformation of a Graphics object to a 45-degree
+' rotation and then draws a rectangle. The code calls the ResetTransform method of the
+' Graphics object and then draws a second rectangle. No rotation transformation is applied
+' to the second rectangle.
+' ========================================================================================
+SUB Example_ResetTransform (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Rotate the transformation and draw a rectangle.
+   graphics.RotateTransform(45)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK)
+   graphics.DrawRectangle(@blackPen, 100, 0, 100, 50)
+
+   ' // Reset the transformation to identity, and draw a second rectangle.
+   graphics.ResetTransform
+   graphics.ScaleTransformForDpi
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED)
+   graphics.DrawRectangle(@redPen, 110, 0, 100, 50)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="restore"></a>Restore (CGpGRaphics)
@@ -3561,11 +3546,8 @@ SUB Example_RotateTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM redPen AS CGpPen = CGpPen(ARGB_RED)
    graphics.TranslateTransform(100, 0)   ' // first translate
@@ -3683,11 +3665,8 @@ SUB Example_SetClip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Rect object.
    DIM clipRect AS GpRectF = (0, 0, 200, 100)
@@ -3740,11 +3719,8 @@ SUB Example_CompositingMode (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    graphics.SetCompositingMode(CompositingModeSourceCopy)
    DIM alphaBrush AS CGpSolidBrush = GDIP_ARGB(128, 255, 0, 0)
@@ -3803,11 +3779,8 @@ SUB Example_CompositingQuality (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    graphics.SetCompositingQuality(CompositingQualityHighQuality)
    DIM alphaBrush AS CGpSolidBrush = GDIP_ARGB(128, 255, 0, 0)
@@ -4014,11 +3987,8 @@ SUB Example_SetRenderingOrigin (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM hatchBrush AS CGpHatchBrush = CGpHatchBrush(HatchStyleDiagonalCross, ARGB_RED, ARGB_AQUA)
    graphics.FillRectangle(@hatchBrush, 0, 0, 100, 50)
@@ -4080,11 +4050,8 @@ SUB Example_SmoothingMode (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Set the smoothing mode to SmoothingModeHighSpeed.
    graphics.SetSmoothingMode(SmoothingModeHighSpeed)
@@ -4325,11 +4292,8 @@ SUB Example_TranslateClip (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Set the clipping region.
    graphics.SetClip(0, 0, 100, 50)
@@ -4391,11 +4355,8 @@ SUB Example_TranslateTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM redPen AS CGpPen = CGpPen(ARGB_RED)
    graphics.RotateTransform(30)
