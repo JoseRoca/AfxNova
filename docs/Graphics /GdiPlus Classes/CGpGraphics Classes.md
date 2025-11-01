@@ -4429,17 +4429,15 @@ SUB Example_AddArc (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM rc AS GpRect = (20, 20, 50, 100)
 
    DIM path AS CGpGraphicsPath
    path.AddArc(@rc, 0.0, 180.0)
    path.CloseFigure
-   
+
    ' // Draw the path.
    DIM pen AS CGpPen = ARGB_RED
    graphics.DrawPath(@pen, @path)
@@ -4490,11 +4488,8 @@ SUB Example_AddBezier (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM path AS CGpGraphicsPath
    path.AddBezier(50, 50, 60, 20, 70, 100, 80, 50)
@@ -4541,10 +4536,8 @@ SUB Example_AddBeziers (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pts(0 TO 6) AS GpPoint = {(50, 50), (60, 20), (70, 100), (80, 50), (120, 40), (150, 80), (170, 30)}
    DIM path AS CGpGraphicsPath
@@ -4598,10 +4591,8 @@ SUB Example_AddClosedCurve (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pts(0 TO 3) AS GpPoint = {(50, 50), (60, 20), (70, 100), (80, 50)}
    DIM path AS CGpGraphicsPath
@@ -4656,10 +4647,8 @@ SUB Example_AddCurve (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pts(0 TO 3) AS GpPoint = {(50, 50), (60, 20), (70, 100), (80, 50)}
    DIM path AS CGpGraphicsPath
@@ -4684,10 +4673,8 @@ SUB Example_AddCurve (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM path AS CGpGraphicsPath
    DIM pts(0 TO 7) AS GpPoint = {GDIP_POINT(50, 50), GDIP_POINT(70, 80), GDIP_POINT(100, 100), _
@@ -4752,10 +4739,8 @@ SUB Example_AddEllipse (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM path AS CGpGraphicsPath
    path.AddEllipse(20, 20, 200, 100)
@@ -4803,16 +4788,14 @@ SUB Example_AddLine (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM path AS CGpGraphicsPath
    path.AddLine(20, 20, 200, 100)
 
    ' // Draw the path
-   DIM pen AS CGpPen = ARGB_RED
+   DIM pen AS CGpPen = CGpPen(ARGB_RED, 3)
    graphics.DrawPath(@pen, @path)
 
 END SUB
@@ -4851,10 +4834,8 @@ SUB Example_AddLines (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pts(0 TO 4) AS GpPoint = {(20, 20), (30, 30), (40, 24), (50, 30), (60, 20)}
    DIM path AS CGpGraphicsPath
@@ -4906,10 +4887,8 @@ SUB Example_AddPath (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM path1 AS CGpGraphicsPath
    path1.AddArc(10, 10, 50, 20, 0.0, 150.0)
@@ -4971,10 +4950,8 @@ SUB Example_AddPie (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM path AS CGpGraphicsPath
    path.AddPie(50, 50, 100, 100, 20.0, 45.0)
@@ -5018,10 +4995,8 @@ SUB Example_AddPolygon (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pts(0 TO 2) AS GpPoint = {(20, 20), (120, 20), (120, 70)}
    DIM path AS CGpGraphicsPath
@@ -5072,10 +5047,8 @@ SUB Example_AddRectangle (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM rc AS GpRect = (20, 20, 100, 50)
    DIM path AS CGpGraphicsPath
@@ -5120,10 +5093,8 @@ SUB Example_AddRectangles (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM rects(0 TO 1) AS GpRect = {(20, 20, 100, 50), (30, 30, 50, 100)}
    DIM path AS CGpGraphicsPath
@@ -5187,10 +5158,8 @@ SUB Example_AddString (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
    DIM path AS CGpGraphicsPath
@@ -5267,10 +5236,8 @@ SUB Example_CloseAllFigures (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM rect1 AS GpRect = (20, 20, 50, 100)
    DIM rect2 AS GpRect = (40, 40, 50, 100)
@@ -5315,10 +5282,8 @@ SUB Example_CloseFigure (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM rect1 AS GpRect = (20, 20, 50, 100)
    DIM rect2 AS GpRect = (40, 40, 50, 100)
@@ -5370,10 +5335,8 @@ SUB Example_Flatten (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pts(0 TO 3) AS GpPoint = {(20, 50), (40, 70), (60, 10), (80, 50)}
    DIM path AS CGpGraphicsPath
@@ -5443,10 +5406,8 @@ SUB Example_GetBounds (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
    DIM yellowPen AS CGpPen = CGpPen(ARGB_YELLOW, 10)
@@ -5537,10 +5498,8 @@ SUB Example_GetPathData (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM points(0 TO 4) AS GpPoint = {(200, 200), (250, 240), (200, 300), (300, 310), (250, 350)}
    DIM path AS CGpGraphicsPath
@@ -5601,6 +5560,13 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 ' enough to receive the array of data points and passes the address of that buffer to the
 ' GraphicsPath.GetPathPoints method. Finally, the code draws each of the path's data points.
 ' ========================================================================================
+SUB Example_GetPathPoints (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
    ' // Create a path that has a line, a rectangle, an ellipse, and a curve.
    DIM path AS CGpGraphicsPath
    DIM points(0 TO 4) AS GpPoint = {(200, 200), (250, 240), (200, 300), (300, 310), (250, 350)}
@@ -5681,10 +5647,8 @@ SUB Example_GetPointCount (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a path that has one ellipse and one line.
    DIM path AS CGpGraphicsPath
@@ -5747,10 +5711,8 @@ SUB Example_IsOutlineVisible (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM yellowPen AS CGpPen = CGpPen(ARGB_YELLOW, 20)
    DIM brush AS CGpSolidBrush = ARGB_RED
@@ -5813,10 +5775,8 @@ SUB Example_IsVisible (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1)
    DIM brush AS CGpSolidBrush = ARGB_RED
@@ -5876,10 +5836,8 @@ SUB Example_Outline (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM bluePen AS CGpPen = ARGB_BLUE
    DIM greenPen AS CGpPen = CGpPen(ARGB_GREEN, 10)
@@ -5943,11 +5901,8 @@ SUB Example_Reverse (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM points(0 TO 3) AS GpPoint = {(20, 20), (160, 100), (140, 60), (60, 100)}
 
@@ -6036,10 +5991,8 @@ SUB Example_StartFigure (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM pen AS CGpPen = ARGB_BLUE
    DIM rc AS GpRect = (0, 0, 100, 50)
@@ -6093,10 +6046,8 @@ SUB Example_Transform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM path AS CGpGraphicsPath
    path.AddRectangle(40, 10, 200, 50)
@@ -6156,10 +6107,8 @@ SUB Example_Warp (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a path.
    DIM points(0 TO 7) AS GpPointF = {(20.0, 60.0), (30.0, 90.0), _
@@ -6226,10 +6175,8 @@ SUB Example_Widen (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    DIM bluePen AS CGpPen = ARGB_BLUE
    DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 10)
