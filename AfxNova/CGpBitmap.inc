@@ -527,8 +527,20 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' Creates a Bitmap object based on an application or DLL instance handle and the name of a bitmap.
 ' ========================================================================================
-PRIVATE CONSTRUCTOR CGpBitmap (BYVAL hInstance AS HINSTANCE, BYVAL pwszBitmapName AS WSTRING PTR)
-   m_Status = GdipCreateBitmapFromResource(hInstance, pwszBitmapName, @cast(GpBitmap PTR, m_pImage))
+'PRIVATE CONSTRUCTOR CGpBitmap (BYVAL hInstance AS HINSTANCE, BYVAL pwszBitmapName AS WSTRING PTR)
+''   m_Status = GdipCreateBitmapFromResource(hInstance, pwszBitmapName, @cast(GpBitmap PTR, m_pImage))
+'   m_pStream = AfxImageStreamFromRes(hInstance, pwszBitmapName)
+'   IF m_pStream = 0 THEN EXIT CONSTRUCTOR
+'   IF GdipLoadImageFromStream(m_pStream, @m_pImage) <> S_OK THEN m_pStream->lpVtbl->Release(m_pStream)
+'END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Creates an Bitmap object from a resource file.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CGpBitmap (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
+   m_pStream = AfxImageStreamFromRes(hInst, wszImageName)
+   IF m_pStream = 0 THEN EXIT CONSTRUCTOR
+   IF GdipLoadImageFromStream(m_pStream, @m_pImage) <> S_OK THEN m_pStream->lpVtbl->Release(m_pStream)
 END CONSTRUCTOR
 ' ========================================================================================
 
