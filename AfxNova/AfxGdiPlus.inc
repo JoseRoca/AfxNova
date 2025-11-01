@@ -893,7 +893,12 @@ PRIVATE FUNCTION AfxGdipSaveImageToBmp (BYVAL pImage AS GpImage PTR, BYREF wszFi
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION AfxGdipSaveImageToJpeg (BYVAL pImage AS GpImage PTR, BYREF wszFileName AS WSTRING) AS LONG
+PRIVATE FUNCTION AfxGdipSaveImageToJpeg OVERLOAD (BYVAL pImage AS GpImage PTR, BYREF wszFileName AS WSTRING) AS LONG
+   FUNCTION = AfxGdipSaveImageToFile(pImage, wszFilename, "image/jpeg")
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGdipSaveImageToJpg OVERLOAD (BYVAL pImage AS GpImage PTR, BYREF wszFileName AS WSTRING) AS LONG
    FUNCTION = AfxGdipSaveImageToFile(pImage, wszFilename, "image/jpeg")
 END FUNCTION
 ' ========================================================================================
