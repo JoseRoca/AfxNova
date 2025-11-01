@@ -34,21 +34,18 @@ SUB Example_GetFamily (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object.
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
    ' // Get the FontFamily of myFont.
    DIM fontFamily AS CGpFontFamily
    font.GetFamily(@fontFamily)
 
    ' // Create a new Font object from fontFamily.
-   DIM familyFont AS CGpFont = CGpFont(@fontFamily, AfxPointsToPixelsX(16) / rxRatio)
+   DIM familyFont AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE))
 
    ' // Draw Text with familyFont
    DIM solidBrush AS CGpSolidBrush = ARGB_BLACK

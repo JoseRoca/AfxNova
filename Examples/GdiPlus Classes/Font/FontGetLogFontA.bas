@@ -34,22 +34,17 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE))
 
-   ' Note: When compiled with 32-bit, the linker can't found GdipGetLogFontA
-   ' Woks with the 64-bit compiler.
    ' // Get attributes of font
    DIM logFont AS LOGFONTA
    font.GetLogFontA(@graphics, @logFont)
    ' // Adjust for DPI
-   logFont.lfHeight /= rxRatio
+   logFont.lfHeight /= graphics.GetDpiX / 96
 
    ' // Create a second Font object from logFont
    DIM logfontFont AS CGpFont = CGpFont(hdc, @logFont)

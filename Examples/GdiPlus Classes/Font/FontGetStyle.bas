@@ -34,20 +34,17 @@ SUB Example_GetStyle (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Font object according to the DPI setting
-   DIM font AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(16) / rxRatio, FontStyleItalic)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleItalic)
 
    ' // Get the style of font
    DIM style AS SINGLE = font.GetStyle
 
    ' // Create a second Font object with the same emSize as myFont.
-   DIM styleFont AS CGpFont = CGpFont("Arial", AfxPointsToPixelsX(20) / rxRatio, style)
+   DIM styleFont AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(20, TRUE), style)
 
    ' // Draw text using sizeFont
    DIM solidbrush AS CGpSolidBrush = ARGB_BLACK
