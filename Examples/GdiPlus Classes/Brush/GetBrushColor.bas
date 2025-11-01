@@ -35,7 +35,6 @@ SUB Example_GetColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-
    ' // Set the scaling factors using the DPI ratios
    graphics.ScaleTransformForDpi
 

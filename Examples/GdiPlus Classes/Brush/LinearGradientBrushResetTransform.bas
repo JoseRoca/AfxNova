@@ -36,11 +36,8 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM S AS CGpMatrix = CGpMatrix(2, 0, 0, 1, 0, 0)    ' // horizontal doubling
 
