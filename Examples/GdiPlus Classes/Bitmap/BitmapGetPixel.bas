@@ -35,24 +35,15 @@ SUB Example_GetPixel (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
 
    ' // Create a Bitmap object from a JPEG file.
    DIM myBitmap AS CGpBitmap = "climber.jpg"
-   myBitmap.SetResolution(graphics.GetDpiX, graphics.GetDpiY)
-
-   ' // Get the value of a pixel from myBitmap.
-   DIM pixelColor AS ARGB
-   myBitmap.GetPixel(25, 25, @pixelColor)
 
    ' // Fill a rectangle with the pixel color.
-   ' // FillRectangle ignores ScaleTransform; we have to scale it manually
-   DIM brush AS CGpSolidBrush = pixelColor
-   graphics.FillRectangle(@brush, 0, 0, 100, 100)
+   DIM brush AS CGpSolidBrush = myBitmap.GetPixel(50, 50)
+   graphics.FillRectangle(@brush, 10, 10, 100, 100)
 
 END SUB
 ' ========================================================================================

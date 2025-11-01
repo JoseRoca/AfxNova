@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapCreateFromGdiDib.bas
+' Contents: GDI+ - BitmapCreateFromGdiDib example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,38 +27,54 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' This example creates a GpBitmap from a manually constructed BITMAPINFO and pixel buffer.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_CreateFromGdiDib (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
    ' // Set the scaling factors using the DPI ratios
    graphics.ScaleTransformForDpi
 
-   ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
-   ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
+   ' // Define bitmap dimensions
+   DIM nWidth AS LONG = 100
+   DIM nHeight AS LONG = 100
+   DIM bytesPerPixel AS LONG = 4
+   DIM stride AS LONG = nWidth * bytesPerPixel
 
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   ' // Allocate pixel buffer
+   DIM buffer(stride * nHeight - 1) AS UBYTE
 
-   ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
-
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
+   ' // Fill buffer with gradient
+   FOR y AS LONG = 0 TO nHeight - 1
+      FOR x AS LONG = 0 TO nWidth - 1
+         DIM offset AS LONG = y * stride + x * bytesPerPixel
+         buffer(offset + 0) = x * 255 \ nWidth   ' Blue
+         buffer(offset + 1) = y * 255 \ nHeight  ' Green
+         buffer(offset + 2) = 128                ' Red
+         buffer(offset + 3) = 255                ' Alpha
       NEXT
    NEXT
 
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Define BITMAPINFO header
+   DIM bmi AS BITMAPINFO
+   WITH bmi.bmiHeader
+      .biSize = SIZEOF(BITMAPINFOHEADER)
+      .biWidth = nWidth
+      .biHeight = -nHeight ' Top-down DIB
+      .biPlanes = 1
+      .biBitCount = 32
+      .biCompression = BI_RGB
+      .biSizeImage = stride * nHeight
+      .biXPelsPerMeter = 39.3701 * graphics.GetDpiX
+      .biYPelsPerMeter = 39.3701 * graphics.GetDpiY
+   END WITH
+
+   ' // Create bitmap from DIB
+   DIM bmp AS CGpBitmap = CGpBitmap(@bmi, @buffer(0))
+
+   ' // Draw the modified bitmap.
+   graphics.DrawImage(@bmp, 10, 10)
 
 END SUB
 ' ========================================================================================
@@ -78,7 +94,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapCreateFromGdiDib", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(390, 250)
    ' // Center the window
@@ -93,7 +109,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_CreateFromGdiDib(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapCreateFromHBITMAP.bas
+' Contents: GDI+ - BitmapCreateFromHBITMAP example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,38 +27,40 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' This example creates a GpBitmap from a legacy HBITMAP and renders it using GDI+.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_CreateFromHBITMAP (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
    ' // Set the scaling factors using the DPI ratios
    graphics.ScaleTransformForDpi
 
-   ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
-   ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
+   ' // Create a legacy HBITMAP using GDI
+   DIM hbm AS HBITMAP
+   DIM memDC AS HDC = CreateCompatibleDC(hdc)
+   DIM bmpInfo AS BITMAPINFOHEADER
+   bmpInfo.biSize = SIZEOF(BITMAPINFOHEADER)
+   bmpInfo.biWidth = 100
+   bmpInfo.biHeight = -100 ' Top-down
+   bmpInfo.biPlanes = 1
+   bmpInfo.biBitCount = 32
+   bmpInfo.biCompression = BI_RGB
+   bmpInfo.biSizeImage = 0
 
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   DIM pBits AS ANY PTR
+   hbm = CreateDIBSection(memDC, CAST(BITMAPINFO PTR, @bmpInfo), DIB_RGB_COLORS, @pBits, NULL, 0)
 
-   ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
-
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
-      NEXT
+   ' // Fill with red pixels
+   FOR i AS LONG = 0 TO 100 * 100 - 1
+      CAST(ULONG PTR, pBits)[i] = ARGB_RED
    NEXT
 
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Create GDI+ Bitmap from HBITMAP
+   DIM bmp AS CGpBitmap = CGpBitmap(hbm)
+
+   ' // Draw the bitmap
+   graphics.DrawImage(@bmp, 10, 10)
 
 END SUB
 ' ========================================================================================
@@ -78,7 +80,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapCreateFromHBITMAP", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(390, 250)
    ' // Center the window
@@ -93,7 +95,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_CreateFromHBITMAP(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

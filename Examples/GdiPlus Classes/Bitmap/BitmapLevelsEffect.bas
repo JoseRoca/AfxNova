@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapLevelsEffect.bas
+' Contents: GDI+ - BitmapLevelsEffect example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,11 +27,12 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' The Levels effect encompasses three bitmap adjustments: highlight, midtone, and shadow.
+' You can apply one or more of those adjustments to a bitmap by passing calling the
+' ApplyEffect method. To specify the intensities of the adjustments, pass the
+' address of a LevelsParams structure to the SetParameters method.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_LevelsEffect (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -39,26 +40,24 @@ SUB Example_SetPixel (BYVAL hdc AS HDC)
    graphics.ScaleTransformForDpi
 
    ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   DIM bmp AS CGpBitmap = "climber.jpg"
    ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
+   bmp.SetResolutionForDpi
 
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   ' // Create a levels effect
+   DIM levelsEffect AS CGpLevels
+   ' // Set the parameters
+   DIM levelsParams AS LevelsParams
+   levelsParams.highlight =  20    ' Boost highlights
+   levelsParams.midtone   =  10    ' Slightly brighten midtones
+   levelsParams.shadow    = -15    ' Deepen shadows
+   levelsEffect.SetParameters(@levelsParams)
 
-   ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@levelsEffect)
 
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
-      NEXT
-   NEXT
-
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
 
 END SUB
 ' ========================================================================================
@@ -78,9 +77,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapLevelsEffect", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(390, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
@@ -93,7 +92,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_LevelsEffect(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

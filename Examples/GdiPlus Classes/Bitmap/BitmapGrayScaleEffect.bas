@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapGrayScaleEffect.bas
+' Contents: GDI+ - BitmapGrayScaleEffect example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,11 +27,9 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' Converts the image to grayscale by averaging RGB channels.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_GrayScaleEffect (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -39,26 +37,24 @@ SUB Example_SetPixel (BYVAL hdc AS HDC)
    graphics.ScaleTransformForDpi
 
    ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   DIM bmp AS CGpBitmap = "climber.jpg"
    ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
+   bmp.SetResolutionForDpi
 
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   ' // Create grayscale matrix
+   DIM grayMatrix(0 TO 4, 0 TO 4) AS SINGLE = {{0.3, 0.3, 0.3, 0.0, 0.0}, _
+      {0.59, 0.59, 0.59, 0.0, 0.0}, {0.11, 0.11, 0.11, 0.0, 0.0}, _
+      {0.0, 0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 0.0, 1.0}}
 
-   ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
+   ' // Create a gray matrix effect
+   DIM grayEffect AS CGpColorMatrix
+   ' // Set parameters
+   grayEffect.SetParameters(cast(ColorMatrix PTR, @grayMatrix(0, 0)))
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@grayEffect)
 
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
-      NEXT
-   NEXT
-
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
 
 END SUB
 ' ========================================================================================
@@ -78,9 +74,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapGrayScaleEffect", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(390, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
@@ -93,7 +89,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_GrayScaleEffect(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

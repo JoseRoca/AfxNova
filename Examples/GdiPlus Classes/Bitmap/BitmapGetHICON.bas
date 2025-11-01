@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapGetHICON.bas
+' Contents: GDI+ - BitmapGetHICON example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,38 +27,48 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' This example converts a GDI+ Bitmap into a Windows HICON and displays it.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_GetHICON (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Set the scaling factors using the DPI ratios
-   graphics.ScaleTransformForDpi
 
    ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   DIM bmp AS CGpBitmap = "climber.jpg"
    ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
+   bmp.SetResolutionForDpi
 
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   ' // Convert to HBITMAP
+   DIM hIcon AS HICON = bmp.GetHICON
 
-   ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
+   ' // Get width and height of the icon
+   DIM iconInfo AS ICONINFO
+   DIM iconWidth AS LONG
+   DIM iconHeight AS LONG
+   IF GetIconInfo(hIcon, @iconInfo) THEN
+      DIM bmp AS BITMAP
+      IF iconInfo.hbmColor THEN
+         ' Icon has a color bitmap
+         GetObject(iconInfo.hbmColor, SIZEOF(BITMAP), @bmp)
+         iconWidth = bmp.bmWidth
+         iconHeight = bmp.bmHeight
+         DeleteObject(iconInfo.hbmColor)
+      ELSEIF iconInfo.hbmMask THEN
+         ' Monochrome icon: height is double, so divide by 2
+         GetObject(iconInfo.hbmMask, SIZEOF(BITMAP), @bmp)
+         iconWidth = bmp.bmWidth
+         iconHeight = bmp.bmHeight \ 2
+      END IF
+      IF iconInfo.hbmMask THEN DeleteObject(iconInfo.hbmMask)
+   END IF
 
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
-      NEXT
-   NEXT
+   ' // Scale it according to the DPI settings
+   DIM scaledWidth AS LONG = iconWidth * graphics.GetDpiX / 96
+   DIM scaledHeight AS LONG = iconHeight * graphics.GetDpiY / 96
 
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Draw the icon
+   DrawIconEx(hdc, 0, 0, hIcon, scaledWidth, scaledHeight, 0, NULL, DI_NORMAL)
 
 END SUB
 ' ========================================================================================
@@ -78,7 +88,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapGetHICON", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(390, 250)
    ' // Center the window
@@ -93,7 +103,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_GetHICON(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

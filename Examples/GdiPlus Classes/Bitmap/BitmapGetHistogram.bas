@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapGetHistogram.bas
+' Contents: GDI+ - BitmapGetHistogram example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,38 +27,41 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' This example loads an image from disk and gets the histogram.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_GetHistogram (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Set the scaling factors using the DPI ratios
+   ' // Set the scale transform to the DPI ratios
    graphics.ScaleTransformForDpi
 
    ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   DIM bmp AS CGpBitmap = "climber.jpg"
    ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
+   bmp.SetResolutionForDpi
 
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   ' // Get histogram size
+   DIM entries AS UINT = bmp.GetHistogramSize(HistogramFormatARGB)
 
-   ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
+   ' // Allocate histogram arrays
+   DIM red(entries - 1) AS UINT
+   DIM green(entries - 1) AS UINT
+   DIM blue(entries - 1) AS UINT
+   DIM alpha(entries - 1) AS UINT
 
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
-      NEXT
+   ' // Extract histograms
+   bmp.GetHistogram(HistogramFormatARGB, entries, @red(0), @green(0), @blue(0), @alpha(0))
+
+   ' // Example: print peak red value
+   DIM maxRed AS UINT = 0
+   FOR i AS UINT = 0 TO entries - 1
+      IF red(i) > maxRed THEN maxRed = red(i)
    NEXT
+   AfxMsg ("Max red intensity count: " & WSTR(maxRed))
 
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 0, 0)
 
 END SUB
 ' ========================================================================================
@@ -78,7 +81,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapGetHistogram", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(390, 250)
    ' // Center the window
@@ -93,7 +96,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_GetHistogram(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

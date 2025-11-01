@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapRedEyeCorrectionEffect.bas
+' Contents: GDI+ - BitmapRedEyeCorrectionEffect example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,11 +27,9 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' This example loads an image from disk and applies a red eyes correction effect using GDI+ 1.1.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_BitmapRedEyeCorrectionEffect (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -39,26 +37,38 @@ SUB Example_SetPixel (BYVAL hdc AS HDC)
    graphics.ScaleTransformForDpi
 
    ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   DIM bmp AS CGpBitmap = "RedEyes.jpg"
    ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
+   bmp.SetResolutionForDpi
 
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   ' // Create a red eyes correction effect
+   DIM redEyeEffect AS CGpRedEyeCorrection
 
-   ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
+   ' // We need to specify one or more rectangles that enclose the red-eye areas.
+   ' // These are passed as an array of RECT structures.
 
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
-      NEXT
-   NEXT
+   ' // Define two rectangles around the eyes
+   ' // Change the values according the coordinates of your image
+   DIM eyeRects(0 TO 1) AS RECT
+   eyeRects(0).left   =   1 : eyeRects(0).top    =   1
+   eyeRects(0).right  = 400 : eyeRects(0).bottom = 250
+   eyeRects(1).left   =   1 : eyeRects(1).top    =   1
+   eyeRects(1).right  = 400 : eyeRects(1).bottom = 250
 
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Fill a RedEyeCorrectionParams structure
+   DIM redeyeParams AS RedEyeCorrectionParams
+   redeyeParams.numberOfAreas = 2
+   redeyeParams.areas = @eyeRects(0)
+   ' // Calculate the size of the paameters
+   DIM paramsSize AS UINT = SIZEOF(RedEyeCorrectionParams) + redeyeParams.numberOfAreas * SIZEOF(RECT)
+   ' // Set the parameters
+   redEyeEffect.SetParameters(@redeyeParams)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@redEyeEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 5, 5)
 
 END SUB
 ' ========================================================================================
@@ -78,9 +88,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapRedEyeCorrectionEffect", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(390, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
@@ -93,7 +103,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_BitmapRedEyeCorrectionEffect(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

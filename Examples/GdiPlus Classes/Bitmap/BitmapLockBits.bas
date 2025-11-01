@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: BitmapSetPixel.bas
-' Contents: GDI+ - BitmapSetPixel example
+' File: BitmapLockBits.bas
+' Contents: GDI+ - BitmapLockBits example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,11 +27,10 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a Bitmap object based on a JPEG file. The code draws the
-' bitmap once unaltered. Then the code calls the SetPixel method to create a
-' checkered pattern of black pixels in the bitmap and draws the altered bitmap.
+' Demonstrates the use of GdipBitmapLockBits/GdipBitmapUnlockBits.
+' This example inverts the colors of a Bitmap.
 ' ========================================================================================
-SUB Example_SetPixel (BYVAL hdc AS HDC)
+SUB Example_LockBits (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -39,26 +38,38 @@ SUB Example_SetPixel (BYVAL hdc AS HDC)
    graphics.ScaleTransformForDpi
 
    ' // Create a Bitmap object from a JPEG file.
-   DIM myBitmap AS CGpBitmap = "climber.jpg"
+   DIM bmp AS CGpBitmap = "climber.jpg"
    ' // Set the resolution of the image using the DPI ratios
-   myBitmap.SetResolutionForDpi
-
-   '// Draw the bitmap
-   graphics.DrawImage(@myBitmap, 10, 10)
+   bmp.SetResolutionForDpi
 
    ' // Get the width and height of the bitmap
-   DIM nWidth AS DWORD = myBitmap.GetWidth
-   DIM nHeight AS DWORD = myBitmap.GetHeight
+   DIM nWidth AS DWORD = bmp.GetWidth
+   DIM nHeight AS DWORD = bmp.GetHeight
 
-   ' // Make a checkered pattern of black pixels
-   FOR row AS LONG = 0 TO nWidth - 1 STEP 2
-      FOR col AS LONG = 0 TO nHeight STEP 2
-         myBitmap.SetPixel(row, col, ARGB_BLACK)
+   ' // Define lock rectangle
+   DIM rc AS GpRect = (0, 0, nWidth, nHeight)
+
+   ' // Lock bitmap bits
+   DIM bmpData AS BitmapData
+   bmp.LockBits(@rc, ImageLockModeRead OR ImageLockModeWrite, PixelFormat32bppARGB, @bmpData)
+
+   ' // Invert colors
+   DIM pPixels AS UBYTE PTR = bmpData.Scan0
+   FOR y AS LONG = 0 TO nHeight - 1
+      FOR x AS LONG = 0 TO nWidth - 1
+         DIM offset AS LONG = y * bmpData.Stride + x * 4
+         pPixels[offset + 0] = 255 - pPixels[offset + 0] ' Blue
+         pPixels[offset + 1] = 255 - pPixels[offset + 1] ' Green
+         pPixels[offset + 2] = 255 - pPixels[offset + 2] ' Red
+         ' Alpha remains unchanged
       NEXT
    NEXT
 
-   ' // Draw the altered bitmap.
-   graphics.DrawImage(@myBitmap, 200, 10)
+   ' // Unlock bitmap bits
+   bmp.UnlockBits(@bmpData)
+
+   ' // Draw the modified bitmap.
+   graphics.DrawImage(@bmp, 10, 10)
 
 END SUB
 ' ========================================================================================
@@ -78,7 +89,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ BitmapSetPixel", @WndProc)
+   pWindow.Create(NULL, "GDI+ BitmapLockBits", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(390, 250)
    ' // Center the window
@@ -93,7 +104,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SetPixel(hdc)
+   Example_LockBits(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

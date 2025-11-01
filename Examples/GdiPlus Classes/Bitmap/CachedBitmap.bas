@@ -35,12 +35,11 @@ SUB Example_CachedBitmap (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
+
    ' // Get the DPI scaling ratios
    DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set the scale transform
-   ' Can't be used with cached bitmaps, that can't be resized.
-'   graphics.ScaleTransform(rxRatio, ryRatio)
+   ' ScaleTransform can't be used with cached bitmaps, that can't be resized
 
    ' // Load the image
    DIM myBitmap AS CGpBitmap = "Climber.jpg"
