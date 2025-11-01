@@ -1001,6 +1001,71 @@ SUB Example_DrawImageRectRect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example draws an image.
+' ========================================================================================
+SUB Example_DrawImage (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object.
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Draw the original source image.
+   graphics.DrawImage(@image, 10, 10)
+
+   ' // Part of the source image to draw
+   DIM rcsrc AS GpRectF = (80, 30, 80, 80)
+   ' // Destination recangle
+   DIM rcdest AS GpRectF = (200, 10, 80, 80)
+
+   ' // Draw the scaled image.
+   graphics.DrawImage(@image, @rcdest, @rcsrc, UnitPixel)
+
+END SUB
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example draws part of an image loaded from a resource file.
+' ========================================================================================
+SUB Example_DrawImage (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object from a resource by name
+'   DIM image AS CGpBitmap = CGpBitmap(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
+   DIM image AS CGpBitmap = CGpBitmap(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
+   image.SetResolutionForDpi
+
+   ' // Draw the original source image.
+   graphics.DrawImage(@image, 10, 10)
+
+   ' // Part of the source image to draw
+   DIM rcsrc AS GpRectF = (80, 30, 80, 80)
+   ' // Destination rectangle
+   DIM rcdest AS GpRectF = (200, 10, 80, 80)
+
+   ' // Draw the scaled image.
+   graphics.DrawImage(@image, @rcdest, @rcsrc, UnitPixel)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="drawimagefx"></a>DrawImageFX (CGpGraphics)
