@@ -35,11 +35,8 @@ SUB Example_GetPathData (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM points(0 TO 4) AS GpPoint = {(200, 200), (250, 240), (200, 300), (300, 310), (250, 350)}
    DIM path AS CGpGraphicsPath
