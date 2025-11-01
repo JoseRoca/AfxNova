@@ -34,11 +34,8 @@ SUB Example_GetNearestColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a Color object, and fill a rectangle with that color.
    DIM colour AS ARGB = &hFFA53F88
@@ -46,7 +43,7 @@ SUB Example_GetNearestColor (BYVAL hdc AS HDC)
 
    ' // Get the nearest 8-bit color, and fill a second rectangle with that color.
    graphics.GetNearestColor(@colour)
-   graphics.FillRectangle(@CGpSolidBrush(colour), 100, 0, 100, 100)
+   graphics.FillRectangle(@CGpSolidBrush(colour), 110, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

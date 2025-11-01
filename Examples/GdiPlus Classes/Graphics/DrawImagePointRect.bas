@@ -34,21 +34,18 @@ SUB Example_DrawImage (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
 
    ' // Draw the original source image.
-   graphics.DrawImage(@pImage, 10, 10)
+   graphics.DrawImage(@image, 10, 10)
 
    ' // Draw the scaled image.
-   graphics.DrawImage(@pImage, 200.0, 30.0, 70.0, 20.0, 100.0, 200.0, UnitPixel)
+   graphics.DrawImage(@image, 200.0, 30.0, 70.0, 20.0, 100.0, 200.0, UnitPixel)
 
 END SUB
 ' ========================================================================================

@@ -36,11 +36,8 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Rotate the transformation and draw a rectangle.
    graphics.RotateTransform(45)
@@ -49,7 +46,7 @@ SUB Example_ResetTransform (BYVAL hdc AS HDC)
 
    ' // Reset the transformation to identity, and draw a second rectangle.
    graphics.ResetTransform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
    DIM redPen AS CGpPen = CGpPen(ARGB_RED)
    graphics.DrawRectangle(@redPen, 110, 0, 100, 50)
 

@@ -35,22 +35,24 @@ SUB Example_GetHalfTonePalette (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
+   DIM pImage AS CGpBitmap = "climber.jpg"
+   pImage.SetResolutionForDpi
 
    DIM graphics1 AS CGpGraphics = hdc
-   graphics1.DrawImage(@pImage, 10 * rxRatio, 10 * ryRatio)
+   graphics1.ScaleTransformForDpi
+   graphics1.DrawImage(@pImage, 10, 10)
 
    DIM hPalette AS HPALETTE
    hPalette = graphics1.GetHalfTonePalette
    SelectPalette(hdc, hPalette, FALSE)
    RealizePalette(hdc)
    DIM graphics2 AS CGpGraphics = hdc
-   graphics2.DrawImage(@pImage, 210 *rxRatio, 10 * ryRatio)
+   graphics2.ScaleTransformForDpi
+   graphics2.DrawImage(@pImage, 210, 10)
    DeleteObject(hPalette)
 
 END SUB

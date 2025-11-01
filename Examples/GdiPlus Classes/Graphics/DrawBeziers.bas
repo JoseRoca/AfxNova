@@ -33,21 +33,18 @@ SUB Example_DrawBeziers (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Define a Pen object and an array of PointF objects.
    DIM greenPen AS CGpPen = ARGB_LIGHTGREEN
-   DIM startPoint AS GpPointF : startPoint.x = 100.0 : startPoint.y = 100.0
-   DIM ctrlPoint1 AS GpPointF : ctrlPoint1.x = 200.0 : ctrlPoint1.y = 50.0
-   DIM ctrlPoint2 AS GpPointF : ctrlPoint2.x = 400.0 : ctrlPoint2.y = 10.0
-   DIM endPoint1  AS GpPointF : endPoint1.x  = 500.0 : endPoint1.y  = 100.0
-   DIM ctrlPoint3 AS GpPointF : ctrlPoint3.x = 600.0 : ctrlPoint3.y = 200.0
-   DIM ctrlPoint4 AS GpPointF : ctrlPoint4.x = 700.0 : ctrlPoint4.y = 400.0
-   DIM endPoint2  AS GpPointF : endPoint2.x  = 500.0 : endPoint2.y  = 500.0
+   DIM startPoint AS GpPointF = (100.0, 100.0)
+   DIM ctrlPoint1 AS GpPointF = (200.0, 50.0)
+   DIM ctrlPoint2 AS GpPointF = (400.0, 10.0)
+   DIM endPoint1  AS GpPointF = (500.0, 100.0)
+   DIM ctrlPoint3 AS GpPointF = (600.0, 200.0)
+   DIM ctrlPoint4 AS GpPointF = (700.0, 400.0)
+   DIM endPoint2  AS GpPointF = (500.0, 500.0)
 
    DIM curvePoints(6) AS GpPointF
    curvePoints(0) = startPoint

@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: SmoothingMode.bas
-' Contents: GDI+ - SmoothingMode example
+' File: DrawPolygon.bas
+' Contents: GDI+ - DrawPolygon example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -27,33 +27,28 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example sets the smoothing mode to high speed and draws an ellipse. It then
-' gets the smoothing mode, changes it to high quality, and draws a second ellipse to
-' demonstrate the difference.
+' The following example draws a sequence of connected lines.
 ' ========================================================================================
-SUB Example_SmoothingMode (BYVAL hdc AS HDC)
+SUB Example_DrawPolygon (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
    ' // Set the scale transform
    graphics.ScaleTransformForDpi
 
-   ' // Set the smoothing mode to SmoothingModeHighSpeed.
-   graphics.SetSmoothingMode(SmoothingModeHighSpeed)
+   ' // Create a Pen object
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 3)
 
-   ' // Draw an ellipse.
-   graphics.DrawEllipse(@CGpPen(ARGB_BLACK, 3), 10, 50, 200, 100)
+   ' // Create an array of GpPoint objects that define the lines to draw
+   DIM point1 AS GpPoint = (100, 100)
+   DIM point2 AS GpPoint = (200, 130)
+   DIM point3 AS GpPoint = (150, 200)
+   DIM point4 AS GpPoint = (50, 200)
+   DIM point5 AS GpPoint = (0, 130)
+   DIM pts(0 TO 4) AS GpPoint = {point1, point2, point3, point4, point5}
 
-   ' // Get the smoothing mode.
-   DIM nMode AS SmoothingMode = graphics.GetSmoothingMode
-
-   ' // Test mode to see whether smoothing has been set for the Graphics object.
-   IF nMode <> SmoothingModeHighQuality THEN
-      graphics.SetSmoothingMode(SmoothingModeHighQuality)
-   END IF
-
-   ' // Draw an ellipse to demonstrate the difference.
-   graphics.DrawEllipse(@CGpPen(ARGB_RED, 3), 220, 50, 200, 100)
+   ' // Draw the polygon
+   graphics.DrawPolygon(@blackPen, @pts(0), 5)
 
 END SUB
 ' ========================================================================================
@@ -73,9 +68,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ SmoothingMode", @WndProc)
+   pWindow.Create(NULL, "GDI+ DrawPolygon", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(430, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
@@ -88,7 +83,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_SmoothingMode(hdc)
+   Example_DrawPolygon(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

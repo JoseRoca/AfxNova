@@ -33,18 +33,15 @@ SUB Example_DrawCurve (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    DIM greenPen AS CGpPen = CGpPen(ARGB_LIGHTGREEN, 3)
 
-   DIM point1 AS GpPointF : point1.x = 100.0 : point1.y = 100.0
-   DIM point2 AS GpPointF : point2.x = 200.0 : point2.y = 50.0
-   DIM point3 AS GpPointF : point3.x = 400.0 : point3.y = 10.0
-   DIM point4 AS GpPointF : point4.x = 500.0 : point4.y = 100.0
+   DIM point1 AS GpPointF = (100.0, 100.0)
+   DIM point2 AS GpPointF = (200.0, 50.0)
+   DIM point3 AS GpPointF = (400.0, 10.0)
+   DIM point4 AS GpPointF = (500.0, 100.0)
 
    DIM curvePoints(3) AS GpPointF
    curvePoints(0) = point1

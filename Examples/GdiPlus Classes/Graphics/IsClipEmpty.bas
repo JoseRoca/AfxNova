@@ -34,11 +34,8 @@ SUB Example_IsClipEmpty (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // If the clipping region is not empty, draw a rectangle.
    IF graphics.IsClipEmpty = FALSE THEN
@@ -65,7 +62,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"
    pWindow.Create(NULL, "GDI+ IsClipEmpty", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(400, 304)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 

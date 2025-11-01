@@ -28,34 +28,30 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example draws part of an image.
+' The following example draws part of an image loaded from a resource file.
 ' ========================================================================================
 SUB Example_DrawImage (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
-   ' // Create an Image object.
-'   DIM pImage AS CGpImage = "climber.jpg"   ' // load from file
-   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
-'   DIM pImage AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
+   ' // Create an Image object from a resource by name
+'   DIM image AS CGpBitmap = CGpBitmap(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
+   DIM image AS CGpBitmap = CGpBitmap(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
+   image.SetResolutionForDpi
 
    ' // Draw the original source image.
-   graphics.DrawImage(@pImage, 10, 10)
+   graphics.DrawImage(@image, 10, 10)
 
    ' // Part of the source image to draw
-   DIM rcsrc AS GpRectF = TYPE<GpRectF>(80, 30, 80, 80)
-   ' // Destination recangle
-   DIM rcdest AS GpRectF = TYPE<GpRectF>(200, 10, 80, 80)
+   DIM rcsrc AS GpRectF = (80, 30, 80, 80)
+   ' // Destination rectangle
+   DIM rcdest AS GpRectF = (200, 10, 80, 80)
 
    ' // Draw the scaled image.
-   graphics.DrawImage(@pImage, @rcdest, @rcsrc, UnitPixel)
+   graphics.DrawImage(@image, @rcdest, @rcsrc, UnitPixel)
 
 END SUB
 ' ========================================================================================

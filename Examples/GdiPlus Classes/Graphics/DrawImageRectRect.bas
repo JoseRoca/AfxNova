@@ -34,18 +34,15 @@ SUB Example_DrawImageRectRect (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "pattern.png"
+   DIM image AS CGpBitmap = "pattern.png"
+   image.SetResolutionForDpi
 
    ' // Draw the original source image.
-   graphics.DrawImage(@pImage, 10, 10)
+   graphics.DrawImage(@image, 10, 10)
 
    ' // Define the portion of the image to draw.
    DIM srcX AS SINGLE = 70.0
@@ -60,14 +57,14 @@ SUB Example_DrawImageRectRect (BYVAL hdc AS HDC)
    destPoints(2).x = 275 : destPoints(2).y = 120
 
    ' // GDIP_COLORMAP is an union that solves the 32/64-bit incompatibility
-   DIM redToBlue AS GDIP_COLORMAP = (ARGB_RED, ARGB_BLUE)
+   DIM redToBlue AS GpColorMap = (ARGB_RED, ARGB_BLUE)
 
    ' // Create an ImageAttributes object that specifies a recoloring from red to blue.
    DIM remapAttributes AS CGpImageAttributes
    RemapAttributes.SetRemapTable(1, @redToBlue)
 
    ' // Draw the cropped image
-   graphics.DrawImage(@pImage, @destPoints(0), 3, srcX, srcY, srcWidth, srcHeight, _
+   graphics.DrawImage(@image, @destPoints(0), 3, srcX, srcY, srcWidth, srcHeight, _
                      UnitPixel, @remapAttributes, NULL, NULL)
 
 

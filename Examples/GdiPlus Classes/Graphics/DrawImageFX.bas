@@ -33,19 +33,16 @@ SUB Example_DrawImageFX (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
 
    ' // Create an Image object.
-   DIM pImage AS CGpImage = "climber.jpg"
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
 
    ' // Get image dimensions
-   DIM nWidth AS UINT = pImage.GetWidth
-   DIM nHeight AS UINT = pImage.GetHeight
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
 
    ' // Define source rectangle using actual image size
    DIM srcRect AS GpRectF = (0, 0, nWidth, nHeight)
@@ -55,7 +52,7 @@ SUB Example_DrawImageFX (BYVAL hdc AS HDC)
    DIM matrix AS CGpMatrix = CGpMatrix(1.0, 0.0, 0.0, 1.0, 10.0, 10.0)
 
    ' // Draw image with effect
-   graphics.DrawImageFX(@pImage, @srcRect, @matrix, NULL, NULL, UnitPixel)
+   graphics.DrawImageFX(@image, @srcRect, @matrix, NULL, NULL, UnitPixel)
 
 END SUB
 ' ========================================================================================
