@@ -1006,7 +1006,7 @@ END SUB
 
 ```
 ' ========================================================================================
-' The following example draws an image.
+' The following example draws part of an image.
 ' ========================================================================================
 SUB Example_DrawImage (BYVAL hdc AS HDC)
 
