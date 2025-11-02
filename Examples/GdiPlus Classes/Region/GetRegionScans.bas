@@ -78,7 +78,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"
    pWindow.Create(NULL, "GDI+ GetRegionScans", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(430, 330)
+   pWindow.SetClientSize(400, 330)
    ' // Center the window
    pWindow.Center
 
