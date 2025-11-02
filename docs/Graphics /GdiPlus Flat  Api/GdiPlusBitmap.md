@@ -679,7 +679,7 @@ END SUB
 
 ## GdipBitmapSetResolution
 
-Sets the resolution of this **Bitmap** object.
+Sets the resolution of a **Bitmap** object.
 
 ```
 FUNCTION GdipBitmapSetResolution (BYVAL bmp AS GpBitmap PTR, BYVAL xdpi AS REAL, BYVAL ydpi AS REAL) AS GpStatus
@@ -690,6 +690,10 @@ FUNCTION GdipBitmapSetResolution (BYVAL bmp AS GpBitmap PTR, BYVAL xdpi AS REAL,
 | *bmp* | [in] Pointer to the **Bitmap** object. |
 | *xdpi* | [in] Single precision value that specifies the horizontal resolution in dots per inch. |
 | *ydpi* | [in] Single precision value that specifies the vertical resolution in dots per inch. |
+
+#### Remarks
+
+Use this function to set the desired resolution on a newly created bitmap. Changing the resolution of the image does not change its physical size.
 
 #### Example
 
