@@ -40,11 +40,8 @@ SUB Example_GetMeasurableCharacterRangesCount (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Brushes and pens used for drawing and painting
    DIM blueBrush AS CGpSolidBrush = ARGB_BLUE

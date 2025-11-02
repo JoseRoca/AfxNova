@@ -35,10 +35,8 @@ SUB Example_GetTabStops (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
