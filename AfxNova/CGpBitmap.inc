@@ -628,6 +628,13 @@ PRIVATE FUNCTION CGpBitmap.LockBits (BYVAL rc AS GpRect PTR, BYVAL flags AS UINT
    RETURN SetStatus(GdipBitmapLockBits(cast(GpBitmap PTR, m_pImage), rc, flags, pxFormat, lockedBitmapData))
 END FUNCTION
 ' =====================================================================================
+' =====================================================================================
+PRIVATE FUNCTION CGpBitmap.LockBits (BYVAL rc AS GpRect PTR, BYVAL flags AS UINT, BYVAL pxFormat AS PixelFormat) AS BitmapData
+   DIM lockedBitmapData AS BitmapData
+   SetStatus(GdipBitmapLockBits(cast(GpBitmap PTR, m_pImage), rc, flags, pxFormat, @lockedBitmapData))
+   RETURN lockedBitmapData
+END FUNCTION
+' =====================================================================================
 
 ' =====================================================================================
 ' Unlocks a portion of this bitmap that was previously locked by a call to LockBits.
