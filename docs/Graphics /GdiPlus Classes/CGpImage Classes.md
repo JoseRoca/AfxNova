@@ -3430,6 +3430,58 @@ SUB Example_LockBits (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' This example sets every third byte to 255 (red tint for 24bpp images)
+' ========================================================================================
+SUB Example_LockBits (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Define rectangle to lock
+   DIM rc AS GpRect = (0, 0, bmp.GetWidth, bmp.GetHeight)
+
+   ' // Lock bitmap bits
+   DIM bmpData AS BitmapData = bmp.LockBits(@rc, ImageLockModeRead OR ImageLockModeWrite, bmp.GetPixelFormat)
+
+   ' // Get pointer to pixel data
+   DIM ptrData AS UBYTE PTR = bmpData.Scan0
+
+   ' // Calculate total bytes
+   DIM bytes AS LONG = ABS(bmpData.Stride) * bmp.GetHeight
+
+   ' // Copy pixel data to array
+   DIM rgbValues(bytes - 1) AS UBYTE
+   CopyMemory(@rgbValues(0), ptrData, bytes)
+
+   ' // Modify pixel data: set every third byte to 255
+   FOR i AS LONG = 2 TO bytes - 1 STEP 3
+      rgbValues(i) = 255
+   NEXT
+
+   ' // Copy modified data back
+   CopyMemory(ptrData, @rgbValues(0), bytes)
+
+   ' // Unlock bitmap
+   bmp.UnlockBits(@bmpData)
+
+   ' // Draw result
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setpixel"></a>SetPixel (CGpBitmap)
