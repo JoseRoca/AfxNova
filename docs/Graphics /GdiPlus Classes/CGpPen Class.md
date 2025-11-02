@@ -100,7 +100,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 ```
 ' ========================================================================================
 ' The following example creates a Pen object, creates a copy of the Pen object, and then
-' draws an ellipse using the copied Pen object.
+' draws a rectangle using the copied Pen object.
 ' ========================================================================================
 SUB Example_ClonePen (BYVAL hdc AS HDC)
 
@@ -113,8 +113,6 @@ SUB Example_ClonePen (BYVAL hdc AS HDC)
    DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 4)
    DIM clonedPen AS CGpPen
    pen.Clone(@clonedPen)
-   ' // You can also use:
-   ' DIM clonedPen AS CGpPen = @pen
 
    ' // Draw a rectangle using the cloned Pen object.
    graphics.DrawRectangle(@clonedPen, 10, 10, 100, 50)
@@ -163,7 +161,7 @@ SUB Example_GetAlignment (BYVAL hdc AS HDC)
    IF nPenAlignment = PenAlignmentCenter THEN
       ' // The pixels will be centered on the theoretical line.
    ELSEIF nPenAlignment = PenAlignmentInset THEN
-      '  // The pixels will lie inside the filled area  of the theoretical line.
+      ' // The pixels will lie inside the filled area  of the theoretical line.
    END IF
 
 END SUB
