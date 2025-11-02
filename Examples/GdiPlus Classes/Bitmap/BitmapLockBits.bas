@@ -52,6 +52,8 @@ SUB Example_LockBits (BYVAL hdc AS HDC)
    ' // Lock bitmap bits
    DIM bmpData AS BitmapData
    bmp.LockBits(@rc, ImageLockModeRead OR ImageLockModeWrite, PixelFormat32bppARGB, @bmpData)
+   ' // Alternate way
+   ' DIM bmpData AS BitmapData = bmp.LockBits(@rc, ImageLockModeRead OR ImageLockModeWrite, PixelFormat32bppARGB)
 
    ' // Invert colors
    DIM pPixels AS UBYTE PTR = bmpData.Scan0
