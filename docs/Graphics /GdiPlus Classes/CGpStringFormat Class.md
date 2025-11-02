@@ -82,11 +82,8 @@ SUB Example_Clone (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -153,11 +150,8 @@ SUB Example_GenericDefault (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -219,11 +213,8 @@ SUB Example_GenericTypographic (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -272,11 +263,8 @@ SUB Example_GetAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -364,11 +352,8 @@ SUB Example_GetFormatFlags (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -432,11 +417,8 @@ SUB Example_GetHotKeyPrefix (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -491,11 +473,8 @@ SUB Example_GetLineAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -558,11 +537,8 @@ SUB Example_GetMeasurableCharacterRangesCount (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Brushes and pens used for drawing and painting
    DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
@@ -627,11 +603,8 @@ SUB Example_GetTabStopCount (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
@@ -700,10 +673,8 @@ SUB Example_GetTabStops (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -764,11 +735,8 @@ SUB Example_GetTrimming (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a font family from name
    DIM fontFamily AS CGpFontFamily = "Times New Roman"
@@ -833,11 +801,8 @@ SUB Example_SetAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -927,13 +892,8 @@ SUB Example_SetFormatFlags (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Create a graphics object from the window device context
-   DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -990,11 +950,8 @@ SUB Example_SetHotKeyPrefix (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -1049,11 +1006,8 @@ SUB Example_SetLineAlignment (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
@@ -1113,11 +1067,8 @@ SUB Example_SetMeasurableCharacterRanges (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Brushes and pens used for drawing and painting
    DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
@@ -1221,10 +1172,8 @@ SUB Example_SetTabStops (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratio
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, rxRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_BLUE
@@ -1280,11 +1229,8 @@ SUB Example_SetTrimming (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
    ' // Set the scale transform
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create a red solid brush
    DIM solidBrush AS CGpSolidBrush = ARGB_RED
