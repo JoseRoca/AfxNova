@@ -54,7 +54,9 @@ While it can be used directly, it is not recommended for most scenarios because 
 
 # CGpBitmap Class
 
-The **CGpBitmap** class inherits from the **CGpImage** class. It encapsulates a GDI+ bitmap, which consists of the pixel data for a graphics image and its attributes. A **Bitmap** is an object used to work with images defined by pixel data.
+The **CGpBitmap** class inherits from the **CGpImage** class. It encapsulates a GDI+ bitmap, which consists of the pixel data for a graphics image and its attributes. A **Bitmap** is an object used to work with images defined by pixel data. There are many standard formats for saving a bitmap to a file. GDI+ supports the following file formats: BMP, GIF, EXIF, JPG, PNG, and TIFF.
+
+You can create images from files, streams, and other sources by using one of the **Bitmap** constructors and save them to a stream or to the file system with the **Save** method. Images are drawn to the screen or to memory by using the **DrawImage** method of the **Graphics** object.
 
 **Inherits from**: CGpImage.<br>
 **Include file**: CGpBitmap.inc.
@@ -242,39 +244,6 @@ SUB Example_Constructor_HDPI (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
-#### Example
-
-The following example draws part of an image.
-
-```
-SUB Example_DrawImage (BYVAL hdc AS HDC)
-
-   ' // Create a graphics object from the window device context
-   DIM graphics AS CGpGraphics = hdc
-   ' // Get the DPI scaling ratios
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   ' // Set scaling
-   graphics.SetPageUnit(UnitPixel)
-   graphics.SetPageScale(rxRatio)
-
-   ' // Create an Image object from a resource
-   DIM image AS CGpImage = CGpImage(GetModuleHandle(NULL), "#998")   ' // load from resource by ordinal
-'   DIM image AS CGpImage = CGpImage(GetModuleHandle(NULL), "IDI_CLIMBER")   ' // load from resource by name
-
-   ' // Draw the original source image.
-   graphics.DrawImage(@image, 10, 10)
-
-   ' // Part of the source image to draw
-   DIM rcsrc AS GpRectF = (80, 30, 80, 80)
-   ' // Destination rectangle
-   DIM rcdest AS GpRectF = (200, 10, 80, 80)
-
-   ' // Draw the scaled image.
-   graphics.DrawImage(@image, @rcdest, @rcsrc, UnitPixel)
-
-END SUB
-```
 ---
 
 ## <a name="cloneimage"></a>Clone (CGpImage)
@@ -318,6 +287,30 @@ SUB Example_Clone (BYVAL hdc AS HDC)
 
 END SUB
 ' ========================================================================================
+```
+
+#### Example
+
+This DPI aware version uses the `CGpBitmap` class to create the **Image** object and to clone it. Using the `CGpBitmap` class is needed to be able to use the **SetResolution** method.
+
+```
+SUB Example_Clone (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object, and then clone it.
+   DIM image1 AS CGpBitmap = "climber.jpg"
+   image1.SetResolutionForDpi
+   DIM image2 AS CGpBitmap = @image1
+
+   ' // Draw the original image and the cloned image.
+   graphics.DrawImage(@image1, 10, 10)
+   graphics.DrawImage(@image2, 200, 10)
+
+END SUB
 ```
 ---
 
