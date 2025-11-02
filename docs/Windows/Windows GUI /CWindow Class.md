@@ -1839,22 +1839,6 @@ The application exit code. This is the value sent when calling the **PostQuitMes
 
 This is the default message pump and should be enough for most applications, but you can replace it with your own.
 
-By default, it uses **IsDialogMessage** in the message pump.
-
-To process arrow keys, characters, enter, insert, backspace or delete keys, you can #define USEDLGMSG 0, or you can leave it as is and process the WM_GETDLGCODE message:
-
-```
-CASE WM_GETDLGCODE
-   FUNCTION = DLGC_WANTALLKEYS
-```
-
-If you are only interested in arrow keys and characters...
-
-```
-CASE WM_GETDLGCODE
-   FUNCTION = DLGC_WANTARROWS OR DLGC_WANTCHARS
-```
-
 #### Usage example
 
 ```
