@@ -4918,6 +4918,55 @@ SUB Example_SetToIdentity (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' This example applies a sepia matrix, then resets it using the SetIdentity method.
+' ========================================================================================
+SUB Example_SetToIdentity (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Define inverted color matrix
+   DIM sepiaMatrix AS ColorMatrix
+   sepiaMatrix.m(0, 0) = 0.393 : sepiaMatrix.m(0, 1) = 0.349 : sepiaMatrix.m(0, 2) = 0.272 : sepiaMatrix.m(0, 3) = 0 : sepiaMatrix.m(0, 4) = 0
+   sepiaMatrix.m(1, 0) = 0.769 : sepiaMatrix.m(1, 1) = 0.686 : sepiaMatrix.m(1, 2) = 0.534 : sepiaMatrix.m(1, 3) = 0 : sepiaMatrix.m(1, 4) = 0
+   sepiaMatrix.m(2, 0) = 0.189 : sepiaMatrix.m(2, 1) = 0.168 : sepiaMatrix.m(2, 2) = 0.131 : sepiaMatrix.m(2, 3) = 0 : sepiaMatrix.m(2, 4) = 0
+   sepiaMatrix.m(3, 0) = 0     : sepiaMatrix.m(3, 1) =  0    : sepiaMatrix.m(3, 2) =  0    : sepiaMatrix.m(3, 3) = 1 : sepiaMatrix.m(3, 4) = 0
+   sepiaMatrix.m(4, 0) = 0     : sepiaMatrix.m(4, 1) =  0    : sepiaMatrix.m(4, 2) =  0    : sepiaMatrix.m(4, 3) = 0 : sepiaMatrix.m(4, 4) = 1
+
+   ' // Apply matrix
+   imgAttr.SetColorMatrix(@sepiaMatrix)
+
+   ' // Draw image
+   DIM rc AS GpRect = (10, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+   ' // Reset to identity matrix (remove inverted color matrix)
+   imgAttr.SetToIdentity
+
+   ' // Draw original image (no color adjustment)
+   rc = TYPE<GpRect>(200, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setwrapmode"></a>SetWrapMode (CGpImageAttributes)
