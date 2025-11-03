@@ -4338,9 +4338,9 @@ SUB Example_ClearRemapTable (BYVAL hdc AS HDC)
    rc = TYPE<GpRect>(100, 10, nWidth, nHeight)
    graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
 
-   ' // Clear the remap table
+   ' // Clears the color-remap table
    imgAttr.ClearRemapTable
-
+   
    ' // Draw image again (should appear unaltered)
    rc = TYPE<GpRect>(190, 10, nWidth, nHeight)
    graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
@@ -4523,6 +4523,50 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipResetImageAttributes**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example sets a color remap table, draws an adjusted image, resets the attributes,
+' and then draws the original image again to show the effect of Reset.
+' ========================================================================================
+SUB Example_Reset (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "RedGreenStripes.bmp"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Create a remap table that converts red to blue.
+   DIM map AS GpColorMap
+   map.oldColor = ARGB_RED
+   map.newColor = ARGB_BLUE
+   imgAttr.SetRemapTable(1, @map)
+
+   ' // Draw the image with remap applied
+   DIM rc AS GpRect = (10, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+   ' // Reset the ImageAttributes for the default category
+   imgAttr.Reset
+
+   ' // Draw image again (should appear unaltered)
+   rc = TYPE<GpRect>(120, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setbrushremaptable"></a>SetBrushRemapTable (CGpImageAttributes)
@@ -4711,11 +4755,6 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipSetImageAttributesNoOp**.
 
-#### Example
-
-```
-
-```
 ---
 
 ## <a name="setoutputchannel"></a>SetOutputChannel (CGpImageAttributes)
