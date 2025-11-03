@@ -4631,6 +4631,46 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesColorKeys**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example sets a color key to make green pixels transparent, then draws the image
+' with and without the transparency effect.
+' ========================================================================================
+SUB Example_SetColorKey (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object based on a .bmp file.
+   ' // The image has one stripe with RGB components (160, 0, 0)
+   ' // and one stripe with RGB components (0, 140, 0).
+   DIM image AS CGpBitmap = "RedGreenStripes.bmp"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Set color key: make green transparent
+   imgAttr.SetColorKey(GDIP_ARGB(255,0,128,0), GDIP_ARGB(255,0,255,0))
+
+   ' // Draw original image (no transparency)
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Draw image with transparency applied
+   DIM rc AS GpRect = (120, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setcolormatrices"></a>SetColorMatrices (CGpImageAttributes)
