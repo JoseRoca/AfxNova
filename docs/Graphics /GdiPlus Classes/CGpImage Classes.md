@@ -4848,6 +4848,48 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesThreshold**.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates an Image object based on a .bmp file. The code also creates
+' an ImageAttributes object and sets its bitmap threshold value to 0.6. Then the code draws
+' the image twice: once with no color adjustment and once with the adjustment specified by
+' the threshold.
+' ========================================================================================
+SUB Example_SetThreshold (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object based on a .bmp file.
+   ' // The image has one stripe with RGB components (160, 0, 0)
+   ' // and one stripe with RGB components (0, 140, 0).
+   DIM image AS CGpBitmap = "RedGreenThreshold.bmp"
+   image.SetResolutionForDpi
+
+   ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
+   DIM imgAttr AS CGpImageAttributes
+   imgAttr.SetThreshold(0.6)
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Draw the image with no color adjustment.
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Draw the image with the threshold applied.
+   ' // 160 > 0.6 * 255, so the red stripe will be changed to full intensity.
+   ' // 140 < 0.6 * 255, so the green stripe will be changed to zero intensity.
+   DIM rc AS GpRect = (100, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 # <a name="settoidentity"></a>SetToIdentity (CGpImageAttributes)
