@@ -4915,7 +4915,6 @@ SUB Example_SetToIdentity (BYVAL hdc AS HDC)
    imgAttr.SetToIdentity
 
    ' // Draw original image (no color adjustment)
-   ' // Draw grayscale image
    rc = TYPE<GpRect>(200, 10, nWidth, nHeight)
    graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
 
