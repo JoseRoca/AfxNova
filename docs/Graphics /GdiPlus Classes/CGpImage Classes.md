@@ -774,7 +774,7 @@ FUNCTION GetFrameDimensionsList (BYVAL dimensionIDs AS GUID PTR, BYVAL count AS 
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *dimensionIDs* | Pointer to an array that receives the identifiers. GUIDs that identify various dimensions are defined in Gdiplusimaging.inc. |
+| *dimensionIDs* | Pointer to an array of GUIDs that receives the identifiers |
 | *count* | Integer that specifies the number of elements in the dimensionIDs array. Call the **GetFrameDimensionsCount** method to determine this number. |
 
 #### Return value
@@ -789,9 +789,7 @@ This method returns information about multiple-frame images, which come in two s
 
 A multiple-page image is an image that contains more than one image. Each page contains a single image (or frame). These pages (or images, or frames) are typically displayed in succession to produce an animated sequence, such as in an animated GIF file.
 
-A multiple-resolution image is an image that contains more than one copy of an image at different resolutions.
-
-Windows GDI+ can support an arbitrary number of pages (or images, or frames), as well as an arbitrary number of resolutions.
+A multiple-resolution image is an image that contains more than one copy of an image at different resolutions. This is commonly used by MIP mapping where the displayed image size determines the resolution of the image used for drawing. GDI+ can support an arbitrary number of pages (or images, or frames), as well as an arbitrary number of resolutions. 
 
 #### Example
 
