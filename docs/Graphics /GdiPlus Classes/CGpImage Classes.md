@@ -4791,4 +4791,41 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipSetImageAttributesWrapMode**.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates an Image object loading an image from file, creates an
+' ImageAttributes object, sets the wrap mode to WrapModeTile and draws the specified
+' source rectangle to the destination rectangle, which is four times as large as the
+' image itself.
+' ========================================================================================
+SUB Example_SetWrapMode (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Set the wrap mode to WrapModeTile
+   imgAttr.SetWrapMode(WrapModeTile, ARGB_BLUE)
+
+   ' // Draw the image
+   DIM rcf AS GpRectF = (10, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rcf, 0, 0, 2 * nWidth, 2 * nHeight, UnitPixel, @imgAttr)
+
+
+END SUB
+' ========================================================================================
+```
 ---
