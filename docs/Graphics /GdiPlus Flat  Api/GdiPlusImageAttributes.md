@@ -262,29 +262,31 @@ SUB GDIP_GetAdjustedPalette  (BYVAL hdc AS HDC)
    hStatus = GdipScaleWorldTransform(graphics, rxRatio, ryRatio, MatrixOrderPrepend)
 
    ' // Create a palette that has four entries.
-   DIM clrPalette AS COLORPALETTE
-   clrPalette.Flags = 0
-   clrPalette.Count = 4
+   DIM clrPalette AS COLORPALETTE PTR
+   DIM PALETTE_SIZE AS LONG = 4
+   clrPalette = Allocate(SIZEOF(COLORPALETTE) + PALETTE_SIZE * SIZEOF(ARGB))
+   clrPalette->Flags = 0
+   clrPalette->Count = PALETTE_SIZE
 
-   clrPalette.Entries(0) = ARGB_Aqua
-   clrPalette.Entries(1) = ARGB_Black
-   clrPalette.Entries(2) = ARGB_Red
-   clrPalette.Entries(3) = ARGB_Green
+   clrPalette->Entries(0) = ARGB_Aqua
+   clrPalette->Entries(1) = ARGB_Black
+   clrPalette->Entries(2) = ARGB_Red
+   clrPalette->Entries(3) = ARGB_Green
 
    ' // Create a SolidBrush
    DIM brush As GpSolidFill PTR
    hStatus = GdipCreateSolidFill(ARGB_Black, @brush)
    
    ' // Display the four palette colors with no adjustment.
-   FOR j AS LONG = 0 TO 3
-      hStatus = GdipSetSolidFillColor(brush, clrPalette.Entries(j))
-      hStatus = GdipFillRectangle (graphics, brush, 30*j, 0, 20, 20)
+   FOR j AS LONG = 0 TO PALETTE_SIZE - 1
+      hStatus = GdipSetSolidFillColor(brush, clrPalette->Entries(j))
+      hStatus = GdipFillRectangle (graphics, brush, 30 * j, 0, 20, 20)
    NEXT
    
    ' // Create a remap table that converts green to blue.
    DIM map AS GpColorMap
    map.oldColor = ARGB_Green
-   map.newColor = ARGB_Blue
+   map.newColor = ARGB_Violet
 
    ' // Create an ImageAttributes object, and set its bitmap remap table.
    DIM imgAttr AS GpImageAttributes PTR
@@ -293,15 +295,16 @@ SUB GDIP_GetAdjustedPalette  (BYVAL hdc AS HDC)
              ColorAdjustTypeBitmap, TRUE, 1, @map)
 
    ' // Adjust the palette.
-   hStatus = GdipGetImageAttributesAdjustedPalette(imgAttr, @clrPalette, ColorAdjustTypeBitmap)
+   hStatus = GdipGetImageAttributesAdjustedPalette(imgAttr, clrPalette, ColorAdjustTypeBitmap)
 
    ' // Display the four palette colors after the adjustment.
-   FOR j AS LONG = 0 TO 3
-      hStatus = GdipSetSolidFillColor(brush, clrPalette.Entries(j))
+   FOR j AS LONG = 0 TO PALETTE_SIZE - 1
+      hStatus = GdipSetSolidFillColor(brush, clrPalette->Entries(j))
       hStatus = GdipFillRectangle (graphics, brush, 30 * j, 30, 20, 20)
    NEXT
 
    ' // Cleanup
+   IF clrPalette THEN Deallocate(clrPalette)
    IF imgAttr THEN GdipDisposeImageAttributes(imgAttr)
    IF brush THEN GdipDeleteBrush(brush)
    IF graphics THEN GdipDeleteGraphics(graphics)
