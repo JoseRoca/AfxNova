@@ -5043,6 +5043,51 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipSetImageAttributesNoOp**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example applies a color matrix to convert the image to grayscale, then disables it
+' with SetNoOp to display the original image.
+' ========================================================================================
+SUB Example_SetNoOp (BYVAL hdc AS HDC)
+
+   ' Crear objeto gráfico
+   DIM graphics AS CGpGraphics = hdc
+   graphics.ScaleTransformForDpi
+
+   ' Cargar imagen
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' Obtener dimensiones
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' Crear ImageAttributes y aplicar matriz de escala de grises
+   DIM imgAttr AS CGpImageAttributes
+   DIM grayMatrix AS ColorMatrix
+   grayMatrix.m(0,0) = 0.3 : grayMatrix.m(0,1) = 0.3 : grayMatrix.m(0,2) = 0.3
+   grayMatrix.m(1,0) = 0.59: grayMatrix.m(1,1) = 0.59: grayMatrix.m(1,2) = 0.59
+   grayMatrix.m(2,0) = 0.11: grayMatrix.m(2,1) = 0.11: grayMatrix.m(2,2) = 0.11
+   grayMatrix.m(3,3) = 1
+   grayMatrix.m(4,4) = 1
+   imgAttr.SetColorMatrix(@grayMatrix)
+
+   ' Dibujar imagen con escala de grises
+   DIM rcGray AS GpRect = (10, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rcGray, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+   ' Desactivar ajustes de color
+   imgAttr.SetNoOp
+
+   ' Dibujar imagen original (sin efectos)
+   DIM rcOriginal AS GpRect = (210, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rcOriginal, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setoutputchannel"></a>SetOutputChannel (CGpImageAttributes)
