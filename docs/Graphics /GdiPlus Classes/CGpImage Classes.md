@@ -1009,7 +1009,7 @@ PRINT "The size of the palette is" & STR(paletteSize) & " bytes"
 
 ## <a name="getphysicaldimension"></a>GetPhysicalDimension (CGpImage)
 
-Gets the width and height of an **Image** object.
+Gets the width and height of an **Image** object. If the image is a bitmap, the width and height are returned in pixels. If the image is a metafile, the width and height are returned in 0.01 millimeter units.
 
 ```
 FUNCTION GetPhysicalDimension (BYVAL psize AS SizeF PTR) AS GpStatus
@@ -1145,7 +1145,7 @@ SLEEP
 
 # <a name="getpropertyiidlist"></a>GetPropertyIdList (CGpImage)
 
-Gets a list of the property identifiers used in the metadata of an **Image** object.
+Gets a list of the property identifiers used in the metadata of an **Image** object, one for each property item stored in the image.
 
 ```
 FUNCTION GetPropertyIdList (BYVAL numOfProperties AS UINT, BYVAL list AS PROPID PTR) AS GpStatus
@@ -1547,7 +1547,7 @@ SLEEP
 
 ## <a name="getwidth"></a>GetWidth (CGpImage)
 
-Gets the width, in pixels, of an image
+Gets the width, in pixels, of the image.
 
 ```
 FUNCTION GetWidth () AS UINT
