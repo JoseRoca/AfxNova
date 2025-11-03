@@ -4870,6 +4870,58 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipSetImageAttributesToIdentity**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example applies a grayscale matrix, then resets it using the SetIdentity method.
+' ========================================================================================
+SUB Example_SetToIdentity (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Set the wrap mode to WrapModeTile
+   imgAttr.SetWrapMode(WrapModeTile, ARGB_BLUE)
+
+   ' // Define grayscale matrix
+   DIM grayMatrix AS ColorMatrix
+   grayMatrix.m(0, 0) = 0.3 : grayMatrix.m(0, 1) = 0.3 : grayMatrix.m(0, 2) = 0.3 : grayMatrix.m(0, 3) = 0 : grayMatrix.m(0, 4) = 0
+   grayMatrix.m(1, 0) = 0.59: grayMatrix.m(1, 1) = 0.59: grayMatrix.m(1, 2) = 0.59: grayMatrix.m(1, 3) = 0 : grayMatrix.m(1, 4) = 0
+   grayMatrix.m(2, 0) = 0.11: grayMatrix.m(2, 1) = 0.11: grayMatrix.m(2, 2) = 0.11: grayMatrix.m(2, 3) = 0 : grayMatrix.m(2, 4) = 0
+   grayMatrix.m(3, 0) = 0   : grayMatrix.m(3, 1) = 0   : grayMatrix.m(3, 2) = 0   : grayMatrix.m(3, 3) = 1 : grayMatrix.m(3, 4) = 0
+   grayMatrix.m(4, 0) = 0   : grayMatrix.m(4, 1) = 0   : grayMatrix.m(4, 2) = 0   : grayMatrix.m(4, 3) = 0 : grayMatrix.m(4, 4) = 1
+
+   ' // Apply grayscale matrix
+   imgAttr.SetColorMatrix(@grayMatrix)
+
+   ' // Draw grayscale image
+   DIM rc AS GpRect = (10, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+   ' // Reset to identity matrix (remove grayscale)
+   imgAttr.SetToIdentity
+
+   ' // Draw original image (no color adjustment)
+   ' // Draw grayscale image
+   rc = TYPE<GpRect>(200, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setwrapmode"></a>SetWrapMode (CGpImageAttributes)
