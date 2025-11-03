@@ -4702,7 +4702,7 @@ Flat API function: **GdipSetImageAttributesOutputChannel**.
 Sets the output channel color-profile file for a specified category.
 
 ```
-FUNCTION SetOutputChannelColorProfile ( BYVAL pwszColorProfileFilename AS WSTRING PTR, _
+FUNCTION SetOutputChannelColorProfile (BYVAL pwszColorProfileFilename AS WSTRING PTR, _
    BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
 ```
 
@@ -4737,6 +4737,44 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesOutputChannelColorProfile**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example sets a CMYK output channel color profile using SetOutputChannelColorProfile.
+' ========================================================================================
+SUB Example_SetOutputChannelColorProfile (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object based on a .bmp file.
+   ' // The image has one stripe with RGB components (160, 0, 0)
+   ' // and one stripe with RGB components (0, 140, 0).
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Draw the image unaltered.
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Set CMYK color profile (must be a valid ICC file path)
+   DIM colorProfileFilename AS WSTRING * MAX_PATH = "C:\Program Files\Bullzip\PDF Printer\icc\sRGB_IEC61966-2-1_no_black_scaling.icc"
+   imgAttr.SetOutputChannelColorProfile(colorProfileFilename)
+
+   ' // Draw image with color profile applied
+   DIM rc AS GpRect = (10, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setremaptable"></a>SetRemapTable (CGpImageAttributes)
