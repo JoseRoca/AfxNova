@@ -4732,6 +4732,48 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesGamma**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example applies gamma correction to an image using the SetGamma method.
+' ========================================================================================
+SUB Example_SetGamma (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object based on a .bmp file.
+   ' // The image has one stripe with RGB components (160, 0, 0)
+   ' // and one stripe with RGB components (0, 140, 0).
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Draw the image with no color adjustment.
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Apply gamma correction (e.g., 2.2)
+   imgAttr.SetGamma(2.2)
+
+   ' // Draw original image
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Draw gamma-adjusted image
+   DIM rc AS GpRect = (200, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setnoop"></a>SetNoOp (CGpImageAttributes)
