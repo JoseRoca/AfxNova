@@ -4695,6 +4695,62 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesOutputChannel**.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates an Image object and calls the DrawImage method to draw the
+' image. Then the code creates an ImageAttributes object and sets its bitmap output channel
+' to cyan (ColorChannelFlagsC). The code calls DrawImage a second time, passing the address
+' of the Image object and the address of the ImageAttributes object. The cyan channel of
+' each pixel is calculated, and the rendered image shows the intensities of the cyan channel
+' as shades of gray. The code calls DrawImage three more times to show the intensities of
+' the magenta, yellow, and black channels.
+' ========================================================================================
+SUB Example_SetOutputChannel (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object based on a .bmp file.
+   ' // The image has one stripe with RGB components (160, 0, 0)
+   ' // and one stripe with RGB components (0, 140, 0).
+   DIM image AS CGpBitmap = "Mosaic2.bmp"
+   image.SetResolutionForDpi
+
+   ' // Draw the image unaltered.
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Draw the image, showing the intensity of the cyan channel.
+   imgAttr.SetOutputChannel(ColorChannelFlagsC)
+   DIM rc AS GpRect = (110, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+   ' // Draw the image, showing the intensity of the magenta channel.
+   imgAttr.SetOutputChannel(ColorChannelFlagsM)
+   rc = Type<GpRect>(210, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+ 
+    ' // Draw the image, showing the intensity of the yellow channel.
+  imgAttr.SetOutputChannel(ColorChannelFlagsY)
+   rc = Type<GpRect>(10, 110, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+    ' // Draw the image, showing the intensity of the black channel.
+  imgAttr.SetOutputChannel(ColorChannelFlagsK)
+   rc = Type<GpRect>(110, 110, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setoutputchannelcolorprofile"></a>SetOutputChannelColorProfile (CGpImageAttributes)
