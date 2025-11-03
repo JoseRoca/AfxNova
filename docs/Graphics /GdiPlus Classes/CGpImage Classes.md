@@ -4298,6 +4298,56 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesRemapTable**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example shows and image, applies a color-remap table and shows he remaped image,
+' clears the color-remap table and displays the image again.
+' ========================================================================================
+SUB Example_ClearRemapTable (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "RedGreenStripes.bmp"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Draw the original
+   DIM rc AS GpRect = (10, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+   ' // Create a remap table that converts red to blue.
+   DIM map AS GpColorMap
+   map.oldColor = ARGB_RED
+   map.newColor = ARGB_BLUE
+
+   ' // Set  bitmap remap table of the image attributes object
+   imgAttr.SetRemapTable(1, @map)
+
+   ' // Draw the image with remap applied
+   rc = TYPE<GpRect>(100, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+   ' // Clear the remap table
+   imgAttr.ClearRemapTable
+
+   ' // Draw image again (should appear unaltered)
+   rc = TYPE<GpRect>(190, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clearthreshold"></a>ClearThreshold (CGpImageAttributes)
@@ -4661,6 +4711,11 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipSetImageAttributesNoOp**.
 
+#### Example
+
+```
+
+```
 ---
 
 ## <a name="setoutputchannel"></a>SetOutputChannel (CGpImageAttributes)
