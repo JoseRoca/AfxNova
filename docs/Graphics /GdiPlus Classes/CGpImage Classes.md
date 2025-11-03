@@ -4707,6 +4707,64 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesColorMatrix**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example sets the color-adjustment matrix and the grayscale-adjustment matrix for a specified category.
+' SetColorMatrices lets you apply both a primary color matrix and a grayscale matrix in one call.
+' If you only want one effect, you can pass NULL for the second matrix.
+' This is ideal for layered effects like sepia + desaturation, or tint + gamma correction.
+' ========================================================================================
+SUB Example_SetColorMatrices (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object based on a .bmp file.
+   ' // The image has one stripe with RGB components (160, 0, 0)
+   ' // and one stripe with RGB components (0, 140, 0).
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
+   DIM imgAttr AS CGpImageAttributes
+
+   ' Define sepia color matrix
+   DIM sepiaMatrix AS ColorMatrix
+   sepiaMatrix.m(0,0) = 0.393 : sepiaMatrix.m(0,1) = 0.349 : sepiaMatrix.m(0,2) = 0.272
+   sepiaMatrix.m(1,0) = 0.769 : sepiaMatrix.m(1,1) = 0.686 : sepiaMatrix.m(1,2) = 0.534
+   sepiaMatrix.m(2,0) = 0.189 : sepiaMatrix.m(2,1) = 0.168 : sepiaMatrix.m(2,2) = 0.131
+   sepiaMatrix.m(3,3) = 1
+   sepiaMatrix.m(4,4) = 1
+
+   ' Define grayscale matrix (optional, for layering)
+   DIM grayMatrix AS ColorMatrix
+   grayMatrix.m(0,0) = 0.3 : grayMatrix.m(0,1) = 0.3 : grayMatrix.m(0,2) = 0.3
+   grayMatrix.m(1,0) = 0.59: grayMatrix.m(1,1) = 0.59: grayMatrix.m(1,2) = 0.59
+   grayMatrix.m(2,0) = 0.11: grayMatrix.m(2,1) = 0.11: grayMatrix.m(2,2) = 0.11
+   grayMatrix.m(3,3) = 1
+   grayMatrix.m(4,4) = 1
+
+   ' // Apply the color matrix
+   imgAttr.SetColorMatrices(@sepiaMatrix, @grayMatrix)
+
+   ' // Draw original image
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Draw image with transparency applied
+   DIM rc AS GpRect = (200, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setcolormatrix"></a>SetColorMatrix (CGpImageAttributes)
