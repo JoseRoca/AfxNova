@@ -4741,6 +4741,53 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesColorMatrix**.
 
+#### Example
+
+```
+' ========================================================================================
+' This example applies a grayscale color matrix to an image using SetColorMatrix.
+' ========================================================================================
+SUB Example_SetColorMatrix (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create an Image object based on a .bmp file.
+   ' // The image has one stripe with RGB components (160, 0, 0)
+   ' // and one stripe with RGB components (0, 140, 0).
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
+   DIM imgAttr AS CGpImageAttributes
+
+   ' // Define grayscale color matrix
+   DIM grayMatrix AS ColorMatrix
+   grayMatrix.m(0, 0) = 0.3 : grayMatrix.m(0, 1) = 0.3 : grayMatrix.m(0, 2) = 0.3 : grayMatrix.m(0, 3) = 0 : grayMatrix.m(0, 4) = 0
+   grayMatrix.m(1, 0) = 0.59: grayMatrix.m(1, 1) = 0.59: grayMatrix.m(1, 2) = 0.59: grayMatrix.m(1, 3) = 0 : grayMatrix.m(1, 4) = 0
+   grayMatrix.m(2, 0) = 0.11: grayMatrix.m(2, 1) = 0.11: grayMatrix.m(2, 2) = 0.11: grayMatrix.m(2, 3) = 0 : grayMatrix.m(2, 4) = 0
+   grayMatrix.m(3, 0) = 0   : grayMatrix.m(3, 1) = 0   : grayMatrix.m(3, 2) = 0   : grayMatrix.m(3, 3) = 1 : grayMatrix.m(3, 4) = 0
+   grayMatrix.m(4, 0) = 0   : grayMatrix.m(4, 1) = 0   : grayMatrix.m(4, 2) = 0   : grayMatrix.m(4, 3) = 0 : grayMatrix.m(4, 4) = 1
+
+   ' // Apply the color matrix
+   imgAttr.SetColorMatrix(@grayMatrix)
+
+   ' // Draw original image
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Draw image with transparency applied
+   DIM rc AS GpRect = (200, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setgamma"></a>SetGamma (CGpImageAttributes)
