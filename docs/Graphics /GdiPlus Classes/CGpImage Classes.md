@@ -4824,7 +4824,6 @@ SUB Example_SetWrapMode (BYVAL hdc AS HDC)
    DIM rcf AS GpRectF = (10, 10, nWidth, nHeight)
    graphics.DrawImage(@image, @rcf, 0, 0, 2 * nWidth, 2 * nHeight, UnitPixel, @imgAttr)
 
-
 END SUB
 ' ========================================================================================
 ```
