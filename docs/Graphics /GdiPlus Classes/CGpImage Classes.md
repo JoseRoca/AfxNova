@@ -74,6 +74,7 @@ You can create images from files, streams, and other sources by using one of the
 | [GetPixel](#getpixel) | Gets the color of a specified pixel in this **Bitmap** object. |
 | [InitializePalette](#initializepalette) | Initializes a standard, optimal, or custom color palette. |
 | [LockBits](#lockbits) | Locks a rectangular portion of this bitmap and provides a temporary buffer that you can use to read or write pixel data in a specified format. |
+| [Maketransparent](#maketransparent) | Makes the default or specified color transparent for this **Bitmap**. |
 | [SetPixel](#setpixel) | Sets the color of a specified pixel in this **Bitmap** object. |
 | [SetResolution](#setresolution) | Sets the resolution of this **Bitmap** object. |
 | [SetResolutionForDpi](#setresolutionfordpi) | Sets the resolution of this **Bitmap** object. This function uses the current DPI settings. |
@@ -3478,6 +3479,49 @@ SUB Example_LockBits (BYVAL hdc AS HDC)
 
    ' // Draw result
    graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
+---
+
+## <a name="maketransparent"></a>MakeTransparent (CGpBitmap)
+
+Makes the default transparent color (light gray) or the specified color transparent for this **Bitmap**.
+
+```
+FUNCTION MakeTransparent () AS GpStatus
+FUNCTION MakeTransparent (BYVAL transparentColor AS ARGB) AS GpStatus
+```
+
+The system palette defines one color as the default transparent, or alpha, color. This method makes the default transparent color transparent for this **Bitmap**. If no transparent color is specified by the system, light gray is the transparent color.
+
+When you call **MakeTransparent**, the bitmap will be converted to the *Format32bppArgb* format, as this format supports an alpha channel.
+
+#### Example
+
+```
+' ========================================================================================
+' This example makes the system default transparent color transparent for myBitmap, and
+' then draws the Bitmap to the screen.
+' ========================================================================================
+SUB Example_MakeTransparent (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM myBitmap AS CGpBitmap = "HouseAndTree.gif"
+
+   ' // Make the red color transparent
+   myBitmap.MakeTransparent
+   ' // Alternative: Make the specified color transparent
+'   myBitmap.MakeTransparent(ARGB_RED)
+
+   ' // Draw the image
+   graphics.DrawImage(@myBitmap, 10, 10)
 
 END SUB
 ' ========================================================================================
