@@ -624,6 +624,8 @@ This method returns a value that holds a set of single-bit flags. The flags are 
 | *ImageFlagsReadOnly* | &h00010000 | Specifies that the pixel data is read-only. |
 | *ImageFlagsCaching* | &h00020000 | Specifies that the pixel data can be cached for faster access. |
 
+For example, if the **GetFlags** property for an image returned 77960, the **ImageFlags** for the image would be *ReadOnly*, *HasRealDpi*, *HasRealPixelSize*, *ColorSpaceYcbcr*, and *PartiallyScalable*.
+
 #### Example
 
 ```
