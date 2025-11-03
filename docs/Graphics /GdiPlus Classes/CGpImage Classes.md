@@ -4893,9 +4893,6 @@ SUB Example_SetToIdentity (BYVAL hdc AS HDC)
    ' // Create an ImageAttributes object
    DIM imgAttr AS CGpImageAttributes
 
-   ' // Set the wrap mode to WrapModeTile
-   imgAttr.SetWrapMode(WrapModeTile, ARGB_BLUE)
-
    ' // Define grayscale matrix
    DIM grayMatrix AS ColorMatrix
    grayMatrix.m(0, 0) = 0.3 : grayMatrix.m(0, 1) = 0.3 : grayMatrix.m(0, 2) = 0.3 : grayMatrix.m(0, 3) = 0 : grayMatrix.m(0, 4) = 0
