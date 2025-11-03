@@ -4710,6 +4710,68 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesRemapTable**.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example initializes a ColorPalette structure with four colors: aqua, black,
+' red, and green. The code also creates an ImageAttributes object and sets its bitmap remap
+' table so that green will be converted to blue. Then the code adjusts the palette colors by
+' passing the address of the palette to the GdipGetAdjustedPalette function. The code displays
+' the four palette colors twice: once before the adjustment and once after the adjustment.
+' ========================================================================================
+SUB Example_GetAdjustedPalette (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a palette that has four entries.
+   DIM clrPalette AS COLORPALETTE PTR
+   DIM PALETTE_SIZE AS LONG = 4
+   clrPalette = Allocate(SIZEOF(COLORPALETTE) + PALETTE_SIZE * SIZEOF(ARGB))
+   clrPalette->Flags = 0
+   clrPalette->Count = PALETTE_SIZE
+
+   clrPalette->Entries(0) = ARGB_Aqua
+   clrPalette->Entries(1) = ARGB_Black
+   clrPalette->Entries(2) = ARGB_Red
+   clrPalette->Entries(3) = ARGB_Green
+
+   ' // Create a SolidBrush
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+   
+   ' // Display the four palette colors with no adjustment.
+   FOR j AS LONG = 0 TO PALETTE_SIZE - 1
+      brush.SetColor(clrPalette->Entries(j))
+      graphics.FillRectangle(@brush, 30 * j, 0, 20, 20)
+   NEXT
+
+   ' // Create a remap table that converts green to blue.
+   DIM map AS GpColorMap
+   map.oldColor = ARGB_GREEN
+   map.newColor = ARGB_VIOLET
+
+   ' // Create an ImageAttributes object, and set its bitmap remap table.
+   DIM imgAttr AS CGpImageAttributes
+   imgAttr.SetRemapTable(1, @map, ColorAdjustTypeBitmap)
+
+   ' // Adjust the palette.
+   imgAttr.GetAdjustedPalette(clrPalette, ColorAdjustTypeBitmap)
+
+   ' // Display the four palette colors after the adjustment.
+   FOR j AS LONG = 0 TO PALETTE_SIZE - 1
+      brush.SetColor(clrPalette->Entries(j))
+      graphics.FillRectangle(@brush, 30 * j, 30, 20, 20)
+   NEXT
+
+   ' // Cleanup
+   IF clrPalette THEN Deallocate(clrPalette)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setthreshold"></a>SetThreshold (CGpImageAttributes)
