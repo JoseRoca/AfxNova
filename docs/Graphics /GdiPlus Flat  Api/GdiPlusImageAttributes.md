@@ -688,7 +688,7 @@ FUNCTION GdipSetImageAttributesNoOp (BYVAL imageattr AS GpImageAttributes PTR, _
 
 ```
 ' ========================================================================================
-' This example sets a color remap, disables it with NoOp, and shows the difference.
+' This example applies a grayscale matrix, then disables it using GdipSetImageAttributesNoOp.
 ' ========================================================================================
 SUB Example_SetNoOp (BYVAL hdc AS HDC)
 
@@ -708,46 +708,44 @@ SUB Example_SetNoOp (BYVAL hdc AS HDC)
    ' // Set the scale transform
    hStatus = GdipScaleWorldTransform(graphics, rxRatio, ryRatio, MatrixOrderPrepend)
 
-   ' // Load an image from file
+   ' Load image
    DIM image AS GpImage PTR
-   hStatus = GdipLoadImageFromFile("RedGreenStripes.bmp", @image)
-   ' // Set the resolution of this image object to the user's DPI settings
-   hStatus = GdipBitmapSetResolution(image, dpiX, dpiY)
-   
-   ' // Get the width and height of the image
-   DIM AS LONG nWidth, nHeight
-   hStatus = GdipGetImageWidth(image, @nWidth)
-   hStatus = GdipGetImageHeight(image, @nHeight)
+   GdipLoadImageFromFile("climber.jpg", @image)
 
-   ' // Create an ImageAttributes object
+   ' Get image dimensions
+   DIM nWidth AS UINT
+   DIM nHeight AS UINT
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
+
+   ' Create ImageAttributes
    DIM imgAttr AS GpImageAttributes PTR
-   hStatus = GdipCreateImageAttributes(@imgAttr)
+   GdipCreateImageAttributes(@imgAttr)
 
-   ' // Set color remap: red to blue
-   DIM cMap AS GpColorMap
-   cMap.oldColor = ARGB_RED
-   cMap.newColor = ARGB_BLUE
-   hStatus = GdipSetImageAttributesRemapTable(imgAttr, ColorAdjustTypeDefault, TRUE, 1, @cMap)
+   ' Define grayscale matrix
+   DIM grayMatrix AS ColorMatrix
+   grayMatrix.m(0,0) = 0.3 : grayMatrix.m(0,1) = 0.3 : grayMatrix.m(0,2) = 0.3
+   grayMatrix.m(1,0) = 0.59: grayMatrix.m(1,1) = 0.59: grayMatrix.m(1,2) = 0.59
+   grayMatrix.m(2,0) = 0.11: grayMatrix.m(2,1) = 0.11: grayMatrix.m(2,2) = 0.11
+   grayMatrix.m(3,3) = 1
+   grayMatrix.m(4,4) = 1
 
-   ' // Draw image with remap applied
-   hStatus = GdipDrawImageRectRect(graphics, image, _
-      10, 10, nWidth, nHeight, _
-      0, 0, nWidth, nHeight, _
-      UnitPixel, imgAttr, NULL, NULL)
+   ' Apply grayscale matrix
+   GdipSetImageAttributesColorMatrix(imgAttr, ColorAdjustTypeBitmap, TRUE, @grayMatrix, NULL, ColorMatrixFlagsDefault)
 
-   ' // Disable color adjustment using NoOp
-   hStatus = GdipSetImageAttributesNoOp(imgAttr, ColorAdjustTypeDefault, TRUE)
+   ' Draw grayscale image
+   GdipDrawImageRectRect(graphics, image, 10, 10, nWidth, nHeight, 0, 0, nWidth, nHeight, UnitPixel, imgAttr, NULL, NULL)
 
-   ' // Draw image again (should appear unaltered)
-   hStatus = GdipDrawImageRectRect(graphics, image, _
-      100, 10, nWidth, nHeight, _
-      0, 0, nWidth, nHeight, _
-      UnitPixel, imgAttr, NULL, NULL)
+   ' Disable color adjustments using GdipSetImageAttributesNoOp
+   GdipSetImageAttributesNoOp(imgAttr, ColorAdjustTypeBitmap, TRUE)
 
-   ' // Cleanup
-   IF imgAttr THEN GdipDisposeImageAttributes(imgAttr)
-   IF image THEN GdipDisposeImage(image)
-   IF graphics THEN GdipDeleteGraphics(graphics)
+   ' Draw original image (no color matrix applied)
+   GdipDrawImageRectRect(graphics, image, 210, 10, nWidth, nHeight, 0, 0, nWidth, nHeight, UnitPixel, imgAttr, NULL, NULL)
+
+   ' Cleanup
+   GdipDisposeImage(image)
+   GdipDeleteGraphics(graphics)
+   GdipDisposeImageAttributes(imgAttr)
 
 END SUB
 ' ========================================================================================
