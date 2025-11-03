@@ -4772,6 +4772,48 @@ As soon as you specify a color- or grayscale-adjustment setting for a certain ca
 
 Flat API function: **GdipSetImageAttributesRemapTable**.
 
+#### Examples
+
+```
+' ========================================================================================
+' The following example creates an Image object based on a .bmp file and then draws the image.
+' The code creates an ImageAttributes object and sets its default remap table so that red
+' is converted to blue. Then the code draws the image again using the color adjustment
+' specified by the remap table.
+' ========================================================================================
+SUB Example_SetRemapTable (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   DIM image AS CGpBitmap = "RedGreenStripes.bmp"
+   image.SetResolutionForDpi
+
+   ' // Create a remap table that converts red to blue.
+   DIM map AS GpColorMap
+   map.oldColor = ARGB_RED
+   map.newColor = ARGB_BLUE
+
+   ' // Create an ImageAttributes object, and set its bitmap remap table.
+   DIM imgAttr AS CGpImageAttributes
+   imgAttr.SetRemapTable(1, @map, ColorAdjustTypeBitmap)
+
+   ' // Get the width and height of the image
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+   
+   ' // Draw the image with no color adjustment
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' // Draw the image with red converted to blue.
+   DIM rc AS GpRect = (100, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setthreshold"></a>SetThreshold (CGpImageAttributes)
