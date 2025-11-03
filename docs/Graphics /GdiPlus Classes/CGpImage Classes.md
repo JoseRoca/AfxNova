@@ -4402,6 +4402,57 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 Flat API function: **GdipCloneImageAttributes**.
 
+####  Example
+
+```
+' ========================================================================================
+' This example clones an ImageAttributes object and applies different effects to each.
+' ========================================================================================
+SUB Example_CloneImageAttributes (BYVAL hdc AS HDC)
+
+   ' Create graphics object
+   DIM graphics AS CGpGraphics = hdc
+   graphics.ScaleTransformForDpi
+
+   ' Load image
+   DIM image AS CGpBitmap = "climber.jpg"
+   image.SetResolutionForDpi
+
+   ' Get image dimensions
+   DIM nWidth AS UINT = image.GetWidth
+   DIM nHeight AS UINT = image.GetHeight
+
+   ' Create original ImageAttributes and apply grayscale matrix
+   DIM imgAttrOriginal AS CGpImageAttributes
+   DIM grayMatrix AS ColorMatrix
+   grayMatrix.m(0,0) = 0.3 : grayMatrix.m(0,1) = 0.3 : grayMatrix.m(0,2) = 0.3
+   grayMatrix.m(1,0) = 0.59: grayMatrix.m(1,1) = 0.59: grayMatrix.m(1,2) = 0.59
+   grayMatrix.m(2,0) = 0.11: grayMatrix.m(2,1) = 0.11: grayMatrix.m(2,2) = 0.11
+   grayMatrix.m(3,3) = 1
+   grayMatrix.m(4,4) = 1
+   imgAttrOriginal.SetColorMatrix(@grayMatrix)
+
+   ' Clone the ImageAttributes object
+   DIM imgAttrClone AS CGpImageAttributes
+   imgAttrOriginal.Clone(@imgAttrClone)
+
+   ' Apply gamma correction to the clone
+   imgAttrClone.SetGamma(0.6)
+
+   ' Draw original image (no effect)
+   graphics.DrawImage(@image, 10, 10, nWidth, nHeight)
+
+   ' Draw grayscale image (original attributes)
+   DIM rcGray AS GpRect = (210, 10, nWidth, nHeight)
+   graphics.DrawImage(@image, @rcGray, 0, 0, nWidth, nHeight, UnitPixel, @imgAttrOriginal)
+
+   ' Draw grayscale + gamma image (cloned and modified)
+   DIM rcClone AS GpRect = (10, 150, nWidth, nHeight)
+   graphics.DrawImage(@image, @rcClone, 0, 0, nWidth, nHeight, UnitPixel, @imgAttrClone)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getadjustedpalette"></a>GetAdjustedPalette (CGpImageAttributes)
