@@ -602,4 +602,68 @@ SUB Example_ColorLUTEffect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' The ColorLUT effect lets you define lookup tables for each channel—Alpha, Red, Green,
+' and Blue—with 256 entries each. For every pixel in the image:
+' The channel value (0–255) is used as an index.
+' The corresponding value in the LUT replaces the original.
+' This means you can:
+' Invert colors
+' Apply posterization
+' Simulate film-like grading
+' Create custom stylizations
+' The following example applies the effect to the specified region only.
+' ========================================================================================
+SUB Example_ColorLUTEffectRegion (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a ColorLUT effect
+   DIM colorLUTEffect AS CGpColorLUT
+
+   ' // Create LUTs: identity (no change)
+   DIM lut AS ColorLUTParams
+   FOR i AS LONG = 0 TO 255
+      lut.lutB(i) = i
+      lut.lutG(i) = i
+      lut.lutR(i) = i
+      lut.lutA(i) = i
+   NEXT
+
+   ' // Example: invert red channel
+   FOR i AS LONG = 0 TO 255
+      lut.lutR(i) = 255 - i
+   NEXT
+
+   ' // Set parameters
+   colorLUTEffect.SetParameters(@lut)
+
+   ' // Define the region of interest (ROI)
+   DIM roi AS RECT
+   roi.left   = 20
+   roi.top    = 20
+   roi.right  = 150
+   roi.bottom = 100
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@colorLUTEffect, @roi)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
