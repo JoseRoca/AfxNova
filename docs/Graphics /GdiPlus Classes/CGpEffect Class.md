@@ -31,7 +31,7 @@ To apply and effect to a bitmap, create an instance of one of the descendants of
 
 ---
 
-## <a name="constructoreffecty"></a>Constructor (CGpEffect)
+## <a name="constructoreffect"></a>Constructor (CGpEffect)
 
 Creates an instance of the `CgpEffect`class.
 
