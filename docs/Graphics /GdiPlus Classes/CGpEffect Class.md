@@ -5,9 +5,9 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | Name       | Description |
 | ---------- | ----------- |
 | [CGpBlur](#cgpblur) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
+| [CGpBrightnessContrast](#cgpbrightnesscontrast) | Enables to change the brightness and contrast of a bitmap.  |
 
-* CGpBlur
-* CGpBrightnessContrast
+* 
 * CGpColorBalance
 * CGpColorCurve
 * CGpColorLUT
@@ -225,7 +225,7 @@ END SUB
 ```
 ---
 
-# CGpBrightnessContrast Class
+# <a name="cgpbrightnesscontrast"></a>CGpBrightnessContrast Class
 
 The `CGpBrightnessContrast` class enables you to change the brightness and contrast of a bitmap. Pass the address of a **BrightnessContrast** object to the **DrawImage** methodof the **Graphics** or to the **ApplyEffect** methodof the **Bitmap** object. To specify the brightness and contrast levels, pass a **BrightnessContrastParams** structure to the **SetParameters** method of a **BrightnessContrast** object.
 
