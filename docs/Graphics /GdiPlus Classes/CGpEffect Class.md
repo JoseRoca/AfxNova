@@ -828,7 +828,7 @@ FUNCTION SetParametes (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, _
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *uSize* | Pointer to a **HueSaturationLightnessParams** structure that specifies the parameters. |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **HueSaturationLightnessParams** structure. |
 | *params* | Pointer to a **HueSaturationLightnessParams** structure that specifies the parameters. |
 
 
@@ -883,3 +883,170 @@ END SUB
 ' ========================================================================================
 ```
 ---
+
+
+## <a name="getparametershue"></a>GetParameters (CGpHueSaturationLightness)
+
+Gets the current values of the parameters of this **HueSaturationLightness** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS HueSaturationLightnessParams PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **HueSaturationLightnessParams** structure. |
+| *params* | Pointer to a **HueSaturationLightnessParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparametershue"></a>SetParameters (CGpHueSaturationLightness)
+
+Sets the current values of the parameters of this **HueSaturationLightness** object.
+
+```
+FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+FUNCTION SetParametes (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, _
+   BYVAL lightnessLevel AS INT_) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **HueSaturationLightnessParams** structure. |
+| *params* | Pointer to a **HueSaturationLightnessParams** structure that specifies the parameters. |
+
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hueLevel* | Integer in the range -180 through 180 that specifies the change in hue. A value of 0 specifies no change. Positive values specify counterclockwise rotation on the color wheel. Negative values specify clockwise rotation on the color wheel. |
+| *saturationLevel* | Integer in the range -100 through 100 that specifies the change in saturation. A value of 0 specifies no change. Positive values specify increased saturation and negative values specify decreased saturation. |
+| *lightnessLevel* | Integer in the range -100 through 100 that specifies the change in lightness. A value of 0 specifies no change. Positive values specify increased lightness and negative values specify decreased lightness. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+# CGpLevels Class
+
+The `CGpLevels` class encompasses three bitmap adjustments: highlight, midtone, and shadow. You can apply one or more of those adjustments to a bitmap by passing the address of a Levels object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the intensities of the adjustments, pass the address of a **LevelsParams** structure to the **SetParameters** method of a **Levels** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorlevelseffect) | Creates an instance of the **CGpLevels** class. |
+| [GetParameters](#getparameterslevels) | Gets the current values of the parameters of this **Levels** object. |
+| [SetParameters](#setparameterslevels) | Sets the parameters of this **Levels** object. |
+
+---
+
+## <a name="constructorlevelseffect"></a>Constructor (CGpLevels)
+
+Creates an instance of the `CGpLevels`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterslevels"></a>GetParameters (CGpLevels)
+
+Gets the current values of the parameters of this **Leveks** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **LevelsParams** structure. |
+| *params* | Pointer to a **LevelsParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterslevels"></a>SetParameters (CGpLevels)
+
+Sets the current values of the parameters of this **Levels** object.
+
+```
+FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS LevelsParams PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL highlight AS INT_, BYVAL midtone AS INT_, BYVAL shadow AS INT_) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **LevelsParams** structure. |
+| *params* | Pointer to a **LevelsParams** structure that specifies the parameters. |
+
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *highlight* | Integer in the range 0 through 100 that specifies which pixels should be lightened. You can use this adjustment to lighten pixels that are already lighter than a certain threshold. Setting highlight to 100 specifies no change. Setting highlight to t specifies that a color channel value is increased if it is already greater than t percent of full intensity. For example, setting highlight to 90 specifies that all color channel values greater than 90 percent of full intensity are increased. |
+| *midtone* | Integer in the range -100 through 100 that specifies how much to lighten or darken an image. Color channel values in the middle of the intensity range are altered more than color channel values near the minimum or maximum intensity. You can use this adjustment to lighten (or darken) an image without loosing the contrast between the darkest and lightest portions of the image. A value of 0 specifies no change. Positive values specify that the midtones are made lighter, and negative values specify that the midtones are made darker. |
+| *shadow* | Integer in the range 0 through 100 that specifies which pixels should be darkened. You can use this adjustment to darken pixels that are already darker than a certain threshold. Setting shadow to 0 specifies no change. Setting shadow to t specifies that a color channel value is decreased if it is already less than t percent of full intensity. For example, setting shadow to 10 specifies that all color channel values less than 10 percent of full intensity are decreased. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Example
+
+```
+' ========================================================================================
+' The Levels effect encompasses three bitmap adjustments: highlight, midtone, and shadow.
+' You can apply one or more of those adjustments to a bitmap by passing calling the
+' ApplyEffect method. To specify the intensities of the adjustments, pass the
+' address of a LevelsParams structure to the SetParameters method.
+' ========================================================================================
+SUB Example_LevelsEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a levels effect
+   DIM levelsEffect AS CGpLevels
+   ' // Set the parameters
+   DIM levelsParams AS LevelsParams
+   levelsParams.highlight =  20    ' Boost highlights
+   levelsParams.midtone   =  10    ' Slightly brighten midtones
+   levelsParams.shadow    = -15    ' Deepen shadows
+   levelsEffect.SetParameters(@levelsParams)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@levelsEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
+
+---
+
