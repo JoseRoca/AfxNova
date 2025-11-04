@@ -670,7 +670,7 @@ END SUB
 
 # CGpColorMatrix Class
 
-The `CGpColorMatrixEffect` class enables you to apply an affine transformation to a bitmap. Pass the address of a **ColorMatrixEffect** object to the**DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the transformation, set the elements of a **ColorMatrix** structure, and pass the address of that structure to the **SetParameters** method of a **ColorMatrixEffect** object.
+The `CGpColorMatrixEffect` class enables you to apply an affine transformation to a bitmap. Pass the address of a **ColorMatrixEffect** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the transformation, set the elements of a **ColorMatrix** structure, and pass the address of that structure to the **SetParameters** method of a **ColorMatrixEffect** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
@@ -732,4 +732,118 @@ If the method succeeds, it returns **StatusOk**, which is an element of the **Gp
 
 If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+---
+
+# CGpHueSaturationLightness Class
+
+The `CGpHueSaturationLightness` class enables you to change the hue, saturation, and lightness of a bitmap. Pass the address of a **HueSaturationLightness** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the magnitudes of the changes in hue, saturation, and lightness, pass a **HueSaturationLightnessParams** structure to the **SetParameters** method of a **HueSaturationLightness** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorhueeffect) | Creates an instance of the **CGpHueSaturationLightness** class. |
+| [GetParameters](#getparametershue) | Gets the current values of the parameters of this **HueSaturationLightness** object. |
+| [SetParameters](#setparametershue) | Sets the parameters of this **HueSaturationLightness** object. |
+
+---
+
+## <a name="constructorhueeffect"></a>Constructor (CGpHueSaturationLightness)
+
+Creates an instance of the `CGpHueSaturationLightness`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparametershue"></a>GetParameters (CGpHueSaturationLightness)
+
+Gets the current values of the parameters of this **HueSaturationLightness** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS HueSaturationLightnessParams PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **HueSaturationLightnessParams** structure. |
+| *params* | Pointer to a **HueSaturationLightnessParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparametershue"></a>SetParameters (CGpHueSaturationLightness)
+
+Sets the current values of the parameters of this **HueSaturationLightness** object.
+
+```
+FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+FUNCTION SetParametes (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, _
+   BYVAL lightnessLevel AS INT_) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a **HueSaturationLightnessParams** structure that specifies the parameters. |
+| *params* | Pointer to a **HueSaturationLightnessParams** structure that specifies the parameters. |
+
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hueLevel* | Integer in the range -180 through 180 that specifies the change in hue. A value of 0 specifies no change. Positive values specify counterclockwise rotation on the color wheel. Negative values specify clockwise rotation on the color wheel. |
+| *saturationLevel* | Integer in the range -100 through 100 that specifies the change in saturation. A value of 0 specifies no change. Positive values specify increased saturation and negative values specify decreased saturation. |
+| *lightnessLevel* | Integer in the range -100 through 100 that specifies the change in lightness. A value of 0 specifies no change. Positive values specify increased lightness and negative values specify decreased lightness. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Example
+
+```
+' ========================================================================================
+' The HueSaturationLightness effecty enables you to change the hue, saturation, and lightness
+' of a bitmap. To specify the magnitudes of the changes in hue, saturation, and lightness,
+' pass a HueSaturationLightnessParams structure to the SettParameters function.
+' ========================================================================================
+SUB Example_BitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a HueSaturationLightness effect
+   DIM hueEffect AS CGpHueSaturationLightness
+   ' // Set the parameters
+   DIM hslParams AS HueSaturationLightnessParams
+   hslParams.hueLevel = 45            ' Rotate hue slightly
+   hslParams.saturationLevel = 30     ' Boost saturation
+   hslParams.lightnessLevel = -10     ' Slightly darken
+   hueEffect.SetParameters(@hslParams)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@hueEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
