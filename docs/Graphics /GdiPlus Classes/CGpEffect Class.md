@@ -2,17 +2,21 @@
 
 The `GpEffect` class serves as a base class for eleven classes that you can use to apply effects and adjustments to bitmaps. The following classes descend from Effect.
 
+| Name       | Description |
+| ---------- | ----------- |
+| [CGpBlur](#cgpblue) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
+
 * CGpBlur
+* CGpBrightnessContrast
+* CGpColorBalance
+* CGpColorCurve
+* CGpColorLUT
+* CGpColorMatrixEffect
+* CGpHueSaturationLightness
+* CGpLevels
+* CGpRedEyeCorrection
 * CGpSharpen
 * CGpTint
-* CGpRedEyeCorrection
-* CGpColorMatrixEffect
-* CGpColorLUT
-* CGpBrightnessContrast
-* CGpHueSaturationLightness
-* CGpColorBalance
-* CGpLevels
-* CGpColorCurve
 
 To apply and effect to a bitmap, create an instance of one of the descendants of the `CGpEffect` class, and pass the address of that descendant to the **DrawImage** method of the CGGraphics class or to the **ApplyEffect** method of the **CGpBitmal** class.
 
@@ -113,7 +117,7 @@ SUB UseAuxData (BYVAL useAuxDataFlag AS BOOL)
 
 ---
 
-# CGpBlur Class
+# <a name="cgpblur"></a>CGpBlur Class
 
 The `CGpBlur` class enables you to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. Pass the address of a **Blur** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the blur, pass a **BlurParams** structure to the **SetParameters** method of a **Blur** object.
 
@@ -1122,10 +1126,6 @@ END SUB
 ```
 ---
 
-++++++++++++++++++++
-
-
-
 # CGpSharpen Class
 
 The `CGpSharpen` class enables you to adjust the sharpness of a bitmap. Pass the address of a **Sharpen** object to the **DrawImage** method of the **Graphics** oject or to the **ApplyEffect** method of the **Bitmap**. To specify the nature of the sharpening adjustment, pass the address of a **SharpenParams** structure to the **SetParameters** method of a **Sharpen** object.
@@ -1231,3 +1231,7 @@ END SUB
 ' ========================================================================================
 ```
 ---
+
+
+++++++++++++++++++++
+
