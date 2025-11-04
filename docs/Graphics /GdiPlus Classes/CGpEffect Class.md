@@ -98,3 +98,17 @@ FUNCTION GetParameterSize () AS UINT
 The total size, in bytes, of the parameters currently set for the effect.
 
 ---
+
+## UseAuxData
+
+Sets or clears a flag that specifies whether the **ApplyEffect** method of the `CGpBitmap`class should return a pointer to the auxiliary data that it creates.
+
+```
+SUB UseAuxData (BYVAL useAuxDataFlag AS BOOL)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *useAuxDataFlag* | Set to TRUE to specify that **ApplyEffect** should return a pointer to its auxiliary data; FALSE otherwise. |
+
+---
