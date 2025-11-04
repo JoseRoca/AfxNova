@@ -377,7 +377,7 @@ FUNCTION SetParameters (SetParameters (BYVAL cyanRed AS INT_, BYVAL magentaGreen
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *params* | Pointer to a **BrightnessContrastParams** structure that specifies the parameters. |
+| *params* | Pointer to a **ColorBalanceParams** structure that specifies the parameters. |
 
 | Parameter  | Description |
 | ---------- | ----------- |
