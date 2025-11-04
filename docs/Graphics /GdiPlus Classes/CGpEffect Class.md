@@ -33,9 +33,9 @@ The following classes descend from **CGpEffect**.
 | [CGpLevels](#cgplevels) | Encompasses three bitmap adjustments: highlight, midtone, and shadow. |
 | [CGpRedEyeCorrection](#cgpredeyecorrection) | Enables to correct the red eyes that sometimes occur in flash photographs. |
 | [CGpSharpen](#cgpsharpen) | Enables to adjust the sharpness of a bitmap. |
+| [CGpTint](#cgptint) | Enables to apply a tint to a bitmap. |
 
-* 
-* CGpTint
+---
 
 ## <a name="constructoreffect"></a>Constructor (CGpEffect)
 
@@ -827,7 +827,7 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 Sets the current values of the parameters of this **HueSaturationLightness** object.
 
 ```
-FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS HueSaturationLightnessParams PTR) AS GpStatus
 FUNCTION SetParametes (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, _
    BYVAL lightnessLevel AS INT_) AS GpStatus
 ```
@@ -1157,7 +1157,7 @@ CONSTRUCTOR
 Gets the current values of the parameters of this **Sharpen** object.
 
 ```
-FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL SharpenParams AS ANY PTR) AS GpStatus
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS SharpenParams PTR) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -1179,7 +1179,7 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 Sets the current values of the parameters of this **Sharpen** object.
 
 ```
-FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS LevelsParams PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS SharpenParams PTR) AS GpStatus
 FUNCTION SetParameters (BYVAL radius AS REAL, BYVAL amount AS REAL) AS GpStatus
 ```
 
@@ -1237,3 +1237,106 @@ END SUB
 
 ++++++++++++++++++++
 
+# <a name="cgptint"></a>CGpTint Class
+
+The `CGpTint` class enables you to apply a tint to a bitmap. Pass the address of a **Tint** object to the **DrawImage** method of the **Graphics** objecxt or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the tint, pass the address of a **TintParams** structure to the **SetParameters** method of a **Tint** object.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructortintffect) | Creates an instance of the **CGpTint** class. |
+| [GetParameters](#getparameterstint) | Gets the current values of the parameters of this **Tint** object. |
+| [SetParameters](#setparameterstint) | Sets the parameters of this **Tint** object. |
+
+---
+
+## <a name="constructortintffect"></a>Constructor (CGpTint)
+
+Creates an instance of the `CGpTint`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterstint"></a>GetParameters (CGpTint)
+
+Gets the current values of the parameters of this **Tint** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS TintParams PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **TintParams** structure. |
+| *params* | Pointer to a **TintParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterstint"></a>SetParameters (CGpSharpen)
+
+Sets the current values of the parameters of this **Tint** object.
+
+```
+FUNCTION SetParameters (BYVAL params AS TintParams PTR) AS GpStatus
+DECLARE FUNCTION SetParameters (BYVAL hue AS INT_, BYVAL amount AS INT_) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **SharpenParams** structure. |
+| *params* | Pointer to a **SharpenParams** structure that specifies the parameters. |
+
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hue* | Integer in the range -180 through 180 that specifies the hue to be strengthened or weakened. A value of 0 specifies blue. A positive value specifies a clockwise angle on the color wheel. For example, positive 60 specifies cyan and positive 120 specifies green. A negative value specifies a counter-clockwise angle on the color wheel. For example, negative 60 specifies magenta and negative 120 specifies red. |
+| *amount* | Integer in the range -100 through 100 that specifies how much the hue (given by the hue parameter) is strengthened or weakened. A value of 0 specifies no change. Positive values specify that the hue is strengthened and negative values specify that the hue is weakened. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Example
+
+```
+' ========================================================================================
+' The Tint effect enables you to apply a tint to a bitmap. To specify the nature of the tint,
+' pass the address of a TintParams structure to the SetParameters method.
+' ========================================================================================
+SUB Example_TintEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a tint effect
+   DIM tintEffect AS CGpTint
+   ' // Set parameters: Hue = +120 (green), Amount = 60 (moderate tint)
+   DIM tintPrms AS TintParams = (120, 60)
+   tintEffect.SetParameters(@tintPrms)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@tintEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
+---
