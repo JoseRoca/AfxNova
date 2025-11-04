@@ -505,15 +505,15 @@ END FUNCTION
 
 
 ' ########################################################################################
-' CGpColorMatrix Class
-' The ColorMatrixEffect class enables you to apply an affine transformation to a bitmap.
+' CGpColorMatrixEffect Class
+' The CGpColorMatrixEffect class enables you to apply an affine transformation to a bitmap.
 ' Pass the address of a ColorMatrixEffect object to the CGpGraphics.DrawImage method or to the
 ' CGpBitmap.ApplyEffect method. To specify the transformation, set the elements of a ColorMatrix
 ' structure, and pass the address of that structure to the CGpColorMatrixEffect.SetParameters
 ' method of a ColorMatrixEffect object.
 ' ########################################################################################
 
-TYPE CGpColorMatrix EXTENDS CGpEffect
+TYPE CGpColorMatrixEffect EXTENDS CGpEffect
 
 Public:
    DECLARE CONSTRUCTOR
@@ -525,7 +525,7 @@ END TYPE
 ' ========================================================================================
 ' * Default constructor
 ' ========================================================================================
-PRIVATE CONSTRUCTOR CGpColorMatrix
+PRIVATE CONSTRUCTOR CGpColorMatrixEffect
    SetStatus(GdipCreateEffect(ColorMatrixEffectGuid, @m_pEffect))
 END CONSTRUCTOR
 ' ========================================================================================
@@ -533,7 +533,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 'The CGpColorBalance.SetParameters method sets the parameters of this ColorBalance object.
 ' ========================================================================================
-PRIVATE FUNCTION CGpColorMatrix.SetParameters (BYVAL matrix AS ColorMatrix PTR) AS GpStatus
+PRIVATE FUNCTION CGpColorMatrixEffect.SetParameters (BYVAL matrix AS ColorMatrix PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(ColorMatrix)
    RETURN SetStatus(GdipSetEffectParameters(m_pEffect, matrix, uSize))
 END FUNCTION
@@ -543,7 +543,7 @@ END FUNCTION
 ' The CGpColorBalance.GetParameters method gets the current values of the parameters of
 ' this ColorBalance object.
 ' ========================================================================================
-PRIVATE FUNCTION CGpColorMatrix.GetParameters (BYVAL uSize AS UINT PTR, BYVAL matrix AS ColorMatrix PTR) AS GpStatus
+PRIVATE FUNCTION CGpColorMatrixEffect.GetParameters (BYVAL uSize AS UINT PTR, BYVAL matrix AS ColorMatrix PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, matrix))
 END FUNCTION
 ' ========================================================================================
@@ -578,7 +578,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpColorLUT.SetParameters method sets the parameters of this ColorLUT object.
+'The SetParameters method sets the parameters of this ColorLUT object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorLUT.SetParameters (BYVAL params AS ColorLUTParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(ColorLUTParams)
@@ -587,7 +587,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpColorLUT.GetParameters method gets the current values of the parameters of
+' The GetParameters method gets the current values of the parameters of
 ' this ColorLUT object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorLUT.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
@@ -626,7 +626,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpColorLUT.SetParameters method sets the parameters of this ColorLUT object.
+'The SetParameters method sets the parameters of this ColorLUT object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorCurve.SetParameters (BYVAL params AS ColorCurveParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(ColorCurveParams)
@@ -642,7 +642,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpColorLUT.GetParameters method gets the current values of the parameters of
+' The GetParameters method gets the current values of the parameters of
 ' this ColorLUT object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorCurve.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus

@@ -199,7 +199,7 @@ Public:
    m_pEffect AS CGpEffect PTR
    m_auxDataSize AS INT_
    m_auxData AS ANY PTR
-   m_useAuxData AS BOOLEAN
+   m_useAuxData AS BOOL
 
 Public:
    DECLARE CONSTRUCTOR
@@ -207,7 +207,7 @@ Public:
    DECLARE FUNCTION GetEffectPtr () AS CGpEffect PTR
    DEClARE FUNCTION GetAuxDataSize () AS INT_
    DECLARE FUNCTION GetAuxData () AS ANY PTR
-   DECLARE FUNCTION UseAuxData () AS BOOLEAN
+   DECLARE SUB UseAuxData (BYVAL useAuxDataFlag AS BOOL)
    DECLARE FUNCTION GetParameterSize () AS UINT
 
 END TYPE
@@ -244,10 +244,8 @@ Public:
    DECLARE FUNCTION ClearOutputChannel (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
    DECLARE FUNCTION SetOutputChannelColorProfile (BYVAL pwszColorProfileFilename AS WSTRING PTR, BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
    DECLARE FUNCTION ClearOutputChannelColorProfile (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
-   ' // map parameter declared as ANY PTR in the two functions below because in the FB headers
-   ' // it is declared as ColorMap PTR for 32 bit and ColorMap_ PTR for 64 bit
-   DECLARE FUNCTION SetRemapTable (BYVAL mapSize AS UINT, BYVAL map AS ANY PTR, BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
-   DECLARE FUNCTION SetBrushRemapTable (BYVAL mapSize AS UINT, BYVAL map AS ANY PTR) AS GpStatus
+   DECLARE FUNCTION SetRemapTable (BYVAL mapSize AS UINT, BYVAL map AS GpColorMap PTR, BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
+   DECLARE FUNCTION SetBrushRemapTable (BYVAL mapSize AS UINT, BYVAL map AS GpColorMap PTR) AS GpStatus
    DECLARE FUNCTION ClearRemapTable (BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
    DECLARE FUNCTION ClearBrushRemapTable () AS GpStatus
    DECLARE FUNCTION SetWrapMode (BYVAL nWrap AS WrapMode, BYVAL colour AS ARGB = &HFF000000, BYVAL clamp AS BOOL = FALSE) AS GpStatus
@@ -362,6 +360,8 @@ Public:
    DECLARE FUNCTION GetHistogram (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries AS UINT, BYVAL channel0 AS UINT PTR, BYVAL channel1 AS UINT PTR, BYVAL channel2 AS UINT PTR, BYVAL channel3 AS UINT PTR) AS GpStatus
    DECLARE FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat, BYVAL NumberOfEntries AS UINT PTR) AS GpStatus
    DECLARE FUNCTION GetHistogramSize (BYVAL nFormat AS HistogramFormat) AS UINT
+   DECLARE FUNCTION MakeTransparent (BYVAL transparentColor AS ARGB) AS GpStatus
+   DECLARE FUNCTION MakeTransparent () AS GpStatus
    
    ' // Effects
    DECLARE FUNCTION ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR, _
