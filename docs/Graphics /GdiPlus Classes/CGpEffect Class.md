@@ -140,7 +140,7 @@ CONSTRUCTOR
 Gets the current values of the parameters of this **Blur** object.
 
 ```
-GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -179,7 +179,7 @@ FUNCTION SetParameters (BYVAL radius AS REAL, BYVAL expandEdge AS BOOL) AS GpSta
 
 If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
 
-If the method fails, it returns one of the other elements of the **GpStatus* enumeration.
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 #### Remarks
 
@@ -210,6 +210,108 @@ SUB Example_BlurEffect (BYVAL hdc AS HDC)
    blurEffect.SetParameters(@blurPrms)
    ' // Apply effect to the whole image
    bmp.ApplyEffect(@blurEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
+---
+
+# CGpBrightnessContrast Class
+
+The `CGpBrightnessContrast` class enables you to change the brightness and contrast of a bitmap. Pass the address of a **BrightnessContrast** object to the **DrawImage** methodof the **Graphics** or to the **ApplyEffect** methodof the **Bitmap** object. To specify the brightness and contrast levels, pass a **BrightnessContrastParams** structure to the **SetParameters** method of a **BrightnessContrast** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorbrightnessffect) | Creates an instance of the **CGpBrightnessContrast** class. |
+| [GetParameters](#getparametersbrightness) | Gets the current values of the parameters of this **BrightnessContrast** object. |
+| [SetParameters](#setparametersbrightness) | Sets the parameters of this **BrightnessContrast** object. |
+
+## <a name="constructorbrightnessffect"></a>Constructor (CGpBrightnessContrast)
+
+Creates an instance of the `CGpBrightnessContrast`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparametersbrightness"></a>GetParameters (CGpBrightnessContrast)
+
+Gets the current values of the parameters of this **BrightnessContrast** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **BrightnessContrastParams** structure. |
+| *params* | Pointer to a **BrightnessContrastParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparametersbrightness"></a>SetParameters (CGpBrightnessContrast)
+
+Sets the current values of the parameters of this **BrightnessContrast** object.
+
+```
+FUNCTION SetParameters (BYVAL params AS BrightnessContrastParams PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL brightnessLevel AS INT_, BYVAL contrastLevel AS INT_) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *params* | Pointer to a **BrightnessContrastParams** structure that specifies the parameters. |
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *brightnessLevel* | Integer in the range -255 through 255 that specifies the brightness level. If the value is 0, the brightness remains the same. As the value moves from 0 to 255, the brightness of the image increases. As the value moves from 0 to -255, the brightness of the image decreases. |
+| *contrastLevel* | Integer in the range -100 through 100 that specifies the contrast level. If the value is 0, the contrast remains the same. As the value moves from 0 to 100, the contrast of the image increases. As the value moves from 0 to -100, the contrast of the image decreases. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a brightness effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_Brightnessffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a brightness and contrast effect
+   DIM brightnessEffect AS CGpBrightnessContrast
+   ' // Set parameters: brightness = 50, contrast = 50
+   DIM bcParams AS BrightnessContrastParams = (50, 20)
+   brightnessEffect.SetParameters(@bcParams)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@brightnessEffect)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 10, 10)
