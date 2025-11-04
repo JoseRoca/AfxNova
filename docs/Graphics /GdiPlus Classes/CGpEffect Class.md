@@ -531,6 +531,16 @@ FUNCTION SetParameters (BYVAL params AS ColorLUTParams PTR) AS GpStatus
 | ---------- | ----------- |
 | *params* | Pointer to a **ColorLUTParams** structure that specifies the parameters. |
 
+**ColorLUTParams** strucruee
+```
+type ColorLUTParams
+	lutB(0 TO 255) AS BYTE
+	lutG(0 TO 255) AS BYTE
+	lutR(0 TO 255) AS BYTE
+	lutA(0 TO 255) AS BYTE
+end type
+```
+
 #### Return value
 
 If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
