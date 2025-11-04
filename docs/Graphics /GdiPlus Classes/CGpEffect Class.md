@@ -1,6 +1,6 @@
 # CGpEffect Class
 
-The `GpEffect` class serves as a base class for eleven classes that you can use to apply effects and adjustments to bitmaps. The following classes descend from Effect.
+The `GpEffect` class serves as a base class for eleven classes that you can use to apply effects and adjustments to bitmaps. The following classes descend from **CGpEffect**.
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -9,9 +9,9 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | [CGpColorBalance](#cgpcolorbalance) | Enables to o change the color balance (relative amounts of red, green, and blue) of a bitmap. |
 | [CGpColorCurve](#cgpcolorcurve) | Encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. |
 | [CGpColorLUT](#cgpcolorlut) | Allows to make custom color adjustments to bitmaps. |
+| [CGpColorMatrixEffect](#cgpcolormatrixeffect) | Enables to apply an affine transformation to a bitmap. |
 
 * 
-* CGpColorMatrixEffect
 * CGpHueSaturationLightness
 * CGpLevels
 * CGpRedEyeCorrection
@@ -672,7 +672,7 @@ END SUB
 ```
 ---
 
-# CGpColorMatrixEffect Class
+# <a name="cgpcolormatrixeffect"></a>CGpColorMatrixEffect Class
 
 The `CGpColorMatrixEffect` class enables you to apply an affine transformation to a bitmap. Pass the address of a **ColorMatrixEffect** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the transformation, set the elements of a **ColorMatrix** structure, and pass the address of that structure to the **SetParameters** method of a **ColorMatrixEffect** object.
 
