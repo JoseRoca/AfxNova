@@ -229,7 +229,7 @@ END SUB
 
 # <a name="cgpbrightnesscontrast"></a>CGpBrightnessContrast Class
 
-The `CGpBrightnessContrast` class enables you to change the brightness and contrast of a bitmap. Pass the address of a **BrightnessContrast** object to the **DrawImage** methodof the **Graphics** or to the **ApplyEffect** methodof the **Bitmap** object. To specify the brightness and contrast levels, pass a **BrightnessContrastParams** structure to the **SetParameters** method of a **BrightnessContrast** object.
+The `CGpBrightnessContrast` class enables you to change the brightness and contrast of a bitmap. Pass the address of a **BrightnessContrast** object to the **DrawImage** method of the **Graphics** or to the **ApplyEffect** methodof the **Bitmap** object. To specify the brightness and contrast levels, pass a **BrightnessContrastParams** structure to the **SetParameters** method of a **BrightnessContrast** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
