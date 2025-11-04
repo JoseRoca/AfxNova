@@ -1233,9 +1233,6 @@ END SUB
 ```
 ---
 
-
-++++++++++++++++++++
-
 # <a name="cgptint"></a>CGpTint Class
 
 The `CGpTint` class enables you to apply a tint to a bitmap. Pass the address of a **Tint** object to the **DrawImage** method of the **Graphics** objecxt or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the tint, pass the address of a **TintParams** structure to the **SetParameters** method of a **Tint** object.
