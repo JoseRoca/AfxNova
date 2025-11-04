@@ -7,9 +7,9 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | [CGpBlur](#cgpblur) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
 | [CGpBrightnessContrast](#cgpbrightnesscontrast) | Enables to change the brightness and contrast of a bitmap. |
 | [CGpColorBalance](#cgpcolorbalance) | Enables to o change the color balance (relative amounts of red, green, and blue) of a bitmap. |
+| [CGpColorCurve](#cgpcolorcurve) | Encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. |
 
 * 
-* CGpColorCurve
 * CGpColorLUT
 * CGpColorMatrixEffect
 * CGpHueSaturationLightness
@@ -403,7 +403,7 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 
 ---
 
-# CGpColorCurve Class
+# <a name="cgpcolorcurve"></a>CGpColorCurve Class
 
 The `CGpColorCurve` class encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. You can apply one of those adjustments to a bitmap by passing the address of a **ColorCurve** object to the **DrawImage** method of the **Graphics** or to the **ApplyEffect** method of the **Bitmap** object. To specify the adjustment, the intensity of the adjustment, and the color channel to which the adjustment applies, pass the address of a **ColorCurveParams** structure to the **SetParameters** method of a **ColorCurve** object.
 
