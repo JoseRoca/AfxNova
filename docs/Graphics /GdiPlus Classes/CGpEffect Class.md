@@ -229,7 +229,7 @@ END SUB
 
 # <a name="cgpbrightnesscontrast"></a>CGpBrightnessContrast Class
 
-The `CGpBrightnessContrast` class enables you to change the brightness and contrast of a bitmap. Pass the address of a **BrightnessContrast** object to the **DrawImage** method of the **Graphics** or to the **ApplyEffect** methodof the **Bitmap** object. To specify the brightness and contrast levels, pass a **BrightnessContrastParams** structure to the **SetParameters** method of a **BrightnessContrast** object.
+The `CGpBrightnessContrast` class enables you to change the brightness and contrast of a bitmap. Pass the address of a **BrightnessContrast** object to the **DrawImage** method of the **Graphics** or to the **ApplyEffect** method of the **Bitmap** object. To specify the brightness and contrast levels, pass a **BrightnessContrastParams** structure to the **SetParameters** method of a **BrightnessContrast** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
@@ -333,7 +333,7 @@ END SUB
 
 ## <a name="cgpcolorbalance"></a>CGpColorBalance Class
 
-The `CGpColorBalance` class enables you to change the color balance (relative amounts of red, green, and blue) of a bitmap. Pass the address of a **ColorBalance** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the change, pass the address of a **ColorBalanceParams** structure to the **SetParameters** method of a **ColorBalance** object.
+The `CGpColorBalance` class enables you to change the color balance (relative amounts of red, green, and blue) of a bitmap. Pass the address of a **ColorBalance** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the change, pass the address of a **ColorBalanceParams** structure to the **SetParameters** method of a **ColorBalance** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
@@ -481,7 +481,7 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 
 # <a name="cgpcolorlut"></a>GpColorLUT Class
 
-A **ColorLUTParams** structure has four members, each being a lookup table for a particular color channel: alpha, red, green, or blue. The lookup tables can be used to make custom color adjustments to bitmaps. Each lookup table is an array of 256 bytes that you can set to values of your choice. After you have initialized a **ColorLUTParams** structure, pass its address to the **SetParameters** method of a **ColorLUT** object. Then pass the address of that **ColorLUT** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object.
+A **ColorLUTParams** structure has four members, each being a lookup table for a particular color channel: alpha, red, green, or blue. The lookup tables can be used to make custom color adjustments to bitmaps. Each lookup table is an array of 256 bytes that you can set to values of your choice. After you have initialized a **ColorLUTParams** structure, pass its address to the **SetParameters** method of a **ColorLUT** object. Then pass the address of that **ColorLUT** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
@@ -676,7 +676,7 @@ END SUB
 
 # <a name="cgpcolormatrixeffect"></a>CGpColorMatrixEffect Class
 
-The `CGpColorMatrixEffect` class enables you to apply an affine transformation to a bitmap. Pass the address of a **ColorMatrixEffect** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the transformation, set the elements of a **ColorMatrix** structure, and pass the address of that structure to the **SetParameters** method of a **ColorMatrixEffect** object.
+The `CGpColorMatrixEffect` class enables you to apply an affine transformation to a bitmap. Pass the address of a **ColorMatrixEffect** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the transformation, set the elements of a **ColorMatrix** structure, and pass the address of that structure to the **SetParameters** method of a **ColorMatrixEffect** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
@@ -778,7 +778,7 @@ END SUB
 
 # <a name="cgphuesaturationlightness"></a>CGpHueSaturationLightness Class
 
-The `CGpHueSaturationLightness` class enables you to change the hue, saturation, and lightness of a bitmap. Pass the address of a **HueSaturationLightness** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the magnitudes of the changes in hue, saturation, and lightness, pass a **HueSaturationLightnessParams** structure to the **SetParameters** method of a **HueSaturationLightness** object.
+The `CGpHueSaturationLightness` class enables you to change the hue, saturation, and lightness of a bitmap. Pass the address of a **HueSaturationLightness** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the magnitudes of the changes in hue, saturation, and lightness, pass a **HueSaturationLightnessParams** structure to the **SetParameters** method of a **HueSaturationLightness** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
@@ -892,7 +892,7 @@ END SUB
 
 # <a name="cgplevels"></a>CGpLevels Class
 
-The `CGpLevels` class encompasses three bitmap adjustments: highlight, midtone, and shadow. You can apply one or more of those adjustments to a bitmap by passing the address of a Levels object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the intensities of the adjustments, pass the address of a **LevelsParams** structure to the **SetParameters** method of a **Levels** object.
+The `CGpLevels` class encompasses three bitmap adjustments: highlight, midtone, and shadow. You can apply one or more of those adjustments to a bitmap by passing the address of a Levels object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the intensities of the adjustments, pass the address of a **LevelsParams** structure to the **SetParameters** method of a **Levels** object.
 
 **Inherits from**: CGpEffect.<br>
 **Include file**: CGpEffect.inc.
