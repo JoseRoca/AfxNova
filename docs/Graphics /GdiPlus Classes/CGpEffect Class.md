@@ -667,3 +667,69 @@ END SUB
 ' ========================================================================================
 ```
 ---
+
+# CGpColorMatrix Class
+
+The `CGpColorMatrixEffect` class enables you to apply an affine transformation to a bitmap. Pass the address of a **ColorMatrixEffect** object to the**DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the transformation, set the elements of a **ColorMatrix** structure, and pass the address of that structure to the **SetParameters** method of a **ColorMatrixEffect** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorcolormatrixeffect) | Creates an instance of the **CGpColorMatrix** class. |
+| [GetParameters](#getparameterscolormatrix) | Gets the current values of the parameters of this **ColorMatrix** object. |
+| [SetParameters](#setparameterscolormatrix) | Sets the parameters of this **ColorMatrix** object. |
+
+---
+
+## <a name="constructorcolormatrixeffect"></a>Constructor (CGpColorMatrix)
+
+Creates an instance of the `CGpColorMatrix`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterscolormatrix"></a>GetParameters (CGpColorMatrix)
+
+Gets the current values of the parameters of this **ColorMatrix** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL matrix AS ColorMatrix PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **ColorMatrixEffect** structure. |
+| *matrix* | Pointer to a **ColorMatrixEffect** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterscolormatrix"></a>SetParameters (CGpColorMatrix)
+
+Sets the current values of the parameters of this **ColorMatrix** object.
+
+```
+FUNCTION SetParameters (BYVAL matrix AS ColorMatrix PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *matrix* | Pointer to a **ColorMatrixEffect** structure that specifies the parameters. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
