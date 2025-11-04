@@ -1276,7 +1276,7 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 
 ---
 
-## <a name="setparameterstint"></a>SetParameters (CGpSharpen)
+## <a name="setparameterstint"></a>SetParameters (CGpTint)
 
 Sets the current values of the parameters of this **Tint** object.
 
@@ -1287,8 +1287,8 @@ DECLARE FUNCTION SetParameters (BYVAL hue AS INT_, BYVAL amount AS INT_) AS GpSt
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **SharpenParams** structure. |
-| *params* | Pointer to a **SharpenParams** structure that specifies the parameters. |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **TintParams** structure. |
+| *params* | Pointer to a **TintParams** structure that specifies the parameters. |
 
 
 | Parameter  | Description |
