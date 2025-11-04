@@ -126,6 +126,8 @@ The `CGpBlur` class enables you to apply a Gaussian blur effect to a bitmap and 
 | [GetParameters](#getparametersblur) | Gets the current values of the parameters of this **Blur** object. |
 | [SetParameters](#setparametersblur) | Sets the parameters of this **Blur** object. |
 
+---
+
 ## <a name="constructorblureffect"></a>Constructor (CGpBlur)
 
 Creates an instance of the `CGpBlur`class.
@@ -232,6 +234,8 @@ The `CGpBrightnessContrast` class enables you to change the brightness and contr
 | [GetParameters](#getparametersbrightness) | Gets the current values of the parameters of this **BrightnessContrast** object. |
 | [SetParameters](#setparametersbrightness) | Sets the parameters of this **BrightnessContrast** object. |
 
+---
+
 ## <a name="constructorbrightnesseffect"></a>Constructor (CGpBrightnessContrast)
 
 Creates an instance of the `CGpBrightnessContrast`class.
@@ -334,6 +338,8 @@ The `CGpColorBalance` class enables you to change the color balance (relative am
 | [GetParameters](#getparameterscolorbalance) | Gets the current values of the parameters of this **ColorBalance** object. |
 | [SetParameters](#setparameterscolorbalance) | Sets the parameters of this **ColorBalance** object. |
 
+---
+
 ## <a name="constructorcolorbalanceeffect"></a>Constructor (CGpColorBalance)
 
 Creates an instance of the `CGpColorBalance`class.
@@ -406,6 +412,8 @@ The `CGpColorCurve` class encompasses eight separate adjustments: exposure, dens
 | [GetParameters](#getparameterscolorcurve) | Gets the current values of the parameters of this **ColorCurve** object. |
 | [SetParameters](#setparameterscolorcurve) | Sets the parameters of this **ColorCurve** object. |
 
+---
+
 ## <a name="constructorcolorcurveeffect"></a>Constructor (CGpColorCurve)
 
 Creates an instance of the `CGpColorCurve`class.
@@ -477,6 +485,8 @@ A **ColorLUTParams** structure has four members, each being a lookup table for a
 | [Constructor](#constructorcolorluteffect) | Creates an instance of the **CGpColorLUT** class. |
 | [GetParameters](#getparameterscolorlut) | Gets the current values of the parameters of this **ColorLUT** object. |
 | [SetParameters](#setparameterscolorlut) | Sets the parameters of this **ColorLUT** object. |
+
+---
 
 ## <a name="constructorcolorluteffect"></a>Constructor (CGpColorLUT)
 
