@@ -392,3 +392,76 @@ If the method succeeds, it returns **StatusOk**, which is an element of the **Gp
 If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
+
+
+# CGpColorCurve Class
+
+The `CGpColorCurve` class encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. You can apply one of those adjustments to a bitmap by passing the address of a **ColorCurve** object to the **DrawImage** method of the **Graphics** or to the **ApplyEffect** method of the **Bitmap** object. To specify the adjustment, the intensity of the adjustment, and the color channel to which the adjustment applies, pass the address of a **ColorCurveParams** structure to the **SetParameters** method of a **ColorCurve** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorcolorcurveffect) | Creates an instance of the **CGpColorCurve** class. |
+| [GetParameters](#getparameterscolorbalance) | Gets the current values of the parameters of this **ColorCurve** object. |
+| [SetParameters](#setparameterscolorbalance) | Sets the parameters of this **ColorCurve** object. |
+
+## <a name="constructorcolorcurveffect"></a>Constructor (CGpColorCurve)
+
+Creates an instance of the `CGpColorCurve`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterscolorbalance"></a>GetParameters (CGpColorCurve)
+
+Gets the current values of the parameters of this **ColorBalance** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **ColorCurveParams** structure. |
+| *params* | Pointer to a **ColorCurveParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterscolorbalance"></a>SetParameters (CGpColorCurve)
+
+Sets the current values of the parameters of this **ColorCurve** object.
+
+```
+FUNCTION SetParameters (BYVAL params AS ColorBalanceParams PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL adjustment AS CurveAdjustments, BYVAL channel AS CurveChannel, _
+   BYVAL adjustValue AS INT_) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *params* | Pointer to a **ColorCurveParams** structure that specifies the parameters. |
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *adjustment* | Element of the **CurveAdjustments** enumeration that specifies the adjustment to be applied. |
+| *channel* | Element of the **CurveChannel** enumeration that specifies the color channel to which the adjustment applies. |
+| *adjustValue* | Integer that specifies the intensity of the adjustment. The range of acceptable values depends on which adjustment is being applied. To see the range of acceptable values for a particular adjustment, see the **CurveAdjustments** enumeration. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
