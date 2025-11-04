@@ -11,10 +11,10 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | [CGpColorLUT](#cgpcolorlut) | Allows to make custom color adjustments to bitmaps. |
 | [CGpColorMatrixEffect](#cgpcolormatrixeffect) | Enables to apply an affine transformation to a bitmap. |
 | [CGpHueSaturationLightness](#cgphuesaturationlightness) | Enables to change the hue, saturation, and lightness of a bitmap. |
-| [CGpLevels](#cgplevels) | Encompasses three bitmap adjustments: highlight, midtone, and shadow.  |
+| [CGpLevels](#cgplevels) | Encompasses three bitmap adjustments: highlight, midtone, and shadow. |
+| [CGpRedEyeCorrection](#cgpredeyecorrection) | Enables to correct the red eyes that sometimes occur in flash photographs.  |
 
 * 
-* CGpRedEyeCorrection
 * CGpSharpen
 * CGpTint
 
@@ -1002,7 +1002,7 @@ END SUB
 ```
 ---
 
-# CGpRedEyeCorrection Class
+# <a name="cgpredeyecorrection"></a>CGpRedEyeCorrection Class
 
 The `CGpRedEyeCorrection` class enables you to correct the red eyes that sometimes occur in flash photographs. Pass the address of a **RedEyeCorrection** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify areas of the bitmap that have red eyes, pass a **RedEyeCorrectionParams** structure to the **SetParameters** method of a **RedEyeCorrection** object.
 
