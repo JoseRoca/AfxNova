@@ -393,7 +393,6 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 
 ---
 
-
 # CGpColorCurve Class
 
 The `CGpColorCurve` class encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. You can apply one of those adjustments to a bitmap by passing the address of a **ColorCurve** object to the **DrawImage** method of the **Graphics** or to the **ApplyEffect** method of the **Bitmap** object. To specify the adjustment, the intensity of the adjustment, and the color channel to which the adjustment applies, pass the address of a **ColorCurveParams** structure to the **SetParameters** method of a **ColorCurve** object.
@@ -403,11 +402,11 @@ The `CGpColorCurve` class encompasses eight separate adjustments: exposure, dens
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructor](#constructorcolorcurveffect) | Creates an instance of the **CGpColorCurve** class. |
-| [GetParameters](#getparameterscolorbalance) | Gets the current values of the parameters of this **ColorCurve** object. |
-| [SetParameters](#setparameterscolorbalance) | Sets the parameters of this **ColorCurve** object. |
+| [Constructor](#constructorcolorcurveeffect) | Creates an instance of the **CGpColorCurve** class. |
+| [GetParameters](#getparameterscolorcurve) | Gets the current values of the parameters of this **ColorCurve** object. |
+| [SetParameters](#setparameterscolorcurve) | Sets the parameters of this **ColorCurve** object. |
 
-## <a name="constructorcolorcurveffect"></a>Constructor (CGpColorCurve)
+## <a name="constructorcolorcurveeffect"></a>Constructor (CGpColorCurve)
 
 Creates an instance of the `CGpColorCurve`class.
 
@@ -416,7 +415,7 @@ CONSTRUCTOR
 ```
 ---
 
-## <a name="getparameterscolorbalance"></a>GetParameters (CGpColorCurve)
+## <a name="getparameterscolorcurve"></a>GetParameters (CGpColorCurve)
 
 Gets the current values of the parameters of this **ColorBalance** object.
 
@@ -438,7 +437,7 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 
 ---
 
-## <a name="setparameterscolorbalance"></a>SetParameters (CGpColorCurve)
+## <a name="setparameterscolorcurve"></a>SetParameters (CGpColorCurve)
 
 Sets the current values of the parameters of this **ColorCurve** object.
 
@@ -464,4 +463,123 @@ If the method succeeds, it returns **StatusOk**, which is an element of the **Gp
 
 If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+---
+
+# CGpColorLUT Class
+
+A **ColorLUTParams** structure has four members, each being a lookup table for a particular color channel: alpha, red, green, or blue. The lookup tables can be used to make custom color adjustments to bitmaps. Each lookup table is an array of 256 bytes that you can set to values of your choice. After you have initialized a **ColorLUTParams** structure, pass its address to the **SetParameters** method of a **ColorLUT** object. Then pass the address of that **ColorLUT** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorcolorluteffect) | Creates an instance of the **CGpColorLUT** class. |
+| [GetParameters](#getparameterscolorlut) | Gets the current values of the parameters of this **ColorLUT** object. |
+| [SetParameters](#setparameterscolorlut) | Sets the parameters of this **ColorLUT** object. |
+
+## <a name="constructorcolorluteffect"></a>Constructor (CGpColorLUT)
+
+Creates an instance of the `CGpColorCurve`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterscolorlut"></a>GetParameters (CGpColorLUT)
+
+Gets the current values of the parameters of this **ColorLUT** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **ColorLUTParams** structure. |
+| *params* | Pointer to a **ColorLUTParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterscolorlut"></a>SetParameters (CGpColorLUT)
+
+Sets the current values of the parameters of this **ColorLUT** object.
+
+```
+FUNCTION SetParameters (BYVAL params AS ColorLUTParams PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *params* | Pointer to a **ColorLUTParams** structure that specifies the parameters. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Example
+
+```
+' ========================================================================================
+' The ColorLUT effect lets you define lookup tables for each channel—Alpha, Red, Green,
+' and Blue—with 256 entries each. For every pixel in the image:
+' The channel value (0–255) is used as an index.
+' The corresponding value in the LUT replaces the original.
+' This means you can:
+' Invert colors
+' Apply posterization
+' Simulate film-like grading
+' Create custom stylizations
+' ========================================================================================
+SUB Example_ColorLUTEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a ColorLUT effect
+   DIM colorLUTEffect AS CGpColorLUT
+
+   ' // Create LUTs: identity (no change)
+   DIM lut AS ColorLUTParams
+   FOR i AS LONG = 0 TO 255
+      lut.lutB(i) = i
+      lut.lutG(i) = i
+      lut.lutR(i) = i
+      lut.lutA(i) = i
+   NEXT
+
+   ' // Example: invert red channel
+   FOR i AS LONG = 0 TO 255
+      lut.lutR(i) = 255 - i
+   NEXT
+
+   ' // Set parameters
+   colorLUTEffect.SetParameters(@lut)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@colorLUTEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
