@@ -228,11 +228,11 @@ The `CGpBrightnessContrast` class enables you to change the brightness and contr
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructor](#constructorbrightnessffect) | Creates an instance of the **CGpBrightnessContrast** class. |
+| [Constructor](#constructorbrightnesseffect) | Creates an instance of the **CGpBrightnessContrast** class. |
 | [GetParameters](#getparametersbrightness) | Gets the current values of the parameters of this **BrightnessContrast** object. |
 | [SetParameters](#setparametersbrightness) | Sets the parameters of this **BrightnessContrast** object. |
 
-## <a name="constructorbrightnessffect"></a>Constructor (CGpBrightnessContrast)
+## <a name="constructorbrightnesseffect"></a>Constructor (CGpBrightnessContrast)
 
 Creates an instance of the `CGpBrightnessContrast`class.
 
@@ -319,4 +319,76 @@ SUB Example_Brightnessffect (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+---
+
+# CGpColorBalance Class
+
+The `CGpColorBalance` class enables you to change the color balance (relative amounts of red, green, and blue) of a bitmap. Pass the address of a **ColorBalance** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the change, pass the address of a **ColorBalanceParams** structure to the **SetParameters** method of a **ColorBalance** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorcolorbalanceeffect) | Creates an instance of the **CGpColorBalance** class. |
+| [GetParameters](#getparameterscolorbalance) | Gets the current values of the parameters of this **ColorBalance** object. |
+| [SetParameters](#setparameterscolorbalance) | Sets the parameters of this **ColorBalance** object. |
+
+## <a name="constructorcolorbalanceeffect"></a>Constructor (CGpColorBalance)
+
+Creates an instance of the `CGpColorBalance`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterscolorbalance"></a>GetParameters (CGpColorBalance)
+
+Gets the current values of the parameters of this **ColorBalance** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **ColorBalanceParams** structure. |
+| *params* | Pointer to a **ColorBalanceParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterscolorbalance"></a>SetParameters (CGpColorBalance)
+
+Sets the current values of the parameters of this **ColorBalance** object.
+
+```
+FUNCTION SetParameters (BYVAL params AS ColorBalanceParams PTR) AS GpStatus
+FUNCTION SetParameters (SetParameters (BYVAL cyanRed AS INT_, BYVAL magentaGreen AS INT_, _
+   BYVAL yellowBlue AS INT_) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *params* | Pointer to a **BrightnessContrastParams** structure that specifies the parameters. |
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cyanRed* | Integer in the range -100 through 100 that specifies a change in the amount of red in the image. If the value is 0, there is no change. As the value moves from 0 to 100, the amount of red in the image increases and the amount of cyan decreases. As the value moves from 0 to -100, the amount of red in the image decreases and the amount of cyan increases. |
+| *magentaGreen* | Integer in the range -100 through 100 that specifies a change in the amount of green in the image. If the value is 0, there is no change. As the value moves from 0 to 100, the amount of green in the image increases and the amount of magenta decreases. As the value moves from 0 to -100, the amount of green in the image decreases and the amount of magenta increases. |
+| *yellowBlue* | Integer in the range -100 through 100 that specifies a change in the amount of blue in the image. If the value is 0, there is no change. As the value moves from 0 to 100, the amount of blue in the image increases and the amount of yellow decreases. As the value moves from 0 to -100, the amount of blue in the image decreases and the amount of yellow increases. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
 ---
