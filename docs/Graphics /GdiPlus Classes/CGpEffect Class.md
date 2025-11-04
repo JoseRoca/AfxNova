@@ -33,7 +33,7 @@ To apply and effect to a bitmap, create an instance of one of the descendants of
 
 ## <a name="constructoreffect"></a>Constructor (CGpEffect)
 
-Creates an instance of the `CgpEffect`class.
+Creates an instance of the `CGpEffect`class.
 
 ```
 CONSTRUCTOR
@@ -111,4 +111,110 @@ SUB UseAuxData (BYVAL useAuxDataFlag AS BOOL)
 | ---------- | ----------- |
 | *useAuxDataFlag* | Set to TRUE to specify that **ApplyEffect** should return a pointer to its auxiliary data; FALSE otherwise. |
 
+---
+
+# CGpBlur Class
+
+The `CGpBlur` class enables you to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. Pass the address of a **Blur** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the blur, pass a **BlurParams** structure to the **SetParameters** method of a **Blur** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorblureffect) | Creates an instance of the **CGpBlur** class. |
+| [GetParameters](#getparametersblur) | Gets the current values of the parameters of this **Blur** object. |
+| [SetParameters](#setparametersblur) | Sets the parameters of this **Blur** object. |
+
+## <a name="constructorblureffect"></a>Constructor (CGpBlur)
+
+Creates an instance of the `CGpBlur`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparametersblur"></a>GetParameters (CGpBlur)
+
+Gets the current values of the parameters of this **Blur** object.
+
+```
+GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **BlurParams** structure. |
+| *params* | Pointer to a **BlurParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus* enumeration.
+
+---
+
+## <a name="setparametersblur"></a>SetParameters (CGpBlur)
+
+Sets the current values of the parameters of this **Blur** object.
+
+```
+FUNCTION SetParameters (BYVAL params AS BlurParams PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL radius AS REAL, BYVAL expandEdge AS BOOL) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *params* | Pointer to a **BlurParams** structure that specifies the parameters. |
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *radius* | Real number that specifies the blur radius (the radius of the Gaussian convolution kernel) in pixels. The radius must be in the range 0 through 255. As the radius increases, the resulting bitmap becomes more blurry. |
+| *expandEdge* | Boolean value that specifies whether the bitmap expands by an amount equal to the blur radius. If TRUE, the bitmap expands by an amount equal to the radius so that it can have soft edges. If FALSE, the bitmap remains the same size and the soft edges are clipped. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus* enumeration.
+
+#### Remarks
+
+One of the two **ApplyEffect** methods of the `CGpBitmap`class blurs a bitmap in place. That particular **ApplyEffect** method ignores the *expandEdge* parameter.
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a blur effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_BlurEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a blur effect
+   DIM blurEffect AS CGpBlur
+   ' // Set parameters: radius = 6.0, expandEdge = FALSE
+   DIM blurPrms AS BlurParams = (6.0, FALSE)
+   blurEffect.SetParameters(@blurPrms)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@blurEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
