@@ -8,9 +8,9 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | [CGpBrightnessContrast](#cgpbrightnesscontrast) | Enables to change the brightness and contrast of a bitmap. |
 | [CGpColorBalance](#cgpcolorbalance) | Enables to o change the color balance (relative amounts of red, green, and blue) of a bitmap. |
 | [CGpColorCurve](#cgpcolorcurve) | Encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. |
+| [CGpColorLUT](#cgpcolorlut) | Allows to make custom color adjustments to bitmaps. |
 
 * 
-* CGpColorLUT
 * CGpColorMatrixEffect
 * CGpHueSaturationLightness
 * CGpLevels
@@ -477,7 +477,7 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 
 ---
 
-# CGpColorLUT Class
+# <a name="cgpcolorlut"></a>GpColorLUT Class
 
 A **ColorLUTParams** structure has four members, each being a lookup table for a particular color channel: alpha, red, green, or blue. The lookup tables can be used to make custom color adjustments to bitmaps. Each lookup table is an array of 256 bytes that you can set to values of your choice. After you have initialized a **ColorLUTParams** structure, pass its address to the **SetParameters** method of a **ColorLUT** object. Then pass the address of that **ColorLUT** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object.
 
