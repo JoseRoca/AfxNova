@@ -998,3 +998,129 @@ END SUB
 ```
 ---
 
++++++++++
+
+
+# CGpRedEyeCorrection Class
+
+The `CGpRedEyeCorrection` class enables you to correct the red eyes that sometimes occur in flash photographs. Pass the address of a **RedEyeCorrection** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify areas of the bitmap that have red eyes, pass a **RedEyeCorrectionParams** structure to the **SetParameters** method of a **RedEyeCorrection** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorlevelseffect) | Creates an instance of the **CGpRedEyeCorrection** class. |
+| [GetParameters](#getparameterslevels) | Gets the current values of the parameters of this **RedEyeCorrection** object. |
+| [SetParameters](#setparameterslevels) | Sets the parameters of this **RedEyeCorrection** object. |
+
+---
+
+## <a name="constructorlevelseffect"></a>Constructor (CGpRedEyeCorrection)
+
+Creates an instance of the `CGpRedEyeCorrection`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterslevels"></a>GetParameters (CGpRedEyeCorrection)
+
+Gets the current values of the parameters of this **RedEyeCorrection** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **RedEyeCorrectionParams** structure. |
+| *params* | Pointer to a **RedEyeCorrectionParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterslevels"></a>SetParameters (CGpRedEyeCorrection)
+
+Sets the current values of the parameters of this **RedEyeCorrection** object.
+
+```
+FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS LevelsParams PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL numberOfAreas AS UINT, BYVAL areas AS RECT PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **RedEyeCorrectionParams** structure. |
+| *params* | Pointer to a **RedEyeCorrectionParams** structure that specifies the parameters. |
+
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *numberOfAreas* | Integer that specifies the number of **RECT** structures in the **areas** array. |
+| *areas* | |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a red eyes correction effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_BitmapRedEyeCorrectionEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "RedEyes.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a red eyes correction effect
+   DIM redEyeEffect AS CGpRedEyeCorrection
+
+   ' // We need to specify one or more rectangles that enclose the red-eye areas.
+   ' // These are passed as an array of RECT structures.
+
+   ' // Define two rectangles around the eyes
+   ' // Change the values according the coordinates of your image
+   DIM eyeRects(0 TO 1) AS RECT
+   eyeRects(0).left   =   1 : eyeRects(0).top    =   1
+   eyeRects(0).right  = 400 : eyeRects(0).bottom = 250
+   eyeRects(1).left   =   1 : eyeRects(1).top    =   1
+   eyeRects(1).right  = 400 : eyeRects(1).bottom = 250
+
+   ' // Fill a RedEyeCorrectionParams structure
+   DIM redeyeParams AS RedEyeCorrectionParams
+   redeyeParams.numberOfAreas = 2
+   redeyeParams.areas = @eyeRects(0)
+   ' // Calculate the size of the paameters
+   DIM paramsSize AS UINT = SIZEOF(RedEyeCorrectionParams) + redeyeParams.numberOfAreas * SIZEOF(RECT)
+   ' // Set the parameters
+   redEyeEffect.SetParameters(@redeyeParams)
+
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@redEyeEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 5, 5)
+
+END SUB
+' ========================================================================================
+```
+---
