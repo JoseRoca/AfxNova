@@ -61,9 +61,9 @@ END FUNCTION
 ' The CGpEffect.UseAuxData method in GDI+ is a boolean flag for the Effect class that, when
 ' set to TRUE, instructs the CGpBitmap.ApplyEffect method to return a pointer to its auxiliary data.
 ' ========================================================================================
-PRIVATE FUNCTION CGpEffect.UseAuxData () AS BOOLEAN
-   RETURN m_useAuxData
-END FUNCTION
+PRIVATE SUB CGpEffect.UseAuxData (BYVAL useAuxDataFlag AS BOOL)
+   m_useAuxData = useAuxDataFlag
+END SUB
 ' ========================================================================================
 
 ' ========================================================================================
