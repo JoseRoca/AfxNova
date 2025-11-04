@@ -998,9 +998,6 @@ END SUB
 ```
 ---
 
-+++++++++
-
-
 # CGpRedEyeCorrection Class
 
 The `CGpRedEyeCorrection` class enables you to correct the red eyes that sometimes occur in flash photographs. Pass the address of a **RedEyeCorrection** object to the **DrawImage** method of the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify areas of the bitmap that have red eyes, pass a **RedEyeCorrectionParams** structure to the **SetParameters** method of a **RedEyeCorrection** object.
