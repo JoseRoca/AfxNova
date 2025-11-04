@@ -47,7 +47,7 @@ SUB Example_GrayScaleEffect (BYVAL hdc AS HDC)
       {0.0, 0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 0.0, 1.0}}
 
    ' // Create a gray matrix effect
-   DIM grayEffect AS CGpColorMatrix
+   DIM grayEffect AS CGpColorMatrixEffect
    ' // Set parameters
    grayEffect.SetParameters(cast(ColorMatrix PTR, @grayMatrix(0, 0)))
    ' // Apply effect to the whole image
