@@ -10,9 +10,9 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | [CGpColorCurve](#cgpcolorcurve) | Encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. |
 | [CGpColorLUT](#cgpcolorlut) | Allows to make custom color adjustments to bitmaps. |
 | [CGpColorMatrixEffect](#cgpcolormatrixeffect) | Enables to apply an affine transformation to a bitmap. |
+| [CGpHueSaturationLightness](#cgphuesaturationlightness) | Enables to change the hue, saturation, and lightness of a bitmap. |
 
 * 
-* CGpHueSaturationLightness
 * CGpLevels
 * CGpRedEyeCorrection
 * CGpSharpen
@@ -774,7 +774,7 @@ END SUB
 ```
 ---
 
-# CGpHueSaturationLightness Class
+# <a name="cgphuesaturationlightness"></a>CGpHueSaturationLightness Class
 
 The `CGpHueSaturationLightness` class enables you to change the hue, saturation, and lightness of a bitmap. Pass the address of a **HueSaturationLightness** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the magnitudes of the changes in hue, saturation, and lightness, pass a **HueSaturationLightnessParams** structure to the **SetParameters** method of a **HueSaturationLightness** object.
 
