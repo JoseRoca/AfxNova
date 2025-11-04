@@ -1,22 +1,6 @@
 # CGpEffect Class
 
-The `GpEffect` class serves as a base class for eleven classes that you can use to apply effects and adjustments to bitmaps. The following classes descend from **CGpEffect**.
-
-| Name       | Description |
-| ---------- | ----------- |
-| [CGpBlur](#cgpblur) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
-| [CGpBrightnessContrast](#cgpbrightnesscontrast) | Enables to change the brightness and contrast of a bitmap. |
-| [CGpColorBalance](#cgpcolorbalance) | Enables to o change the color balance (relative amounts of red, green, and blue) of a bitmap. |
-| [CGpColorCurve](#cgpcolorcurve) | Encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. |
-| [CGpColorLUT](#cgpcolorlut) | Allows to make custom color adjustments to bitmaps. |
-| [CGpColorMatrixEffect](#cgpcolormatrixeffect) | Enables to apply an affine transformation to a bitmap. |
-| [CGpHueSaturationLightness](#cgphuesaturationlightness) | Enables to change the hue, saturation, and lightness of a bitmap. |
-| [CGpLevels](#cgplevels) | Encompasses three bitmap adjustments: highlight, midtone, and shadow. |
-| [CGpRedEyeCorrection](#cgpredeyecorrection) | Enables to correct the red eyes that sometimes occur in flash photographs.  |
-
-* 
-* CGpSharpen
-* CGpTint
+The `GpEffect` class serves as a base class for eleven classes that you can use to apply effects and adjustments to bitmaps.
 
 To apply and effect to a bitmap, create an instance of one of the descendants of the `CGpEffect` class, and pass the address of that descendant to the **DrawImage** method of the CGGraphics class or to the **ApplyEffect** method of the **CGpBitmal** class.
 
@@ -34,6 +18,24 @@ To apply and effect to a bitmap, create an instance of one of the descendants of
 | [UseAuxDara](#useauxdata) | Sets or clears a flag that specifies whether the **ApplyEffect** method of the `CGpBitmap`class should return a pointer to the auxiliary data that it creates. |
 
 ---
+
+The following classes descend from **CGpEffect**.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [CGpBlur](#cgpblur) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
+| [CGpBrightnessContrast](#cgpbrightnesscontrast) | Enables to change the brightness and contrast of a bitmap. |
+| [CGpColorBalance](#cgpcolorbalance) | Enables to o change the color balance (relative amounts of red, green, and blue) of a bitmap. |
+| [CGpColorCurve](#cgpcolorcurve) | Encompasses eight separate adjustments: exposure, density, contrast, highlight, shadow, midtone, white saturation, and black saturation. |
+| [CGpColorLUT](#cgpcolorlut) | Allows to make custom color adjustments to bitmaps. |
+| [CGpColorMatrixEffect](#cgpcolormatrixeffect) | Enables to apply an affine transformation to a bitmap. |
+| [CGpHueSaturationLightness](#cgphuesaturationlightness) | Enables to change the hue, saturation, and lightness of a bitmap. |
+| [CGpLevels](#cgplevels) | Encompasses three bitmap adjustments: highlight, midtone, and shadow. |
+| [CGpRedEyeCorrection](#cgpredeyecorrection) | Enables to correct the red eyes that sometimes occur in flash photographs. |
+| [CGpSharpen](#cgpsharpen) | Enables to adjust the sharpness of a bitmap. |
+
+* 
+* CGpTint
 
 ## <a name="constructoreffect"></a>Constructor (CGpEffect)
 
@@ -1126,7 +1128,7 @@ END SUB
 ```
 ---
 
-# CGpSharpen Class
+# <a name="cgpsharpen"></a>CGpSharpen Class
 
 The `CGpSharpen` class enables you to adjust the sharpness of a bitmap. Pass the address of a **Sharpen** object to the **DrawImage** method of the **Graphics** oject or to the **ApplyEffect** method of the **Bitmap**. To specify the nature of the sharpening adjustment, pass the address of a **SharpenParams** structure to the **SetParameters** method of a **Sharpen** object.
 
