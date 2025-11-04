@@ -828,8 +828,7 @@ Sets the current values of the parameters of this **HueSaturationLightness** obj
 
 ```
 FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS HueSaturationLightnessParams PTR) AS GpStatus
-FUNCTION SetParametes (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, _
-   BYVAL lightnessLevel AS INT_) AS GpStatus
+FUNCTION SetParametes (BYVAL hueLevel AS INT_, BYVAL saturationLevel AS INT_, BYVAL lightnessLevel AS INT_) AS GpStatus
 ```
 
 | Parameter  | Description |
