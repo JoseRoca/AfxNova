@@ -58,8 +58,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpEffect.UseAuxData method in GDI+ is a boolean flag for the Effect class that, when
-' set to TRUE, instructs the CGpBitmap.ApplyEffect method to return a pointer to its auxiliary data.
+' The UseAuxData method in GDI+ is a boolean flag for the Effect class that, when set to
+' TRUE, instructs the CGpBitmap.ApplyEffect method to return a pointer to its auxiliary data.
 ' ========================================================================================
 PRIVATE SUB CGpEffect.UseAuxData (BYVAL useAuxDataFlag AS BOOL)
    m_useAuxData = useAuxDataFlag
@@ -79,10 +79,10 @@ END FUNCTION
 
 ' ########################################################################################
 ' CGpBlur Class
-' The Blur class enables you to apply a Gaussian blur effect to a bitmap and specify the
+' The CGpBlur class enables you to apply a Gaussian blur effect to a bitmap and specify the
 ' nature of the blur. Pass the address of a Blur object to the CGpGraphics.DrawImage method
 ' or to the CGpBitmap.ApplyEffect method. To specify the nature of the blur, pass a BlurParam
-' structure to the Blur.SetParameters method of a Blur object.
+' structure to the SetParameters method of a Blur object.
 ' ########################################################################################
 
 TYPE CGpBlur EXTENDS CGpEffect
@@ -133,7 +133,7 @@ END FUNCTION
 ' The CGpSharpen class enables you to adjust the sharpness of a bitmap. Pass the address of
 ' a CGpSharpen object to the Graphics.DrawImage method or to the CGpBitmap.ApplyEffect method.
 ' To specify the nature of the sharpening adjustment, pass the address of a SharpenParams
-' structure to the CGpSharpen.SetParameters method of a Sharpen object.
+' structure to the SetParameters method of a Sharpen object.
 ' ########################################################################################
 
 TYPE CGpSharpen EXTENDS CGpEffect
@@ -155,7 +155,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpSharpen.SetParameters method sets the parameters of this Sharpen object.
+' The SetParameters method sets the parameters of this Sharpen object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpSharpen.SetParameters (BYVAL params AS SharpenParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(SharpenParams)
@@ -163,7 +163,7 @@ PRIVATE FUNCTION CGpSharpen.SetParameters (BYVAL params AS SharpenParams PTR) AS
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' The CGpSharpen.SetParameters method sets the parameters of this Sharpen object.
+' The SetParameters method sets the parameters of this Sharpen object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpSharpen.SetParameters (BYVAL radius AS REAL, BYVAL amount AS REAL) AS GpStatus
    DIM params AS SharpenParams = TYPE(radius, amount)
@@ -173,7 +173,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpSharpen.GetParameters method gets the current values of the parameters of this Sharpen object.
+' The GetParameters method gets the current values of the parameters of this Sharpen object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpSharpen.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
@@ -183,11 +183,11 @@ END FUNCTION
 
 ' ########################################################################################
 ' CGpRedEyeCorrection Class
-' The RedEyeCorrection class enables you to correct the red eyes that sometimes occur in
+' The CGpRedEyeCorrection class enables you to correct the red eyes that sometimes occur in
 ' flash photographs. Pass the address of a RedEyeCorrection object to the CGpGraphics.DrawImage
 ' method or to the CGpBitmap.ApplyEffect method. To specify areas of the bitmap that have red
-' eyes, pass a RedEyeCorrectionParams structure to the CGpRedEyeCorrection.SetParameters method
-' of a RedEyeCorrection object.
+' eyes, pass a RedEyeCorrectionParams structure to the SetParameters method of a 
+' RedEyeCorrection object.
 ' ########################################################################################
 
 TYPE CGpRedEyeCorrection EXTENDS CGpEffect
@@ -209,7 +209,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpRedEyeCorrection.SetParameters method sets the parameters of this RedEyeCorrection object.
+'The SetParameters method sets the parameters of this RedEyeCorrection object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpRedEyeCorrection.SetParameters (BYVAL params AS RedEyeCorrectionParams PTR) AS GpStatus
    DIM status AS GpStatus = 2   ' Invalid parameter
@@ -231,8 +231,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpRedEyeCorrection.GetParameters method gets the current values of the parameters of
-' this RedEyeCorrection object.
+' The .GetParameters method gets the current values of the parameters of this 
+' RedEyeCorrection object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpRedEyeCorrection.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
@@ -242,11 +242,10 @@ END FUNCTION
 
 ' ########################################################################################
 ' CGpBrightnessContrast Class
-' The BrightnessContrast class enables you to change the brightness and contrast of a bitmap.
+' The CGpBrightnessContrast class enables you to change the brightness and contrast of a bitmap.
 ' Pass the address of a BrightnessContrast object to the CGpGraphics.DrawImage method or to
 ' the CGpBitmap.ApplyEffect method. To specify the brightness and contrast levels, pass a
-' BrightnessContrastParams structure to the CGpBrightnessContrast.SetParameters method of a
-' BrightnessContrast object.
+' BrightnessContrastParams structure to the SetParameters method of a BrightnessContrast object.
 ' ########################################################################################
 
 TYPE CGpBrightnessContrast EXTENDS CGpEffect
@@ -268,7 +267,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpBrightnessContrast.SetParameters method sets the parameters of this BrightnessContrast object.
+'The SetParameters method sets the parameters of this BrightnessContrast object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpBrightnessContrast.SetParameters (BYVAL params AS BrightnessContrastParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(BrightnessContrastParams)
@@ -284,8 +283,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpBrightnessContrast.GetParameters method gets the current values of the parameters of
-' this BrightnessContrast object.
+' The GetParameters method gets the current values of the parameters of this BrightnessContrast object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpBrightnessContrast.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
@@ -295,11 +293,11 @@ END FUNCTION
 
 ' ########################################################################################
 ' CGpHueSaturationLightness Class
-' The HueSaturationLightness class enables you to change the hue, saturation, and lightness
+' The CGpHueSaturationLightness class enables you to change the hue, saturation, and lightness
 ' of a bitmap. Pass the address of a HueSaturationLightness object to the CGpGraphics.DrawImage
 ' method or to the CGpBitmap.ApplyEffect method. To specify the magnitudes of the changes in
 ' hue, saturation, and lightness, pass a HueSaturationLightnessParams structure to the
-' CGpHueSaturationLightness.SetParameters method of a HueSaturationLightness object.
+' SetParameters method of a HueSaturationLightness object.
 ' ########################################################################################
 
 TYPE CGpHueSaturationLightness EXTENDS CGpEffect
@@ -321,7 +319,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpHueSaturationLightness.SetParameters method sets the parameters of this HueSaturationLightness object.
+'The SetParameters method sets the parameters of this HueSaturationLightness object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpHueSaturationLightness.SetParameters (BYVAL params AS HueSaturationLightnessParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(HueSaturationLightnessParams)
@@ -337,8 +335,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpHueSaturationLightness.GetParameters method gets the current values of the parameters
-' of this HueSaturationLightness object.
+' The GetParameters method gets the current values of the parameters of this HueSaturationLightness object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpHueSaturationLightness.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
@@ -348,11 +345,11 @@ END FUNCTION
 
 ' ########################################################################################
 ' CGpLevels Class
-' The Levels class encompasses three bitmap adjustments: highlight, midtone, and shadow.
+' The CGpLevels class encompasses three bitmap adjustments: highlight, midtone, and shadow.
 ' You can apply one or more of those adjustments to a bitmap by passing the address of a
 ' Levels object to the Graphics::DrawImage method or to the CGpBitmap.ApplyEffect method.
 ' To specify the intensities of the adjustments, pass the address of a LevelsParams
-' structure to the CGpLevels.SetParameters method of a Levels object.
+' structure to the SetParameters method of a Levels object.
 ' ########################################################################################
 
 TYPE CGpLevels EXTENDS CGpEffect
@@ -374,7 +371,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpLevels.SetParameters method sets the parameters of this Levels object.
+'The SetParameters method sets the parameters of this Levels object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpLevels.SetParameters (BYVAL params AS LevelsParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(LevelsParams)
@@ -390,8 +387,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpLevels.GetParameters method gets the current values of the parameters of
-' this Levels object.
+' The GetParameters method gets the current values of the parameters of this Levels object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpLevels.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
@@ -401,10 +397,10 @@ END FUNCTION
 
 ' ########################################################################################
 ' CGpTint Class
-' The Tint class enables you to apply a tint to a bitmap. Pass the address of a Tint object
+' The CGpTint class enables you to apply a tint to a bitmap. Pass the address of a Tint object
 ' to the CGpGraphics.DrawImage method or to the CGpBitmap.ApplyEffect method. To specify the nature
-' of the tint, pass the address of a TintParams structure to the CGpTint.SetParameters method
-' of a Tint object.
+' of the tint, pass the address of a TintParams structure to the SetParameters method of a
+' Tint object.
 ' ########################################################################################
 
 TYPE CGpTint EXTENDS CGpEffect
@@ -426,7 +422,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpTint.SetParameters method sets the parameters of this Tint object.
+'The SetParameters method sets the parameters of this Tint object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpTint.SetParameters (BYVAL params AS TintParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(TintParams)
@@ -442,8 +438,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpTint.GetParameters method gets the current values of the parameters of
-' this Tint object.
+' The GetParameters method gets the current values of the parameters of this Tint object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpTint.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
@@ -453,10 +448,10 @@ END FUNCTION
 
 ' ########################################################################################
 ' CGpColorBalance Class
-' The ColorBalance class enables you to change the color balance (relative amounts of red,
+' The CGpColorBalance class enables you to change the color balance (relative amounts of red,
 ' green, and blue) of a bitmap. Pass the address of a ColorBalance object to the
 ' CGpGraphics.DrawImage method or to the CGpBitmap.ApplyEffect method. To specify the nature of
-' the change, pass the address of a ColorBalanceParams structure to the CGpColorBalance.SetParameters
+' the change, pass the address of a ColorBalanceParams structure to the SetParameters
 ' method of a ColorBalance object.
 ' ########################################################################################
 
@@ -479,7 +474,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpColorBalance.SetParameters method sets the parameters of this ColorBalance object.
+'The SetParameters method sets the parameters of this ColorBalance object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorBalance.SetParameters (BYVAL params AS ColorBalanceParams PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(ColorBalanceParams)
@@ -495,8 +490,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpColorBalance.GetParameters method gets the current values of the parameters of
-' this ColorBalance object.
+' The GetParameters method gets the current values of the parameters of this ColorBalance object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorBalance.GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, params))
@@ -509,8 +503,8 @@ END FUNCTION
 ' The CGpColorMatrixEffect class enables you to apply an affine transformation to a bitmap.
 ' Pass the address of a ColorMatrixEffect object to the CGpGraphics.DrawImage method or to the
 ' CGpBitmap.ApplyEffect method. To specify the transformation, set the elements of a ColorMatrix
-' structure, and pass the address of that structure to the CGpColorMatrixEffect.SetParameters
-' method of a ColorMatrixEffect object.
+' structure, and pass the address of that structure to the SetParameters method of a
+' ColorMatrixEffect object.
 ' ########################################################################################
 
 TYPE CGpColorMatrixEffect EXTENDS CGpEffect
@@ -531,7 +525,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-'The CGpColorBalance.SetParameters method sets the parameters of this ColorBalance object.
+'The SetParameters method sets the parameters of this ColorMatrixEffect object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorMatrixEffect.SetParameters (BYVAL matrix AS ColorMatrix PTR) AS GpStatus
    DIM uSize AS UINT = SIZEOF(ColorMatrix)
@@ -540,8 +534,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' The CGpColorBalance.GetParameters method gets the current values of the parameters of
-' this ColorBalance object.
+' The GetParameters method gets the current values of the parameters of this ColorMatrixEffect object.
 ' ========================================================================================
 PRIVATE FUNCTION CGpColorMatrixEffect.GetParameters (BYVAL uSize AS UINT PTR, BYVAL matrix AS ColorMatrix PTR) AS GpStatus
    RETURN SetStatus(GdipGetEffectParameters(m_pEffect, uSize, matrix))
@@ -555,9 +548,9 @@ END FUNCTION
 ' color channel: alpha, red, green, or blue. The lookup tables can be used to make custom
 ' color adjustments to bitmaps. Each lookup table is an array of 256 bytes that you can
 ' set to values of your choice. After you have initialized a ColorLUTParams structure, pass
-' its address to the CGpColorLUT.SetParameters method of a CGpColorLUT object. Then pass the
-' address of that CGpColorLUT object to the CGpGraphics.DrawImage method or to the
-' CGpBitmap.ApplyEffect method.
+' its address to the SetParameters method of a CGpColorLUT object. Then pass the address of
+' that CGpColorLUT object to the CGpGraphics.DrawImage method or to the CGpBitmap.ApplyEffect
+' method.
 ' ########################################################################################
 
 TYPE CGpColorLUT EXTENDS CGpEffect
@@ -603,8 +596,8 @@ END FUNCTION
 ' those adjustments to a bitmap by passing the address of a CGpColorCurve object to the
 ' CGpGraphics.DrawImage method or to the CGpBitmap.ApplyEffect method. To specify the
 ' adjustment, the intensity of the adjustment, and the color channel to which the adjustment
-' applies, pass the address of a ColorCurveParams structure to the CGpColorCurve.SetParameters
-' method of a ColorCurve object.
+' applies, pass the address of a ColorCurveParams structure to the SetParameters method of
+' a ColorCurve object.
 ' ########################################################################################
 
 TYPE CGpColorCurve EXTENDS CGpEffect
