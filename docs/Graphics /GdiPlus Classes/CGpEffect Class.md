@@ -668,7 +668,7 @@ END SUB
 ```
 ---
 
-# CGpColorMatrix Class
+# CGpColorMatrixEffect Class
 
 The `CGpColorMatrixEffect` class enables you to apply an affine transformation to a bitmap. Pass the address of a **ColorMatrixEffect** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the transformation, set the elements of a **ColorMatrix** structure, and pass the address of that structure to the **SetParameters** method of a **ColorMatrixEffect** object.
 
@@ -677,24 +677,24 @@ The `CGpColorMatrixEffect` class enables you to apply an affine transformation t
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructor](#constructorcolormatrixeffect) | Creates an instance of the **CGpColorMatrix** class. |
-| [GetParameters](#getparameterscolormatrix) | Gets the current values of the parameters of this **ColorMatrix** object. |
-| [SetParameters](#setparameterscolormatrix) | Sets the parameters of this **ColorMatrix** object. |
+| [Constructor](#constructorcolormatrixeffect) | Creates an instance of the **CGpColorMatrixEffect** class. |
+| [GetParameters](#getparameterscolormatrix) | Gets the current values of the parameters of this **ColorMatrixEffect** object. |
+| [SetParameters](#setparameterscolormatrix) | Sets the parameters of this **ColorMatrixEffect** object. |
 
 ---
 
-## <a name="constructorcolormatrixeffect"></a>Constructor (CGpColorMatrix)
+## <a name="constructorcolormatrixeffect"></a>Constructor (CGpColorMatrixEffect)
 
-Creates an instance of the `CGpColorMatrix`class.
+Creates an instance of the `CGpColorMatrixEffect`class.
 
 ```
 CONSTRUCTOR
 ```
 ---
 
-## <a name="getparameterscolormatrix"></a>GetParameters (CGpColorMatrix)
+## <a name="getparameterscolormatrix"></a>GetParameters (CGpColorMatrixEffect)
 
-Gets the current values of the parameters of this **ColorMatrix** object.
+Gets the current values of the parameters of this **ColorMatrixEffect** object.
 
 ```
 FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL matrix AS ColorMatrix PTR) AS GpStatus
@@ -702,8 +702,8 @@ FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL matrix AS ColorMatrix PTR
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **ColorMatrixEffect** structure. |
-| *matrix* | Pointer to a **ColorMatrixEffect** structure that receives the parameter values. |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **ColorMatrix** structure. |
+| *matrix* | Pointer to a **ColorMatrix** structure that receives the parameter values. |
 
 
 #### Return value
@@ -714,9 +714,9 @@ If the method fails, it returns one of the other elements of the **GpStatus** en
 
 ---
 
-## <a name="setparameterscolormatrix"></a>SetParameters (CGpColorMatrix)
+## <a name="setparameterscolormatrix"></a>SetParameters (CGpColorMatrixEffect)
 
-Sets the current values of the parameters of this **ColorMatrix** object.
+Sets the current values of the parameters of this **ColorMatrixEffect** object.
 
 ```
 FUNCTION SetParameters (BYVAL matrix AS ColorMatrix PTR) AS GpStatus
@@ -724,7 +724,7 @@ FUNCTION SetParameters (BYVAL matrix AS ColorMatrix PTR) AS GpStatus
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *matrix* | Pointer to a **ColorMatrixEffect** structure that specifies the parameters. |
+| *matrix* | Pointer to a **ColorMatrix** structure that specifies the parameters. |
 
 #### Return value
 
@@ -732,6 +732,42 @@ If the method succeeds, it returns **StatusOk**, which is an element of the **Gp
 
 If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' Converts the image to grayscale by averaging RGB channels.
+' ========================================================================================
+SUB Example_GrayScaleEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create grayscale matrix
+   DIM grayMatrix(0 TO 4, 0 TO 4) AS SINGLE = {{0.3, 0.3, 0.3, 0.0, 0.0}, _
+      {0.59, 0.59, 0.59, 0.0, 0.0}, {0.11, 0.11, 0.11, 0.0, 0.0}, _
+      {0.0, 0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 0.0, 1.0}}
+
+   ' // Create a gray matrix effect
+   DIM grayEffect AS CGpColorMatrixEffect
+   ' // Set parameters
+   grayEffect.SetParameters(cast(ColorMatrix PTR, @grayMatrix(0, 0)))
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@grayEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 # CGpHueSaturationLightness Class
