@@ -2,7 +2,7 @@
 
 The `GpEffect` class serves as a base class for eleven classes that you can use to apply effects and adjustments to bitmaps.
 
-To apply and effect to a bitmap, create an instance of one of the descendants of the `CGpEffect` class, and pass the address of that descendant to the **DrawImage** method of the CGGraphics class or to the **ApplyEffect** method of the **CGpBitmal** class.
+To apply and effect to a bitmap, create an instance of one of the descendants of the `CGpEffect` class, and pass the address of that descendant to the **DrawImage** method of the CGGraphics class or to the **ApplyEffect** method of the **CGpBitmap** class.
 
 **Inherits from**: CGpBase.<br>
 **Include file**: CGpEffect.inc.
