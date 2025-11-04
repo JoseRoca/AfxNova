@@ -11,9 +11,9 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | [CGpColorLUT](#cgpcolorlut) | Allows to make custom color adjustments to bitmaps. |
 | [CGpColorMatrixEffect](#cgpcolormatrixeffect) | Enables to apply an affine transformation to a bitmap. |
 | [CGpHueSaturationLightness](#cgphuesaturationlightness) | Enables to change the hue, saturation, and lightness of a bitmap. |
+| [CGpLevels](#cgplevels) | Encompasses three bitmap adjustments: highlight, midtone, and shadow.  |
 
 * 
-* CGpLevels
 * CGpRedEyeCorrection
 * CGpSharpen
 * CGpTint
@@ -888,7 +888,7 @@ END SUB
 ```
 ---
 
-# CGpLevels Class
+# <a name="cgplevels"></a>CGpLevels Class
 
 The `CGpLevels` class encompasses three bitmap adjustments: highlight, midtone, and shadow. You can apply one or more of those adjustments to a bitmap by passing the address of a Levels object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the intensities of the adjustments, pass the address of a **LevelsParams** structure to the **SetParameters** method of a **Levels** object.
 
