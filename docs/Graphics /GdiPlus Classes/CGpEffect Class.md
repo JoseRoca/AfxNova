@@ -5,10 +5,10 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 | Name       | Description |
 | ---------- | ----------- |
 | [CGpBlur](#cgpblur) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
-| [CGpBrightnessContrast](#cgpbrightnesscontrast) | Enables to change the brightness and contrast of a bitmap.  |
+| [CGpBrightnessContrast](#cgpbrightnesscontrast) | Enables to change the brightness and contrast of a bitmap. |
+| [CGpColorBalance](#cgpcolorbalance) | Enables to o change the color balance (relative amounts of red, green, and blue) of a bitmap. |
 
 * 
-* CGpColorBalance
 * CGpColorCurve
 * CGpColorLUT
 * CGpColorMatrixEffect
@@ -329,7 +329,7 @@ END SUB
 ```
 ---
 
-# CGpColorBalance Class
+## <a name="cgpcolorbalance"></a>CGpColorBalance Class
 
 The `CGpColorBalance` class enables you to change the color balance (relative amounts of red, green, and blue) of a bitmap. Pass the address of a **ColorBalance** object to the **DrawImage** methodof the **Graphics** object or to the **ApplyEffect** method of the **Bitmap** object. To specify the nature of the change, pass the address of a **ColorBalanceParams** structure to the **SetParameters** method of a **ColorBalance** object.
 
