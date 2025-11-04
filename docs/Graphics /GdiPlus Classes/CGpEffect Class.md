@@ -490,7 +490,7 @@ A **ColorLUTParams** structure has four members, each being a lookup table for a
 
 ## <a name="constructorcolorluteffect"></a>Constructor (CGpColorLUT)
 
-Creates an instance of the `CGpColorCurve`class.
+Creates an instance of the `CGpColorLUT`class.
 
 ```
 CONSTRUCTOR
