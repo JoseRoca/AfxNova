@@ -161,7 +161,7 @@ FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS ANY PTR) AS GpS
 
 If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
 
-If the method fails, it returns one of the other elements of the **GpStatus* enumeration.
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
 
 ---
 
