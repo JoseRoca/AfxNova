@@ -1062,7 +1062,7 @@ FUNCTION SetParameters (BYVAL numberOfAreas AS UINT, BYVAL areas AS RECT PTR) AS
 | Parameter  | Description |
 | ---------- | ----------- |
 | *numberOfAreas* | Integer that specifies the number of **RECT** structures in the **areas** array. |
-| *areas* | |
+| *areas* | Pointer to an array of **RECT** structures, each of which specifies an area of the bitmap to which red eye correction should be applied. |
 
 #### Return value
 
@@ -1116,6 +1116,116 @@ SUB Example_BitmapRedEyeCorrectionEffect (BYVAL hdc AS HDC)
 
    ' // Draw the image
    graphics.DrawImage(@bmp, 5, 5)
+
+END SUB
+' ========================================================================================
+```
+---
+
+++++++++++++++++++++
+
+
+
+# CGpSharpen Class
+
+The `CGpSharpen` class enables you to adjust the sharpness of a bitmap. Pass the address of a **Sharpen** object to the **DrawImage** method of the **Graphics** oject or to the **ApplyEffect** method of the **Bitmap**. To specify the nature of the sharpening adjustment, pass the address of a **SharpenParams** structure to the **SetParameters** method of a **Sharpen** object.
+
+**Inherits from**: CGpEffect.<br>
+**Include file**: CGpEffect.inc.
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Constructor](#constructorlevelseffect) | Creates an instance of the **CGpSharpen** class. |
+| [GetParameters](#getparameterslevels) | Gets the current values of the parameters of this **Sharpen** object. |
+| [SetParameters](#setparameterslevels) | Sets the parameters of this **Sharpen** object. |
+
+---
+
+## <a name="constructorlevelseffect"></a>Constructor (CGpSharpen)
+
+Creates an instance of the `CGpSharpen`class.
+
+```
+CONSTRUCTOR
+```
+---
+
+## <a name="getparameterslevels"></a>GetParameters (CGpSharpen)
+
+Gets the current values of the parameters of this **Sharpen** object.
+
+```
+FUNCTION GetParameters (BYVAL uSize AS UINT PTR, BYVAL SharpenParams AS ANY PTR) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **SharpenParams** structure. |
+| *params* | Pointer to a **SharpenParams** structure that receives the parameter values. |
+
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+---
+
+## <a name="setparameterslevels"></a>SetParameters (CGpSharpen)
+
+Sets the current values of the parameters of this **Sharpen** object.
+
+```
+FUNCTION SetParameters (BYVAL uSize AS UINT PTR, BYVAL params AS LevelsParams PTR) AS GpStatus
+FUNCTION SetParameters (BYVAL radius AS REAL, BYVAL amount AS REAL) AS GpStatus
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uSize* | Pointer to a UINT that specifies the size, in bytes, of a **SharpenParams** structure. |
+| *params* | Pointer to a **SharpenParams** structure that specifies the parameters. |
+
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *radius* | Real number that specifies the sharpening radius (the radius of the convolution kernel) in pixels. The radius must be in the range 0 through 255. As the radius increases, more surrounding pixels are involved in calculating the new value of a given pixel. |
+| *amount* | Real number in the range 0 through 100 that specifies the amount of sharpening to be applied. A value of 0 specifies no sharpening. As the value of amount increases, the sharpness increases. |
+
+#### Return value
+
+If the method succeeds, it returns **StatusOk**, which is an element of the **GpStatus** enumeration.
+
+If the method fails, it returns one of the other elements of the **GpStatus** enumeration.
+
+#### Example
+
+```
+' ========================================================================================
+' This example loads an image from disk and applies a sharpen effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_SharpenEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scaling factors using the DPI ratios
+   graphics.ScaleTransformForDpi
+
+   ' // Create a Bitmap object from a JPEG file.
+   DIM bmp AS CGpBitmap = "climber.jpg"
+   ' // Set the resolution of the image using the DPI ratios
+   bmp.SetResolutionForDpi
+
+   ' // Create a sharpen effect
+   DIM sharpenEffect AS CGpSharpen
+   ' // Set parameters: radius = 3.0, expandEdge = FALSE
+   DIM sharpenParams AS SharpenParams = (3.0, FALSE)
+   sharpenEffect.SetParameters(@sharpenParams)
+   ' // Apply effect to the whole image
+   bmp.ApplyEffect(@sharpenEffect)
+
+   ' // Draw the image
+   graphics.DrawImage(@bmp, 10, 10)
 
 END SUB
 ' ========================================================================================
