@@ -4,7 +4,7 @@ The `GpEffect` class serves as a base class for eleven classes that you can use 
 
 | Name       | Description |
 | ---------- | ----------- |
-| [CGpBlur](#cgpblue) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
+| [CGpBlur](#cgpblur) | Enables to apply a Gaussian blur effect to a bitmap and specify the nature of the blur. |
 
 * CGpBlur
 * CGpBrightnessContrast
