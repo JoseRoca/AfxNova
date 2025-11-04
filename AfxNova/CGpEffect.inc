@@ -66,6 +66,16 @@ PRIVATE FUNCTION CGpEffect.UseAuxData () AS BOOLEAN
 END FUNCTION
 ' ========================================================================================
 
+' ========================================================================================
+' Gets the total size, in bytes, of the parameters currently set for the effect.
+' ========================================================================================
+PRIVATE FUNCTION CGpEFfect.GetParameterSize () AS UINT
+   DIM nSize AS UINT
+   this.SetStatus(GdipGetEffectParameterSize(m_pEffect, @nSize))
+   RETURN nSize
+END FUNCTION
+' ========================================================================================
+
 
 ' ########################################################################################
 ' CGpBlur Class
