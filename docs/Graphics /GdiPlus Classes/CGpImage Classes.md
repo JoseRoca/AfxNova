@@ -2867,8 +2867,8 @@ Creates a new **Bitmap** object by copying a portion of this bitmap.
 ```
 FUNCTION Clone (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, _
    BYVAL nHeight AS SINGLE, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
-FUNCTION Clone (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, _
-   BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
+FUNCTION Clone (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, _
+   BYVAL nHeight AS SINGLE, BYVAL pxFormat AS PixelFormat) AS CGpBitmap
 FUNCTION Clone (BYVAL rc AS GpRectF PTR, BYVAL pxFormat AS PixelFormat, _
    BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
 FUNCTION Clone (BYVAL rc AS GpRect PTR, BYVAL pxFormat AS PixelFormat, _
