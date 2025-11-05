@@ -5166,12 +5166,12 @@ SUB Example_SetOutputChannel (BYVAL hdc AS HDC)
    graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
  
     ' // Draw the image, showing the intensity of the yellow channel.
-  imgAttr.SetOutputChannel(ColorChannelFlagsY)
+   imgAttr.SetOutputChannel(ColorChannelFlagsY)
    rc = Type<GpRect>(10, 110, nWidth, nHeight)
    graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
 
     ' // Draw the image, showing the intensity of the black channel.
-  imgAttr.SetOutputChannel(ColorChannelFlagsK)
+   imgAttr.SetOutputChannel(ColorChannelFlagsK)
    rc = Type<GpRect>(110, 110, nWidth, nHeight)
    graphics.DrawImage(@image, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
 
