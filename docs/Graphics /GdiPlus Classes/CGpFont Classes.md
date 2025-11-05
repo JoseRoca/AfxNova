@@ -1,6 +1,6 @@
 # CGpFont Class
 
-The `CGpFont` class allows the creation of **Font** objects. The Font object encapsulates the characteristics, such as family, height, size, and style (or combination of styles), of a specific font. A **Font** object is used when drawing strings.
+The `CGpFont` class allows the creation of **Font** objects. The **Font** object encapsulates the characteristics, such as family, height, size, and style (or combination of styles), of a specific font. A **Font** object is used when drawing strings.
 
 **Inherits from**: CGpBase.<br>
 **Include file**: CGpFont.inc.
