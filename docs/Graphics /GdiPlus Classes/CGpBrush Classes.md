@@ -766,12 +766,10 @@ You can obtain the colors and blend positions currently set for a linear gradien
 ' ========================================================================================
 ' The following example sets the colors that are interpolated for this linear gradient
 ' brush to red, blue, and green and sets the blend positions to 0, 0.3, and 1. The code
-' calls the LinearGradientBrush::GetInterpolationColorCount method of a LinearGradientBrush
+' calls the LinearGradientBrush.GetInterpolationColorCount method of a LinearGradientBrush
 ' object to obtain the number of colors currently set to be interpolated for the brush.
-' Next, the code gets the colors and their positions. Then, the code fills a small
-' rectangle with each color.
 ' ========================================================================================
-SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
+SUB Example_GetInterpolationColorsCount (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
@@ -791,23 +789,6 @@ SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
    ' // Obtain information about the linear gradient brush.
    ' // How many colors have been specified to be interpolated for this brush?
    DIM colorCount AS LONG = linGrBrush.GetInterpolationColorCount
-
-   ' // Allocate a buffer large enough to hold the set of colors.
-   DIM rgcolors(0 TO colorCount - 1) AS ARGB
-
-   ' // Allocate a buffer to hold the relative positions of the colors.
-   DIM rgPositions(0 TO colorCount - 1) AS SINGLE
-
-   ' // Get the colors and their relative positions.
-   linGrBrush.GetInterpolationColors(@rgcolors(0), @rgPositions(0), colorCount)
-
-   ' // Fill a small rectangle with each of the colors.
-   DIM pSolidBrush AS CGpSolidBrush PTR
-   FOR j AS LONG = 0 TO colorCount - 1
-      pSolidBrush = NEW CGpSolidBrush(rgcolors(j))
-      graphics.FillRectangle(pSolidBrush, 15 * j, 0, 10, 10)
-      Delete pSolidBrush
-   NEXT
 
 END SUB
 ' ========================================================================================
@@ -841,7 +822,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 ' ========================================================================================
 ' The following example sets the colors that are interpolated for this linear gradient
 ' brush to red, blue, and green and sets the blend positions to 0, 0.3, and 1. The code
-' calls the LinearGradientBrush::GetInterpolationColorCount method of a LinearGradientBrush
+' calls the LinearGradientBrush.GetInterpolationColorCount method of a LinearGradientBrush
 ' object to obtain the number of colors currently set to be interpolated for the brush.
 ' Next, the code gets the colors and their positions. Then, the code fills a small
 ' rectangle with each color.
@@ -854,13 +835,13 @@ SUB Example_GetInterpolationColors (BYVAL hdc AS HDC)
    graphics.ScaleTransformForDpi
 
    ' // Create a linear gradient brush, and set the colors to be interpolated.
-   DIM colors(0 TO 2) AS ARGB = {GDIP_ARGB(255, 255, 0, 0), GDIP_ARGB(255, 0, 0, 255), GDIP_ARGB(255, 0, 255, 0)}
+   DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_LIGHTGREEN}
    DIM positions(0 TO 2) AS SINGLE = {0.0, 0.3, 1.0}
 
-   DIM pt1 AS GpPoint = GDIP_POINT(0, 0)
-   DIM pt2 AS GpPoint = GDIP_POINT(100, 0)
+   DIM pt1 AS GpPoint = (0, 0)
+   DIM pt2 AS GpPoint = (100, 0)
 
-   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, GDIP_ARGB(255, 0, 0, 0), GDIP_ARGB(255, 255, 255, 255))
+   DIM linGrBrush AS CGpLinearGradientBrush = CGpLinearGradientBrush(@pt1, @pt2, ARGB_BLACK, ARGB_WHITE)
    linGrBrush.SetInterpolationColors(@colors(0), @positions(0), 3)
 
    ' // Obtain information about the linear gradient brush.
