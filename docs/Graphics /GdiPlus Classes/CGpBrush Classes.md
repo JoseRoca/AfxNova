@@ -730,7 +730,7 @@ END SUB
 
 ## <a name="getgammacorrectionlgbrush"></a>GetGammaCorrection (CGpLinearGradientBrush)
 
-Gets the focus scales of this path gradient brush.
+Determines whether gamma correction is enabled for this **LinearGradientBrush** object.
 
 ```
 FUNCTION GetGammaCorrection () AS BOOL
