@@ -196,19 +196,15 @@ END FUNCTION
 
 ' =====================================================================================
 ' Sets the color-remap table for a specified category.
-' // map parameter declared as ANY PTR because in the FB headers
-' // it is declared as ColorMap PTR for 32 bit and ColorMap_ PTR for 64 bit
 ' =====================================================================================
-PRIVATE FUNCTION CGpImageAttributes.SetRemapTable (BYVAL mapSize AS UINT, BYVAL map AS ANY PTR, BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
+PRIVATE FUNCTION CGpImageAttributes.SetRemapTable (BYVAL mapSize AS UINT, BYVAL map AS GpColorMap PTR, BYVAL nType AS ColorAdjustType = ColorAdjustTypeDefault) AS GpStatus
    RETURN SetStatus(GdipSetImageAttributesRemapTable(m_pImgAttr, nType, CTRUE, mapSize, map))
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 ' Sets the color remap table for the brush category.
-' // map parameter declared as ANY PTR because in the FB headers
-' // it is declared as ColorMap PTR for 32 bit and ColorMap_ PTR for 64 bit
 ' =====================================================================================
-PRIVATE FUNCTION CGpImageAttributes.SetBrushRemapTable (BYVAL mapSize AS UINT, BYVAL map AS ANY PTR) AS GpStatus
+PRIVATE FUNCTION CGpImageAttributes.SetBrushRemapTable (BYVAL mapSize AS UINT, BYVAL map AS GpColorMap PTR) AS GpStatus
    RETURN SetStatus(this.SetRemapTable(mapSize, map, ColorAdjustTypeBrush))
 END FUNCTION
 ' =====================================================================================
