@@ -1231,7 +1231,7 @@ If the style or combination of styles is available, this method returns TRUE; ot
 
 #### Remarks
 
-This method returns a misleading result on some third-party fonts. For example, IsStyleAvailable(FontStyleUnderline) may return FALSE because it is really testing for a regular style font that also is an underlined font: *FontStyleRegular OR FontStyleUnderline*. If the font does not have a regular style, the IsStyleAvailable method returns FALSE.
+This method returns a misleading result on some third-party fonts. For example, *IsStyleAvailable(FontStyleUnderline)* may return FALSE because it is really testing for a regular style font that also is an underlined font: *FontStyleRegular OR FontStyleUnderline*. If the font does not have a regular style, the **IsStyleAvailable** method returns FALSE.
 
 #### Example
 
