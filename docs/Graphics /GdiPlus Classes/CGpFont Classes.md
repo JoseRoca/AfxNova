@@ -12,8 +12,8 @@ The `CGpFont` class allows the creation of **Font** objects. The **Font** object
 | [GetFamily](#getfamily) | Gets the font family on which this font is based. |
 | [GetHeight](#getheight) | Gets the line spacing of this font in the current unit of a specified Graphics object. |
 | [GetHeight(DPI)](#getheightdpi) | Gets the line spacing of this font in pixels. |
-| [GetLogFontA](#getlogfont) | Uses a LOGFONTA structure to get the attributes of this **Font** object. |
-| [GetLogFontW](#getlogfont) | Uses a LOGFONTW structure to get the attributes of this **Font** object. |
+| [GetLogFontA](#getlogfont) | Uses a **LOGFONTA** structure to get the attributes of this **Font** object. |
+| [GetLogFontW](#getlogfont) | Uses a **LOGFONTW** structure to get the attributes of this **Font** object. |
 | [GetSize](#getsize) | Returns the font size (commonly called the em size) of this **Font** object. |
 | [GetStyle](#getstyle) | Returns the font size (commonly called the em size) of this **Font** object. |
 | [GetUnit](#getunit) | Returns the unit of measure of this **Font** object. |
@@ -103,7 +103,7 @@ CONSTRUCTOR CGpFont (BYVAL hdc AS HDC)
 | ---------- | ----------- |
 | *hdc* | Handle to a Windows device context that has a font selected. A handle is a number that Windows uses internally to reference an object. |
 
-Creates a **Font** object indirectly from a Windows Graphics Device Interface (GDI) logical font by using a handle to a GDI LOGFONT structure.
+Creates a **Font** object indirectly from a Windows Graphics Device Interface (GDI) logical font by using a handle to a GDI **LOGFONT** structure.
 
 ```
 CONSTRUCTOR CGpFont (BYVAL hdc AS HDC, BYVAL hFont AS HFONT)
@@ -124,7 +124,7 @@ CONSTRUCTOR CGpFont (BYVAL hdc AS HDC, BYVAL plogfont AS LOGFONTW PTR)
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hdc* | Handle to a Windows device context. A handle is a number that Windows uses internally to reference an object. |
-| *plogfont* | Pointer to a LOGFONT structure variable that contains attributes of the font. |
+| *plogfont* | Pointer to a **LOGFONT** structure variable that contains attributes of the font. |
 
 Creates a **Font** object based on a **FontFamily** object, a size, a font style, and a unit of measurement.
 
