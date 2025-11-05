@@ -137,8 +137,8 @@ CONSTRUCTOR CGpFont (BYVAL pFamily AS CGpFontFamily PTR, BYVAL emSize AS SINGLE,
 | ---------- | ----------- |
 | *pFamily* | Pointer to a **FontFamily** object that specifies information such as the string that identifies the font family and the font family's text metrics measured in design units. |
 | *emSize* | The *em* size of the font measured in the units specified in the unit parameter. |
-| *nStyle* | Optional. Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout sets the style as a combination of the three styles. The default value is FontStyleRegular. |
-| *nUnit* | Optional. Element of the **Unit** enumeration that specifies the unit of measurement for the font size. The default value is UnitPoint. |
+| *nStyle* | Optional. Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, *FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout* sets the style as a combination of the three styles. The default value is *FontStyleRegular*. |
+| *nUnit* | Optional. Element of the **Unit** enumeration that specifies the unit of measurement for the font size. The default value is *UnitPoint*. |
 
 Creates a **Font** object based on a font family, a size, a font style, and a unit of measurement.
 
@@ -151,7 +151,7 @@ CONSTRUCTOR CGpFont (BYVAL pwszFamilyName AS WSTRING PTR, BYVAL emSize AS SINGLE
 | ---------- | ----------- |
 | *pwszFamilyName* | Name of the font family. |
 | *emSize* | The *em* size of the font measured in the units specified in the unit parameter. |
-| *nStyle* | Optional. Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout sets the style as a combination of the three styles. The default value is FontStyleRegular. |
+| *nStyle* | Optional. Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, *FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout* sets the style as a combination of the three styles. The default value is *FontStyleRegular*. |
 | *nUnit*  Optional.| Element of the **Unit** enumeration that specifies the unit of measurement for the font size. The default value is UnitPoint. |
 | *pFontCollection* | Optional. Pointer to a **FontCollection** object that specifies a user-defined group of fonts. If the value of this parameter is NULL, the system font collection is used. The default value is NULL. |
 
@@ -937,7 +937,7 @@ FUNCTION GetCellAscent (BYVAL nStyle AS INT_) AS UINT16
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout specifies a combination of the three styles. |
+| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, *FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout* specifies a combination of the three styles. |
 
 #### Return value
 
@@ -985,7 +985,7 @@ FUNCTION GetCellDescent (BYVAL nStyle AS INT_) AS UINT16
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout specifies a combination of the three styles. |
+| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, *FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout* specifies a combination of the three styles. |
 
 #### Return value
 
@@ -1033,7 +1033,7 @@ FUNCTION GetEmHeight (BYVAL nStyle AS INT_) AS UINT16
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout specifies a combination of the three styles. |
+| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, *FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout* specifies a combination of the three styles. |
 
 #### Return value
 
@@ -1131,7 +1131,7 @@ FUNCTION GetLineSpacing (BYVAL nStyle AS INT_) AS UINT16
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout specifies a combination of the three styles. |
+| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, *FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout* specifies a combination of the three styles. |
 
 #### Return value
 
@@ -1223,7 +1223,7 @@ FUNCTION IsStyleAvailable (BYVAL nStyle AS INT_) AS BOOLEAN
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout specifies a combination of the three styles. |
+| *nStyle* | Integer that specifies the style of the typeface. This value must be an element of the **FontStyle** enumeration or the result of a bitwise OR applied to two or more of these elements. For example, *FontStyleBold OR FontStyleUnderline OR FontStyleStrikeout* specifies a combination of the three styles. |
 
 #### Return value
 
@@ -1231,7 +1231,7 @@ If the style or combination of styles is available, this method returns TRUE; ot
 
 #### Remarks
 
-This method returns a misleading result on some third-party fonts. For example, IsStyleAvailable(FontStyleUnderline) may return FALSE because it is really testing for a regular style font that also is an underlined font: (FontStyleRegular OR FontStyleUnderline). If the font does not have a regular style, the IsStyleAvailable method returns FALSE.
+This method returns a misleading result on some third-party fonts. For example, IsStyleAvailable(FontStyleUnderline) may return FALSE because it is really testing for a regular style font that also is an underlined font: *FontStyleRegular OR FontStyleUnderline*. If the font does not have a regular style, the IsStyleAvailable method returns FALSE.
 
 #### Example
 
