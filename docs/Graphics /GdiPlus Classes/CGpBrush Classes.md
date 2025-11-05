@@ -19,7 +19,7 @@ A closed shape, such as a rectangle or an ellipse, consists of an outline and an
 
 # CGpSolidBrush Class
 
-The **SolidBrush** object defines a solid color Brush object. A **Brush** object is used to fill in shapes similar to the way a paint brush can paint the inside of a shape.
+Defines a brush of a single color. Brushes are used to fill graphics shapes, such as rectangles, ellipses, pies, polygons, and paths. 
 
 **Inherits from**: CGpBrush.<br>
 **Include file**: CGpBrush.inc.
@@ -36,7 +36,7 @@ The **SolidBrush** object defines a solid color Brush object. A **Brush** object
 
 # CGpHatchBrush Class
 
-Creates a **HatchBrush** object.
+Creates a **HatchBrush** object. A **HatchBrush** defines a rectangular brush with a hatch style, a foreground color, and a background color. A hatch pattern is made from two colors: one defined by the **BackgroundColor**, which fills the background and one for the lines that form the pattern over the background defined by the **ForegroundColor** property. The **HatchStyle** property defines what type of pattern the brush has and can be any value from the **HatchStyle** enumeration. There are more than fifty elements in the HatchStyle enumeration.
 
 **Inherits from**: CGpBrush.<br>
 **Include file**: CGpBrush.inc.
@@ -258,7 +258,7 @@ END SUB
 
 ## <a name="constructorsolidbrush"></a>Constructors (CGpSolidBrush)
 
-Creates a **SolidBrush** object based on a color.
+Creates a **SolidBrush** object based on the specified color.
 
 ```
 CONSTRUCTOR CGpSolidBrush (BYVAL pSolidBrush AS CGpSolidBrush PTR)
