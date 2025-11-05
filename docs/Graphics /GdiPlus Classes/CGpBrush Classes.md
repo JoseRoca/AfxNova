@@ -3625,8 +3625,6 @@ CONSTRUCTOR CGpTextureBrush (BYVAL pImage AS CGpImage PTR, BYVAL nWrapMode AS Wr
    BYVAL dstRect AS GpRect PTR)
 CONSTRUCTOR CGpTextureBrush (BYVAL pImage AS CGpImage PTR, BYVAL nWrapMode AS WrapMode, _
    BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE)
-CONSTRUCTOR CGpTextureBrush (BYVAL pImage AS CGpImage PTR, BYVAL nWrapMode AS WrapMode, _
-   BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_)
 ```
 
 | Parameter  | Description |
