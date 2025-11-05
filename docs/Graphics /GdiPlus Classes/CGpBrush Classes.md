@@ -68,7 +68,7 @@ Defines a brush that paints a color gradient in which the color changes evenly f
 | [GetBlendCount](#getblendcountlgbrush) | Gets the number of blend factors currently set. |
 | [GetGammaCorrection](#getgammacorrectionlgbrush) | Determines whether gamma correction is enabled for this brush. |
 | [GetInterpolationColorCount](#getinterpolationcolorcountlgbrush) | Gets the number of colors currently set to be interpolated. |
-| [GetInterpolationColors](#getinterpolationcolorslgbrush) | Gets the blend factors and their corresponding blend positions. |
+| [GetInterpolationColors](#getinterpolationcolorslgbrush) | Gts the colors currently set to be interpolated for this linear gradient brush and their corresponding blend positions. |
 | [GetLinearColors](#getlinearcolors) | Gets the starting color and ending color. |
 | [GetRectangle](#getrectanglelgbBrush) | Gets the rectangle that defines the boundaries of the gradient. |
 | [GetTransform](#gettransformlgbrush) | Gets the transformation matrix. |
@@ -797,7 +797,7 @@ END SUB
 
 ## <a name="getinterpolationcolorslgbrush"></a>GetInterpolationColors (CGpLinearGradientBrush)
 
-Gets the blend factors and their corresponding blend positions from a **LinearGradientBrush** object.
+Gets the colors currently set to be interpolated for this linear gradient brush and their corresponding blend positions.
 
 ```
 FUNCTION GetInterpolationColors (BYVAL presetColors AS ARGB PTR, _
