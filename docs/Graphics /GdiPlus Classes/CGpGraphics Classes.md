@@ -4924,7 +4924,7 @@ CONSTRUCTOR CGpGraphicsPath (BYVAL pts AS GpPoint PTR, _
 
 ---
 
-## <a name="AddArc"></a>addarc (CGpGraphicsPath)
+## <a name="addarc"></a>AddArc (CGpGraphicsPath)
 
 Adds an elliptical arc to the current figure of this path.
 
@@ -5723,6 +5723,37 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' This example sets a marker in a path and then clears it using GdipClearPathMarkers.
+' ========================================================================================
+SUB Example_ClearMarkers (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create graphics path
+   DIM path AS CGpGraphicsPath
+   path.AddRectangle(50, 50, 100, 60)
+   path.SetMarker  ' Set a marker after the rectangle
+   path.AddEllipse(200, 50, 100, 60)
+
+   ' // Clear all markers
+   path.ClearMarkers()
+
+   ' // Create pen (UnitWorld to match path coordinates)
+   DIM pen AS CGpPen = CGpPen(ARGB_DARKBLUE, 2.0)
+
+   ' Draw the path
+   graphics.DrawPath(@pen, @path)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clone"></a>Clone (CGpGraphicsPath)
