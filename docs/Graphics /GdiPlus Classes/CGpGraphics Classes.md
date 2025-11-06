@@ -1480,7 +1480,7 @@ END SUB
 ```
 ---
 
-## <a name="drawpolygon"></a>DrawPolygon (CGpGRaphics)
+## <a name="drawpolygon"></a>DrawPolygon (CGpGraphics)
 
 Draws a polygon.
 
@@ -1533,7 +1533,7 @@ END SUB
 ```
 ---
 
-## <a name="drawrectangle"></a>DrawRectangle (CGpGRaphics)
+## <a name="drawrectangle"></a>DrawRectangle (CGpGraphics)
 
 Draws a rectangle.
 
@@ -1583,7 +1583,7 @@ END SUB
 ```
 ---
 
-## <a name="drawrectangles"></a>DrawRectangles (CGpGRaphics)
+## <a name="drawrectangles"></a>DrawRectangles (CGpGraphics)
 
 Draws a sequence of rectangles.
 
@@ -1814,7 +1814,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="excludeclip"></a>ExcludeClip (CGpGRaphics)
+## <a name="excludeclip"></a>ExcludeClip (CGpGraphics)
 
 Updates the clipping region to the portion of itself that does not intersect the specified rectangle.
 
@@ -1868,7 +1868,7 @@ END SUB
 ```
 ---
 
-## <a name="fillclosedcurve"></a>FillClosedCurve (CGpGRaphics)
+## <a name="fillclosedcurve"></a>FillClosedCurve (CGpGraphics)
 
 Creates a closed cardinal spline from an array of points and uses a brush to fill the interior of the spline.
 
@@ -1924,7 +1924,7 @@ END SUB
 ```
 ---
 
-## <a name="fillellipse"></a>FillEllipse (CGpGRaphics)
+## <a name="fillellipse"></a>FillEllipse (CGpGraphics)
 
 Uses a brush to fill the interior of an ellipse that is specified by coordinates and dimensions.
 
@@ -1975,7 +1975,7 @@ END SUB
 ```
 ---
 
-## <a name="fillpath"></a>FillPath (CGpGRaphics)
+## <a name="fillpath"></a>FillPath (CGpGraphics)
 
 Uses a brush to fill the interior of a path. If a figure in the path is not closed, this method treats the nonclosed figure as if it were closed by a straight line that connects the figure's starting and ending points.
 
@@ -2023,7 +2023,7 @@ END SUB
 ```
 ---
 
-## <a name="fillpie"></a>FillPie (CGpGRaphics)
+## <a name="fillpie"></a>FillPie (CGpGraphics)
 
 Uses a brush to fill the interior of a pie.
 
@@ -2082,7 +2082,7 @@ END SUB
 ```
 ---
 
-## <a name="fillpolygon"></a>FillPolygon (CGpGRaphics)
+## <a name="fillpolygon"></a>FillPolygon (CGpGraphics)
 
 Uses a brush to fill the interior of a polygon.
 
@@ -2134,7 +2134,7 @@ END SUB
 ```
 ---
 
-## <a name="fillrectangle"></a>FillRectangle (CGpGRaphics)
+## <a name="fillrectangle"></a>FillRectangle (CGpGraphics)
 
 Uses a brush to fill the interior of a rectangle.
 
@@ -2185,7 +2185,7 @@ END SUB
 ```
 ---
 
-## <a name="fillrectangles"></a>FillRectangles (CGpGRaphics)
+## <a name="fillrectangles"></a>FillRectangles (CGpGraphics)
 
 Uses a brush to fill the interior of a sequence of rectangles.
 
@@ -2233,7 +2233,7 @@ END SUB
 ```
 ---
 
-## <a name="fillregion"></a>FillRegion (CGpGRaphics)
+## <a name="fillregion"></a>FillRegion (CGpGraphics)
 
 Uses a brush to fill a specified region.
 
@@ -2283,7 +2283,7 @@ END SUB
 ```
 ---
 
-## <a name="flush"></a>Flush (CGpGRaphics)
+## <a name="flush"></a>Flush (CGpGraphics)
 
 Flushes all pending graphics operations.
 
@@ -2297,7 +2297,7 @@ SUB Flush (BYVAL intention AS FlushIntention = FlushIntentionFlush)
 
 ---
 
-## <a name="fromhdc"></a>FromHDC (CGpGRaphics)
+## <a name="fromhdc"></a>FromHDC (CGpGraphics)
 
 Creates a **Graphics** object that is associated with a specified device context.
 
@@ -2343,7 +2343,7 @@ END SUB
 ```
 ---
 
-## <a name="fromhwnd"></a>FromHWND (CGpGRaphics)
+## <a name="fromhwnd"></a>FromHWND (CGpGraphics)
 
 Creates a **Graphics** object that is associated with a specified window.
 
@@ -2364,7 +2364,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="fromimage"></a>FromImage (CGpGRaphics)
+## <a name="fromimage"></a>FromImage (CGpGraphics)
 
 Creates a **Graphics** object that is associated with a specified **Image** object.
 
@@ -2396,7 +2396,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="getclip"></a>GetClip (CGpGRaphics)
+## <a name="getclip"></a>GetClip (CGpGraphics)
 
 Gets the clipping region of this **Graphics** object.
 
@@ -2443,7 +2443,7 @@ END SUB
 ```
 ---
 
-## <a name="getclipbounds"></a>GetClipBounds (CGpGRaphics)
+## <a name="getclipbounds"></a>GetClipBounds (CGpGraphics)
 
 Gets a rectangle that encloses the clipping region of this **Graphics** object.
 
@@ -2510,7 +2510,7 @@ END SUB
 ```
 ---
 
-## <a name="getcompositingmode"></a>GetCompositingMode (CGpGRaphics)
+## <a name="getcompositingmode"></a>GetCompositingMode (CGpGraphics)
 
 Gets the compositing mode currently set for this **Graphics** object.
 
@@ -2568,7 +2568,7 @@ END SUB
 ```
 ---
 
-## <a name="getcompositingquality"></a>GetCompositingQuality (CGpGRaphics)
+## <a name="getcompositingquality"></a>GetCompositingQuality (CGpGraphics)
 
 Gets the compositing quality currently set for this **Graphics** object.
 
@@ -2624,7 +2624,7 @@ END SUB
 ```
 ---
 
-## <a name="getdpix"></a>GetDpiX (CGpGRaphics)
+## <a name="getdpix"></a>GetDpiX (CGpGraphics)
 
 Gets the horizontal resolution, in dots per inch, of the display device associated with this **Graphics** object.
 
@@ -2674,7 +2674,7 @@ END SUB
 ```
 ---
 
-## <a name="getdpiy"></a>GetDpiY (CGpGRaphics)
+## <a name="getdpiy"></a>GetDpiY (CGpGraphics)
 
 Gets the vertical resolution, in dots per inch, of the display device associated with this Graphics object.
 
@@ -2725,7 +2725,7 @@ END SUB
 ```
 ---
 
-## <a name="gethalftonepalette"></a>GetHalftonePalette (CGpGRaphics)
+## <a name="gethalftonepalette"></a>GetHalftonePalette (CGpGraphics)
 
 Gets a Windows halftone palette.
 
@@ -2782,7 +2782,7 @@ END SUB
 ```
 ---
 
-## <a name="gethdc"></a>GetHDC (CGpGRaphics)
+## <a name="gethdc"></a>GetHDC (CGpGraphics)
 
 Gets a handle to the device context associated with this **Graphics** object.
 
@@ -2837,7 +2837,7 @@ END SUB
 ```
 ---
 
-## <a name="getinterpolationmode"></a>GetInterpolationMode (CGpGRaphics)
+## <a name="getinterpolationmode"></a>GetInterpolationMode (CGpGraphics)
 
 Gets the interpolation mode currently set for this Graphics object. The interpolation mode determines the algorithm that is used when images are scaled or rotated.
 
@@ -2846,7 +2846,7 @@ FUNCTION GetInterpolationMode () AS InterpolationMode
 ```
 ---
 
-## <a name="getnearestcolor"></a>GetNearestColor (CGpGRaphics)
+## <a name="getnearestcolor"></a>GetNearestColor (CGpGraphics)
 
 Gets the nearest color to the color that is passed in. This method works on 8-bits per pixel or lower display devices for which there is an 8-bit color palette.
 
@@ -2891,7 +2891,7 @@ END SUB
 ```
 ---
 
-## <a name="gepagescale"></a>GetPageScale (CGpGRaphics)
+## <a name="gepagescale"></a>GetPageScale (CGpGraphics)
 
 Gets the scaling factor currently set for the page transformation of this **Graphics** object. The page transformation converts page coordinates to device coordinates.
 
@@ -2934,7 +2934,7 @@ END SUB
 ```
 ---
 
-## <a name="getpageunit"></a>GetPageUnit (CGpGRaphics)
+## <a name="getpageunit"></a>GetPageUnit (CGpGraphics)
 
 Gets the unit of measure currently set for this **Graphics** object.
 
@@ -2981,7 +2981,7 @@ END SUB
 ```
 ---
 
-## <a name="getpixeloffsetmode"></a>GetPixelOffsetMode (CGpGRaphics)
+## <a name="getpixeloffsetmode"></a>GetPixelOffsetMode (CGpGraphics)
 
 Gets the pixel offset mode currently set for this **Graphics** object.
 
@@ -3008,7 +3008,7 @@ Consider the pixel in the upper-left corner of an image with address (0, 0). Wit
 
 ---
 
-## <a name="getrenderingorigin"></a>GetRenderingOrigin (CGpGRaphics)
+## <a name="getrenderingorigin"></a>GetRenderingOrigin (CGpGraphics)
 
 Gets the rendering origin currently set for this **Graphics** object. The rendering origin is used to set the dither origin for 8-bits per pixel and 16-bits per pixel dithering and is also used to set the origin for hatch brushes.
 
@@ -3029,7 +3029,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="getsmoothingmode"></a>GetSmoothingMode (CGpGRaphics)
+## <a name="getsmoothingmode"></a>GetSmoothingMode (CGpGraphics)
 
 Determines whether smoothing (antialiasing) is applied to the **Graphics** object.
 
@@ -3063,7 +3063,7 @@ If smoothing (antialiasing) is applied to this **Graphics** object, this method 
 
 ---
 
-## <a name="gettextcontrast"></a>GetTextContrast (CGpGRaphics)
+## <a name="gettextcontrast"></a>GetTextContrast (CGpGraphics)
 
 Gets the contrast value currently set for this **Graphics** object. The contrast value is used for antialiasing text.
 
@@ -3072,7 +3072,7 @@ FUNCTION GetTextContrast () AS UINT
 ```
 ---
 
-## <a name="gettextrenderinghint"></a>GetTextRenderingHint (CGpGRaphics)
+## <a name="gettextrenderinghint"></a>GetTextRenderingHint (CGpGraphics)
 
 Returns the text rendering mode currently set for this **Graphics** object.
 
@@ -3099,7 +3099,7 @@ The quality associated with each process varies according to the circumstances. 
 
 ---
 
-## <a name="gettransform"></a>GetTransform (CGpGRaphics)
+## <a name="gettransform"></a>GetTransform (CGpGraphics)
 
 Gets the world transformation matrix of this **Graphics** object.
 
@@ -3119,7 +3119,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="getvisibleclipbounds"></a>GetVisibleClipBounds (CGpGRaphics)
+## <a name="getvisibleclipbounds"></a>GetVisibleClipBounds (CGpGraphics)
 
 Gets a rectangle that encloses the visible clipping region of this **Graphics** object. The visible clipping region is the intersection of the clipping region of this **Graphics** object and the clipping region of the window.
 
@@ -3168,7 +3168,7 @@ END SUB
 ```
 ---
 
-## <a name="intersectclip"></a>IntersectClip (CGpGRaphics)
+## <a name="intersectclip"></a>IntersectClip (CGpGraphics)
 
 Updates the clipping region of this **Graphics** object to the portion of the specified rectangle that intersects with the current clipping region of this **Graphics** object.
 
@@ -3230,7 +3230,7 @@ END SUB
 ```
 ---
 
-## <a name="isclipempty"></a>IsClipEmpty (CGpGRaphics)
+## <a name="isclipempty"></a>IsClipEmpty (CGpGraphics)
 
 Determines whether the clipping region of this **Graphics** object is empty.
 
@@ -3320,7 +3320,7 @@ END SUB
 ```
 ---
 
-## <a name="isvisibleclipempty"></a>IsVisibleClipEmpty (CGpGRaphics)
+## <a name="isvisibleclipempty"></a>IsVisibleClipEmpty (CGpGraphics)
 
 Determines whether the visible clipping region of this **Graphics** object is empty. The visible clipping region is the intersection of the clipping region of this **Graphics** object and the clipping region of the window.
 
@@ -3360,7 +3360,7 @@ END SUB
 ```
 ---
 
-## <a name="measurecharacterranges"></a>MeasureCharacterRanges (CGpGRaphics)
+## <a name="measurecharacterranges"></a>MeasureCharacterRanges (CGpGraphics)
 
 Gets a set of regions each of which bounds a range of character positions within a string.
 
@@ -3388,7 +3388,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="measuredriverstring"></a>MeasureDriverString (CGpGRaphics)
+## <a name="measuredriverstring"></a>MeasureDriverString (CGpGraphics)
 
 Measures the bounding box for the specified characters and their corresponding positions.
 
@@ -3416,7 +3416,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="measurestring"></a>MeasureString (CGpGRaphics)
+## <a name="measurestring"></a>MeasureString (CGpGraphics)
 
 Measures the extent of the string in the specified font, format, and layout rectangle.
 
@@ -3462,7 +3462,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="multiplytransform"></a>MultiplyTransform (CGpGRaphics)
+## <a name="multiplytransform"></a>MultiplyTransform (CGpGraphics)
 
 Updates this **Graphics** object's world transformation matrix with the product of itself and another matrix.
 
@@ -3518,7 +3518,7 @@ END SUB
 ```
 ---
 
-## <a name="releasehdc"></a>ReleaseHDC (CGpGRaphics)
+## <a name="releasehdc"></a>ReleaseHDC (CGpGraphics)
 
 Releases a device context handle obtained by a previous call to the **GetHDC** method of this **Graphics** object.
 
@@ -3532,7 +3532,7 @@ SUB ReleaseHDC (BYVAL hdc AS HDC)
 
 ---
 
-## <a name="resetclip"></a>ResetClip (CGpGRaphics)
+## <a name="resetclip"></a>ResetClip (CGpGraphics)
 
 Sets the clipping region of this **Graphics** object to an infinite region.
 
@@ -3582,7 +3582,7 @@ END SUB
 ```
 ---
 
-## <a name="resettransform"></a>ResetTransform (CGpGRaphics)
+## <a name="resettransform"></a>ResetTransform (CGpGraphics)
 
 Sets the world transformation matrix of this **Graphics** object to the identity matrix.
 
@@ -3632,7 +3632,7 @@ END SUB
 ```
 ---
 
-## <a name="restore"></a>Restore (CGpGRaphics)
+## <a name="restore"></a>Restore (CGpGraphics)
 
 Sets the state of this **Graphics** object to the state stored by a previous call to the **Save** method of this **Graphics** object.
 
@@ -3652,7 +3652,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="rotatetransform"></a>RotateTransform (CGpGRaphics)
+## <a name="rotatetransform"></a>RotateTransform (CGpGraphics)
 
 Updates the world transformation matrix of this **Graphics** object with the product of itself and a rotation matrix.
 
@@ -3700,7 +3700,7 @@ END SUB
 ```
 ---
 
-## <a name="save"></a>Save (CGpGRaphics)
+## <a name="save"></a>Save (CGpGraphics)
 
 Saves the current state (transformations, clipping region, and quality settings) of this **Graphics** object. You can restore the state later by calling the **Restore** method.
 
@@ -3714,7 +3714,7 @@ This method returns a value that identifies the saved state. Pass this value to 
 
 ---
 
-## <a name="scaletransform"></a>ScaleTransform (CGpGRaphics)
+## <a name="scaletransform"></a>ScaleTransform (CGpGraphics)
 
 Updates this **Graphics** object's world transformation matrix with the product of itself and a scaling matrix.
 
@@ -3738,7 +3738,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="scaletransformfordpi"></a>ScaleTransformForDpi (CGpGRaphics)
+## <a name="scaletransformfordpi"></a>ScaleTransformForDpi (CGpGraphics)
 
 Updates this **Graphics** object's world transformation matrix with the product of itself and a scaling matrix. Uses the DPI settings to set the horizontal and vertical scaling factors.
 
@@ -3758,7 +3758,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="setclip"></a>SetClip (CGpGRaphics)
+## <a name="setclip"></a>SetClip (CGpGraphics)
 
 Updates the clipping region of this **Graphics** object to a region that is the combination of itself and the clipping region of another **Graphics** object.
 
@@ -3823,7 +3823,7 @@ END SUB
 ```
 ---
 
-## <a name="setcompositingmode"></a>SetCompositingMode (CGpGRaphics)
+## <a name="setcompositingmode"></a>SetCompositingMode (CGpGraphics)
 
 Sets the compositing mode of this **Graphics** object.
 
@@ -3883,7 +3883,7 @@ END SUB
 ```
 ---
 
-## <a name="setcompositingquality"></a>SetCompositingQuality (CGpGRaphics)
+## <a name="setcompositingquality"></a>SetCompositingQuality (CGpGraphics)
 
 Sets the compositing quality of this **Graphics** object.
 
@@ -3943,7 +3943,7 @@ END SUB
 ```
 ---
 
-## <a name="setinterpolationmode"></a>SetInterpolationMode (CGpGRaphics)
+## <a name="setinterpolationmode"></a>SetInterpolationMode (CGpGraphics)
 
 Sets the interpolation mode of this **Graphics** object. The interpolation mode determines the algorithm that is used when images are scaled or rotated.
 
@@ -3963,7 +3963,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="setpagescale"></a>SetPageScale (CGpGRaphics)
+## <a name="setpagescale"></a>SetPageScale (CGpGraphics)
 
 Sets the scaling factor for the page transformation of this **Graphics** object. The page transformation converts page coordinates to device coordinates.
 
@@ -4013,7 +4013,7 @@ END SUB
 ```
 ---
 
-## <a name="setpageunit"></a>SetPageUnit (CGpGRaphics)
+## <a name="setpageunit"></a>SetPageUnit (CGpGraphics)
 
 Sets the unit of measure for this **Graphics** object. The page unit belongs to the page transformation, which converts page coordinates to device coordinates.
 
@@ -4060,7 +4060,7 @@ END SUB
 ```
 ---
 
-## <a name="setpixeloffsetmode"></a>SetPixelOffsetMode (CGpGRaphics)
+## <a name="setpixeloffsetmode"></a>SetPixelOffsetMode (CGpGraphics)
 
 Sets the pixel offset mode of this **Graphics** object.
 
@@ -4097,7 +4097,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="setrenderingorigin"></a>SetRenderingOrigin (CGpGRaphics)
+## <a name="setrenderingorigin"></a>SetRenderingOrigin (CGpGraphics)
 
 Sets the rendering origin of this **Graphics** object. The rendering origin is used to set the dither origin for 8-bits-per-pixel and 16-bits-per-pixel dithering and is also used to set the origin for hatch brushes.
 
@@ -4141,7 +4141,7 @@ END SUB
 ```
 ---
 
-## <a name="setsmoothingmode"></a>SetSmoothingMode (CGpGRaphics)
+## <a name="setsmoothingmode"></a>SetSmoothingMode (CGpGraphics)
 
 Sets the rendering quality of the **Graphics** object.
 
@@ -4216,7 +4216,7 @@ END SUB
 ```
 ---
 
-## <a name="settextcontrast"></a>SetTextContrast (CGpGRaphics)
+## <a name="settextcontrast"></a>SetTextContrast (CGpGraphics)
 
 Sets the contrast value of this **Graphics** object. The contrast value is used for antialiasing text.
 
@@ -4236,7 +4236,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="settextrenderinghint"></a>SetTextRenderingHint (CGpGRaphics)
+## <a name="settextrenderinghint"></a>SetTextRenderingHint (CGpGraphics)
 
 Sets the text rendering mode of this **Graphics** object.
 
@@ -4274,7 +4274,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 ---
 
-## <a name="settransform"></a>SetTransform (CGpGRaphics)
+## <a name="settransform"></a>SetTransform (CGpGraphics)
 
 Sets the world transformation of this **Graphics** object.
 
@@ -4326,7 +4326,7 @@ END SUB
 ```
 ---
 
-## <a name="transformpoints"></a>TransformPoints (CGpGRaphics)
+## <a name="transformpoints"></a>TransformPoints (CGpGraphics)
 
 Converts an array of points from one coordinate space to another. The conversion is based on the current world and page transformations of this **Graphics** object.
 
@@ -4402,7 +4402,7 @@ END SUB
 ```
 ---
 
-## <a name="translateclip"></a>TranslateClip (CGpGRaphics)
+## <a name="translateclip"></a>TranslateClip (CGpGraphics)
 
 Translates the clipping region of this **Graphics** object.
 
@@ -4455,7 +4455,7 @@ END SUB
 ```
 ---
 
-## <a name="translatetransform"></a>TranslateTransform (CGpGRaphics)
+## <a name="translatetransform"></a>TranslateTransform (CGpGraphics)
 
 Updates this **Graphics** object's world transformation matrix with the product of itself and a translation matrix.
 
