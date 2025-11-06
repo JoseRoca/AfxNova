@@ -1730,7 +1730,7 @@ END SUB
 ```
 ---
 
-## <a name="endcontainer"></a>EndContainer (CGpGRaphics)
+## <a name="endcontainer"></a>EndContainer (CGpGraphics)
 
 Closes a graphics container that was previously opened by the **BeginContainer** method.
 
