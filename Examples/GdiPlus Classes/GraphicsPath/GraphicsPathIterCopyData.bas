@@ -36,9 +36,7 @@ SUB Example_PathIterCopyData (BYVAL hdc AS HDC)
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
    ' // Set the scale transform
-   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
-   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
-   graphics.ScaleTransform(rxRatio, ryRatio)
+   graphics.ScaleTransformForDpi
 
    ' // Create path with two figures
    DIM path AS CGpGraphicsPath
