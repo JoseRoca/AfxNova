@@ -7282,6 +7282,46 @@ A path stores an array of data points, each of which belongs to a line or a Béz
 
 Certain methods flatten a path, which means that all the curves in the path are converted to sequences of lines. After a path has been flattened, **HasCurve** will always return FALSE. Flattening happens when you call the **Flatten**, **Widen**, or **Warp** method of the **GraphicsPath** class.
 
+#### Example
+
+```
+' ========================================================================================
+' Using the HasCurve method to detect Bézier segments.
+' Paths with curves are stored as Bézier splines.
+' Some operations (like flattening or widening) convert curves to straight lines.
+' This check helps you decide whether to preserve or simplify the path.
+' ========================================================================================
+SUB Example_PathIterHasCurve (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a GraphicsPath
+   DIM path AS CGpGraphicsPath
+   path.AddLine(20, 20, 120, 20)
+   path.AddBezier(130, 30, 160, 10, 190, 50, 220, 30)
+
+   ' // Create a GraphicsPathIterator
+   DIM iterator AS CGpGraphicsPathIterator = @path
+
+   ' // Check if the path contains curves
+   DIM hasCurve AS BOOLEAN = iterator.HasCurve
+
+   ' // Create font and brush for displaying the result
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' Draw the result as a string
+   DIM info AS STRING = "Path contains curves: " & IIF(hasCurve, "True", "False")
+   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
+   graphics.DrawString(info, -1, @font, @layout, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="nextmarker"></a>NextMarker (CGpGraphicsPathIterator)
