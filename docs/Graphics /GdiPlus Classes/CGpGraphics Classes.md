@@ -1701,6 +1701,33 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a Font object from a family name and uses it to draw text.
+' ========================================================================================
+SUB Example_DrawString (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create font object
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPoint)
+   ' // Create solid brush
+   DIM blackBrush AS CGpSolidBrush = ARGB_BLACK
+   ' // Define layout rectangle
+   DIM layoutRect AS GpRectF = (30, 30, 0, 0)
+   ' // Define text to draw
+   DIM wszText AS WSTRING * 64 = "Sample text"
+   ' // Draw the string
+   graphics.DrawString(wszText, LEN(wszText), @font, @layoutRect, @blackBrush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="endcontainer"></a>EndContainer (CGpGRaphics)
