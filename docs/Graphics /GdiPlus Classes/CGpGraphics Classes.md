@@ -6670,6 +6670,34 @@ If the function succeeds, it returns **StatusOk**, which is an element of the **
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' This example sets the fill mode of a GraphicsPath.
+' ========================================================================================
+SUB Example_SetPathFillMode (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create path and add overlapping ellipses
+   DIM path AS CGpGraphicsPath
+   path.AddEllipse(100, 80, 150, 100)
+   path.AddEllipse(130, 110, 150, 100)
+
+   ' // Change fill mode to Winding
+   path.SetFillMode(FillModeWinding)
+
+   ' // Create brush and fill the path
+   DIM brush AS CGpSolidBrush = ARGB_LIGHTSKYBLUE
+   graphics.FillPath(@brush, @path)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setmarker"></a>SetMarker (CGpGraphicsPath)
