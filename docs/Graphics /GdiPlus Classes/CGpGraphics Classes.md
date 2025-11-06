@@ -7217,6 +7217,49 @@ Returns the number of subpaths (also called figures) in the path.
 ```
 FUNCTION GetSubpathCount () AS INT_
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' Returns the number of subpaths (also called figures) in the path.
+' ========================================================================================
+SUB Example_PathIterGetSubpathCount (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a GraphicsPath with two figures
+   DIM path AS CGpGraphicsPath
+   path.AddLine(30, 30, 130, 30)
+   path.AddLine(130, 30, 80, 100)
+   path.CloseFigure
+
+   path.StartFigure
+   path.AddLine(160, 40, 210, 90)
+   path.AddLine(210, 90, 160, 140)
+
+   ' // Create a GraphicsPathIterator
+   DIM iterator AS CGpGraphicsPathIterator = CGpGraphicsPathIterator(@path)
+
+   ' // Get the number of subpaths (figures)
+   DIM subpathCount AS LONG = iterator.GetSubpathCount()
+
+   ' // Create font and brush for displaying the result
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Draw the subpath count as a string
+   DIM info AS STRING = "Subpath (figure) count: " & subpathCount
+   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
+   graphics.DrawString(info, -1, @font, @layout, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="hascurve"></a>HasCurve (CGpGraphicsPathIterator)
