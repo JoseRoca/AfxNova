@@ -43,7 +43,6 @@ CONSTRUCTOR CGpRegion (BYVAL pRegion AS CGpRegion PTR)
 CONSTRUCTOR CGpRegion (BYVAL rc AS GpRectF PTR)
 CONSTRUCTOR CGpRegion (BYVAL rc AS GpRect PTR)
 CONSTRUCTOR CGpRegion (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight AS SINGLE)
-CONSTRUCTOR CGpRegion (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_)
 ```
 
 Creates a region that is defined by a path (a **GraphicsPath** object) and has a fill mode that is contained in the **GraphicsPath** object.
@@ -1086,13 +1085,10 @@ Determines whether a point is inside this region.
 FUNCTION IsVisible (BYVAL pt AS GpPointF PTR, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
 FUNCTION IsVisible (BYVAL pt AS GpPoint PTR, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
 FUNCTION IsVisible (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
-FUNCTION IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
 FUNCTION IsVisible (BYVAL pt AS GpRectF PTR, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
 FUNCTION IsVisible (BYVAL pt AS GpRect PTR, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
 FUNCTION IsVisible (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, _
    BYVAL nHeight AS SINGLE, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
-FUNCTION IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, _
-   BYVAL nHeight AS INT_, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -1310,7 +1306,6 @@ Offsets this region by specified amounts in the horizontal and vertical directio
 
 ```
 FUNCTION Translate (BYVAL dx AS SINGLE, BYVAL dy AS SINGLE) AS GpStatus
-FUNCTION Translate (BYVAL dx AS INT_, BYVAL dy AS INT_) AS GpStatus
 ```
 
 | Parameter  | Description |
