@@ -3386,6 +3386,81 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example defines three ranges of character positions within a string and
+' sets those ranges in a StringFormat object. Next, the MeasureCharacterRanges method is
+' used to get the three regions of the display that are occupied by the characters that
+' are specified by the ranges. This is done for three different layout rectangles to show
+' how the regions change according to the layout of the string. Also, on the third repetition
+' of this, the string format flags are changed so that the regions measured will include
+' trailing spaces.
+' ========================================================================================
+SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create font
+   DIM font AS CGpFont = CGpFont("Times New Roman", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+
+   ' // Create brushes and pen
+   DIM blueBrush AS CGpSolidBrush = ARGB_BLUE
+   DIM redBrush AS CGpSolidBrush = GDIP_ARGB(100, 255, 0, 0)
+   DIM blackPen AS CGpPen = CGpPen(ARGB_BLACK, 1.0)
+   blackPen.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create string format and define character ranges
+   DIM stringFormat AS CGpStringFormat
+   DIM charRanges(2) AS GpCharacterRange
+   charRanges(0).First = 3  : charRanges(0).Length = 5
+   charRanges(1).First = 15 : charRanges(1).Length = 2
+   charRanges(2).First = 30 : charRanges(2).Length = 15
+   stringFormat.SetMeasurableCharacterRanges(3, @charRanges(0))
+
+   ' // Allocate regions
+   DIM regions(2) AS CGpRegion
+
+   ' // Text to measure
+   DIM text AS WSTRING * 128 = "The quick, brown fox easily jumps over the lazy dog."
+
+   ' // Measure and draw for layoutRectA
+   DIM layoutRectA AS GpRectF = (20.0, 20.0, 130.0, 130.0)
+   graphics.MeasureCharacterRanges(text, -1, @font, @layoutRectA, @stringFormat, 3, @regions(0))
+   graphics.DrawString(text, -1, @font, @layoutRectA, @stringFormat, @blueBrush)
+   graphics.DrawRectangle(@blackPen, layoutRectA.X, layoutRectA.Y, layoutRectA.Width, layoutRectA.Height)
+   FOR i AS LONG = 0 TO 2
+      graphics.FillRegion(@redBrush, @regions(i))
+   NEXT
+
+   ' // Measure and draw for layoutRectB
+   DIM layoutRectB AS GpRectF = (160.0, 20.0, 165.0, 130.0)
+   graphics.MeasureCharacterRanges(text, -1, @font, @layoutRectB, @stringFormat, 3, @regions(0))
+   graphics.DrawString(text, -1, @font, @layoutRectB, @stringFormat, @blueBrush)
+   graphics.DrawRectangle(@blackPen, layoutRectB.X, layoutRectB.Y, layoutRectB.Width, layoutRectB.Height)
+   FOR i AS LONG = 0 TO 2
+      graphics.FillRegion(@redBrush, @regions(i))
+   NEXT
+
+   ' // Set trailing space flag and draw for layoutRectC
+   DIM layoutRectC AS GpRectF = (335.0, 20.0, 165.0, 130.0)
+   stringFormat.SetFormatFlags(StringFormatFlagsMeasureTrailingSpaces)
+   graphics.MeasureCharacterRanges(text, -1, @font, @layoutRectC, @stringFormat, 3, @regions(0))
+   graphics.DrawString(text, -1, @font, @layoutRectC, @stringFormat, @blueBrush)
+   graphics.DrawRectangle(@blackPen, layoutRectC.X, layoutRectC.Y, layoutRectC.Width, layoutRectC.Height)
+   FOR i AS LONG = 0 TO 2
+      graphics.FillRegion(@redBrush, @regions(i))
+   NEXT
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="measuredriverstring"></a>MeasureDriverString (CGpGraphics)
