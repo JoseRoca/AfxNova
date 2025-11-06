@@ -7014,6 +7014,60 @@ FUNCTION CopyData (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, _
 
 This method returns the number of points copied. This is the same as the number of types copied.
 
+#### Example
+
+```
+' ========================================================================================
+' Creates a path with two figures.
+' Uses GdipPathIterCopyData to extract the first three points and their types.
+' Draws the extracted segment and displays point info in the window.
+' ========================================================================================
+SUB Example_PathIterCopyData (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create path with two figures
+   DIM path AS CGpGraphicsPath
+   path.AddLine(20, 20, 120, 20)
+   path.AddLine(120, 20, 70, 100)
+   path.CloseFigure()
+
+   path.StartFigure()
+   path.AddLine(150, 30, 200, 80)
+   path.AddLine(200, 80, 150, 130)
+
+   ' // Create iterator and copy subset (indices 0 to 2)
+   DIM iterator AS CGpGraphicsPathIterator = CGpGraphicsPathIterator(@path)
+   DIM points(0 TO 2) AS GpPointF
+   DIM types(0 TO 2) AS BYTE
+   DIM resultCount AS LONG
+   resultCount = iterator.CopyData(@points(0), @types(0), 0, 2)
+
+   ' // Draw copied segment
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2.0, UnitPixel)
+   graphics.DrawLines(@pen, @points(0), resultCount)
+
+   ' // Display point info
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   DIM yOffset AS SINGLE = 140
+   FOR i AS LONG = 0 TO resultCount - 1
+      DIM info AS WSTRING * 128
+      info = "Point " & i & ": (" & points(i).x & ", " & points(i).y & ") Type=" & types(i)
+      DIM layout AS GpRectF = (10.0, yOffset, 300.0, 20.0)
+      graphics.DrawString(info, -1, @font, @layout, @brush)
+      yOffset += 20.0
+   NEXT
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="enumerate"></a>Enumerate (CGpGraphicsPathIterator)
