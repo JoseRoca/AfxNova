@@ -4629,6 +4629,42 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example sets the text rendering hint to two different values and draws text
+' to demonstrate each value.
+' ========================================================================================
+SUB Example_SetTextRenderingHint (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' Create font and brush
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' Create layout rectangle and string format
+   DIM layoutRect AS GpRectF = (0, 0, 0, 0)
+   DIM format AS CGpStringFormat
+
+   ' Set rendering hint to low quality and draw text
+   graphics.SetTextRenderingHint(TextRenderingHintSingleBitPerPixel)
+   DIM text AS WSTRING * 128 = "Low quality rendering"
+   graphics.DrawString(text, LEN(text), @font, @layoutRect, @format, @brush)
+
+   ' Set rendering hint to high quality and draw more text
+   graphics.SetTextRenderingHint(TextRenderingHintAntiAlias)
+   layoutRect.y = 50
+   text = "High quality rendering"
+   graphics.DrawString(text, LEN(text), @font, @layoutRect, @format, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="settransform"></a>SetTransform (CGpGraphics)
