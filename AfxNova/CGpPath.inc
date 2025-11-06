@@ -167,14 +167,14 @@ END FUNCTION
 ' Adds a line to the current figure of this path.
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.AddLine (BYVAL x1 AS SINGLE, BYVAL y1 AS SINGLE, BYVAL x2 AS SINGLE, BYVAL y2 AS SINGLE) AS GpStatus
-   RETURN SetStatus(GdipAddPathLine(m_pPath, x1, y1, x2, y1))
+   RETURN SetStatus(GdipAddPathLine(m_pPath, x1, y1, x2, y2))
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 ' * Adds a line to the current figure of this path.
 ' =====================================================================================
 'PRIVATE FUNCTION CGpGraphicsPath.AddLine (BYVAL x1 AS INT_, BYVAL y1 AS INT_, BYVAL x2 AS INT_, BYVAL y2 AS INT_) AS GpStatus
-'   RETURN SetStatus(GdipAddPathLineI(m_pPath, x1, y1, x2, y1))
+'   RETURN SetStatus(GdipAddPathLineI(m_pPath, x1, y1, x2, y2))
 'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
