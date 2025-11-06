@@ -155,6 +155,13 @@ PRIVATE FUNCTION CGpGraphicsPath.GetLastPoint (BYVAL lastPoint AS GpPointF PTR) 
    RETURN SetStatus(GdipGetPathLastPoint(m_pPath, lastPoint))
 END FUNCTION
 ' =====================================================================================
+' =====================================================================================
+PRIVATE FUNCTION CGpGraphicsPath.GetLastPoint () AS GpPointF
+   DIM lastPoint AS GpPointF
+   SetStatus(GdipGetPathLastPoint(m_pPath, @lastPoint))
+   RETURN lastPoint
+END FUNCTION
+' =====================================================================================
 
 ' =====================================================================================
 ' Adds a line to the current figure of this path.
