@@ -1175,8 +1175,6 @@ Draws a line that connects two points.
 ```
 FUNCTION DrawLine (BYVAL pPen AS CGpPen PTR, BYVAL x1 AS SINGLE, BYVAL y1 AS SINGLE, _
    BYVAL x2 AS SINGLE, BYVAL y2 AS SINGLE) AS GpStatus
-FUNCTION DrawLine (BYVAL pPen AS CGpPen PTR, BYVAL x1 AS INT_, BYVAL y1 AS INT_, _
-   BYVAL x2 AS INT_, BYVAL y2 AS INT_) AS GpStatus
 FUNCTION DrawLine (BYVAL pPen AS CGpPen PTR, BYVAL pt1 AS GpPointF PTR, BYVAL pt2 AS GpPointF PTR) AS GpStatus
 FUNCTION DrawLine (BYVAL pPen AS CGpPen PTR, BYVAL pt1 AS GpPoint PTR, BYVAL pt2 AS GpPoint PTR) AS GpStatus
 ```
