@@ -3924,6 +3924,58 @@ FUNCTION Save () AS GraphicsState
 
 This method returns a value that identifies the saved state. Pass this value to the **Restore** method when you want to restore the state. The **GraphicsState** data type is defined in Gdiplusenums.bi.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example sets the world transformation of a Graphics object to a rotation and
+' then saves the state of the Graphics object. Next, the code calls GdipTranslateWorldTransform,
+' and saves the state again. Then the code calls GdipScaleTransform. At that point, the world
+' transformation of the Graphics object is a composite transformation: first rotate, then
+' translate, then scale. The code uses a red pen to draw an ellipse that is transformed by
+' that composite transformation.
+' The code passes state2, which was returned by the second call to GdipSaveGraphics, to the
+' GdipRestoreGraphics function, and draws the ellipse again using a green pen. The green
+' ellipse is rotated and translated but not scaled. Finally the code passes state1, which
+' was returned by the first call to GdipSaveGraphics, to the GdipRestoreGraphics function,
+' and draws the ellipse again using a blue pen. The blue ellipse is rotated but not
+' translated or scaled.
+' ========================================================================================
+SUB Example_SaveGraphics (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Apply rotation and save state1
+   graphics.RotateTransform(30.0, MatrixOrderPrepend)
+   DIM state1 AS GraphicsState = graphics.Save
+
+   ' // Apply translation and save state2
+   graphics.TranslateTransform(100.0, 0.0, MatrixOrderAppend)
+   DIM state2 AS GraphicsState = graphics.Save()
+
+   ' // Apply scaling
+   graphics.ScaleTransform(1.0, 3.0, MatrixOrderAppend)
+
+   ' // Draw red ellipse (rotate + translate + scale)
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 1.0)
+   graphics.DrawEllipse(@redPen, 0, 0, 100, 20)
+
+   ' // Restore to state2 (rotate + translate)
+   graphics.Restore(state2)
+   DIM greenPen AS CGpPen = CGpPen(ARGB_GREEN, 1.0)
+   graphics.DrawEllipse(@greenPen, 0, 0, 100, 20)
+
+   ' // Restore to state1 (rotate only)
+   graphics.Restore(state1)
+   DIM bluePen AS CGpPen = CGpPen(ARGB_BLUE, 1.0)
+   graphics.DrawEllipse(@bluePen, 0, 0, 100, 20)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="scaletransform"></a>ScaleTransform (CGpGraphics)
