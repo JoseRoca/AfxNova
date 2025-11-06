@@ -6047,7 +6047,7 @@ This method returns an element of the **FillMode** enumeration.
 
 ```
 ' ========================================================================================
-' This example retrieves the fill mode of a GraphicsPath using GdipGetPathFillMode.
+' This example retrieves the fill mode of a GraphicsPath.
 ' ========================================================================================
 SUB Example_GetFillMode (BYVAL hdc AS HDC)
 
@@ -6101,6 +6101,36 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' This example retrieves the last point from a GraphicsPath.
+' ========================================================================================
+SUB Example_GetLastPoint (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create path and add a rectangle
+   DIM path AS CGpGraphicsPath
+   path.AddRectangle(100, 80, 150, 100)
+
+   ' // Retrieve last point
+   DIM lastPoint AS GpPointF = path.GetLastPoint
+
+   ' // Display result
+   AfxMsg "Last point: (" & WSTR(lastPoint.x) & ", " & WSTR(lastPoint.y) & ")"
+
+   ' // Create pen and draw path
+   DIM pen AS CGpPen = CGpPen(ARGB_ORANGE, 2.0, UnitWorld)
+   graphics.DrawPath(@pen, @path)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getpathdata"></a>GetPathData (CGpGraphicsPath)
