@@ -7669,6 +7669,58 @@ This method returns the number of data points in the next figure. If there are n
 
 The first time you call the **NextSubpath** method of an iterator, it gets the starting and ending indices of the first group of points that all have the same type. The second time, it gets the second group, and so on. Each time you call **NextSubpath**, it returns the number of data points in the obtained group. When there are no groups remaining, it returns 0.
 
+#### Example
+
+```
+' ========================================================================================
+' Example: Using NextSubpath to Inspect Figures.
+' Lets you inspect each figure in a path individually.
+' Tells you whether each figure is closed (e.g., polygon) or open (e.g., polyline).
+' ========================================================================================
+SUB Example_NextSubPath (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a graphics path with two figures
+   DIM path AS CGpGraphicsPath
+   path.AddLine(30, 30, 130, 30)
+   path.AddLine(130, 30, 80, 100)
+   path.CloseFigure()
+
+   path.StartFigure()
+   path.AddLine(160, 40, 210, 90)
+   path.AddLine(210, 90, 160, 140)
+
+   ' // Create iterator
+   DIM iterator AS CGpGraphicsPathIterator = CGpGraphicsPathIterator(@path)
+
+   ' // Create font and brush
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Iterate through subpaths
+   DIM resultCount AS LONG, startIdx AS LONG, endIdx AS LONG
+   DIM isClosed AS BOOL
+   DIM yOffset AS SINGLE = 10.0
+   DIM subpathIndex AS LONG = 1
+
+   DO
+      resultCount = iterator.NextSubpath(@startIdx, @endIdx, @isClosed)
+      IF resultCount = 0 THEN EXIT DO
+      DIM info AS STRING = "Subpath " & subpathIndex & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
+      DIM layout AS GpRectF = (10.0, yOffset, 400.0, 20.0)
+      graphics.DrawString(info, -1, @font, @layout, @brush)
+      yOffset += 20.0
+      subpathIndex += 1
+   LOOP
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="rewind"></a>Rewind (CGpGraphicsPathIterator)
