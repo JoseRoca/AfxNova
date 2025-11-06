@@ -7166,6 +7166,48 @@ FUNCTION GetCount () AS INT_
 
 This **GraphicsPathIterator** object is associated with a **GraphicsPath** object. That **GraphicsPath** object has an array of points and an array of types. Each element in the array of types is a byte that specifies the point type and a set of flags for the corresponding element in the array of points. Possible point types and flags are listed in the **PathPointType** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' Returns the number of data points in the path.
+' ========================================================================================
+SUB Example_PathIterGetCount (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a GraphicsPath with two figures
+   DIM path AS CGpGraphicsPath
+   path.AddLine(20, 20, 120, 20)
+   path.AddLine(120, 20, 70, 100)
+   path.CloseFigure
+
+   path.StartFigure
+   path.AddLine(150, 30, 200, 80)
+   path.AddLine(200, 80, 150, 130)
+
+   ' // Create a GraphicsPathIterator
+   DIM iterator AS CGpGraphicsPathIterator = CGpGraphicsPathIterator(@path)
+
+   ' // Get total number of points in the path
+   DIM totalCount AS LONG = iterator.GetCount()
+
+   ' // Create font and brush for displaying the result
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Draw the total point count as a string
+   DIM info AS STRING = "Total path points: " & totalCount
+   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
+   graphics.DrawString(info, -1, @font, @layout, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getsubpathcount"></a>GetSubpathCount (CGpGraphicsPathIterator)
