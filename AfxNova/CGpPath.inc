@@ -166,9 +166,9 @@ END FUNCTION
 ' =====================================================================================
 ' * Adds a line to the current figure of this path.
 ' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.AddLine (BYVAL x1 AS INT_, BYVAL y1 AS INT_, BYVAL x2 AS INT_, BYVAL y2 AS INT_) AS GpStatus
-   RETURN SetStatus(GdipAddPathLineI(m_pPath, x1, y1, x2, y1))
-END FUNCTION
+'PRIVATE FUNCTION CGpGraphicsPath.AddLine (BYVAL x1 AS INT_, BYVAL y1 AS INT_, BYVAL x2 AS INT_, BYVAL y2 AS INT_) AS GpStatus
+'   RETURN SetStatus(GdipAddPathLineI(m_pPath, x1, y1, x2, y1))
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.AddLine (BYVAL pt1 AS GpPointF PTR, BYVAL pt2 AS GpPointF PTR) AS GpStatus
@@ -205,14 +205,14 @@ PRIVATE FUNCTION CGpGraphicsPath.AddArc (BYVAL x AS SINGLE, BYVAL y AS SINGLE, B
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
+'PRIVATE FUNCTION CGpGraphicsPath.AddArc (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, _
+'   BYVAL nHeight AS INT_, BYVAL startAngle AS SINGLE, BYVAL sweepAngle AS SINGLE) AS GpStatus
+'   RETURN SetStatus(GdipAddPathArcI(m_pPath, x, y, nWidth, nHeight, startAngle, sweepAngle))
+'END FUNCTION
+' =====================================================================================
+' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.AddArc (BYVAL rcf AS GpRectF PTR, BYVAL startAngle AS SINGLE, BYVAL sweepAngle AS SINGLE) AS GpStatus
    RETURN SetStatus(GdipAddPathArc(m_pPath, rcf->x, rcf->y, rcf->Width, rcf->Height, startAngle, sweepAngle))
-END FUNCTION
-' =====================================================================================
-' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.AddArc (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, _
-   BYVAL nHeight AS INT_, BYVAL startAngle AS SINGLE, BYVAL sweepAngle AS SINGLE) AS GpStatus
-   RETURN SetStatus(GdipAddPathArcI(m_pPath, x, y, nWidth, nHeight, startAngle, sweepAngle))
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
@@ -231,11 +231,11 @@ PRIVATE FUNCTION CGpGraphicsPath.AddBezier (BYVAL x1 AS SINGLE, BYVAL y1 AS SING
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.AddBezier (BYVAL x1 AS INT_, BYVAL y1 AS INT_, BYVAL x2 AS INT_, BYVAL y2 AS INT_, _
-   BYVAL x3 AS INT_, BYVAL y3 AS INT_, BYVAL x4 AS INT_, BYVAL y4 AS INT_) AS GpStatus
-   m_Status = GdipAddPathBezierI(m_pPath, x1, y1, x2, y2, x3, y3, x4, y4)
-   FUNCTION = m_Status
-END FUNCTION
+'PRIVATE FUNCTION CGpGraphicsPath.AddBezier (BYVAL x1 AS INT_, BYVAL y1 AS INT_, BYVAL x2 AS INT_, BYVAL y2 AS INT_, _
+'   BYVAL x3 AS INT_, BYVAL y3 AS INT_, BYVAL x4 AS INT_, BYVAL y4 AS INT_) AS GpStatus
+'   m_Status = GdipAddPathBezierI(m_pPath, x1, y1, x2, y2, x3, y3, x4, y4)
+'   FUNCTION = m_Status
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.AddBezier (BYVAL pt1 AS GpPointF PTR, BYVAL pt2 AS GpPointF PTR, BYVAL pt3 AS GpPointF PTR, BYVAL pt4 AS GpPointF PTR) AS GpStatus
@@ -339,9 +339,9 @@ PRIVATE FUNCTION CGpGraphicsPath.AddRectangle (BYVAL x AS SINGLE, BYVAL y AS SIN
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.AddRectangle (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_) AS GpStatus
-   RETURN SetStatus(GdipAddPathRectangleI(m_pPath, x, y, nWidth, nHeight))
-END FUNCTION
+'PRIVATE FUNCTION CGpGraphicsPath.AddRectangle (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_) AS GpStatus
+'   RETURN SetStatus(GdipAddPathRectangleI(m_pPath, x, y, nWidth, nHeight))
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.AddRectangle (BYVAL rcf AS GpRectF PTR) AS GpStatus
@@ -375,9 +375,9 @@ PRIVATE FUNCTION CGpGraphicsPath.AddEllipse (BYVAL x AS SINGLE, BYVAL y AS SINGL
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.AddEllipse (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_) AS GpStatus
-   RETURN SetStatus(GdipAddPathEllipseI(m_pPath, x, y, nWidth, nHeight))
-END FUNCTION
+'PRIVATE FUNCTION CGpGraphicsPath.AddEllipse (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_) AS GpStatus
+'   RETURN SetStatus(GdipAddPathEllipseI(m_pPath, x, y, nWidth, nHeight))
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.AddEllipse (BYVAL rcf AS GpRectF PTR) AS GpStatus
@@ -401,10 +401,10 @@ PRIVATE FUNCTION CGpGraphicsPath.AddPie (BYVAL x AS SINGLE, BYVAL y AS SINGLE, B
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.AddPie (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, _
-   BYVAL startAngle AS SINGLE, BYVAL sweepAngle AS SINGLE) AS GpStatus
-   RETURN SetStatus(GdipAddPathPieI(m_pPath, x, y, nWidth, nHeight, startAngle, sweepAngle))
-END FUNCTION
+'PRIVATE FUNCTION CGpGraphicsPath.AddPie (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, _
+'   BYVAL startAngle AS SINGLE, BYVAL sweepAngle AS SINGLE) AS GpStatus
+'   RETURN SetStatus(GdipAddPathPieI(m_pPath, x, y, nWidth, nHeight, startAngle, sweepAngle))
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.AddPie (BYVAL rcf AS GpRectF PTR, BYVAL startAngle AS SINGLE, BYVAL sweepAngle AS SINGLE) AS GpStatus
@@ -568,11 +568,11 @@ PRIVATE FUNCTION CGpGraphicsPath.IsVisible (BYVAL x AS SINGLE, BYVAL y AS SINGLE
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL pGraphics AS CGpGraphics PTR = NULL) AS BOOLEAN
-   DIM bResult AS BOOL
-   m_Status = GdipIsVisiblePathPointI(m_pPath, x, y, IIF(pGraphics, pGraphics->m_pGraphics, NULL), @bResult)
-   RETURN bResult
-END FUNCTION
+'PRIVATE FUNCTION CGpGraphicsPath.IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL pGraphics AS CGpGraphics PTR = NULL) AS BOOLEAN
+'   DIM bResult AS BOOL
+'   m_Status = GdipIsVisiblePathPointI(m_pPath, x, y, IIF(pGraphics, pGraphics->m_pGraphics, NULL), @bResult)
+'   RETURN bResult
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.IsVisible (BYVAL pt AS GpPointF PTR, BYVAL pGraphics AS CGpGraphics PTR = NULL) AS BOOLEAN
@@ -600,11 +600,11 @@ PRIVATE FUNCTION CGpGraphicsPath.IsOutlineVisible (BYVAL x AS SINGLE, BYVAL y AS
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpGraphicsPath.IsOutlineVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL pPen AS CGpPen PTR, BYVAL pGraphics AS CGpGraphics PTR = NULL) AS BOOLEAN
-   DIM bResult AS BOOL
-   m_Status = GdipIsOutlineVisiblePathPointI(m_pPath, x, y, IIF(pPen, pPen->m_pPen, NULL), IIF(pGraphics, pGraphics->m_pGraphics, NULL), @bResult)
-   FUNCTION = bResult
-END FUNCTION
+'PRIVATE FUNCTION CGpGraphicsPath.IsOutlineVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL pPen AS CGpPen PTR, BYVAL pGraphics AS CGpGraphics PTR = NULL) AS BOOLEAN
+'   DIM bResult AS BOOL
+'   m_Status = GdipIsOutlineVisiblePathPointI(m_pPath, x, y, IIF(pPen, pPen->m_pPen, NULL), IIF(pGraphics, pGraphics->m_pGraphics, NULL), @bResult)
+'   FUNCTION = bResult
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPath.IsOutlineVisible (BYVAL pt AS GpPointF PTR, BYVAL pPen AS CGpPen PTR, BYVAL pGraphics AS CGpGraphics PTR = NULL) AS BOOLEAN

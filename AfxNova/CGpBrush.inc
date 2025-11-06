@@ -168,11 +168,11 @@ PRIVATE CONSTRUCTOR CGpTextureBrush (BYVAL pImage AS CGpImage PTR, BYVAL nWrapMo
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE CONSTRUCTOR CGpTextureBrush (BYVAL pImage AS CGpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_)
-   DIM texture AS GpTexture PTR
-   m_Status = GdipCreateTexture2I(IIF(pImage, pImage->m_pImage, NULL), nWrapMode, dstX, dstY, dstWidth, dstHeight, @texture)
-   m_pBrush = cast(GpBrush PTR, texture)
-END CONSTRUCTOR
+'PRIVATE CONSTRUCTOR CGpTextureBrush (BYVAL pImage AS CGpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_)
+'   DIM texture AS GpTexture PTR
+'   m_Status = GdipCreateTexture2I(IIF(pImage, pImage->m_pImage, NULL), nWrapMode, dstX, dstY, dstWidth, dstHeight, @texture)
+'   m_pBrush = cast(GpBrush PTR, texture)
+'END CONSTRUCTOR
 ' =====================================================================================
 
 ' =====================================================================================

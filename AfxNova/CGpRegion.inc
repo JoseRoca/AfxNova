@@ -39,10 +39,10 @@ PRIVATE CONSTRUCTOR CGpRegion (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidt
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE CONSTRUCTOR CGpRegion (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_)
-   DIM rc AS GpRect : rc.x = x : rc.y = y : rc.Width = nwidth : rc.Height = nHeight
-   m_Status = GdipCreateRegionRectI(@rc, @m_pRegion)
-END CONSTRUCTOR
+'PRIVATE CONSTRUCTOR CGpRegion (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_)
+'   DIM rc AS GpRect : rc.x = x : rc.y = y : rc.Width = nwidth : rc.Height = nHeight
+'   m_Status = GdipCreateRegionRectI(@rc, @m_pRegion)
+'END CONSTRUCTOR
 ' ========================================================================================
 ' =====================================================================================
 PRIVATE CONSTRUCTOR CGpRegion (BYVAL pPath AS CGpGraphicsPath PTR)
@@ -252,9 +252,9 @@ PRIVATE FUNCTION CGpRegion.Translate (BYVAL dx AS SINGLE, BYVAL dy AS SINGLE) AS
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpRegion.Translate (BYVAL dx AS INT_, BYVAL dy AS INT_) AS GpStatus
-   RETURN SetStatus(GdipTranslateRegionI(m_pRegion, dx, dy))
-END FUNCTION
+'PRIVATE FUNCTION CGpRegion.Translate (BYVAL dx AS INT_, BYVAL dy AS INT_) AS GpStatus
+'   RETURN SetStatus(GdipTranslateRegionI(m_pRegion, dx, dy))
+'END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
@@ -360,11 +360,11 @@ PRIVATE FUNCTION CGpRegion.IsVisible (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVA
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpRegion.IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
-   DIM booln AS BOOL
-   m_Status = GdipIsVisibleRegionPointI(m_pRegion, x, y, IIF(pGraphics, pGraphics->m_pGraphics, NULL), @booln)
-   RETURN booln
-END FUNCTION
+'PRIVATE FUNCTION CGpRegion.IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
+'   DIM booln AS BOOL
+'   m_Status = GdipIsVisibleRegionPointI(m_pRegion, x, y, IIF(pGraphics, pGraphics->m_pGraphics, NULL), @booln)
+'   RETURN booln
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpRegion.IsVisible (BYVAL rc AS GpRectF PTR, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
@@ -388,11 +388,11 @@ PRIVATE FUNCTION CGpRegion.IsVisible (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVA
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpRegion.IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
-   DIM booln AS BOOL
-   m_Status = GdipIsVisibleRegionRectI(m_pRegion, x, y, nWidth, nHeight, IIF (pGraphics, pGraphics->m_pGraphics, NULL), @booln)
-   RETURN booln
-END FUNCTION
+'PRIVATE FUNCTION CGpRegion.IsVisible (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pGraphics AS CGpGraphics PTR) AS GpStatus
+'   DIM booln AS BOOL
+'   m_Status = GdipIsVisibleRegionRectI(m_pRegion, x, y, nWidth, nHeight, IIF (pGraphics, pGraphics->m_pGraphics, NULL), @booln)
+'   RETURN booln
+'END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================

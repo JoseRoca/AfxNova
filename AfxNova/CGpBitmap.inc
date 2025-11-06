@@ -595,12 +595,12 @@ PRIVATE FUNCTION CGpBitmap.Clone (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nW
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE FUNCTION CGpBitmap.Clone (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
-   IF pCloneBitmap = NULL THEN RETURN SetStatus(InvalidParameter)
-   IF pCloneBitmap->m_pImage THEN GdipDisposeImage(pCloneBitmap->m_pImage)
-   RETURN SetStatus(GdipCloneBitmapAreaI(x, y, nWidth, nHeight, pxFormat, cast(GpBitmap PTR, m_pImage), _
-          @cast(GpBitmap PTR, pCloneBitmap->m_pImage)))
-END FUNCTION
+'PRIVATE FUNCTION CGpBitmap.Clone (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
+'   IF pCloneBitmap = NULL THEN RETURN SetStatus(InvalidParameter)
+'   IF pCloneBitmap->m_pImage THEN GdipDisposeImage(pCloneBitmap->m_pImage)
+'   RETURN SetStatus(GdipCloneBitmapAreaI(x, y, nWidth, nHeight, pxFormat, cast(GpBitmap PTR, m_pImage), _
+'          @cast(GpBitmap PTR, pCloneBitmap->m_pImage)))
+'END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpBitmap.Clone (BYVAL rcf AS GpRectF PTR, BYVAL pxFormat AS PixelFormat, BYVAL pCloneBitmap AS CGpBitmap PTR) AS GpStatus
@@ -741,6 +741,55 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpBitmap.ApplyEffect (BYVAL pEffect AS CGpEffect PTR, BYVAL roi AS RECT PTR = NULL) AS GpStatus
    RETURN SetStatus(GdipBitmapApplyEffect(cast(GpBitmap PTR, m_pImage), cast(ANY PTR, pEffect->m_pEffect), roi, FALSE, NULL, NULL))
+END FUNCTION
+' =====================================================================================
+
+' =====================================================================================
+' Makes the specified color transparent for this Bitmap.
+' =====================================================================================
+PRIVATE FUNCTION CGpBitmap.MakeTransparent (BYVAL transparentColor AS ARGB) AS GpStatus
+   ' // Icons can't be made transparent this way
+   DIM rguid AS GUID = this.GetRawFormat
+   IF IsEqualGuid(@rguid, @ImageFormatIcon) THEN
+      this.SetStatus(6)   ' NotImplemented
+      RETURN 6
+   END IF
+   ' // Create a new Bitmap in 32bppARGB format
+   DIM nWidth AS UINT = this.GetWidth
+   DIM nHeight AS UINT = this.GetHeight
+   DIM result AS CGpBitmap = CGpBitmap(nWidth, nHeight, PixelFormat32bppARGB)
+   IF this.GetLastStatus <> StatusOk THEN RETURN this.GetLastStatus
+   DIM graphics AS CGpGraphics = @result
+   graphics.Clear(ARGB_LIGHTGRAY)
+   ' // Define drawing rectangle
+   DIM rc AS GpRect = (0, 0, nWidth, nHeight)
+   ' // Set color key for transparency
+   DIM imgAttr AS CGpImageAttributes
+   IF this.GetLastStatus <> StatusOk THEN RETURN this.GetLastStatus
+   imgAttr.SetColorKey(transparentColor, transparentColor)
+   ' // Draw original image
+   graphics.DrawImage(@this, @rc, 0, 0, nWidth, nHeight, UnitPixel, @imgAttr)
+   ' // Swap image pointers
+   DIM temp AS GpImage PTR = m_pImage
+   m_pImage = result.m_pImage
+   result.m_pImage = temp
+   RETURN this.GetLastStatus
+END FUNCTION
+' =====================================================================================
+' =====================================================================================
+' Makes the default transparent color transparent for this Bitmap.
+' =====================================================================================
+PRIVATE FUNCTION CGpBitmap.MakeTransparent () AS GpStatus
+   DIM colorTransparent AS ARGB = ARGB_LIGHTGRAY
+   IF this.GetHeight > 0 AND this.GetWidth> 0 THEN
+      colorTransparent = this.GetPixel(0, this.GetHeight - 1)
+   END IF
+   ' // Already transparent, avoid uninended masking
+   IF (colorTransparent SHR 24) < 255 THEN
+      this.SetStatus(StatusOk)
+      RETURN this.GetLastStatus
+   END IF
+   RETURN this.MakeTransparent(colorTransparent)
 END FUNCTION
 ' =====================================================================================
 
