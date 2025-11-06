@@ -7741,4 +7741,68 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 The first time you call the **NextSubpath** method of an iterator, it gets the first figure (subpath) of that iterator's associated path. The second time, it gets the second figure, and so on. When you call **Rewind**, the sequence starts over; that is, after you call **Rewind**, the next call to **NextSubpath** gets the first figure in the path. The **NextMarker** and **NextPathType** methods behave similarly.
 
+#### Example
+
+```
+' ========================================================================================
+' Example: Using the Rewind method to restart iteration.
+' Lets you reuse the same iterator for multiple passes.
+' Essential when combining different iterator functions (e.g., markers first, then subpaths).
+' Saves memory and avoids recreating the iterator object.
+' ========================================================================================
+SUB Example_Rewind (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a graphics path with two figures
+   DIM path AS CGpGraphicsPath
+   path.AddLine(30, 30, 130, 30)
+   path.AddLine(130, 30, 80, 100)
+   path.CloseFigure()
+
+   path.StartFigure()
+   path.AddLine(160, 40, 210, 90)
+   path.AddLine(210, 90, 160, 140)
+
+   ' // Create path iterator
+   DIM iterator AS CGpGraphicsPathIterator = CGpGraphicsPathIterator(@path)
+
+   ' // First pass: count subpaths
+   DIM subpathCount AS LONG = iterator.GetSubpathCount()
+
+   ' // Create font and brush
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Display subpath count
+   DIM info AS STRING = "Subpath count (first pass): " & subpathCount
+   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
+   graphics.DrawString(info, -1, @font, @layout, @brush)
+
+   ' // Rewind the iterator
+   iterator.Rewind()
+
+   ' // Second pass: iterate and display each subpath
+   DIM resultCount AS LONG, startIdx AS LONG, endIdx AS LONG
+   DIM isClosed AS BOOL
+   DIM yOffset AS SINGLE = 40.0
+   DIM subpathIndex AS LONG = 1
+
+   DO
+      resultCount = iterator.NextSubpath(@startIdx, @endIdx, @isClosed)
+      IF resultCount = 0 THEN EXIT DO
+      DIM info AS STRING = "Subpath " & subpathIndex & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
+      DIM layout AS GpRectF = (10.0, yOffset, 400.0, 20.0)
+      graphics.DrawString(info, -1, @font, @layout, @brush)
+      yOffset += 20.0
+      subpathIndex += 1
+   LOOP
+
+END SUB
+' ========================================================================================
+```
 ---
