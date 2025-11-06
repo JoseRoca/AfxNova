@@ -4394,6 +4394,32 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' This example creates a Graphics object from a device context, sets the pixel offset mode
+' quality to PixelOffsetModeHighQuality and draws a line.
+' ========================================================================================
+SUB Example_SetPixelOffsetMode (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Set pixel offset mode to high quality
+   graphics.SetPixelOffsetMode(PixelOffsetModeHighQuality)
+
+   ' // Draw a line or shape
+   DIM pen AS CGpPen = CGpPen(ARGB_RED, 2 * rxRatio, UnitPixel)
+   graphics.DrawLine(@pen, 100, 120, 300, 120)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setrenderingorigin"></a>SetRenderingOrigin (CGpGraphics)
