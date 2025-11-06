@@ -162,6 +162,7 @@ The `CGpGraphicsPathIterator` class provides methods for isolating selected subs
 | [GetCount](#getcount) | Returns the number of data points in the path. |
 | [GetSubpathCount](#getsubpathcount) | Returns the number of subpaths (also called figures) in the path. |
 | [HasCurve](#hascurve) | Determines whether the path has any curves. |
+| [IsValid](#isvalid) | Checks whether a GraphicsPathIterator is valid. |
 | [NextMarker](#nextmarker) | Gets the starting index and the ending index of the next marker-delimited section in this iterator's associated path. |
 | [NextPathType](#nextpathtype) | Gets the starting index and the ending index of the next group of data points that all have the same type. |
 | [NextSubpath](#nextsubpath) | Gets the starting index and the ending index of the next subpath (figure) in this iterator's associated path. |
@@ -7316,6 +7317,59 @@ SUB Example_PathIterHasCurve (BYVAL hdc AS HDC)
 
    ' Draw the result as a string
    DIM info AS STRING = "Path contains curves: " & IIF(hasCurve, "True", "False")
+   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
+   graphics.DrawString(info, -1, @font, @layout, @brush)
+
+END SUB
+' ========================================================================================
+```
+---
+
+## <a name="isvalid"></a>IsValid (CGpGraphicsPathIterator)
+
+Checks whether a GraphicsPathIterator is valid, meaning it’s properly associated with a **GraphicsPath** and ready for use.
+
+```
+FUNCTION CGpGraphicsPathIterator.IsValid () AS BOOLEAN
+```
+
+#### Returnvalue
+
+Returns TRUE or FALSE.
+
+#### Example
+
+```
+' ========================================================================================
+' Checks whether a GraphicsPathIterator is valid, meaning it’s properly associated with a
+' GraphicsPath and ready for use.
+' ========================================================================================
+SUB Example_PathIterIsValid (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a GraphicsPath with a simple figure
+   DIM path AS CGpGraphicsPath
+   path.AddLine(50, 50, 150, 50)
+   path.AddLine(150, 50, 100, 120)
+   path.CloseFigure
+
+   ' // Create a GraphicsPathIterator
+   DIM iterator AS CGpGraphicsPathIterator = @path
+
+   ' // Check if the iterator is valid
+   DIM isValid AS BOOLEAN = iterator.IsValid
+
+   ' // Create font and brush for displaying the result
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Draw the validity result as a string
+   DIM info AS STRING = "PathIterator is valid: " & IIF(isValid, "True", "False")
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
    graphics.DrawString(info, -1, @font, @layout, @brush)
 
