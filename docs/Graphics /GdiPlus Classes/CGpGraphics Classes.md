@@ -6043,6 +6043,44 @@ FUNCTION GetFillMode () AS FillMode
 
 This method returns an element of the **FillMode** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' This example retrieves the fill mode of a GraphicsPath using GdipGetPathFillMode.
+' ========================================================================================
+SUB Example_GetFillMode (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create path with alternate fill mode and add an ellipse
+   DIM path AS CGpGraphicsPath = CGpGraphicsPath(FillModeAlternate)
+   path.AddEllipse(100, 70, 200, 100)
+
+   ' // Retrieve fill mode
+   DIM fillMode AS LONG = path.GetFillMode()
+
+   ' Display result
+   SELECT CASE fillMode
+   CASE FillModeAlternate
+       AfxMsg "Fill mode is: Alternate"
+   CASE FillModeWinding
+       AfxMsg "Fill mode is: Winding"
+   CASE ELSE
+       AfxMsg "Unknown fill mode: " & WSTR(fillMode)
+   END SELECT
+
+   ' // Create pen and draw path
+   DIM pen AS CGpPen = CGpPen(ARGB_ORANGE, 2.0, UnitWorld)
+   graphics.DrawPath(@pen, @path)
+
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getlastpoint"></a>GetLastPoint (CGpGraphicsPath)
