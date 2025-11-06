@@ -3555,11 +3555,11 @@ FUNCTION MeasureString (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, _
 FUNCTION MeasureString (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, _
    BYVAL pFont AS CGpFont PTR, BYVAL layoutRect AS GpRectF PTR, _
    BYVAL pStringFormat AS CGpStringFormat PTR, BYVAL boundingBox AS GpRectF PTR, _
-   BYREF codepointsFitted AS INT_ = 0, BYREF linesFilled AS INT_ = 0) AS GpStatus
+   BYREF codepointsFitted AS INT_, BYREF linesFilled AS INT_) AS GpStatus
 FUNCTION MeasureString (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, _
    BYVAL pFont AS CGpFont PTR, BYVAL layoutRect AS GpSizeF PTR, _
    BYVAL pStringFormat AS CGpStringFormat PTR, BYVAL boundingBox AS GpSizeF PTR, _
-   BYREF codepointsFitted AS INT_ = 0, BYREF linesFilled AS INT_ = 0) AS GpStatus
+   BYREF codepointsFitted AS INT_, BYREF linesFilled AS INT_) AS GpStatus
 ```
 
 | Parameter  | Description |
@@ -3571,8 +3571,8 @@ FUNCTION MeasureString (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, _
 | *stringFormat* | Pointer to a **StringFormat** object that specifies the layout information, such as alignment, trimming, tab stops, and so forth. |
 | *boundingBox* | Pointer to a **GpRectF** object that receives the rectangle that bounds the string. |
 | *size* | Pointer to a **GpSizeF** object that receives the width and height of the rectangle that bounds the string. |
-| *codepointsFitted* | Pointer to an LONG that receives the number of characters that actually fit into the layout rectangle. The default value is a NULL pointer. |
-| *linesFilled* | Pointer to an LONG that receives the number of lines that fit into the layout rectangle. The default value is a NULL pointer. |
+| *codepointsFitted* | Pointer to an INT_ that receives the number of characters that actually fit into the layout rectangle. The default value is a NULL pointer. |
+| *linesFilled* | Pointer to aa INT_ that receives the number of lines that fit into the layout rectangle. The default value is a NULL pointer. |
 
 #### Return value
 
@@ -3580,6 +3580,44 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example measures the extent of the string in the specified font, format,
+' and layout rectangle.
+' ========================================================================================
+SUB Example_MeasureString (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create font (Arial, 16pt)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+
+   ' // Create default string format
+   DIM stringFormat AS CGpStringFormat
+
+   ' // Define layout rectangle and text
+   DIM layoutRect AS GpRectF = (0.0, 0.0, 100.0, 50.0)
+   DIM text AS WSTRING * 64 = "Measure Text"
+
+   ' // Measure string bounds
+   DIM boundRect AS GpRectF
+   graphics.MeasureString(text, -1, @font, @layoutRect, @stringFormat, @boundRect)
+
+   ' Draw bounding rectangle for visualization
+   DIM pen AS CGpPen = CGpPen(ARGB_BLACK, 1.0)
+   pen.ScaleTransform(rxRatio, ryRatio)
+   graphics.DrawRectangle(@pen, boundRect.X, boundRect.Y, boundRect.Width, boundRect.Height)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="multiplytransform"></a>MultiplyTransform (CGpGraphics)
