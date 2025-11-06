@@ -3808,6 +3808,60 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' Restoring Nested Saved States
+' The following example sets the world transformation of a Graphics object to a rotation
+' and then saves the state of the Graphics object. Next, the code calls TranslateTransform,
+' and saves the state again. Then the code calls ScaleTransform. At that point, the world
+' transformation of the Graphics object is a composite transformation: first rotate, then
+' translate, then scale. The code uses a red pen to draw an ellipse that is transformed by
+' that composite transformation.
+' The code passes state2, which was returned by the second call to Save, to the Graphics.Restore
+' method, and draws the ellipse again using a green pen. The green ellipse is rotated and
+' translated but not scaled. Finally the code passes state1, which was returned by the
+' first call to Save, to the Graphics.Restore method, and draws the ellipse again using a
+' blue pen. The blue ellipse is rotated but not translated or scaled.
+' ========================================================================================
+SUB Example_Restore (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' // Set the scale transform
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Three transformations apply: rotate, then translate, then scale.
+   DIM AS GraphicsState state1, state2
+   graphics.RotateTransform(30)
+   state1 = graphics.Save
+   graphics.TranslateTransform(100 * rxRatio, 0, MatrixOrderAppend)
+   state2 = graphics.Save
+   graphics.ScaleTransform(1, 3, MatrixOrderAppend)
+
+   ' // Draw an ellipse.
+   DIM redPen AS CGpPen = ARGB_RED
+   graphics.DrawEllipse(@redPen, 0, 0, 100, 20)
+
+   ' // Restore to state2 and draw the ellipse again.
+   ' // Two transformations apply: rotate then translate.
+   graphics.Restore(state2)
+   DIM greenPen AS CGpPen = ARGB_GREEN
+   graphics.DrawEllipse(@greenPen, 0, 0, 100, 20)
+
+   ' // Restore to state1 and draw the ellipse again.
+   ' // Only the rotation transformation applies.
+   graphics.Restore(state1)
+   DIM bluePen AS CGpPen = ARGB_BLUE
+   graphics.DrawEllipse(@bluePen, 0, 0, 100, 20)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="rotatetransform"></a>RotateTransform (CGpGraphics)
