@@ -6285,6 +6285,43 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' This example retrieves the types of each point in a GraphicsPath.
+' ========================================================================================
+SUB Example_GetPathTypes (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create path and add a rectangle
+   DIM path AS CGpGraphicsPath
+   path.AddRectangle(100, 80, 150, 100)
+
+   ' // Get number of points
+   DIM count AS LONG = path.GetPointCount
+
+   ' // Retrieve point types
+   DIM types(ANY) AS BYTE
+   REDIM types(count - 1)
+   path.GetPathTypes(@types(0), count)
+
+   ' // Output each point type
+   FOR i AS LONG = 0 TO count - 1
+      OutputDebugStringW("Type " & WSTR(i) & ": (" & WSTR(types(i)) & ")")
+   NEXT
+
+   ' // Create pen and draw path
+   DIM pen AS CGpPen = CGpPen(ARGB_ORANGE, 2.0, UnitWorld)
+   graphics.DrawPath(@pen, @path)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getpointcount"></a>GetPointCount (CGpGraphicsPath)
