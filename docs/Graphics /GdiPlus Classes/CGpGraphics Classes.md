@@ -7092,6 +7092,66 @@ This **GraphicsPathIterator** object is associated with a **GraphicsPath** objec
 
 You can call the **GetCount** method to determine the number of data points in the path. The points parameter points to a buffer that receives the data points, and the types parameter points to a buffer that receives the types. Before you call the **Enumerate** method, you must allocate memory for those buffers. The size of the points buffer should be the return value of **GetCount** multiplied by **SIZEOF(GpPointF)**. The size of the types buffer should be the  return value of **GetCount**.
 
+#### Example
+
+```
+' ========================================================================================
+' Using GdipPathIterEnumerate to Extract All Path Data.
+' Builds a path with two figures.
+' Uses GdipPathIterEnumerate to extract all points and types.
+' Draws the path and overlays each point’s coordinates and type.
+' ========================================================================================
+SUB Example_PathIterEnumerate (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a GraphicsPath with two figures
+   DIM path AS CGpGraphicsPath
+   path.AddLine(20, 20, 120, 20)
+   path.AddLine(120, 20, 70, 100)
+   path.CloseFigure
+
+   path.StartFigure
+   path.AddLine(150, 30, 200, 80)
+   path.AddLine(200, 80, 150, 130)
+
+   ' // Create a GraphicsPathIterator
+   DIM iterator AS CGpGraphicsPathIterator = CGpGraphicsPathIterator(@path)
+
+   ' // Get total number of points in the path
+   DIM totalCount AS LONG = iterator.GetCount
+
+   ' // Allocate arrays for points and types
+   DIM points(0 TO totalCount - 1) AS GpPointF
+   DIM types(0 TO totalCount - 1) AS BYTE
+
+   ' // Enumerate all path data
+   DIM resultCount AS LONG = iterator.Enumerate(@points(0), @types(0), totalCount)
+
+   ' Draw the path using a blue pen
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 2.0)
+   graphics.DrawPath(@pen, @path)
+
+   ' Create font and brush for text output
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(9, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' Display point coordinates and type below the drawing
+   DIM yOffset AS SINGLE = 150
+   FOR i AS LONG = 0 TO resultCount - 1
+      DIM info AS STRING = "Point " & i & ": (" & points(i).x & ", " & points(i).y & ") Type=" & types(i)
+      DIM layout AS GpRectF = (10.0, yOffset, 300.0, 20.0)
+      graphics.DrawString(info, -1, @font, @layout, @brush)
+      yOffset += 20.0
+   NEXT
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getcount"></a>GetCount (CGpGraphicsPathIterator)
