@@ -162,7 +162,7 @@ The `CGpGraphicsPathIterator` class provides methods for isolating selected subs
 | [GetCount](#getcount) | Returns the number of data points in the path. |
 | [GetSubpathCount](#getsubpathcount) | Returns the number of subpaths (also called figures) in the path. |
 | [HasCurve](#hascurve) | Determines whether the path has any curves. |
-| [IsValid](#isvalid) | Checks whether a GraphicsPathIterator is valid. |
+| [IsValid](#isvalid) | Checks whether a **GraphicsPathIterator** is valid. |
 | [NextMarker](#nextmarker) | Gets the starting index and the ending index of the next marker-delimited section in this iterator's associated path. |
 | [NextPathType](#nextpathtype) | Gets the starting index and the ending index of the next group of data points that all have the same type. |
 | [NextSubpath](#nextsubpath) | Gets the starting index and the ending index of the next subpath (figure) in this iterator's associated path. |
