@@ -859,7 +859,7 @@ If you are specifying a language other than LANG_NEUTRAL, use MAKELANGID to crea
 
 language = MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL)
 
-For a list of the available languages and sublanguages, see Winnt.inc.
+For a list of the available languages and sublanguages, see Winnt.bi.
 
 ---
 
