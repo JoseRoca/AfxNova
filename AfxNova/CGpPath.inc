@@ -638,7 +638,7 @@ END FUNCTION
 ' Creates a new CGpGraphicsPathIterator object and associates it with a CGpGraphicsPath object.
 ' =====================================================================================
 PRIVATE CONSTRUCTOR CGpGraphicsPathIterator (BYVAL pPath AS CGpGraphicsPath PTR)
-   m_Status = GdipCreatePathIter(@m_pPathIretator, pPath->m_pPath)
+   m_Status = GdipCreatePathIter(@m_pPathIterator, pPath->m_pPath)
 END CONSTRUCTOR
 ' =====================================================================================
 
@@ -646,7 +646,7 @@ END CONSTRUCTOR
 ' Cleanup
 ' ========================================================================================
 PRIVATE DESTRUCTOR CGpGraphicsPathIterator
-   IF m_pPathIretator THEN GdipDeletePathIter(m_pPathIretator)
+   IF m_pPathIterator THEN GdipDeletePathIter(m_pPathIterator)
 END DESTRUCTOR
 ' ========================================================================================
 
@@ -656,7 +656,7 @@ END DESTRUCTOR
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.NextSubpath (BYVAL startIndex AS INT_ PTR, BYVAL endIndex AS INT_ PTR, BYVAL isClosed AS BOOL PTR) AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterNextSubpath(m_pPathIretator, @resultCount, startIndex, endIndex, isClosed)
+   m_Status = GdipPathIterNextSubpath(m_pPathIterator, @resultCount, startIndex, endIndex, isClosed)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
@@ -666,7 +666,7 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.NextSubpathPath (BYVAL pPath AS CGpGraphicsPath PTR, BYVAL isClosed AS BOOL PTR) AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterNextSubpathPath(m_pPathIretator, @resultCount, pPath->m_pPath, isClosed)
+   m_Status = GdipPathIterNextSubpathPath(m_pPathIterator, @resultCount, pPath->m_pPath, isClosed)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
@@ -677,7 +677,7 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.NextPathType (BYVAL pathType AS BYTE PTR, BYVAL startIndex AS INT_ PTR, BYVAL endIndex AS INT_ PTR) AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterNextPathType(m_pPathIretator, @resultCount, pathType, startIndex, endIndex)
+   m_Status = GdipPathIterNextPathType(m_pPathIterator, @resultCount, pathType, startIndex, endIndex)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
@@ -688,14 +688,14 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.NextMarker (BYVAL startIndex AS INT_ PTR, BYVAL endIndex AS INT_ PTR) AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterNextMarker(m_pPathIretator, @resultCount, startIndex, endIndex)
+   m_Status = GdipPathIterNextMarker(m_pPathIterator, @resultCount, startIndex, endIndex)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.NextMarker (BYVAL pPath AS CGpGraphicsPath PTR) AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterNextMarkerPath(m_pPathIretator, @resultCount, pPath->m_pPath)
+   m_Status = GdipPathIterNextMarkerPath(m_pPathIterator, @resultCount, pPath->m_pPath)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
@@ -705,7 +705,7 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.GetCount () AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterGetCount(m_pPathIretator, @resultCount)
+   m_Status = GdipPathIterGetCount(m_pPathIterator, @resultCount)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
@@ -715,7 +715,7 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.GetSubpathCount () AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterGetSubpathCount(m_pPathIretator, @resultCount)
+   m_Status = GdipPathIterGetSubpathCount(m_pPathIterator, @resultCount)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
@@ -725,7 +725,7 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.HasCurve () AS BOOLEAN
    DIM bHasCurve AS BOOL
-   m_Status = GdipPathIterHasCurve(m_pPathIretator, @bHasCurve)
+   m_Status = GdipPathIterHasCurve(m_pPathIterator, @bHasCurve)
    FUNCTION = bHasCurve
 END FUNCTION
 ' =====================================================================================
@@ -734,7 +734,7 @@ END FUNCTION
 ' Rewinds this iterator to the beginning of its associated path.
 ' =====================================================================================
 PRIVATE SUB CGpGraphicsPathIterator.Rewind
-   GdipPathIterRewind(m_pPathIretator)
+   GdipPathIterRewind(m_pPathIterator)
 END SUB
 ' =====================================================================================
 
@@ -743,7 +743,7 @@ END SUB
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.Enumerate (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS INT_) AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterEnumerate(m_pPathIretator, @resultCount, pts, types, nCount)
+   m_Status = GdipPathIterEnumerate(m_pPathIterator, @resultCount, pts, types, nCount)
    RETURN resultCount
 END FUNCTION
 ' =====================================================================================
@@ -754,8 +754,19 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CGpGraphicsPathIterator.CopyData (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL startIndex AS INT_, BYVAL endIndex AS INT_) AS INT_
    DIM resultCount AS INT_
-   m_Status = GdipPathIterCopyData(m_pPathIretator, @resultCount, pts, types, startIndex, endIndex)
+   m_Status = GdipPathIterCopyData(m_pPathIterator, @resultCount, pts, types, startIndex, endIndex)
    RETURN resultCount
+END FUNCTION
+' =====================================================================================
+
+' =====================================================================================
+' Checks whether a GraphicsPathIterator is valid, meaning it’s properly associated with a
+' GraphicsPath and ready for use.
+' =====================================================================================
+PRIVATE FUNCTION CGpGraphicsPathIterator.IsValid () AS BOOLEAN
+   DIM valid AS BOOL
+   m_Status = GdipPathIterIsValid(m_pPathIterator, @valid)
+   RETURN valid
 END FUNCTION
 ' =====================================================================================
 

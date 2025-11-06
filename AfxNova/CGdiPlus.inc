@@ -1226,7 +1226,7 @@ END TYPE
 TYPE CGpGraphicsPathIterator EXTENDS CGpBase
 
 Public:
-   m_pPathIretator AS GpPathIterator PTR
+   m_pPathIterator AS GpPathIterator PTR
 
 Public:
    DECLARE CONSTRUCTOR (BYVAL pPath AS CGpGraphicsPath PTR)
@@ -1242,6 +1242,7 @@ Public:
    DECLARE SUB Rewind
    DECLARE FUNCTION Enumerate (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS INT_) AS INT_
    DECLARE FUNCTION CopyData (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL startIndex AS INT_, BYVAL endIndex AS INT_) AS INT_
+   DECLARE FUNCTION IsValid () AS BOOLEAN
 
 END TYPE
 ' ########################################################################################
