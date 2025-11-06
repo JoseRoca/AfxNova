@@ -1009,7 +1009,7 @@ Public:
    DECLARE FUNCTION MeasureString (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, BYVAL pFont AS CGpFont PTR, BYVAL origin AS GpPointF PTR, BYVAL boundingBox AS GpRectF PTR) AS GpStatus
    DECLARE FUNCTION MeasureCharacterRanges (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, BYVAL pFont AS CGpFont PTR, _
       BYVAL layoutRect AS GpRectF PTR, BYVAL pStringFormat AS CGpStringFormat PTR, BYVAL regionCount AS INT_, BYVAL regions AS CGpRegion PTR) AS GpStatus
-   DECLARE FUNCTION DrawDriverString (BYVAL rgText AS UINT16 PTR, BYVAL length AS LONG, BYVAL pFont AS CGpFont PTR, BYVAL pBrush AS CGpBrush PTR, BYVAL positions AS ANY PTR, BYVAL flags AS LONG, BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
+   DECLARE FUNCTION DrawDriverString (BYVAL rgText AS UINT16 PTR, BYVAL length AS LONG, BYVAL pFont AS CGpFont PTR, BYVAL pBrush AS CGpBrush PTR, BYVAL positions AS ANY PTR, BYVAL flags AS LONG, BYVAL pMatrix AS CGpMatrix PTR = NULL) AS GpStatus
    DECLARE FUNCTION MeasureDriverString (BYVAL pText AS UINT16 PTR, BYVAL length AS LONG, BYVAL pFont AS CGpFont PTR, _
       BYVAL positions AS ANY PTR, BYVAL flags AS LONG, BYVAL pMatrix AS CGpMatrix PTR, BYVAL boundingBox AS GpRectF PTR) AS GpStatus
    DECLARE FUNCTION DrawCachedBitmap (BYVAL gpCachedBitmap AS CGpCachedBitmap PTR, BYVAL x AS LONG, BYVAL y AS LONG) AS GpStatus

@@ -995,8 +995,8 @@ END FUNCTION
 ' in one file and as PointF_ PTR in another. It should be GpPointF.
 ' ========================================================================================
 PRIVATE FUNCTION CGpGraphics.DrawDriverString (BYVAL pText AS UINT16 PTR, BYVAL length AS INT_, BYVAL pFont AS CGpFont PTR, _
-   BYVAL pBrush AS CGpBrush PTR, BYVAL positions AS ANY PTR, BYVAL flags AS INT_, BYVAL pMatrix AS CGpMatrix PTR) AS GpStatus
-   RETURN SetStatus(GdipDrawDriverString(m_pGraphics, pText, length, pFont->m_pFont, pBrush->m_pBrush, positions, flags, pMatrix->m_pMatrix))
+   BYVAL pBrush AS CGpBrush PTR, BYVAL positions AS ANY PTR, BYVAL flags AS INT_, BYVAL pMatrix AS CGpMatrix PTR = NULL) AS GpStatus
+   RETURN SetStatus(GdipDrawDriverString(m_pGraphics, pText, length, pFont->m_pFont, pBrush->m_pBrush, positions, flags, IIF(pMatrix, pMatrix->m_pMatrix, NULL)))
 END FUNCTION
 ' ========================================================================================
 
