@@ -5774,6 +5774,38 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' This example clones a GraphicsPath using the Clone method.
+' ========================================================================================
+SUB Example_ClonePath (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create original path and add an ellipse
+   DIM originalPath AS CGpGraphicsPath
+   originalPath.AddEllipse(120, 70, 150, 100)
+
+   ' // Clone the path
+   DIM clonedPath AS CGpGraphicsPath
+   originalPath.Clone(@clonedPath)
+   ' // Alternate way
+'   DIM clonedPath AS CGpGraphicsPath = @originalPath
+
+   ' // Create pen (UnitWorld to match path coordinates)
+   DIM pen AS CGpPen = CGpPen(ARGB_DARKORANGE, 2.0, UnitWorld)
+
+   ' // Draw the cloned path
+   graphics.DrawPath(@pen, @clonedPath)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="closeallfigures"></a>CloseAllFigures (CGpGraphicsPath)
