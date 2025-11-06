@@ -56,13 +56,13 @@ SUB Example_BeginContainer (BYVAL hdc AS HDC)
 
    ' // Begin container
    DIM container AS GraphicsContainer
-   hStatus = GdipBeginContainer(graphics, NULL, NULL, UnitWorld, @container)
+   hStatus = GdipBeginContainer2(graphics, @container)
 
    ' // Apply transformation inside container
-   hStatus = GdipTranslateWorldTransform(graphics, 150, 0, MatrixOrderAppend)
+   hStatus = GdipTranslateWorldTransform(graphics, 150, 0, MatrixOrderPrepend)
    hStatus = GdipRotateWorldTransform(graphics, 30.0, MatrixOrderAppend)
 
-   ' Draw transformed rectangle
+   ' // Draw transformed rectangle
    DIM redPen AS GpPen PTR
    hStatus = GdipCreatePen1(ARGB_RED, 2.0, UnitWorld, @redPen)
    hStatus = GdipDrawRectangle(graphics, redPen, 20, 20, 100, 50)
