@@ -3,7 +3,7 @@
 ' File: GdipMeasureCharacterRanges.bas
 ' Contents: GDI+ Flat API - GdipMeasureCharacterRanges example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -121,7 +121,7 @@ SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
    ' // Cleanup
    FOR i AS LONG = 0 TO 2
       IF regions(i) THEN GdipDeleteRegion(regions(i))
-   NEXt
+   NEXT
    IF font THEN GdipDeleteFont(font)
    IF stringFormat THEN GdipDeleteStringFormat(stringFormat)
    IF blueBrush THEN GdipDeleteBrush(blueBrush)
@@ -185,7 +185,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    SELECT CASE uMsg
 
       ' // If an application processes this message, it should return zero to continue
-      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // creation of the window. If the application returns Â–1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
          AfxEnableDarkModeForWindow(hwnd)
@@ -218,3 +218,4 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
 END FUNCTION
 ' ========================================================================================
+
