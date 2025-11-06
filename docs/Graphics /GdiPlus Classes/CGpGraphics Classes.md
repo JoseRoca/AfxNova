@@ -787,8 +787,51 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 
 #### Remarks
 
-A segment is defined as a curve that connects two consecutive points in the cardinal spline. The ending point of each segment is the starting point for the next. The numberOfSegments parameter must not be greater than the count parameter minus the offset parameter plus one.
+A segment is defined as a curve that connects two consecutive points in the cardinal spline. The ending point of each segment is the starting point for the next. The *numberOfSegments* parameter must not be greater than the count parameter minus the offset parameter plus one.
 
+#### Example
+
+```
+' ========================================================================================
+' GdipDrawDriverString is a GDI+ function that draws individual characters at precise
+' positions, giving you full control over glyph placement and rendering. Unlike GdipDrawString,
+' which handles layout automatically, this method lets you:
+' - Specify each character as a Unicode value or glyph index.
+' - Define exact coordinates for each glyph.
+' - Apply custom transformations via a matrix.
+' - Use flags to control layout behavior (e.g. advance spacing or cmap lookup).
+' It’s ideal for advanced text rendering scenarios like custom typesetting, vertical text,
+' or non-standard scripts where layout precision is critical.
+' ========================================================================================
+SUB Example_DrawDriverString (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create font object
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+
+   ' // Create solid brush
+   DIM brush AS CGpSolidBrush = ARGB_RED
+
+   ' // Define text as array of Unicode characters
+   DIM text(4) AS UINT16 = {ASC("H"), ASC("e"), ASC("l"), ASC("l"), ASC("o")}
+
+   ' // Define glyph positions
+   DIM positions(4) AS GpPointF
+   FOR i AS LONG = 0 TO 4
+      positions(i).x = 50.0 + i * 20.0
+      positions(i).y = 100.0
+   NEXT
+
+   ' // Draw driver string with precise glyph placement
+   graphics.DrawDriverString(@text(0), 5, @font, @brush, @positions(0), DriverStringOptionsCmapLookup)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="drawellipse"></a>DrawEllipse (CGpGraphics)
