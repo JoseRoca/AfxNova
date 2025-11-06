@@ -1758,6 +1758,10 @@ Calls to the **Save** method place information blocks on the same stack as calls
 
 Caution  When you call **EndContainer**, all information blocks placed on the stack (by **Save** or by **BeginContainer**) after the corresponding call to **BeginContainer** are removed from the stack. Likewise, when you call **Restore**, all information blocks placed on the stack (by **Save** or by **BeginContainer**) after the corresponding call to **Save** are removed from the stack.
 
+#### Example
+
+See example in **BeginContainer**
+
 ---
 
 ## <a name="enumeratemetafile"></a>EnumerateMetafile
