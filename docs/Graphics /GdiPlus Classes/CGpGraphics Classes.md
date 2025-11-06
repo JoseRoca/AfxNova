@@ -7524,7 +7524,7 @@ END SUB
 ```
 ---
 
-## <a name="nexpathtype"></a>NextPathType (CGpGraphicsPathIterator)
+## <a name="nextpathtype"></a>NextPathType (CGpGraphicsPathIterator)
 
 Gets the starting index and the ending index of the next group of data points that all have the same type.
 
@@ -7549,6 +7549,99 @@ A path has an array of data points that define its lines and curves. All curves 
 
 The first time you call the **NextSubpath** method of an iterator, it gets the starting and ending indices of the first group of points that all have the same type. The second time, it gets the second group, and so on. Each time you call **NextSubpath**, it returns the number of data points in the obtained group. When there are no groups remaining, it returns 0.
 
+#### Example
+
+```
+' ========================================================================================
+' Example: Using GdipPathIterNextPathType to Group Points by Type.
+' Helps you understand how a path is constructed—lines vs. curves.
+' Enables selective rendering, editing, or flattening based on segment type.
+' Returns StatusOk, but resultCount 0.
+' ========================================================================================
+SUB Example_PathIterNextPathType (BYVAL hdc AS HDC)
+
+   DIM hStatus AS LONG
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GpGraphics PTR
+   hStatus = GdipCreateFromHDC(hdc, @graphics)
+
+   ' // Get the DPI scaling ratios
+   DIM dpiX AS SINGLE
+   hStatus = GdipGetDpiX(graphics, @dpiX)
+   DIM rxRatio AS SINGLE = dpiX / 96
+   DIM dpiY AS SINGLE
+   hStatus = GdipGetDpiY(graphics, @dpiY)
+   Dim ryRatio AS SINGLE = dpiY / 96
+   ' // Set the scale transform
+   hStatus = GdipScaleWorldTransform(graphics, rxRatio, ryRatio, MatrixOrderPrepend)
+
+   ' Create a GraphicsPath with grouped types
+   DIM path AS GpPath PTR
+   hStatus = GdipCreatePath(FillModeAlternate, @path)
+
+   ' Add 3 lines (same type group)
+   hStatus = GdipAddPathLine(path, 20, 20, 120, 20)
+   hStatus = GdipAddPathLine(path, 120, 20, 70, 100)
+   hStatus = GdipAddPathLine(path, 70, 100, 20, 20)
+
+   ' Add Bézier curve (new type group)
+   hStatus = GdipAddPathBezier(path, 150, 30, 180, 10, 210, 50, 240, 30)
+
+   ' Create PathIterator
+   DIM iterator AS GpPathIterator PTR
+   hStatus = GdipCreatePathIter(@iterator, path)
+
+   ' Create font and brush
+   DIM fontFamily AS GpFontFamily PTR
+   DIM font AS GpFont PTR
+   DIM brush AS GpSolidFill PTR
+   hStatus = GdipCreateFontFamilyFromName("Arial", NULL, @fontFamily)
+   hStatus = GdipCreateFont(fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel, @font)
+   hStatus = GdipCreateSolidFill(ARGB_BLACK, @brush)
+
+   ' Iterate through path types
+   DIM resultCount AS LONG, pathType AS BYTE
+   DIM startIdx AS LONG, endIdx AS LONG
+   DIM yOffset AS SINGLE = 10.0
+   DIM segmentIndex AS LONG = 1
+
+   DO
+      hStatus = GdipPathIterNextPathType(iterator, @resultCount, @pathType, @startIdx, @endIdx)
+      IF resultCount = 0 THEN EXIT DO
+
+      DIM typeName AS STRING
+      SELECT CASE pathType AND &H07
+         CASE PathPointTypeStart
+            typeName = "Start"
+         CASE PathPointTypeLine
+            typeName = "Line"
+         CASE PathPointTypeBezier
+            typeName = "Bezier"
+         CASE ELSE
+            typeName = "Unknown"
+      END SELECT
+
+      DIM info AS STRING
+      info = "Segment " & segmentIndex & ": Type=" & typeName & ", Start=" & startIdx & ", End=" & endIdx
+      DIM layout AS GpRectF = (10.0, yOffset, 400.0, 20.0)
+      hStatus = GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
+
+      yOffset += 20.0
+      segmentIndex += 1
+   LOOP
+
+   ' Cleanup
+   IF brush THEN GdipDeleteBrush(brush)
+   IF font THEN GdipDeleteFont(font)
+   IF fontFamily THEN GdipDeleteFontFamily(fontFamily)
+   IF iterator THEN GdipDeletePathIter(iterator)
+   IF path THEN GdipDeletePath(path)
+   IF graphics THEN GdipDeleteGraphics(graphics)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="nextsubpath"></a>NextSubpath (CGpGraphicsPathIterator)
