@@ -9171,7 +9171,7 @@ SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
    ' // Cleanup
    FOR i AS LONG = 0 TO 2
       IF regions(i) THEN GdipDeleteRegion(regions(i))
-   NEXt
+   NEXT
    IF font THEN GdipDeleteFont(font)
    IF stringFormat THEN GdipDeleteStringFormat(stringFormat)
    IF blueBrush THEN GdipDeleteBrush(blueBrush)
