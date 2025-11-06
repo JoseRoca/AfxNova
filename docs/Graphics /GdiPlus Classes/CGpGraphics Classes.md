@@ -4032,7 +4032,6 @@ SUB Example_ScaleTransform (BYVAL hdc AS HDC)
    ' Draw ellipse with composite transformation
    graphics.DrawEllipse(@pen, 0, 0, 50, 50)
 
-
 END SUB
 ' ========================================================================================
 ```
