@@ -4000,6 +4000,42 @@ If the function succeeds, it returns **Ok**, which is an element of the **GpStat
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example sets the world transformation of a Graphics object to a translation.
+' The call to GdipScaleWorldTransform multiplies the Graphics object's existing world
+' transformation matrix (translation) by a scaling matrix. The MatrixOrderAppend argument
+' specifies that the multiplication is done with the scaling matrix on the right. At that
+' point, the world transformation matrix of the Graphics object represents a composite
+' transformation: first translate, then scale. The call to GdipDrawEllipse draws a translated
+' and scaled ellipse.
+' ========================================================================================
+SUB Example_ScaleTransform (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create pen with DPI-aware width
+   DIM pen AS CGpPen = CGpPen(ARGB_BLUE, 1.0 * rxRatio, UnitPixel)
+
+   ' Apply translation first
+   graphics.TranslateTransform(70.0, 70.0, MatrixOrderAppend)
+   ' Apply scaling after translation
+   graphics.ScaleTransform(3.0, 1.0, MatrixOrderAppend)
+
+   ' Draw ellipse with composite transformation
+   graphics.DrawEllipse(@pen, 0, 0, 50, 50)
+
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="scaletransformfordpi"></a>ScaleTransformForDpi (CGpGraphics)
