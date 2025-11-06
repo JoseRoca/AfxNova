@@ -276,6 +276,45 @@ Calls to the **Save** method place information blocks on the same stack as calls
 
 For more information about graphics containers, see [Nested Graphics Containers](https://docs.microsoft.com/en-us/windows/desktop/gdiplus/-gdiplus-nested-graphics-containers-use)
 
+#### Example
+
+```
+' ========================================================================================
+' This example demonstrates how to use GdipBeginContainer and GdipEndContainer
+' to isolate transformations and rendering settings within a scoped graphics container.
+' ========================================================================================
+SUB Example_BeginContainer (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Draw base rectangle (no transformation)
+   DIM basePen AS CGpPen = CGpPen(ARGB_BLACK, 2)
+   graphics.DrawRectangle(@basePen, 20, 20, 100, 50)
+
+   ' // Begin container (save state)
+   DIM container AS GraphicsContainer = graphics.BeginContainer()
+
+   ' // Apply transformation inside container
+   graphics.TranslateTransform(150, 0)
+   graphics.RotateTransform(30, MatrixOrderAppend)
+
+   ' // Draw transformed rectangle
+   DIM redPen AS CGpPen = CGpPen(ARGB_RED, 2)
+   graphics.DrawRectangle(@redPen, 20, 20, 100, 50)
+
+   ' // End container (restores previous state)
+   graphics.EndContainer(container)
+
+   ' // Draw another rectangle (back to original state)
+   DIM bluePen AS CGpPen = CGpPen(ARGB_BLUE, 2.0)
+   graphics.DrawRectangle(@bluePen, 20, 90, 100, 50)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="clear"></a>Clear (CGpGraphics) 
