@@ -917,7 +917,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CGpGraphics.MeasureString (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, BYVAL pFont AS CGpFont PTR, _
    BYVAL layoutRect AS GpRectF PTR, BYVAL pStringFormat AS CGpStringFormat PTR, BYVAL boundingBox AS GpRectF PTR, _
-   BYREF codepointsFitted AS INT_ = 0, BYREF linesFilled AS INT_ = 0) AS GpStatus
+   BYREF codepointsFitted AS INT_, BYREF linesFilled AS INT_) AS GpStatus
    RETURN SetStatus(GdipMeasureString(m_pGraphics, pwszString, length, _
       pFont->m_pFont, layoutRect, pStringFormat->m_pStringFormat, _
       boundingBox, @codepointsFitted, @linesFilled))
@@ -926,7 +926,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CGpGraphics.MeasureString (BYVAL pwszString AS WSTRING PTR, BYVAL length AS INT_, BYVAL pFont AS CGpFont PTR, _
    BYVAL layoutRectSize AS GpSizeF PTR, BYVAL pStringFormat AS CGpStringFormat PTR, BYVAL size AS GpSizeF PTR, _
-   BYREF codepointsFitted AS INT_ = 0, BYREF linesFilled AS INT_ = 0) AS GpStatus
+   BYREF codepointsFitted AS INT_, BYREF linesFilled AS INT_) AS GpStatus
    DIM layoutRect AS GpRectF = TYPE<GpRectF>(0, 0, layoutRectSize->Width, layoutRectSize->Height)
    DIM boundingBox AS GpRectF
    m_Status = GdipMeasureString(m_pGraphics, pwszString, length, _
