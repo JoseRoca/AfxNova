@@ -6722,6 +6722,34 @@ Each time you add a line, curve, or shape to a path, the point array and the typ
 
 Markers divide a path into sections. You can use a **GraphicsPathIterator** object to draw selected sections of a path.
 
+#### Example
+
+```
+' ========================================================================================
+' This example sets a marker after adding a rectangle, then adds an ellipse.
+' ========================================================================================
+SUB Example_SetMarker (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create path and add overlapping ellipses
+   DIM path AS CGpGraphicsPath
+   path.AddEllipse(100, 80, 150, 100)
+   path.AddEllipse(130, 110, 150, 100)
+
+   ' // Change fill mode to Winding
+   path.SetFillMode(FillModeWinding)
+
+   ' // Create brush and fill the path
+   DIM brush AS CGpSolidBrush = ARGB_LIGHTSKYBLUE
+   graphics.FillPath(@brush, @path)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="startfigure"></a>StartFigure (CGpGraphicsPath)
