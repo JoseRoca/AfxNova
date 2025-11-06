@@ -1006,9 +1006,19 @@ END FUNCTION
 PRIVATE FUNCTION CGpGraphics.MeasureDriverString (BYVAL pText AS UINT16 PTR, BYVAL length AS LONG, BYVAL pFont AS CGpFont PTR, _
    BYVAL positions AS ANY PTR, BYVAL flags AS LONG, BYVAL pMatrix AS CGpMatrix PTR, BYVAL boundingBox AS GpRectF PTR) AS GpStatus
    RETURN SetStatus(GdipMeasureDriverString(m_pGraphics, pText, length, pFont->m_pFont, _
-              positions, flags, pMatrix->m_pMatrix, boundingBox))
+              positions, flags, IIF(pMatrix, pMatrix->m_pMatrix, NULL), boundingBox))
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CGpGraphics.MeasureDriverString (BYVAL pText AS UINT16 PTR, BYVAL length AS LONG, BYVAL pFont AS CGpFont PTR, _
+   BYVAL positions AS ANY PTR, BYVAL flags AS LONG, BYVAL pMatrix AS CGpMatrix PTR = NULL) AS GpRectF
+   DIM boundingBox AS GpRectF
+   SetStatus(GdipMeasureDriverString(m_pGraphics, pText, length, pFont->m_pFont, _
+             positions, flags, IIF(pMatrix, pMatrix->m_pMatrix, NULL), @boundingBox))
+   RETURN boundingBox
+END FUNCTION
+' ========================================================================================
+
 ' ========================================================================================
 ' * Draws a cached bitmap on this graphics destination offset by x, y. Note this will fail
 ' with WrongState if the CachedBitmap native format differs from this Graphics.
