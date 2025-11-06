@@ -539,7 +539,7 @@ END SUB
 ```
 ---
 
-## <a name="drawcachedbitmap"></a>DrawCachedBitmap (CGpGRaphics)
+## <a name="drawcachedbitmap"></a>DrawCachedBitmap (CGpGraphics)
 
 Draws the image stored in a **CachedBitmap** object.
 
@@ -568,6 +568,36 @@ Cached bitmaps will not work with any transformations other than translation.
 
 When you construct a **CachedBitmap** object, you must pass the address of a **Graphics** object to the constructor. If the screen associated with that Graphics object has its bit depth changed after the cached bitmap is constructed, then the **DrawCachedBitmap** method will fail, and you should reconstruct the cached bitmap. Alternatively, you can hook the display change notification message and reconstruct the cached bitmap at that time.
 
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a CachedBitmap object based on a Bitmap object and a
+' Graphics object. The code calls the DrawCachedBitmap method of that Graphics object
+' to display the cached bitmap.
+' ========================================================================================
+SUB Example_CachedBitmap (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+
+   ' // Get the DPI scaling ratios
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   ' ScaleTransform can't be used with cached bitmaps, that can't be resized
+
+   ' // Load the image
+   DIM myBitmap AS CGpBitmap = "Climber.jpg"
+
+   ' // Create a cached bitmap
+   DIM cachedBitmap AS CGpCachedBitmap = CGpCachedBitmap(@myBitmap, @graphics)
+
+   ' // Draw the cached bitmap
+   graphics.DrawCachedBitmap(@cachedBitmap, 10 * rxRatio, 10 * ryRatio)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="drawclosedcurve"></a>DrawClosedCurve (CGpGraphics)
