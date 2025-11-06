@@ -3472,6 +3472,10 @@ FUNCTION MeasureDriverString (BYVAL pText AS UINT16 PTR, BYVAL length AS LONG, _
    BYVAL pFont AS CGpFont PTR, BYVAL positions AS ANY PTR, BYVAL flags AS LONG, _
    BYVAL pMatrix AS CGpMatrix PTR, BYVAL boundingBox AS GpRectF PTR) AS GpStatus
 ```
+```
+FUNCTION MeasureDriverString (BYVAL pText AS UINT16 PTR, BYVAL length AS LONG, BYVAL pFont AS CGpFont PTR, _
+   BYVAL positions AS ANY PTR, BYVAL flags AS LONG, BYVAL pMatrix AS CGpMatrix PTR = NULL) AS GpRectF
+```
 
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -3481,14 +3485,55 @@ FUNCTION MeasureDriverString (BYVAL pText AS UINT16 PTR, BYVAL length AS LONG, _
 | *positions* | If the **DriverStringOptionsRealizedAdvance** flag is set, positions is a pointer to a **GpPointF** object that specifies the position of the first glyph. Otherwise, positions is an array of **GpPointF** objects, each of which specifies the origin of an individual glyph. |
 | *flags* | Integer that specifies the options for the appearance of the string. This value must be an element of the **DriverStringOptions** enumeration or the result of a bitwise **OR** applied to two or more of these elements. |
 | *matrix* | Pointer to a **Matrix** object that specifies the transformation matrix to apply to each value in the text array. |
-| *boundingBox* | Pointer to a **GpRectF** or **GpRect** object that receives the rectangle that bounds the string. |
+| *boundingBox* | Pointer to a **GpRectF** structure that receives the rectangle that bounds the string. |
 
 #### Return value
 
-If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration.
+First overloades method: If the function succeeds, it returns **Ok**, which is an element of the **GpStatus** enumeration. If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
-If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
+Second overloades method: A **GpRectF** structure with the rectangle that bounds the string.
 
+#### Example
+
+```
+' ========================================================================================
+' This example measures the exact bounding rectangle of glyphs drawn with GdipDrawDriverString.
+' Accounts for DPI scaling via GdipScaleWorldTransform.
+' Uses DriverStringOptionsCmapLookup to interpret text as Unicode characters.
+' ========================================================================================
+SUB Example_MeasureDriverString (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   DIM rxRatio AS SINGLE = graphics.GetDpiX / 96
+   DIM ryRatio AS SINGLE = graphics.GetDpiY / 96
+   graphics.ScaleTransform(rxRatio, ryRatio)
+
+   ' // Create font (Arial, 16pt)
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+
+   ' // Define text as array of Unicode characters
+   DIM text(4) AS UINT16 = {ASC("H"), ASC("e"), ASC("l"), ASC("l"), ASC("o")}
+
+   ' // Define glyph positions
+   DIM positions(4) AS GpPointF
+   FOR i AS INTEGER = 0 TO 4
+      positions(i).x = 50.0 + i * 20.0
+      positions(i).y = 100.0
+   NEXT
+
+   ' // Measure bounding box of the glyphs
+   DIM boundingBox AS GpRectF = graphics.MeasureDriverString(@text(0), 5, @font, @positions(0), DriverStringOptionsCmapLookup)
+
+   ' // Optional: draw bounding box for visualization
+   DIM pen AS CGpPen = CGpPen(ARGB_BLACK, 1.0)
+   pen.ScaleTransform(rxRatio, ryRatio)
+   graphics.DrawRectangle(@pen, boundingBox.X, boundingBox.Y, boundingBox.Width, boundingBox.Height)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="measurestring"></a>MeasureString (CGpGraphics)
