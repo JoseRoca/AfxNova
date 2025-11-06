@@ -7327,7 +7327,7 @@ END SUB
 
 ## <a name="isvalid"></a>IsValid (CGpGraphicsPathIterator)
 
-Checks whether a GraphicsPathIterator is valid, meaning it’s properly associated with a **GraphicsPath** and ready for use.
+Checks whether a **GraphicsPathIterator** is valid, meaning it’s properly associated with a **GraphicsPath** and ready for use.
 
 ```
 FUNCTION CGpGraphicsPathIterator.IsValid () AS BOOLEAN
