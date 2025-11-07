@@ -1813,6 +1813,216 @@ If the function succeeds, it returns **StatusOk**, which is an element of the **
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' Enumerate and Replay Metafile Records
+' Calls your callback for each record in the metafile.
+' You can inspect record types, sizes, and optionally replay or skip them.
+' The destination point defines where the metafile is rendered.
+' ========================================================================================
+
+' ========================================================================================
+' Callback function prototype
+' ========================================================================================
+FUNCTION MetafileCallback (BYVAL recordType AS EmfPlusRecordType, BYVAL flags AS UINT, _
+                           BYVAL dataSize AS UINT, BYVAL byteData AS CONST UBYTE PTR, _
+                           BYVAL callbackData AS ANY PTR) AS BOOL
+   ' You can inspect or modify each record here
+   OutputDebugStringW "Record type: " & WSTR(recordType) & " Size: " & WSTR(dataSize)
+   RETURN TRUE  ' Continue enumeration
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+SUB Example_EnumerateMetafileDestPoint (BYVAL hdc AS HDC)
+
+   ' // Load metafile
+   DIM metafile AS CGpMetafile = CGpMetafile("SampleMetafile.emf")
+   IF metafile.GetLastStatus <> StatusOk THEN
+      AfxMsg "Failed to load metafile."
+      EXIT SUB
+   END IF
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale trandform
+   graphics.ScaleTransformForDpi
+
+   ' // Destination point
+   DIM destPoint AS GpPointF = (50.0, 50.0)
+
+   ' // Enumerate and replay records
+   DIM status AS GpStatus = graphics.EnumerateMetafileDestPoint(@metafile, @destPoint, @MetafileCallback, NULL, NULL)
+   IF status <> StatusOk THEN
+      AfxMsg "Enumeration failed: " & WSTR(status)
+   END IF
+
+
+END SUB
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ========================================================================================
+' Enumerate and Replay Metafile Records
+' Calls your callback for each record in the metafile.
+' You can inspect record types, sizes, and optionally replay or skip them.
+' The destination point defines where the metafile is rendered.
+' ========================================================================================
+
+' ========================================================================================
+' Callback function prototype
+' ========================================================================================
+FUNCTION MetafileCallback (BYVAL recordType AS EmfPlusRecordType, BYVAL flags AS UINT, _
+                           BYVAL dataSize AS UINT, BYVAL byteData AS CONST UBYTE PTR, _
+                           BYVAL callbackData AS ANY PTR) AS BOOL
+   ' You can inspect or modify each record here
+   OutputDebugStringW "Record type: " & WSTR(recordType) & " Size: " & WSTR(dataSize)
+   RETURN TRUE  ' Continue enumeration
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+SUB Example_EnumerateMetafileDestPoints (BYVAL hdc AS HDC)
+
+   ' // Load metafile
+   DIM metafile AS CGpMetafile = CGpMetafile("SampleMetafile.emf")
+   IF metafile.GetLastStatus <> StatusOk THEN
+      AfxMsg "Failed to load metafile."
+      EXIT SUB
+   END IF
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale trandform
+   graphics.ScaleTransformForDpi
+
+   ' // Define multiple destination points
+   DIM points(2) AS GpPointF
+   points(0) = TYPE<GpPointF>(50.0, 50.0)    ' Top-left
+   points(1) = TYPE<GpPointF>(250.0, 50.0)   ' Top-right
+   points(2) = TYPE<GpPointF>(50.0, 200.0)   ' Bottom-left
+
+   ' // Enumerate and replay records at each point
+   DIM status AS GpStatus = graphics.EnumerateMetafileDestPoints(@metafile, @points(0), 3, @MetafileCallback, NULL, NULL)
+   IF status <> StatusOk THEN
+      AfxMsg "Enumeration failed: " & WSTR(status)
+   END IF
+
+END SUB
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ========================================================================================
+' Enumerate and Replay Metafile Records
+' Calls your callback for each record in the metafile.
+' You can inspect record types, sizes, and optionally replay or skip them.
+' The destination point defines where the metafile is rendered.
+' ========================================================================================
+
+' ========================================================================================
+' Callback function prototype
+' ========================================================================================
+FUNCTION MetafileCallback (BYVAL recordType AS EmfPlusRecordType, BYVAL flags AS UINT, _
+                           BYVAL dataSize AS UINT, BYVAL byteData AS CONST UBYTE PTR, _
+                           BYVAL callbackData AS ANY PTR) AS BOOL
+   ' You can inspect or modify each record here
+   OutputDebugStringW "Record type: " & WSTR(recordType) & " Size: " & WSTR(dataSize)
+   RETURN TRUE  ' Continue enumeration
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+SUB Example_EnumerateMetafileDestRect (BYVAL hdc AS HDC)
+
+   ' // Load metafile
+   DIM metafile AS CGpMetafile = CGpMetafile("SampleMetafile.emf")
+   IF metafile.GetLastStatus <> StatusOk THEN
+      AfxMsg "Failed to load metafile."
+      EXIT SUB
+   END IF
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale trandform
+   graphics.ScaleTransformForDpi
+
+   ' // Define destination rectangle
+   DIM destRect AS GpRectF = (50.0, 50.0, 300.0, 200.0)
+
+   ' // Enumerate and replay records
+   DIM status AS GpStatus = graphics.EnumerateMetafileDestRect(@metafile, @destRect, @MetafileCallback, NULL, NULL)
+   IF status <> StatusOk THEN
+      AfxMsg "Enumeration failed: " & WSTR(status)
+   END IF
+
+END SUB
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ========================================================================================
+' Enumerate and Replay Cropped Metafile at a Point.
+' Allows you:
+' Crop the metafile using srcRect
+' Render it at a specific destPoint
+' Control units via srcUnit (e.g., UnitPixel, UnitMillimeter)
+' Intercept records via a callback
+' Apply image attributes (e.g., color adjustments, gamma correction)
+' ========================================================================================
+
+' ========================================================================================
+' Callback function prototype
+' ========================================================================================
+FUNCTION MetafileCallback (BYVAL recordType AS EmfPlusRecordType, BYVAL flags AS UINT, _
+                           BYVAL dataSize AS UINT, BYVAL byteData AS CONST UBYTE PTR, _
+                           BYVAL callbackData AS ANY PTR) AS BOOL
+   ' You can inspect or modify each record here
+   OutputDebugStringW "Record type: " & WSTR(recordType) & " Size: " & WSTR(dataSize)
+   RETURN TRUE  ' Continue enumeration
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+SUB Example_EnumerateMetafileSrcRectDestPoint (BYVAL hdc AS HDC)
+
+   ' // Load metafile
+   DIM metafile AS CGpMetafile = CGpMetafile("SampleMetafile.emf")
+   IF metafile.GetLastStatus <> StatusOk THEN
+      AfxMsg "Failed to load metafile."
+      EXIT SUB
+   END IF
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale trandform
+   graphics.ScaleTransformForDpi
+
+   ' // Define source rectangle (crop area)
+   DIM srcRect AS GpRectF = (50.0, 50.0, 300.0, 200.0)
+
+   ' // Define destination point
+   DIM destPoint AS GpPointF = (300.0, 100.0)
+
+   ' // Enumerate and replay records
+   DIM status AS GpStatus = graphics.EnumerateMetafileSrcRectDestPoint(@metafile, @destPoint, @srcRect, _
+      UnitPixel, @MetafileCallback, NULL, NULL)
+   IF status <> StatusOk THEN
+      AfxMsg "Enumeration failed: " & WSTR(status)
+   END IF
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="excludeclip"></a>ExcludeClip (CGpGraphics)
