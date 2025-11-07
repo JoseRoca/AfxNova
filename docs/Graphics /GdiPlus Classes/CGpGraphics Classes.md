@@ -2081,6 +2081,60 @@ SUB Example_EnumerateMetafileSrcRectDestPoints (BYVAL hdc AS HDC)
 END SUB
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' Cropped Metafile Playback in a Rectangle
+' Cropping: Only the portion inside srcRect is processed.
+' Scaling and positioning: The content is rendered inside destRect, stretched or shrunk as needed.
+' Inspection: The callback lets you analyze or selectively replay records.
+' ========================================================================================
+
+' ========================================================================================
+' Callback function prototype
+' ========================================================================================
+FUNCTION MetafileCallback (BYVAL recordType AS EmfPlusRecordType, BYVAL flags AS UINT, _
+                           BYVAL dataSize AS UINT, BYVAL byteData AS CONST UBYTE PTR, _
+                           BYVAL callbackData AS ANY PTR) AS BOOL
+   ' You can inspect or modify each record here
+   OutputDebugStringW "Record type: " & WSTR(recordType) & " Size: " & WSTR(dataSize)
+   RETURN TRUE  ' Continue enumeration
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+SUB Example_EnumerateMetafileSrcRectDestRect (BYVAL hdc AS HDC)
+
+   ' // Load metafile
+   DIM metafile AS CGpMetafile = CGpMetafile("SampleMetafile.emf")
+   IF metafile.GetLastStatus <> StatusOk THEN
+      AfxMsg "Failed to load metafile."
+      EXIT SUB
+   END IF
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale trandform
+   graphics.ScaleTransformForDpi
+
+   ' // Define source rectangle (crop area)
+   DIM srcRect AS GpRectF = (50.0, 50.0, 200.0, 100.0)
+
+   ' // Define destination rectangle (where to draw)
+   DIM destRect AS GpRectF = (300.0, 100.0, 400.0, 200.0)
+
+   ' // Enumerate and replay records
+   DIM status AS GpStatus = graphics.EnumerateMetafileSrcRectDestRect(@metafile, @destRect, @srcRect, _
+      UnitPixel, @MetafileCallback, NULL, NULL)
+   IF status <> StatusOk THEN
+      AfxMsg "Enumeration failed: " & WSTR(status)
+   END IF
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="excludeclip"></a>ExcludeClip (CGpGraphics)
