@@ -4056,6 +4056,22 @@ If the function succeeds, it returns **StatusOk**, which is an element of the **
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Usage example
+
+```
+SUB Example_ScaleForDpi (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ...
+   ...
+   ...
+
+END SUB
+```
 ---
 
 ## <a name="setclip"></a>SetClip (CGpGraphics)
