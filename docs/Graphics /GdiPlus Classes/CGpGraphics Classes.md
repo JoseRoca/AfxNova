@@ -6993,6 +6993,30 @@ CONSTRUCTOR CGpGraphicsPathIterator (BYVAL pPath AS CGpGraphicsPath PTR)
 | ---------- | ----------- |
 | *pPath* | Pointer to a **GraphicsPath** object that will be associated with this **GraphicsPathIterator** object. |
 
+#### Usage example
+
+```
+SUB Example_PathIterator (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Create a graphics path
+   DIM path AS CGpGraphicsPath
+   path.AddLine(30, 30, 130, 30)
+   path.AddLine(130, 30, 80, 100)
+
+   ' // Create path iterator
+   DIM iterator AS CGpGraphicsPathIterator = CGpGraphicsPathIterator(@path)
+
+   ...
+   ...
+   ...
+
+END SUB
+```
 ---
 
 ## <a name="copydata"></a>CopyData (CGpGraphicsPathIterator)
