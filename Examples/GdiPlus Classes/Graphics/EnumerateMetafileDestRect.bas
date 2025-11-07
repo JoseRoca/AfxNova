@@ -3,7 +3,7 @@
 ' File: EnumerateMetafileDestRect.bas
 ' Contents: GDI+ - EnumerateMetafileDestRect example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -29,8 +29,9 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 ' Enumerate and Replay Metafile Records
 ' Calls your callback for each record in the metafile.
-' You can inspect record types, sizes, and optionally replay or skip them.
-' The destination point defines where the metafile is rendered.
+' Scales and positions metafile content within a defined rectangle.
+' Lets you inspect or selectively replay records.
+' Ideal for layout-sensitive rendering (e.g. thumbnails, previews, print areas).
 ' ========================================================================================
 
 ' ========================================================================================
@@ -118,7 +119,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    SELECT CASE uMsg
 
       ' // If an application processes this message, it should return zero to continue
-      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // creation of the window. If the application returns â€“1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
          AfxEnableDarkModeForWindow(hwnd)
@@ -151,3 +152,4 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
 END FUNCTION
 ' ========================================================================================
+
