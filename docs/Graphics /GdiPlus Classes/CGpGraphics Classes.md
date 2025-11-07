@@ -1868,10 +1868,10 @@ END SUB
 
 ```
 ' ========================================================================================
-' Enumerate and Replay Metafile Records
-' Calls your callback for each record in the metafile.
-' You can inspect record types, sizes, and optionally replay or skip them.
-' The destination point defines where the metafile is rendered.
+' Enumerate and Replay Metafile at Multiple Points.
+' Efficiently renders the same metafile content at multiple locations.
+' Lets you inspect or modify records during playback.
+' Ideal for stamping, watermarking, or tiled rendering.
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1923,8 +1923,9 @@ END SUB
 ' ========================================================================================
 ' Enumerate and Replay Metafile Records
 ' Calls your callback for each record in the metafile.
-' You can inspect record types, sizes, and optionally replay or skip them.
-' The destination point defines where the metafile is rendered.
+' Scales and positions metafile content within a defined rectangle.
+' Lets you inspect or selectively replay records.
+' Ideal for layout-sensitive rendering (e.g. thumbnails, previews, print areas).
 ' ========================================================================================
 
 ' ========================================================================================
