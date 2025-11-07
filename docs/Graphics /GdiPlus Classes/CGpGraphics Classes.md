@@ -4059,7 +4059,7 @@ If the function fails, it returns one of the other elements of the **GpStatus** 
 #### Usage example
 
 ```
-SUB Example_ScaleForDpi (BYVAL hdc AS HDC)
+SUB Example_ScaleTransformForDpi (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the window device context
    DIM graphics AS CGpGraphics = hdc
