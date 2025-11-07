@@ -2845,6 +2845,38 @@ Gets the interpolation mode currently set for this Graphics object. The interpol
 ```
 FUNCTION GetInterpolationMode () AS InterpolationMode
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' Set/get the interpolation mode.
+' ========================================================================================
+SUB Example_SetInterpolationMode (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+    ' // Set the interpolation mode
+   graphics.SetInterpolationMode(InterpolationModeHighQuality)
+
+   ' // Get the interpolation mode
+   DIM mode AS InterpolationMode = graphics.GetInterpolationMode
+
+   ' Create font and brush
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Draw text with high contrast
+   DIM layoutRect AS GpRectF = (0, 0, 0, 0)
+   DIM info AS WSTRING * 128 = "Interpolation mode: " & mode
+   graphics.DrawString(info, LEN(info), @font, @layoutRect, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getnearestcolor"></a>GetNearestColor (CGpGraphics)
@@ -4277,6 +4309,37 @@ If the function succeeds, it returns **StatusOk**, which is an element of the **
 
 If the function fails, it returns one of the other elements of the **GpStatus** enumeration.
 
+#### Example
+
+```
+' ========================================================================================
+' Set the interpolation mode.
+' ========================================================================================
+SUB Example_SetInterpolationMode (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+    ' // Set the interpolation mode
+   graphics.SetInterpolationMode(InterpolationModeHighQuality)
+
+   ' // Get the interpolation mode
+   DIM mode AS InterpolationMode = graphics.GetInterpolationMode
+
+   ' Create font and brush
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(16, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Draw text with high contrast
+   DIM layoutRect AS GpRectF = (0, 0, 0, 0)
+   DIM info AS WSTRING * 128 = "Interpolation mode: " & mode
+   graphics.DrawString(info, LEN(info), @font, @layoutRect, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="setpagescale"></a>SetPageScale (CGpGraphics)
