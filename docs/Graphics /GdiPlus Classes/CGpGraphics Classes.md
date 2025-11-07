@@ -3103,6 +3103,43 @@ Gets the contrast value currently set for this **Graphics** object. The contrast
 ```
 FUNCTION GetTextContrast () AS UINT
 ```
+
+#### Example
+
+```
+
+#### Example
+
+```
+' ========================================================================================
+' This example sets and retrieves the text contrast level of a Graphics object.
+' It draws text with a high contrast setting to demonstrate its effect.
+' ========================================================================================
+SUB Example_SetGetTextContrast (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' // Set text contrast to maximum (12)
+   graphics.SetTextContrast(12)
+
+   ' // Retrieve current contrast setting
+   DIM contrast AS UINT = graphics.GetTextContrast
+
+   ' // Create font and brush
+   DIM font AS CGpFont = CGpFont("Arial", AfxGdipPointsToPixels(18, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' // Draw text with high contrast
+   DIM layoutRect AS GpRectF = (0, 0, 0, 0)
+   DIM text AS WSTRING * 128 = "Text contrast level: " & contrast
+   graphics.DrawString(text, LEN(text), @font, @layoutRect, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="gettextrenderinghint"></a>GetTextRenderingHint (CGpGraphics)
