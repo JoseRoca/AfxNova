@@ -3107,10 +3107,6 @@ FUNCTION GetTextContrast () AS UINT
 #### Example
 
 ```
-
-#### Example
-
-```
 ' ========================================================================================
 ' This example sets and retrieves the text contrast level of a Graphics object.
 ' It draws text with a high contrast setting to demonstrate its effect.
