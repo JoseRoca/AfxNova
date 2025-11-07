@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: EnumerateMetafileSrcRectDestPoint.bas
-' Contents: GDI+ - EnumerateMetafileSrcRectDestPoint example
+' File: EnumerateMetafileSrcRectDestPoints.bas
+' Contents: GDI+ - EnumerateMetafileSrcRectDestPoints example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -46,7 +46,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-SUB Example_EnumerateMetafileSrcRectDestPoint (BYVAL hdc AS HDC)
+SUB Example_EnumerateMetafileSrcRectDestPoints (BYVAL hdc AS HDC)
 
    ' // Load metafile
    DIM metafile AS CGpMetafile = CGpMetafile("SampleMetafile.emf")
@@ -61,14 +61,17 @@ SUB Example_EnumerateMetafileSrcRectDestPoint (BYVAL hdc AS HDC)
    graphics.ScaleTransformForDpi
 
    ' // Define source rectangle (crop area)
-   DIM srcRect AS GpRectF = (50.0, 50.0, 300.0, 200.0)
+   DIM srcRect AS GpRectF = (50.0, 50.0, 200.0, 100.0)
 
-   ' // Define destination point
-   DIM destPoint AS GpPointF = (300.0, 100.0)
+   ' // Define destination parallelogram (3 points)
+   DIM destPoints(2) AS GpPointF
+   destPoints(0) = TYPE<GpPointF>(300.0, 100.0)   ' Top-left
+   destPoints(1) = TYPE<GpPointF>(500.0, 120.0)   ' Top-right (skewed)
+   destPoints(2) = TYPE<GpPointF>(280.0, 250.0)   ' Bottom-left
 
    ' // Enumerate and replay records
-   DIM status AS GpStatus = graphics.EnumerateMetafileSrcRectDestPoint(@metafile, @destPoint, @srcRect, _
-      UnitPixel, @MetafileCallback, NULL, NULL)
+   DIM status AS GpStatus = graphics.EnumerateMetafileSrcRectDestPoints(@metafile, @destPoints(0), 3, _
+      @srcRect, UnitPixel, @MetafileCallback, NULL, NULL)
    IF status <> StatusOk THEN
       AfxMsg "Enumeration failed: " & WSTR(status)
    END IF
@@ -91,7 +94,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ EnumerateMetafileSrcRectDestPoint", @WndProc)
+   pWindow.Create(NULL, "GDI+ EnumerateMetafileSrcRectDestPoints", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
@@ -106,7 +109,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
    ' // Draw the graphics
-   Example_EnumerateMetafileSrcRectDestPoint(hdc)
+   Example_EnumerateMetafileSrcRectDestPoints(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
