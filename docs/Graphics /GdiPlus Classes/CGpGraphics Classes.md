@@ -3070,6 +3070,51 @@ The **PixelOffsetMode** enumeration specifies the pixel offset mode. This enumer
 
 Consider the pixel in the upper-left corner of an image with address (0, 0). With **PixelOffsetModeNone**, the pixel covers the area between 0.5 and 0.5 in both the x and y directions; that is, the pixel center is at (0, 0). With **PixelOffsetModeHalf**, the pixel covers the area between 0 and 1 in both the x and y directions; that is, the pixel center is at (0.5, 0.5).
 
+#### Example
+
+```
+' ========================================================================================
+' Using GetPixelOffsetMode to Inspect Rendering Behavior.
+' PixelOffsetModeHalf is often used for high-quality rendering, aligning drawing to pixel centers.
+' PixelOffsetModeNone disables offsetting, which can result in sharper but less smooth edges.
+' This setting affects how lines, shapes, and text are rendered—especially when anti-aliasing is enabled.
+' ========================================================================================
+SUB Example_GetPixelOffsetMode (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale trandform
+   graphics.ScaleTransformForDpi
+
+   ' // Optionally set pixel offset mode
+   graphics.SetPixelOffsetMode(PixelOffsetModeHalf)
+
+   ' // Retrieve current pixel offset mode
+   DIM offsetMode AS PixelOffsetMode = graphics.GetPixelOffsetMode()
+
+   ' Convert mode to readable name
+   DIM modeName AS STRING
+   SELECT CASE offsetMode
+      CASE PixelOffsetModeNone: modeName = "None"
+      CASE PixelOffsetModeHalf: modeName = "Half"
+      CASE PixelOffsetModeHighQuality: modeName = "HighQuality"
+      CASE PixelOffsetModeHighSpeed: modeName = "HighSpeed"
+      CASE PixelOffsetModeInvalid: modeName = "Invalid"
+      CASE ELSE: modeName = "Unknown"
+   END SELECT
+
+   ' Create font and brush
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+
+   ' Draw the result
+   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
+   graphics.DrawString("PixelOffsetMode: " & modeName, -1, @font, @layout, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="getrenderingorigin"></a>GetRenderingOrigin (CGpGraphics)
