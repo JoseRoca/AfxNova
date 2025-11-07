@@ -2296,6 +2296,37 @@ SUB Flush (BYVAL intention AS FlushIntention = FlushIntentionFlush)
 | ---------- | ----------- |
 | *intention* | Element of the **FlushIntention** enumeration that specifies whether pending operations are flushed immediately (not executed) or executed as soon as possible. |
 
+#### Example
+
+```
+' ========================================================================================
+' Using Flush to Finalize Drawing.
+' FlushIntentionFlush ensures all drawing commands are executed immediately.
+' ========================================================================================
+SUB Example_Flush (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the window device context
+   DIM graphics AS CGpGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransformForDpi
+
+   ' Create a red pen and draw an ellipse
+   DIM pen AS CGpPen = CGpPen(ARGB_RED, AfxGdipPointsToPixels(3, TRUE))
+   graphics.DrawEllipse(@pen, 50, 50, 150, 100)
+
+   ' Flush all pending operations immediately
+   graphics.Flush(FlushIntentionFlush)
+
+   ' Optional: draw confirmation text
+   DIM fontFamily AS CGpFontFamily = CGpFontFamily("Arial")
+   DIM font AS CGpFont = CGpFont(@fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular)
+   DIM brush AS CGpSolidBrush = ARGB_BLACK
+   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 30.0)
+   graphics.DrawString("Flush complete", -1, @font, @layout, @brush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ## <a name="fromhdc"></a>FromHDC (CGpGraphics)
