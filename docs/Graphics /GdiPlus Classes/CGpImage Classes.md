@@ -3048,6 +3048,11 @@ SUB Example_GetHBITMAP (BYVAL hdc AS HDC)
    DIM scaledHeight AS LONG = bmpInfo.bmHeight * graphics.GetDpiY / 96
    StretchBlt(hdc, 0, 0, scaledWidth, scaledHeight, memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, SRCCOPY)
 
+   ' // Cleanup
+   SelectObject(memDC, oldBmp)     ' Restore previous bitmap
+   DeleteObject(hbm)               ' Delete the HBITMAP
+   DeleteDC(memDC)                 ' Delete the memory DC
+
 END SUB
 ' ========================================================================================
 ```
@@ -3119,6 +3124,9 @@ SUB Example_GetHICON (BYVAL hdc AS HDC)
 
    ' // Draw the icon
    DrawIconEx(hdc, 0, 0, hIcon, scaledWidth, scaledHeight, 0, NULL, DI_NORMAL)
+
+   ' // Cleanup
+   DestroyIcon(hIcon)
 
 END SUB
 ' ========================================================================================
