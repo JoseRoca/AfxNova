@@ -70,6 +70,9 @@ SUB Example_GetHICON (BYVAL hdc AS HDC)
    ' // Draw the icon
    DrawIconEx(hdc, 0, 0, hIcon, scaledWidth, scaledHeight, 0, NULL, DI_NORMAL)
 
+   ' // Cleanup
+   DestroyIcon(hIcon)
+
 END SUB
 ' ========================================================================================
 
