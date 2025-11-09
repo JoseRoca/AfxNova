@@ -74,12 +74,14 @@ PRINT wszOut
 | [DWStrShrink](#dwstrshrink) | Shrinks a string to use a consistent single character delimiter. |
 | [DWStrSplit](#dwstrsplit) | Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. |
 | [DWStrSpn](#dwstrspn) | Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters. |
-| [DWStrTally](#dwstrtally) | Count the number of occurrences of a string within a string |
+| [DWStrTally](#dwstrtally) | Count the number of occurrences of a string within a string. |
+| [DWStrToUtf8](#dwstrtoutf8) | Converts UTF-8 to Unicode. |
 | [DWStrUCase](#dwstrucase) | Returns an uppercased version of a string. |
 | [DWStrUCode](#dwstrucode) | Translates ansi bytes to Unicode bytes. |
 | [DWStrVerify](#dwstrverify) | Determine whether each character of a string is present in another string. |
 | [DWStrWrap](#dwstrwrap) | Adds paired characters to the beginning and end of a string. |
 | [DWStrUnWrap](#dwstrunwrap) | Removes paired characters to the beginning and end of a string. |
+| [Utf8ToDwstr](#utf8todwstr) | Converts Unicode to UTF-8. |
 
 ### Surrogates
 
@@ -1192,6 +1194,24 @@ PRINT nCount
 ' Output: Returns 8, counting all "b", "a", and "c" characters.
 ' The | is the OR operator in regular expressions. It means "match b OR a OR c".
 ```
+---
+
+## DWstrToUtf8
+
+Converts Unicode to utf8.
+
+```
+FUNCTION DWStrToUtf8 (BYVAL pwszStr AS WSTRING PTR) AS STRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszStr* | The Unicode string to convert. |
+
+#### Return value:
+
+The converted unicode string as a utf8 string.
+
 ---
 
 ## DWStrUCase
@@ -2364,5 +2384,23 @@ FUNCTION DWStrYearMonthFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NA
 | Parameter  | Description |
 | ---------- | ----------- |
 | *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## Utf8ToDWStr
+
+Converts utf8 tp Unicode.
+
+```
+FUNCTION Utf8ToDwstr (BYREF utf8Str AS CONST STRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *utf8Str* | The utf8 string to convert. |
+
+#### Return value:
+
+The converted utf8 string as a DWSTRING.
 
 ---
