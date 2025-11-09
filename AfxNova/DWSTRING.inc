@@ -264,12 +264,21 @@ END PROPERTY
 ' ========================================================================================
 ' Converts the DWSTRING to UTF8.
 ' ========================================================================================
+'PRIVATE PROPERTY DWSTRING.Utf8 () AS STRING
+'   DWSTRING_DP("buffer: " & ..WSTR(m_pBuffer))
+'   DIM cbLen AS INTEGER
+'   IF m_BufferLen = 0 THEN RETURN ""
+'   DIM buffer AS STRING = STRING(m_BufferLen * 5 + 1, 0)
+'   PROPERTY = *cast(ZSTRING PTR, WCharToUTF(1, m_pBuffer, m_BufferLen * 2, STRPTR(buffer), @cbLen))
+'END PROPERTY
+' ========================================================================================
+' ========================================================================================
 PRIVATE PROPERTY DWSTRING.Utf8 () AS STRING
    DWSTRING_DP("buffer: " & ..WSTR(m_pBuffer))
-   DIM cbLen AS INTEGER
-   IF m_BufferLen = 0 THEN RETURN ""
-   DIM buffer AS STRING = STRING(m_BufferLen * 5 + 1, 0)
-   PROPERTY = *cast(ZSTRING PTR, WCharToUTF(1, m_pBuffer, m_BufferLen * 2, STRPTR(buffer), @cbLen))
+   DIM cbLen AS LONG = WideCharToMultiByte(CP_UTF8, 0, m_pBuffer, -1, NULL, 0, NULL, NULL)
+   DIM s AS STRING = SPACE(cbLen)
+   WideCharToMultiByte(CP_UTF8, 0, m_pBuffer, -1, STRPTR(s), cbLen, NULL, NULL)
+   RETURN LEFT(s, cbLen - 1) ' Remove null terminator
 END PROPERTY
 ' ========================================================================================
 
