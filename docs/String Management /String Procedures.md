@@ -75,6 +75,7 @@ PRINT wszOut
 | [DWStrSplit](#dwstrsplit) | Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters. |
 | [DWStrSpn](#dwstrspn) | Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters. |
 | [DWStrTally](#dwstrtally) | Count the number of occurrences of a string within a string. |
+| [DWStrToOem](#dwstrtooem) | Transltes Unicode to OEM byte characters. |
 | [DWStrToUtf8](#dwstrtoutf8) | Converts UTF-8 to Unicode. |
 | [DWStrUCase](#dwstrucase) | Returns an uppercased version of a string. |
 | [DWStrUCode](#dwstrucode) | Translates ansi bytes to Unicode bytes. |
@@ -82,6 +83,7 @@ PRINT wszOut
 | [DWStrWrap](#dwstrwrap) | Adds paired characters to the beginning and end of a string. |
 | [DWStrUnWrap](#dwstrunwrap) | Removes paired characters to the beginning and end of a string. |
 | [Utf8ToDwstr](#utf8todwstr) | Converts Unicode to UTF-8. |
+| [OemToDwstr](#oemtodwstr) | Traslates a byte string of OEM characters to Unicode. |
 
 ### Surrogates
 
@@ -1211,6 +1213,24 @@ FUNCTION DWStrToUtf8 (BYVAL pwszStr AS WSTRING PTR) AS STRING
 #### Return value:
 
 The converted unicode string as a utf8 string.
+
+---
+
+## DWstrToOem
+
+Transltes Unicode to OEM byte characters.
+
+```
+FUNCTION DWStrToOem (BYVAL pwszStr AS WSTRING PTR) AS STRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszStr* | The Unicode string to convert. |
+
+#### Return value:
+
+The converted unicode string as an OEM string.
 
 ---
 
@@ -2384,6 +2404,24 @@ FUNCTION DWStrYearMonthFormatString (BYVAL pwszLocale AS WSTRING PTR = LOCALE_NA
 | Parameter  | Description |
 | ---------- | ----------- |
 | *pwszLocale* | Pointer to a locale name, or one of the following predefined values: LOCALE_NAME_INVARIANT, LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_NAME_USER_DEFAULT |
+
+---
+
+## OemToDWStr
+
+Traslates a byte string of OEM characters to Unicode.
+
+```
+FUNCTION OemToDwstr (BYREF oemStr AS CONST STRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *oemStr* | The OEM string to convert. |
+
+#### Return value:
+
+The converted OEM string as a DWSTRING.
 
 ---
 
