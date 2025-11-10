@@ -214,6 +214,80 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' * Converts Unicode to utf8.
+' Parameters:
+' - pwszStr = The Unicode string to convert
+' Return value:
+'   The converted Unicode string as a utf8 string.
+' ========================================================================================
+PRIVATE FUNCTION DWStrToUtf8 (BYVAL pwszStr AS WSTRING PTR) AS STRING
+   IF pwszStr = NULL THEN EXIT FUNCTION
+   DIM dwLen AS DWORD = WideCharToMultiByte(CP_UTF8, 0, pwszStr, LEN(*pwszStr), NULL, 0, NULL, NULL)
+   IF dwLen THEN
+      DIM utf8Str AS STRING = SPACE(dwLen)
+      dwLen = WideCharToMultiByte(CP_UTF8, 0, pwszStr, LEN(*pwszStr), STRPTR(utf8Str), LEN(utf8Str), NULL, NULL)
+      IF dwLen THEN RETURN utf8Str
+   END IF
+   RETURN ""
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Converts utf8 to Unicode.
+' Parameters:
+' - utf8Str = An UTF8 string.
+' Return value:
+'   The converted utf8 string as a DWSTRING.
+' ========================================================================================
+PRIVATE FUNCTION Utf8ToDwstr (BYREF utf8Str AS CONST STRING) AS DWSTRING
+   DIM dwLen AS DWORD = MultiByteToWideChar(CP_UTF8, 0, STRPTR(utf8Str), LEN(utf8Str), NULL, 0)
+   IF dwLen THEN
+      DIM dws AS DWSTRING = WSPACE(dwLen)
+      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(utf8Str), LEN(utf8Str), dws, dwLen * 2)
+      IF dwLen THEN RETURN dws
+   END IF
+   RETURN ""
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Transltes Unicode to OEM byte characters.
+' Parameters:
+' - pwszStr = The Unicode string to convert
+' Return value:
+'   The converted Unicode string as an OEM string.
+' ========================================================================================
+PRIVATE FUNCTION DWStrToOem (BYVAL pwszStr AS WSTRING PTR) AS STRING
+   IF pwszStr = NULL THEN EXIT FUNCTION
+   DIM dwLen AS DWORD = WideCharToMultiByte(CP_OEMCP, 0, pwszStr, LEN(*pwszStr), NULL, 0, NULL, NULL)
+   IF dwLen THEN
+      DIM oemStr AS STRING = SPACE(dwLen)
+      dwLen = WideCharToMultiByte(CP_OEMCP, 0, pwszStr, LEN(*pwszStr), STRPTR(oemStr), LEN(oemStr), NULL, NULL)
+      IF dwLen THEN RETURN oemStr
+   END IF
+   RETURN ""
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Traslates a byte string of OEM characters to Unicode.
+' Parameters:
+' - oemStr = An OEM string.
+' Return value:
+'   The converted OEM string as a DWSTRING.
+' ========================================================================================
+PRIVATE FUNCTION OemToDwstr (BYREF oemStr AS CONST STRING) AS DWSTRING
+   DIM dwLen AS DWORD = MultiByteToWideChar(CP_OEMCP, 0, STRPTR(oemStr), LEN(oemStr), NULL, 0)
+   IF dwLen THEN
+      DIM dws AS DWSTRING = WSPACE(dwLen)
+      dwLen = MultiByteToWideChar(CP_OEMCP, 0, STRPTR(oemStr), LEN(oemStr), dws, dwLen * 2)
+      IF dwLen THEN RETURN dws
+   END IF
+   RETURN ""
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Escapes any potential regex syntax characters in a string and returns a new string
 ' that can be safely used as a literal pattern.
 ' ========================================================================================
@@ -1610,6 +1684,7 @@ PRIVATE FUNCTION DWStrEnviron (BYVAL pwszName AS LPCWSTR) AS DWSTRING
    RETURN LEFT(wszBuffer, cb)
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 ' Sets the contents of the specified environment variable for the current process.
 ' - pwszName : The name of the environment variable.
@@ -1627,6 +1702,7 @@ PRIVATE FUNCTION DWStrSetEnviron OVERLOAD (BYVAL pwszName AS LPCWSTR, BYVAL pwsz
    RETURN SetEnvironmentVariableW(pwszName, pwszValue)
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 ' Sets the contents of the specified environment variable for the current process.
 ' - varexpr = Name and setting of an environment variable in the following (or equivalent)
@@ -1648,6 +1724,7 @@ PRIVATE FUNCTION DWStrSetEnviron OVERLOAD (BYREF varexp AS WSTRING) AS BOOLEAN
    RETURN NOT SetEnvironmentVariable(dwsName, dwsValue)
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 ' Removes the specified environment variable from the current process.
 ' - pwszName : The name of the environment variable to remove.
@@ -1661,6 +1738,7 @@ PRIVATE FUNCTION DWStrRemoveEnviron (BYVAL pwszName AS LPCWSTR) AS BOOLEAN
    RETURN SetEnvironmentVariableW(pwszName, NULL)
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 ' Expands environment-variable strings and replaces them with the values defined for the current user.
 ' To specify the environment block for a particular user or the system, use the Windows API
@@ -1728,6 +1806,7 @@ PRIVATE FUNCTION DWStrEnvironCount () AS LONG
    RETURN count
 END FUNCTION
 ' ========================================================================================
+
 
 ' ########################################################################################
 '                                      LOCALE INFORMATION
@@ -2619,3 +2698,4 @@ END FUNCTION
 
 END NAMESPACE
 
+' ########################################################################################
