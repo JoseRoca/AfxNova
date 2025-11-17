@@ -1,5 +1,5 @@
 ' ########################################################################################
-' Library name: Afx_WebView2.bi
+' Library name: AfxWebView2.bi
 ' EXTERN_C const IID LIBID_WebView2;
 ' (C) 2025 José Roca.
 ' ########################################################################################
@@ -14,68 +14,131 @@
    #define AFX_BSTR WSTRING PTR
 #endif
 
-' /* header files for imported files */
-'#include "objidl.h"
-'#include "oaidl.h"
-'#include "EventToken.h"
-
-' Contents of EventToken.h
-
 TYPE EventRegistrationToken
    value AS __int64
 END TYPE
 
-CONST AFX_ICoreWebView2AcceleratorKeyPressedEventArgs = "{9224476E-D8C3-4EB7-BB65-2FD7792B27CE}"
-CONST AFX_ICoreWebView2AcceleratorKeyPressedEventHandler = "{A7D303F9-503C-4B7E-BC40-5C7CE6CABAAA}"
-CONST AFX_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler = "{7082ABED-0591-428F-A722-60C2F814546B}"
-CONST AFX_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler = "{C20CF895-BA7C-493B-AB2E-8A6E3A3602A2}"
-CONST AFX_ICoreWebView2CapturePreviewCompletedHandler = "{DCED64F8-D9C7-4A3C-B9FD-FBBCA0B43496}"
-CONST AFX_ICoreWebView2 = "{189B8AAF-0426-4748-B9AD-243F537EB46B}"
-CONST AFX_ICoreWebView2Controller = "{7CCC5C7F-8351-4572-9077-9C1C80913835}"
-CONST AFX_ICoreWebView2ContentLoadingEventArgs = "{2A800835-2179-45D6-A745-6657E9A546B9}"
-CONST AFX_ICoreWebView2ContentLoadingEventHandler = "{7AF5CC82-AE19-4964-BD71-B9BC5F03E85D}"
-CONST AFX_ICoreWebView2DocumentTitleChangedEventHandler = "{6423D6B1-5A57-46C5-BA46-DBB3735EE7C9}"
-CONST AFX_ICoreWebView2ContainsFullScreenElementChangedEventHandler = "{120888E3-4CAD-4EC2-B627-B2016D05612D}"
-CONST AFX_ICoreWebView2CreateCoreWebView2ControllerCompletedHandler = "{86EF6808-3C3F-4C6F-975E-8CE0B98F70BA}"
-CONST AFX_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler = "{8B4F98CE-DB0D-4E71-85FD-C4C4EF1F2630}"
-CONST AFX_ICoreWebView2Deferral = "{A7ED8BF0-3EC9-4E39-8427-3D6F157BD285}"
-CONST AFX_ICoreWebView2DevToolsProtocolEventReceivedEventArgs = "{F661B1C2-5FF5-4700-B723-C439034539B4}"
-CONST AFX_ICoreWebView2DevToolsProtocolEventReceivedEventHandler = "{8E1DED79-A40B-4271-8BE6-57640C167F4A}"
-CONST AFX_ICoreWebView2DevToolsProtocolEventReceiver = "{FE59C48C-540C-4A3C-8898-8E1602E0055D}"
-CONST AFX_ICoreWebView2Environment = "{DA66D884-6DA8-410E-9630-8C48F8B3A40E}"
-CONST AFX_ICoreWebView2EnvironmentOptions = "{97E9FBD9-646A-4B75-8682-149B71DACE59}"
-CONST AFX_ICoreWebView2ExecuteScriptCompletedHandler = "{3B717C93-3ED5-4450-9B13-7F56AA367AC7}"
-CONST AFX_ICoreWebView2FocusChangedEventHandler = "{76E67C71-663F-4C17-B71A-9381CCF3B94B}"
-CONST AFX_ICoreWebView2HistoryChangedEventHandler = "{54C9B7D7-D9E9-4158-861F-F97E1C3C6631}"
-CONST AFX_ICoreWebView2HttpHeadersCollectionIterator = "{4212F3A7-0FBC-4C9C-8118-17ED6370C1B3}"
-CONST AFX_ICoreWebView2HttpRequestHeaders = "{2C1F04DF-C90E-49E4-BD25-4A659300337B}"
-CONST AFX_ICoreWebView2HttpResponseHeaders = "{B5F6D4D5-1BFF-4869-85B8-158153017B04}"
-CONST AFX_ICoreWebView2MoveFocusRequestedEventArgs = "{71922903-B180-49D0-AED2-C9F9D10064B1}"
-CONST AFX_ICoreWebView2MoveFocusRequestedEventHandler = "{4B21D6DD-3DE7-47B0-8019-7D3ACE6E3631}"
-CONST AFX_ICoreWebView2NavigationCompletedEventArgs = "{361F5621-EA7F-4C55-95EC-3C5E6992EA4A}"
-CONST AFX_ICoreWebView2NavigationCompletedEventHandler = "{9F921239-20C4-455F-9E3F-6047A50E248B}"
-CONST AFX_ICoreWebView2NavigationStartingEventArgs = "{EE1938CE-D385-4CB0-854B-F498F78C3D88}"
-CONST AFX_ICoreWebView2NavigationStartingEventHandler = "{073337A4-64D2-4C7E-AC9F-987F0F613497}"
-CONST AFX_ICoreWebView2NewBrowserVersionAvailableEventHandler = "{E82E8242-EE39-4A57-A065-E13256D60342}"
-CONST AFX_ICoreWebView2NewWindowRequestedEventArgs = "{9EDC7F5F-C6EA-4F3C-827B-A8880794C0A9}"
-CONST AFX_ICoreWebView2NewWindowRequestedEventHandler = "{ACAA30EF-A40C-47BD-9CB9-D9C2AADC9FCB}"
-CONST AFX_ICoreWebView2PermissionRequestedEventArgs = "{774B5EA1-3FAD-435C-B1FC-A77D1ACD5EAF}"
-CONST AFX_ICoreWebView2PermissionRequestedEventHandler = "{543B4ADE-9B0B-4748-9AB7-D76481B223AA}"
-CONST AFX_ICoreWebView2ProcessFailedEventArgs = "{EA45D1F4-75C0-471F-A6E9-803FBFF8FEF2}"
-CONST AFX_ICoreWebView2ProcessFailedEventHandler = "{7D2183F9-CCA8-40F2-91A9-EAFAD32C8A9B}"
-CONST AFX_ICoreWebView2ScriptDialogOpeningEventArgs = "{B8F6356E-24DC-4D74-90FE-AD071E11CB91}"
-CONST AFX_ICoreWebView2ScriptDialogOpeningEventHandler = "{72D93789-2727-4A9B-A4FC-1B2609CBCBE3}"
-CONST AFX_ICoreWebView2Settings = "{203FBA37-6850-4DCC-A25A-58A351AC625D}"
-CONST AFX_ICoreWebView2SourceChangedEventArgs = "{BD9A4BFB-BE19-40BD-968B-EBCF0D727EF3}"
-CONST AFX_ICoreWebView2SourceChangedEventHandler = "{8FEDD1A7-3A33-416F-AF81-881EEB001433}"
-CONST AFX_ICoreWebView2WebMessageReceivedEventArgs = "{B263B5AE-9C54-4B75-B632-40AE1A0B6912}"
-CONST AFX_ICoreWebView2WebMessageReceivedEventHandler = "{199328C8-9964-4F5F-84E6-E875B1B763D6}"
-CONST AFX_ICoreWebView2WebResourceRequest = "{11B02254-B827-49F6-8974-30F6E6C55AF6}"
-CONST AFX_ICoreWebView2WebResourceRequestedEventArgs = "{2D7B3282-83B1-41CA-8BBF-FF18F6BFE320}"
-CONST AFX_ICoreWebView2WebResourceRequestedEventHandler = "{F6DC79F2-E1FA-4534-8968-4AFF10BBAA32}"
-CONST AFX_ICoreWebView2WebResourceResponse = "{5953D1FC-B08F-46DD-AFD3-66B172419CD0}"
-CONST AFX_ICoreWebView2WindowCloseRequestedEventHandler = "{63C89928-AD32-4421-A0E4-EC99B34AA97E}"
-CONST AFX_ICoreWebView2ZoomFactorChangedEventHandler = "{F1828246-8B98-4274-B708-ECDB6BF3843A}"
+' ========================================================================================
+' Macro for debug
+' To allow debugging, define _CWV2_DEBUG_ 1 in your application before including this file.
+' ========================================================================================
+#ifndef _CWV2_DEBUG_
+   #define _CWV2_DEBUG_ 0
+#endif
+#ifndef _CWV2_DP_
+   #define _CWV2_DP_ 1
+   #MACRO CWV2_DP(st)
+      #if (_CWV2_DEBUG_ = 1)
+         OutputDebugStringW(__FUNCTION__ + ": " + st)
+      #endif
+   #ENDMACRO
+#endif
+' ========================================================================================
+
+'CONST AFX_ICoreWebView2AcceleratorKeyPressedEventArgs = "{9224476E-D8C3-4EB7-BB65-2FD7792B27CE}"
+'CONST AFX_ICoreWebView2AcceleratorKeyPressedEventHandler = "{A7D303F9-503C-4B7E-BC40-5C7CE6CABAAA}"
+'CONST AFX_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler = "{7082ABED-0591-428F-A722-60C2F814546B}"
+'CONST AFX_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler = "{C20CF895-BA7C-493B-AB2E-8A6E3A3602A2}"
+'CONST AFX_ICoreWebView2CapturePreviewCompletedHandler = "{DCED64F8-D9C7-4A3C-B9FD-FBBCA0B43496}"
+'CONST AFX_ICoreWebView2 = "{189B8AAF-0426-4748-B9AD-243F537EB46B}"
+'CONST AFX_ICoreWebView2Controller = "{7CCC5C7F-8351-4572-9077-9C1C80913835}"
+'CONST AFX_ICoreWebView2ContentLoadingEventArgs = "{2A800835-2179-45D6-A745-6657E9A546B9}"
+'CONST AFX_ICoreWebView2ContentLoadingEventHandler = "{7AF5CC82-AE19-4964-BD71-B9BC5F03E85D}"
+'CONST AFX_ICoreWebView2DocumentTitleChangedEventHandler = "{6423D6B1-5A57-46C5-BA46-DBB3735EE7C9}"
+'CONST AFX_ICoreWebView2ContainsFullScreenElementChangedEventHandler = "{120888E3-4CAD-4EC2-B627-B2016D05612D}"
+'CONST AFX_ICoreWebView2CreateCoreWebView2ControllerCompletedHandler = "{86EF6808-3C3F-4C6F-975E-8CE0B98F70BA}"
+'CONST AFX_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler = "{8B4F98CE-DB0D-4E71-85FD-C4C4EF1F2630}"
+'CONST AFX_ICoreWebView2Deferral = "{A7ED8BF0-3EC9-4E39-8427-3D6F157BD285}"
+'CONST AFX_ICoreWebView2DevToolsProtocolEventReceivedEventArgs = "{F661B1C2-5FF5-4700-B723-C439034539B4}"
+'CONST AFX_ICoreWebView2DevToolsProtocolEventReceivedEventHandler = "{8E1DED79-A40B-4271-8BE6-57640C167F4A}"
+'CONST AFX_ICoreWebView2DevToolsProtocolEventReceiver = "{FE59C48C-540C-4A3C-8898-8E1602E0055D}"
+'CONST AFX_ICoreWebView2Environment = "{DA66D884-6DA8-410E-9630-8C48F8B3A40E}"
+'CONST AFX_ICoreWebView2EnvironmentOptions = "{97E9FBD9-646A-4B75-8682-149B71DACE59}"
+'CONST AFX_ICoreWebView2ExecuteScriptCompletedHandler = "{3B717C93-3ED5-4450-9B13-7F56AA367AC7}"
+'CONST AFX_ICoreWebView2FocusChangedEventHandler = "{76E67C71-663F-4C17-B71A-9381CCF3B94B}"
+'CONST AFX_ICoreWebView2HistoryChangedEventHandler = "{54C9B7D7-D9E9-4158-861F-F97E1C3C6631}"
+'CONST AFX_ICoreWebView2HttpHeadersCollectionIterator = "{4212F3A7-0FBC-4C9C-8118-17ED6370C1B3}"
+'CONST AFX_ICoreWebView2HttpRequestHeaders = "{2C1F04DF-C90E-49E4-BD25-4A659300337B}"
+'CONST AFX_ICoreWebView2HttpResponseHeaders = "{B5F6D4D5-1BFF-4869-85B8-158153017B04}"
+'CONST AFX_ICoreWebView2MoveFocusRequestedEventArgs = "{71922903-B180-49D0-AED2-C9F9D10064B1}"
+'CONST AFX_ICoreWebView2MoveFocusRequestedEventHandler = "{4B21D6DD-3DE7-47B0-8019-7D3ACE6E3631}"
+'CONST AFX_ICoreWebView2NavigationCompletedEventArgs = "{361F5621-EA7F-4C55-95EC-3C5E6992EA4A}"
+'CONST AFX_ICoreWebView2NavigationCompletedEventHandler = "{9F921239-20C4-455F-9E3F-6047A50E248B}"
+'CONST AFX_ICoreWebView2NavigationStartingEventArgs = "{EE1938CE-D385-4CB0-854B-F498F78C3D88}"
+'CONST AFX_ICoreWebView2NavigationStartingEventHandler = "{073337A4-64D2-4C7E-AC9F-987F0F613497}"
+'CONST AFX_ICoreWebView2NewBrowserVersionAvailableEventHandler = "{E82E8242-EE39-4A57-A065-E13256D60342}"
+'CONST AFX_ICoreWebView2NewWindowRequestedEventArgs = "{9EDC7F5F-C6EA-4F3C-827B-A8880794C0A9}"
+'CONST AFX_ICoreWebView2NewWindowRequestedEventHandler = "{ACAA30EF-A40C-47BD-9CB9-D9C2AADC9FCB}"
+'CONST AFX_ICoreWebView2PermissionRequestedEventArgs = "{774B5EA1-3FAD-435C-B1FC-A77D1ACD5EAF}"
+'CONST AFX_ICoreWebView2PermissionRequestedEventHandler = "{543B4ADE-9B0B-4748-9AB7-D76481B223AA}"
+'CONST AFX_ICoreWebView2ProcessFailedEventArgs = "{EA45D1F4-75C0-471F-A6E9-803FBFF8FEF2}"
+'CONST AFX_ICoreWebView2ProcessFailedEventHandler = "{7D2183F9-CCA8-40F2-91A9-EAFAD32C8A9B}"
+'CONST AFX_ICoreWebView2ScriptDialogOpeningEventArgs = "{B8F6356E-24DC-4D74-90FE-AD071E11CB91}"
+'CONST AFX_ICoreWebView2ScriptDialogOpeningEventHandler = "{72D93789-2727-4A9B-A4FC-1B2609CBCBE3}"
+'CONST AFX_ICoreWebView2Settings = "{203FBA37-6850-4DCC-A25A-58A351AC625D}"
+'CONST AFX_ICoreWebView2SourceChangedEventArgs = "{BD9A4BFB-BE19-40BD-968B-EBCF0D727EF3}"
+'CONST AFX_ICoreWebView2SourceChangedEventHandler = "{8FEDD1A7-3A33-416F-AF81-881EEB001433}"
+'CONST AFX_ICoreWebView2WebMessageReceivedEventArgs = "{B263B5AE-9C54-4B75-B632-40AE1A0B6912}"
+'CONST AFX_ICoreWebView2WebMessageReceivedEventHandler = "{199328C8-9964-4F5F-84E6-E875B1B763D6}"
+'CONST AFX_ICoreWebView2WebResourceRequest = "{11B02254-B827-49F6-8974-30F6E6C55AF6}"
+'CONST AFX_ICoreWebView2WebResourceRequestedEventArgs = "{2D7B3282-83B1-41CA-8BBF-FF18F6BFE320}"
+'CONST AFX_ICoreWebView2WebResourceRequestedEventHandler = "{F6DC79F2-E1FA-4534-8968-4AFF10BBAA32}"
+'CONST AFX_ICoreWebView2WebResourceResponse = "{5953D1FC-B08F-46DD-AFD3-66B172419CD0}"
+'CONST AFX_ICoreWebView2WindowCloseRequestedEventHandler = "{63C89928-AD32-4421-A0E4-EC99B34AA97E}"
+'CONST AFX_ICoreWebView2ZoomFactorChangedEventHandler = "{F1828246-8B98-4274-B708-ECDB6BF3843A}"
+
+DIM SHARED AFX_IID_ICoreWebView2AcceleratorKeyPressedEventArgs AS GUID = TYPE(&h9224476E, &hD8C3, &h4EB7, {&hBB, &h65, &h2F, &hD7, &h79, &h2B, &h27, &hCE})
+DIM SHARED AFX_IID_ICoreWebView2AcceleratorKeyPressedEventHandler AS GUID = TYPE(&hA7D303F9, &h503C, &h4B7E, {&hBC, &h40, &h5C, &h7C, &hE6, &hCA, &hBA, &hAA})
+DIM SHARED AFX_IID_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler AS GUID = TYPE(&h7082ABED, &h0591, &h428F, {&hA7, &h22, &h60, &hC2, &hF8, &h14, &h54, &h6B})
+DIM SHARED AFX_IID_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler AS GUID = TYPE(&hC20CF895, &hBA7C, &h493B, {&hAB, &h2E, &h8A, &h6E, &h3A, &h36, &h02, &hA2})
+DIM SHARED AFX_IID_ICoreWebView2CapturePreviewCompletedHandler AS GUID = TYPE(&hDCED64F8, &hD9C7, &h4A3C, {&hB9, &hFD, &hFB, &hBC, &hA0, &hB4, &h34, &h96})
+DIM SHARED AFX_IID_ICoreWebView2 AS GUID = TYPE(&h189B8AAF, &h0426, &h4748, {&hB9, &hAD, &h24, &h3F, &h53, &h7E, &hB4, &h6B})
+DIM SHARED AFX_IID_ICoreWebView2Controller AS GUID = TYPE(&h7CCC5C7F, &h8351, &h4572, {&h90, &h77, &h9C, &h1C, &h80, &h91, &h38, &h35})
+DIM SHARED AFX_IID_ICoreWebView2ContentLoadingEventArgs AS GUID = TYPE(&h2A800835, &h2179, &h45D6, {&hA7, &h45, &h66, &h57, &hE9, &hA5, &h46, &hB9})
+DIM SHARED AFX_IID_ICoreWebView2ContentLoadingEventHandler AS GUID = TYPE(&h7AF5CC82, &hAE19, &h4964, {&hBD, &h71, &hB9, &hBC, &h5F, &h03, &hE8, &h5D})
+DIM SHARED AFX_IID_ICoreWebView2DocumentTitleChangedEventHandler AS GUID = TYPE(&h6423D6B1, &h5A57, &h46C5, {&hBA, &h46, &hDB, &hB3, &h73, &h5E, &hE7, &hC9})
+DIM SHARED AFX_IID_ICoreWebView2ContainsFullScreenElementChangedEventHandler AS GUID = TYPE(&h120888E3, &h4CAD, &h4EC2, {&hB6, &h27, &hB2, &h01, &h6D, &h05, &h61, &h2D})
+DIM SHARED AFX_IID_ICoreWebView2CreateCoreWebView2ControllerCompletedHandler AS GUID = TYPE(&h86EF6808, &h3C3F, &h4C6F, {&h97, &h5E, &h8C, &hE0, &hB9, &h8F, &h70, &hBA})
+DIM SHARED AFX_IID_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler AS GUID = TYPE(&h8B4F98CE, &hDB0D, &h4E71, {&h85, &hFD, &hC4, &hC4, &hEF, &h1F, &h26, &h30})
+DIM SHARED AFX_IID_ICoreWebView2Deferral AS GUID = TYPE(&hA7ED8BF0, &h3EC9, &h4E39, {&h84, &h27, &h3D, &h6F, &h15, &h7B, &hD2, &h85})
+DIM SHARED AFX_IID_ICoreWebView2DevToolsProtocolEventReceivedEventArgs AS GUID = TYPE(&hF661B1C2, &h5FF5, &h4700, {&hB7, &h23, &hC4, &h39, &h03, &h45, &h39, &hB4})
+DIM SHARED AFX_IID_ICoreWebView2DevToolsProtocolEventReceivedEventHandler AS GUID = TYPE(&h8E1DED79, &hA40B, &h4271, {&h8B, &hE6, &h57, &h64, &h0C, &h16, &h7F, &h4A})
+DIM SHARED AFX_IID_ICoreWebView2DevToolsProtocolEventReceiver AS GUID = TYPE(&hFE59C48C, &h540C, &h4A3C, {&h88, &h98, &h8E, &h16, &h02, &hE0, &h05, &h5D})
+DIM SHARED AFX_IID_ICoreWebView2Environment AS GUID = TYPE(&hDA66D884, &h6DA8, &h410E, {&h96, &h30, &h8C, &h48, &hF8, &hB3, &hA4, &h0E})
+DIM SHARED AFX_IID_ICoreWebView2EnvironmentOptions AS GUID = TYPE(&h97E9FBD9, &h646A, &h4B75, {&h86, &h82, &h14, &h9B, &h71, &hDA, &hCE, &h59})
+DIM SHARED AFX_IID_ICoreWebView2ExecuteScriptCompletedHandler AS GUID = TYPE(&h3B717C93, &h3ED5, &h4450, {&h9B, &h13, &h7F, &h56, &hAA, &h36, &h7A, &hC7})
+DIM SHARED AFX_IID_ICoreWebView2FocusChangedEventHandler AS GUID = TYPE(&h76E67C71, &h663F, &h4C17, {&hB7, &h1A, &h93, &h81, &hCC, &hF3, &hB9, &h4B})
+DIM SHARED AFX_IID_ICoreWebView2HistoryChangedEventHandler AS GUID = TYPE(&h54C9B7D7, &hD9E9, &h4158, {&h86, &h1F, &hF9, &h7E, &h1C, &h3C, &h66, &h31})
+DIM SHARED AFX_IID_ICoreWebView2HttpHeadersCollectionIterator AS GUID = TYPE(&h4212F3A7, &h0FBC, &h4C9C, {&h81, &h18, &h17, &hED, &h63, &h70, &hC1, &hB3})
+DIM SHARED AFX_IID_ICoreWebView2HttpRequestHeaders AS GUID = TYPE(&h2C1F04DF, &hC90E, &h49E4, {&hBD, &h25, &h4A, &h65, &h93, &h00, &h33, &h7B})
+DIM SHARED AFX_IID_ICoreWebView2HttpResponseHeaders AS GUID = TYPE(&hB5F6D4D5, &h1BFF, &h4869, {&h85, &hB8, &h15, &h81, &h53, &h01, &h7B, &h04})
+DIM SHARED AFX_IID_ICoreWebView2MoveFocusRequestedEventArgs AS GUID = TYPE(&h71922903, &hB180, &h49D0, {&hAE, &hD2, &hC9, &hF9, &hD1, &h00, &h64, &hB1})
+DIM SHARED AFX_IID_ICoreWebView2MoveFocusRequestedEventHandler AS GUID = TYPE(&h4B21D6DD, &h3DE7, &h47B0, {&h80, &h19, &h7D, &h3A, &hCE, &h6E, &h36, &h31})
+DIM SHARED AFX_IID_ICoreWebView2NavigationCompletedEventArgs AS GUID = TYPE(&h361F5621, &hEA7F, &h4C55, {&h95, &hEC, &h3C, &h5E, &h69, &h92, &hEA, &h4A})
+DIM SHARED AFX_IID_ICoreWebView2NavigationCompletedEventHandler AS GUID = TYPE(&h9F921239, &h20C4, &h455F, {&h9E, &h3F, &h60, &h47, &hA5, &h0E, &h24, &h8B})
+DIM SHARED AFX_IID_ICoreWebView2NavigationStartingEventArgs AS GUID = TYPE(&hEE1938CE, &hD385, &h4CB0, {&h85, &h4B, &hF4, &h98, &hF7, &h8C, &h3D, &h88})
+DIM SHARED AFX_IID_ICoreWebView2NavigationStartingEventHandler AS GUID = TYPE(&h073337A4, &h64D2, &h4C7E, {&hAC, &h9F, &h98, &h7F, &h0F, &h61, &h34, &h97})
+DIM SHARED AFX_IID_ICoreWebView2NewBrowserVersionAvailableEventHandler AS GUID = TYPE(&hE82E8242, &hEE39, &h4A57, {&hA0, &h65, &hE1, &h32, &h56, &hD6, &h03, &h42})
+DIM SHARED AFX_IID_ICoreWebView2NewWindowRequestedEventArgs AS GUID = TYPE(&h9EDC7F5F, &hC6EA, &h4F3C, {&h82, &h7B, &hA8, &h88, &h07, &h94, &hC0, &hA9})
+DIM SHARED AFX_IID_ICoreWebView2NewWindowRequestedEventHandler AS GUID = TYPE(&hACAA30EF, &hA40C, &h47BD, {&h9C, &hB9, &hD9, &hC2, &hAA, &hDC, &h9F, &hCB})
+DIM SHARED AFX_IID_ICoreWebView2PermissionRequestedEventArgs AS GUID = TYPE(&h774B5EA1, &h3FAD, &h435C, {&hB1, &hFC, &hA7, &h7D, &h1A, &hCD, &h5E, &hAF})
+DIM SHARED AFX_IID_ICoreWebView2PermissionRequestedEventHandler AS GUID = TYPE(&h543B4ADE, &h9B0B, &h4748, {&h9A, &hB7, &hD7, &h64, &h81, &hB2, &h23, &hAA})
+DIM SHARED AFX_IID_ICoreWebView2ProcessFailedEventArgs AS GUID = TYPE(&hEA45D1F4, &h75C0, &h471F, {&hA6, &hE9, &h80, &h3F, &hBF, &hF8, &hFE, &hF2})
+DIM SHARED AFX_IID_ICoreWebView2ProcessFailedEventHandler AS GUID = TYPE(&h7D2183F9, &hCCA8, &h40F2, {&h91, &hA9, &hEA, &hFA, &hD3, &h2C, &h8A, &h9B})
+DIM SHARED AFX_IID_ICoreWebView2ScriptDialogOpeningEventArgs AS GUID = TYPE(&hB8F6356E, &h24DC, &h4D74, {&h90, &hFE, &hAD, &h07, &h1E, &h11, &hCB, &h91})
+DIM SHARED AFX_IID_ICoreWebView2ScriptDialogOpeningEventHandler AS GUID = TYPE(&h72D93789, &h2727, &h4A9B, {&hA4, &hFC, &h1B, &h26, &h09, &hCB, &hCB, &hE3})
+DIM SHARED AFX_IID_ICoreWebView2Settings AS GUID = TYPE(&h203FBA37, &h6850, &h4DCC, {&hA2, &h5A, &h58, &hA3, &h51, &hAC, &h62, &h5D})
+DIM SHARED AFX_IID_ICoreWebView2SourceChangedEventArgs AS GUID = TYPE(&hBD9A4BFB, &hBE19, &h40BD, {&h96, &h8B, &hEB, &hCF, &h0D, &h72, &h7E, &hF3})
+DIM SHARED AFX_IID_ICoreWebView2SourceChangedEventHandler AS GUID = TYPE(&h8FEDD1A7, &h3A33, &h416F, {&hAF, &h81, &h88, &h1E, &hEB, &h00, &h14, &h33})
+DIM SHARED AFX_IID_ICoreWebView2WebMessageReceivedEventArgs AS GUID = TYPE(&hB263B5AE, &h9C54, &h4B75, {&hB6, &h32, &h40, &hAE, &h1A, &h0B, &h69, &h12})
+DIM SHARED AFX_IID_ICoreWebView2WebMessageReceivedEventHandler AS GUID = TYPE(&h199328C8, &h9964, &h4F5F, {&h84, &hE6, &hE8, &h75, &hB1, &hB7, &h63, &hD6})
+DIM SHARED AFX_IID_ICoreWebView2WebResourceRequest AS GUID = TYPE(&h11B02254, &hB827, &h49F6, {&h89, &h74, &h30, &hF6, &hE6, &hC5, &h5A, &hF6})
+DIM SHARED AFX_IID_ICoreWebView2WebResourceRequestedEventArgs AS GUID = TYPE(&h2D7B3282, &h83B1, &h41CA, {&h8B, &hBF, &hFF, &h18, &hF6, &hBF, &hE3, &h20})
+DIM SHARED AFX_IID_ICoreWebView2WebResourceRequestedEventHandler AS GUID = TYPE(&hF6DC79F2, &hE1FA, &h4534, {&h89, &h68, &h4A, &hFF, &h10, &hBB, &hAA, &h32})
+DIM SHARED AFX_IID_ICoreWebView2WebResourceResponse AS GUID = TYPE(&h5953D1FC, &hB08F, &h46DD, {&hAF, &hD3, &h66, &hB1, &h72, &h41, &h9C, &hD0})
+DIM SHARED AFX_IID_ICoreWebView2WindowCloseRequestedEventHandler AS GUID = TYPE(&h63C89928, &hAD32, &h4421, {&hA0, &hE4, &hEC, &h99, &hB3, &h4A, &hA9, &h7E})
+DIM SHARED AFX_IID_ICoreWebView2ZoomFactorChangedEventHandler AS GUID = TYPE(&hF1828246, &h8B98, &h4274, {&hB7, &h08, &hEC, &hDB, &h6B, &hF3, &h84, &h3A})
+
 
 ' // Interfaces - Forward references
 
@@ -155,11 +218,11 @@ END ENUM
 ENUM COREWEBVIEW2_PERMISSION_KIND
    COREWEBVIEW2_PERMISSION_KIND_UNKNOWN_PERMISSION = 0
    COREWEBVIEW2_PERMISSION_KIND_MICROPHONE = COREWEBVIEW2_PERMISSION_KIND_UNKNOWN_PERMISSION + 1
-   COREWEBVIEW2_PERMISSION_KIND_CAMERA =  COREWEBVIEW2_PERMISSION_KIND_MICROPHONE + 1
-   COREWEBVIEW2_PERMISSION_KIND_GEOLOCATION =  COREWEBVIEW2_PERMISSION_KIND_CAMERA + 1
-   COREWEBVIEW2_PERMISSION_KIND_NOTIFICATIONS =  COREWEBVIEW2_PERMISSION_KIND_GEOLOCATION + 1
-   COREWEBVIEW2_PERMISSION_KIND_OTHER_SENSORS =  COREWEBVIEW2_PERMISSION_KIND_NOTIFICATIONS + 1
-   COREWEBVIEW2_PERMISSION_KIND_CLIPBOARD_READ =  COREWEBVIEW2_PERMISSION_KIND_OTHER_SENSORS + 1
+   COREWEBVIEW2_PERMISSION_KIND_CAMERA = COREWEBVIEW2_PERMISSION_KIND_MICROPHONE + 1
+   COREWEBVIEW2_PERMISSION_KIND_GEOLOCATION = COREWEBVIEW2_PERMISSION_KIND_CAMERA + 1
+   COREWEBVIEW2_PERMISSION_KIND_NOTIFICATIONS = COREWEBVIEW2_PERMISSION_KIND_GEOLOCATION + 1
+   COREWEBVIEW2_PERMISSION_KIND_OTHER_SENSORS = COREWEBVIEW2_PERMISSION_KIND_NOTIFICATIONS + 1
+   COREWEBVIEW2_PERMISSION_KIND_CLIPBOARD_READ = COREWEBVIEW2_PERMISSION_KIND_OTHER_SENSORS + 1
 END ENUM
 
 ENUM COREWEBVIEW2_PERMISSION_STATE
@@ -475,8 +538,6 @@ TYPE Afx_ICoreWebView2_ EXTENDS Afx_IUnknown
    DECLARE ABSTRACT FUNCTION add_WindowCloseRequested (BYVAL eventHandler AS Afx_ICoreWebView2WindowCloseRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION remove_WindowCloseRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
 END TYPE
-
-'+++++++++++++++++++++++
 
 #endif
 
