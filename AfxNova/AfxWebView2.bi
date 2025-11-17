@@ -503,7 +503,7 @@ TYPE Afx_ICoreWebView2_ EXTENDS Afx_IUnknown
    DECLARE ABSTRACT FUNCTION remove_PermissionRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE ABSTRACT FUNCTION add_ProcessFailed (BYVAL eventHandler AS Afx_ICoreWebView2ProcessFailedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION remove_ProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE ABSTRACT FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS WSTRING PTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
+   DECLARE ABSTRACT FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION ExecuteScript (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2ExecuteScriptCompletedHandler PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION CapturePreview (BYVAL imageFormat AS COREWEBVIEW2_CAPTURE_PREVIEW_IMAGE_FORMAT, BYVAL imageStream AS IStream PTR, BYVAL handler AS Afx_ICoreWebView2CapturePreviewCompletedHandler PTR) AS HRESULT
@@ -525,8 +525,8 @@ TYPE Afx_ICoreWebView2_ EXTENDS Afx_IUnknown
    DECLARE ABSTRACT FUNCTION add_DocumentTitleChanged (BYVAL eventHandler AS Afx_ICoreWebView2DocumentTitleChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION remove_DocumentTitleChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE ABSTRACT FUNCTION get_DocumentTitle (BYVAL title AS LPWSTR PTR) AS HRESULT
-   DECLARE ABSTRACT FUNCTION AddHostObjectToScript (BYVAL name AS LPCWSTR, BYVAL object AS VARIANT PTR) AS HRESULT
-   DECLARE ABSTRACT FUNCTION RemoveHostObjectFromScript (BYVAL name AS LPCWSTR) AS HRESULT
+   DECLARE ABSTRACT FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
+   DECLARE ABSTRACT FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION OpenDevToolsWindow () AS HRESULT
    DECLARE ABSTRACT FUNCTION add_ContainsFullScreenElementChanged (BYVAL eventHandler AS Afx_ICoreWebView2ContainsFullScreenElementChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION remove_ContainsFullScreenElementChanged (BYVAL token AS EventRegistrationToken) AS HRESULT

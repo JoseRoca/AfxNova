@@ -2154,3 +2154,89 @@ PRIVATE FUNCTION CWebView2NewBrowserVersionAvailableEventHandler.Invoke (BYVAL w
    RETURN S_OK
 END FUNCTION
 ' =====================================================================================
+
+
+' ########################################################################################
+' CWebView2CallDevToolsProtocolMethodCompletedHandler Class
+' Implementation of the ICoreWebView2CallDevToolsProtocolMethodCompletedHandler callback interface.
+' ########################################################################################
+TYPE CWebView2CallDevToolsProtocolMethodCompletedHandler EXTENDS OBJECT
+
+   DECLARE VIRTUAL FUNCTION QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObject AS LPVOID PTR) AS HRESULT
+   DECLARE VIRTUAL FUNCTION AddRef () AS ULONG
+   DECLARE VIRTUAL FUNCTION Release () AS ULONG
+   DECLARE VIRTUAL FUNCTION Invoke (BYVAL errorCode AS HRESULT, BYVAL returnObjectAsJson AS LPCWSTR) AS HRESULT
+
+   DECLARE CONSTRUCTOR
+   DECLARE DESTRUCTOR
+
+   ' Reference count for COM
+   refCount AS ULONG = 0
+
+END TYPE
+' ########################################################################################
+
+' =====================================================================================
+' Constructor
+' =====================================================================================
+PRIVATE CONSTRUCTOR CWebView2CallDevToolsProtocolMethodCompletedHandler
+   CWV2_DP("")
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+' Destructor
+' =====================================================================================
+PRIVATE DESTRUCTOR CWebView2CallDevToolsProtocolMethodCompletedHandler
+   CWV2_DP("")
+END DESTRUCTOR
+' =====================================================================================
+
+' ========================================================================================
+' Returns pointers to the implemented classes and supported interfaces.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2CallDevToolsProtocolMethodCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+   CWV2_DP("riid: " & AfxGuidText(riid))
+   IF ppvObj = NULL THEN RETURN E_INVALIDARG
+   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler) OR _
+      IsEqualIID(riid, @IID_IUnknown) THEN
+      *ppvObj = @this
+      ' // Increment the reference count
+      this.AddRef
+      RETURN S_OK
+   END IF
+   RETURN E_NOINTERFACE
+END FUNCTION
+' =====================================================================================
+
+' ========================================================================================
+' Increments the reference count for an interface on an object. This method should be called
+' for every new copy of a pointer to an interface on an object.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2CallDevToolsProtocolMethodCompletedHandler.AddRef () AS ULONG
+   refCount += 1
+   CWV2_DP(WSTR(refCount))
+   RETURN refCount
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Decrements the reference count for an interface on an object.
+' If the count reaches 0, it deletes itself.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2CallDevToolsProtocolMethodCompletedHandler.Release () AS ULONG
+   refCount -= 1
+   CWV2_DP(WSTR(refCount))
+   IF refCount = 0 THEN
+      CWV2_DP("Delete class")
+      Delete @this
+   END IF
+   RETURN refCount
+END FUNCTION
+' =====================================================================================
+
+' =====================================================================================
+PRIVATE FUNCTION CWebView2CallDevToolsProtocolMethodCompletedHandler.Invoke (BYVAL errorCode AS HRESULT, BYVAL returnObjectAsJson AS LPCWSTR) AS HRESULT
+   CWV2_DP("")
+   RETURN S_OK
+END FUNCTION
+' =====================================================================================

@@ -64,6 +64,12 @@ TYPE CWebView2
    DECLARE FUNCTION PostWebMessageAsString (BYVAL webMessageAsString AS LPCWSTR) AS HRESULT
    DECLARE FUNCTION CapturePreview (BYVAL imageFormat AS COREWEBVIEW2_CAPTURE_PREVIEW_IMAGE_FORMAT, BYVAL imageStream AS IStream PTR, BYVAL handler AS Afx_ICoreWebView2CapturePreviewCompletedHandler PTR) AS HRESULT
    DECLARE FUNCTION OpenDevToolsWindow () AS HRESULT
+   DECLARE FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
+   DECLARE FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+   DECLARE FUNCTION RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+   DECLARE FUNCTION CallDevToolsProtocolMethod (BYVAL methodName AS LPCWSTR, BYVAL parametersAsJson AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler PTR) AS HRESULT
+   DECLARE FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
 
    ' // Settings
    DECLARE FUNCTION GetSettings () AS Afx_ICoreWebView2Settings PTR
@@ -89,8 +95,52 @@ TYPE CWebView2
    DECLARE PROPERTY IsBuiltInErrorPageEnabled (BYVAL enabled AS BOOLEAN) AS HRESULT
 
    ' // Events
+   DECLARE FUNCTION AddNavigationStarting (BYVAL eventHandler AS Afx_ICoreWebView2NavigationStartingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddNavigationCompleted (BYVAL eventHandler AS Afx_ICoreWebView2NavigationCompletedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddFrameNavigationStarting (BYVAL eventHandler AS Afx_ICoreWebView2NavigationStartingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveFrameNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddFrameNavigationCompleted (BYVAL eventHandler AS Afx_ICoreWebView2NavigationCompletedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveFrameNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddContentLoading (BYVAL eventHandler AS Afx_ICoreWebView2ContentLoadingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveContentLoading (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddSourceChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveSourceChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddHistoryChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveHistoryChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddScriptDialogOpening (BYVAL eventHandler AS Afx_ICoreWebView2ScriptDialogOpeningEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveScriptDialogOpening (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddPermissionRequested (BYVAL eventHandler AS Afx_ICoreWebView2PermissionRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemovePermissionRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddProcessFailed (BYVAL eventHandler AS Afx_ICoreWebView2ProcessFailedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddWebMessageReceived (BYVAL eventHandler AS Afx_ICoreWebView2WebMessageReceivedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveWebMessageReceived (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddNewWindowRequested (BYVAL eventHandler AS Afx_ICoreWebView2NewWindowRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveNewWindowRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddDocumentTitleChanged (BYVAL eventHandler AS Afx_ICoreWebView2DocumentTitleChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveDocumentTitleChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddContainsFullScreenElementChanged (BYVAL eventHandler AS Afx_ICoreWebView2ContainsFullScreenElementChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveContainsFullScreenElementChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION GetContainsFullScreenElement (BYVAL ContainsFullScreenElement AS LONG PTR) AS HRESULT
+   DECLARE FUNCTION GetContainsFullScreenElement () AS LONG
+   DECLARE FUNCTION AddWebResourceRequested (BYVAL eventHandler AS Afx_ICoreWebView2WebResourceRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveWebResourceRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddWindowCloseRequested (BYVAL eventHandler AS Afx_ICoreWebView2WindowCloseRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveWindowCloseRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddZoomFactorChanged (BYVAL eventHandler AS Afx_ICoreWebView2ZoomFactorChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveZoomFactorChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddMoveFocusRequested (BYVAL eventHandler AS Afx_ICoreWebView2MoveFocusRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveMoveFocusRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddGotFocus (BYVAL eventHandler AS Afx_ICoreWebView2FocusChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveGotFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddLostFocus (BYVAL eventHandler AS Afx_ICoreWebView2FocusChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveLostFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddAcceleratorKeyPressed (BYVAL eventHandler AS Afx_ICoreWebView2AcceleratorKeyPressedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveAcceleratorKeyPressed (BYVAL token AS EventRegistrationToken) AS HRESULT
+   DECLARE FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
+   DECLARE FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
 
 END TYPE
 ' ========================================================================================
@@ -466,6 +516,79 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Add the provided JavaScript to a list of scripts that should be run after the global object
+' has been created, but before the HTML document has been parsed and before any other script
+' included by the HTML document is run.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
+   CWV2_DP("")
+   IF m_pCoreWebView2 = NULL THEN m_Result = E_POINTER : RETURN E_POINTER
+   m_Result = m_pCoreWebView2->AddScriptToExecuteOnDocumentCreated(javaScript, handler)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Remove the corresponding JavaScript added using AddScriptToExecuteOnDocumentCreated with the specified script ID.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS HRESULT
+   CWV2_DP("")
+   IF m_pCoreWebView2 = NULL THEN m_Result = E_POINTER : RETURN E_POINTER
+   m_Result = m_pCoreWebView2->RemoveScriptToExecuteOnDocumentCreated(id)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+   m_Result = m_pCoreWebView2->AddWebResourceRequestedFilter(uri, ResourceContext)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+   m_Result = m_pCoreWebView2->RemoveWebResourceRequestedFilter(uri, ResourceContext)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Runs an asynchronous DevToolsProtocol method.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.CallDevToolsProtocolMethod (BYVAL methodName AS LPCWSTR, BYVAL parametersAsJson AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->CallDevToolsProtocolMethod(methodName, parametersAsJson, handler)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Runs an asynchronous DevToolsProtocol method.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->GetDevToolsProtocolEventReceiver(eventName, receiver)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Add the provided host object to script running in the WebView with the specified name.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->AddHostObjectToScript(_name, _object)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Add the provided host object to script running in the WebView with the specified name.
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
+   m_Result = m_pCoreWebView2->RemoveHostObjectFromScript(_name)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Closes the WebView and cleans up the underlying browser instance.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2.Close () AS HRESULT
@@ -829,8 +952,24 @@ PRIVATE PROPERTY CWebView2.IsBuiltInErrorPageEnabled (BYVAL allowed AS BOOLEAN) 
 END PROPERTY
 ' ========================================================================================
 
+
+' ########################################################################################
+'                                   *** Events ***
+' ########################################################################################
+
 ' ========================================================================================
-' // Events
+PRIVATE FUNCTION CWebView2.AddNavigationStarting (BYVAL eventHandler AS Afx_ICoreWebView2NavigationStartingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_NavigationStarting(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_NavigationStarting(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2.AddNavigationCompleted (BYVAL eventHandler AS Afx_ICoreWebView2NavigationCompletedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    m_Result = m_pCoreWebView2->add_NavigationCompleted(eventHandler, token)
@@ -843,6 +982,255 @@ PRIVATE FUNCTION CWebView2.RemoveNavigationCompleted (BYVAL token AS EventRegist
    RETURN m_Result
 END FUNCTION
 ' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddFrameNavigationStarting (BYVAL eventHandler AS Afx_ICoreWebView2NavigationStartingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_FrameNavigationStarting(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveFrameNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_FrameNavigationStarting(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddFrameNavigationCompleted (BYVAL eventHandler AS Afx_ICoreWebView2NavigationCompletedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_FrameNavigationCompleted(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveFrameNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_FrameNavigationCompleted(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddContentLoading (BYVAL eventHandler AS Afx_ICoreWebView2ContentLoadingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_ContentLoading(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveContentLoading (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_ContentLoading(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddSourceChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_SourceChanged(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveSourceChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_SourceChanged(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddHistoryChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_SourceChanged(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveHistoryChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_SourceChanged(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddScriptDialogOpening (BYVAL eventHandler AS Afx_ICoreWebView2ScriptDialogOpeningEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_ScriptDialogOpening(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveScriptDialogOpening (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_ScriptDialogOpening(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddPermissionRequested (BYVAL eventHandler AS Afx_ICoreWebView2PermissionRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_PermissionRequested(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemovePermissionRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_PermissionRequested(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddProcessFailed (BYVAL eventHandler AS Afx_ICoreWebView2ProcessFailedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_ProcessFailed(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_ProcessFailed(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddWebMessageReceived (BYVAL eventHandler AS Afx_ICoreWebView2WebMessageReceivedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_WebMessageReceived(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveWebMessageReceived (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_WebMessageReceived(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddDocumentTitleChanged (BYVAL eventHandler AS Afx_ICoreWebView2DocumentTitleChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_DocumentTitleChanged(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveDocumentTitleChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_DocumentTitleChanged(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddContainsFullScreenElementChanged (BYVAL eventHandler AS Afx_ICoreWebView2ContainsFullScreenElementChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_ContainsFullScreenElementChanged(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveContainsFullScreenElementChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_ContainsFullScreenElementChanged(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.GetContainsFullScreenElement (BYVAL ContainsFullScreenElement AS LONG PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->get_ContainsFullScreenElement(ContainsFullScreenElement)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.GetContainsFullScreenElement () AS LONG
+   DIM ContainsFullScreenElement AS LONG
+   m_Result = m_pCoreWebView2->get_ContainsFullScreenElement(@ContainsFullScreenElement)
+   RETURN ContainsFullScreenElement
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddWebResourceRequested (BYVAL eventHandler AS Afx_ICoreWebView2WebResourceRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_WebResourceRequested(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveWebResourceRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_WebResourceRequested(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddWindowCloseRequested (BYVAL eventHandler AS Afx_ICoreWebView2WindowCloseRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pCoreWebView2->add_WindowCloseRequested(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveWindowCloseRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pCoreWebView2->remove_WindowCloseRequested(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddZoomFactorChanged (BYVAL eventHandler AS Afx_ICoreWebView2ZoomFactorChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pController->add_ZoomFactorChanged(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveZoomFactorChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pController->remove_ZoomFactorChanged(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddMoveFocusRequested (BYVAL eventHandler AS Afx_ICoreWebView2MoveFocusRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pController->add_MoveFocusRequested(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveMoveFocusRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pController->remove_MoveFocusRequested(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddGotFocus (BYVAL eventHandler AS Afx_ICoreWebView2FocusChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pController->add_GotFocus(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveGotFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pController->remove_GotFocus(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddLostFocus (BYVAL eventHandler AS Afx_ICoreWebView2FocusChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pController->add_LostFocus(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveLostFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pController->remove_LostFocus(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.AddAcceleratorKeyPressed (BYVAL eventHandler AS Afx_ICoreWebView2AcceleratorKeyPressedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   m_Result = m_pController->add_AcceleratorKeyPressed(eventHandler, token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CWebView2.RemoveAcceleratorKeyPressed (BYVAL token AS EventRegistrationToken) AS HRESULT
+   m_Result = m_pController->remove_AcceleratorKeyPressed(token)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
 
 '++++++++++++
 
