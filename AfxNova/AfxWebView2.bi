@@ -316,6 +316,8 @@ END FUNCTION
 ' ========================================================================================
 ' Creates an environment with a custom version of Edge, user data directory and/or additional
 ' browser switches.
+' This API is going to be removed in next SDK release.
+' Please use CreateCoreWebView2EnvironmentWithOptions.
 ' ========================================================================================
 PRIVATE FUNCTION CreateCoreWebView2EnvironmentWithDetails (BYVAL browserExecutableFolder AS PCWSTR, _
 BYVAL userDataFolder AS PCWSTR, BYVAL additionalBrowserArguments AS PCWSTR, _
