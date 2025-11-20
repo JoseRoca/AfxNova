@@ -4,7 +4,7 @@
 ' ########################################################################################
 
 #pragma once
-#include once "AfxWebView2.bi"
+#include once "AfxNova/AfxWebView2.bi"
 
 ' ########################################################################################
 ' CWebView2EnvironmentCompletedHandler class
