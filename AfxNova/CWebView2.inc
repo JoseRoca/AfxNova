@@ -150,10 +150,10 @@ END TYPE
 
 
 ' ########################################################################################
-' CWebView2EnvironmentCompletedHandlerInternal class
+' CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal class
 ' Implementation of the ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler callback interface.
 ' ########################################################################################
-TYPE CWebView2EnvironmentCompletedHandlerInternal EXTENDS OBJECT
+TYPE CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal EXTENDS OBJECT
 
    DECLARE VIRTUAL FUNCTION QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObject AS LPVOID PTR) AS HRESULT
    DECLARE VIRTUAL FUNCTION AddRef () AS ULONG
@@ -171,10 +171,10 @@ END TYPE
 ' ########################################################################################
 
 ' ########################################################################################
-' CWebView2ControllerCompletedHandlerInternal class
+' CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal class
 ' Implementation of the ICoreWebView2CreateCoreWebView2ControllerCompletedHandler callback interface.
 ' ########################################################################################
-TYPE CWebView2ControllerCompletedHandlerInternal EXTENDS OBJECT
+TYPE CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal EXTENDS OBJECT
 
    DECLARE VIRTUAL FUNCTION QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObject AS LPVOID PTR) AS HRESULT
    DECLARE VIRTUAL FUNCTION AddRef () AS ULONG
@@ -196,7 +196,7 @@ END TYPE
 ' Constructor
 ' Usage 1: DIM pWebView2 AS CWebView2 = hWin
 ' CreateCoreWebView2Environment, so it relies on the default runtime and default user data folder.
-' Usage 2: DIM pWebView2 AS CWebView2 = CWebView2(hWin, wszUserFolder)
+' Usage 2: DIM pWebView2 AS CWebView2 = CWebView2(hWin, pUserDataFolder)
 ' Calls CreateCoreWebView2EnvironmentWithOptions, pointing to any folder you choose.
 ' This gives you a separate profile: cookies, cache, storage isolated from the default.
 ' Slightly slower startup, but perfect for multi-tab or multi-user contexts.
@@ -210,8 +210,8 @@ PRIVATE CONSTRUCTOR CWebView2 (BYVAL hWin AS HWND, BYVAL pUserDataFolder AS WSTR
    SetWindowLongPtrW(hWin, GWLP_USERDATA, cast(LONG_PTR, @this))
    m_hwnd = hWin
    ' // Create the environment
-   DIM pEnv AS CWebView2EnvironmentCompletedHandlerInternal PTR
-   pEnv = NEW CWebView2EnvironmentCompletedHandlerInternal(@this)
+   DIM pEnv AS CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal PTR
+   pEnv = NEW CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal(@this)
    DIM hr AS HRESULT
    IF pUserDataFolder = NULL THEN
       hr = CreateCoreWebView2Environment(cast(ANY PTR, pEnv))
@@ -1368,14 +1368,14 @@ END FUNCTION
 '++++++++++++
 
 ' ########################################################################################
-' CWebView2EnvironmentCompletedHandlerInternal class
+' CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal class
 ' Implementation of the ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler callback interface.
 ' ########################################################################################
 
 ' =====================================================================================
 ' Constructor
 ' =====================================================================================
-CONSTRUCTOR CWebView2EnvironmentCompletedHandlerInternal (BYVAL pWebView2 AS CWebView2 PTR)
+CONSTRUCTOR CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal (BYVAL pWebView2 AS CWebView2 PTR)
    CWV2_DP("pWebView2: " & WSTR(pWebView2)  & " - this: " & WSTR(@this))
    m_pWebView2 = pWebView2
 END CONSTRUCTOR
@@ -1383,25 +1383,18 @@ END CONSTRUCTOR
 ' =====================================================================================
 ' Destructor
 ' =====================================================================================
-DESTRUCTOR CWebView2EnvironmentCompletedHandlerInternal
+DESTRUCTOR CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal
    CWV2_DP(WSTR(@this))
 END DESTRUCTOR
 ' =====================================================================================
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
-FUNCTION CWebView2EnvironmentCompletedHandlerInternal.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1409,7 +1402,7 @@ END FUNCTION
 ' Increments the reference count for an interface on an object. This method should be called
 ' for every new copy of a pointer to an interface on an object.
 ' ========================================================================================
-FUNCTION CWebView2EnvironmentCompletedHandlerInternal.AddRef () AS ULONG
+FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal.AddRef () AS ULONG
    refCount += 1
    CWV2_DP(WSTR(refCount))
    RETURN refCount
@@ -1420,7 +1413,7 @@ END FUNCTION
 ' Decrements the reference count for an interface on an object.
 ' If the count reaches 0, it deletes itself.
 ' ========================================================================================
-FUNCTION CWebView2EnvironmentCompletedHandlerInternal.Release () AS ULONG
+FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal.Release () AS ULONG
    refCount -= 1
    CWV2_DP(WSTR(refCount))
    IF refCount = 0 THEN
@@ -1432,14 +1425,14 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-FUNCTION CWebView2EnvironmentCompletedHandlerInternal.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdEnvironment AS Afx_ICoreWebView2Environment PTR) AS HRESULT
+FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdEnvironment AS Afx_ICoreWebView2Environment PTR) AS HRESULT
    CWV2_DP("")
    IF errorCode = S_OK AND m_pWebView2 <> NULL THEN
       m_pWebView2->m_pEnv = createdEnvironment
       m_pWebView2->m_pEnv->AddRef
       ' // Create controller
-      DIM pController AS CWebView2ControllerCompletedHandlerInternal PTR
-      pController = NEW CWebView2ControllerCompletedHandlerInternal(m_pWebView2)
+      DIM pController AS CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal PTR
+      pController = NEW CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal(m_pWebView2)
       m_pWebView2->m_pEnv->CreateCoreWebView2Controller(m_pWebView2->m_hWnd, cast(ANY PTR, pController))
       ' // Get the runtime versión
       DIM wszVersion AS LPWSTR
@@ -1452,15 +1445,16 @@ FUNCTION CWebView2EnvironmentCompletedHandlerInternal.Invoke (BYVAL errorCode AS
 END FUNCTION
 ' =====================================================================================
 
+
 ' ########################################################################################
-' CWebView2ControllerCompletedHandlerInternal class
+' CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal class
 ' Implementation of the ICoreWebView2CreateCoreWebView2ControllerCompletedHandler callback interface.
 ' ########################################################################################
 
 ' =====================================================================================
 ' Constructor
 ' =====================================================================================
-CONSTRUCTOR CWebView2ControllerCompletedHandlerInternal (BYVAL pWebView2 AS CWebView2 PTR)
+CONSTRUCTOR CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal (BYVAL pWebView2 AS CWebView2 PTR)
    CWV2_DP("pWebView2: " & WSTR(pWebView2)  & " - this: " & WSTR(@this))
    m_pWebView2 = pWebView2
 END CONSTRUCTOR
@@ -1468,25 +1462,18 @@ END CONSTRUCTOR
 ' =====================================================================================
 ' Destructor
 ' =====================================================================================
-DESTRUCTOR CWebView2ControllerCompletedHandlerInternal
+DESTRUCTOR CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal
    CWV2_DP(WSTR(@this))
 END DESTRUCTOR
 ' =====================================================================================
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
-FUNCTION CWebView2ControllerCompletedHandlerInternal.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2CreateCoreWebView2ControllerCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1494,7 +1481,7 @@ END FUNCTION
 ' Increments the reference count for an interface on an object. This method should be called
 ' for every new copy of a pointer to an interface on an object.
 ' ========================================================================================
-FUNCTION CWebView2ControllerCompletedHandlerInternal.AddRef () AS ULONG
+FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal.AddRef () AS ULONG
    refCount += 1
    CWV2_DP(WSTR(refCount))
    RETURN refCount
@@ -1505,7 +1492,7 @@ END FUNCTION
 ' Decrements the reference count for an interface on an object.
 ' If the count reaches 0, it deletes itself.
 ' ========================================================================================
-FUNCTION CWebView2ControllerCompletedHandlerInternal.Release () AS ULONG
+FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal.Release () AS ULONG
    refCount -= 1
    CWV2_DP(WSTR(refCount))
    IF refCount = 0 THEN
@@ -1517,7 +1504,7 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-FUNCTION CWebView2ControllerCompletedHandlerInternal.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdController AS Afx_ICoreWebView2Controller PTR) AS HRESULT
+FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdController AS Afx_ICoreWebView2Controller PTR) AS HRESULT
    CWV2_DP(WSTR(errorCode))
    IF errorCode = S_OK AND m_pWebView2 <> NULL THEN
       m_pWebView2->m_pController = createdController

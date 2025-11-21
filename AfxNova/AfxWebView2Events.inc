@@ -7,10 +7,10 @@
 #include once "AfxNova/AfxWebView2.bi"
 
 ' ########################################################################################
-' CWebView2EnvironmentCompletedHandler class
+' CWebView2CreateCoreWebView2EnvironmentCompletedHandler class
 ' Implementation of the ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler callback interface.
 ' ########################################################################################
-TYPE CWebView2EnvironmentCompletedHandler EXTENDS OBJECT
+TYPE CWebView2CreateCoreWebView2EnvironmentCompletedHandler EXTENDS OBJECT
 
    DECLARE VIRTUAL FUNCTION QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObject AS LPVOID PTR) AS HRESULT
    DECLARE VIRTUAL FUNCTION AddRef () AS ULONG
@@ -29,32 +29,25 @@ END TYPE
 ' =====================================================================================
 ' Constructor
 ' =====================================================================================
-PRIVATE CONSTRUCTOR CWebView2EnvironmentCompletedHandler
+PRIVATE CONSTRUCTOR CWebView2CreateCoreWebView2EnvironmentCompletedHandler
    CWV2_DP("")
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
 ' Destructor
 ' =====================================================================================
-PRIVATE DESTRUCTOR CWebView2EnvironmentCompletedHandler
+PRIVATE DESTRUCTOR CWebView2CreateCoreWebView2EnvironmentCompletedHandler
    CWV2_DP("")
 END DESTRUCTOR
 ' =====================================================================================
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
-PRIVATE FUNCTION CWebView2EnvironmentCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+PRIVATE FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -62,7 +55,7 @@ END FUNCTION
 ' Increments the reference count for an interface on an object. This method should be called
 ' for every new copy of a pointer to an interface on an object.
 ' ========================================================================================
-PRIVATE FUNCTION CWebView2EnvironmentCompletedHandler.AddRef () AS ULONG
+PRIVATE FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandler.AddRef () AS ULONG
    refCount += 1
    CWV2_DP(WSTR(refCount))
    RETURN refCount
@@ -73,7 +66,7 @@ END FUNCTION
 ' Decrements the reference count for an interface on an object.
 ' If the count reaches 0, it deletes itself.
 ' ========================================================================================
-PRIVATE FUNCTION CWebView2EnvironmentCompletedHandler.Release () AS ULONG
+PRIVATE FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandler.Release () AS ULONG
    refCount -= 1
    CWV2_DP(WSTR(refCount))
    IF refCount = 0 THEN
@@ -85,7 +78,7 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-PRIVATE FUNCTION CWebView2EnvironmentCompletedHandler.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdEnvironment AS Afx_ICoreWebView2Environment PTR) AS HRESULT
+PRIVATE FUNCTION CWebView2CreateCoreWebView2EnvironmentCompletedHandler.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdEnvironment AS Afx_ICoreWebView2Environment PTR) AS HRESULT
    CWV2_DP("")
    RETURN S_OK
 END FUNCTION
@@ -93,10 +86,10 @@ END FUNCTION
 
 
 ' ########################################################################################
-' CWebView2ControllerCompletedHandler class
+' CWebView2CreateCoreWebView2ControllerCompletedHandler class
 ' Implementation of the ICoreWebView2CreateCoreWebView2ControllerCompletedHandler callback interface.
 ' ########################################################################################
-TYPE CWebView2ControllerCompletedHandler EXTENDS OBJECT
+TYPE CWebView2CreateCoreWebView2ControllerCompletedHandler EXTENDS OBJECT
 
    DECLARE VIRTUAL FUNCTION QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObject AS LPVOID PTR) AS HRESULT
    DECLARE VIRTUAL FUNCTION AddRef () AS ULONG
@@ -115,32 +108,25 @@ END TYPE
 ' =====================================================================================
 ' Constructor
 ' =====================================================================================
-PRIVATE CONSTRUCTOR CWebView2ControllerCompletedHandler
+PRIVATE CONSTRUCTOR CWebView2CreateCoreWebView2ControllerCompletedHandler
    CWV2_DP("")
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
 ' Destructor
 ' =====================================================================================
-PRIVATE DESTRUCTOR CWebView2ControllerCompletedHandler
+PRIVATE DESTRUCTOR CWebView2CreateCoreWebView2ControllerCompletedHandler
    CWV2_DP("")
 END DESTRUCTOR
 ' =====================================================================================
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
-PRIVATE FUNCTION CWebView2ControllerCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2CreateCoreWebView2ControllerCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+PRIVATE FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -148,7 +134,7 @@ END FUNCTION
 ' Increments the reference count for an interface on an object. This method should be called
 ' for every new copy of a pointer to an interface on an object.
 ' ========================================================================================
-PRIVATE FUNCTION CWebView2ControllerCompletedHandler.AddRef () AS ULONG
+PRIVATE FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandler.AddRef () AS ULONG
    refCount += 1
    CWV2_DP(WSTR(refCount))
    RETURN refCount
@@ -159,7 +145,7 @@ END FUNCTION
 ' Decrements the reference count for an interface on an object.
 ' If the count reaches 0, it deletes itself.
 ' ========================================================================================
-PRIVATE FUNCTION CWebView2ControllerCompletedHandler.Release () AS ULONG
+PRIVATE FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandler.Release () AS ULONG
    refCount -= 1
    CWV2_DP(WSTR(refCount))
    IF refCount = 0 THEN
@@ -171,7 +157,7 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-PRIVATE FUNCTION CWebView2ControllerCompletedHandler.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdController AS Afx_ICoreWebView2Controller PTR) AS HRESULT
+PRIVATE FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandler.Invoke (BYVAL errorCode AS HRESULT, BYVAL createdController AS Afx_ICoreWebView2Controller PTR) AS HRESULT
    CWV2_DP("")
    RETURN S_OK
 END FUNCTION
@@ -215,18 +201,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2NavigationStartingdEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2NavigationStartingEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -301,18 +280,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2NavigationCompletedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2NavigationCompletedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -387,18 +359,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2ContentLoadingEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @Afx_IID_ICoreWebView2ContentLoadingEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -473,18 +438,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2SourceChangedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2SourceChangedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -559,18 +517,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2HistoryChangedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2HistoryChangedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -645,18 +596,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2ScriptDialogOpeningEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2ScriptDialogOpeningEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -731,18 +675,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2PermissionRequestedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2PermissionRequestedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -817,18 +754,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2ProcessFailedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2ProcessFailedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -903,18 +833,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2WebMessageReceivedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2WebMessageReceivedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -989,18 +912,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2NewWindowRequestedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2NewWindowRequestedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1075,18 +991,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2DocumentTitleChangedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2DocumentTitleChangedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1161,18 +1070,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2ContainsFullScreenElementChangedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2ContainsFullScreenElementChangedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1247,18 +1149,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2WebResourceRequestedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2WebResourceRequestedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1333,18 +1228,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2WindowCloseRequestedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2WindowCloseRequestedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1419,18 +1307,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2ExecuteScriptCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2ExecuteScriptCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1507,16 +1388,8 @@ END DESTRUCTOR
 ' Returns pointers to the implemented classes and supported interfaces.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2AddScriptToExecuteOnDocumentCreatedCompleteHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1591,18 +1464,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2AddCapturePreviewCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2CapturePreviewCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1677,18 +1543,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2DevToolsProtocolEventReceivedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @Afx_IID_ICoreWebView2DevToolsProtocolEventReceivedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1763,18 +1622,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2ZoomFactorChangedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2ZoomFactorChangedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1849,18 +1701,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2MoveFocusRequestedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2MoveFocusRequestedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -1935,18 +1780,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2FocusChangedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2FocusChangedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -2021,18 +1859,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2AcceleratorKeyPressedEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2AcceleratorKeyPressedEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -2107,18 +1938,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2NewBrowserVersionAvailableEventHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2NewBrowserVersionAvailableEventHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
@@ -2193,18 +2017,11 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' Returns pointers to the implemented classes and supported interfaces.
+' It is never called by WebView, so we simply return S_OK.
 ' ========================================================================================
 PRIVATE FUNCTION CWebView2CallDevToolsProtocolMethodCompletedHandler.QueryInterface (BYVAL riid AS REFIID, BYVAL ppvObj AS LPVOID PTR) AS HRESULT
-   CWV2_DP("riid: " & AfxGuidText(riid))
-   IF ppvObj = NULL THEN RETURN E_INVALIDARG
-   IF IsEqualIID(riid, @AFX_IID_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler) OR _
-      IsEqualIID(riid, @IID_IUnknown) THEN
-      *ppvObj = @this
-      ' // Increment the reference count
-      this.AddRef
-      RETURN S_OK
-   END IF
-   RETURN E_NOINTERFACE
+   CWV2_DP("")
+   RETURN S_OK
 END FUNCTION
 ' =====================================================================================
 
