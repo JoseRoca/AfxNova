@@ -52,6 +52,8 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 | [GetCoreWebView](#getcorewebview) | Returns an addref'ed pointer to the **Afx_ICoreWebView2** interface. |
 | [IsReady](#isready) | Chekcs if `WebView2` is ready to be used.. |
 
+---
+
 ## Functions
 
 | Name       | Description |
@@ -62,6 +64,8 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 | [CreateCoreWebView2EnvironmentWithOptions](#createcorewebview2environmentwithoptions) | Creates a WebView2 environment with a custom version of WebView2 Runtime, user data folder, and with or without additional options. |
 | [GetAvailableCoreWebView2BrowserVersionString](#getavailablecorewebview2browserversionstring) | Get the browser version info including channel name if it is not the WebView2 Runtime. |
 
+---
+
 ## Error and result codes
 
 | Name       | Description |
@@ -69,6 +73,8 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 | [GetErrorInfo](#geterrorinfo) | Returns a localized description of the specified error code. |
 | [GetLastResult](#getlastresult) | Returns the last result code. |
 | [SetResult](#setresult) | Sets the last result code. |
+
+---
 
 ## Creation Callbacks
 
@@ -134,6 +140,8 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 | [SetParentWindow](#setparentwindow) | Sets the parent window for the WebView. |
 | [SetZoomFactor](#setzoomfactor) | Sets the **ZoomFactor** property. |
 | [Stop](#stop) | Stop all navigations and pending resource fetches. Does not stop scripts. |
+
+---
 
 ## Settings properties
 
