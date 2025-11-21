@@ -30,10 +30,15 @@
 *.lib binary
 *.avi binary
 *.mp3 binary
+*.mp4 binary
 *.tif binary
 *.tiff binary
 *.emf binary
 *.cmp binary
+*.tlb binary
+*.ocx binary
+*.exe binary
+*.mdb binary
 
 # Standard to msysgit
 *.doc	 diff=astextplain
