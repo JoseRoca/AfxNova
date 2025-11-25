@@ -225,7 +225,7 @@ FUNCTION FUNCTION DWStrClip (BYREF wszSide AS CONST WSTRING, BYREF wszSourceStri
 | ---------- | ----------- |
 | *wszSide* | The "LEFT", "MID" or "RIGHT". |
 | *wszSourceString:* | The source string. |
-| *nCount* | The number of characters to be removed. If it is 0 or negative, the source string is inaltered. |
+| *nCount* | The number of characters to be removed. If it is 0 or negative, the source string is unaltered. |
 | *nStart* | The starting position. It is only used with the "MID" option. |
 
 #### Usage examples
