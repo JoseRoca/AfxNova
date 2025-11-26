@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
 ' Filename: AfxGdiPlusObjects.inc
-' Purpose:  GDI+ Flat Api procedures
+' Purpose:  GDI+ Flat Api objects
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
 '
@@ -316,6 +316,231 @@ END OPERATOR
 
 
 ' ########################################################################################
+' GdiPlusLinearGradientBrush object
+' ########################################################################################
+
+' ========================================================================================
+TYPE GdiPlusLinearGradientBrush
+Public:
+   m_Brush AS GpLinearGradientBrush PTR
+   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
+   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpLinearGradientBrush PTR
+END TYPE
+' ========================================================================================
+
+' =====================================================================================
+' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
+   SetLastError(GdipCreateLineBrush(point1, point2, color1, color2, WrapModeTile, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
+   SetLastError(GdipCreateLineBrushI(point1, point2, color1, color2, WrapModeTile, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
+   SetLastError(GdipCreateLineBrushFromRect(rc, color1, color2, nMode, WrapModeTile, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
+   SetLastError(GdipCreateLineBrushFromRectI(rc, color1, color2, nMode, WrapModeTile, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
+   SetLastError(GdipCreateLineBrushFromRectWithAngle(rc, color1, color2, angle, isAngleScalable, WrapModeTile, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
+   SetLastError(GdipCreateLineBrushFromRectWithAngleI(rc, color1, color2, angle, isAngleScalable, WrapModeTile, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusLinearGradientBrush
+   GDIP_DP("m_Brush: " & WSTR(m_Brush))
+   IF m_Brush THEN GdipDeleteBrush(m_Brush)
+END DESTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpLinearGradientBrush object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusLinearGradientBrush.@ () AS GpLinearGradientBrush PTR
+   RETURN m_Brush
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpLinearGradientBrush object
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF brush AS GdiPlusLinearGradientBrush) AS GpLinearGradientBrush PTR
+   RETURN brush.m_Brush
+END OPERATOR
+' ========================================================================================
+
+
+' ########################################################################################
+' GdiPlusPathGradientBrush object
+' ########################################################################################
+
+' ========================================================================================
+TYPE GdiPlusPathGradientBrush
+Public:
+   m_Brush AS GpPathGradientBrush PTR
+   DECLARE CONSTRUCTOR (BYVAL nHatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, BYVAL backColor AS ARGB = &HFF000000)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpPathGradientBrush PTR
+END TYPE
+' ========================================================================================
+
+' =====================================================================================
+' Creates a HatchBrush object based on a hatch style, a foreground color, and a background color.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL nHatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, BYVAL backColor AS ARGB = &HFF000000)
+   SetLastError(GdipCreateHatchBrush(nHatchStyle, foreColor, backColor, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusPathGradientBrush
+   GDIP_DP("m_Brush: " & WSTR(m_Brush))
+   IF m_Brush THEN GdipDeleteBrush(m_Brush)
+END DESTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpPathGradientBrush object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusPathGradientBrush.@ () AS GpPathGradientBrush PTR
+   RETURN m_Brush
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpPathGradientBrush object
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF brush AS GdiPlusPathGradientBrush) AS GpPathGradientBrush PTR
+   RETURN brush.m_Brush
+END OPERATOR
+' ========================================================================================
+
+
+' ########################################################################################
+' GdiPlusTextureBrush object
+' ########################################################################################
+
+' ========================================================================================
+TYPE GdiPlusTextureBrush
+Public:
+   m_Texture AS GpTextureBrush PTR
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode = WrapModeTile)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRectF PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRect PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRect PTR)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRectF PTR)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpTextureBrush PTR
+END TYPE
+' ========================================================================================
+
+' =====================================================================================
+' Creates a TextureBrush object based on an image and a wrap mode. The size of the brush
+' defaults to the size of the image, so the entire image is used by the brush.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode = WrapModeTile)
+   SetLastError(GdipCreateTexture(image, nWrapmode, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+' Creates a TextureBrush object based on an image, a defining set of coordinates, and
+' a set of image properties.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRectF PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   SetLastError(GdipCreateTextureIA(image, imageAttributes, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRect PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   SetLastError(GdipCreateTextureIAI(image, imageAttributes, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+' Creates a TextureBrush object based on an image, a wrap mode, and a defining set of coordinates.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRect PTR)
+   SetLastError(GdipCreateTexture2I(image, nWrapMode, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRectF PTR)
+   SetLastError(GdipCreateTexture2(image, nWrapMode, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE)
+   SetLastError(GdipCreateTexture2(image, nWrapMode, dstX, dstY, dstWidth, dstHeight, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_)
+   SetLastError(GdipCreateTexture2I(image, nWrapMode, dstX, dstY, dstWidth, dstHeight, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusTextureBrush
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+   IF m_Texture THEN GdipDeleteBrush(m_Texture)
+END DESTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpTextureBrush object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusTextureBrush.@ () AS GpTextureBrush PTR
+   RETURN m_Texture
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpTextureBrush object
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF texture AS GdiPlusTextureBrush) AS GpTextureBrush PTR
+   RETURN texture.m_Texture
+END OPERATOR
+' ========================================================================================
+
+
+' ########################################################################################
 ' GdiPlusImage object
 ' ########################################################################################
 
@@ -576,7 +801,7 @@ END OPERATOR
 TYPE GdiPlusImageAttributes
 Public:
    m_ImgAttr AS GpImageAttributes PTR
-   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL imgAttr AS GpImageAttributes PTR = NULL)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS GpImageAttributes PTR
 END TYPE
@@ -585,10 +810,16 @@ END TYPE
 ' ========================================================================================
 ' Default constructor
 ' ========================================================================================
-PRIVATE CONSTRUCTOR GdiPlusImageAttributes
-   SetLastError(GdipCreateImageAttributes(@m_ImgAttr))
+PRIVATE CONSTRUCTOR GdiPlusImageAttributes (BYVAL imgAttr AS GpImageAttributes PTR = NULL)
+   IF imgAttr THEN
+      SetLastError(GdipCloneImageAttributes(imgAttr, @m_ImgAttr))
+   ELSE
+      SetLastError(GdipCreateImageAttributes(@m_ImgAttr))
+   END IF
+   GDIP_DP("m_ImgAttr: " & WSTR(m_ImgAttr))
 END CONSTRUCTOR
 ' ========================================================================================
+
 ' ========================================================================================
 ' Cleanup
 ' ========================================================================================
@@ -729,6 +960,7 @@ END OPERATOR
 TYPE GdiPlusFont
 Public:
    m_Font AS GpFont PTR
+   DECLARE CONSTRUCTOR (BYVAL font AS GpFont PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL hdc AS HDC)
    DECLARE CONSTRUCTOR (BYVAL hdc AS HDC, BYVAL plogfont AS LOGFONTA PTR)
    DECLARE CONSTRUCTOR (BYVAL hdc AS HDC, BYVAL plogfont AS LOGFONTW PTR)
@@ -738,6 +970,14 @@ Public:
    DECLARE OPERATOR @ () AS GpFont PTR
 END TYPE
 ' ========================================================================================
+
+' ========================================================================================
+' Creates and initializes a Font object from another Font object.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusFont (BYVAL font AS GpFont PTR = NULL)
+   IF font THEN GdipCloneFont(font, @m_Font)
+END CONSTRUCTOR
+' =====================================================================================
 
 ' ========================================================================================
 ' Creates a Font object based on the GDI font object that is currently selected into a
@@ -832,12 +1072,21 @@ END OPERATOR
 TYPE GdiPlusFontFamily
 Public:
    m_FontFamily AS GpFontFamily PTR
+   DECLARE CONSTRUCTOR (BYVAL fontFamily AS GpFontFamily PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL pwszName AS WSTRING PTR, BYVAL fontCollection AS GpFontCollection PTR = NULL)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS GpFontFamily PTR
 END TYPE
 ' ========================================================================================
 
+' ========================================================================================
+' Creates and initializes a FontFamily object from another FontFamily object.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusFontFamily (BYVAL fontFamily AS GpFontFamily PTR = NULL)
+   IF fontFamily THEN SetLastError(GdipCloneFontFamily(fontFamily, @m_FontFamily))
+   GDIP_DP("m_FontFamily: " & WSTR(m_FontFamily))
+END CONSTRUCTOR
+' =====================================================================================
 ' ========================================================================================
 ' Creates a FontFamily object based on a specified font collection.
 ' ========================================================================================
@@ -940,6 +1189,7 @@ END OPERATOR
 TYPE GdiPlusMatrix
 Public:
    m_Matrix AS GpMatrix PTR
+   DECLARE CONSTRUCTOR (BYVAL matrix AS GpMatrix PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL m11 AS SINGLE, BYVAL m12 AS SINGLE, BYVAL m21 AS SINGLE, BYVAL m22 AS SINGLE, BYVAL dx AS SINGLE, BYVAL dy AS SINGLE)
    DECLARE CONSTRUCTOR (BYVAL rcf AS GpRectF PTR, BYVAL dstplg AS GpPointF PTR)
    DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL dstplg AS GpPoint PTR)
@@ -948,6 +1198,20 @@ Public:
 END TYPE
 ' ========================================================================================
 
+' ========================================================================================
+' Constructors
+' ========================================================================================
+' ========================================================================================
+' Creates and initializes a Matrix object from another Matrix object
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusMatrix (BYVAL matrix AS GpMatrix PTR = NULL)
+   IF matrix THEN
+      SetLastError(GdipCloneMatrix(matrix, @m_Matrix))
+   ELSE
+      SetLastError(GdipCreateMatrix(@m_Matrix))
+   END IF
+END CONSTRUCTOR
+' ========================================================================================
 ' ========================================================================================
 ' Creates and initializes a Matrix object based on six numbers that define an affine transformation.
 ' ========================================================================================
@@ -1003,6 +1267,7 @@ END OPERATOR
 TYPE GdiPlusPath
 Public:
    m_Path AS GpPath PTR
+   DECLARE CONSTRUCTOR (BYVAL path AS GpPath PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL nFillMode AS FillMode = FillModeAlternate)
    DECLARE CONSTRUCTOR (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
    DECLARE CONSTRUCTOR (BYVAL pts AS GpPoint PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
@@ -1012,7 +1277,13 @@ END TYPE
 ' ========================================================================================
 
 ' =====================================================================================
-' Default constructor
+' Constructors
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusPath (BYVAL path AS GpPath PTR = NULL)
+   IF path THEN SetLastError(GdipClonePath(path, @m_Path))
+   GDIP_DP("m_Path: " & WSTR(m_Path))
+END CONSTRUCTOR
+' =====================================================================================
 ' =====================================================================================
 PRIVATE CONSTRUCTOR GdiPlusPath (BYVAL nFillMode AS FillMode = FillModeAlternate)
    SetLastError(GdipCreatePath(nFillMode, @m_Path))
@@ -1192,9 +1463,9 @@ END TYPE
 ' ========================================================================================
 ' Constructors
 ' ========================================================================================
+' ========================================================================================
 PRIVATE CONSTRUCTOR GdiPlusRegion
-   SetLastError(GdipCreateRegion(@m_Region))
-   GDIP_DP("m_Region: " & WSTR(m_Region))
+      SetLastError(GdipCreateRegion(@m_Region))
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
@@ -1265,230 +1536,56 @@ END OPERATOR
 ' ========================================================================================
 
 
-
-'-------------------------------
-
 ' ########################################################################################
-' GdiPlusTextureBrush object
+' GdiPlusStringFormat object
 ' ########################################################################################
 
 ' ========================================================================================
-TYPE GdiPlusTextureBrush
+TYPE GdiPlusSringFormat
 Public:
-   m_Texture AS GpTextureBrush PTR
-   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode = WrapModeTile)
-   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRectF PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
-   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRect PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
-   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRect PTR)
-   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRectF PTR)
-   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE)
-   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_)
+   m_StringFormat AS GpStringFormat PTR
+   DECLARE CONSTRUCTOR (BYVAL stringFormat AS GpStringFormat PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL formatAttributes AS INT_, BYVAL language AS LANGID)
    DECLARE DESTRUCTOR
-   DECLARE OPERATOR @ () AS GpTextureBrush PTR
+   DECLARE OPERATOR @ () AS GpStringFormat PTR
 END TYPE
 ' ========================================================================================
 
 ' =====================================================================================
-' Creates a TextureBrush object based on an image and a wrap mode. The size of the brush
-' defaults to the size of the image, so the entire image is used by the brush.
+' Creates and initializes an StringFormat object from another StringFormat object.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode = WrapModeTile)
-   SetLastError(GdipCreateTexture(image, nWrapmode, @m_Texture))
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+PRIVATE CONSTRUCTOR GdiPlusSringFormat (BYVAL stringFormat AS GpStringFormat PTR = NULL)
+   GDIP_DP(WSTR(stringFormat))
+   IF stringFormat THEN SetLastError(GdipCloneStringFormat(stringFormat, @m_StringFormat))
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
-' Creates a TextureBrush object based on an image, a defining set of coordinates, and
-' a set of image properties.
+' Creates a StringFormat object based on string format flags and a language.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRectF PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
-   SetLastError(GdipCreateTextureIA(image, imageAttributes, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+PRIVATE CONSTRUCTOR GdiPlusSringFormat (BYVAL formatFlags AS INT_ = 0, BYVAL language AS LANGID = LANG_NEUTRAL)
+   SetLastError(GdipCreateStringFormat(formatFlags, language, @m_StringFormat))
 END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRect PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
-   SetLastError(GdipCreateTextureIAI(image, imageAttributes, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-' Creates a TextureBrush object based on an image, a wrap mode, and a defining set of coordinates.
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRect PTR)
-   SetLastError(GdipCreateTexture2I(image, nWrapMode, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRectF PTR)
-   SetLastError(GdipCreateTexture2(image, nWrapMode, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE)
-   SetLastError(GdipCreateTexture2(image, nWrapMode, dstX, dstY, dstWidth, dstHeight, @m_Texture))
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_)
-   SetLastError(GdipCreateTexture2I(image, nWrapMode, dstX, dstY, dstWidth, dstHeight, @m_Texture))
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
-END CONSTRUCTOR
-' =====================================================================================
+' ========================================================================================
 ' ========================================================================================
 ' Cleanup
 ' ========================================================================================
-PRIVATE DESTRUCTOR GdiPlusTextureBrush
-   GDIP_DP("m_Texture: " & WSTR(m_Texture))
-   IF m_Texture THEN GdipDeleteBrush(m_Texture)
+PRIVATE DESTRUCTOR GdiPlusSringFormat
+   GDIP_DP("m_StringFormat: " & WSTR(m_StringFormat))
+   IF m_StringFormat THEN SetLastError(GdipDeleteStringFormat(m_StringFormat))
 END DESTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
-' Returns a pointer to the GpTextureBrush object
+' Returns a pointer to the GpStringFormat object
 ' ========================================================================================
-PRIVATE OPERATOR GdiPlusTextureBrush.@ () AS GpTextureBrush PTR
-   RETURN m_Texture
+PRIVATE OPERATOR GdiPlusSringFormat.@ () AS GpStringFormat PTR
+   RETURN m_StringFormat
 END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
-' Returns a pointer to the GpTextureBrush object
+' Returns a pointer to the GpStringFormat object
 ' ========================================================================================
-PRIVATE OPERATOR * (BYREF texture AS GdiPlusTextureBrush) AS GpTextureBrush PTR
-   RETURN texture.m_Texture
-END OPERATOR
-' ========================================================================================
-
-
-' ########################################################################################
-' GdiPlusLinearGradientBrush object
-' ########################################################################################
-
-' ========================================================================================
-TYPE GdiPlusLinearGradientBrush
-Public:
-   m_Brush AS GpLinearGradientBrush PTR
-   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
-   DECLARE DESTRUCTOR
-   DECLARE OPERATOR @ () AS GpLinearGradientBrush PTR
-END TYPE
-' ========================================================================================
-
-' =====================================================================================
-' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   SetLastError(GdipCreateLineBrush(point1, point2, color1, color2, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   SetLastError(GdipCreateLineBrushI(point1, point2, color1, color2, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   SetLastError(GdipCreateLineBrushFromRect(rc, color1, color2, nMode, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   SetLastError(GdipCreateLineBrushFromRectI(rc, color1, color2, nMode, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
-   SetLastError(GdipCreateLineBrushFromRectWithAngle(rc, color1, color2, angle, isAngleScalable, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
-   SetLastError(GdipCreateLineBrushFromRectWithAngleI(rc, color1, color2, angle, isAngleScalable, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' ========================================================================================
-' Cleanup
-' ========================================================================================
-PRIVATE DESTRUCTOR GdiPlusLinearGradientBrush
-   GDIP_DP("m_Brush: " & WSTR(m_Brush))
-   IF m_Brush THEN GdipDeleteBrush(m_Brush)
-END DESTRUCTOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpLinearGradientBrush object
-' ========================================================================================
-PRIVATE OPERATOR GdiPlusLinearGradientBrush.@ () AS GpLinearGradientBrush PTR
-   RETURN m_Brush
-END OPERATOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpLinearGradientBrush object
-' ========================================================================================
-PRIVATE OPERATOR * (BYREF brush AS GdiPlusLinearGradientBrush) AS GpLinearGradientBrush PTR
-   RETURN brush.m_Brush
-END OPERATOR
-' ========================================================================================
-
-
-' ########################################################################################
-' GdiPlusPathGradientBrush object
-' ########################################################################################
-
-' ========================================================================================
-TYPE GdiPlusPathGradientBrush
-Public:
-   m_Brush AS GpPathGradientBrush PTR
-   DECLARE CONSTRUCTOR (BYVAL nHatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, BYVAL backColor AS ARGB = &HFF000000)
-   DECLARE DESTRUCTOR
-   DECLARE OPERATOR @ () AS GpPathGradientBrush PTR
-END TYPE
-' ========================================================================================
-
-' =====================================================================================
-' Creates a HatchBrush object based on a hatch style, a foreground color, and a background color.
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL nHatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, BYVAL backColor AS ARGB = &HFF000000)
-   SetLastError(GdipCreateHatchBrush(nHatchStyle, foreColor, backColor, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' ========================================================================================
-' Cleanup
-' ========================================================================================
-PRIVATE DESTRUCTOR GdiPlusPathGradientBrush
-   GDIP_DP("m_Brush: " & WSTR(m_Brush))
-   IF m_Brush THEN GdipDeleteBrush(m_Brush)
-END DESTRUCTOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpPathGradientBrush object
-' ========================================================================================
-PRIVATE OPERATOR GdiPlusPathGradientBrush.@ () AS GpPathGradientBrush PTR
-   RETURN m_Brush
-END OPERATOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpPathGradientBrush object
-' ========================================================================================
-PRIVATE OPERATOR * (BYREF brush AS GdiPlusPathGradientBrush) AS GpPathGradientBrush PTR
-   RETURN brush.m_Brush
+PRIVATE OPERATOR * (BYREF fmt AS GdiPlusSringFormat) AS GpStringFormat PTR
+   RETURN fmt.m_StringFormat
 END OPERATOR
 ' ========================================================================================
 
