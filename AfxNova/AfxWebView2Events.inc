@@ -18,7 +18,7 @@ TYPE CWebView2CreateCoreWebView2EnvironmentCompletedHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL errorCode AS HRESULT, BYVAL createdEnvironment AS Afx_ICoreWebView2Environment PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -97,7 +97,7 @@ TYPE CWebView2CreateCoreWebView2ControllerCompletedHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL errorCode AS HRESULT, BYVAL createdController AS Afx_ICoreWebView2Controller PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -176,7 +176,7 @@ TYPE CWebView2NavigationStartingdEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2NavigationCompletedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -255,7 +255,7 @@ TYPE CWebView2NavigationCompletedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2NavigationCompletedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -267,14 +267,14 @@ END TYPE
 ' Constructor
 ' =====================================================================================
 PRIVATE CONSTRUCTOR CWebView2NavigationCompletedEventHandler
-   CWV2_DP("")
+   CWV2_DP("*************************")
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
 ' Destructor
 ' =====================================================================================
 PRIVATE DESTRUCTOR CWebView2NavigationCompletedEventHandler
-   CWV2_DP("")
+   CWV2_DP("****************************")
 END DESTRUCTOR
 ' =====================================================================================
 
@@ -334,7 +334,7 @@ TYPE CWebView2ContentLoadingEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2ContentLoadingEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -413,7 +413,7 @@ TYPE CWebView2SourceChangedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2SourceChangedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -492,7 +492,7 @@ TYPE CWebView2HistoryChangedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS IUnknown PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -571,7 +571,7 @@ TYPE CWebView2ScriptDialogOpeningEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2ScriptDialogOpeningEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -650,7 +650,7 @@ TYPE CWebView2PermissionRequestedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2PermissionRequestedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -729,7 +729,7 @@ TYPE CWebView2ProcessFailedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2ProcessFailedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -808,7 +808,7 @@ TYPE CWebView2WebMessageReceivedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2WebMessageReceivedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -887,7 +887,7 @@ TYPE CWebView2NewWindowRequestedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2NewWindowRequestedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -966,7 +966,7 @@ TYPE CWebView2DocumentTitleChangedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS IUnknown PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1045,7 +1045,7 @@ TYPE CWebView2ContainsFullScreenElementChangedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS IUnknown PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1124,7 +1124,7 @@ TYPE CWebView2WebResourceRequestedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2WebResourceRequestedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1203,7 +1203,7 @@ TYPE CWebView2WindowCloseRequestedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS IUnknown PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1282,7 +1282,7 @@ TYPE CWebView2ExecuteScriptCompletedHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL errorCode AS HRESULT, BYVAL resultObjectAsJson AS LPCWSTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1361,7 +1361,7 @@ TYPE CWebView2AddScriptToExecuteOnDocumentCreatedCompleteHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL errorCode AS HRESULT, BYVAL resultObjectAsJson AS LPCWSTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1439,7 +1439,7 @@ TYPE CWebView2AddCapturePreviewCompletedHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL errorCode AS HRESULT) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1518,7 +1518,7 @@ TYPE CWebView2DevToolsProtocolEventReceivedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2DevToolsProtocolEventReceivedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1597,7 +1597,7 @@ TYPE CWebView2ZoomFactorChangedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2Controller PTR, BYVAL args AS IUnknown PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1676,7 +1676,7 @@ TYPE CWebView2MoveFocusRequestedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2Controller PTR, BYVAL args AS Afx_ICoreWebView2MoveFocusRequestedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1755,7 +1755,7 @@ TYPE CWebView2FocusChangedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2Controller PTR, BYVAL args AS IUnknown PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1834,7 +1834,7 @@ TYPE CWebView2AcceleratorKeyPressedEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2Controller PTR, BYVAL args AS Afx_ICoreWebView2AcceleratorKeyPressedEventArgs PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1913,7 +1913,7 @@ TYPE CWebView2NewBrowserVersionAvailableEventHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL webviewEnvironment AS Afx_ICoreWebView2Environment PTR, BYVAL args AS IUNknown PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -1992,7 +1992,7 @@ TYPE CWebView2CallDevToolsProtocolMethodCompletedHandler EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Invoke (BYVAL errorCode AS HRESULT, BYVAL returnObjectAsJson AS LPCWSTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0

@@ -48,7 +48,7 @@ TYPE CAdoConnectionEvents EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Disconnect (BYVAL adStatus AS EventStatusEnum PTR, BYVAL pConnection AS Afx_ADOConnection PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0
@@ -227,7 +227,7 @@ TYPE CAdoRecordsetEvents EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION FetchComplete (BYVAL pError AS Afx_ADOError PTR, BYVAL adStatus AS EventStatusEnum PTR, BYVAL pRecordset AS Afx_ADORecordset PTR) AS HRESULT
 
    DECLARE CONSTRUCTOR
-   DECLARE DESTRUCTOR
+   DECLARE VIRTUAL DESTRUCTOR
 
    ' Reference count for COM
    refCount AS ULONG = 0

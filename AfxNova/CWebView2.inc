@@ -1527,6 +1527,7 @@ FUNCTION CWebView2CreateCoreWebView2ControllerCompletedHandlerInternal.Invoke (B
 END FUNCTION
 ' =====================================================================================
 
+
 ' ########################################################################################
 '                                       WRAPPERS
 ' ########################################################################################
@@ -1540,10 +1541,10 @@ END NAMESPACE
 
 
 ' ########################################################################################
-' CWebView2NewWindowRequestedEventHandlerImpl class
+' CWebView2NewWindowRequestedEventHandlerInternal class
 ' Implementation of the ICoreWebView2NewWindowRequestedEventHandler callback interface.
 ' ########################################################################################
-TYPE CWebView2NewWindowRequestedEventHandlerImpl EXTENDS CWebView2NewWindowRequestedEventHandler
+TYPE CWebView2NewWindowRequestedEventHandlerInternal EXTENDS CWebView2NewWindowRequestedEventHandler
 
    DECLARE FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2NewWindowRequestedEventArgs PTR) AS HRESULT
    DECLARE CONSTRUCTOR (BYVAL pWebView2 AS CWebView2 PTR, BYVAL useNewWindow AS BOOLEAN = FALSE)
@@ -1558,12 +1559,12 @@ END TYPE
 ' ########################################################################################
 
 ' ########################################################################################
-' CWebView2NewWindowRequestedEventHandlerImpl class
+' CWebView2NewWindowRequestedEventHandlerInternal class
 ' Implementation of the ICoreWebView2NewWindowRequestedEventHandler callback interface.
 ' ########################################################################################
 
 ' ========================================================================================
-CONSTRUCTOR CWebView2NewWindowRequestedEventHandlerImpl (BYVAL pWebView2 AS CWebView2 PTR, BYVAL useNewWindow AS BOOLEAN = FALSE)
+CONSTRUCTOR CWebView2NewWindowRequestedEventHandlerInternal (BYVAL pWebView2 AS CWebView2 PTR, BYVAL useNewWindow AS BOOLEAN = FALSE)
    CWV2_DP("pWebView2: " & WSTR(pWebView2))
    IF pWebView2 THEN
       m_pWebView2 = pWebView2
@@ -1574,13 +1575,13 @@ CONSTRUCTOR CWebView2NewWindowRequestedEventHandlerImpl (BYVAL pWebView2 AS CWeb
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
-DESTRUCTOR CWebView2NewWindowRequestedEventHandlerImpl
+DESTRUCTOR CWebView2NewWindowRequestedEventHandlerInternal
    CWV2_DP("")
    IF m_pWebView2 THEN m_pWebView2->RemoveNewWindowRequested(m_token)
 END DESTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
-FUNCTION CWebView2NewWindowRequestedEventHandlerImpl.Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2NewWindowRequestedEventArgs PTR) AS HRESULT
+FUNCTION CWebView2NewWindowRequestedEventHandlerInternal.Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2NewWindowRequestedEventArgs PTR) AS HRESULT
    CWV2_DP("sender: " & WSTR(sender))
    IF m_useNewWindow = FALSE THEN
       ' // Avoid the opening of new external window
