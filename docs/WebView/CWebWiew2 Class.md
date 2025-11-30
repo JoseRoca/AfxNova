@@ -65,6 +65,14 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 | [GetAvailableCoreWebView2BrowserVersionString](#getavailablecorewebview2browserversionstring) | Get the browser version info including channel name if it is not the WebView2 Runtime. |
 
 ---
+## Helper functions
+
+| Name       | Description |
+| ---------- | ----------- |
+| [AfxCWebView2Ptr](#afxcwebview2ptr) | Returns a raw pointer to the **CWebView** class. |
+| [AfxSaveTempHtmlFile](#afxsavetemphtmlfile) | Saves the contents of an html script to a temporary file. |
+
+---
 
 ## Error and result codes
 
@@ -855,7 +863,43 @@ FUNCTION IsReady (BYVAL dwMaxWaitMilliseconds AS LONG = -1) AS BOOLEAN
 
 #### Return value
 
-Returns TRU or FALSE.
+Returns TRUE or FALSE.
+
+---
+
+## AfxCWebView2Ptr
+
+Returns a raw pointer to the **CWebView** class given the handle of the window that hosts it.
+
+```
+FUNCTION AfxCWebView2Ptr (BYVAL hWin AS HWND) AS CWebView2 PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | [in] Handle of the window that hosts the WebView control. |
+
+#### Remarks
+
+The returned pointer is a raw pointer. Therefore you don't have to release it.
+
+---
+
+## AfxSaveTempHtmlFile
+
+Saves the contents of an html script to a temporary file and returns the name of the file. The file is saved with a .html extension and using UTF-8 encoding.
+
+```
+FUNCTION AfxSaveTempHtmlFile (BYVAL pwszBuffer AS WSTRING PTR) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszBuffer* | [in] A pointer to the string containing the hrml script to save. |
+
+#### Remarks
+
+Used to save and html script to be used with the **Navigate** method.
 
 ---
 
