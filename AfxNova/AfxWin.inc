@@ -691,31 +691,6 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Saves the contents of a string buffer in a temporary file and returns the name of the file.
-' ========================================================================================
-PRIVATE FUNCTION AfxSaveTempFile (BYVAL pwszBuffer AS WSTRING PTR, BYREF wszExtension AS WSTRING) AS DWSTRING
-   DIM wszTmpFileName AS WSTRING * MAX_PATH
-   DIM wszTmpPath AS WSTRING * MAX_PATH - 14
-   DIM dwRes AS DWORD, fn AS LONG
-   dwRes = GetTempPathW(MAX_PATH - 14, @wszTmpPath)
-   IF dwRes > 0 AND dwRes <= MAX_PATH - 14 THEN
-      dwRes = GetTempFileNameW(@wszTmpPath, "TMP", 0, @wszTmpFileName)
-      IF dwRes THEN
-         IF LEN(wszExtension) THEN wszTmpFileName = LEFT(wszTmpFileName, LEN(wszTmpFileName) -  3) & wszExtension
-         fn = FREEFILE
-         OPEN wszTmpFileName FOR OUTPUT AS #fn
-         IF ERR = 0 THEN
-            PRINT #fn, *pwszBuffer
-            CLOSE #fn
-            RETURN wszTmpFileName
-         END IF
-      END IF
-   END IF
-   RETURN ""
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
 ' - lpRootPathName : The root directory for the drive.
 '   A trailing backslash is required. If this parameter is NULL, the function uses the
@@ -4198,6 +4173,35 @@ PRIVATE FUNCTION AfxFileScanW (BYREF wszFileName AS WSTRING, BYREF wszDelimiter 
 END FUNCTION
 ' ========================================================================================
 
+' ========================================================================================
+' Saves the contents of a string buffer in a temporary file and returns the name of the file.
+' ========================================================================================
+PRIVATE FUNCTION AfxSaveTempFile (BYVAL pwszBuffer AS WSTRING PTR, BYREF wszExtension AS WSTRING = "") AS DWSTRING
+   DIM wszTmpFileName AS WSTRING * MAX_PATH
+   DIM wszTmpPath AS WSTRING * MAX_PATH - 14
+   DIM dwRes AS DWORD, fn AS LONG
+   dwRes = GetTempPathW(MAX_PATH - 14, @wszTmpPath)
+   IF dwRes > 0 AND dwRes <= MAX_PATH - 14 THEN
+      dwRes = GetTempFileNameW(@wszTmpPath, "TMP", 0, @wszTmpFileName)
+      IF dwRes THEN
+         fn = FREEFILE
+         OPEN wszTmpFileName FOR OUTPUT AS #fn
+         IF ERR = 0 THEN
+            PRINT #fn, *pwszBuffer
+            CLOSE #fn
+            DIM newTmpFileName AS WSTRING * MAX_PATH = wszTmpFileName
+            IF LEN(wszExtension) THEN newTmpFileName = LEFT(newTmpFileName, LEN(newTmpFileName) -  3) & wszExtension
+            IF AfxRenameFile(wszTmpFileName, newTmpFileName) THEN
+               RETURN newTmpFileName
+            ELSE
+               RETURN wszTmpFileName
+            END IF
+         END IF
+      END IF
+   END IF
+   RETURN ""
+END FUNCTION
+' ========================================================================================
 
 ' ########################################################################################
 '                                     *** SIDs ***

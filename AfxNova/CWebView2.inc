@@ -1531,11 +1531,46 @@ END FUNCTION
 ' ########################################################################################
 '                                       WRAPPERS
 ' ########################################################################################
+
+' ========================================================================================
+' Returns a raw pointer to the CWebView class.
+' ========================================================================================
 PRIVATE FUNCTION AfxCWebView2Ptr (BYVAL hWin AS HWND) AS CWebView2 PTR
    IF IsWindow(hWin) = FALSE THEN RETURN NULL
    RETURN cast(CWebView2 PTR, GetWindowLongPtrW(hWin, GWLP_USERDATA))
 END FUNCTION
-' ########################################################################################
+' ========================================================================================
+
+' ========================================================================================
+' Saves the contents of a string buffer to a temporary file and returns the name of the file.
+' The file is saved with a .html extension and using UTF-8 encoding.
+' ========================================================================================
+PRIVATE FUNCTION AfxSaveTempHtmlFile (BYVAL pwszBuffer AS WSTRING PTR) AS DWSTRING
+   DIM wszTmpFileName AS WSTRING * MAX_PATH
+   DIM wszTmpPath AS WSTRING * MAX_PATH - 14
+   DIM dwRes AS DWORD, fn AS LONG
+   dwRes = GetTempPathW(MAX_PATH - 14, @wszTmpPath)
+   IF dwRes > 0 AND dwRes <= MAX_PATH - 14 THEN
+      dwRes = GetTempFileNameW(@wszTmpPath, "TMP", 0, @wszTmpFileName)
+      IF dwRes THEN
+         fn = FREEFILE
+         OPEN wszTmpFileName FOR OUTPUT encoding "utf-8" AS #fn
+         IF ERR = 0 THEN
+            PRINT #fn, *pwszBuffer
+            CLOSE #fn
+            DIM newTmpFileName AS WSTRING * MAX_PATH = wszTmpFileName
+            newTmpFileName = LEFT(newTmpFileName, LEN(newTmpFileName) -  3) & "html"
+            IF AfxRenameFile(wszTmpFileName, newTmpFileName) THEN
+               RETURN newTmpFileName
+            ELSE
+               RETURN wszTmpFileName
+            END IF
+         END IF
+      END IF
+   END IF
+   RETURN ""
+END FUNCTION
+' ========================================================================================
 
 END NAMESPACE
 
