@@ -1,6 +1,6 @@
 # String Procedures
 
-This is a collection of assorted, ready-to-use string procedures to manipulate FreeBasic strings and my own DWSTRING (Dynamic Unicode string) and BSTRING (OLE strings, aka BSTR). They were originally dessigned to work with the `CWSTR`data type, which has now been superseded by `DWSTRING`. While all of them have replacements in *DWStrProcs.inc*, they have been updated to simplify the porting of applications from the Afx framework to the AfxNova framework.
+This is a collection of assorted, ready-to-use string procedures to manipulate FreeBasic strings and my own DWSTRING (Dynamic Unicode string) and BSTRING (OLE strings, aka BSTR). They were originally dessigned to work with the `CWSTR`data type, which has now been superseded by `DWSTRING`. While all of them have replacements in *DWStrProcs.inc*, they have been updated to simplify the porting of applications from the `Afx` framework to the `AfxNova` framework.
 
 **Include file**: AfxStr.inc
 
