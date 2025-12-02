@@ -72,7 +72,7 @@ This is a collection of assorted, ready-to-use string procedures to manipulate F
 Returns a string with *nCount* characters removed from the left side of the string.
 
 ```
-FUNCTION AfxStrClipLeft (BYREF wszMainStr AS CONST WSTRING, BYVAL nCount AS LONG) AS CWSTR
+FUNCTION AfxStrClipLeft (BYREF wszMainStr AS CONST WSTRING, BYVAL nCount AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -87,7 +87,7 @@ FUNCTION AfxStrClipLeft (BYREF wszMainStr AS CONST WSTRING, BYVAL nCount AS LONG
 Returns a string with *nCount* characters removed from the left side of the string.
 
 ```
-FUNCTION AfxStrClipMid (BYREF wszMainStr AS CONST WSTRING, BYVAL nStart AS LONG, BYVAL nCount AS LONG) AS CWSTR
+FUNCTION AfxStrClipMid (BYREF wszMainStr AS CONST WSTRING, BYVAL nStart AS LONG, BYVAL nCount AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -103,7 +103,7 @@ FUNCTION AfxStrClipMid (BYREF wszMainStr AS CONST WSTRING, BYVAL nStart AS LONG,
 Returns a string with *nCount* characters removed from the right side of the string.
 
 ```
-FUNCTION AfxStrClipRight  (BYREF wszMainStr AS CONST WSTRING, BYVAL nCount AS LONG) AS CWSTR
+FUNCTION AfxStrClipRight  (BYREF wszMainStr AS CONST WSTRING, BYVAL nCount AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -119,7 +119,7 @@ Returns a string containing a centered string.
 
 ```
 FUNCTION AfxStrCSet (BYREF wszMainStr AS CONST WSTRING, _
-   BYVAL nStringLength AS LONG, BYREF wszPadCharacter AS CONST WSTRING = " ") AS CWSTR
+   BYVAL nStringLength AS LONG, BYREF wszPadCharacter AS CONST WSTRING = " ") AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -131,7 +131,7 @@ FUNCTION AfxStrCSet (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrCSet("FreeBasic", 20, "*")
+DIM dws AS DWSTRING = AfxStrCSet("FreeBasic", 20, "*")
 ```
 
 ---
@@ -142,7 +142,7 @@ Deletes a specified number of characters from a string expression.
 
 ```
 FUNCTION AfxStrDelete (BYREF wszMainStr AS CONST WSTRING, _
-   BYVAL nStart AS LONG, BYVAL nCount AS LONG) AS CWSTR
+   BYVAL nStart AS LONG, BYVAL nCount AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -154,7 +154,7 @@ FUNCTION AfxStrDelete (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrDelete("1234567890", 4, 3)   ' Returns 1237890"
+DIM dws AS DWSTRING = AfxStrDelete("1234567890", 4, 3)   ' Returns 1237890"
 ```
 ---
 
@@ -165,7 +165,7 @@ Extracts characters from a string up to (but not including) a string. Case sensi
 ```
 FUNCTION AfxStrExtract (BYVAL nStart AS LONG, _
    BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -178,13 +178,13 @@ FUNCTION AfxStrExtract (BYVAL nStart AS LONG, _
 
 ```
 The following line returns "aba" (match on "cad")
-DIM cws AS CWSTR = AfxStrExtract(1, "abacadabra","cad")
+DIM dws AS DWSTRING = AfxStrExtract(1, "abacadabra","cad")
 ```
 ### AfxStrExtract (Overload)
 
 ```
 FUNCTION AfxStrExtract (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszDelim1 AS WSTRING, BYREF wszDelim2 AS WSTRING) AS CWSTR
+   BYREF wszDelim1 AS WSTRING, BYREF wszDelim2 AS WSTRING) AS DWSTRING
 ```
 
 Extracts the portion of a string following the occurrence of a specified delimiter up to the second delimiter. If one or both of the delimiters aren't found, it returns an empty string.
@@ -199,15 +199,15 @@ Extracts the portion of a string following the occurrence of a specified delimit
 
 ```
 The following lines return "text between parentheses" (text delimited by "(" and ")")
-DIM cws AS CWSTR = "blah blah (text between parentheses) blah blah"
-PRINT AfxStrExtract(cws, "(", ")")
+DIM dws AS DWSTRING = "blah blah (text between parentheses) blah blah"
+PRINT AfxStrExtract(dws, "(", ")")
 ```
 
 ### AfxStrExtract (Overload)
 
 ```
 FUNCTION AfxStrExtract (BYVAL nStart AS LONG, BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszDelim1 AS WSTRING, BYREF wszDelim2 AS WSTRING) AS CWSTR
+   BYREF wszDelim1 AS WSTRING, BYREF wszDelim2 AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -226,7 +226,7 @@ Extracts characters from a string up to (but not including) a string. Case insen
 ```
 FUNCTION AfxStrExtractI (BYVAL nStart AS LONG, _
    BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -239,7 +239,7 @@ FUNCTION AfxStrExtractI (BYVAL nStart AS LONG, _
 
 ```
 The following line returns "aba" (match on "CaD")
-DIM cws AS CWSTR = AfxStrExtractI(1, "abacadabra","CaD")
+DIM dws AS DWSTRING = AfxStrExtractI(1, "abacadabra","CaD")
 ```
 ---
 
@@ -250,7 +250,7 @@ Extracts characters from a string up to (but not including) a group of character
 ```
 FUNCTION AfxStrExtractAny (BYVAL nStart AS LONG, _
    BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -263,7 +263,7 @@ FUNCTION AfxStrExtractAny (BYVAL nStart AS LONG, _
 
 ```
 The following line returns "aba" (match on "c")
-DIM cws AS CWSTR = AfxStrExtractAny(1, "abacadabra","cd")
+DIM dws AS DWSTRING = AfxStrExtractAny(1, "abacadabra","cd")
 ```
 ---
 
@@ -274,7 +274,7 @@ Extracts characters from a string up to (but not including) a group of character
 ```
 FUNCTION AfxStrExtractAnyI (BYVAL nStart AS LONG, _
    BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -287,7 +287,7 @@ FUNCTION AfxStrExtractAnyI (BYVAL nStart AS LONG, _
 
 ```
 The following line returns "aba" (match on "c")
-DIM cws AS CWSTR = AfxStrExtractAnyI(1, "abacadabra","Cd")
+DIM dws AS DWSTRING = AfxStrExtractAnyI(1, "abacadabra","Cd")
 ```
 ---
 
@@ -296,7 +296,7 @@ DIM cws AS CWSTR = AfxStrExtractAnyI(1, "abacadabra","Cd")
 Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size.
 
 ```
-FUNCTION AfxStrFormatByteSize (BYVAL ull AS ULONGLONG) AS CWSTR
+FUNCTION AfxStrFormatByteSize (BYVAL ull AS ULONGLONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -310,7 +310,7 @@ FUNCTION AfxStrFormatByteSize (BYVAL ull AS ULONGLONG) AS CWSTR
 Converts a numeric value into a string that represents the number expressed as a size value in kilobytes.
 
 ```
-FUNCTION AfxStrFormatKBSize (BYVAL ull AS ULONGLONG) AS CWSTR
+FUNCTION AfxStrFormatKBSize (BYVAL ull AS ULONGLONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -324,7 +324,7 @@ FUNCTION AfxStrFormatKBSize (BYVAL ull AS ULONGLONG) AS CWSTR
 Converts a time interval, specified in milliseconds, to a string.
 
 ```
-FUNCTION AfxStrFromTimeInterval (BYVAL dwTimeMS AS DWORD, BYVAL digits AS LONG) AS CWSTR
+FUNCTION AfxStrFromTimeInterval (BYVAL dwTimeMS AS DWORD, BYVAL digits AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -334,7 +334,7 @@ FUNCTION AfxStrFromTimeInterval (BYVAL dwTimeMS AS DWORD, BYVAL digits AS LONG) 
 
 Some examples for *digits*:
 
-| dwTimeMS   | digits      | cwsOut      |
+| dwTimeMS   | digits      | dwsOut      |
 | ---------- | ----------- | ----------- |
 | 34000 | 3 | 34 sec |
 | 34000 | 2 | 34 sec |
@@ -351,7 +351,7 @@ Inserts a string at a specified position within another string expression.
 
 ```
 FUNCTION AfxStrInsert (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszInsertString AS CONST WSTRING, BYVAL nPosition AS LONG) AS CWSTR
+   BYREF wszInsertString AS CONST WSTRING, BYVAL nPosition AS LONG) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -363,7 +363,7 @@ FUNCTION AfxStrInsert (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrInsert("1234567890", "--", 6)   ' Returns "123456--7890"
+DIM dws AS DWSTRING = AfxStrInsert("1234567890", "--", 6)   ' Returns "123456--7890"
 ```
 ---
 
@@ -372,29 +372,29 @@ DIM cws AS CWSTR = AfxStrInsert("1234567890", "--", 6)   ' Returns "123456--7890
 Returns a string consisting of all of the strings in an array, each separated by a delimiter. If the delimiter is a null (zero-length) string then no separators are inserted between the string sections. If the delimiter expression is the 3-byte value of "," which may be expressed in your source code as the string literal """,""" or as Chr(34,44,34) then a leading and trailing double-quote is added to each string section. This ensures that the returned string contains standard comma-delimited quoted fields that can be easily parsed.
 
 ```
-FUNCTION AfxStrJoin (BYREF cwsa AS CSafeArray, BYREF wszDelimiter AS WSTRING = " ") AS CWSTR
+FUNCTION AfxStrJoin (BYREF dsa AS DSafeArray, BYREF wszDelimiter AS WSTRING = " ") AS DWSTRING
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cwsa* | The one-dimensional VT_BSTR CSafeArray to join. |
+| *dsa* | The one-dimensional VT_BSTR DSafeArray to join. |
 | *wszDelimiter* | The delimiter character. |
 
 #### Return value
 
-A CWSTR containing the joined string.
+A DWSTRING containing the joined string.
 
 #### Usage example
 
 ```
-DIM csa AS CSafeArray = CSafeArray("STRING", 3, 1)
-csa.PutStr(1, "One")
-csa.PutStr(2, "Two")
-csa.PutStr(3, "Three")
-DIM cws AS CWSTR = AfxStrJoin(csa, ",")
-PRINT cws   ' ouput: One,Two,Three
+DIM dsa AS DSafeArray = DSafeArray("STRING", 3, 1)
+dsa.PutStr(1, "One")
+dsa.PutStr(2, "Two")
+dsa.PutStr(3, "Three")
+DIM dws AS DWSTRING = AfxStrJoin(csa, ",")
+PRINT dws   ' ouput: One,Two,Three
 ```
-**Include file**: CSafeArray.inc
+**Include file**: DSafeArray.inc
 
 ---
 
@@ -405,7 +405,7 @@ Returns a lowercased version of a string.
 ```
 FUNCTION AfxStrLCase (BYVAL pwszStr AS WSTRING PTR, _
    BYVAL pwszLocaleName AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT, _
-   BYVAL dwMapFlags AS DWORD = 0) AS CWSTR
+   BYVAL dwMapFlags AS DWORD = 0) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -434,7 +434,7 @@ Returns a string containing a left justified string.
 
 ```
 FUNCTION AfxStrLSet (BYREF wszMainStr AS CONST WSTRING, _
-   BYVAL nStringLength AS LONG, BYREF wszPadCharacter AS CONST WSTRING = " ") AS CWSTR
+   BYVAL nStringLength AS LONG, BYREF wszPadCharacter AS CONST WSTRING = " ") AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -446,7 +446,7 @@ FUNCTION AfxStrLSet (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrLSet("FreeBasic", 20, "*")
+DIM dws AS DWSTRING = AfxStrLSet("FreeBasic", 20, "*")
 ```
 
 ---
@@ -457,7 +457,7 @@ Returns a delimited field from a string expression.
 
 ```
 FUNCTION AfxStrParse (BYREF wszMainStr AS CONST WSTRING, _
-   BYVAL nPosition AS LONG = 1, BYREF wszDelimiter AS CONST WSTRING = ",") AS CWSTR
+   BYVAL nPosition AS LONG = 1, BYREF wszDelimiter AS CONST WSTRING = ",") AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -469,8 +469,8 @@ FUNCTION AfxStrParse (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrParse("one,two,three", 2)   ' Returns "two"
-DIM cws AS CWSTR = AfxStrParse("one;two,three", 1, ";")   ' Returns "one"
+DIM dws AS DWSTRING = AfxStrParse("one,two,three", 2)   ' Returns "two"
+DIM dws AS DWSTRING = AfxStrParse("one;two,three", 1, ";")   ' Returns "one"
 ```
 ---
 
@@ -480,7 +480,7 @@ Returns a delimited field from a string expression.
 
 ```
 FUNCTION AfxStrParse (BYREF wszMainStr AS CONST WSTRING, _
-   BYVAL nPosition AS LONG = 1, BYREF wszDelimiter AS CONST WSTRING = ",") AS CWSTR
+   BYVAL nPosition AS LONG = 1, BYREF wszDelimiter AS CONST WSTRING = ",") AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -492,7 +492,7 @@ FUNCTION AfxStrParse (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrParseAny("1;2,3", 2, ",;")   ' Returns "2"
+DIM dws AS DWSTRING = AfxStrParseAny("1;2,3", 2, ",;")   ' Returns "2"
 ```
 ---
 
@@ -543,7 +543,7 @@ DIM nCount AS LONG = AfxStrParseCountAny("1;2,3", ",;")   ' Returns 3
 Parses a path to extract component parts.
 
 ```
-FUNCTION AfxStrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS WSTRING) AS CWSTR
+FUNCTION AfxStrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -566,7 +566,7 @@ Returns the portion of a string following the first occurrence of a string. Case
 
 ```
 FUNCTION AfxStrRemain (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -578,7 +578,7 @@ FUNCTION AfxStrRemain (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRemain("Brevity is the soul of wit", "is ")   ' Returns "the soul of wit"
+DIM dws AS DWSTRING = AfxStrRemain("Brevity is the soul of wit", "is ")   ' Returns "the soul of wit"
 ```
 ---
 
@@ -588,7 +588,7 @@ Returns the portion of a string following the first occurrence of a string. Case
 
 ```
 FUNCTION AfxStrRemainI (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -600,7 +600,7 @@ FUNCTION AfxStrRemainI (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRemain("Brevity is the soul of wit", "Is ")   ' Returns "the soul of wit"
+DIM dws AS DWSTRING = AfxStrRemain("Brevity is the soul of wit", "Is ")   ' Returns "the soul of wit"
 ```
 ---
 
@@ -610,7 +610,7 @@ Returns the portion of a string following the first occurrence of a list of char
 
 ```
 FUNCTION AfxStrRemainAny (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -622,7 +622,7 @@ FUNCTION AfxStrRemainAny (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRemainAny("I think, therefore I am", ",")   ' Returns " therefore I am"
+DIM dws AS DWSTRING = AfxStrRemainAny("I think, therefore I am", ",")   ' Returns " therefore I am"
 ```
 ---
 
@@ -632,7 +632,7 @@ Returns the portion of a string following the first occurrence of a list of char
 
 ```
 FUNCTION AfxStrRemainAnyI (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYVAL nStart AS LONG = 1) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -644,7 +644,7 @@ FUNCTION AfxStrRemainAnyI (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRemainAnyI("I think, therefore I am", "E")   ' -> "refore I am"
+DIM dws AS DWSTRING = AfxStrRemainAnyI("I think, therefore I am", "E")   ' -> "refore I am"
 ```
 ---
 
@@ -653,7 +653,7 @@ DIM cws AS CWSTR = AfxStrRemainAnyI("I think, therefore I am", "E")   ' -> "refo
 Returns a new string with strings removed. Case sensitive.
 
 ```
-FUNCTION AfxStrRemove (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRemove (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -664,7 +664,7 @@ FUNCTION AfxStrRemove (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS C
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRemove("Hello World. Welcome to the Freebasic World", "World")
+DIM dws AS DWSTRING = AfxStrRemove("Hello World. Welcome to the Freebasic World", "World")
 ```
 
 ### AfxStrRemove (Overload)
@@ -674,7 +674,7 @@ Returns a copy of a string with a substring enclosed between the specified delim
 ```
 FUNCTION AfxStrRemove (BYREF wszMainStr AS CONST WSTRING, _
    BYREF wszDelim1 AS CONST WSTRING, BYREF wszDelim2 AS CONST WSTRING, _
-   BYVAL fRemoveAll AS BOOLEAN = FALSE) AS CWSTR
+   BYVAL fRemoveAll AS BOOLEAN = FALSE) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -687,13 +687,13 @@ FUNCTION AfxStrRemove (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage examples
 
 ```
-DIM cwsText AS CWSTR = "blah blah (text between parentheses) blah blah"
-DIM cws AS CWSTR = AfxStrRemove(cwsText, "(", ")")   ' Returns "blah blah  blah blah"
+DIM dwsText AS DWSTRING = "blah blah (text between parentheses) blah blah"
+DIM dws AS DWSTRING = AfxStrRemove(dwsText, "(", ")")   ' Returns "blah blah  blah blah"
 ```
 
 ```
-DIM cwsText AS CWSTR = "As Long var1(34), var2(  73 ), var3(any)"
-DIM cws AS CWSTR = AfxStrRemove(cwsText, "(", ")", TRUE)   ' Returns "As Long var1, var2, var3"
+DIM dwsText AS DWSTRING = "As Long var1(34), var2(  73 ), var3(any)"
+DIM dws AS DWSTRING = AfxStrRemove(dwsText, "(", ")", TRUE)   ' Returns "As Long var1, var2, var3"
 ```
 
 ### AfxStrRemove (Overload)
@@ -703,7 +703,7 @@ Returns a copy of a string with a substring enclosed between the specified delim
 ```
 FUNCTION AfxStrRemove (BYVAL nStart AS LONG = 1, BYREF wszMainStr AS CONST WSTRING, _
    BYREF wszDelim1 AS CONST WSTRING, BYREF wszDelim2 AS CONST WSTRING, _
-   BYVAL fRemoveAll AS BOOLEAN = FALSE) AS CWSTR
+   BYVAL fRemoveAll AS BOOLEAN = FALSE) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -717,8 +717,8 @@ FUNCTION AfxStrRemove (BYVAL nStart AS LONG = 1, BYREF wszMainStr AS CONST WSTRI
 #### Usage examples
 
 ```
-DIM cwsText AS CWSTR = "blah blah (text beween parentheses) blah blah"
-DIM cws AS CWSTR = AfxStrRemove(cwsText, "(", ")")   ' Returns "blah blah  blah blah"
+DIM dwsText AS DWSTRING = "blah blah (text beween parentheses) blah blah"
+DIM dws AS DWSTRING = AfxStrRemove(dwsText, "(", ")")   ' Returns "blah blah  blah blah"
 ```
 ---
 
@@ -727,7 +727,7 @@ DIM cws AS CWSTR = AfxStrRemove(cwsText, "(", ")")   ' Returns "blah blah  blah 
 Returns a new string with strings removed. Case insensitive.
 
 ```
-FUNCTION AfxStrRemoveI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRemoveI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -747,7 +747,7 @@ AfxStrRemoveI("Hello World. Welcome to the Freebasic World", "world")
 Returns a new string with characters removed. Case sensitive.
 
 ```
-FUNCTION AfxStrRemoveAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRemoveAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -758,7 +758,7 @@ FUNCTION AfxStrRemoveAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr A
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRemoveAny("abacadabra", "bac")   ' -> "dr"
+DIM dws AS DWSTRING = AfxStrRemoveAny("abacadabra", "bac")   ' -> "dr"
 ```
 ---
 
@@ -767,7 +767,7 @@ DIM cws AS CWSTR = AfxStrRemoveAny("abacadabra", "bac")   ' -> "dr"
 Returns a new string with characters removed. Case insensitive.
 
 ```
-FUNCTION AfxStrRemoveAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRemoveAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -778,7 +778,7 @@ FUNCTION AfxStrRemoveAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr 
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRemoveAnyI("abacadabra", "BaC")   ' -> "dr"
+DIM dws AS DWSTRING = AfxStrRemoveAnyI("abacadabra", "BaC")   ' -> "dr"
 ```
 ---
 
@@ -787,7 +787,7 @@ DIM cws AS CWSTR = AfxStrRemoveAnyI("abacadabra", "BaC")   ' -> "dr"
 Returns a string consisting of multiple copies of the specified string. This function is similar to STRING, but STRING only makes multiple copies of a single character.
 
 ```
-FUNCTION AfxStrRepeat (BYVAL nCount AS LONG, BYREF wszStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRepeat (BYVAL nCount AS LONG, BYREF wszStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -798,7 +798,7 @@ FUNCTION AfxStrRepeat (BYVAL nCount AS LONG, BYREF wszStr AS CONST WSTRING) AS C
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRepeat(5, "Paul")
+DIM dws AS DWSTRING = AfxStrRepeat(5, "Paul")
 ```
 ---
 
@@ -808,7 +808,7 @@ Replaces all the occurrences of *wszMatchStr* in *wszMainstr* with the contents 
 
 ```
 FUNCTION AfxStrReplace (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -820,7 +820,7 @@ FUNCTION AfxStrReplace (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrReplace("Hello World", "World", "Earth")   ' Returns "Hello Earth"
+DIM dws AS DWSTRING = AfxStrReplace("Hello World", "World", "Earth")   ' Returns "Hello Earth"
 ```
 ---
 
@@ -830,7 +830,7 @@ Replaces all the occurrences of *wszMatchStr* in *wszMainstr* with the contents 
 
 ```
 FUNCTION AfxStrReplaceI (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -842,7 +842,7 @@ FUNCTION AfxStrReplaceI (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrReplaceI("Hello world", "World", "Earth")   ' -> "Hello Earth"
+DIM dws AS DWSTRING = AfxStrReplaceI("Hello world", "World", "Earth")   ' -> "Hello Earth"
 ```
 ---
 
@@ -852,7 +852,7 @@ Replaces all the occurrences of any of the individual characters *wszMatchStr* i
 
 ```
 FUNCTION AfxStrReplaceAny  (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -864,7 +864,7 @@ FUNCTION AfxStrReplaceAny  (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrReplaceAny("abacadabra", "bac", "*")   ' -> *****d**r*
+DIM dws AS DWSTRING = AfxStrReplaceAny("abacadabra", "bac", "*")   ' -> *****d**r*
 ```
 ---
 
@@ -874,7 +874,7 @@ Replaces all the occurrences of any of the individual characters *wszMatchStr* i
 
 ```
 FUNCTION AfxStrReplaceAnyI  (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS CWSTR
+   BYREF wszMatchStr AS CONST WSTRING, BYREF wszReplaceWith AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -886,7 +886,7 @@ FUNCTION AfxStrReplaceAnyI  (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrReplaceAnyI("abacadabra", "BaC", "*")   ' -> *****d**r*
+DIM dws AS DWSTRING = AfxStrReplaceAnyI("abacadabra", "BaC", "*")   ' -> *****d**r*
 ```
 ---
 
@@ -895,7 +895,7 @@ DIM cws AS CWSTR = AfxStrReplaceAnyI("abacadabra", "BaC", "*")   ' -> *****d**r*
 Returns a string containing only the characters contained in a specified match string. Case sensitive.
 
 ```
-FUNCTION AfxStrRetain (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRetain (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -906,7 +906,7 @@ FUNCTION AfxStrRetain (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS C
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRetain("abacadabra","b")   ' -> "bb"
+DIM dws AS DWSTRING = AfxStrRetain("abacadabra","b")   ' -> "bb"
 ```
 ---
 
@@ -915,7 +915,7 @@ DIM cws AS CWSTR = AfxStrRetain("abacadabra","b")   ' -> "bb"
 Returns a string containing only the characters contained in a specified match string. Case insensitive.
 
 ```
-FUNCTION AfxStrRetainI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRetainI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -926,7 +926,7 @@ FUNCTION AfxStrRetainI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS 
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRetainI("abacadabra","B")   ' -> "bb"
+DIM dws AS DWSTRING = AfxStrRetainI("abacadabra","B")   ' -> "bb"
 ```
 ---
 
@@ -935,7 +935,7 @@ DIM cws AS CWSTR = AfxStrRetainI("abacadabra","B")   ' -> "bb"
 Returns a string containing only the characters contained in a specified group of characters. Case sensitive.
 
 ```
-FUNCTION AfxStrRetainAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRetainAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -946,7 +946,7 @@ FUNCTION AfxStrRetainAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr A
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRetainAny("<p>1234567890<ak;lk;l>1234567890</p>", "<;/p>")
+DIM dws AS DWSTRING = AfxStrRetainAny("<p>1234567890<ak;lk;l>1234567890</p>", "<;/p>")
 ```
 ---
 
@@ -955,7 +955,7 @@ DIM cws AS CWSTR = AfxStrRetainAny("<p>1234567890<ak;lk;l>1234567890</p>", "<;/p
 Returns a string containing only the characters contained in a specified group of characters. Case insensitive.
 
 ```
-FUNCTION AfxStrRetainAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrRetainAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -966,7 +966,7 @@ FUNCTION AfxStrRetainAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr 
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRetainAnyI("<p>1234567890<ak;lk;l>1234567890</p>", "<;/P>")
+DIM dws AS DWSTRING = AfxStrRetainAnyI("<p>1234567890<ak;lk;l>1234567890</p>", "<;/P>")
 ```
 ---
 
@@ -975,7 +975,7 @@ DIM cws AS CWSTR = AfxStrRetainAnyI("<p>1234567890<ak;lk;l>1234567890</p>", "<;/
 Reverses the contents of a string expression.
 
 ```
-FUNCTION AfxStrReverse (BYREF wszMainStr AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrReverse (BYREF wszMainStr AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -985,7 +985,7 @@ FUNCTION AfxStrReverse (BYREF wszMainStr AS CONST WSTRING) AS CWSTR
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrReverse("garden")   ' Returns "nedrag"
+DIM dws AS DWSTRING = AfxStrReverse("garden")   ' Returns "nedrag"
 ```
 ---
 
@@ -995,7 +995,7 @@ Returns a string containing a right justified string.
 
 ```
 FUNCTION AfxStrRSet (BYREF wszMainStr AS CONST WSTRING, _
-   BYVAL nStringLength AS LONG, BYREF wszPadCharacter AS CONST WSTRING = " ") AS CWSTR
+   BYVAL nStringLength AS LONG, BYREF wszPadCharacter AS CONST WSTRING = " ") AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1007,7 +1007,7 @@ FUNCTION AfxStrRSet (BYREF wszMainStr AS CONST WSTRING, _
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrRSet("FreeBasic", 20, "*")
+DIM dws AS DWSTRING = AfxStrRSet("FreeBasic", 20, "*")
 ```
 ---
 
@@ -1016,7 +1016,7 @@ DIM cws AS CWSTR = AfxStrRSet("FreeBasic", 20, "*")
 Shrinks a string to use a consistent single character delimiter.
 
 ```
-FUNCTION AfxStrShrink (BYREF wszMainStr AS CONST WSTRING, BYREF wszMask AS CONST WSTRING = " ") AS CWSTR
+FUNCTION AfxStrShrink (BYREF wszMainStr AS CONST WSTRING, BYREF wszMask AS CONST WSTRING = " ") AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1031,7 +1031,7 @@ This function creates a string with consecutive words separated by a consistent 
 #### Usage example
 
 ```
-DIM cws AS CWSTR = AfxStrShrink(",,, one , two     three, four,", " ,")  ' Returns "one two three four"
+DIM dws AS DWSTRING = AfxStrShrink(",,, one , two     three, four,", " ,")  ' Returns "one two three four"
 ```
 ---
 
@@ -1040,7 +1040,7 @@ DIM cws AS CWSTR = AfxStrShrink(",,, one , two     three, four,", " ,")  ' Retur
 Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters.
 
 ```
-FUNCTION AfxStrSplit (BYREF wszStr AS CONST WSTRING, BYREF wszDelimiters AS WSTRING = " ") AS CSafeArray
+FUNCTION AfxStrSplit (BYREF wszStr AS CONST WSTRING, BYREF wszDelimiters AS WSTRING = " ") AS DSafeArray
 ```
 
 | Parameter  | Description |
@@ -1050,18 +1050,18 @@ FUNCTION AfxStrSplit (BYREF wszStr AS CONST WSTRING, BYREF wszDelimiters AS WSTR
 
 #### Return value
 
-A CSafeArray containing a token in each element.
+A DSafeArray containing a token in each element.
 
 #### Usage example
 
 ```
-DIM cws AS CWSTR = "- This, a sample string."
-DIM cwsa AS CSafeArray = AfxStrSplit(cws, " ,.-")
-FOR i AS LONG = cwsa.LBound TO cwsa.UBound
-  PRINT cwsa.GetStr(i)
+DIM dws AS DWSTRING = "- This, a sample string."
+DIM dsa AS DSafeArray = AfxStrSplit(cws, " ,.-")
+FOR i AS LONG = dsa.LBound TO dsa.UBound
+  PRINT dsa.GetStr(i)
 NEXT
 ```
-**Include file**: CSafeArray.inc
+**Include file**: DSafeArray.inc
 
 ---
 
@@ -1194,7 +1194,7 @@ Returns an uppercased version of a string.
 ```
 FUNCTION AfxStrUCase (BYVAL pwszStr AS WSTRING PTR, _
    BYVAL pwszLocaleName AS WSTRING PTR = LOCALE_NAME_USER_DEFAULT, _
-   BYVAL dwMapFlags AS DWORD = 0) AS CWSTR
+   BYVAL dwMapFlags AS DWORD = 0) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1227,7 +1227,7 @@ Removes paired characters to the beginning and end of a string.
 
 ```
 FUNCTION AfxStrUnWrap (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszLeftChar AS CONST WSTRING, BYREF wszRightChar AS CONST WSTRING) AS CWSTR
+   BYREF wszLeftChar AS CONST WSTRING, BYREF wszRightChar AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1237,7 +1237,7 @@ FUNCTION AfxStrUnWrap (BYREF wszMainStr AS CONST WSTRING, _
 | *wszRightChar* | The right character. |
 
 ```
-FUNCTION AfxStrUnWrap (BYREF wszMainStr AS CONST WSTRING, BYREF wszChar AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrUnWrap (BYREF wszMainStr AS CONST WSTRING, BYREF wszChar AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1319,7 +1319,7 @@ Adds paired characters to the beginning and end of a string.
 
 ```
 FUNCTION AfxStrWrap (BYREF wszMainStr AS CONST WSTRING, _
-   BYREF wszLeftChar AS CONST WSTRING, BYREF wszRightChar AS CONST WSTRING) AS CWSTR
+   BYREF wszLeftChar AS CONST WSTRING, BYREF wszRightChar AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1329,7 +1329,7 @@ FUNCTION AfxStrWrap (BYREF wszMainStr AS CONST WSTRING, _
 | *wszRightChar* | The right character. |
 
 ```
-FUNCTION AfxStrWrap (BYREF wszMainStr AS CONST WSTRING, BYREF wszChar AS CONST WSTRING) AS CWSTR
+FUNCTION AfxStrWrap (BYREF wszMainStr AS CONST WSTRING, BYREF wszChar AS CONST WSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
@@ -1375,21 +1375,21 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 If we want to encode a unicode string, we must convert it to utf8 before calling AfxBase64EncodeA, e.g.
 
 ````
-DIM cws AS CWSTR = "おはようございます – Good morning!"
-DIM s AS STRING = AfxBase64EncodeA(cws.Utf8)
+DIM dws AS DWSTRING = "おはようございます – Good morning!"
+DIM s AS STRING = AfxBase64EncodeA(dws.Utf8)
 ````
 
 To decode it, we can use
 
 ````
-DIM cwsOut AS CWSTR = CWSTR(AfxBase64DecodeA(s), CP_UTF8)
+DIM dwsOut AS DWSTRING = DWSTRING(AfxBase64DecodeA(s), CP_UTF8)
 ````
 
 or
 
 ````
-DIM cwsOut AS CWSTR
-cws.utf8 = AfxBase64DecodeA(s)
+DIM dwsOut AS DWSTRING
+dws.utf8 = AfxBase64DecodeA(s)
 ````
 ---
 
@@ -1398,12 +1398,12 @@ cws.utf8 = AfxBase64DecodeA(s)
 Converts the contents of a Base64 mime encoded string to an unicode string.
 
 ```
-FUNCTION AfxBase64DecodeW (BYREF cwsData AS CWSTR) AS CWSTR
+FUNCTION AfxBase64DecodeW (BYREF dwsData AS DWSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cwsData* | The string to decode. |
+| *dwsData* | The string to decode. |
 
 #### Return value
 
@@ -1442,21 +1442,21 @@ Base64 encoding schemes are commonly used when there is a need to encode binary 
 If we want to encode a unicode string, we must convert it to utf8 before calling AfxBase64Encode, e.g.
 
 ````
-DIM cws AS CWSTR = "おはようございます – Good morning!"
-DIM s AS STRING = AfxBase64EncodeA(cws.Utf8)
+DIM dws AS DWSTRING = "おはようございます – Good morning!"
+DIM s AS STRING = AfxBase64EncodeA(dws.Utf8)
 ````
 
 To decode it, we can use
 
 ````
-DIM cwsOut AS CWSTR = CWSTR(AfxBase64DecodeA(s), CP_UTF8)
+DIM dwsOut AS DWSTRING = DWSTRING(AfxBase64DecodeA(s), CP_UTF8)
 ````
 
 or
 
 ````
-DIM cwsOut AS CWSTR
-cws.utf8 = AfxBase64DecodeA(s)
+DIM dwsOut AS DWSTRING
+dws.utf8 = AfxBase64DecodeA(s)
 ````
 ---
 
@@ -1465,12 +1465,12 @@ cws.utf8 = AfxBase64DecodeA(s)
 Converts the contents of an unicode string to Base64 mime encoding.
 
 ```
-FUNCTION AfxBase64EncodWeA (BYREF cwsData AS CWSTR) AS CWSTR
+FUNCTION AfxBase64EncodWeA (BYREF dwsData AS DWSTRING) AS DWSTRING
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *cwsData* | The string to encode. |
+| *dwsData* | The string to encode. |
 
 #### Return value
 
@@ -1569,7 +1569,7 @@ FUNCTION AfxCryptStringToBinaryA ( _
 
 ```
 FUNCTION AfxCryptStringToBinaryW ( _
-   BYVAL pszString AS LPCWSTR, _
+   BYVAL pszString AS LPDWSTRING, _
    BYVAL cchString AS DWORD, _
    BYVAL dwFlags AS DWORD, _
    BYVAL pbBinary AS UBYTE PTR, _
