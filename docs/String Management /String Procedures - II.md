@@ -96,7 +96,9 @@ FUNCTION AfxStrClipMid (BYREF wszMainStr AS CONST WSTRING, BYVAL nStart AS LONG,
 | *nStart* | The one-based starting position. |
 | *nCount* | The number of characters to be removed. |
 
-# <a name="AfxStrClipRight"></a>AfxStrClipRight
+---
+
+### AfxStrClipRight
 
 Returns a string with *nCount* characters removed from the right side of the string.
 
@@ -109,7 +111,9 @@ FUNCTION AfxStrClipRight  (BYREF wszMainStr AS CONST WSTRING, BYVAL nCount AS LO
 | *wszMainStr* | The main string. |
 | *nCount* | The number of characters to be removed. |
 
-# <a name="AfxStrCSet"></a>AfxStrCSet
+---
+
+### AfxStrCSet
 
 Returns a string containing a centered string.
 
@@ -130,7 +134,9 @@ FUNCTION AfxStrCSet (BYREF wszMainStr AS CONST WSTRING, _
 DIM cws AS CWSTR = AfxStrCSet("FreeBasic", 20, "*")
 ```
 
-# <a name="AfxStrDelete"></a>AfxStrDelete
+---
+
+### AfxStrDelete
 
 Deletes a specified number of characters from a string expression.
 
@@ -150,8 +156,9 @@ FUNCTION AfxStrDelete (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrDelete("1234567890", 4, 3)   ' Returns 1237890"
 ```
+---
 
-# <a name="AfxStrExtract"></a>AfxStrExtract
+### AfxStrExtract
 
 Extracts characters from a string up to (but not including) a string. Case sensitive.
 
@@ -173,8 +180,7 @@ FUNCTION AfxStrExtract (BYVAL nStart AS LONG, _
 The following line returns "aba" (match on "cad")
 DIM cws AS CWSTR = AfxStrExtract(1, "abacadabra","cad")
 ```
-
-# AfxStrExtract (Overload)
+### AfxStrExtract (Overload)
 
 ```
 FUNCTION AfxStrExtract (BYREF wszMainStr AS CONST WSTRING, _
@@ -197,7 +203,7 @@ DIM cws AS CWSTR = "blah blah (text between parentheses) blah blah"
 PRINT AfxStrExtract(cws, "(", ")")
 ```
 
-# AfxStrExtract (Overload)
+### AfxStrExtract (Overload)
 
 ```
 FUNCTION AfxStrExtract (BYVAL nStart AS LONG, BYREF wszMainStr AS CONST WSTRING, _
@@ -211,7 +217,9 @@ FUNCTION AfxStrExtract (BYVAL nStart AS LONG, BYREF wszMainStr AS CONST WSTRING,
 | *wszDelim1* | The first delimiter. |
 | *wszDelim2* | The second delimiter. |
 
-# <a name="AfxStrExtractI"></a>AfxStrExtractI
+---
+
+### AfxStrExtractI
 
 Extracts characters from a string up to (but not including) a string. Case insensitive.
 
@@ -233,7 +241,9 @@ FUNCTION AfxStrExtractI (BYVAL nStart AS LONG, _
 The following line returns "aba" (match on "CaD")
 DIM cws AS CWSTR = AfxStrExtractI(1, "abacadabra","CaD")
 ```
-# <a name="AfxStrExtractAny"></a>AfxStrExtractAny
+---
+
+### AfxStrExtractAny
 
 Extracts characters from a string up to (but not including) a group of characters. Case sensitive.
 
@@ -255,7 +265,9 @@ FUNCTION AfxStrExtractAny (BYVAL nStart AS LONG, _
 The following line returns "aba" (match on "c")
 DIM cws AS CWSTR = AfxStrExtractAny(1, "abacadabra","cd")
 ```
-# <a name="AfxStrExtractAnyI"></a>AfxStrExtractAnyI
+---
+
+### AfxStrExtractAnyI
 
 Extracts characters from a string up to (but not including) a group of characters. Case insensitive.
 
@@ -277,8 +289,9 @@ FUNCTION AfxStrExtractAnyI (BYVAL nStart AS LONG, _
 The following line returns "aba" (match on "c")
 DIM cws AS CWSTR = AfxStrExtractAnyI(1, "abacadabra","Cd")
 ```
+---
 
-# <a name="AfxStrFormatByteSize"></a>AfxStrFormatByteSize
+### AfxStrFormatByteSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in bytes, kilobytes, megabytes, or gigabytes, depending on the size.
 
@@ -290,7 +303,9 @@ FUNCTION AfxStrFormatByteSize (BYVAL ull AS ULONGLONG) AS CWSTR
 | ---------- | ----------- |
 | *ull* | The numeric value to be converted. |
 
-# <a name="AfxStrFormatKBSize"></a>AfxStrFormatKBSize
+---
+
+### AfxStrFormatKBSize
 
 Converts a numeric value into a string that represents the number expressed as a size value in kilobytes.
 
@@ -302,7 +317,9 @@ FUNCTION AfxStrFormatKBSize (BYVAL ull AS ULONGLONG) AS CWSTR
 | ---------- | ----------- |
 | *ull* | The numeric value to be converted. |
 
-# <a name="AfxStrFromTimeInterval"></a>AfxStrFromTimeInterval
+---
+
+### AfxStrFromTimeInterval
 
 Converts a time interval, specified in milliseconds, to a string.
 
@@ -326,7 +343,9 @@ Some examples for *digits*:
 | 74000 | 2 | 1 min 10 sec |
 | 74000 | 2 | 1 min |
 
-# <a name="AfxStrInsert"></a>AfxStrInsert
+---
+
+### AfxStrInsert
 
 Inserts a string at a specified position within another string expression.
 
@@ -346,8 +365,9 @@ FUNCTION AfxStrInsert (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrInsert("1234567890", "--", 6)   ' Returns "123456--7890"
 ```
+---
 
-# <a name="AfxStrJoin"></a>AfxStrJoin
+### AfxStrJoin
 
 Returns a string consisting of all of the strings in an array, each separated by a delimiter. If the delimiter is a null (zero-length) string then no separators are inserted between the string sections. If the delimiter expression is the 3-byte value of "," which may be expressed in your source code as the string literal """,""" or as Chr(34,44,34) then a leading and trailing double-quote is added to each string section. This ensures that the returned string contains standard comma-delimited quoted fields that can be easily parsed.
 
@@ -376,7 +396,9 @@ PRINT cws   ' ouput: One,Two,Three
 ```
 **Include file**: CSafeArray.inc
 
-# <a name="AfxStrLCase"></a>AfxStrLCase
+---
+
+### AfxStrLCase
 
 Returns a lowercased version of a string.
 
@@ -404,7 +426,9 @@ The string conversion functions available in FreeBasic are not fully suitable fo
 
 The lowercased string.
 
-# <a name="AfxStrLSet"></a>AfxStrLSet
+---
+
+### AfxStrLSet
 
 Returns a string containing a left justified string.
 
@@ -425,7 +449,9 @@ FUNCTION AfxStrLSet (BYREF wszMainStr AS CONST WSTRING, _
 DIM cws AS CWSTR = AfxStrLSet("FreeBasic", 20, "*")
 ```
 
-# <a name="AfxStrParse"></a>AfxStrParse 
+---
+
+### AfxStrParse 
 
 Returns a delimited field from a string expression.
 
@@ -446,8 +472,9 @@ FUNCTION AfxStrParse (BYREF wszMainStr AS CONST WSTRING, _
 DIM cws AS CWSTR = AfxStrParse("one,two,three", 2)   ' Returns "two"
 DIM cws AS CWSTR = AfxStrParse("one;two,three", 1, ";")   ' Returns "one"
 ```
+---
 
-# <a name="AfxStrParseAny"></a>AfxStrParseAny 
+### AfxStrParseAny 
 
 Returns a delimited field from a string expression.
 
@@ -467,8 +494,9 @@ FUNCTION AfxStrParse (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrParseAny("1;2,3", 2, ",;")   ' Returns "2"
 ```
+---
 
-# <a name="AfxStrParseCount"></a>AfxStrParseCount 
+### AfxStrParseCount 
 
 Returns the count of delimited fields from a string expression.
 
@@ -487,8 +515,9 @@ FUNCTION AfxStrParseCount (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM nCount AS LONG = AfxStrParseCount("one,two,three", ",")   ' Returns 3
 ```
+---
 
-# <a name="AfxStrParseCountAny"></a>AfxStrParseCountAny 
+### AfxStrParseCountAny 
 
 Returns the count of delimited fields from a string expression.
 
@@ -507,8 +536,9 @@ FUNCTION AfxStrParseCountAny (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM nCount AS LONG = AfxStrParseCountAny("1;2,3", ",;")   ' Returns 3
 ```
+---
 
-# <a name="AfxStrPathName"></a>AfxStrPathName 
+### AfxStrPathName 
 
 Parses a path to extract component parts.
 
@@ -528,7 +558,9 @@ FUNCTION AfxStrPathName (BYREF wszOption AS CONST WSTRING, BYREF wszFileSpec AS 
 | **EXTN** | Returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
 | **NAMEX** | Returns the name and the extension parts combined. |
 
-# <a name="AfxStrRemain"></a>AfxStrRemain
+---
+
+### AfxStrRemain
 
 Returns the portion of a string following the first occurrence of a string. Case sensitive.
 
@@ -548,8 +580,9 @@ FUNCTION AfxStrRemain (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrRemain("Brevity is the soul of wit", "is ")   ' Returns "the soul of wit"
 ```
+---
 
-# <a name="AfxStrRemainI"></a>AfxStrRemainI
+### AfxStrRemainI
 
 Returns the portion of a string following the first occurrence of a string. Case insensitive.
 
@@ -569,8 +602,9 @@ FUNCTION AfxStrRemainI (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrRemain("Brevity is the soul of wit", "Is ")   ' Returns "the soul of wit"
 ```
+---
 
-# <a name="AfxStrRemainAny"></a>AfxStrRemainAny
+### AfxStrRemainAny
 
 Returns the portion of a string following the first occurrence of a list of characters. Case sensitive.
 
@@ -590,8 +624,9 @@ FUNCTION AfxStrRemainAny (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrRemainAny("I think, therefore I am", ",")   ' Returns " therefore I am"
 ```
+---
 
-# <a name="AfxStrRemainAnyI"></a>AfxStrRemainAnyI
+### AfxStrRemainAnyI
 
 Returns the portion of a string following the first occurrence of a list of characters. Case insensitive.
 
@@ -611,8 +646,9 @@ FUNCTION AfxStrRemainAnyI (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrRemainAnyI("I think, therefore I am", "E")   ' -> "refore I am"
 ```
+---
 
-# <a name="AfxStrRemove"></a>AfxStrRemove
+### AfxStrRemove
 
 Returns a new string with strings removed. Case sensitive.
 
@@ -631,7 +667,7 @@ FUNCTION AfxStrRemove (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS C
 DIM cws AS CWSTR = AfxStrRemove("Hello World. Welcome to the Freebasic World", "World")
 ```
 
-# AfxStrRemove (Overload)
+### AfxStrRemove (Overload)
 
 Returns a copy of a string with a substring enclosed between the specified delimiters removed. Case sensitive.
 
@@ -660,7 +696,7 @@ DIM cwsText AS CWSTR = "As Long var1(34), var2(  73 ), var3(any)"
 DIM cws AS CWSTR = AfxStrRemove(cwsText, "(", ")", TRUE)   ' Returns "As Long var1, var2, var3"
 ```
 
-# AfxStrRemove (Overload)
+### AfxStrRemove (Overload)
 
 Returns a copy of a string with a substring enclosed between the specified delimiters removed. Case sensitive.
 
@@ -684,8 +720,9 @@ FUNCTION AfxStrRemove (BYVAL nStart AS LONG = 1, BYREF wszMainStr AS CONST WSTRI
 DIM cwsText AS CWSTR = "blah blah (text beween parentheses) blah blah"
 DIM cws AS CWSTR = AfxStrRemove(cwsText, "(", ")")   ' Returns "blah blah  blah blah"
 ```
+---
 
-# <a name="AfxStrRemoveI"></a>AfxStrRemoveI
+### AfxStrRemoveI
 
 Returns a new string with strings removed. Case insensitive.
 
@@ -703,8 +740,9 @@ FUNCTION AfxStrRemoveI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS 
 ```
 AfxStrRemoveI("Hello World. Welcome to the Freebasic World", "world")
 ```
+---
 
-# <a name="AfxStrRemoveAny"></a>AfxStrRemoveAny
+### AfxStrRemoveAny
 
 Returns a new string with characters removed. Case sensitive.
 
@@ -722,8 +760,9 @@ FUNCTION AfxStrRemoveAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr A
 ```
 DIM cws AS CWSTR = AfxStrRemoveAny("abacadabra", "bac")   ' -> "dr"
 ```
+---
 
-# <a name="AfxStrRemoveAnyI"></a>AfxStrRemoveAnyI
+### AfxStrRemoveAnyI
 
 Returns a new string with characters removed. Case insensitive.
 
@@ -741,8 +780,9 @@ FUNCTION AfxStrRemoveAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr 
 ```
 DIM cws AS CWSTR = AfxStrRemoveAnyI("abacadabra", "BaC")   ' -> "dr"
 ```
+---
 
-# <a name="AfxStrRepeat"></a>AfxStrRepeat
+### AfxStrRepeat
 
 Returns a string consisting of multiple copies of the specified string. This function is similar to STRING, but STRING only makes multiple copies of a single character.
 
@@ -760,8 +800,9 @@ FUNCTION AfxStrRepeat (BYVAL nCount AS LONG, BYREF wszStr AS CONST WSTRING) AS C
 ```
 DIM cws AS CWSTR = AfxStrRepeat(5, "Paul")
 ```
+---
 
-# <a name="AfxStrReplace"></a>AfxStrReplace
+### AfxStrReplace
 
 Replaces all the occurrences of *wszMatchStr* in *wszMainstr* with the contents of *wszReplaceWith*. Case sensitive.
 
@@ -781,8 +822,9 @@ FUNCTION AfxStrReplace (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrReplace("Hello World", "World", "Earth")   ' Returns "Hello Earth"
 ```
+---
 
-# <a name="AfxStrReplaceI"></a>AfxStrReplaceI
+### AfxStrReplaceI
 
 Replaces all the occurrences of *wszMatchStr* in *wszMainstr* with the contents of *wszReplaceWith*. Case insensitive.
 
@@ -802,8 +844,9 @@ FUNCTION AfxStrReplaceI (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrReplaceI("Hello world", "World", "Earth")   ' -> "Hello Earth"
 ```
+---
 
-# <a name="AfxStrReplaceAny"></a>AfxStrReplaceAny
+### AfxStrReplaceAny
 
 Replaces all the occurrences of any of the individual characters *wszMatchStr* in *wszMainstr* with the contents of *wszReplaceWith*. *wszReplaceWith* must be a single character (this function does not replace words; therefore, *wszMatchStr* will not shrink or grow). Case sensitive. 
 
@@ -823,8 +866,9 @@ FUNCTION AfxStrReplaceAny  (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrReplaceAny("abacadabra", "bac", "*")   ' -> *****d**r*
 ```
+---
 
-# <a name="AfxStrReplaceAnyI"></a>AfxStrReplaceAnyI
+### AfxStrReplaceAnyI
 
 Replaces all the occurrences of any of the individual characters *wszMatchStr* in *wszMainstr* with the contents of *wszReplaceWith*. *wszReplaceWith* must be a single character (this function does not replace words; therefore, *wszMatchStr* will not shrink or grow). Case insensitive. 
 
@@ -844,8 +888,9 @@ FUNCTION AfxStrReplaceAnyI  (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrReplaceAnyI("abacadabra", "BaC", "*")   ' -> *****d**r*
 ```
+---
 
-# <a name="AfxStrRetain"></a>AfxStrRetain
+### AfxStrRetain
 
 Returns a string containing only the characters contained in a specified match string. Case sensitive.
 
@@ -863,8 +908,9 @@ FUNCTION AfxStrRetain (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS C
 ```
 DIM cws AS CWSTR = AfxStrRetain("abacadabra","b")   ' -> "bb"
 ```
+---
 
-# <a name="AfxStrRetainI"></a>AfxStrRetainI
+### AfxStrRetainI
 
 Returns a string containing only the characters contained in a specified match string. Case insensitive.
 
@@ -882,8 +928,9 @@ FUNCTION AfxStrRetainI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr AS 
 ```
 DIM cws AS CWSTR = AfxStrRetainI("abacadabra","B")   ' -> "bb"
 ```
+---
 
-# <a name="AfxStrRetainAny"></a>AfxStrRetainAny
+### AfxStrRetainAny
 
 Returns a string containing only the characters contained in a specified group of characters. Case sensitive.
 
@@ -901,8 +948,9 @@ FUNCTION AfxStrRetainAny (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr A
 ```
 DIM cws AS CWSTR = AfxStrRetainAny("<p>1234567890<ak;lk;l>1234567890</p>", "<;/p>")
 ```
+---
 
-# <a name="AfxStrRetainAnyI"></a>AfxStrRetainAnyI
+### AfxStrRetainAnyI
 
 Returns a string containing only the characters contained in a specified group of characters. Case insensitive.
 
@@ -920,8 +968,9 @@ FUNCTION AfxStrRetainAnyI (BYREF wszMainStr AS CONST WSTRING, BYREF wszMatchStr 
 ```
 DIM cws AS CWSTR = AfxStrRetainAnyI("<p>1234567890<ak;lk;l>1234567890</p>", "<;/P>")
 ```
+---
 
-# <a name="AfxStrReverse"></a>AfxStrReverse
+### AfxStrReverse
 
 Reverses the contents of a string expression.
 
@@ -938,8 +987,9 @@ FUNCTION AfxStrReverse (BYREF wszMainStr AS CONST WSTRING) AS CWSTR
 ```
 DIM cws AS CWSTR = AfxStrReverse("garden")   ' Returns "nedrag"
 ```
+---
 
-# <a name="AfxStrRSet"></a>AfxStrRSet
+### AfxStrRSet
 
 Returns a string containing a right justified string.
 
@@ -959,8 +1009,9 @@ FUNCTION AfxStrRSet (BYREF wszMainStr AS CONST WSTRING, _
 ```
 DIM cws AS CWSTR = AfxStrRSet("FreeBasic", 20, "*")
 ```
+---
 
-# <a name="AfxStrShrink"></a>AfxStrShrink
+### AfxStrShrink
 
 Shrinks a string to use a consistent single character delimiter.
 
@@ -982,8 +1033,9 @@ This function creates a string with consecutive words separated by a consistent 
 ```
 DIM cws AS CWSTR = AfxStrShrink(",,, one , two     three, four,", " ,")  ' Returns "one two three four"
 ```
+---
 
-# <a name="AfxStrSplit"></a>AfxStrSplit
+### AfxStrSplit
 
 Splits a string into tokens, which are sequences of contiguous characters separated by any of the characters that are part of delimiters.
 
@@ -1011,7 +1063,9 @@ NEXT
 ```
 **Include file**: CSafeArray.inc
 
-# <a name="AfxStrSpn"></a>AfxStrSpn
+---
+
+### AfxStrSpn
 
 Returns the length of the initial portion of a string which consists only of characters that are part of a specified set of characters.
 
@@ -1032,8 +1086,9 @@ DIM wszSet AS WSTRING * 260 = "1234567890"
 DIM n AS LONG = StrSpnW(@wszText, @wszSet)
 printf(!"The initial number has %d digits.\n", n)
 ```
+---
 
-# <a name="AfxStrTally"></a>AfxStrTally
+### AfxStrTally
 
 Count the number of occurrences of a string or a list of characters within a string. Case sensitive.
 
@@ -1056,8 +1111,9 @@ The number of occurrences of *wszMatchStr* in *wszMainStr*.
 ```
 DIM nCount AS LONG = AfxStrTally("abacadabra", "ab")   ' Returns 2
 ```
+----
 
-# <a name="AfxStrTallyI"></a>AfxStrTallyI
+### AfxStrTallyI
 
 Count the number of occurrences of a string or a list of characters within a string. Case insensitive.
 
@@ -1080,8 +1136,9 @@ The number of occurrences of *wszMatchStr* in *wszMainStr*.
 ```
 DIM nCount AS LONG = AfxStrTallyI("abacadabra", "Ab")   ' -> 2
 ```
+---
 
-# <a name="AfxStrTallyAny"></a>AfxStrTallyAny
+### AfxStrTallyAny
 
 Count the number of occurrences of a string or a list of characters within a string. Case sensitive.
 
@@ -1104,8 +1161,9 @@ The number of occurrences of *wszMatchStr* in *wszMainStr*.
 ```
 DIM nCount AS LONG = AfxStrTallyAny("abacadabra", "bac")   ' -> 8
 ```
+---
 
-# <a name="AfxStrTallyAnyI"></a>AfxStrTallyAnyI
+### AfxStrTallyAnyI
 
 Count the number of occurrences of a string or a list of characters within a string. Case insensitive.
 
@@ -1127,8 +1185,9 @@ The number of occurrences of *wszMatchStr* in *wszMainStr*.
 ```
 DIM nCount AS LONG = AfxStrTallyAnyI("abacadabra", "bAc")   ' -> 8
 ```
+---
 
-# <a name="AfxStrUCase"></a>AfxStrUCase
+### AfxStrUCase
 
 Returns an uppercased version of a string.
 
@@ -1160,7 +1219,9 @@ AfxStrLCase("KARIŞIKLIĞI", "tr-TR")
 
 The uppercased string.
 
-# <a name="AfxStrUnWrap"></a>AfxStrUnWrap
+---
+
+### AfxStrUnWrap
 
 Removes paired characters to the beginning and end of a string.
 
@@ -1195,8 +1256,9 @@ AfxStrUnWrap("<Paul>", "<", ">") results in Paul
 AfxStrUnWrap("'Paul'", "'") results in Paul
 AfxStrUnWrap("""Paul""") results in Paul
 ```
+---
 
-# <a name="AfxStrVerify"></a>AfxStrVerify
+### AfxStrVerify
 
 Determine whether each character of a string is present in another string. Case sensitive.
 
@@ -1224,7 +1286,9 @@ DIM nCount AS LONG = AfxStrVerify(5, "123.65,22.5", "0123456789")   ' Returns 7
 
 Returns 7 since 5 starts it past the first non-digit "." at position 4.
 
-# <a name="AfxStrVerifyI"></a>AfxStrVerifyI
+---
+
+### AfxStrVerifyI
 
 Determine whether each character of a string is present in another string. Case insensitive.
 
@@ -1247,8 +1311,9 @@ Returns zero if each character in wszMainStr is present in *wszMatchStr*; otherw
 ```
 DIM nCount AS LONG = AfxStrVerifyI(5, "123.65abcx22.5", "0123456789ABC")   ' -> 10
 ```
+---
 
-# <a name="AfxStrWrap"></a>AfxStrWrap
+### AfxStrWrap
 
 Adds paired characters to the beginning and end of a string.
 
@@ -1283,8 +1348,9 @@ AfxStrWrap("Paul", "<", ">") results in <Paul>
 AfxStrWrap("Paul", "'") results in 'Paul'
 AfxStrWrap("Paul") results in "Paul"
 ```
+---
 
-# <a name="AfxBase64DecodeA"></a>AfxBase64DecodeA
+### AfxBase64DecodeA
 
 Converts the contents of a Base64 mime encoded string to an ascii string.
 
@@ -1325,8 +1391,9 @@ or
 DIM cwsOut AS CWSTR
 cws.utf8 = AfxBase64DecodeA(s)
 ````
+---
 
-# <a name="AfxBase64DecodeW"></a>AfxBase64DecodeW
+### AfxBase64DecodeW
 
 Converts the contents of a Base64 mime encoded string to an unicode string.
 
@@ -1348,7 +1415,9 @@ Base64 is a group of similar encoding schemes that represent binary data in an A
 
 Base64 encoding schemes are commonly used when there is a need to encode binary data that needs be stored and transferred over media that are designed to deal with textual data. This is to ensure that the data remains intact without modification during transport. Base64 is used commonly in a number of applications including email via MIME, and storing complex data in XML.
 
-# <a name="AfxBase64EncodeA"></a>AfxBase64EncodeA
+---
+
+### AfxBase64EncodeA
 
 Converts the contents of an ascii string to Base64 mime encoding.
 
@@ -1389,8 +1458,9 @@ or
 DIM cwsOut AS CWSTR
 cws.utf8 = AfxBase64DecodeA(s)
 ````
+---
 
-# <a name="AfxBase64EncodeW"></a>AfxBase64EncodeW
+### AfxBase64EncodeW
 
 Converts the contents of an unicode string to Base64 mime encoding.
 
@@ -1412,7 +1482,9 @@ Base64 is a group of similar encoding schemes that represent binary data in an A
 
 Base64 encoding schemes are commonly used when there is a need to encode binary data that needs be stored and transferred over media that are designed to deal with textual data. This is to ensure that the data remains intact without modification during transport. Base64 is used commonly in a number of applications including email via MIME, and storing complex data in XML.
 
-# <a name="AfxCryptBinaryToString"></a>AfxCryptBinaryToString
+---
+
+### AfxCryptBinaryToString
 
 Converts an array of bytes into a formatted string.
 
@@ -1477,7 +1549,9 @@ If the function fails, it returns zero (FALSE).
 
 With the exception of when **CRYPT_STRING_BINARY** encoding is used, all strings are appended with a new line sequence. By default, the new line sequence is a CR/LF pair (0x0D/0x0A). If the *dwFlags* parameter contains the **CRYPT_STRING_NOCR** flag, then the new line sequence is a LF character (0x0A). If the *dwFlags* parameter contains the **CRYPT_STRING_NOCRLF** flag, then no new line sequence is appended to the string.
 
-# <a name="AfxCryptStringToBinary"></a>AfxCryptStringToBinary
+---
+
+### AfxCryptStringToBinary
 
 Converts a formatted string into an array of bytes.
 
