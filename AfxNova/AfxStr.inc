@@ -4,6 +4,7 @@
 ' Contents: String wrapper functions.
 ' Compiler: FreeBasic 32 & 64-bit, Unicode.
 ' Copyright (c) 2016 Paul Squires and José Roca. Freeware. Use at your own risk.
+' Modified in 2025 by José Roca to work with DWSTRING.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
