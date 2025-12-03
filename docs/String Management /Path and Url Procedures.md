@@ -1,4 +1,4 @@
-# Path and Url Procedures
+# Path and Url procedures
 
 Assorted path and url procedures.
 
@@ -6,7 +6,7 @@ Assorted path and url procedures.
 
 ---
 
-## Path and Url Procedures
+## Path procedures
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -67,6 +67,14 @@ Assorted path and url procedures.
 | [AfxPathUnExpandEnvStrings](#afxpathunexpandenvstrings) | Replaces certain folder names in a fully-qualified path with their associated environment string. |
 | [AfxPathUnmakeSystemFolder](#afxpathunmakesystemfolder) | Removes the attributes from a folder that make it a system folder. This folder must actually exist in the file system. |
 | [AfxPathUnquoteSpaces](#afxpathunquotespaces) | Removes quotes from the beginning and end of a path. |
+
+---
+
+## Url procedures
+
+| Name       | Description |
+| ---------- | ----------- |
+| [AfxIsValidUrl](#afxisvalidurl) | Determines if a specified string is a valid URL. |
 | [AfxUrlApplyScheme](#afxurlapplyscheme) | Determines a scheme for a specified URL string, and returns a string with an appropriate prefix. |
 | [AfxUrlCanonicalize](#afxurlcanonicalize) | Converts a URL string into canonical form. |
 | [AfxUrlCombine](#afxurlcombine) | When provided with a relative URL and its base, returns a URL in canonical form. |
@@ -75,8 +83,14 @@ Assorted path and url procedures.
 | [AfxUrlEscape](#afxurlescape) | Converts characters in a URL that might be altered during transport across the Internet ("unsafe" characters) into their corresponding escape sequences. |
 | [AfxUrlEscapeSpaces](#afxurlescapespaces) | Converts space characters into their corresponding escape sequence. |
 | [AfxUrlFixup](#afxurlfixup) | Attempts to correct a URL whose protocol identifier is incorrect. For example, htttp will be changed to http. |
+| [AfxUrlGetHostName](#afxurlgethostname) | Accepts a URL string and returns the host name. |
 | [AfxUrlGetLocation](#afxurlgetlocation) | Retrieves the location from a URL. |
 | [AfxUrlGetPart](#afxurlgetoart) | Accepts a URL string and returns a specified part of that URL. |
+| [AfxUrlGetPassword](#afxurlgetpassword) | Accepts a URL string and returns the password. |
+| [AfxUrlGetPort](#afxurlgetport) | Accepts a URL string and returns the port number. |
+| [AfxUrlGetQuery](#afxurlgetquery) | Accepts a URL string and returns the query portion. |
+| [AfxUrlGetScheme](#afxurlgetscheme) | Accepts a URL string and returns the scheme. |
+| [AfxUrlGetUserName](#afxurlgetusername) | Accepts a URL string and returns the user name. |
 | [AfxUrlHash](#afxurlhash) | Hashes a URL string. |
 | [AfxUrlIs](#afxurlis) | Tests whether or not a URL is a specified type. |
 | [AfxUrlIsFileUrl](#afxurlisfileurl) | Tests a URL to determine if it is a file URL. |
@@ -1335,6 +1349,25 @@ The unquoted path.
 
 ---
 
+## AfxIsValidUrl
+
+Determines if a specified string is a valid URL.
+
+```
+FUNCTION AfxIsValidUrl (BYREF wszUrl AS CONST WSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszUrl* | A string that contains the full URL to check. |
+
+#### Remarks
+
+Return True if the URL is valid; FALSE, otherwise.
+
+---
+
+
 ## AfxUrlApplyScheme
 
 Determines a scheme for a specified URL string, and returns a string with an appropriate prefix.
@@ -1593,6 +1626,29 @@ This function is available through Windows 7 and Windows Server 2008. It might b
 
 ---
 
+## AfxUrlGetHostName
+
+Accepts a URL string and returns the host name.
+
+```
+FUNCTION AfxUrlGetHostName (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszUrl* | The URL string. |
+
+#### Return value
+
+If the function succeeds, it returns the host name; if it fails, it returns an empty string.
+
+#### Usage example
+
+```
+print AfxUrlGetHostName("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+```
+---
+
 ## AfxUrlGetLocation
 
 Retrieves the location from a URL.
@@ -1634,6 +1690,121 @@ FUNCTION AfxUrlGetPart (BYREF wszUrl AS WSTRING, _
 
 A string with the specified part of that URL.
 
+---
+
+## AfxUrlGetPassword
+
+Accepts a URL string and returns the password.
+
+```
+FUNCTION AfxUrlGetPassword (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszUrl* | The URL string. |
+
+#### Return value
+
+If the function succeeds, it returns the password; if it fails, it returns an empty string.
+
+#### Usage example
+
+```
+print AfxUrlGetPassword("https://user:secret@example.com:8080/path/to/resource?id=123&lang=es")
+```
+---
+
+## AfxUrlGetPort
+
+Accepts a URL string and returns the port number.
+
+```
+FUNCTION AfxUrlGetPort (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszUrl* | The URL string. |
+
+#### Return value
+
+If the function succeeds, it returns the port number; if it fails, it returns an empty string.
+
+#### Usage example
+
+```
+print AfxUrlGetPassword("https://user:secret@example.com:8080/path/to/resource?id=123&lang=es")
+```
+---
+
+## AfxUrlGetQuery
+
+Accepts a URL string and returns the query portion.
+
+```
+FUNCTION AfxUrlGetQuery (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszUrl* | The URL string. |
+
+#### Return value
+
+If the function succeeds, it returns the query portion; if it fails, it returns an empty string.
+
+#### Usage example
+
+```
+print AfxUrlGetQuery("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+```
+---
+
+## AfxUrlGetSchema
+
+Accepts a URL string and returns the scheme.
+
+```
+FUNCTION AfxUrlGetScheme (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszUrl* | The URL string. |
+
+#### Return value
+
+If the function succeeds, it returns the scheme; if it fails, it returns an empty string.
+
+#### Usage example
+
+```
+print AfxUrlGetScheme("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+```
+---
+
+## AfxUrlGetUserName
+
+Accepts a URL string and returns the user name.
+
+```
+FUNCTION AfxUrlGetUserName (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszUrl* | The URL string. |
+
+#### Return value
+
+If the function succeeds, it returns the user name; if it fails, it returns an empty string.
+
+#### Usage example
+
+```
+FUNCTION AfxUrlGetUserName (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+```
 ---
 
 ## AfxUrlHash
