@@ -59,7 +59,7 @@ Public:
            BYVAL baseCap AS GpLineCap = LinecapFLat, BYVAL baseInset AS SINGLE = 0.0)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS GpCustomLineCap PTR
-   END TYPE
+END TYPE
 ' ========================================================================================
 
 ' ========================================================================================

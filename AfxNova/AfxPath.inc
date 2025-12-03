@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
 ' Filename: AfxPath.inc
-' Purpose:  Windows path procedures
+' Purpose:  Windows path and url procedures
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
 '
@@ -702,7 +702,7 @@ END FUNCTION
 ' appropriate prefix.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlApplyScheme (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
-   DIM _wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchOut AS DWORD = SIZEOF(_wszOut)
    DIM hr AS HRESULT = UrlApplySchemeW(wszUrl, _wszOut, @cchOut, dwFlags)
    IF hr = S_OK OR hr = S_FALSE THEN RETURN _wszOut ELSE RETURN wszUrl
@@ -713,7 +713,7 @@ END FUNCTION
 ' Takes a URL string and converts it into canonical form.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlCanonicalize (BYREF wszUrl AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
-   DIM _wszCanonicalized AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszCanonicalized AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchCanonicalized AS DWORD = SIZEOF(_wszCanonicalized)
    DIM hr AS HRESULT = UrlCanonicalizeW(wszUrl, _wszCanonicalized, @cchCanonicalized, dwFlags)
    IF hr = S_OK THEN RETURN _wszCanonicalized ELSE RETURN wszUrl
@@ -724,7 +724,7 @@ END FUNCTION
 ' When provided with a relative URL and its base, returns a URL in canonical form.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlCombine (BYREF wszBase AS WSTRING, BYREF wszRelative AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
-   DIM _wszCombined AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszCombined AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchCombined AS DWORD = SIZEOF(_wszCombined)
    DIM hr AS HRESULT = UrlCombineW(wszBase, wszRelative, _wszCombined, @cchCombined, dwFlags)
    IF hr = S_OK THEN RETURN _wszCombined ELSE RETURN wszBase
@@ -743,7 +743,7 @@ END FUNCTION
 ' Takes a Microsoft MS-DOS path and converts it to a canonicalized URL.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlCreateFromPath (BYREF wszPath AS WSTRING) AS DWSTRING
-   DIM _wszUrl AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszUrl AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchUrl AS DWORD = SIZEOF(_wszUrl)
    DIM hr AS HRESULT = UrlCreateFromPathW(wszPath, _wszUrl, @cchUrl, 0)
    IF hr = S_OK OR hr = S_FALSE THEN RETURN _wszUrl ELSE RETURN wszPath
@@ -755,7 +755,7 @@ END FUNCTION
 ' Internet ("unsafe" characters) into their corresponding escape sequences.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlEscape (BYREF wszURL AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
-   DIM _wszEscaped AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszEscaped AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchEscaped AS DWORD = SIZEOF(_wszEscaped)
    DIM hr AS HRESULT = UrlEscapeW(wszURL, _wszEscaped, @cchEscaped, 0)
    IF hr = S_OK THEN RETURN _wszEscaped ELSE RETURN wszURL
@@ -766,7 +766,7 @@ END FUNCTION
 ' Converts space characters into their corresponding escape sequence.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlEscapeSpaces (BYREF wszURL AS WSTRING) AS DWSTRING
-   DIM _wszEscaped AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszEscaped AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchEscaped AS DWORD = SIZEOF(_wszEscaped)
    DIM hr AS HRESULT = UrlEscapeSpaces(wszURL, _wszEscaped, @cchEscaped)
    IF hr = S_OK THEN RETURN _wszEscaped ELSE RETURN wszURL
@@ -788,7 +788,7 @@ END FUNCTION
 ' Accepts a URL string and returns a specified part of that URL.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlGetPart (BYREF wszUrl AS CONST WSTRING, BYVAL dwPart AS DWORD, BYVAL dwFlags AS DWORD) AS DWSTRING
-   DIM _wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchOut AS DWORD = SIZEOF(_wszOut)
    DIM hr AS HRESULT = UrlGetPartW(wszUrl, _wszOut, @cchOut, dwPart, dwFlags)
    IF hr = S_OK THEN RETURN _wszOut
@@ -840,7 +840,7 @@ END FUNCTION
 ' Converts escape sequences back into ordinary characters.
 ' ========================================================================================
 PRIVATE FUNCTION AfxUrlUnescape (BYREF wszURL AS WSTRING, BYVAL dwFlags AS DWORD) AS DWSTRING
-   DIM _wszUnescaped AS WSTRING * INTERNET_MAX_URL_LENGTH
+   DIM _wszUnescaped AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
    DIM cchUnescaped AS DWORD = SIZEOF(_wszUnescaped)
    DIM hr AS HRESULT = UrlUnescapeW(wszURL, _wszUnescaped, @cchUnescaped, 0)
    IF hr = S_OK THEN
@@ -895,12 +895,101 @@ PRIVATE FUNCTION AfxUrlFixup (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
    DIM pProc AS FUNCTION (BYREF wszUrl AS WSTRING, BYREF pszTranslatedUrl AS WSTRING, BYVAL cchMax AS DWORD) AS HRESULT
    pProc = DyLibSymbol(pLib, "UrlFixupW")
    IF pProc = 0 THEN RETURN ""
-   DIM _wszUrl AS WSTRING * INTERNET_MAX_URL_LENGTH = wszUrl
-   DIM _wszTranslatedUrl AS WSTRING * INTERNET_MAX_URL_LENGTH
-   DIM hr AS HRESULT = pProc(_wszUrl, _wszTranslatedUrl, INTERNET_MAX_URL_LENGTH)
+   DIM _wszUrl AS WSTRING * INTERNET_MAX_URL_LENGTH + 1 = wszUrl
+   DIM _wszTranslatedUrl AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
+   DIM hr AS HRESULT = pProc(_wszUrl, _wszTranslatedUrl, INTERNET_MAX_URL_LENGTH + 1)
    DyLibFree(pLib)
    RETURN _wszTranslatedUrl
 END FUNCTION
 ' ========================================================================================
+
+' ========================================================================================
+' Determines if a specified string is a valid URL.
+' Example: print AfxIsValidUrl("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+' ========================================================================================
+PRIVATE FUNCTION AfxIsValidUrl (BYREF wszUrl AS CONST WSTRING) AS BOOLEAN
+   DIM AS ANY PTR pLib = DyLibLoad("urlmon.dll")
+   IF pLib = 0 THEN RETURN FALSE
+   DIM pProc AS FUNCTION (BYVAL pBC AS LPBC, BYVAL szURL AS LPCWSTR, BYVAL dwReserved AS DWORD) AS HRESULT
+   pProc = DyLibSymbol(pLib, "IsValidURL")
+   IF pProc = 0 THEN RETURN FALSE
+   DIM hr AS HRESULT = pProc(NULL, wszUrl, 0)
+   DyLibFree(pLib)
+   IF hr = S_OK THEN RETURN TRUE ELSE RETURN FALSE
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Accepts a URL string and returns the host name.
+' Example: print AfxUrlGetHostName("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+' ========================================================================================
+PRIVATE FUNCTION AfxUrlGetHostName (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+   DIM wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
+   DIM cbLen AS DWORD = INTERNET_MAX_URL_LENGTH + 1
+   DIM hr AS HRESULT = UrlGetPartW(wszUrl, @wszOut, @cbLen, URL_PART_HOSTNAME, 0)
+   RETURN wszOut
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Accepts a URL string and returns the user name.
+' Example: print AfxUrlGetUserName("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+' ========================================================================================
+PRIVATE FUNCTION AfxUrlGetUserName (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+   DIM wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
+   DIM cbLen AS DWORD = INTERNET_MAX_URL_LENGTH + 1
+   DIM hr AS HRESULT = UrlGetPartW(wszUrl, @wszOut, @cbLen, URL_PART_USERNAME, 0)
+   RETURN wszOut
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Accepts a URL string and returns the password.
+' print AfxUrlGetPassword("https://user:secret@example.com:8080/path/to/resource?id=123&lang=es")
+' ========================================================================================
+PRIVATE FUNCTION AfxUrlGetPassword (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+   DIM wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
+   DIM cbLen AS DWORD = INTERNET_MAX_URL_LENGTH + 1
+   DIM hr AS HRESULT = UrlGetPartW(wszUrl, @wszOut, @cbLen, URL_PART_PASSWORD, 0)
+   RETURN wszOut
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Accepts a URL string and returns the port number.
+' Example: print AfxUrlGetPortNumber("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+' ========================================================================================
+PRIVATE FUNCTION AfxUrlGetPortNumber (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+   DIM wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
+   DIM cbLen AS DWORD = INTERNET_MAX_URL_LENGTH + 1
+   DIM hr AS HRESULT = UrlGetPartW(wszUrl, @wszOut, @cbLen, URL_PART_PORT, 0)
+   RETURN wszOut
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Accepts a URL string and returns the query portion.
+' Example: print AfxUrlGetQuery("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+' ========================================================================================
+PRIVATE FUNCTION AfxUrlGetQuery (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+   DIM wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
+   DIM cbLen AS DWORD = INTERNET_MAX_URL_LENGTH + 1
+   DIM hr AS HRESULT = UrlGetPartW(wszUrl, @wszOut, @cbLen, URL_PART_QUERY, 0)
+   RETURN wszOut
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Accepts a URL string and returns the scheme.
+' print AfxUrlGetScheme("https://user@example.com:8080/path/to/resource?id=123&lang=es")
+' ========================================================================================
+PRIVATE FUNCTION AfxUrlGetScheme (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
+   DIM wszOut AS WSTRING * INTERNET_MAX_URL_LENGTH + 1
+   DIM cbLen AS DWORD = INTERNET_MAX_URL_LENGTH + 1
+   DIM hr AS HRESULT = UrlGetPartW(wszUrl, @wszOut, @cbLen, URL_PART_SCHEME, 0)
+   RETURN wszOut
+END FUNCTION
+' ========================================================================================
+
 
 END NAMESPACE

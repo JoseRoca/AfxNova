@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Platform: Microsoft Windows
-' Filename: AfxGdiPlusObjects.inc
+' Filename: AfxGdiPlusProcs.inc
 ' Purpose:  GDI+ Flat Api procedures
 ' Compiler: FreeBASIC 32 & 64 bit
 ' Copyright (c) 2025 José Roca
