@@ -185,6 +185,12 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
       ' // creation of the window. If the application returns –1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+         AfxEnableDarkModeForWindow(hwnd)
          RETURN 0
 
       CASE WM_SYSCOMMAND
