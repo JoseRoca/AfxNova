@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_ComboBox_01.bas
-' Contents: CWindow - ComboBox
+' File: CW_Edit_DarkMode.bas
+' Contents: CWindow - Edit controls
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -22,7 +22,8 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 ' // Forward declaration
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
-CONST IDC_COMBOBOX = 1001
+CONST IDC_EDIT1 = 1001
+CONST IDC_EDIT2 = 1002
 
 ' ========================================================================================
 ' Main
@@ -39,28 +40,37 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Creates the main window
    DIM pWindow AS CWindow = "MyClassName"   ' Use the name you wish
-   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - ComboBox", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - Edit controls", @WndProc)
    ' // Sizes it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 220)
    ' // Centers the window
    pWindow.Center
    ' // Set the main window background color
-   pWindow.SetBackColor(RGB_OLDLACE)
+   pWindow.SetBackColor(RGB_BLACK)
 
-   ' // Adds a combobox
-   DIM hComboBox AS HWND = pWindow.AddControl("Combobox", hWin, IDC_COMBOBOX, "", 80, 30, 230, 100)
+   ' // Add an Edit control
+   DIM hEdit AS HWND = pWindow.AddControl("Edit", hWin, IDC_EDIT1, "", 20, 15, 360, 23)
+   SetWindowTheme(hEdit, "DarkMode_Explorer", NULL)
+   ' // Colors of the edit text
+   pWindow.SetCtlColors(hEdit, RGB_WHITE, RGB_BLACK)
+   ' // Add a multiline Edit control
+   DIM hEditMulti AS HWND = pWindow.AddControl("EditMultiline", hWin, IDC_EDIT2, "", 20, 45, 360, 110)
+   SetWindowTheme(hEditMulti, "DarkMode_Explorer", NULL)
+   ' // Colors of the edit text
+   pWindow.SetCtlColors(hEditMulti, RGB_WHITE, RGB_BLACK)
+   ' // Anchor the controls
+   pWindow.AnchorControl(hWin, IDC_EDIT1, AFX_ANCHOR_WIDTH)
+   pWindow.AnchorControl(hWin, IDC_EDIT2, AFX_ANCHOR_HEIGHT_WIDTH)
+
+   ' // Adds a button
+   DIM hButton AS HWND = pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 305, 170, 75, 30)
+   ' // Set button dark mode
+   SetWindowTheme(hButton, "DarkMode_Explorer", NULL)
    ' // Anchors the button to the bottom and the right side of the main window
-   pWindow.AnchorControl(IDC_COMBOBOX, AFX_ANCHOR_WIDTH)
+   pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
-   ' // Fill the control with some data
-   DIM dwsText AS DWSTRING
-   FOR i AS LONG = 1 TO 9
-      dwsText = "Item " & RIGHT("00" & WSTR(i), 2)
-      ComboBox_AddString(hComboBox, *dwsText)
-   NEXT
-
-   ' // Select the first item in the combo box
-   ComboBox_SetCursel(hComboBox, 0)
+   ' // Set the focus In the edit control
+   SetFocus hEdit
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
@@ -94,18 +104,13 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
                IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN SendMessageW(hwnd, WM_CLOSE, 0, 0)
-            CASE IDC_COMBOBOX
-               ' // The selection has changed
-               IF CBCTLMSG(wParam, lParam) = LBN_SELCHANGE THEN
-                  ' // Handle of the combobox
-                  DIM hCombobox AS HWND = GetDlgItem(hwnd, IDC_COMBOBOX)
-                  ' // Retrieve the Item selected
-                  DIM curSel AS LONG = ComboBox_GetCursel(hCombobox)
-                  MessageBoxW hwnd, "You have selected " & _
-                     AfxGetComboBoxText(hCombobox, curSel), "ComboBox Test", MB_OK
-               END IF
          END SELECT
          RETURN 0
+
+      CASE WM_CLOSE
+         ' // Multiline edit controls send a WM_CLOSE message when the Esc key is pressed.
+         ' // This is a workaround; the proper way is to subclass the control and eat the ESC key.
+         IF GetFocus = GetDlgItem(hwnd, IDC_EDIT2) THEN RETURN 0   ' // abort
 
       CASE WM_DESTROY
          ' // End the application by sending an WM_QUIT message
