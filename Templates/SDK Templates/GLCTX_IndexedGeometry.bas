@@ -7,7 +7,7 @@
 ' the sample reduces the vertex count of a simple cube from 24 to 8 by redefining the
 ' cube’s geometry using an indices array.
 ' Based on ogl_indexed_geometry.cpp, by Kevin Harris, 02/01/05.
-' Adapted in 2017 by José Roca. Freeware. Use at your own risk.
+' Adapted in 2025 by José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -27,7 +27,7 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
 CONST GL_WINDOWWIDTH   = 600                          ' Window width
 CONST GL_WINDOWHEIGHT  = 400                          ' Window height
-CONST GL_WindowCaption = "OpenGL: Indexes geometry"   ' Window caption
+CONST GL_WindowCaption = "OpenGL: Indexed geometry"   ' Window caption
 CONST IDC_GRCTX = 1001
 
 ' Vertex structure
@@ -467,7 +467,7 @@ FUNCTION GraphCtx_SubclassProc ( _
       CASE WM_SIZE
          ' // First perform the default action
          DefSubclassProc(hwnd, uMsg, wParam, lParam)
-         ' // Check if the graphic contol is resizable
+         ' // Check if the graphic control is resizable
          DIM bResizable AS BOOLEAN =  AfxCGraphCtxPtr(hwnd)->Resizable
          ' // If it is resizable, we need to recreate the scene
          ' // because the rendering context has changed
