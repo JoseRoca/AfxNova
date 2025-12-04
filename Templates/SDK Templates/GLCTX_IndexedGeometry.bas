@@ -16,6 +16,7 @@
 #define UNICODE
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
+#INCLUDE ONCE "AfxNova/RGB_Colors.bi"
 USING AfxNova
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -337,8 +338,8 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Create the window
    DIM hwndMain AS HWND = pWindow.Create(NULL, GL_WindowCaption, @WndProc)
    ' // Don't erase the background
-   ' // Use a black brush
-   pWindow.Brush = CreateSolidBrush(BGR(255, 255, 255))
+   ' // Use a black brush for tyhe background
+   pWindow.Brush = CreateSolidBrush(RGB_BLACK)
    ' // Sizes the window by setting the wanted width and height of its client area
    pWindow.SetClientSize(GL_WINDOWWIDTH, GL_WINDOWHEIGHT)
    ' // Centers the window
@@ -383,6 +384,12 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
       ' // creation of the window. If the application returns –1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+         AfxEnableDarkModeForWindow(hwnd)
          RETURN 0
 
       CASE WM_SYSCOMMAND
