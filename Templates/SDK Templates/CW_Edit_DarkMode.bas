@@ -50,12 +50,10 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Add an Edit control
    DIM hEdit AS HWND = pWindow.AddControl("Edit", hWin, IDC_EDIT1, "", 20, 15, 360, 23)
-   SetWindowTheme(hEdit, "DarkMode_Explorer", NULL)
    ' // Colors of the edit text
    pWindow.SetCtlColors(hEdit, RGB_WHITE, RGB_BLACK)
    ' // Add a multiline Edit control
    DIM hEditMulti AS HWND = pWindow.AddControl("EditMultiline", hWin, IDC_EDIT2, "", 20, 45, 360, 110)
-   SetWindowTheme(hEditMulti, "DarkMode_Explorer", NULL)
    ' // Colors of the edit text
    pWindow.SetCtlColors(hEditMulti, RGB_WHITE, RGB_BLACK)
    ' // Anchor the controls
