@@ -51,16 +51,12 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM hComboBox AS HWND = pWindow.AddControl("Combobox", hWin, IDC_COMBOBOX, "", 80, 30, 230, 100)
    ' // Set dark mode
    SetWindowTheme(hComboBox, "DarkMode_CFD", NULL)
-   ' // Get the handle of the edit control of the combobox
-   DIM hEditCombo AS HWND = GetWindow(hComboBox, GW_CHILD)
-   ' // Set dark mode
-   SetWindowTheme(hEditCombo, "DarkMode_Explorer", NULL)
-   ' // Colors of the edit text
-   pWindow.SetCtlColors(hEditCombo, RGB_WHITE, RGB_BLACK)
-   ' // Get the handle of the listbox control of a combobox
+   ' // Get the handles of the edit and list controls of the combobox
    DIM cbi AS COMBOBOXINFO 
    cbi.cbSize = SIZEOF(COMBOBOXINFO)
    GetComboBoxInfo (hComboBox, @cbi)
+   ' // Colors of the edit text
+   pWindow.SetCtlColors(cbi.hwndItem, RGB_WHITE, RGB_BLACK)
    ' // Colors of the list text
    pWindow.SetCtlColors(cbi.hwndList, RGB_WHITE, RGB_BLACK)
    ' // Anchors the button to the bottom and the right side of the main window
