@@ -385,4 +385,13 @@ PRIVATE FUNCTION AfxEnableDarkModeForWindow (BYVAL hwnd AS HWND) AS HRESULT
 END FUNCTION
 ' ========================================================================================
 
+' ========================================================================================
+' Draw windows with rounded corners.
+' Supported starting with Windows 11 Build 22000.
+' ========================================================================================
+PRIVATE FUNCTION AfxSetWindowCornerPreference (BYVAL hwnd AS HWND, BYVAL preference AS LONG) AS HRESULT
+   RETURN DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, @preference, SIZEOF(preference))
+END FUNCTION
+' ========================================================================================
+
 ' ########################################################################################

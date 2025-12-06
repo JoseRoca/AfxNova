@@ -493,6 +493,20 @@ PRIVATE FUNCTION AfxGetCurrentDirectory () AS DWSTRING
    RETURN wszCurDir
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetCurDir () AS DWSTRING
+   DIM wszCurDir AS WSTRING * MAX_PATH
+   GetCurrentDirectoryW(MAX_PATH, wszCurDir)
+   RETURN wszCurDir
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxCurDir () AS DWSTRING
+   DIM wszCurDir AS WSTRING * MAX_PATH
+   GetCurrentDirectoryW(MAX_PATH, wszCurDir)
+   RETURN wszCurDir
+END FUNCTION
+' ========================================================================================
 
 ' ========================================================================================
 ' * Changes the current directory for the current process.
