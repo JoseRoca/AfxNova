@@ -135,7 +135,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                      DIM pLvCd AS NMLVCUSTOMDRAW PTR = CAST(NMLVCUSTOMDRAW PTR, lParam)
                      SELECT CASE pLvCd->nmcd.dwDrawStage
                         CASE CDDS_PREPAINT, CDDS_ITEMPREPAINT
-                           ' // Tell the list view to send the %CDDS_ITEMPREPAINT OR %CDDS_SUBITEM notification message
+                           ' // Tell the list view to send the CDDS_ITEMPREPAINT OR CDDS_SUBITEM notification message
                            RETURN CDRF_NOTIFYSUBITEMDRAW
                         CASE CDDS_ITEMPREPAINT OR CDDS_SUBITEM
                            IF pLvCd->iSubItem = 0 THEN

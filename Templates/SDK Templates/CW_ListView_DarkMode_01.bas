@@ -51,15 +51,17 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM hListView AS HWND = pWindow.AddControl("ListView", hWin, IDC_LISTVIEW)
    pWindow.SetWindowPos hListView, NULL, 0, 0, 770, 365, SWP_NOZORDER
    SetWindowTheme(hListView, "DarkMode_Explorer", NULL)
-'   SetWindowTheme(hListView, "DarkMode_ItemsView", NULL)
    ' // Anchor the ListView
    pWindow.AnchorControl(IDC_LISTVIEW, AFX_ANCHOR_HEIGHT_WIDTH)
 
-   ' // Subclass the ListView control
-   pWindow.SetControlSubclass(hListView, @ListView_SubclassProc, IDC_LISTVIEW, @pWindow)
-   ' // Disable visual styles for the header of the ListView
+   ' // Set dark mode for header control (only changes the background color)
    DIM hLvHeader AS HWND = ListView_GetHeader(hListView)
-   SetWindowTheme(hLvHeader, "", "")
+   SetWindowTheme(hLvHeader, "DarkMode_ItemsView", NULL)
+   ' // We need to subclass the ListView control to change the text color of the header
+   ' // Although it may seem strange, the NM_CUSTOMDRAW messages from the header
+   ' // reach the subclassed ListView procedure. That's why the ListView is subclassed
+   ' // instead of the header itself. I'm not crazy, that's how the API works :)
+   pWindow.SetControlSubclass(hListView, @ListView_SubclassProc, IDC_LISTVIEW, @pWindow)
 
    ' // Add some extended styles
    DIM dwExStyle AS DWORD
@@ -177,16 +179,10 @@ FUNCTION ListView_SubclassProc ( _
                      RETURN CDRF_NOTIFYITEMDRAW
                      ' // Notification of each item being drawn
                   CASE CDDS_ITEMPREPAINT
-                     DIM hBrush AS HBRUSH
-                     hBrush = CreateSolidBrush(RGB_BLACK)
-                     IF hBrush THEN
-                        FillRect pnmcd->hdc, @pnmcd->rc, hBrush
-                        DeleteObject hBrush
-                     END IF
-                        ' Set text color here
-                        SetTextColor(pnmcd->hdc, RGB_WHITE)
-                        SetBkMode(pnmcd->hdc, TRANSPARENT)
-                        RETURN CDRF_DODEFAULT
+                     ' // Set text color of the header
+                     SetTextColor(pnmcd->hdc, RGB_WHITE)
+                     SetBkMode(pnmcd->hdc, TRANSPARENT)
+                     RETURN CDRF_DODEFAULT
                END SELECT
          END SELECT
 
