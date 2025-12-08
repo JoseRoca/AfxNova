@@ -1,10 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
 ' File: CW_SBMouseClick.bas
-' Contents: CWindow - Status Bar with a Progress Bar
-' Contents: Demonstrates the use of the Statusbar and ProgressBar controls.
-' Comments: In this example, the progress bar has been made child of the status bar.
-' Compiler: FreeBasic 32 & 64 bit
+' Contents: CWindow - Status Bar
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
@@ -59,6 +56,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    IF StatusBar_SetParts(hStatusBar, 3, @rgParts(1)) THEN
       StatusBar_Simple(hStatusBar, FALSE)
    END IF
+   StatusBar_SetText(hStatusbar, 0, "Part 1")
+   StatusBar_SetText(hStatusbar, 1, "Part 2")
+   StatusBar_SetText(hStatusbar, 2, "Part 3")
    ' // Anchor the status bar
    pWindow.AnchorControl(IDC_STATUSBAR, AFX_ANCHOR_BOTTOM_WIDTH)
 
@@ -97,7 +97,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          CBNMTYPESET(nmouse, wParam, lParam)
          IF nmouse.hdr.idFrom = IDC_STATUSBAR AND nmouse.hdr.code = NM_CLICK THEN
             ' // Display the zero-based index of the section that was clicked.
-            MessageBoxW hwnd, "You have clicked section " & WSTR(nmouse.dwItemSpec), "", MB_OK
+            MessageBoxW hwnd, "You have clicked section " & WSTR(nmouse.dwItemSpec + 1), "", MB_OK
          END IF
 
       CASE WM_DESTROY
