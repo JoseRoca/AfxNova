@@ -57,10 +57,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Set dark mode for header control (only changes the background color)
    DIM hLvHeader AS HWND = ListView_GetHeader(hListView)
    SetWindowTheme(hLvHeader, "DarkMode_ItemsView", NULL)
-   ' // We need to subclass the ListView control to change the text color of the header
-   ' // Although it may seem strange, the NM_CUSTOMDRAW messages from the header
-   ' // reach the subclassed ListView procedure. That's why the ListView is subclassed
-   ' // instead of the header itself. I'm not crazy, that's how the API works :)
+   ' // We need to subclass the ListView control, instead of the Header control, to change
+   ' // the text color of the header. This is because the NM_CUSTOMDRAW notify message is
+   ' // sent to the parent of the control, which is the Listview.
    pWindow.SetControlSubclass(hListView, @ListView_SubclassProc, IDC_LISTVIEW, @pWindow)
 
    ' // Add some extended styles
