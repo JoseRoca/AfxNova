@@ -47,7 +47,7 @@ OPERATOR CAST () AS IStream PTR
 
 Creates a memory text stream, allowing read, write and seek operations. The stream is thread-safe as of Windows 8. On earlier systems, the stream is not thread-safe. Cloning is supported as of Windows 8.
 
-**Include file**: Afx/NovaCStream.inc
+**Include file**: AfxNova/CStream.inc
 
 ### Constructor (CMemTextStream)
 
