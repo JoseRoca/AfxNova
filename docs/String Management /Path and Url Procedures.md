@@ -180,6 +180,11 @@ FUNCTION AfxPathAllocCanonicalize (BYVAL pwszPathIn AS PCWSTR, BYVAL dwFlags AS 
 | *PATHCCH_ENSURE_TRAILING_SLASH* | When combining or normalizing a path, ensure there is a trailing backslash. Note This value is available starting in Windows 10, version 1703. |
 | *PATHCCH_CANONICALIZE_SLASHES* | Convert forward slashes to back slashes and collapse multiple slashes. Note: This value is available starting in Windows 11 (SDK version 10.0.22000.194). |
 
+#### Usage example
+
+```
+AfxPathAllocCanonicalize(ExePath, PATHCCH_ENSURE_TRAILING_SLASH)
+```
 ---
 
 ## AfxPathAppend
