@@ -76,7 +76,7 @@ OPERATOR CAST () AS IStream PTR
 | [ReadTextA](#readTextA) | Reads a specified number of characters from the stream into memory, starting at the current seek pointer, and returns them as an ansi string. |
 | [ReadTextW](#readTextW) | Reads a specified number of characters from the stream into memory, starting at the current seek pointer, and returns them as a unicode string. |
 | [Write](#write) | Writes a specified number of bytes into the stream starting at the current seek pointer. |
-| [WriteTextA](#writetexta) | Writes a ansi string into the stream starting at the current seek pointer. |
+| [WriteTextA](#writetexta) | Writes an ansi string into the stream starting at the current seek pointer. |
 | [WriteTextW](#writetextw) | Writes a unicode string into the stream starting at the current seek pointer. |
 | [Seek](#seek) | Changes the seek pointer to a new location. The new location is relative to either the beginning of the stream, the end of the stream, or the current seek pointer. |
 | [GetSeekPosition](#getseekposition) | Returns the seek position. |
