@@ -1164,7 +1164,7 @@ The changed path. If no trailing backslash was found, the string is unchanged.
 
 #### Usage example
 
-DIM dws AS DWSTRING = AfxPathRemoveBackslashEx("c:\a\b\File\")
+DIM dws AS DWSTRING = AfxPathRemoveBackslash("c:\a\b\File\")
 
 ---
 
