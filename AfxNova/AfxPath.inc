@@ -37,7 +37,48 @@ const INTERNET_MAX_SCHEME_LENGTH = 32
 #define INTERNET_MAX_URL_LENGTH ((INTERNET_MAX_SCHEME_LENGTH + sizeof("://")) + INTERNET_MAX_PATH_LENGTH)
 #endif
 
-NAMESPACE AfxNova
+#ifndef PATHCCH_OPTIONS
+ENUM PATHCCH_OPTIONS
+   PATHCCH_NONE = &h0
+'    // This option allows applications to gain access to long paths. It has two
+'    // different behaviors. For process configured to enable long paths it will allow
+'    // the returned path to be longer than the max path limit that is normally imposed.
+'    // For process that are not this option will convert long paths into the extended
+'    // length DOS device form (with \\?\ prefix) when the path is longer than the limit.
+'    // This form is not length limited by the Win32 file system API on all versions of Windows.
+'    // This second behavior is the same behavior for OSes that don't have the long path feature.
+'    // This can not be specified with PATHCCH_ENSURE_IS_EXTENDED_LENGTH_PATH.
+   PATHCCH_ALLOW_LONG_PATHS = &h01
+'    // Can only be used when PATHCCH_ALLOW_LONG_PATHS is specified. This
+'    // Forces the API to treat the caller as long path enabled, independent of the
+'    // process's long name enabled state. Cannot be used with PATHCCH_FORCE_DISABLE_LONG_NAME_PROCESS.
+   PATHCCH_FORCE_ENABLE_LONG_NAME_PROCESS = &h02
+'    // Can only be used when PATHCCH_ALLOW_LONG_PATHS is specified. This
+'    // Forces the API to treat the caller as long path disabled, independent of the
+'    // process's long name enabled state. Cannot be used with PATHCCH_FORCE_ENABLE_LONG_NAME_PROCESS.
+   PATHCCH_FORCE_DISABLE_LONG_NAME_PROCESS = &h04
+'    // Disable the normalization of path segments that includes removing trailing dots and spaces.
+'    // This enables access to paths that win32 path normalization will block.
+   PATHCCH_DO_NOT_NORMALIZE_SEGMENTS = &h08
+'    // Convert the input path into the extended length DOS device path form (with the \\?\ prefix)
+'    // if not already in that form. This enables access to paths that are otherwise not addressable
+'    // due to Win32 normalization rules (that can strip trailing dots and spaces) and path
+'    // length limitations. This option implies the same behavior of PATHCCH_DO_NOT_NORMALIZE_SEGMENTS.
+'    // This can not be specified with PATHCCH_ALLOW_LONG_PATHS.
+   PATHCCH_ENSURE_IS_EXTENDED_LENGTH_PATH = &h10
+'    // When combining or normalizing a path ensure there is a trailing backslash.
+   PATHCCH_ENSURE_TRAILING_SLASH = &h020
+'    // Convert forward slashes to back slashes and collapse multiple slashes.
+'    // This is needed to to support sub-path or identity comparisons.
+   PATHCCH_CANONICALIZE_SLASHES = &h040
+END ENUM
+#endif
+
+#ifndef PATHCCH_MAX_CCH
+   ' // max # of characters we support using the "\\?\" syntax
+   ' // (0x7FFF + 1 for NULL terminator)
+   #define PATHCCH_MAX_CCH &h8000
+#endif
 
 ' ========================================================================================
 ' Adds a backslash to the end of a string to create the correct syntax for a path.
@@ -991,5 +1032,65 @@ PRIVATE FUNCTION AfxUrlGetScheme (BYREF wszUrl AS CONST WSTRING) AS DWSTRING
 END FUNCTION
 ' ========================================================================================
 
+' ========================================================================================
+' Converts a path string into a canonical form.
+' Usage example AfxPathAllocCanonicalize(ExePath, PATHCCH_ENSURE_TRAILING_SLASH)
+' ========================================================================================
+PRIVATE FUNCTION AfxPathAllocCanonicalize (BYVAL pwszPathIn AS PCWSTR, BYVAL dwFlags AS ULONG) AS DWSTRING
+   IF pwszPathIn = NULL THEN FUNCTION = "" : EXIT FUNCTION
+   DIM m_hLib AS ANY PTR = DyLibLoad("KernelBase.dll")
+   IF m_hLib THEN
+      DIM pPathAllocCanonicalize AS FUNCTION (BYVAL pszPathIn AS PCWSTR, BYVAL dwFlags AS ULONG, BYVAL ppszPathOut AS PWSTR PTR) AS HRESULT
+      pPathAllocCanonicalize = DyLibSymbol(m_hLib, "PathAllocCanonicalize")
+      DIM pwszPathOut AS PWSTR
+      IF pPathAllocCanonicalize THEN SetLastError(pPathAllocCanonicalize(pwszPathIn, dwFlags, @pwszPathOut))
+      IF pwszPathOut THEN
+         FUNCTION = *pwszPathOut
+         LocalFree(pwszPathOut)
+      END IF
+      DyLibFree(m_hLib)
+   ELSE
+      FUNCTION = *pwszPathIn
+   END IF
+END FUNCTION
+' ========================================================================================
 
-END NAMESPACE
+' ========================================================================================
+' Converts a path string into a canonical form.
+' Usage example AfxPathAllocCombine(ExePath, "Test", PATHCCH_ENSURE_TRAILING_SLASH)
+' ========================================================================================
+PRIVATE FUNCTION AfxPathAllocCombine (BYVAL pwszPathIn AS PCWSTR, BYVAL pwszMore AS PCWSTR, BYVAL dwFlags AS ULONG) AS DWSTRING
+   IF pwszPathIn = NULL THEN FUNCTION = "" : EXIT FUNCTION
+   DIM m_hLib AS ANY PTR = DyLibLoad("KernelBase.dll")
+   IF m_hLib THEN
+      DIM pPathAllocCombine AS FUNCTION (BYVAL pszPathIn AS PCWSTR, BYVAL pwszMore AS PCWSTR, BYVAL dwFlags AS ULONG, BYVAL ppszPathOut AS PWSTR PTR) AS HRESULT
+      pPathAllocCombine = DyLibSymbol(m_hLib, "PathAllocCombine")
+      DIM pwszPathOut AS PWSTR
+      IF pPathAllocCombine THEN SetLastError(pPathAllocCombine(pwszPathIn, pwszMore, dwFlags, @pwszPathOut))
+      FUNCTION = *pwszPathOut
+      IF pwszPathOut THEN LocalFree(pwszPathOut)
+      DyLibFree(m_hLib)
+   ELSE
+      FUNCTION = *pwszPathIn
+   END IF
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Removes the trailing backslash from a given path.
+' Usage eample: DIM dws AS DWSTRING = AfxPathRemoveBackslashEx("c:\a\b\File\")
+' ========================================================================================
+PRIVATE FUNCTION AfxPathRemoveBackslashEx (BYREF wszPath AS CONST WSTRING) AS DWSTRING
+   DIM _wszPath AS WSTRING * PATHCCH_MAX_CCH = wszPath
+   DIM m_hLib AS ANY PTR = DyLibLoad("KernelBase.dll")
+   IF m_hLib THEN
+      DIM pPathCchRemoveBackslashEx AS FUNCTION (BYVAL pwszPath AS PCWSTR, BYVAL cchPath AS size_t, BYVAL ppszEnd AS PWSTR PTR, BYVAL pcchRemaining AS size_t PTR) AS HRESULT
+      pPathCchRemoveBackslashEx = DyLibSymbol(m_hLib, "PathCchRemoveBackslashEx")
+      IF pPathCchRemoveBackslashEx THEN SetLastError(pPathCchRemoveBackslashEx(_wszPath, PATHCCH_MAX_CCH, NULL, NULL))
+      FUNCTION = _wszPath
+      DyLibFree(m_hLib)
+   ELSE
+      FUNCTION = wszPath
+   END IF
+END FUNCTION
+' ========================================================================================
