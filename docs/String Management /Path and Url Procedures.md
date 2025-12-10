@@ -175,11 +175,9 @@ FUNCTION AfxPathAllocCanonicalize (BYVAL pwszPathIn AS PCWSTR, BYVAL dwFlags AS 
 | *PATHCCH_ALLOW_LONG_PATHS* | Allow the building of \\\?\\ paths longer than MAX_PATH. |
 | *PATHCCH_FORCE_ENABLE_LONG_NAME_PROCESS* | Forces the API to treat the caller as long path enabled, independent of the process's long name enabled state. This option can be used only when *PATHCCH_ALLOW_LONG_PATHS* is specified, and cannot be used with *PATHCCH_FORCE_DISABLE_LONG_NAME_PROCESS*. Note: This value is available starting in Windows 10, version 1703. |
 | *PATHCCH_FORCE_DISABLE_LONG_NAME_PROCESS* | Forces the API to treat the caller as long path disabled, independent of the process's long name enabled state. This option can be used only when *PATHCCH_ALLOW_LONG_PATHS* is specified, and cannot be used with *PATHCCH_FORCE_ENABLE_LONG_NAME_PROCESS*. Note: This value is available starting in Windows 10, version 1703. |
-| *PATHCCH_DO_NOT_NORMALIZE_SEGMENTS* | Disables the normalization of path segments that includes removing trailing dots and spaces. This enables access to paths that win32 path normalization will block.
-Note:  This value is available starting in Windows 10, version 1703. |
+| *PATHCCH_DO_NOT_NORMALIZE_SEGMENTS* | Disables the normalization of path segments that includes removing trailing dots and spaces. This enables access to paths that win32 path normalization will block. Note: This value is available starting in Windows 10, version 1703. |
 | *PATHCCH_ENSURE_IS_EXTENDED_LENGTH_PATH* | Converts the input path into the extended length DOS device path form (with the \\\?\\ prefix) if not already in that form. This enables access to paths that are otherwise not addressable due to Win32 normalization rules (that can strip trailing dots and spaces) and path length limitations. This option implies the same behavior of *PATHCCH_DO_NOT_NORMALIZE_SEGMENTS*. Note: This value is available starting in Windows 10, version 1703. |
-| *PATHCCH_ENSURE_TRAILING_SLASH* | When combining or normalizing a path, ensure there is a trailing backslash.
-Note This value is available starting in Windows 10, version 1703. |
+| *PATHCCH_ENSURE_TRAILING_SLASH* | When combining or normalizing a path, ensure there is a trailing backslash. Note This value is available starting in Windows 10, version 1703. |
 | *PATHCCH_CANONICALIZE_SLASHES* | Convert forward slashes to back slashes and collapse multiple slashes. Note: This value is available starting in Windows 11 (SDK version 10.0.22000.194). |
 
 ---
