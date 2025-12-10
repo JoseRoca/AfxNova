@@ -13,6 +13,7 @@ Assorted path and url procedures.
 | [AfxPathAddBackSlash](#afxpathaddbackslash) | Adds a backslash to the end of a string to create the correct syntax for a path. If the source path already has a trailing backslash, no backslash will be added. |
 | [AfxPathAddExtension](#afxpathaddextension) | Adds a file name extension to a path string. |
 | [AfxPathAllocCanonicalize](#afxpathalloccanonicalize) | Converts a path string into a canonical form. |
+| [AfxPathAllocCombine](#afxpathalloccombine) | Converts a path string into a canonical form. |
 | [AfxPathAppend](#afxpathappend) | Appends one path to the end of another. |
 | [AfxPathBuildRoot](#afxpathbuildroot) | Creates a root path from a given drive number. |
 | [AfxPathCanonicalize](#afxpathcanonicalize) | Removes elements of a file path according to special strings inserted into that path. |
@@ -184,6 +185,38 @@ FUNCTION AfxPathAllocCanonicalize (BYVAL pwszPathIn AS PCWSTR, BYVAL dwFlags AS 
 
 ```
 AfxPathAllocCanonicalize(ExePath, PATHCCH_ENSURE_TRAILING_SLASH)
+```
+---
+
+### AfxPathAllocCombine
+
+Converts a path string into a canonical form. Concatenates two path fragments into a single path. This function also canonicalizes any relative path elements, replacing path elements such as "." and "..". This function differs from PathCombine in that it accepts paths with "\\", "\\?" and "\\?\\UNC" prefixes.
+
+```
+FUNCTION AfxPathAllocCombine (BYVAL pwszPathIn AS PCWSTR, BYVAL pwszMore AS PCWSTR, _
+   BYVAL dwFlags AS ULONG) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszPathIn* | A string that represents a path. |
+| *pwszMore* | A pointer to the second path string. If this path begins with a single backslash, it is combined with only the root of the path pointed to by pszPathIn. If this path is fully qualified, it is copied directly to the output buffer without being combined with the other path. |
+| *dwFlags* | One or more of the flags listed below. |
+
+| Value  | Meaning |
+| ------ | ------- |
+| *PATHCCH_NONE* | Do not allow for the construction of \\\?\\ paths (ie, long paths) longer than MAX_PATH. |
+| *PATHCCH_ALLOW_LONG_PATHS* | Allow the building of \\\?\\ paths longer than MAX_PATH. |
+| *PATHCCH_FORCE_ENABLE_LONG_NAME_PROCESS* | Forces the API to treat the caller as long path enabled, independent of the process's long name enabled state. This option can be used only when *PATHCCH_ALLOW_LONG_PATHS* is specified, and cannot be used with *PATHCCH_FORCE_DISABLE_LONG_NAME_PROCESS*. Note: This value is available starting in Windows 10, version 1703. |
+| *PATHCCH_FORCE_DISABLE_LONG_NAME_PROCESS* | Forces the API to treat the caller as long path disabled, independent of the process's long name enabled state. This option can be used only when *PATHCCH_ALLOW_LONG_PATHS* is specified, and cannot be used with *PATHCCH_FORCE_ENABLE_LONG_NAME_PROCESS*. Note: This value is available starting in Windows 10, version 1703. |
+| *PATHCCH_DO_NOT_NORMALIZE_SEGMENTS* | Disables the normalization of path segments that includes removing trailing dots and spaces. This enables access to paths that win32 path normalization will block. Note: This value is available starting in Windows 10, version 1703. |
+| *PATHCCH_ENSURE_IS_EXTENDED_LENGTH_PATH* | Converts the input path into the extended length DOS device path form (with the \\\?\\ prefix) if not already in that form. This enables access to paths that are otherwise not addressable due to Win32 normalization rules (that can strip trailing dots and spaces) and path length limitations. This option implies the same behavior of *PATHCCH_DO_NOT_NORMALIZE_SEGMENTS*. Note: This value is available starting in Windows 10, version 1703. |
+| *PATHCCH_ENSURE_TRAILING_SLASH* | When combining or normalizing a path, ensure there is a trailing backslash. Note This value is available starting in Windows 10, version 1703. |
+
+#### Usage example
+
+```
+AfxPathAllocCombine(ExePath, "Test", PATHCCH_ENSURE_TRAILING_SLASH)
 ```
 ---
 
