@@ -1164,8 +1164,9 @@ The changed path. If no trailing backslash was found, the string is unchanged.
 
 #### Usage example
 
+```
 DIM dws AS DWSTRING = AfxPathRemoveBackslash("c:\a\b\File\")
-
+```
 ---
 
 ## AfxPathRemoveBackslashEx
@@ -1185,9 +1186,9 @@ FUNCTION AfxPathRemoveBackslashEx (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 The changed path. If no trailing backslash was found, the string is unchanged.
 
 #### Usage example
-
+```
 DIM dws AS DWSTRING = AfxPathRemoveBackslashEx("c:\a\b\File\")
-
+```
 ---
 
 ## AfxPathRemoveBlanks
