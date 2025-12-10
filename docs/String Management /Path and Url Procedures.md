@@ -12,6 +12,7 @@ Assorted path and url procedures.
 | ---------- | ----------- |
 | [AfxPathAddBackSlash](#afxpathaddbackslash) | Adds a backslash to the end of a string to create the correct syntax for a path. If the source path already has a trailing backslash, no backslash will be added. |
 | [AfxPathAddExtension](#afxpathaddextension) | Adds a file name extension to a path string. |
+| [AfxPathAllocCanonicalize](#afxpathalloccanonicalize) | Converts a path string into a canonical form. |
 | [AfxPathAppend](#afxpathappend) | Appends one path to the end of another. |
 | [AfxPathBuildRoot](#afxpathbuildroot) | Creates a root path from a given drive number. |
 | [AfxPathCanonicalize](#afxpathcanonicalize) | Removes elements of a file path according to special strings inserted into that path. |
@@ -153,6 +154,12 @@ DIM dws AS DWSTRING = AfxPathAddExtension("file.doc") ' output: file.doc
 DIM dws AS DWSTRING = AfxPathAddExtension("file", ".txt") ' output: file.txt
 DIM dws AS DWSTRING = AfxPathAddExtension("", ".txt") ' output: .txt
 ```
+---
+
+### AfxPathAllocCanonicalize
+
+Converts a path string into a canonical form. This function differs from PathCanonicalize in that it accepts paths with "\\", "\\?" and "\\?\\UNC" prefixes.
+
 ---
 
 ## AfxPathAppend
