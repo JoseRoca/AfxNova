@@ -56,6 +56,7 @@ Assorted path and url procedures.
 | [AfxPathRelativePathTo](#afxpathrelativepathto) | Creates a relative path from one file or folder to another. |
 | [AfxPathRemoveArgs](#afxpathremoveargs) | Removes any arguments from a given path. |
 | [AfxPathRemoveBackslash](#afxpathremovebackslash) | Removes the trailing backslash from a given path. |
+| [AfxPathRemoveBackslashEx](#afxpathremovebackslashex) | Removes the trailing backslash from a given path. |
 | [AfxPathRemoveBlanks](#afxpathremoveblanks) | Removes all leading and trailing spaces from a string. |
 | [AfxPathRemoveExtension](#afxpathremoveextension) | Removes the file name extension from a path, if one is present. |
 | [AfxPathRemoveFileSpec](#afxpathremovefilespec) | Removes the trailing file name and backslash from a path, if they are present. |
@@ -1159,7 +1160,33 @@ FUNCTION AfxPathRemoveBackslash (BYREF wszPath AS CONST WSTRING) AS DWSTRING
 
 #### Return value
 
-The changed path.
+The changed path. If no trailing backslash was found, the string is unchanged.
+
+#### Usage example
+
+DIM dws AS DWSTRING = AfxPathRemoveBackslashEx("c:\a\b\File\")
+
+---
+
+## AfxPathRemoveBackslashEx
+
+Removes the trailing backslash from a given path. This function differs from PathRemoveBackslash in that it accepts paths with "\\", "\\?" and "\\?\\UNC" prefixes.
+
+```
+FUNCTION AfxPathRemoveBackslashEx (BYREF wszPath AS CONST WSTRING) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *wszPath* | A string that contains the path from which to remove the backslash. |
+
+#### Return value
+
+The changed path. If no trailing backslash was found, the string is unchanged.
+
+#### Usage example
+
+DIM dws AS DWSTRING = AfxPathRemoveBackslashEx("c:\a\b\File\")
 
 ---
 
