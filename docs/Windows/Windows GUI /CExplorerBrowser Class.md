@@ -154,7 +154,8 @@ END FUNCTION
 | [GetLastResult](#getlastresult) | Returns the last result code. |
 | [SetResult](#setresult) | Sets the last result code. |
 | [GetErrorInfo](#geterrorinfo) | Returns a localized description of the last result code. |
-| [ObjPtr](#objptr) | Returns a pointer to the underlying **IExplorerBrowser** interface. |
+| [GetPtr](#getptr) | Returns a raw pointer to the underlying **IExplorerBrowser** interface. |
+| [ObjPtr](#objptr) | Returns an AddRef'ed pointer to the underlying **IExplorerBrowser** interface. |
 
 ---
 
@@ -204,9 +205,17 @@ FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
 ```
 ---
 
+## GetPtr
+
+Returns a raw pointer to the underlying **IExplorerBrowser** interface. Don't release this pointer.
+```
+FUNCTION ObjPtr () AS IExplorerBrowser PTR
+```
+---
+
 ## ObjPtr
 
-Returns a pointer to the underlying **IExplorerBrowser** interface.
+Returns an AddRef'ed pointer to the underlying **IExplorerBrowser** interface. You musr release this pointer calling the **Release** method.
 ```
 FUNCTION ObjPtr () AS IExplorerBrowser PTR
 ```
