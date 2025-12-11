@@ -66,6 +66,7 @@ Private:
 Public:
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR
+   DECLARE FUNCTION GetPtr () AS IExplorerBrowser PTR
    DECLARE FUNCTION ObjPtr () AS IExplorerBrowser PTR
    DECLARE FUNCTION GetLastResult () AS HRESULT
    DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
@@ -103,7 +104,7 @@ END TYPE
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CExplorerBrowser
    ' // Initialize the COM library
-   DIM hr AS HRESULT = CoInitialize(NULL)
+   DIM hr AS HRESULT = OleInitialize(NULL)
    IF hr = S_OK OR hr = S_FALSE THEN m_bUninitCOM = TRUE
    ' // Create an instance of the Dictionary object
    DIM IID_IDictionary_  AS GUID  = (&h42C642C1, &h97E1, &h11CF, {&h97, &h8F, &h00, &hA0, &h24, &h63, &hE0, &h6F})
@@ -126,15 +127,25 @@ PRIVATE DESTRUCTOR CExplorerBrowser
       m_pExplorer->lpvtbl->Release(m_pExplorer)
    END IF
    ' // Free the COM library
-   IF m_bUninitCOM THEN CoUninitialize
+   IF m_bUninitCOM THEN OleUninitialize
 END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns the underlying IUnknown pointer.
+' Returns the underlying raw IUnknown pointer.
 ' Don't call IUnknown_Release on it.
 ' ========================================================================================
+PRIVATE FUNCTION CExplorerBrowser.GetPtr () AS IExplorerBrowser PTR
+   RETURN m_pExplorer
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying AddRef'ed IUnknown pointer.
+' You must call IUnknown_Release to decrement the reference count.
+' ========================================================================================
 PRIVATE FUNCTION CExplorerBrowser.ObjPtr () AS IExplorerBrowser PTR
+   IF m_pExplorer <> NULL THEN m_pExplorer->lpvtbl->AddRef(m_pExplorer)
    RETURN m_pExplorer
 END FUNCTION
 ' ========================================================================================
