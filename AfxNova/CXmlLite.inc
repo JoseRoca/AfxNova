@@ -470,4 +470,493 @@ END FUNCTION
 ' ========================================================================================
 
 
+' ########################################################################################
+' CXmlLiteWriter class
+' ########################################################################################
+TYPE CXmlLiteWriter
+
+   m_Result AS HRESULT
+   m_hLib AS HMODULE
+   m_bUninitCOM AS BOOLEAN
+   m_pXmlWriter AS Afx_IXmlWriter PTR
+   m_pOutput AS IUnknown PTR
+
+   DECLARE CONSTRUCTOR
+   DECLARE DESTRUCTOR
+   DECLARE FUNCTION GetLastResult () AS HRESULT
+   DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
+   DECLARE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+   ' // IXmlWriter methods and properties
+   DECLARE FUNCTION SetOutput (BYVAL pOutput AS IUnknown PTR) AS HRESULT
+   DECLARE FUNCTION GetProperty (BYVAL nProperty AS UINT) AS LONG_PTR
+   DECLARE FUNCTION SetProperty (BYVAL nProperty AS UINT, BYVAL pValue AS LONG_PTR) AS HRESULT
+   DECLARE FUNCTION WriteAttributes (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
+   DECLARE FUNCTION WriteAttributeString (BYVAL pwszPrefix AS LPCWSTR, BYVAL pwszLocalName AS LPCWSTR, _
+                    BYVAL pwszNamespaceUri AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteCData (BYVAL pwszText AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteCharEntity (BYVAL wch AS WCHAR PTR) AS HRESULT
+   DECLARE FUNCTION WriteChars (BYVAL pwch AS WSTRING PTR) AS HRESULT
+   DECLARE FUNCTION WriteComment (BYVAL pwszComment AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteDocType (BYVAL pwszName AS LPCWSTR, BYVAL pwszPublicId AS LPCWSTR, _
+                    BYVAL pwszSystemId AS LPCWSTR, BYVAL pwszSubset AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteElementString (BYVAL pwszPrefix AS LPCWSTR, BYVAL pwszLocalName AS LPCWSTR, _
+                    BYVAL pwszNamespaceUri AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteEndDocument () AS HRESULT
+   DECLARE FUNCTION WriteEndElement () AS HRESULT
+   DECLARE FUNCTION WriteEntityRef (BYVAL pwszName AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteFullEndElement () AS HRESULT
+   DECLARE FUNCTION WriteName (BYVAL pwszName AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteNmToken (BYVAL pwszNmToken AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteNode (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
+   DECLARE FUNCTION WriteNodeShallow (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
+   DECLARE FUNCTION WriteProcessingInstruction (BYVAL pwszName AS LPCWSTR, BYVAL pwszText AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteQualifiedName (BYVAL pwszLocalName AS LPCWSTR PTR, BYVAL pwszNamespaceUri AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteRaw (BYVAL pwszData AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteRawChars (BYVAL pwch AS CONST WSTRING PTR) AS HRESULT
+   DECLARE FUNCTION WriteStartDocument (BYVAL standalone AS XmlStandalone) AS HRESULT
+   DECLARE FUNCTION WriteStartElement (BYVAL pwszPrefix AS LPCWSTR, BYVAL pwszLocalName AS LPCWSTR, BYVAL pwszNamespaceUri AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteString (BYVAL pwszText AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION WriteSurrogateCharEntity (BYVAL wchLow AS WCHAR, BYVAL wchHigh AS WCHAR) AS HRESULT
+   DECLARE FUNCTION WriteWhitespace (BYVAL pwszWhitespace AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION Flush () AS HRESULT
+
+END TYPE
+' ########################################################################################
+
+' ========================================================================================
+' Default constructor
+' ========================================================================================
+PRIVATE CONSTRUCTOR CXmlLiteWriter
+   CXMLLITE_DP("")
+   ' // Initialize the COM library
+   IF m_bUninitCOM = FALSE THEN
+      DIM hr AS HRESULT = CoInitialize(NULL)
+      IF hr = S_OK OR hr = S_FALSE THEN m_bUninitCOM = TRUE
+   END IF
+   ' // Load the XmlLite library
+   IF m_hLib = NULL THEN m_hLib = LoadLibraryW("XmlLite.dll")
+   IF m_hLib = NULL THEN EXIT CONSTRUCTOR
+   ' // Create the reader
+   DIM pfnCreateXmlWriter AS FUNCTION (BYREF riid AS IID, BYVAL ppvObject AS void PTR PTR, BYVAL pMalloc AS IMalloc PTR) AS HRESULT
+   pfnCreateXmlWriter = CAST(ANY PTR, GetProcAddress(m_hLib, "CreateXmlWriter"))
+   IF pfnCreateXmlWriter = NULL THEN EXIT CONSTRUCTOR
+   m_Result = pfnCreateXmlWriter(AFX_IID_IXMlWriter, @m_pXmlWriter, NULL)
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Destructor
+' ========================================================================================
+PRIVATE DESTRUCTOR CXmlLiteWriter
+   CXMLLITE_DP("")
+   ' // Release the input source
+   IF m_pOutput THEN m_pOutput->lpvtbl->Release(m_pOutput)
+   ' // Release the Afx_IXmlReader interface
+   IF m_pXmlWriter THEN m_pXmlWriter->Release
+   ' // Free the COM library
+   IF m_bUninitCOM THEN CoUninitialize
+   ' // Free the XmlLite library
+   IF m_hLib THEN FreeLibrary(m_hLib)
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the last status code.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.GetLastResult () AS HRESULT
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the last status code.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.SetResult (BYVAL Result AS HRESULT) AS HRESULT
+   m_Result = Result
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns a description of the last result code.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+   IF nError = -1 THEN nError = m_Result
+   DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, dwsMsg AS DWSTRING
+   cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
+           FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
+           NULL, nError, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
+           cast(LPWSTR, @pBuffer), 0, NULL)
+   IF cbLen THEN
+      dwsMsg = *pBuffer
+      LocalFree pBuffer
+   END IF
+   IF nError THEN dwsMsg = "Error &h" + HEX(nError) & CHR(13, 10) + dwsMsg
+   RETURN dwsMsg
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the output stream for the writer.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.SetOutput (BYVAL pOutput AS IUnknown PTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      IF m_pOutput THEN m_pOutput->lpvtbl->Release(m_pOutput)
+      m_Result = m_pXmlWriter->SetOutput(pOutput)
+      IF m_Result = S_OK THEN m_pOutput = pOutput
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the specified property. A program can get properties at any time.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.GetProperty (BYVAL nProperty AS UINT) AS LONG_PTR
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      DIM pValue AS LONG_PTR
+      m_Result = m_pXmlWriter->GetProperty(nProperty, @pValue)
+      RETURN pValue
+   END IF
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the specified property.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.SetProperty (BYVAL nProperty AS UINT, BYVAL pValue AS LONG_PTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->SetProperty(nProperty, pValue)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Copies attributes from the specified source IXmlReader to the IXmlWriter.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteAttributes (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteAttributes(pReader, fWriteDefaultAttributes)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes an attribute.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteAttributeString (BYVAL pwszPrefix AS LPCWSTR, BYVAL pwszLocalName AS LPCWSTR, _
+BYVAL pwszNamespaceUri AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteAttributeString(pwszPrefix, pwszLocalName, pwszNamespaceUri, pwszValue)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out a CDATA section that contains the specified text.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteCData (BYVAL pwszText AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteCData(pwszText)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes a character entity for the provided Unicode character value. This method writes
+' the character entity in hexadecimal format.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteCharEntity (BYVAL wch AS WCHAR PTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteCharEntity(wch)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified text content, escaping markup.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteChars (BYVAL pwch AS WSTRING PTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteChars(pwch, LEN(*pwch))
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out a comment that contains the specified text.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteComment (BYVAL pwszComment AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteComment(pwszComment)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out a comment that contains the specified text.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteDocType (BYVAL pwszName AS LPCWSTR, BYVAL pwszPublicId AS LPCWSTR, _
+BYVAL pwszSystemId AS LPCWSTR, BYVAL pwszSubset AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteDocType(pwszName, pwszPublicId, pwszSystemId, pwszSubset)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out an element with the specified prefix, name, namespace, and value.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteElementString (BYVAL pwszPrefix AS LPCWSTR, BYVAL pwszLocalName AS LPCWSTR, _
+BYVAL pwszNamespaceUri AS LPCWSTR, BYVAL pwszValue AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteElementString(pwszPrefix, pwszLocalName, pwszNamespaceUri, pwszValue)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Closes any open elements or attributes, then closes the current document. To reinitialize
+' the writer so that a new document can be written, you must call SetOutput.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteEndDocument () AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteEndDocument
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Closes one element. If the element contains no content, this method writes a short
+' end tag ("/>"). Otherwise, this method writes the full end tag.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteEndElement () AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteEndElement
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Closes one element. If the element contains no content, this method writes a short
+' end tag ("/>"). Otherwise, this method writes the full end tag.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteEntityRef (BYVAL pwszName AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteEntityRef(pwszName)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Closes one element and pops the corresponding namespace scope. This method always writes
+' the full end tag.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteFullEndElement () AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteFullEndElement
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified name, ensuring that the name is valid according to the XML specification.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteName (BYVAL pwszName AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteName(pwszName)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified name, ensuring that the name is valid according to the XML specification.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteNmToken (BYVAL pwszNmToken AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteNmToken(pwszNmToken)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified name, ensuring that the name is valid according to the XML specification.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteNode (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteNode(pReader, fWriteDefaultAttributes)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified name, ensuring that the name is valid according to the XML specification.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteNodeShallow (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteNodeShallow(pReader, fWriteDefaultAttributes)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes a processing instruction.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteProcessingInstruction (BYVAL pwszName AS LPCWSTR, BYVAL pwszText AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteProcessingInstruction(pwszName, pwszText)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified namespace-qualified name by looking up the prefix that is in
+' scope for the specified namespace.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteQualifiedName (BYVAL pwszLocalName AS LPCWSTR PTR, BYVAL pwszNamespaceUri AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteQualifiedName(pwszLocalName, pwszNamespaceUri)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Enables the caller to write out raw markup manually. You can avoid creating entities for
+' special characters by using this method.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteRaw (BYVAL pwszData AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteRaw(pwszData)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out raw markup manually. Using this method allows an application to avoid creating
+' entities for special characters.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteRawChars (BYVAL pwch AS CONST WSTRING PTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteRawChars(pwch, LEN(*pwch))
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the XML declaration with the version "1.0". The encoding attribute is determined
+' by the implementation of IXmlWriterOutput. By default, the encoding is UTF-8.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteStartDocument (BYVAL standalone AS XmlStandalone) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteStartDocument(standalone)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified start tag and associates it with the specified namespace.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteStartElement (BYVAL pwszPrefix AS LPCWSTR, BYVAL pwszLocalName AS LPCWSTR, BYVAL pwszNamespaceUri AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteStartElement(pwszPrefix, pwszLocalName, pwszNamespaceUri)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified text content, escaping any markup in the content.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteString (BYVAL pwszText AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteString(pwszText)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Forces the generation of a surrogate character entity for the specified string value.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteSurrogateCharEntity (BYVAL wchLow AS WCHAR, BYVAL wchHigh AS WCHAR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteSurrogateCharEntity(wchLow, wchHigh)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified white space.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.WriteWhitespace (BYVAL pwszWhitespace AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->WriteWhitespace(pwszWhitespace)
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Writes out the specified white space.
+' ========================================================================================
+PRIVATE FUNCTION CXmlLiteWriter.Flush () AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter THEN
+      m_Result = m_pXmlWriter->Flush
+   END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
 END NAMESPACE
