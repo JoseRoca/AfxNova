@@ -54,12 +54,9 @@ See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu
 | Name       | Description |
 | ---------- | ----------- |
 | **AppendMenu** | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
-| **CheckMenuItem** | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
 | **CheckMenuItem** | Sets the state of the specified menu item's check-mark attribute to either selected or clear. |
 | **CheckMenuRadioItem** | Checks a specified menu item and makes it a radio item. |
-| **CheckMenuRadioItem** | Checks a specified menu item and makes it a radio item. |
 | **CreateMenu** | Creates a menu. |
-| **CreatePopupMenu** | Creates a drop-down menu, submenu, or shortcut menu. |
 | **CreatePopupMenu** | Creates a drop-down menu, submenu, or shortcut menu. |
 | **DeleteMenu** | Deletes an item from the specified menu. |
 | **DestroyMenu** | Destroys the specified menu and frees any memory that the menu occupies. |
@@ -76,7 +73,6 @@ See [Menu Functions](https://learn.microsoft.com/en-us/windows/win32/menurc/menu
 | **GetMenuItemRect** | Retrieves the bounding rectangle for the specified menu item. |
 | **GetMenuState** | Retrieves the menu flags associated with the specified menu item. |
 | **GetMenuString** | Copies the text string of the specified menu item into the specified buffer. |
-| **GetSubMenu** | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
 | **GetSubMenu** | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
 | **GetSystemMenu** |Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying. |
 | **HiliteMenuItem** | Adds or removes highlighting from an item in a menu bar. |
