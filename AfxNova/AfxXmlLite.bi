@@ -316,7 +316,7 @@ END TYPE
 
 TYPE Afx_IXmlWriterLite_ EXTENDS Afx_IUnknown
 
-   DECLARE ABSTRACT FUNCTION SetOutput (BYVAL SetOutput AS IUnknown PTR) AS HRESULT
+   DECLARE ABSTRACT FUNCTION SetOutput (BYVAL pOutput AS IUnknown PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION GetProperty (BYVAL nProperty AS UINT, BYVAL ppValue AS LONG_PTR PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION SetProperty (BYVAL nProperty AS UINT, BYVAL pValue AS LONG_PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION WriteAttributes (BYVAL pReader AS AFx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOL) AS HRESULT
@@ -356,17 +356,17 @@ END TYPE
 
 'extern "Windows"
 '' // XmlReader Constructor
-'DECLARE FUNCTION CreateXmlReader LIB "xmllite.lib" ALIAS "CreateXmlReader" (BYVAL riid AS REFIID, BYVAL ppvObject AS void PTR PTR, BYVAL pMalloc AS IMalloc PTR) AS HRESULT
+'*** DECLARE FUNCTION CreateXmlReader LIB "xmllite.lib" ALIAS "CreateXmlReader" (BYVAL riid AS REFIID, BYVAL ppvObject AS void PTR PTR, BYVAL pMalloc AS IMalloc PTR) AS HRESULT
 '' // XmlReaderInput Constructors
-'DECLARE FUNCTION CreateXmlReaderInputWithEncodingCodePage LIB "xmllite.lib" ALIAS "CreateXmlReaderInputWithEncodingCodePage" (BYVAL pInputStream AS Afx_IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
+'DECLARE FUNCTION CreateXmlReaderInputWithEncodingCodePage LIB "xmllite.lib" ALIAS "CreateXmlReaderInputWithEncodingCodePage" (BYVAL pInputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
 '   BYVAL nEncodingCodePage AS UINT, BYVAL fEncodingHint AS BOOL, BYVAL pwszBaseUri AS LPCWSTR, BYVAL ppInput AS Afx_IXmlReaderInput PTR PTR) AS HRESULT
-'DECLARE FUNCTION CreateXmlReaderInputWithEncodingName LIB "xmllite.lib" ALIAS "CreateXmlReaderInputWithEncodingName" (BYVAL pInputStream AS Afx_IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
+'DECLARE FUNCTION CreateXmlReaderInputWithEncodingName LIB "xmllite.lib" ALIAS "CreateXmlReaderInputWithEncodingName" (BYVAL pInputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
 '   BYVAL pwszEncodingName AS LPCWSTR, BYVAL fEncodingHint AS BOOL, BYVAL pwszBaseUri AS LPCWSTR, BYVAL ppInput AS Afx_IXmlReaderInput PTR PTR) AS HRESULT
 '' // XmlWriter Constructor
-'DECLARE FUNCTION CreateXmlWriter LIB "xmllite.lib" ALIAS "CreateXmlWriter" (BYVAL riid AS REFIID, BYVAL ppvObject AS void PTR PTR, BYVAL pMalloc AS IMalloc PTR) AS HRESULT
+' *** DECLARE FUNCTION CreateXmlWriter LIB "xmllite.lib" ALIAS "CreateXmlWriter" (BYVAL riid AS REFIID, BYVAL ppvObject AS void PTR PTR, BYVAL pMalloc AS IMalloc PTR) AS HRESULT
 '' // XmlWriterOutput Constructors
-'DECLARE FUNCTION CreateXmlWriterOutputWithEncodingCodePage LIB "xmllite.lib" ALIAS "CreateXmlWriterOutputWithEncodingCodePage" (BYVAL pOutputStream AS Afx_IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
+'DECLARE FUNCTION CreateXmlWriterOutputWithEncodingCodePage LIB "xmllite.lib" ALIAS "CreateXmlWriterOutputWithEncodingCodePage" (BYVAL pOutputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
 '   BYVAL nEncodingCodePage AS UINT, BYVAL ppOutput AS Afx_IXmlWriterOutput PTR PTR) AS HRESULT
-'DECLARE FUNCTION CreateXmlWriterOutputWithEncodingName LIB "xmllite.lib" ALIAS "CreateXmlWriterOutputWithEncodingName" (BYVAL pOutputStream AS Afx_IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
-'   BYVAL nEncodingCodePage AS UINT, BYVAL ppOutput AS Afx_IXmlWriterOutput PTR PTR) AS HRESULT
+'DECLARE FUNCTION CreateXmlWriterOutputWithEncodingName LIB "xmllite.lib" ALIAS "CreateXmlWriterOutputWithEncodingName" (BYVAL pOutputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
+'   BYVAL nEncodingCodePage AS LPCWSTR, BYVAL ppOutput AS Afx_IXmlWriterOutput PTR PTR) AS HRESULT
 'end extern
