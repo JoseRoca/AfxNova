@@ -86,6 +86,7 @@ Assorted Windows procedures.
 | [AfxRemoveDir](#afxremovedir) | Deletes an existing empty directory. |
 | [AfxRenameFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
 | [AfxRmDir](#afxremovedir) | Deletes an existing empty directory. |
+| [AfxSaveIconToFile](#afxsaveicontofile) | Saves an icon to a file. |
 | [AfxSaveTempFile](#afxsavetempfile) | Saves the contents of a string buffer in a temporary file. |
 | [AfxSetCurDir](#afxchdir) | Changes the current directory for the current process. |
 | [AfxSetCurrentDirectory](#afxchdir) | Changes the current directory for the current process. |
@@ -1267,6 +1268,34 @@ Use **AfxFileReadAllLinesA** for ansi text files and **AfxFileReadAllLinesW** fo
 
 Because it returns a safe array, this function is located in the DSafeArray.inc include file.
 
+---
+
+## AfxSaveIconToFile
+
+Saves an icon to a file.
+
+```
+FUNCTION AfxSaveIconToFile (BYVAL hIcon AS HICON, BYREF fileName AS WSTRING) AS HRESULT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hIcon* | The icon handle. |
+| *fileName* | The name of the file to save. |
+
+#### Return value
+
+Returns **S_OK** on success or and  HRESULT code on failure.
+
+#### Usage examples
+
+```
+DIM hIcon as HICON = LoadIcon(NULL, IDI_INFORMATION)
+DIM hr AS HRESULT = AfxSaveIconToFile(hIcon, "test.ico")
+```
+```
+DIM hIcon AS HICON = cast(HICON, LoadImage(NULL, ExePath & "\" & "MyIco.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE))
+DIM hr AS HRESULT = AfxSaveIconToFile(hIcon, "test2.ico")
+```
 ---
 
 ## AfxSaveTempFile
