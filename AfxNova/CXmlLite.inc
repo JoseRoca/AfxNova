@@ -56,7 +56,7 @@ TYPE CXmlReader
    m_hLib AS HMODULE
    m_bUninitCOM AS BOOLEAN
    m_pXmlReader AS Afx_IXmlReader PTR
-   m_pInput AS IUnknown PTR
+   m_pInputStream AS IUnknown PTR
 
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR
@@ -64,7 +64,9 @@ TYPE CXmlReader
    DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
    DECLARE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
    ' // IXmlReader methods and properties
-   DECLARE FUNCTION SetInput (BYVAL pInput AS IUnknown PTR) AS HRESULT
+   DECLARE FUNCTION SetInput (BYVAL pInputStream AS IUnknown PTR) AS HRESULT
+   DECLARE FUNCTION SetInput (BYVAL pInputStream AS IUnknown PTR, BYVAL nEncodingPage AS UINT) AS HRESULT
+   DECLARE FUNCTION SetInput (BYVAL pInputStream AS IUnknown PTR, BYVAL nEncodingName AS LPCWSTR) AS HRESULT
    DECLARE FUNCTION GetProperty (BYVAL nProperty AS UINT) AS LONG_PTR
    DECLARE FUNCTION SetProperty (BYVAL nProperty AS UINT, BYVAL pValue AS LONG_PTR) AS HRESULT
    DECLARE FUNCTION Read (BYVAL nodeType AS XmlNodeType PTR) AS HRESULT
@@ -118,7 +120,7 @@ END CONSTRUCTOR
 PRIVATE DESTRUCTOR CXmlReader
    CXMLLITE_DP("")
    ' // Release the input source
-   IF m_pInput THEN m_pInput->lpvtbl->Release(m_pInput)
+   IF m_pInputStream THEN m_pInputStream->lpvtbl->Release(m_pInputStream)
    ' // Release the Afx_IXmlReader interface
    IF m_pXmlReader THEN m_pXmlReader->Release
    ' // Free the COM library
@@ -167,13 +169,61 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the input source of the XML document to be parsed.
 ' ========================================================================================
-PRIVATE FUNCTION CXmlReader.SetInput (BYVAL pInput AS IUnknown PTR) AS HRESULT
+PRIVATE FUNCTION CXmlReader.SetInput (BYVAL pInputStream AS IUnknown PTR) AS HRESULT
    m_Result = E_POINTER
    IF m_pXmlReader THEN
-      IF m_pInput THEN m_pInput->lpvtbl->Release(m_pInput)
-      m_Result = m_pXmlReader->SetInput(pInput)
-      IF m_Result = S_OK THEN m_pInput = pInput
+      IF m_pInputStream THEN m_pInputStream->lpvtbl->Release(m_pInputStream)
+      m_Result = m_pXmlReader->SetInput(pInputStream)
+      IF m_Result = S_OK THEN m_pInputStream = pInputStream
    END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the input source of the XML document to be parsed.
+' - pInputStream: A pointer to the input stream for the reader to read the data from.
+'                 This can be either an ISequentialStream or an IStream interface.
+' - nEncodingPage: Specifies the encoding of the input.
+' ========================================================================================
+PRIVATE FUNCTION CXmlReader.SetInput (BYVAL pInputStream AS IUnknown PTR, BYVAL nEncodingPage AS UINT) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlReader = NULL THEN RETURN m_Result
+   ' // Create the input interface
+   DIM pfnCreateXmlReaderInputWithEncodingPage AS FUNCTION (BYVAL pInputStream AS IStream PTR, BYVAL pMalloc AS IMalloc PTR, _
+       BYVAL nEncodingPage AS UINT, BYVAL fEncodingHint AS BOOL, BYVAL pwszBaseUri AS LPCWSTR, BYVAL ppInput AS IUnknown PTR PTR) AS HRESULT
+   pfnCreateXmlReaderInputWithEncodingPage = CAST(ANY PTR, GetProcAddress(m_hLib, "CreateXmlReaderInputWithEncodingCodePage"))
+   IF pfnCreateXmlReaderInputWithEncodingPage = NULL THEN RETURN m_Result
+   ' // Release a previous input stream
+   IF m_pInputStream THEN m_pInputStream->lpvtbl->Release(m_pInputStream)
+   m_pInputStream = NULL
+   m_Result = pfnCreateXmlReaderInputWithEncodingPage(cast(IStream PTR, pInputStream), NULL, nEncodingPage, TRUE, NULL, @m_pInputStream)
+   IF FAILED(m_Result) THEN RETURN m_Result
+   m_Result = m_pXmlReader->SetInput(m_pInputStream)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the input source of the XML document to be parsed.
+' - pInputStream: A pointer to the input stream for the reader to read the data from.
+'                 This can be either an ISequentialStream or an IStream interface.
+' - nEncodingName: Specifies the encoding of the input.
+' ========================================================================================
+PRIVATE FUNCTION CXmlReader.SetInput (BYVAL pInputStream AS IUnknown PTR, BYVAL encodingName AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlReader = NULL THEN RETURN m_Result
+   ' // Create the input interface
+   DIM pfnCreateXmlReaderInputWithEncodingName AS FUNCTION (BYVAL pInputStream AS IStream PTR, BYVAL pMalloc AS IMalloc PTR, _
+       BYVAL pwszEncodingName AS LPCWSTR, BYVAL fEncodingHint AS BOOL, BYVAL pwszBaseUri AS LPCWSTR, BYVAL ppInput AS IUnknown PTR PTR) AS HRESULT
+   pfnCreateXmlReaderInputWithEncodingName = CAST(ANY PTR, GetProcAddress(m_hLib, "CreateXmlReaderInputWithEncodingName"))
+   IF pfnCreateXmlReaderInputWithEncodingName = NULL THEN RETURN m_Result
+   ' // Release a previous input stream
+   IF m_pInputStream THEN m_pInputStream->lpvtbl->Release(m_pInputStream)
+   m_pInputStream = NULL
+   m_Result = pfnCreateXmlReaderInputWithEncodingName(cast(IStream PTR, pInputStream), NULL, encodingName, TRUE, NULL, @m_pInputStream)
+   IF FAILED(m_Result) THEN RETURN m_Result
+   m_Result = m_pXmlReader->SetInput(m_pInputStream)
    RETURN m_Result
 END FUNCTION
 ' ========================================================================================
@@ -479,7 +529,7 @@ TYPE CXmlWriter
    m_hLib AS HMODULE
    m_bUninitCOM AS BOOLEAN
    m_pXmlWriter AS Afx_IXmlWriter PTR
-   m_pOutput AS IUnknown PTR
+   m_pOutputStream AS IUnknown PTR
 
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR
@@ -487,7 +537,9 @@ TYPE CXmlWriter
    DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
    DECLARE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
    ' // IXmlWriter methods and properties
-   DECLARE FUNCTION SetOutput (BYVAL pOutput AS IUnknown PTR) AS HRESULT
+   DECLARE FUNCTION SetOutput (BYVAL pOutputStream AS IUnknown PTR) AS HRESULT
+   DECLARE FUNCTION SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL nEncodingPage AS UINT) AS HRESULT
+   DECLARE FUNCTION SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL pwszEncodingName AS LPCWSTR) AS HRESULT
    DECLARE FUNCTION GetProperty (BYVAL nProperty AS UINT) AS LONG_PTR
    DECLARE FUNCTION SetProperty (BYVAL nProperty AS UINT, BYVAL pValue AS LONG_PTR) AS HRESULT
    DECLARE FUNCTION WriteAttributes (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
@@ -550,7 +602,7 @@ END CONSTRUCTOR
 PRIVATE DESTRUCTOR CXmlWriter
    CXMLLITE_DP("")
    ' // Release the input source
-   IF m_pOutput THEN m_pOutput->lpvtbl->Release(m_pOutput)
+   IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
    ' // Release the Afx_IXmlReader interface
    IF m_pXmlWriter THEN m_pXmlWriter->Release
    ' // Free the COM library
@@ -599,13 +651,61 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the output stream for the writer.
 ' ========================================================================================
-PRIVATE FUNCTION CXmlWriter.SetOutput (BYVAL pOutput AS IUnknown PTR) AS HRESULT
+PRIVATE FUNCTION CXmlWriter.SetOutput (BYVAL pOutputStream AS IUnknown PTR) AS HRESULT
    m_Result = E_POINTER
    IF m_pXmlWriter THEN
-      IF m_pOutput THEN m_pOutput->lpvtbl->Release(m_pOutput)
-      m_Result = m_pXmlWriter->SetOutput(pOutput)
-      IF m_Result = S_OK THEN m_pOutput = pOutput
+      IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
+      m_Result = m_pXmlWriter->SetOutput(pOutputStream)
+      IF m_Result = S_OK THEN m_pOutputStream = pOutputStream
    END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the output source of the XML document to be writen.
+' - pOutputStream: A pointer to the output stream for the writer to write data to.
+'                  This can be either an ISequentialStream or an IStream interface.
+' - nEncodingPage: Specifies the encoding of the output.
+' ========================================================================================
+PRIVATE FUNCTION CXmlWriter.SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL nEncodingPage AS UINT) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter = NULL THEN RETURN m_Result
+   ' // Create the input interface
+   DIM pfnCreateXmlWriterOutputWithEncodingCodePage AS FUNCTION (BYVAL pOutputStream AS IStream PTR, BYVAL pMalloc AS IMalloc PTR, _
+       BYVAL nEncodingPage AS UINT, BYVAL ppOutput AS IUnknown PTR PTR) AS HRESULT
+   pfnCreateXmlWriterOutputWithEncodingCodePage = CAST(ANY PTR, GetProcAddress(m_hLib, "CreateXmlWriterOutputWithEncodingCodePage"))
+   IF pfnCreateXmlWriterOutputWithEncodingCodePage = NULL THEN RETURN m_Result
+   ' // Release a previous output stream
+   IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
+   m_pOutputStream = NULL
+   m_Result = pfnCreateXmlWriterOutputWithEncodingCodePage(cast(IStream PTR, pOutputStream), NULL, nEncodingPage, @m_pOutputStream)
+   IF FAILED(m_Result) THEN RETURN m_Result
+   m_Result = m_pXmlWriter->SetOutput(m_pOutputStream)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the output source of the XML document to be writen.
+' - pOutputStream: A pointer to the output stream for the writer to write data to.
+'                  This can be either an ISequentialStream or an IStream interface.
+' - nEncodingPage: Specifies the encoding of the output.
+' ========================================================================================
+PRIVATE FUNCTION CXmlWriter.SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL pwszEncodingName AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriter = NULL THEN RETURN m_Result
+   ' // Create the input interface
+   DIM pfnCreateXmlWriterOutputWithEncodingName AS FUNCTION (BYVAL pOutputStream AS IStream PTR, BYVAL pMalloc AS IMalloc PTR, _
+       BYVAL pwszEncodingName AS LPCWSTR, BYVAL ppOutput AS IUnknown PTR PTR) AS HRESULT
+   pfnCreateXmlWriterOutputWithEncodingName = CAST(ANY PTR, GetProcAddress(m_hLib, "CreateXmlWriterOutputWithEncodingName"))
+   IF pfnCreateXmlWriterOutputWithEncodingName = NULL THEN RETURN m_Result
+   ' // Release a previous output stream
+   IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
+   m_pOutputStream = NULL
+   m_Result = pfnCreateXmlWriterOutputWithEncodingName(cast(IStream PTR, pOutputStream), NULL, pwszEncodingName, @m_pOutputStream)
+   IF FAILED(m_Result) THEN RETURN m_Result
+   m_Result = m_pXmlWriter->SetOutput(m_pOutputStream)
    RETURN m_Result
 END FUNCTION
 ' ========================================================================================
@@ -972,7 +1072,7 @@ TYPE CXmlWriterLite
    m_hLib AS HMODULE
    m_bUninitCOM AS BOOLEAN
    m_pXmlWriterLite AS Afx_IXmlWriterLite PTR
-   m_pOutput AS IUnknown PTR
+   m_pOutputStream AS IUnknown PTR
 
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR
@@ -980,7 +1080,9 @@ TYPE CXmlWriterLite
    DECLARE FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
    DECLARE FUNCTION GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
    ' // IXmlWriter methods and properties
-   DECLARE FUNCTION SetOutput (BYVAL pOutput AS IUnknown PTR) AS HRESULT
+   DECLARE FUNCTION SetOutput (BYVAL pOutputStream AS IUnknown PTR) AS HRESULT
+   DECLARE FUNCTION SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL nEncodingPage AS UINT) AS HRESULT
+   DECLARE FUNCTION SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL pwszEncodingName AS LPCWSTR) AS HRESULT
    DECLARE FUNCTION GetProperty (BYVAL nProperty AS UINT) AS LONG_PTR
    DECLARE FUNCTION SetProperty (BYVAL nProperty AS UINT, BYVAL pValue AS LONG_PTR) AS HRESULT
    DECLARE FUNCTION WriteAttributes (BYVAL pReader AS Afx_IXmlReader PTR, BYVAL fWriteDefaultAttributes AS BOOLEAN) AS HRESULT
@@ -1042,7 +1144,7 @@ END CONSTRUCTOR
 PRIVATE DESTRUCTOR CXmlWriterLite
    CXMLLITE_DP("")
    ' // Release the input source
-   IF m_pOutput THEN m_pOutput->lpvtbl->Release(m_pOutput)
+   IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
    ' // Release the Afx_IXmlReader interface
    IF m_pXmlWriterLite THEN m_pXmlWriterLite->Release
    ' // Free the COM library
@@ -1091,13 +1193,62 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the output stream for the writer.
 ' ========================================================================================
-PRIVATE FUNCTION CXmlWriterLite.SetOutput (BYVAL pOutput AS IUnknown PTR) AS HRESULT
+PRIVATE FUNCTION CXmlWriterLite.SetOutput (BYVAL pOutputStream AS IUnknown PTR) AS HRESULT
    m_Result = E_POINTER
    IF m_pXmlWriterLite THEN
-      IF m_pOutput THEN m_pOutput->lpvtbl->Release(m_pOutput)
-      m_Result = m_pXmlWriterLite->SetOutput(pOutput)
-      IF m_Result = S_OK THEN m_pOutput = pOutput
+      IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
+      m_Result = m_pXmlWriterLite->SetOutput(pOutputStream)
+      IF m_Result = S_OK THEN m_pOutputStream = pOutputStream
    END IF
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+
+' ========================================================================================
+' Sets the output source of the XML document to be writen.
+' - pOutputStream: A pointer to the output stream for the writer to write data to.
+'                  This can be either an ISequentialStream or an IStream interface.
+' - nEncodingPage: Specifies the encoding of the output.
+' ========================================================================================
+PRIVATE FUNCTION CXmlWriterLite.SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL nEncodingPage AS UINT) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriterLite = NULL THEN RETURN m_Result
+   ' // Create the input interface
+   DIM pfnCreateXmlWriterOutputWithEncodingCodePage AS FUNCTION (BYVAL pOutputStream AS IStream PTR, BYVAL pMalloc AS IMalloc PTR, _
+       BYVAL nEncodingPage AS UINT, BYVAL ppOutput AS IUnknown PTR PTR) AS HRESULT
+   pfnCreateXmlWriterOutputWithEncodingCodePage = CAST(ANY PTR, GetProcAddress(m_hLib, "CreateXmlWriterOutputWithEncodingCodePage"))
+   IF pfnCreateXmlWriterOutputWithEncodingCodePage = NULL THEN RETURN m_Result
+   ' // Release a previous output stream
+   IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
+   m_pOutputStream = NULL
+   m_Result = pfnCreateXmlWriterOutputWithEncodingCodePage(cast(IStream PTR, pOutputStream), NULL, nEncodingPage, @m_pOutputStream)
+   IF FAILED(m_Result) THEN RETURN m_Result
+   m_Result = m_pXmlWriterLite->SetOutput(m_pOutputStream)
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the output source of the XML document to be writen.
+' - pOutputStream: A pointer to the output stream for the writer to write data to.
+'                  This can be either an ISequentialStream or an IStream interface.
+' - nEncodingPage: Specifies the encoding of the output.
+' ========================================================================================
+PRIVATE FUNCTION CXmlWriterLite.SetOutput (BYVAL pOutputStream AS IUnknown PTR, BYVAL pwszEncodingName AS LPCWSTR) AS HRESULT
+   m_Result = E_POINTER
+   IF m_pXmlWriterLite = NULL THEN RETURN m_Result
+   ' // Create the input interface
+   DIM pfnCreateXmlWriterOutputWithEncodingName AS FUNCTION (BYVAL pOutputStream AS IStream PTR, BYVAL pMalloc AS IMalloc PTR, _
+       BYVAL pwszEncodingName AS LPCWSTR, BYVAL ppOutput AS IUnknown PTR PTR) AS HRESULT
+   pfnCreateXmlWriterOutputWithEncodingName = CAST(ANY PTR, GetProcAddress(m_hLib, "CreateXmlWriterOutputWithEncodingName"))
+   IF pfnCreateXmlWriterOutputWithEncodingName = NULL THEN RETURN m_Result
+   ' // Release a previous output stream
+   IF m_pOutputStream THEN m_pOutputStream->lpvtbl->Release(m_pOutputStream)
+   m_pOutputStream = NULL
+   m_Result = pfnCreateXmlWriterOutputWithEncodingName(cast(IStream PTR, pOutputStream), NULL, pwszEncodingName, @m_pOutputStream)
+   IF FAILED(m_Result) THEN RETURN m_Result
+   m_Result = m_pXmlWriterLite->SetOutput(m_pOutputStream)
    RETURN m_Result
 END FUNCTION
 ' ========================================================================================
