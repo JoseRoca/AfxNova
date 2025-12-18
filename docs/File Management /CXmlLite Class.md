@@ -1163,6 +1163,14 @@ An encoding string:
 
 NULL. This resets the input, releasing the previously set input object.
 
+#### Subtle points
+
+If you pass "utf-8" as a name, **XmlLite** will honor the XML declaration and BOM if present.
+
+If you pass a code page, **XmlLite** uses that as a hard hint, even if the XML declaration disagrees. That's useful for legacy files but can override the document's self-declared encoding.
+
+BOM presence is critical for utf-16 detection. Without BOM, you'll need to force encoding via the overloades method.
+
 #### Example
 
 ```
@@ -1421,6 +1429,14 @@ An encoding string:
 This resets the writer, releasing the previously set output object. This forces the writer to flush all the data into the stream, but does not force the stream itself to flush.
 
 Use the **Flush** method to force the writer to write out all the buffered data to the output stream.
+
+#### Subtle points
+
+If you pass "utf-8" as a name, **XmlLite** will honor the XML declaration and BOM if present.
+
+If you pass a code page, **XmlLite** uses that as a hard hint, even if the XML declaration disagrees. That's useful for legacy files but can override the document's self-declared encoding.
+
+BOM presence is critical for utf-16 detection. Without BOM, you'll need to force encoding via the overloades method.
 
 #### Example
 
