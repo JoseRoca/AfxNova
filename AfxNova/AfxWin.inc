@@ -4111,6 +4111,134 @@ PRIVATE FUNCTION AfxSaveTempFile (BYVAL pwszBuffer AS WSTRING PTR, BYREF wszExte
 END FUNCTION
 ' ========================================================================================
 
+' ========================================================================================
+' Saves an icon to a file.
+' Usage examples:
+' DIM hIcon as HICON = LoadIcon(NULL, IDI_INFORMATION)
+' DIM hr AS HRESULT = AfxSaveIconToFile(hIcon, "test.ico")
+' DIM hIcon AS HICON = cast(HICON, LoadImage(NULL, ExePath & "\" & "MyIco.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE))
+' DIM hr AS HRESULT = AfxSaveIconToFile(hIcon, "test2.ico")
+' ========================================================================================
+
+TYPE ICONDIR field = 1
+   idReserved AS USHORT
+   idType     AS USHORT
+   idCount    AS USHORT
+END TYPE
+
+TYPE ICONDIRENTRY field = 1
+   bWidth        AS UBYTE
+   bHeight       AS UBYTE
+   bColorCount   AS UBYTE
+   bReserved     AS UBYTE
+   wPlanes       AS USHORT
+   wBitCount     AS USHORT
+   dwBytesInRes  AS ULONG
+   dwImageOffset AS ULONG
+END TYPE
+
+FUNCTION AfxSaveIconToFile (BYVAL hIcon AS HICON, BYREF fileName AS WSTRING) AS HRESULT
+
+   IF hIcon = 0 THEN RETURN E_POINTER
+
+   DIM ii AS ICONINFO
+   IF GetIconInfo(hIcon, @ii) = 0 THEN RETURN HRESULT_FROM_WIN32(GetLastError())
+
+   ' // Get sizes of color/mask bitmaps
+   DIM bmColor AS BITMAP
+   DIM bmMask  AS BITMAP
+   GetObject(ii.hbmColor, SIZEOF(BITMAP), @bmColor)
+   GetObject(ii.hbmMask,  SIZEOF(BITMAP), @bmMask)
+
+   DIM w AS LONG = bmColor.bmWidth
+   DIM h AS LONG = bmColor.bmHeight
+
+   ' // Prepare BITMAPINFOHEADER for extracting color pixels (actual height)
+   dim biColor AS BITMAPINFOHEADER
+   biColor.biSize        = SIZEOF(BITMAPINFOHEADER)
+   biColor.biWidth       = w
+   biColor.biHeight      = h              ' actual color height for GetDIBits
+   biColor.biPlanes      = 1
+   biColor.biBitCount    = 32
+   biColor.biCompression = BI_RGB
+   biColor.biSizeImage   = w * h * 4
+
+   ' // Extract color pixels (XOR)
+   REDIM AS UBYTE colorPixels(biColor.biSizeImage - 1)
+   DIM hdc AS HDC = GetDC(NULL)
+   IF GetDIBits(hdc, ii.hbmColor, 0, h, @colorPixels(0), cast(BITMAPINFO ptr, @biColor), DIB_RGB_COLORS) = 0 THEN
+      ReleaseDC(NULL, hdc)
+      DeleteObject(ii.hbmColor)
+      DeleteObject(ii.hbmMask)
+      RETURN HRESULT_FROM_WIN32(GetLastError())
+   END IF
+
+   ' // Prepare AND mask (1bpp, bottom-up). Zero mask is acceptable for ARGB icons.
+   DIM maskStrideBytes AS LONG = ((w + 31) \ 32) * 4
+   DIM maskSize AS LONG = maskStrideBytes * h
+   REDIM AS UBYTE maskPixels(maskSize - 1)
+   ' Option 1: All zeros (fully opaque). If you prefer true mask, use GetDIBits on ii.hbmMask.
+
+   ' // ICO header for writing (height doubled: XOR + AND)
+   dim biWrite AS BITMAPINFOHEADER
+   biWrite.biSize        = SIZEOF(BITMAPINFOHEADER)
+   biWrite.biWidth       = w
+   biWrite.biHeight      = h * 2          ' XOR + AND
+   biWrite.biPlanes      = 1
+   biWrite.biBitCount    = 32
+   biWrite.biCompression = BI_RGB
+   biWrite.biSizeImage   = biColor.biSizeImage ' only XOR counted here; mask size appended separately
+
+   ' Build ICONDIR + ICONDIRENTRY
+   DIM id AS ICONDIR
+   id.idReserved = 0
+   id.idType     = 1
+   id.idCount    = 1
+
+   DIM entry AS ICONDIRENTRY
+   entry.bWidth       = IIF(w >= 256, 0, CINT(w))     ' 0 means 256 in ICO spec
+   entry.bHeight      = IIF(h >= 256, 0, CINT(h))
+   entry.bColorCount  = 0
+   entry.bReserved    = 0
+   entry.wPlanes      = 1
+   entry.wBitCount    = 32
+   entry.dwBytesInRes = SIZEOF(BITMAPINFOHEADER) + biColor.biSizeImage + maskSize
+   entry.dwImageOffset = SIZEOF(ICONDIR) + SIZEOF(ICONDIRENTRY)
+
+   ' // Write to file
+   DIM hFile AS HANDLE = CreateFileW(fileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)
+   IF hFile = INVALID_HANDLE_VALUE THEN
+      ReleaseDC(NULL, hdc)
+      DeleteObject(ii.hbmColor)
+      DeleteObject(ii.hbmMask)
+      return HRESULT_FROM_WIN32(GetLastError())
+   END IF
+
+   DIM written AS DWORD
+   ' 1) ICONDIR
+   WriteFile(hFile, @id, SIZEOF(ICONDIR), @written, NULL)
+   ' 2) ICONDIRENTRY
+   WriteFile(hFile, @entry, SIZEOF(ICONDIRENTRY), @written, NULL)
+   ' 3) BITMAPINFOHEADER (with doubled height)
+   WriteFile(hFile, @biWrite, SIZEOF(BITMAPINFOHEADER), @written, NULL)
+   ' 4) XOR color pixels
+   WriteFile(hFile, @colorPixels(0), biColor.biSizeImage, @written, NULL)
+   ' 5) AND mask pixels (1bpp, zeroed)
+   WriteFile(hFile, @maskPixels(0), maskSize, @written, NULL)
+
+   CloseHandle(hFile)
+
+   ' // Cleanup
+   ReleaseDC(NULL, hdc)
+   DeleteObject(ii.hbmColor)
+   DeleteObject(ii.hbmMask)
+
+   RETURN S_OK
+
+END FUNCTION
+' ========================================================================================
+
+
 ' ########################################################################################
 '                                     *** SIDs ***
 ' ########################################################################################

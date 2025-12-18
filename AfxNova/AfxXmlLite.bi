@@ -30,8 +30,8 @@ USING AfxNova
 #define AFX_IID_IXmlWriter AfxGuid("{7279FC88-709D-4095-B63D-69FE4B0D9030}")
 #define AFX_IID_IXmlWriterLite AfxGuid("{862494C6-1310-4AAD-B3CD-2DBEEBF670D3}")
 
-#define Afx_IXmlReaderInput Afx_IUnknown
-#define Afx_IXmlWriterOutput Afx_IUnknown
+#define Afx_IXmlReaderInput IUnknown
+#define Afx_IXmlWriterOutput IUnknown
 
 enum XmlNodeType
    XmlNodeType_None= 0
@@ -352,21 +352,3 @@ END TYPE
 #endif
 
 ' ########################################################################################
-
-
-'extern "Windows"
-'' // XmlReader Constructor
-'*** DECLARE FUNCTION CreateXmlReader LIB "xmllite.lib" ALIAS "CreateXmlReader" (BYVAL riid AS REFIID, BYVAL ppvObject AS void PTR PTR, BYVAL pMalloc AS IMalloc PTR) AS HRESULT
-'' // XmlReaderInput Constructors
-'DECLARE FUNCTION CreateXmlReaderInputWithEncodingCodePage LIB "xmllite.lib" ALIAS "CreateXmlReaderInputWithEncodingCodePage" (BYVAL pInputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
-'   BYVAL nEncodingCodePage AS UINT, BYVAL fEncodingHint AS BOOL, BYVAL pwszBaseUri AS LPCWSTR, BYVAL ppInput AS Afx_IXmlReaderInput PTR PTR) AS HRESULT
-'DECLARE FUNCTION CreateXmlReaderInputWithEncodingName LIB "xmllite.lib" ALIAS "CreateXmlReaderInputWithEncodingName" (BYVAL pInputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
-'   BYVAL pwszEncodingName AS LPCWSTR, BYVAL fEncodingHint AS BOOL, BYVAL pwszBaseUri AS LPCWSTR, BYVAL ppInput AS Afx_IXmlReaderInput PTR PTR) AS HRESULT
-'' // XmlWriter Constructor
-' *** DECLARE FUNCTION CreateXmlWriter LIB "xmllite.lib" ALIAS "CreateXmlWriter" (BYVAL riid AS REFIID, BYVAL ppvObject AS void PTR PTR, BYVAL pMalloc AS IMalloc PTR) AS HRESULT
-'' // XmlWriterOutput Constructors
-'DECLARE FUNCTION CreateXmlWriterOutputWithEncodingCodePage LIB "xmllite.lib" ALIAS "CreateXmlWriterOutputWithEncodingCodePage" (BYVAL pOutputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
-'   BYVAL nEncodingCodePage AS UINT, BYVAL ppOutput AS Afx_IXmlWriterOutput PTR PTR) AS HRESULT
-'DECLARE FUNCTION CreateXmlWriterOutputWithEncodingName LIB "xmllite.lib" ALIAS "CreateXmlWriterOutputWithEncodingName" (BYVAL pOutputStream AS IUnknown PTR, BYVAL pMalloc AS IMalloc PTR, _
-'   BYVAL nEncodingCodePage AS LPCWSTR, BYVAL ppOutput AS Afx_IXmlWriterOutput PTR PTR) AS HRESULT
-'end extern
