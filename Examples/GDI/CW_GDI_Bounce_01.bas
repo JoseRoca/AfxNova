@@ -79,10 +79,6 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    STATIC cyMove   AS LONG
    STATIC xPixel   AS LONG
    STATIC yPixel   AS LONG
-   DIM    hBrush   AS HBRUSH
-   DIM    hdc      AS HDC
-   DIM    hdcMem   AS HDC
-   DIM    iScale   AS LONG
 
    SELECT CASE uMsg
 
@@ -91,7 +87,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
          AfxEnableDarkModeForWindow(hwnd)
-         hdc = GetDC(hwnd)
+         DIM hdc AS HDC = GetDC(hwnd)
          xPixel = GetDeviceCaps(hdc, ASPECTX)
          yPixel = GetDeviceCaps(hdc, ASPECTY)
          ReleaseDC hwnd, hdc
@@ -118,7 +114,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          cyClient = HIWORD(lParam)
          xCenter = cxClient  \ 2
          yCenter = cyClient  \ 2
-         iScale = MIN(cxClient * xPixel, cyClient * yPixel) \ 16
+         DIM iScale AS LONG = MIN(cxClient * xPixel, cyClient * yPixel) \ 16
          cxRadius = iScale \ xPixel
          cyRadius = iScale \ yPixel
          cxMove = MAX(1, cxRadius \ 2)
@@ -126,13 +122,13 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          cxTotal = 2 * (cxRadius + cxMove)
          cyTotal = 2 * (cyRadius + cyMove)
          IF hBitmap THEN DeleteObject hBitmap
-         hdc = GetDC(hwnd)
-         hdcMem = CreateCompatibleDC(hdc)
+         DIM hdc AS HDC = GetDC(hwnd)
+         DIM hdcMem AS HDC = CreateCompatibleDC(hdc)
          hBitmap = CreateCompatibleBitmap(hdc, cxTotal, cyTotal)
          ReleaseDC hwnd, hdc
          SelectObject hdcMem, hBitmap
          Rectangle hdcMem, -1, -1, cxTotal + 1, cyTotal + 1
-         hBrush = CreateHatchBrush(HS_DIAGCROSS, 0)
+         DIM hBrush AS HBRUSH = CreateHatchBrush(HS_DIAGCROSS, 0)
          SelectObject hdcMem, hBrush
          SetBkColor hdcMem, BGR(255, 0, 255)
          Ellipse hdcMem, cxMove, cyMove, cxTotal - cxMove, cyTotal - cyMove
@@ -142,8 +138,8 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
       CASE WM_TIMER
          IF hBitmap = NULL THEN EXIT FUNCTION
-         hdc = GetDC(hwnd)
-         hdcMem = CreateCompatibleDC(hdc)
+         DIM hdc AS HDC = GetDC(hwnd)
+         DIM hdcMem AS HDC = CreateCompatibleDC(hdc)
          SelectObject hdcMem, hBitmap
          BitBlt hdc, xCenter - cxTotal \ 2, _
                      yCenter - cyTotal \ 2, cxTotal, cyTotal, _
