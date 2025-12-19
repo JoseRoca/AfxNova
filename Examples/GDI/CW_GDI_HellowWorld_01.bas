@@ -87,9 +87,11 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          RETURN 0
 
       CASE WM_PAINT
-    		DIM rc AS RECT, ps AS PAINTSTRUCT, hDC AS HANDLE, hOldFont AS HFONT
-         hDC = BeginPaint(hWnd, @ps)
+    		DIM ps AS PAINTSTRUCT
+         DIM hDC AS HDC = BeginPaint(hWnd, @ps)
+         DIM hOldFont AS HFONT
          IF hNewFont THEN hOldFont = CAST(HFONT, SelectObject(hDC, CAST(HGDIOBJ, hNewFont)))
+         DIM rc AS RECT
          GetClientRect(hWnd, @rc)
          DrawTextW(hDC, "Hello, World!", -1, @rc, DT_SINGLELINE or DT_CENTER or DT_VCENTER)
          IF hNewFont THEN SelectObject(hDC, CAST(HGDIOBJ, CAST(HFONT, hOldFont)))
