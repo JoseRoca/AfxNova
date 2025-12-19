@@ -65,10 +65,6 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    STATIC cyBitmap      AS LONG          ' // Height of the bitmap
    STATIC cxClient      AS LONG          ' // Width of the client area
    STATIC cyClient      AS LONG          ' // Height of the client area
-   DIM    hdcScreen     AS HDC           ' // Desktop device context
-   DIM    hbmScreen     AS HBITMAP       ' // Screen bitmap handle
-   DIM    hdc           AS HDC           ' // Window device context
-   DIM    ps            AS PAINTSTRUCT   ' // PAINTSTRUCT structure
 
    SELECT CASE uMsg
 
@@ -76,6 +72,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
       ' // creation of the window. If the application returns –1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
+         AfxEnableDarkModeForWindow(hwnd)
          ' // Create a normal DC and a memory DC for the entire screen. The
          ' // normal DC provides a "snapshot" of the screen contents. The
          ' // memory DC keeps a copy of this "snapshot" in the associated
@@ -85,7 +82,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          ' // Create a compatible bitmap for hdcScreen.
          cxBitmap = GetDeviceCaps(hdcScreen, HORZRES)
          cyBitmap = GetDeviceCaps(hdcScreen, VERTRES)
-         hbmScreen = CreateCompatibleBitmap(hdcScreen, cxBitmap, cyBitmap)
+         DIM hbmScreen AS HBITMAP = CreateCompatibleBitmap(hdcScreen, cxBitmap, cyBitmap)
          ' // Select the bitmaps into the compatible DC.
          SelectObject(hdcCompatible, hbmScreen)
          ' // Copy color data for the entire display into the
@@ -96,26 +93,31 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          DeleteObject hbmScreen
          RETURN 0
 
-     CASE WM_SIZE
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      CASE WM_SIZE
          cxClient = LOWORD(lParam)
          cyClient = HIWORD(lParam)
-         EXIT FUNCTION
+         RETURN 0
 
       CASE WM_PAINT
-         hdc = BeginPaint(hwnd, @ps)
+         DIM ps AS PAINTSTRUCT
+         DIM hdc AS HDC = BeginPaint(hwnd, @ps)
          SetStretchBltMode hdc, HALFTONE
          SetBrushOrgEx hdc, 0, 0, NULL
          StretchBlt hdc, 0, 0, cxClient, cyClient, hdcCompatible, 0, 0, cxBitmap, cyBitmap, SRCCOPY
          EndPaint hwnd, @ps
-         EXIT FUNCTION
+         RETURN 0
 
       CASE WM_ERASEBKGND
-         hdc = CAST(HDC, wParam)
+         DIM hdc AS HDC = cast(HDC, wParam)
          SetStretchBltMode hdc, HALFTONE
          SetBrushOrgEx hdc, 0, 0, NULL
          StretchBlt hdc, 0, 0, cxClient, cyClient, hdcCompatible, 0, 0, cxBitmap, cyBitmap, SRCCOPY
-         FUNCTION = CTRUE
-         EXIT FUNCTION
+         RETURN CTRUE
 
       ' // Sent when the user selects a command item from a menu, when a control sends a
       ' // notification message to its parent window, or when an accelerator keystroke is translated.
