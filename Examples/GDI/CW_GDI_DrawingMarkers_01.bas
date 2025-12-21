@@ -86,8 +86,6 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
    STATIC ptMouseDown(32) AS POINT
    STATIC index AS LONG
-   DIM  rc AS RECT
-   DIM  hrgn AS HRGN
 
    SELECT CASE uMsg
 
@@ -116,8 +114,9 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
       CASE WM_LBUTTONDOWN
          IF index < 32 THEN
             ' // Create the region from the client area.
+            DIM rc AS RECT
             GetClientRect hwnd, @rc
-            hrgn = CreateRectRgn(rc.Left, rc.Top, rc.Right, rc.Bottom)
+            DIM hRgn AS HRGN = CreateRectRgn(rc.Left, rc.Top, rc.Right, rc.Bottom)
             ptMouseDown(index).x = LOWORD(lParam)
             ptMouseDown(index).y = HIWORD(lParam)
             ' // Test for a hit in the client rectangle.
