@@ -1398,7 +1398,7 @@ type GdiplusStartupOutput
 end type
 
 DECLARE FUNCTION GdiplusStartup (BYVAL token AS ULONG_PTR PTR, BYVAL input AS CONST GdiplusStartupInput PTR, BYVAL output AS GdiplusStartupOutput PTR) AS GpStatus
-declare sub GdiplusShutdown (BYVAL token  AS ULONG_PTR)
+DECLARE SUB GdiplusShutdown (BYVAL token AS ULONG_PTR)
 DECLARE FUNCTION GdiplusNotificationHook (BYVAL token AS ULONG_PTR PTR) AS GpStatus
 DECLARE SUB GdiplusNotificationUnhook (BYVAL token AS ULONG_PTR)
 
@@ -1691,15 +1691,10 @@ DECLARE FUNCTION GdipSetCustomLineCapWidthScale (BYVAL customCap AS GpCustomLine
 DECLARE FUNCTION GdipGetCustomLineCapWidthScale (BYVAL customCap AS GpCustomLineCap PTR, BYVAL widthScale As REAL PTR) AS GpStatus
 
 ' // Effect APIs
-'DECLARE FUNCTION GdipCreateEffect (BYVAL guid AS CONST GUID, BYVAL effect AS CGpEffect PTR PTR) AS GpStatus
 DECLARE FUNCTION GdipCreateEffect (BYVAL guid AS CONST GUID, BYVAL effect AS GpEffect PTR PTR) AS GpStatus
-'DECLARE FUNCTION GdipDeleteEffect (BYVAL effect AS CGpEffect PTR) AS GpStatus
 DECLARE FUNCTION GdipDeleteEffect (BYVAL effect AS GpEffect PTR) AS GpStatus
-'DECLARE FUNCTION GdipGetEffectParameterSize (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR) AS GpStatus
 DECLARE FUNCTION GdipGetEffectParameterSize (BYVAL effect AS GpEffect PTR, BYVAL size AS UINT PTR) AS GpStatus
-'DECLARE FUNCTION GdipSetEffectParameters (BYVAL effect AS CGpEffect PTR, BYVAL params AS CONST ANY PTR, BYVAL size AS CONST UINT) AS GpStatus
 DECLARE FUNCTION GdipSetEffectParameters (BYVAL effect AS GpEffect PTR, BYVAL params AS CONST ANY PTR, BYVAL size AS CONST UINT) AS GpStatus
-'DECLARE FUNCTION GdipGetEffectParameters (BYVAL effect AS CGpEffect PTR, BYVAL size AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 DECLARE FUNCTION GdipGetEffectParameters (BYVAL effect AS GpEffect PTR, BYVAL size AS UINT PTR, BYVAL params AS ANY PTR) AS GpStatus
 
 ' // Font APIs
@@ -1789,7 +1784,7 @@ DECLARE FUNCTION GdipTransformPointsI (BYVAL graphics AS GpGraphics PTR, BYVAL d
                  BYVAL srcSpace AS GpCoordinateSpace, BYVAL points AS GpPoint PTR, BYVAL count AS INT_) AS GpStatus
 DECLARE FUNCTION GdipGetNearestColor (BYVAL graphics AS GpGraphics PTR, BYVAL argb AS ARGB PTR) AS GpStatus
 DECLARE FUNCTION GdipCreateHalftonePalette () AS HPALETTE
-DECLARE FUNCTION GdipDrawLine (BYVAL graphics AS GpGraphics PTR, BYVAL AS GpPen PTR, BYVAL x1 AS REAL, BYVAL y1 AS REAL, BYVAL x2 AS REAL, BYVAL y2 AS REAL) AS GpStatus
+DECLARE FUNCTION GdipDrawLine (BYVAL graphics AS GpGraphics PTR, BYVAL pen AS GpPen PTR, BYVAL x1 AS REAL, BYVAL y1 AS REAL, BYVAL x2 AS REAL, BYVAL y2 AS REAL) AS GpStatus
 DECLARE FUNCTION GdipDrawLineI (BYVAL graphics AS GpGraphics PTR, BYVAL pen AS GpPen PTR, BYVAL x1 AS INT_, BYVAL y1 AS INT_, BYVAL x2 AS INT_, BYVAL y2 AS INT_) AS GpStatus
 DECLARE FUNCTION GdipDrawLines (BYVAL graphics AS GpGraphics PTR, BYVAL pen AS GpPen PTR, BYVAL points AS const GpPointF PTR, BYVAL count AS INT_) AS GpStatus
 DECLARE FUNCTION GdipDrawLinesI (BYVAL graphics AS GpGraphics PTR, BYVAL pen AS GpPen PTR, BYVAL points AS const GpPoint PTR, BYVAL count AS INT_) AS GpStatus
