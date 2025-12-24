@@ -60,7 +60,7 @@ SUB Example_IsFilled (BYVAL hdc AS HDC)
    ' // Create a Pen, and assign myArrow as the end cap.
    DIM arrowPen AS GpPen PTR
    hStatus = GdipCreatePen1(ARGB_Violet, 1, UnitWorld, @arrowPen)
-   ' // Assign myArrow as the start cap.
+   ' // Assign myArrow as the end cap.
    hStatus = GdipSetPenCustomEndCap(arrowPen, myArrow)
 
    ' // If the cap is filled, draw a line using arrowPen.
