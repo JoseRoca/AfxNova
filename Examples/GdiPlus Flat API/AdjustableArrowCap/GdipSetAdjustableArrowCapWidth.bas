@@ -65,10 +65,6 @@ SUB Example_SetWidth (BYVAL hdc AS HDC)
    ' // Draw a line using arrowPen.
    hStatus = GdipDrawLine(graphics, arrowPen, 0, 0, 100, 100)
 
-   ' // Get the width of the arrow.
-   DIM nWidth AS SINGLE
-   GdipGetAdjustableArrowCapWidth(myArrow, @nWidth)
-
    ' // Set the cap to the new width, and reassign the arrow cap to the pen object.
    hStatus = GdipSetAdjustableArrowCapWidth(myArrow, 15.7)
    hStatus = GdipSetPenCustomEndCap(arrowPen, myArrow)
