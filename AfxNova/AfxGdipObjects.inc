@@ -850,14 +850,12 @@ END OPERATOR
 ' ========================================================================================
 TYPE GdiPlusEffect
 Public:
-'   m_Effect AS CGpEffect PTR
    m_Effect AS GpEffect PTR
    m_auxDataSize AS INT_
    m_auxData AS ANY PTR
    m_useAuxData AS BOOLEAN
    DECLARE CONSTRUCTOR
    DECLARE DESTRUCTOR
-'   DECLARE OPERATOR @ () AS CGpEffect PTR
    DECLARE OPERATOR @ () AS GpEffect PTR
 END TYPE
 ' ========================================================================================
@@ -910,6 +908,12 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL hdc AS HDC, BYVAL hDevice AS HANDLE)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS GpGraphics PTR
+   DECLARE FUNCTION DpiRatio () AS SINGLE
+   DECLARE FUNCTION DpiRatioX () AS SINGLE
+   DECLARE FUNCTION DpiRatioY () AS SINGLE
+   DECLARE FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+   DECLARE FUNCTION ScaleTransform (BYVAL dpiRatio_ AS SINGLE, BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+   DECLARE FUNCTION ScaleTransform (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
 END TYPE
 ' ========================================================================================
 
@@ -950,6 +954,57 @@ END OPERATOR
 PRIVATE OPERATOR * (BYREF graphics AS GdiPlusGraphics) AS GpGraphics PTR
    RETURN graphics.m_Graphics
 END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
+' Get the DPI scaling ratio
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusGraphics.DpiRatio () AS SINGLE
+   DIM dpiX AS SINGLE
+   SetLastError(GdipGetDpiX(m_Graphics, @dpiX))
+   DIM rxRatio AS SINGLE = dpiX / 96
+   RETURN rxRatio
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusGraphics.DpiRatioX () AS SINGLE
+   DIM dpiX AS SINGLE
+   SetLastError(GdipGetDpiX(m_Graphics, @dpiX))
+   DIM rxRatio AS SINGLE = dpiX / 96
+   RETURN rxRatio
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusGraphics.DpiRatioY () AS SINGLE
+   DIM dpiY AS SINGLE
+   SetLastError(GdipGetDpiY(m_Graphics, @dpiY))
+   DIM ryRatio AS SINGLE = dpiY / 96
+   RETURN ryRatio
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Updates this Graphic object's current transformation matrix with the product of itself
+' and a scaling matrix.
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusGraphics.ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+   RETURN GdipScaleWorldTransform(m_Graphics, sx, sy, order)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusGraphics.ScaleTransform (BYVAL dpiRatio_ AS SINGLE, BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+   RETURN GdipScaleWorldTransform(m_Graphics, dpiRatio, dpiRatio_, order)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusGraphics.ScaleTransform (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+   DIM dpiX AS SINGLE
+   GdipGetDpiX(m_Graphics, @dpiX)
+   DIM rxRatio AS SINGLE = dpiX / 96
+   DIM dpiY AS SINGLE
+   GdipGetDpiY(m_Graphics, @dpiY)
+   DIM ryRatio AS SINGLE = dpiY / 96
+   RETURN GdipScaleWorldTransform(m_Graphics, rxRatio, ryRatio, order)
+END FUNCTION
 ' ========================================================================================
 
 ' ########################################################################################
@@ -1126,8 +1181,9 @@ END OPERATOR
 ' ========================================================================================
 TYPE GdiPlusGraphicsPath
 Public:
-   m_Path AS GpGraphicsPath PTR
-   DECLARE CONSTRUCTOR (BYVAL nFillMode AS FillMode = FillModeAlternate)
+   m_Path AS GpPath PTR
+   DECLARE CONSTRUCTOR (BYVAL path AS GpPath PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL nFillMode AS FillMode)
    DECLARE CONSTRUCTOR (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
    DECLARE CONSTRUCTOR (BYVAL pts AS GpPoint PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
    DECLARE DESTRUCTOR
@@ -1135,10 +1191,16 @@ Public:
 END TYPE
 ' ========================================================================================
 
+' =====================================================================================
+' Constructors
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusGraphicsPath (BYVAL path AS GpPath PTR = NULL)
+   IF path THEN SetLastError(GdipClonePath(path, @m_Path))
+   GDIP_DP("m_Path: " & WSTR(m_Path))
+END CONSTRUCTOR
+' =====================================================================================
 ' ========================================================================================
-' * Default constructor
-' ========================================================================================
-PRIVATE CONSTRUCTOR GdiPlusGraphicsPath (BYVAL nFillMode AS FillMode = FillModeAlternate)
+PRIVATE CONSTRUCTOR GdiPlusGraphicsPath (BYVAL nFillMode AS FillMode)
    SetLastError(GdipCreatePath(nFillMode, @m_Path))
    GDIP_DP("m_Path: " & WSTR(m_Path))
 END CONSTRUCTOR
@@ -1169,14 +1231,14 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Returns a pointer to the GpGraphicsPath object
 ' ========================================================================================
-PRIVATE OPERATOR GdiPlusGraphicsPath.@ () AS GpGraphicsPath PTR
+PRIVATE OPERATOR GdiPlusGraphicsPath.@ () AS GpPath PTR
    RETURN m_Path
 END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
 ' Returns a pointer to the GpGraphicsPath object
 ' ========================================================================================
-PRIVATE OPERATOR * (BYREF path AS GdiPlusGraphicsPath) AS GpGraphicsPath PTR
+PRIVATE OPERATOR * (BYREF path AS GdiPlusGraphicsPath) AS GpPath PTR
    RETURN path.m_Path
 END OPERATOR
 ' ========================================================================================
@@ -1256,75 +1318,6 @@ END OPERATOR
 ' ========================================================================================
 PRIVATE OPERATOR * (BYREF matrix AS GdiPlusMatrix) AS GpMatrix PTR
    RETURN matrix.m_Matrix
-END OPERATOR
-' ========================================================================================
-
-' ########################################################################################
-' GdiPlusPath object
-' ########################################################################################
-
-' ========================================================================================
-TYPE GdiPlusPath
-Public:
-   m_Path AS GpPath PTR
-   DECLARE CONSTRUCTOR (BYVAL path AS GpPath PTR = NULL)
-   DECLARE CONSTRUCTOR (BYVAL nFillMode AS FillMode = FillModeAlternate)
-   DECLARE CONSTRUCTOR (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
-   DECLARE CONSTRUCTOR (BYVAL pts AS GpPoint PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
-   DECLARE DESTRUCTOR
-   DECLARE OPERATOR @ () AS GpPath PTR
-END TYPE
-' ========================================================================================
-
-' =====================================================================================
-' Constructors
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPath (BYVAL path AS GpPath PTR = NULL)
-   IF path THEN SetLastError(GdipClonePath(path, @m_Path))
-   GDIP_DP("m_Path: " & WSTR(m_Path))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPath (BYVAL nFillMode AS FillMode = FillModeAlternate)
-   SetLastError(GdipCreatePath(nFillMode, @m_Path))
-   GDIP_DP("m_Path: " & WSTR(m_Path))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-' Creates a GraphicsPath object based on an array of points, an array of types, and a fill mode.
-' Default value for fillMode: FillModeAlternate(0).
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPath (BYVAL pts AS GpPointF PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
-   SetLastError(GdipCreatePath2(pts, types, nCount, nFillmode, @m_Path))
-   GDIP_DP("m_Path: " & WSTR(m_Path))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPath (BYVAL pts AS GpPoint PTR, BYVAL types AS BYTE PTR, BYVAL nCount AS LONG, BYVAL nFillMode AS FillMode = FillModeAlternate)
-   GDIP_DP("m_Path: " & WSTR(m_Path))
-   SetLastError(GdipCreatePath2I(pts, types, nCount, nFillmode, @m_Path))
-END CONSTRUCTOR
-' =====================================================================================
-' ========================================================================================
-' * Cleanup
-' ========================================================================================
-PRIVATE DESTRUCTOR GdiPlusPath
-   GDIP_DP("m_Path: " & WSTR(m_Path))
-   IF m_Path THEN SetLastError(GdipDeletePath(m_Path))
-END DESTRUCTOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpPath object
-' ========================================================================================
-PRIVATE OPERATOR GdiPlusPath.@ () AS GpPath PTR
-   RETURN m_Path
-END OPERATOR
-' ========================================================================================
-' ========================================================================================
-' Returns a pointer to the GpPath object
-' ========================================================================================
-PRIVATE OPERATOR * (BYREF path AS GdiPlusPath) AS GpPath PTR
-   RETURN path.m_Path
 END OPERATOR
 ' ========================================================================================
 
