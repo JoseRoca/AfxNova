@@ -250,7 +250,7 @@ END FUNCTION
 
 ' =====================================================================================
 ' Called just before the dialog is about to return with a result.
-' When this method is called, the IFileDialog::GetResult and GetResults methods can be called.
+' When this method is called, the IFileDialog:GetResult and GetResults methods can be called.
 ' =====================================================================================
 FUNCTION CIFileDialogEvents.OnFileOk (BYVAL pfd AS IFileDialog PTR) AS HRESULT
    RETURN S_OK
