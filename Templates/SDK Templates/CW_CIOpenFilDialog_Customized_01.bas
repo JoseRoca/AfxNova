@@ -83,7 +83,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          END IF
 
       CASE WM_USER + 999
-         ' // Set the focus and show the line an column in the status bar
+         ' // Set the focus
          IF wParam THEN SetFocus(cast(HWND, wParam))
          EXIT FUNCTION
 
