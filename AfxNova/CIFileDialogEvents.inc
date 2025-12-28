@@ -142,7 +142,8 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Enables an application to respond to sharing violations that arise from Open or Save operations.
+' Called when an Open button drop-down list customized through EnableOpenDropDown or a
+' Tools menu is about to display its contents.
 ' =====================================================================================
 FUNCTION CIFileDialogControlEvents.OnControlActivating (BYVAL pfdc AS IFileDialogCustomize PTR, BYVAL dwIDCtl AS DWORD) AS HRESULT
    RETURN S_OK
