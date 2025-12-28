@@ -16,8 +16,7 @@
 #include once "AfxNova/CIFileDialogCustomize.inc"
 USING AfxNova
 
-CONST IDC_RICHEDIT = 1001
-CONST IDC_TEST = 1002
+CONST IDC_TEST = 1001
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                            BYVAL hPrevInstance AS HINSTANCE, _
