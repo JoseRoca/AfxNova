@@ -151,7 +151,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                ' *** Single selection ***
                ' // Get the result
                IF hr = S_OK THEN
-                  OutputDebugStringW(pofd.GetResult)
+                  OutputDebugStringW(pofd.GetResultString)
                END IF
                ' *** Multiple selection ***
                DIM dwsRes AS DWSTRING = pofd.GetResultsString
