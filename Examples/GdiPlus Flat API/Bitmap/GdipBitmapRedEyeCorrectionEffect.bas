@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: Gdip_RedEyeCorrectionEffect.bas
-' Contents: GDI+ Flat API - Gdip_RedEyeCorrectionEffect example
+' File: GdipBitmapRedEyeCorrectionEffect.bas
+' Contents: GDI+ Flat API - GdipBtmapRedEyeCorrectionEffect example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -109,7 +109,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ Gdip_RedEyeCorrectionEffect", @WndProc)
+   pWindow.Create(NULL, "GDI+ GdipBtmapRedEyeCorrectionEffect", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
