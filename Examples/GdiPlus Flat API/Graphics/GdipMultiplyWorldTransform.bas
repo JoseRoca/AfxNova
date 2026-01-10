@@ -58,7 +58,7 @@ SUB Example_MultiplyWorldTransform (BYVAL hdc AS HDC)
    ' // Create transformation matrix and apply translation
    DIM matrix AS GpMatrix PTR
    hStatus = GdipCreateMatrix(@matrix)
-   hStatus = GdipTranslateMatrix(@Matrix, 150.0, 100.0, MatrixOrderPrepend)
+   hStatus = GdipTranslateMatrix(matrix, 150.0 * rxRatio, 100.0* ryRatio, MatrixOrderPrepend)
 
     ' // Apply rotation first
    hStatus = GdipRotateWorldTransform(graphics, 30.0, MatrixOrderPrepend)
@@ -66,7 +66,7 @@ SUB Example_MultiplyWorldTransform (BYVAL hdc AS HDC)
    hStatus = GdipMultiplyWorldTransform(graphics, matrix, MatrixOrderAppend)
    ' // Create pen and draw ellipse
    DIM pen AS GpPen PTR
-   hStatus = GdipCreatePen1(ARGB_BLUE, 1, UnitPixel, @pen)
+   hStatus = GdipCreatePen1(ARGB_BLUE, 1 * rxRatio, UnitPixel, @pen)
    hStatus = GdipDrawEllipse(graphics, pen, -80, -40, 160, 80)
 
    ' // Cleanup
