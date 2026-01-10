@@ -3,7 +3,7 @@
 ' File: GdipFillClosedCurve.bas
 ' Contents: GDI+ Flat API - GdipFillClosedCurve example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -103,7 +103,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM token AS ULONG_PTR = AfxGdipInit
 
    ' // Draw the graphics
-   Example_FillClosedCurve2(hdc)
+   Example_FillClosedCurve(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
@@ -122,7 +122,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    SELECT CASE uMsg
 
       ' // If an application processes this message, it should return zero to continue
-      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // creation of the window. If the application returns â€“1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
          AfxEnableDarkModeForWindow(hwnd)
@@ -155,3 +155,4 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
 END FUNCTION
 ' ========================================================================================
+
