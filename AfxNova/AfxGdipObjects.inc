@@ -611,6 +611,7 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL hbm AS HBITMAP, BYVAL hPal AS HPALETTE)
    DECLARE CONSTRUCTOR (BYVAL hicon AS HICON)
    DECLARE CONSTRUCTOR (BYVAL hInstance AS HINSTANCE, BYVAL pwszBitmapName AS WSTRING PTR)
+   DECLARE CONSTRUCTOR (BYVAL inputBitmap AS GpBitmap PTR, BYVAL effect AS GpEffect PTR)
    DECLARE DESTRUCTOR
 END TYPE
 ' ========================================================================================
@@ -731,6 +732,14 @@ PRIVATE CONSTRUCTOR GdiPlusBitmap (BYVAL hInstance AS HINSTANCE, BYVAL pwszBitma
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
+' Creates a new Bitmap object by applying a specified effect to an existing Bitmap object.
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusBitmap (BYVAL inputBitmap AS GpBitmap PTR, BYVAL effect AS GpEffect PTR)
+   SetLastError(GdipBitmapCreateApplyEffect(@inputBitmap, 1, effect, NULL, NULL, @m_Bitmap, FALSE, NULL, NULL))
+   GDIP_DP("m_Bitmap: " & WSTR(m_Bitmap))
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
 ' * Cleanup
 ' ========================================================================================
 PRIVATE DESTRUCTOR GdiPlusBitmap
@@ -809,8 +818,8 @@ END TYPE
 ' Default constructor
 ' ========================================================================================
 PRIVATE CONSTRUCTOR GdiPlusEffect (BYVAL gd AS GUID)
-   GDIP_DP("")
    SetLastError GdipCreateEffect(gd, @m_Effect)
+   GDIP_DP("m_Effect: " & WSTR(m_Effect))
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
@@ -1357,7 +1366,7 @@ END TYPE
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE CONSTRUCTOR GdiPlusRegion
-      SetLastError(GdipCreateRegion(@m_Region))
+   SetLastError(GdipCreateRegion(@m_Region))
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
