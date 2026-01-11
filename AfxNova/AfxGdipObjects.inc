@@ -317,12 +317,12 @@ END OPERATOR
 TYPE GdiPlusLinearGradientBrush
 Public:
    m_Brush AS GpLinearGradientBrush PTR
-   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
-   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
+   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL wrap AS WrapMode = WrapModeTile)
+   DECLARE CONSTRUCTOR (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL wrap AS WrapMode = WrapModeTile)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode, BYVAL wrap AS WrapMode = WrapModeTile)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode, BYVAL wrap AS WrapMode = WrapModeTile)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL, BYVAL wrap AS WrapMode = WrapModeTile)
+   DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL, BYVAL wrap AS WrapMode = WrapModeTile)
    DECLARE DESTRUCTOR
 END TYPE
 ' ========================================================================================
@@ -330,42 +330,42 @@ END TYPE
 ' =====================================================================================
 ' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   SetLastError(GdipCreateLineBrush(point1, point2, color1, color2, WrapModeTile, @m_brush))
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPointF PTR, BYVAL point2 AS GpPointF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL wrap AS WrapMode = WrapModeTile)
+   SetLastError(GdipCreateLineBrush(point1, point2, color1, color2, wrap, @m_brush))
    GDIP_DP("m_brush: " & WSTR(m_brush))
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB)
-   SetLastError(GdipCreateLineBrushI(point1, point2, color1, color2, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   SetLastError(GdipCreateLineBrushFromRect(rc, color1, color2, nMode, WrapModeTile, @m_brush))
-   GDIP_DP("m_brush: " & WSTR(m_brush))
-END CONSTRUCTOR
-' =====================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode)
-   SetLastError(GdipCreateLineBrushFromRectI(rc, color1, color2, nMode, WrapModeTile, @m_brush))
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL point1 AS GpPoint PTR, BYVAL point2 AS GpPoint PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL wrap AS WrapMode = WrapModeTile)
+   SetLastError(GdipCreateLineBrushI(point1, point2, color1, color2, wrap, @m_brush))
    GDIP_DP("m_brush: " & WSTR(m_brush))
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
 ' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
-   SetLastError(GdipCreateLineBrushFromRectWithAngle(rc, color1, color2, angle, isAngleScalable, WrapModeTile, @m_brush))
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode, BYVAL wrap AS WrapMode = WrapModeTile)
+   SetLastError(GdipCreateLineBrushFromRect(rc, color1, color2, nMode, wrap, @m_brush))
    GDIP_DP("m_brush: " & WSTR(m_brush))
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL)
-   SetLastError(GdipCreateLineBrushFromRectWithAngleI(rc, color1, color2, angle, isAngleScalable, WrapModeTile, @m_brush))
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL nMode AS LinearGradientMode, BYVAL wrap AS WrapMode = WrapModeTile)
+   SetLastError(GdipCreateLineBrushFromRectI(rc, color1, color2, nMode, wrap, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRectF PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL, BYVAL wrap AS WrapMode = WrapModeTile)
+   SetLastError(GdipCreateLineBrushFromRectWithAngle(rc, color1, color2, angle, isAngleScalable, wrap, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusLinearGradientBrush (BYVAL rc AS GpRect PTR, BYVAL color1 AS ARGB, BYVAL color2 AS ARGB, BYVAL angle AS SINGLE, BYVAL isAngleScalable AS BOOL, BYVAL wrap AS WrapMode = WrapModeTile)
+   SetLastError(GdipCreateLineBrushFromRectWithAngleI(rc, color1, color2, angle, isAngleScalable, wrap, @m_brush))
    GDIP_DP("m_brush: " & WSTR(m_brush))
 END CONSTRUCTOR
 ' =====================================================================================
