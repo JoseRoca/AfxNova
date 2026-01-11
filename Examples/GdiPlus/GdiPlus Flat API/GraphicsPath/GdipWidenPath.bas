@@ -3,7 +3,7 @@
 ' File: GdipwidenPath.bas
 ' Contents: GDI+ Flat API - GdipwidenPath example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -57,7 +57,7 @@ SUB Example_WidenPath (BYVAL hdc AS HDC)
 
    ' // Create the pens.
    DIM bluePen AS GpPen PTR
-   hStatus = GdipCreatePen1(ARGB_RED, 1, UnitWorld, @bluePen)
+   hStatus = GdipCreatePen1(ARGB_BLUE, 1, UnitWorld, @bluePen)
    DIM greenPen AS GpPen PTR
    hStatus = GdipCreatePen1(ARGB_LIGHTGREEN, 10, UnitWorld, @greenPen)
 
@@ -141,7 +141,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    SELECT CASE uMsg
 
       ' // If an application processes this message, it should return zero to continue
-      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // creation of the window. If the application returns â€“1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
          AfxEnableDarkModeForWindow(hwnd)
@@ -174,3 +174,4 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
 END FUNCTION
 ' ========================================================================================
+
