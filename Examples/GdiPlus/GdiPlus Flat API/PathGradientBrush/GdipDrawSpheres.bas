@@ -81,7 +81,7 @@ SUB Example_DrawSpheres (BYVAL hdc AS HDC)
 
    ' // Create a second GraphicsPath object.
    DIM path2 AS GpPath PTR
-   hStatus = GdipCreatePath(FillModeAlternate, path2)
+   hStatus = GdipCreatePath(FillModeAlternate, @path2)
 
    ' // Add an ellipse to the path
    x = 200 : y = 200 : nSize = 150
@@ -130,7 +130,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"
    pWindow.Create(NULL, "GDI+ GdipDrawSpheres", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(400, 250)
+   pWindow.SetClientSize(400, 360)
    ' // Center the window
    pWindow.Center
 
