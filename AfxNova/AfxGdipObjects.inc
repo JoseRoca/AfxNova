@@ -394,16 +394,32 @@ END OPERATOR
 TYPE GdiPlusPathGradientBrush
 Public:
    m_Brush AS GpPathGradientBrush PTR
-   DECLARE CONSTRUCTOR (BYVAL nHatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, BYVAL backColor AS ARGB = &HFF000000)
+   DECLARE CONSTRUCTOR (BYVAL path AS GpPath PTR)
+   DECLARE CONSTRUCTOR (BYVAL points AS CONST GpPointF PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
+   DECLARE CONSTRUCTOR (BYVAL points AS CONST GpPoint PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
    DECLARE DESTRUCTOR
 END TYPE
 ' ========================================================================================
 
 ' =====================================================================================
-' Creates a HatchBrush object based on a hatch style, a foreground color, and a background color.
+' Creates a path gradient brush from a path
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL nHatchStyle AS HatchStyle, BYVAL foreColor AS ARGB, BYVAL backColor AS ARGB = &HFF000000)
-   SetLastError(GdipCreateHatchBrush(nHatchStyle, foreColor, backColor, @m_brush))
+PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL path AS GpPath PTR)
+   SetLastError(GdipCreatePathGradientFromPath(path, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+' Creates a path gradient brush
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL points AS CONST GpPointF PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
+   SetLastError(GdipCreatePathGradient(points, count, wrapMode, @m_brush))
+   GDIP_DP("m_brush: " & WSTR(m_brush))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL points AS CONST GpPoint PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
+   SetLastError(GdipCreatePathGradientI(points, count, wrapMode, @m_brush))
    GDIP_DP("m_brush: " & WSTR(m_brush))
 END CONSTRUCTOR
 ' =====================================================================================
