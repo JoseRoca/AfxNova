@@ -1365,25 +1365,28 @@ END OPERATOR
 TYPE GdiPlusRegion
 Public:
    m_Region AS GpRegion PTR
-   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL region AS GpRegion PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL rcf AS GpRectF PTR)
    DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR)
    DECLARE CONSTRUCTOR (BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight AS SINGLE)
    DECLARE CONSTRUCTOR (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidth AS INT_, BYVAL nHeight AS INT_)
-   DECLARE CONSTRUCTOR (BYVAL path AS GpPath PTR)
    DECLARE CONSTRUCTOR (BYVAL regionData AS BYTE PTR, BYVAL nSize AS LONG)
    DECLARE CONSTRUCTOR (BYVAL hRgn AS HRGN)
    DECLARE DESTRUCTOR
+   DECLARE SUB FromPath (BYVAL pah AS GpPath PTR)
 END TYPE
 ' ========================================================================================
 
-' ========================================================================================
-' Constructors
-' ========================================================================================
-' ========================================================================================
-PRIVATE CONSTRUCTOR GdiPlusRegion
-   SetLastError(GdipCreateRegion(@m_Region))
+PRIVATE CONSTRUCTOR GdiPlusRegion (BYVAL region AS GpRegion PTR = NULL)
+   GDIP_DP(WSTR(region))
+   IF region THEN SetLastError(GdipCloneRegion(region, @m_Region))
 END CONSTRUCTOR
+' =====================================================================================
+
+' ========================================================================================
+'PRIVATE CONSTRUCTOR GdiPlusRegion
+'   SetLastError(GdipCreateRegion(@m_Region))
+'END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE CONSTRUCTOR GdiPlusRegion (BYVAL rcf AS GpRectF PTR)
@@ -1411,12 +1414,12 @@ PRIVATE CONSTRUCTOR GdiPlusRegion (BYVAL x AS INT_, BYVAL y AS INT_, BYVAL nWidt
    GDIP_DP("m_Region: " & WSTR(m_Region))
 END CONSTRUCTOR
 ' ========================================================================================
-' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusRegion (BYVAL path AS GpPath PTR)
-   SetLastError(GdipCreateRegionPath(path, @m_Region))
-   GDIP_DP("m_Region: " & WSTR(m_Region))
-END CONSTRUCTOR
-' =====================================================================================
+'' =====================================================================================
+'PRIVATE CONSTRUCTOR GdiPlusRegion (BYVAL path AS GpPath PTR)
+'   SetLastError(GdipCreateRegionPath(path, @m_Region))
+'   GDIP_DP("m_Region: " & WSTR(m_Region))
+'END CONSTRUCTOR
+'' =====================================================================================
 ' =====================================================================================
 PRIVATE CONSTRUCTOR GdiPlusRegion (BYVAL regionData AS BYTE PTR, BYVAL nSize AS LONG)
    SetLastError(GdipCreateRegionRgnData(regionData, nSize, @m_Region))
@@ -1444,6 +1447,15 @@ PRIVATE OPERATOR * (BYREF region AS GdiPlusRegion) AS GpRegion PTR
    RETURN region.m_Region
 END OPERATOR
 ' ========================================================================================
+' =====================================================================================
+' Creates a region from a path
+' A separate function is needed because using a constructor conflicts with the default one.
+' =====================================================================================
+PRIVATE SUB GdiPlusRegion.FromPath (BYVAL path AS GpPath PTR)
+   SetLastError(GdipCreateRegionPath(path, @m_Region))
+   GDIP_DP("m_Region: " & WSTR(m_Region))
+END SUB
+' =====================================================================================
 
 
 ' ########################################################################################
