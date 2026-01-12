@@ -395,8 +395,8 @@ TYPE GdiPlusPathGradientBrush
 Public:
    m_Brush AS GpPathGradientBrush PTR
    DECLARE CONSTRUCTOR (BYVAL path AS GpPath PTR)
-   DECLARE CONSTRUCTOR (BYVAL points AS CONST GpPointF PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
-   DECLARE CONSTRUCTOR (BYVAL points AS CONST GpPoint PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
+   DECLARE CONSTRUCTOR (BYVAL points AS CONST GpPointF PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode = WrapModeClamp)
+   DECLARE CONSTRUCTOR (BYVAL points AS CONST GpPoint PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode = WrapModeClamp)
    DECLARE DESTRUCTOR
 END TYPE
 ' ========================================================================================
@@ -412,13 +412,13 @@ END CONSTRUCTOR
 ' =====================================================================================
 ' Creates a path gradient brush
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL points AS CONST GpPointF PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
+PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL points AS CONST GpPointF PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode = WrapModeClamp)
    SetLastError(GdipCreatePathGradient(points, count, wrapMode, @m_brush))
    GDIP_DP("m_brush: " & WSTR(m_brush))
 END CONSTRUCTOR
 ' =====================================================================================
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL points AS CONST GpPoint PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode)
+PRIVATE CONSTRUCTOR GdiPlusPathGradientBrush (BYVAL points AS CONST GpPoint PTR, BYVAL count AS INT_, BYVAL wrapMode AS GpWrapMode = WrapModeClamp)
    SetLastError(GdipCreatePathGradientI(points, count, wrapMode, @m_brush))
    GDIP_DP("m_brush: " & WSTR(m_brush))
 END CONSTRUCTOR
