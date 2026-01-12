@@ -89,7 +89,7 @@ Public:
    m_CustomLineCap AS GpCustomLineCap PTR
    DECLARE CONSTRUCTOR (BYVAL customCap AS GpPath PTR)
    DECLARE CONSTRUCTOR (BYVAL fillPath AS GpPath PTR, BYVAL strokePath AS GpPath PTR, _
-           BYVAL baseCap AS GpLineCap = LinecapFLat, BYVAL baseInset AS SINGLE = 0.0)
+           BYVAL baseCap AS GpLineCap = LinecapFlat, BYVAL baseInset AS SINGLE = 0.0)
    DECLARE DESTRUCTOR
 END TYPE
 ' ========================================================================================
@@ -107,7 +107,7 @@ END CONSTRUCTOR
 ' Creates a CustomLineCap object from a fill path and a stroke path.
 ' =====================================================================================
 PRIVATE CONSTRUCTOR GdiPlusCustomLineCap (BYVAL fillPath AS GpPath PTR, BYVAL strokePath AS GpPath PTR, _
-BYVAL baseCap AS GpLineCap = LinecapFLat, BYVAL baseInset AS SINGLE = 0.0)
+BYVAL baseCap AS GpLineCap = LinecapFlat, BYVAL baseInset AS SINGLE = 0.0)
    SetLastError(GdipCreateCustomLineCap(fillPath, strokePath, baseCap, baseinset, @m_CustomLineCap))
    GDIP_DP("m_pCustomLineCap: " & WSTR(m_CustomLineCap))
 END CONSTRUCTOR
@@ -1311,7 +1311,7 @@ Public:
    m_Pen AS GpPen PTR
    DECLARE CONSTRUCTOR (BYVAL pen AS GpPen PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL colour AS ARGB, BYVAL nWidth AS SINGLE = 1.0, BYVAL unit AS GpUnit = UnitWorld)
-   DECLARE CONSTRUCTOR (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE = 1.0, BYVAL unit AS GpUnit = UnitWorld)
+   DECLARE CONSTRUCTOR (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE, BYVAL unit AS GpUnit = UnitWorld)
    DECLARE DESTRUCTOR
 END TYPE
 ' ========================================================================================
@@ -1335,8 +1335,8 @@ END CONSTRUCTOR
 ' Creates a Pen object that uses the attributes of a brush and a real number to set the
 ' width of this Pen object.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPen (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE = 1.0, BYVAL unit AS GpUnit = UnitWorld)
-   SetLastError(GdipCreatePen2(brush, unit, UnitWorld, @m_Pen))
+PRIVATE CONSTRUCTOR GdiPlusPen (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE, BYVAL unit AS GpUnit = UnitWorld)
+   SetLastError(GdipCreatePen2(brush, nWidth, unit, @m_Pen))
    GDIP_DP("m_Pen: " & WSTR(m_Pen))
 END CONSTRUCTOR
 ' =====================================================================================
