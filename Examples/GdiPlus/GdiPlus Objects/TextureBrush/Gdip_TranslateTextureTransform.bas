@@ -39,10 +39,11 @@ SUB Example_TranslateTextureTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
+
    DIM textureBrush AS GdiPlusTextureBrush = *image
-   GdipTranslateTextureTransform(*textureBrush, 30, 0, MatrixOrderAppend)
-   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
+   GdipTranslateTextureTransform(textureBrush, 30, 0, MatrixOrderAppend)
+   GdipFillEllipse(graphics, textureBrush, 0, 0, 400, 250)
 
 END SUB
 ' ========================================================================================

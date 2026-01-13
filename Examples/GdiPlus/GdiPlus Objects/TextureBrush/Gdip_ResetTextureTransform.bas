@@ -39,18 +39,18 @@ SUB Example_ResetTextureTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
    DIM textureBrush AS GdiPlusTextureBrush = *image
    GdipRotateTextureTransform(*textureBrush, 30, MatrixOrderPrepend)
 
    ' // Fill a rectangle with the transformed texture brush.
-   GdipFillEllipse(*graphics, *textureBrush, 100, 20, 200, 100)
+   GdipFillEllipse(graphics, textureBrush, 100, 20, 200, 100)
 
    ' // Reset the transformation matrix of this texture brush to the identity matrix.
-   GdipResetTextureTransform(*textureBrush)
+   GdipResetTextureTransform(textureBrush)
 
    ' // Fill a rectangle with the texture brush (no transformation).
-   GdipFillEllipse(*graphics, *textureBrush, 100, 140, 200, 100)
+   GdipFillEllipse(graphics, textureBrush, 100, 140, 200, 100)
 
 END SUB
 ' ========================================================================================

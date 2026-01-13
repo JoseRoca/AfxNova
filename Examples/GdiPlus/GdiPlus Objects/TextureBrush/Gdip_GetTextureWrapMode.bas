@@ -42,19 +42,20 @@ SUB Example_GetTextureWrapMode (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
+
    DIM textureBrush AS GdiPlusTextureBrush = *image
-   GdipFillRectangleI(*graphics, *textureBrush, 0, 0, 200, 200)
+   GdipFillRectangleI(graphics, textureBrush, 0, 0, 200, 200)
 
    ' // Get the brush's wrap mode.
    DIM wrapMode AS LONG
-   GdipGetTextureWrapMode(*textureBrush, @wrapMode)
+   GdipGetTextureWrapMode(textureBrush, @wrapMode)
 
    ' // Create a second texture brush with the same wrap mode.
    DIM image2 AS GdiPlusImage = "MyTexture.png"
-   image2.SetResolution(*graphics)
+   image2.SetResolution(graphics)
    DIM textureBrush2 AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image2, wrapMode)
-   GdipFillRectangle(*graphics, *textureBrush2, 200, 0, 200, 200)
+   GdipFillRectangle(graphics, textureBrush2, 200, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

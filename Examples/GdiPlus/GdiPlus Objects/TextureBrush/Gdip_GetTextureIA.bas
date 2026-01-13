@@ -40,7 +40,7 @@ SUB Example_GetTextureIA (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
 
    ' // Create image attributes with a color matrix (e.g., reduce brightness)
    DIM attr AS GdiPlusImageAttributes
@@ -52,10 +52,10 @@ SUB Example_GetTextureIA (BYVAL hdc AS HDC)
    DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, 10, 10, 55, 55, *attr)
 
    ' // Scale the texture brush to tile across the fill area
-   GdipSetTextureWrapMode(*textureBrush, WrapModeTile)
+   GdipSetTextureWrapMode(textureBrush, WrapModeTile)
 
    ' // Fill a rectangle with the texture brush
-   GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
+   GdipFillRectangle(graphics, textureBrush, 20, 20, 360, 210)
 
 END SUB
 ' ========================================================================================

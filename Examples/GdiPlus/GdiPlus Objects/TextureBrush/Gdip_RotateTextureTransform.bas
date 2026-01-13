@@ -39,11 +39,12 @@ SUB Example_RotateTextureTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
+
    DIM textureBrush AS GdiPlusTextureBrush = *image
-   GdipScaleTextureTransform(*textureBrush, 3, 1, MatrixOrderPrepend)
-   GdipRotateTextureTransform(*textureBrush, 30, MatrixOrderAppend)
-   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
+   GdipScaleTextureTransform(textureBrush, 3, 1, MatrixOrderPrepend)
+   GdipRotateTextureTransform(textureBrush, 30, MatrixOrderAppend)
+   GdipFillEllipse(graphics, textureBrush, 0, 0, 400, 250)
 
 END SUB
 ' ========================================================================================

@@ -39,14 +39,15 @@ SUB Example_GetTextureImage (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
+
    DIM textureBrush AS GdiPlusTextureBrush = *image
-   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 200, 150)
+   GdipFillEllipse(graphics, textureBrush, 0, 0, 200, 150)
 
    ' // Get the brush's image, and draw that image.
    DIM image2 AS GdiPlusImage
-   GdipGetTextureImage(*textureBrush, @image2)
-   GdipDrawImage(*graphics, *image2, 10, 160)
+   GdipGetTextureImage(textureBrush, @image2)
+   GdipDrawImage(graphics, image2, 10, 160)
 
 END SUB
 ' ========================================================================================

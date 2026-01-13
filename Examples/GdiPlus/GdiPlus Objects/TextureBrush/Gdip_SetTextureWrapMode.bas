@@ -39,10 +39,11 @@ SUB Example_SetTextureWrapMode (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
+
    DIM textureBrush AS GdiPlusTextureBrush =*image
-   GdipSetTextureWrapMode(*textureBrush, WrapModeTileFlipX)
-   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
+   GdipSetTextureWrapMode(textureBrush, WrapModeTileFlipX)
+   GdipFillEllipse(graphics, textureBrush, 0, 0, 400, 250)
 
 END SUB
 ' ========================================================================================

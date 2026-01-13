@@ -40,15 +40,15 @@ SUB Example_GdipGetTextureTransform (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
    DIM textureBrush AS GdiPlusTextureBrush = *image
-   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
+   GdipFillEllipse(graphics, textureBrush, 0, 0, 400, 250)
 
    ' // Obtain information about the texture brush.
    DIM matrix AS GdiPlusMatrix
    DIM elements(23) AS SINGLE   ' 6 * SIZEOF(SINGLE), i.e. 24 elements
-   GdipGetTextureTransform(*textureBrush, @matrix)
-   GdipGetMatrixElements(*matrix, @elements(0))
+   GdipGetTextureTransform(textureBrush, @matrix)
+   GdipGetMatrixElements(matrix, @elements(0))
 
    DIM j AS LONG
    FOR j = 0 TO 23

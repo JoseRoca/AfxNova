@@ -28,7 +28,7 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example creates a texture brush fills a rectangle.
+' The following example creates a texture brush and fills a rectangle.
 ' ========================================================================================
 SUB Example_CreateTexture (BYVAL hdc AS HDC)
 
@@ -39,12 +39,12 @@ SUB Example_CreateTexture (BYVAL hdc AS HDC)
 
    ' // Load the image and set the dpi resolution
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
 
    ' // Create a texture brush, and set its wrap mode.
    DIM textureBrush AS GdiPlusTextureBrush = *image
    ' // Fill a rectangle with the texture brush
-   GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
+   GdipFillRectangle(graphics, textureBrush, 20, 20, 360, 210)
 
 END SUB
 ' ========================================================================================

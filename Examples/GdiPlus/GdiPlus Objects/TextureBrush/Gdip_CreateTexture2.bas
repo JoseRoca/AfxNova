@@ -39,12 +39,12 @@ SUB Example_CreateTexture2 (BYVAL hdc AS HDC)
 
    ' // Load the image and set the dpi resolution
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
 
    ' // Create a texture brush, and set its wrap mode.
    DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, WrapModeTile, 5, 5, 55, 55)
    ' // Fill a rectangle with the etxture brush
-   GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
+   GdipFillRectangle(graphics, textureBrush, 20, 20, 360, 210)
 
 END SUB
 ' ========================================================================================

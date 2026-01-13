@@ -40,13 +40,13 @@ SUB Example_ScaleTextureTransform (BYVAL hdc AS HDC)
 
    ' // Load the image and set the resolution
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
 
    ' // Create a matrix
    DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(2, 0, 0, 1, 0, 0)   ' // Horizontal stretch
    DIM textureBrush AS GdiPlusTextureBrush = *image
-   GdipSetTextureTransform(*textureBrush, @matrix)
-   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
+   GdipSetTextureTransform(textureBrush, @matrix)
+   GdipFillEllipse(graphics, textureBrush, 0, 0, 400, 250)
 
 END SUB
 ' ========================================================================================

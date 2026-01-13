@@ -42,18 +42,18 @@ SUB Example_MultiplyTextureTransform (BYVAL hdc AS HDC)
 
    ' // Load the image and set the dpi resolution
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   image.SetResolution(*graphics)
+   image.SetResolution(graphics)
 
    ' // Create a texture brush, and set its wrap mode.
    DIM textureBrush AS GdiPlusTextureBrush = *image
    ' // Rotate the image
-   GdipRotateTextureTransform(*textureBrush, 30, MatrixOrderPrepend)
+   GdipRotateTextureTransform(textureBrush, 30, MatrixOrderPrepend)
    ' // Horizontal stretch
    DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(3, 0, 0, 1, 0, 0)
    ' // Stretch the image
-   GdipMultiplyTextureTransform(*textureBrush, *matrix, MatrixOrderAppend)
+   GdipMultiplyTextureTransform(textureBrush, matrix, MatrixOrderAppend)
    ' // Fill a rectangle with the etxture brush
-   GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
+   GdipFillRectangle(graphics, textureBrush, 20, 20, 360, 210)
 
 END SUB
 ' ========================================================================================
