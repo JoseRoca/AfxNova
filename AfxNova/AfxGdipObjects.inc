@@ -716,6 +716,7 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL inputBitmap AS GpBitmap PTR, BYVAL effect AS GpEffect PTR)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR CAST () AS GpBitmap PTR
+   DECLARE SUB SetResolution (BYVAL graphics AS GpGraphics PTR, BYVAL dpiX AS SINGLE = 0, BYVAL dpiY AS SINGLE = 0)
 END TYPE
 ' ========================================================================================
 
@@ -861,6 +862,15 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusBitmap.CAST () AS GpBitmap PTR
    RETURN m_Bitmap
 END OPERATOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB GdiPlusBitmap.SetResolution (BYVAL graphics AS GpGraphics PTR, BYVAL dpiX AS SINGLE = 0, BYVAL dpiY AS SINGLE = 0)
+   IF dpiX = 0 AND dpiY = 0 THEN
+      GdipGetDpiX(graphics, @dpiX)
+      GdipGetDpiY(graphics, @dpiY)
+   END IF
+   SetLastError(GdipBitmapSetResolution(m_Bitmap, dpiX, dpiY))
+END SUB
 ' ========================================================================================
 
 
