@@ -34,35 +34,27 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GdipGetTextureTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
-   DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, WrapModeTile)
-   status = GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
+   image.SetResolution(*graphics)
+   DIM textureBrush AS GdiPlusTextureBrush = *image
+   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
 
    ' // Obtain information about the texture brush.
-   DIM matrix AS GpMatrix PTR
-   status = GdipCreateMatrix(@matrix)
+   DIM matrix AS GdiPlusMatrix
    DIM elements(23) AS SINGLE   ' 6 * SIZEOF(SINGLE), i.e. 24 elements
-
-   status = GdipGetTextureTransform(*textureBrush, @matrix)
-   status = GdipGetMatrixElements(matrix, @elements(0))
+   GdipGetTextureTransform(*textureBrush, @matrix)
+   GdipGetMatrixElements(*matrix, @elements(0))
 
    DIM j AS LONG
    FOR j = 0 TO 23
       ' // Inspect or use the value in elements[j].
       OutputDebugStringW WSTR(elements(j))
    NEXT
-
-   ' // Cleanup
-   IF matrix THEN GdipDeleteMatrix(matrix)
 
 END SUB
 ' ========================================================================================

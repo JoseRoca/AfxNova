@@ -36,28 +36,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetTextureWrapMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
-   DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, WrapModeTile)
-   status = GdipFillRectangleI(*graphics, *textureBrush, 0, 0, 200, 200)
+   image.SetResolution(*graphics)
+   DIM textureBrush AS GdiPlusTextureBrush = *image
+   GdipFillRectangleI(*graphics, *textureBrush, 0, 0, 200, 200)
 
    ' // Get the brush's wrap mode.
    DIM wrapMode AS LONG
-   status = GdipGetTextureWrapMode(*textureBrush, @wrapMode)
+   GdipGetTextureWrapMode(*textureBrush, @wrapMode)
 
    ' // Create a second texture brush with the same wrap mode.
    DIM image2 AS GdiPlusImage = "MyTexture.png"
-   status = GdipBitmapSetResolution(*image2, graphics.dpiX, graphics.dpiY)
+   image2.SetResolution(*graphics)
    DIM textureBrush2 AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image2, wrapMode)
-   status = GdipFillRectangle(*graphics, *textureBrush2, 200, 0, 200, 200)
+   GdipFillRectangle(*graphics, *textureBrush2, 200, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

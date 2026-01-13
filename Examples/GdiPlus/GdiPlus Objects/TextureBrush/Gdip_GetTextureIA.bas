@@ -34,32 +34,28 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetTextureIA (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(*graphics)
 
    ' // Create image attributes with a color matrix (e.g., reduce brightness)
    DIM attr AS GdiPlusImageAttributes
    DIM clrMatrix(4, 4) AS SINGLE = {{0.5, 0.0, 0.0, 0.0, 0.0}, {0.0, 0.5, 0.0, 0.0, 0.0}, _
        {0.0, 0.0, 0.5, 0.0, 0.0}, {0.0, 0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 0.0, 1.0}}
-   status = GdipSetImageAttributesColorMatrix(*attr, ColorAdjustTypeDefault, 1, cast(ColorMatrix PTR, @clrMatrix(0, 0)), 0, 0)
+   GdipSetImageAttributesColorMatrix(*attr, ColorAdjustTypeDefault, 1, cast(ColorMatrix PTR, @clrMatrix(0, 0)), 0, 0)
 
    ' // Create texture brush using a portion of the image and the attributes
-   DIM rcf AS GpRectF = (10, 10, 55, 55)
-   DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, @rcf, *attr)
+   DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, 10, 10, 55, 55, *attr)
 
    ' // Scale the texture brush to tile across the fill area
-   status = GdipSetTextureWrapMode(*textureBrush, WrapModeTile)
+   GdipSetTextureWrapMode(*textureBrush, WrapModeTile)
 
    ' // Fill a rectangle with the texture brush
-   status = GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
+   GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
 
 END SUB
 ' ========================================================================================

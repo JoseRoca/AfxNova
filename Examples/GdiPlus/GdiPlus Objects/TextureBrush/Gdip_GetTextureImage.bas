@@ -10,7 +10,7 @@
 ' ########################################################################################
 
 #define _WIN32_WINNT &h0602
-'#define _GDIP_DEBUG_ 1
+#define _GDIP_DEBUG_ 1
 #INCLUDE ONCE "AfxNova/AfxGdipObjects.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -33,26 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetTextureImage (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
-   DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, WrapModeTile)
-   status = GdipFillEllipse(*graphics, *textureBrush, 0, 0, 200, 150)
+   image.SetResolution(*graphics)
+   DIM textureBrush AS GdiPlusTextureBrush = *image
+   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 200, 150)
 
    ' // Get the brush's image, and draw that image.
-   DIM image2 AS GpImage PTR
-   status = GdipGetTextureImage(*textureBrush, @image2)
-   status = GdipDrawImage(*graphics, image2, 10, 160)
-
-   ' // Cleanup
-   IF image2 THEN GdipDisposeImage(image2)
+   DIM image2 AS GdiPlusImage
+   GdipGetTextureImage(*textureBrush, @image2)
+   GdipDrawImage(*graphics, *image2, 10, 160)
 
 END SUB
 ' ========================================================================================

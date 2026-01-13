@@ -32,24 +32,19 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateTexture2 (BYVAL hdc AS HDC)
 
-   DIM hStatus AS LONG
-
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load the image and set the dpi resolution
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(*graphics)
 
    ' // Create a texture brush, and set its wrap mode.
    DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, WrapModeTile, 5, 5, 55, 55)
    ' // Fill a rectangle with the etxture brush
-   status = GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
+   GdipFillRectangle(*graphics, *textureBrush, 20, 20, 360, 210)
 
 END SUB
 ' ========================================================================================

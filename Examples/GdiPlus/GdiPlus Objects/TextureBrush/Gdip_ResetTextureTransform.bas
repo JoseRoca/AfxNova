@@ -33,27 +33,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetTextureTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
-   DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, WrapModeTile)
-   status = GdipRotateTextureTransform(*textureBrush, 30, MatrixOrderPrepend)
+   image.SetResolution(*graphics)
+   DIM textureBrush AS GdiPlusTextureBrush = *image
+   GdipRotateTextureTransform(*textureBrush, 30, MatrixOrderPrepend)
 
    ' // Fill a rectangle with the transformed texture brush.
-   status = GdipFillEllipse(*graphics, *textureBrush, 100, 20, 200, 100)
+   GdipFillEllipse(*graphics, *textureBrush, 100, 20, 200, 100)
 
    ' // Reset the transformation matrix of this texture brush to the identity matrix.
-   status = GdipResetTextureTransform(*textureBrush)
+   GdipResetTextureTransform(*textureBrush)
 
    ' // Fill a rectangle with the texture brush (no transformation).
-   status = GdipFillEllipse(*graphics, *textureBrush, 100, 140, 200, 100)
+   GdipFillEllipse(*graphics, *textureBrush, 100, 140, 200, 100)
 
 END SUB
 ' ========================================================================================

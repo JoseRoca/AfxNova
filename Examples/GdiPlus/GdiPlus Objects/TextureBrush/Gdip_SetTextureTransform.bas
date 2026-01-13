@@ -33,27 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ScaleTextureTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
+   ' // Load the image and set the resolution
    DIM image AS GdiPlusImage = "HouseAndTree.gif"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(*graphics)
 
    ' // Create a matrix
-   DIM matrix AS GpMatrix PTR
-   status = GdipCreateMatrix2(2, 0, 0, 1, 0, 0, matrix)   ' // Horizontal stretch
-
-   DIM textureBrush AS GdiPlusTextureBrush = GdiPlusTextureBrush(*image, WrapModeTile)
-   status = GdipSetTextureTransform(*textureBrush, @matrix)
-   status = GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
-
-   ' // Cleanup
-   IF matrix THEN GdipDeleteMatrix(matrix)
+   DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(2, 0, 0, 1, 0, 0)   ' // Horizontal stretch
+   DIM textureBrush AS GdiPlusTextureBrush = *image
+   GdipSetTextureTransform(*textureBrush, @matrix)
+   GdipFillEllipse(*graphics, *textureBrush, 0, 0, 400, 250)
 
 END SUB
 ' ========================================================================================
