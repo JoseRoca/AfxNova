@@ -451,6 +451,8 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode = WrapModeTile)
    DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRectF PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRect PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRect PTR)
    DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstRect AS GpRectF PTR)
    DECLARE CONSTRUCTOR (BYVAL image AS GpImage PTR, BYVAL nWrapMode AS WrapMode, BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE)
@@ -480,6 +482,18 @@ END CONSTRUCTOR
 ' =====================================================================================
 PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL dstRect AS GpRect PTR, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
    SetLastError(GdipCreateTextureIAI(image, imageAttributes, dstRect->x, dstRect->y, dstRect->Width, dstRect->Height, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL dstX AS SINGLE, BYVAL dstY AS SINGLE, BYVAL dstWidth AS SINGLE, BYVAL dstHeight AS SINGLE, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   SetLastError(GdipCreateTextureIA(image, imageAttributes, dstX, dstY, dstWidth, dstHeight, @m_Texture))
+   GDIP_DP("m_Texture: " & WSTR(m_Texture))
+END CONSTRUCTOR
+' =====================================================================================
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusTextureBrush (BYVAL image AS GpImage PTR, BYVAL dstX AS INT_, BYVAL dstY AS INT_, BYVAL dstWidth AS INT_, BYVAL dstHeight AS INT_, BYVAL imageAttributes AS GpImageAttributes PTR = NULL)
+   SetLastError(GdipCreateTextureIA(image, imageAttributes, dstX, dstY, dstWidth, dstHeight, @m_Texture))
    GDIP_DP("m_Texture: " & WSTR(m_Texture))
 END CONSTRUCTOR
 ' =====================================================================================
@@ -538,7 +552,9 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL pwszFileName AS WSTRING PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
    DECLARE CONSTRUCTOR (BYVAL stream AS IStream PTR, BYVAL useEmbeddedColorManagement AS BOOLEAN = FALSE)
    DECLARE CONSTRUCTOR (BYVAL hInst AS HINSTANCE, BYREF wszImageName AS WSTRING)
+   DECLARE OPERATOR @ () AS GpImage PTR PTR
    DECLARE DESTRUCTOR
+   DECLARE SUB SetResolution (BYVAL graphics AS GpGraphics PTR, BYVAL dpiX AS SINGLE = 0, BYVAL dpiY AS SINGLE = 0)
 END TYPE
 ' ========================================================================================
 
@@ -600,6 +616,22 @@ END DESTRUCTOR
 PRIVATE OPERATOR * (BYREF img AS GdiPlusImage) AS GpImage PTR
    RETURN img.m_Image
 END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of a pointer to the GpImage object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusImage.@ () AS GpImage PTR PTR
+   RETURN @m_Image
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB GdiPlusImage.SetResolution (BYVAL graphics AS GpGraphics PTR, BYVAL dpiX AS SINGLE = 0, BYVAL dpiY AS SINGLE = 0)
+   IF dpiX = 0 AND dpiY = 0 THEN
+      GdipGetDpiX(graphics, @dpiX)
+      GdipGetDpiY(graphics, @dpiY)
+   END IF
+   SetLastError(GdipBitmapSetResolution(m_Image, dpiX, dpiY))
+END SUB
 ' ========================================================================================
 
 
@@ -1205,6 +1237,7 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL rcf AS GpRectF PTR, BYVAL dstplg AS GpPointF PTR)
    DECLARE CONSTRUCTOR (BYVAL rc AS GpRect PTR, BYVAL dstplg AS GpPoint PTR)
    DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpMatrix PTR PTR
 END TYPE
 ' ========================================================================================
 
@@ -1259,6 +1292,13 @@ END DESTRUCTOR
 ' ========================================================================================
 PRIVATE OPERATOR * (BYREF matrix AS GdiPlusMatrix) AS GpMatrix PTR
    RETURN matrix.m_Matrix
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of a pointer to the GpImage object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusMatrix.@ () AS GpMatrix PTR PTR
+   RETURN @m_Matrix
 END OPERATOR
 ' ========================================================================================
 
@@ -1463,7 +1503,7 @@ END SUB
 ' ########################################################################################
 
 ' ========================================================================================
-TYPE GdiPlusSringFormat
+TYPE GdiPlusStringFormat
 Public:
    m_StringFormat AS GpStringFormat PTR
    DECLARE CONSTRUCTOR (BYVAL stringFormat AS GpStringFormat PTR = NULL)
@@ -1475,7 +1515,7 @@ END TYPE
 ' =====================================================================================
 ' Creates and initializes an StringFormat object from another StringFormat object.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusSringFormat (BYVAL stringFormat AS GpStringFormat PTR = NULL)
+PRIVATE CONSTRUCTOR GdiPlusStringFormat (BYVAL stringFormat AS GpStringFormat PTR = NULL)
    GDIP_DP(WSTR(stringFormat))
    IF stringFormat THEN SetLastError(GdipCloneStringFormat(stringFormat, @m_StringFormat))
 END CONSTRUCTOR
@@ -1483,14 +1523,14 @@ END CONSTRUCTOR
 ' =====================================================================================
 ' Creates a StringFormat object based on string format flags and a language.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusSringFormat (BYVAL formatFlags AS INT_ = 0, BYVAL language AS LANGID = LANG_NEUTRAL)
+PRIVATE CONSTRUCTOR GdiPlusStringFormat (BYVAL formatFlags AS INT_ = 0, BYVAL language AS LANGID = LANG_NEUTRAL)
    SetLastError(GdipCreateStringFormat(formatFlags, language, @m_StringFormat))
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
 ' Cleanup
 ' ========================================================================================
-PRIVATE DESTRUCTOR GdiPlusSringFormat
+PRIVATE DESTRUCTOR GdiPlusStringFormat
    GDIP_DP("m_StringFormat: " & WSTR(m_StringFormat))
    IF m_StringFormat THEN SetLastError(GdipDeleteStringFormat(m_StringFormat))
 END DESTRUCTOR
@@ -1498,7 +1538,7 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Returns a pointer to the GpStringFormat object
 ' ========================================================================================
-PRIVATE OPERATOR * (BYREF fmt AS GdiPlusSringFormat) AS GpStringFormat PTR
+PRIVATE OPERATOR * (BYREF fmt AS GdiPlusStringFormat) AS GpStringFormat PTR
    RETURN fmt.m_StringFormat
 END OPERATOR
 ' ========================================================================================
