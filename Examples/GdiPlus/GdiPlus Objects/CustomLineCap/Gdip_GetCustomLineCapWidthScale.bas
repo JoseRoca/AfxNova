@@ -33,36 +33,31 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetWidthScale (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pts(0 TO 2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @pts(0), 3)
+   GdipAddPathLine2(capPath, @pts(0), 3)
 
   ' // Create a CustomLineCap
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapRound)
 
    ' // // Set the width scale for custCap.
-   status = GdipSetCustomLineCapWidthScale(*custCap, 3)
+   GdipSetCustomLineCapWidthScale(custCap, 3)
 
    ' // Get the width scale from custCap
    DIM widthScale AS SINGLE
-   status = GdipGetCustomLineCapWidthScale(*custCap, @widthScale)
+   GdipGetCustomLineCapWidthScale(custCap, @widthScale)
 
    ' // If the width scale is 3, assign custCap as the end cap of a Pen object and draw a line
-   IF widthScale = 3.0 THEN
-      DIM widthScalePen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 1)
-      status = GdipSetPenCustomEndCap(*widthScalePen, *custCap)
-      status = GdipDrawLine(*graphics, *widthScalePen, 0, 0, 200, 200)
-   END IF
-
+   DIM widthScalePen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 1)
+   GdipSetPenCustomEndCap(widthScalePen, custCap)
+   GdipDrawLine(graphics, widthScalePen, 0, 0, 200, 200)
+   
 END SUB
 ' ========================================================================================
 

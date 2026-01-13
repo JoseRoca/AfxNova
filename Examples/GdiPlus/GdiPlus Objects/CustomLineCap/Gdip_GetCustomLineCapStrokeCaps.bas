@@ -34,37 +34,34 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStrokeCaps (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pts(0 TO 2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @pts(0), 3)
+   GdipAddPathLine2(*capPath, @pts(0), 3)
 
    ' // Create a CustomLineCap object
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapRound)
 
    ' // Set the start and end stroke caps
-   status = GdipSetCustomLineCapStrokeCaps(*custCap, LineCapTriangle, LineCapRound)
+   GdipSetCustomLineCapStrokeCaps(*custCap, LineCapTriangle, LineCapRound)
 
    ' // Get the stroke caps from custCap
    DIM startStrokeCap AS LineCap, endStrokeCap AS LineCap
-   status = GdipGetCustomLineCapStrokeCaps(*custCap, @startStrokeCap, @endStrokeCap)
+   GdipGetCustomLineCapStrokeCaps(custCap, @startStrokeCap, @endStrokeCap)
 
    ' // Create a black Pen with width 15.2
    DIM strokeCapPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 15.2)
 
    ' // Set the start and end caps on the pen
-   status = GdipSetPenLineCap197819(*strokeCapPen, startStrokeCap, endStrokeCap, DashCapFlat)
+   GdipSetPenLineCap197819(strokeCapPen, startStrokeCap, endStrokeCap, DashCapFlat)
 
    ' // Draw a line using the pen
-   status = GdipDrawLine(*graphics, *strokeCapPen, 100, 100, 300, 100)
+   GdipDrawLine(graphics, strokeCapPen, 100, 100, 300, 100)
 
 END SUB
 ' ========================================================================================

@@ -33,42 +33,39 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStrokeJoin (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pts(0 TO 2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @pts(0), 3)
+   GdipAddPathLine2(*capPath, @pts(0), 3)
 
    ' // Create a CustomLineCap object
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapRound)
 
    ' // Set the stroke join style
-   status = GdipSetCustomLineCapStrokeJoin(*custCap, LineJoinBevel)
+   GdipSetCustomLineCapStrokeJoin(custCap, LineJoinBevel)
 
    ' // Get the stroke join from custCap
    DIM strokeJoin AS LineJoin
-   status = GdipGetCustomLineCapStrokeJoin(*custCap, @strokeJoin)
+   GdipGetCustomLineCapStrokeJoin(custCap, @strokeJoin)
 
    ' // Create a red Pen with width 15.1
    DIM strokeJoinPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 15.1)
 
    ' // Set the line join style on the pen
-   status = GdipSetPenLineJoin(*strokeJoinPen, strokeJoin)
+   GdipSetPenLineJoin(strokeJoinPen, strokeJoin)
 
    ' // Create a path with two joined lines
    DIM joinPath AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathLine(*joinPath, 10, 10, 10, 200)
-   status = GdipAddPathLine(*joinPath, 10, 200, 200, 200)
+   GdipAddPathLine(joinPath, 10, 10, 10, 200)
+   GdipAddPathLine(joinPath, 10, 200, 200, 200)
 
    ' // Draw the path using the pen
-   status = GdipDrawPath(*graphics, *strokeJoinPen, *joinPath)
+   GdipDrawPath(graphics, strokeJoinPen, joinPath)
 
 END SUB
 ' ========================================================================================

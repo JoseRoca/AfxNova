@@ -34,18 +34,15 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_Clone (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pts(0 TO 2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @pts(0), 3)
+   GdipAddPathLine2(capPath, @pts(0), 3)
 
    ' // Create the first CustomLineCap object
    DIM firstCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath)
@@ -57,10 +54,10 @@ SUB Example_Clone (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_VIOLET, 1)
 
    ' // Assign the cloned cap as the end cap of the pen
-   status = GdipSetPenCustomEndCap(*pen, *secondCap)
+   GdipSetPenCustomEndCap(pen, secondCap)
 
    ' // Draw a line using the pen
-   status = GdipDrawLine(*graphics, *pen, 0, 0, 100, 100)
+   GdipDrawLine(graphics, pen, 0, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

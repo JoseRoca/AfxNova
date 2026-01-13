@@ -33,29 +33,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetWidthScale (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it.
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pointsf(2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @PointsF(0), 3)
+   GdipAddPathLine2(capPath, @PointsF(0), 3)
 
   ' // Create a CustomLineCap
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapFlat)
 
    ' // // Set the width scale for custCap.
-   status = GdipSetCustomLineCapWidthScale(*custCap, 3)
+   GdipSetCustomLineCapWidthScale(custCap, 3)
 
    ' // Assign custCap to a Pen object and draw a line.
    DIM widthScalePen AS GdiPlusPen = GdiPlusPen(ARGB_VIOLET, 1.7)
-   status = GdipSetPenCustomEndCap(*widthScalePen, *custCap)
-   status = GdipDrawLine(*graphics, *widthScalePen, 0, 0, 200, 200)
+   GdipSetPenCustomEndCap(widthScalePen, custCap)
+   GdipDrawLine(graphics, widthScalePen, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

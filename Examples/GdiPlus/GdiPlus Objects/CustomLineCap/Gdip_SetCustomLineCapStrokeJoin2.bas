@@ -33,33 +33,30 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetStrokeJoin (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pts(0 TO 2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @pts(0), 3)
+   GdipAddPathLine2(capPath, @pts(0), 3)
 
    ' // Create a CustomLineCap object with base cap LineCapRound
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapRound)
 
    ' // Set the stroke join style to LineJoinBevel
-   status = GdipSetCustomLineCapStrokeJoin(*custCap, LineJoinBevel)
+   GdipSetCustomLineCapStrokeJoin(*custCap, LineJoinBevel)
 
    ' // Create an orange Pen with width 5.0
    DIM strokeJoinPen AS GdiPlusPen = GdiPlusPen(GDIP_ARGB(255, 200, 150, 0), 5.0)
 
    ' // Assign the custom cap as the end cap of the pen
-   status = GdipSetPenCustomEndCap(*strokeJoinPen, *custCap)
+   GdipSetPenCustomEndCap(strokeJoinPen, custCap)
 
    ' // Draw a line using the pen
-   status = GdipDrawLine(*graphics, *strokeJoinPen, 0, 0, 200, 200)
+   GdipDrawLine(graphics, strokeJoinPen, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

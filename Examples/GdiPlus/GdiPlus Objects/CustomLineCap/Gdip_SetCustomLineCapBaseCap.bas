@@ -33,33 +33,30 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetBaseCap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pts(0 TO 2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @pts(0), 3)
+   GdipAddPathLine2(capPath, @pts(0), 3)
 
    ' // Create a CustomLineCap object
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapFlat)
 
    ' // Set the base cap style to LineCapRound
-   status = GdipSetCustomLineCapBaseCap(*custCap, LineCapRound)
+   GdipSetCustomLineCapBaseCap(custCap, LineCapRound)
 
    ' // Create a blue Pen with width 5.3
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 5.3)
 
    ' // Assign the custom cap as the end cap of the pen
-   status = GdipSetPenCustomEndCap(*pen, *custCap)
+   GdipSetPenCustomEndCap(pen, custCap)
 
    ' // Draw a line using the pen
-   status = GdipDrawLine(*graphics, *pen, 10, 10, 200, 200)
+   GdipDrawLine(graphics, pen, 10, 10, 200, 200)
 
 END SUB
 ' ========================================================================================

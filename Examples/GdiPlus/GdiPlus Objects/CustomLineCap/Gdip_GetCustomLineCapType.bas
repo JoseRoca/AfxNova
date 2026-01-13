@@ -35,45 +35,42 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_LineCapType (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
-   ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create an AdjustableArrowCap that is filled.
    DIM arrowCapStart AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 10, TRUE)
    ' // Adjust to DPI by setting the scale width
-   status = GdipSetCustomLineCapWidthScale(*arrowCapStart, dpiRatio)
+   GdipSetCustomLineCapWidthScale(arrowCapStart, dpiRatio)
 
    ' // Get the type of CustomLineCap
    ' // It will return 1 (CustomLineCapTypeAdjustableArrow)
    DIM nType AS CustomLineCapType
-   status = GdipGetCustomLineCapType(*arrowCapStart, @nType)
+   GdipGetCustomLineCapType(arrowCapStart, @nType)
    AfxMsg "arrowCapStart type = " & WSTR(nType)
 
    ' // Create an AdjustableArrowCap that is not filled.
    DIM arrowCapEnd AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(15, 15, FALSE)
    ' // Adjust to DPI by setting the scale width
-   status = GdipSetCustomLineCapWidthScale(*arrowCapEnd, dpiRatio)
+   GdipSetCustomLineCapWidthScale(arrowCapEnd, dpiRatio)
 
    ' // Get the type of CustomLineCap
    ' // It will return 1 (CustomLineCapTypeAdjustableArrow)
-   status = GdipGetCustomLineCapType(*arrowCapEnd, @nType)
+   GdipGetCustomLineCapType(arrowCapEnd, @nType)
    AfxMsg "arrowCapEnd type = " & WSTR(nType)
 
    ' // Create a Pen
    DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
 
    ' Assign arrowCapStart as the start cap.
-   status = GdipSetPenCustomStartCap(*arrowPen, *arrowCapStart)
+   GdipSetPenCustomStartCap(arrowPen, arrowCapStart)
    ' Assign arrowCapEnd as the end cap.
-   status = GdipSetPenCustomEndCap(*arrowPen, *arrowCapEnd)
+   GdipSetPenCustomEndCap(arrowPen, arrowCapEnd)
 
    ' // Draw a line using arrowPen.
-   status = GdipDrawLine(*graphics, *arrowPen, 0, 0, 100, 100)
+   GdipDrawLine(graphics, arrowPen, 0, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

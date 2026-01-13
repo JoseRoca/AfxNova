@@ -33,25 +33,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetBaseInset (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path and add two lines to it
    DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
    DIM pts(0 TO 2) AS GpPointF = {(-15, -15), (0, 0), (15, -15)}
-   status = GdipAddPathLine2(*capPath, @pts(0), 3)
+   GdipAddPathLine2(*capPath, @pts(0), 3)
 
    ' // Create a CustomLineCap with a base cap set to LineCapRound and baseInset = 5
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapRound, 5)
 
    ' // Get the base inset from custCap
    DIM baseInset AS SINGLE
-   status = GdipGetCustomLineCapBaseInset(*custCap, @baseInset)
+   GdipGetCustomLineCapBaseInset(custCap, @baseInset)
 
    ' // Create a second CustomLineCap using the same baseInset
    DIM insetCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath, LineCapRound, baseInset)
@@ -60,10 +57,10 @@ SUB Example_GetBaseInset (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 5)
 
    ' // Assign insetCap as the custom end cap
-   status = GdipSetPenCustomEndCap(*pen, *insetCap)
+   GdipSetPenCustomEndCap(pen, insetCap)
 
    ' // Draw a line using the pen
-   status = GdipDrawLine(*graphics, *pen, 10, 10, 200, 200)
+   GdipDrawLine(graphics, pen, 10, 10, 200, 200)
 
 END SUB
 ' ========================================================================================
