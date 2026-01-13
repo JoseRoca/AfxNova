@@ -34,18 +34,16 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_Gdip_RedEyeCorrectionEffect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create a bitmap object from a .jpg file
    DIM bmp AS GdiPlusBitmap = "RedEyes.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*bmp, graphics.dpiX, graphics.dpiY)
+   bmp.SetResolution(graphics)
 
    ' // Create a red eyes correction effect
    DIM effect AS GdiPlusEffect = RedEyeCorrectionEffectGuid
@@ -68,13 +66,13 @@ SUB Example_Gdip_RedEyeCorrectionEffect (BYVAL hdc AS HDC)
    ' // Calculate the size of the paameters
    DIM paramsSize AS UINT = SIZEOF(RedEyeCorrectionParams) + redeyeParams.numberOfAreas * SIZEOF(RECT)
    ' // Set the parameters
-   status = GdipSetEffectParameters(*effect, @redeyeParams, paramsSize)
+   GdipSetEffectParameters(effect, @redeyeParams, paramsSize)
 
    ' // Apply effect
-   status = GdipBitmapApplyEffect(*bmp, *effect, NULL, FALSE, NULL, NULL)
+   GdipBitmapApplyEffect(bmp, effect, NULL, FALSE, NULL, NULL)
 
    ' // Draw the image
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

@@ -32,18 +32,15 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetHistogram (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM bmp AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*bmp, graphics.dpiX, graphics.dpiY)
+   bmp.SetResolution(graphics)
 
    ' Get histogram size
    DIM entries AS UINT
@@ -56,7 +53,7 @@ SUB Example_GetHistogram (BYVAL hdc AS HDC)
    DIM alpha(entries - 1) AS UINT
 
    ' Extract histograms
-   GdipBitmapGetHistogram(*bmp, HistogramFormatARGB, entries, @red(0), @green(0), @blue(0), @alpha(0))
+   GdipBitmapGetHistogram(bmp, HistogramFormatARGB, entries, @red(0), @green(0), @blue(0), @alpha(0))
 
    ' Example: print peak red value
    DIM maxRed AS UINT = 0
@@ -66,7 +63,7 @@ SUB Example_GetHistogram (BYVAL hdc AS HDC)
    AfxMsg ("Max red intensity count: " & WSTR(maxRed))
 
    ' // Draw the image
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

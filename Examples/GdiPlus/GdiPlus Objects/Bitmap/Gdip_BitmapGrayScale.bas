@@ -32,18 +32,15 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GrayScale (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM bmp AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*bmp, graphics.dpiX, graphics.dpiY)
+   bmp.SetResolution(graphics)
 
    ' // Create grayscale matrix
    DIM grayMatrix(0 TO 4, 0 TO 4) AS SINGLE = {{0.3, 0.3, 0.3, 0.0, 0.0}, _
@@ -55,11 +52,11 @@ SUB Example_GrayScale (BYVAL hdc AS HDC)
    ' // Create effect
    DIM effect AS GdiPlusEffect = ColorMatrixEffectGuid
    ' // Set parameters
-   status = GdipSetEffectParameters(*effect, @grayMatrix(0, 0), array_size)
+   GdipSetEffectParameters(effect, @grayMatrix(0, 0), array_size)
    ' // Apply effect to the whole image
-   status = GdipBitmapApplyEffect(*bmp, *effect, NULL, FALSE, NULL, NULL)
+   GdipBitmapApplyEffect(bmp, effect, NULL, FALSE, NULL, NULL)
    ' // Draw the image
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

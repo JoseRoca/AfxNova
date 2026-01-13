@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateBitmapFromHICON  (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load a system icon (e.g., information icon)
    DIM hIcon AS HICON = LoadIcon(NULL, IDI_INFORMATION)
@@ -47,7 +44,7 @@ SUB Example_CreateBitmapFromHICON  (BYVAL hdc AS HDC)
    DIM bmp AS GdiPlusBitmap = hIcon
 
    ' // Draw the bitmap
-   status = GdipDrawImage(*graphics, *bmp, 10, 10)
+   GdipDrawImage(graphics, bmp, 10, 10)
 
 END SUB
 ' ========================================================================================

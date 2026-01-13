@@ -33,26 +33,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloneArea (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM myBitmap AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*myBitmap, graphics.dpiX, graphics.dpiY)
+   myBitmap.SetResolution(graphics)
 
    ' // Get the value of a pixel from myBitmap.
    DIM pixelColor AS ARGB
-   status = GdipBitmapGetPixel(*myBitmap, 50, 50, @pixelColor)
+   GdipBitmapGetPixel(myBitmap, 50, 50, @pixelColor)
 
    ' // Fill a rectangle with the pixel color.
    DIM solidBrush AS GdiPlusSolidBrush = pixelColor
-   status = GdipFillRectangle(*graphics, *solidBrush, 10, 10, 100, 100)
+   GdipFillRectangle(graphics, solidBrush, 10, 10, 100, 100)
 
 END SUB
 ' ========================================================================================

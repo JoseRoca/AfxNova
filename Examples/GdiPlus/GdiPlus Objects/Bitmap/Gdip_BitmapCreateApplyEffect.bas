@@ -32,18 +32,15 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateBitmapWithApplyEffect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM srcBitmap AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*srcBitmap, graphics.dpiX, graphics.dpiY)
+   srcBitmap.SetResolution(graphics)
 
    ' // Create the tint effect
    DIM effect AS GdiPlusEffect = TintEffectGuid
@@ -52,17 +49,17 @@ SUB Example_CreateBitmapWithApplyEffect (BYVAL hdc AS HDC)
    DIM tintParams AS TintParams
    tintParams.hue = 120
    tintParams.amount = 60
-   status = GdipSetEffectParameters(*effect, @tintParams, SIZEOF(TintParams))
+   GdipSetEffectParameters(effect, @tintParams, SIZEOF(TintParams))
 
    ' // Prepare input array
    DIM inputBitmaps(0 TO 0) AS GpBitmap PTR
-   inputBitmaps(0) = *srcBitmap
+   inputBitmaps(0) = srcBitmap
 
    ' // Create output bitmap
    DIM outputBitmap AS GdiPlusBitmap = GdiPlusBitmap(*srcBitmap, *effect)
 
    ' // Draw the new bitmap
-   status = GdipDrawImage(*graphics, *outputBitmap, 0, 0)
+   GdipDrawImage(graphics, outputBitmap, 0, 0)
 
 END SUB
 ' ========================================================================================

@@ -33,30 +33,27 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_LockBits (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM bmp AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*bmp, graphics.dpiX, graphics.dpiY)
+   bmp.SetResolution(graphics)
 
    ' // Get image dimensions
    DIM nWidth AS UINT, nHeight AS UINT
-   status = GdipGetImageWidth(*bmp, @nWidth)
-   status = GdipGetImageHeight(*bmp, @nHeight)
+   GdipGetImageWidth(bmp, @nWidth)
+   GdipGetImageHeight(bmp, @nHeight)
 
    ' // Define lock rectangle
    DIM rect AS GpRect = (0, 0, nWidth, nHeight)
 
    ' // Lock bitmap bits
    DIM bmpData AS BitmapData
-   status = GdipBitmapLockBits(*bmp, @rect, ImageLockModeRead OR ImageLockModeWrite, PixelFormat32bppARGB, @bmpData)
+   GdipBitmapLockBits(bmp, @rect, ImageLockModeRead OR ImageLockModeWrite, PixelFormat32bppARGB, @bmpData)
 
    ' // Invert colors
    DIM pPixels AS UBYTE PTR = bmpData.Scan0
@@ -71,10 +68,10 @@ SUB Example_LockBits (BYVAL hdc AS HDC)
    NEXT
 
    ' // Unlock bitmap bits
-   status = GdipBitmapUnlockBits(*bmp, @bmpData)
+   GdipBitmapUnlockBits(bmp, @bmpData)
 
    ' // Draw the modified bitmap
-   status = GdipDrawImage(*graphics, *bmp, 10, 10)
+   GdipDrawImage(graphics, bmp, 10, 10)
 
 END SUB
 ' ========================================================================================

@@ -35,18 +35,15 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_LevelsEffect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM bmp AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*bmp, graphics.dpiX, graphics.dpiY)
+   bmp.SetResolution(graphics)
 
    ' // Create a levels effect
    DIM effect AS GdiPlusEffect = LevelsEffectGuid
@@ -56,13 +53,13 @@ SUB Example_LevelsEffect (BYVAL hdc AS HDC)
    levelsParams.highlight = 20   ' Boost highlights
    levelsParams.midtone  = 10    ' Slightly brighten midtones
    levelsParams.shadow   = -15   ' Deepen shadows
-   status = GdipSetEffectParameters(*effect, @levelsParams, SIZEOF(levelsParams))
+   GdipSetEffectParameters(effect, @levelsParams, SIZEOF(levelsParams))
 
    ' // Apply effects to the whole image
-   status = GdipBitmapApplyEffect(*bmp, *effect, NULL, FALSE, NULL, NULL)
+   GdipBitmapApplyEffect(bmp, *effect, NULL, FALSE, NULL, NULL)
 
    ' // Draw theimage
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

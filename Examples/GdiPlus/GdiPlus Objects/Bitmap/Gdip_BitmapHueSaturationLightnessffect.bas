@@ -34,18 +34,15 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GdipBitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM bmp AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*bmp, graphics.dpiX, graphics.dpiY)
+   bmp.SetResolution(graphics)
 
    ' // Create ColorLUT effect
    DIM effect AS GdiPlusEffect = HueSaturationLightnessEffectGuid
@@ -55,13 +52,13 @@ SUB Example_GdipBitmapHueSaturationLightnessEffect (BYVAL hdc AS HDC)
    hslParams.hueLevel = 45            ' Rotate hue slightly
    hslParams.saturationLevel = 30     ' Boost saturation
    hslParams.lightnessLevel = -10     ' Slightly darken
-   status = GdipSetEffectParameters(*effect, @hslParams, SIZEOF(hslParams))
+   GdipSetEffectParameters(effect, @hslParams, SIZEOF(hslParams))
 
    ' // Apply effect
-   status = GdipBitmapApplyEffect(*bmp, *effect, NULL, FALSE, NULL, NULL)
+   GdipBitmapApplyEffect(bmp, effect, NULL, FALSE, NULL, NULL)
 
    ' // Draw image
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

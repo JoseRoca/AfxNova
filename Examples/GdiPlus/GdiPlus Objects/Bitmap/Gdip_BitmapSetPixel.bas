@@ -34,26 +34,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPixel (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM myBitmap AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*myBitmap, graphics.dpiX, graphics.dpiY)
+   myBitmap.SetResolution(graphics)
 
    ' // Draw the bitmap.
-   status = GdipDrawImage(*graphics, *myBitmap, 0, 0)
+   GdipDrawImage(graphics, myBitmap, 0, 0)
 
    ' // Get the width and height of the bitmap
    DIM AS UINT nWidth, nHeight
-   status = GdipGetImageWidth(*myBitmap, @nWidth)
-   status = GdipGetImageHeight(*myBitmap, @nHeight)
+   GdipGetImageWidth(myBitmap, @nWidth)
+   GdipGetImageHeight(myBitmap, @nHeight)
 
    ' // Make an ARGB color
    DIM pixelColor AS ARGB = ARGB_BLACK
@@ -62,12 +59,12 @@ SUB Example_SetPixel (BYVAL hdc AS HDC)
    DIM AS LONG row, col
    FOR row = 0 TO nWidth - 1 STEP 2
       FOR col = 0 TO nHeight STEP 2
-         status = GdipBitmapSetPixel(*myBitmap, row, col, pixelColor)
+         GdipBitmapSetPixel(myBitmap, row, col, pixelColor)
       NEXT
    NEXT
 
   ' // Draw the altered bitmap.
-   status = GdipDrawImage(*graphics, *myBitmap, 200, 0)
+   GdipDrawImage(graphics, myBitmap, 200, 0)
 
 END SUB
 ' ========================================================================================

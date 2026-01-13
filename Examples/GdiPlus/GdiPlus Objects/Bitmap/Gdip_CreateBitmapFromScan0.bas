@@ -37,13 +37,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateBitmapFromScan0 (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define dimensions and pixel format
    DIM nWidth AS LONG = 100
@@ -56,11 +53,11 @@ SUB Example_CreateBitmapFromScan0 (BYVAL hdc AS HDC)
    ' // Fill buffer with a gradient
    FOR y AS LONG = 0 TO nHeight - 1
       FOR x AS LONG = 0 TO nWidth - 1
-         DIM _offset AS LONGINT = y * stride + x * bytesPerPixel
-         buffer(_offset + 0) = x * 255 \ nWidth    ' Blue
-         buffer(_offset + 1) = y * 255 \ nHeight   ' Green
-         buffer(_offset + 2) = 128                 ' Red
-         buffer(_offset + 3) = 255                 ' Alpha
+         DIM offset AS LONGINT = y * stride + x * bytesPerPixel
+         buffer(offset + 0) = x * 255 \ nWidth    ' Blue
+         buffer(offset + 1) = y * 255 \ nHeight   ' Green
+         buffer(offset + 2) = 128                 ' Red
+         buffer(offset + 3) = 255                 ' Alpha
       NEXT
    NEXT
 
@@ -68,7 +65,7 @@ SUB Example_CreateBitmapFromScan0 (BYVAL hdc AS HDC)
    DIM bmp AS GdiplusBitmap = GdiplusBitmap(nWidth, nHeight, stride, PixelFormat32bppARGB, @buffer(0))
 
    ' // Draw the bitmap
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

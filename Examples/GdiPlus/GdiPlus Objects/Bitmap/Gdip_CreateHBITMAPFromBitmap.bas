@@ -33,22 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateHBITMAPFromBitmap  (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create a bitmap object from a .jpg file
    DIM bmp AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*bmp, graphics.dpiX, graphics.dpiY)
+   bmp.SetResolution(graphics)
 
    ' // Convert to HBITMAP
    DIM hbm AS HBITMAP
-   status = GdipCreateHBITMAPFromBitmap(*bmp, @hbm, ARGB_White)
+   GdipCreateHBITMAPFromBitmap(bmp, @hbm, ARGB_White)
 
    ' // Draw using classic GDI
    DIM memDC AS HDC = CreateCompatibleDC(hdc)

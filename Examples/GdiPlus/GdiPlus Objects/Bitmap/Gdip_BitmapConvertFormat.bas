@@ -34,15 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ConvertBitmapFormat (BYVAL hdc AS HDC)
 
-   DIM hStatus AS LONG
-
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create original bitmap from buffer
    DIM nWidth AS LONG = 100
@@ -53,21 +48,21 @@ SUB Example_ConvertBitmapFormat (BYVAL hdc AS HDC)
 
    FOR y AS LONG = 0 TO nHeight - 1
       FOR x AS LONG = 0 TO nWidth - 1
-         DIM offset_ AS LONGINT = y * stride + x * bytesPerPixel
-         buffer(offset_ + 0) = x * 255 \ nWidth    ' Blue
-         buffer(offset_ + 1) = y * 255 \ nHeight   ' Green
-         buffer(offset_ + 2) = 128                 ' Red
-         buffer(offset_ + 3) = 255                 ' Alpha
+         DIM offset AS LONGINT = y * stride + x * bytesPerPixel
+         buffer(offset + 0) = x * 255 \ nWidth    ' Blue
+         buffer(offset + 1) = y * 255 \ nHeight   ' Green
+         buffer(offset + 2) = 128                 ' Red
+         buffer(offset + 3) = 255                 ' Alpha
       NEXT
    NEXT
 
    DIM bmp AS GdiPlusBitmap = GdiPlusBitmap(nWidth, nHeight, stride, PixelFormat32bppARGB, @buffer(0))
 
    ' // Convert to 8bpp indexed format
-   status = GdipBitmapConvertFormat(*bmp, PixelFormat8bppIndexed, DitherTypeNone, PaletteTypeFixedHalftone216, NULL, 0)
+   GdipBitmapConvertFormat(bmp, PixelFormat8bppIndexed, DitherTypeNone, PaletteTypeFixedHalftone216, NULL, 0)
 
    ' // Draw converted bitmap
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

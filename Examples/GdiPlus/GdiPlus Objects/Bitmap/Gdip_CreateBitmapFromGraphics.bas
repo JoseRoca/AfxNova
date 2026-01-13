@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateBitmapFromGraphics (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define bitmap dimensions
    DIM nWidth AS LONG = 200
@@ -49,14 +46,14 @@ SUB Example_CreateBitmapFromGraphics (BYVAL hdc AS HDC)
 
    ' // Create graphics object from bitmap
    DIM bmpGraphics AS GpGraphics PTR
-   status = GdipGetImageGraphicsContext(*bmp, @bmpGraphics)
+   GdipGetImageGraphicsContext(bmp, @bmpGraphics)
 
    ' // Fill bitmap with color
-   status = GdipGraphicsClear(bmpGraphics, ARGB_RED)
+   GdipGraphicsClear(bmpGraphics, ARGB_RED)
    GdipDeleteGraphics(bmpGraphics)
 
    ' // Draw bitmap to screen
-   status = GdipDrawImage(*graphics, *bmp, 0, 0)
+   GdipDrawImage(graphics, bmp, 0, 0)
 
 END SUB
 ' ========================================================================================

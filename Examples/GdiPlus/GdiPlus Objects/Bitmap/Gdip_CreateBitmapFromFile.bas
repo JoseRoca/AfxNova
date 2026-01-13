@@ -32,21 +32,18 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateBitmap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a bitmap object from a .jpg file
    DIM myBitmap AS GdiPlusBitmap = "climber.jpg"
    ' // Set the resolution of this Bitmap object to the user's DPI settings
-   status = GdipBitmapSetResolution(*myBitmap, graphics.dpiX, graphics.dpiY)
+   myBitmap.SetResolution(graphics)
 
    ' // Draw the bitmap.
-   status = GdipDrawImage(*graphics, *myBitmap, 0, 0)
+   GdipDrawImage(graphics, myBitmap, 0, 0)
 
 END SUB
 ' ========================================================================================
