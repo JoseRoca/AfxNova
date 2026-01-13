@@ -39,25 +39,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetHatchStyle (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set and then draw the first hatch style.
    DIM brush AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleHorizontal, ARGB_BLACK, ARGB_Turquoise)
-   status = GdipFillRectangle(*graphics, *brush, 20, 20, 170, 100)
+   GdipFillRectangle(graphics, brush, 20, 20, 170, 100)
 
    ' // Get the current hatch style of the brush.
    DIM currentStyle AS HatchStyle
-   status = GdipGetHatchStyle(*brush, @currentStyle)
+   GdipGetHatchStyle(*brush, @currentStyle)
 
    ' // Draw the rectangle again using the current hatch style.
    DIM brush2 AS GdiPlusHatchBrush = GdiPlusHatchBrush(currentStyle, ARGB_BLUE, ARGB_YELLOW)
-   status = GdipFillRectangle(*graphics, *brush2, 210, 20, 170, 100)
+   GdipFillRectangle(graphics, brush2, 210, 20, 170, 100)
 
 END SUB
 ' ========================================================================================

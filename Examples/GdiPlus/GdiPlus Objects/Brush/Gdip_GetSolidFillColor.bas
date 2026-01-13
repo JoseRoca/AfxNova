@@ -34,29 +34,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetSolidFillColor (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Fill a rectangle with the brush
-   GdipFillRectangle(*graphics, *solidBrush, 10, 10, 185, 100)
+   GdipFillRectangle(graphics, solidBrush, 10, 10, 185, 100)
 
    ' // Get the color of the solid brush.
    DIM colour AS ARGB
-   GdipGetSolidFillColor(*solidBrush, @colour)
+   GdipGetSolidFillColor(solidBrush, @colour)
 
    ' // Create a second solid brush with that same color.
    DIM solidBrush2 AS GdiPlusSolidBrush = colour
 
    ' // Paint a second rectangle with the second solid brush.
-   GdipFillRectangle(*graphics, *solidBrush2, 205, 10, 185, 100)
+   GdipFillRectangle(graphics, solidBrush2, 205, 10, 185, 100)
 
 END SUB
 ' ========================================================================================

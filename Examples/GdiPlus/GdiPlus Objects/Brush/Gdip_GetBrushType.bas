@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetBrushType (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Get the type of solidBrush
    DIM nType AS BrushType
-   status = GdipGetBrushType(*brush, @nType)
+   GdipGetBrushType(brush, @nType)
 
    ' // If the type of solidBrush is BrushTypeSolidColor, use it to fill a rectangle
    IF nType = BrushTypeSolidColor THEN
-      status = GdipFillRectangle(*graphics, *brush, 0, 0, 100, 100)
+      GdipFillRectangle(graphics, brush, 0, 0, 100, 100)
    END IF
 
 END SUB

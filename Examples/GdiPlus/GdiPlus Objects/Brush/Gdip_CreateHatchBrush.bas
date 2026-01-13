@@ -32,37 +32,34 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateHatchBrush (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set and then draw the first hatch style.
    DIM brush AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleHorizontal, ARGB_BLACK, ARGB_WHITE)
-   status = GdipFillRectangle(*graphics, *brush, 20, 20, 115, 50)
+   GdipFillRectangle(graphics, brush, 20, 20, 115, 50)
 
    ' // Set and then draw the second hatch style.
    DIM brush1 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleVertical, ARGB_BLACK, ARGB_WHITE)
-   status = GdipFillRectangle(*graphics, *brush1, 145, 20, 115, 50)
+   GdipFillRectangle(graphics, brush1, 145, 20, 115, 50)
 
    ' // Set and then draw the third hatch style.
    DIM brush2 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleForwardDiagonal, ARGB_BLACK, ARGB_WHITE)
-   status = GdipFillRectangle(*graphics, *brush2, 270, 20, 115, 50)
+   GdipFillRectangle(graphics, brush2, 270, 20, 115, 50)
 
    ' // Set and then draw the fourth hatch style.
    DIM brush3 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleBackwardDiagonal, ARGB_BLACK, ARGB_WHITE)
-   status = GdipFillRectangle(*graphics, *brush3, 20, 100, 115, 50)
+   GdipFillRectangle(graphics, brush3, 20, 100, 115, 50)
 
    ' // Set and then draw the fifth hatch style.
    DIM brush4 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleCross, ARGB_BLACK, ARGB_WHITE)
-   status = GdipFillRectangle(*graphics, *brush4, 145, 100, 115, 50)
+   GdipFillRectangle(graphics, brush4, 145, 100, 115, 50)
 
    ' // Set and then draw the sixth hatch style.
    DIM brush5 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleDiagonalCross, ARGB_BLACK, ARGB_WHITE)
-   status = GdipFillRectangle(*graphics, *brush5, 270, 100, 115, 50)
+   GdipFillRectangle(graphics, brush5, 270, 100, 115, 50)
 
 END SUB
 ' ========================================================================================

@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloneBrush (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_RED
@@ -48,7 +45,7 @@ SUB Example_CloneBrush (BYVAL hdc AS HDC)
    DIM cloneBrush AS GdiPlusSolidBrush = *brush
 
    ' // Use the clone brush to fill a rectagle
-   status = GdipFillRectangleI(*graphics, *cloneBrush, 0, 0, 100, 100)
+   GdipFillRectangle(graphics, cloneBrush, 0, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

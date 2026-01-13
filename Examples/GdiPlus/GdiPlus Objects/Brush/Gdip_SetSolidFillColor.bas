@@ -1,9 +1,9 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: Gdip_GetHatchBackgroundColor.bas
-' Contents: GDI+ Flat API - GdipGetHatchBackgroundColor example
+' File: Gdip_SetSolidFillColor.bas
+' Contents: GDI+ Flat API - GdipSetSolidFillColor example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -28,37 +28,30 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example sets up three colors: black, turquoise, and current (initialized
-' to black). A rectangle is painted by using turquoise as the background color and black
-' as the foreground color. Then the GdipGetBackgroundColor function is used to get the
-' current color of the brush (which at the time is turquoise). The address of the current
-' color (initialized to black) is passed as the return point for the call to
-' GdipGetBackgroundColor. When the rectangle is painted again, note that the background
-' color is again turquoise (not black). This shows that the call to GdipGetBackgroundColor
-' was successful.
+' The following example creates a solid brush and uses it to fill a rectangle. The code
+' uses GdipSetSolidFillColor to change the color of the solid brush and then paints a
+' second rectangle the new color.
 ' ========================================================================================
-SUB Example_GetHatchBackgroundColor (BYVAL hdc AS HDC)
+SUB Example_SetSolidFillColor (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    graphics.ScaleTransform
 
-   ' // Set and then draw the first hatch style.
-   DIM brush AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleHorizontal, ARGB_BLACK, ARGB_Turquoise)
-   GdipFillRectangle(graphics, brush, 20, 20, 170, 100)
+   ' // Create a SolidBrush
+   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
 
-   ' // Get the background color of the current brush.
-   DIM colorCurrent AS ARGB
-   GdipGetHatchBackgroundColor(brush, @colorCurrent)
+   ' // Fill a rectangle with the brush
+   GdipFillRectangle(graphics, solidBrush, 10, 10, 185, 100)
 
-   ' // Draw the rectangle again using the current color.
-   DIM brush2 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleDiagonalCross, ARGB_BLACK, colorCurrent)
-   GdipFillRectangle(graphics, brush2, 210, 20, 170, 100)
+   ' // Change the color of the brush, and fill another rectangle.
+   GdipSetSolidFillColor(solidBrush, ARGB_RED)
+   GdipFillRectangle(graphics, solidBrush, 205, 10, 185, 100)
 
 END SUB
 ' ========================================================================================
-
+  
 ' ========================================================================================
 ' Main
 ' ========================================================================================
@@ -74,7 +67,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ GdipGetHatchBackgroundColor", @WndProc)
+   pWindow.Create(NULL, "GDI+ GdipSetSolidFillColor", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
@@ -93,7 +86,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM token AS ULONG_PTR = AfxGdipInit
 
    ' // Draw the graphics
-   Example_GetHatchBackgroundColor(hdc)
+   Example_SetSolidFillColor(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
