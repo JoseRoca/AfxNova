@@ -36,34 +36,32 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetWidth (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create an AdjustableArrowCap with a width of 5 pixels.
    DIM myArrow AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 5, TRUE)
    ' // Adjust to DPI by setting the scale width
-   status = GdipSetCustomLineCapWidthScale(*myArrow, dpiRatio)
+   GdipSetCustomLineCapWidthScale(myArrow, dpiRatio)
 
    ' // Create a Pen, and assign myArrow as the end cap.
    DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
-   status = GdipSetPenCustomEndCap(*arrowPen, *myArrow)
+   GdipSetPenCustomEndCap(arrowPen, myArrow)
 
    ' // Draw a line using arrowPen.
-   status = GdipDrawLine(*graphics, *arrowPen, 0, 0, 100, 100)
+   GdipDrawLine(graphics, arrowPen, 0, 0, 100, 100)
 
    ' // Get the width of the arrow.
    DIM nWidth AS SINGLE
-   status = GdipGetAdjustableArrowCapWidth(*myArrow, @nWidth)
+   GdipGetAdjustableArrowCapWidth(myArrow, @nWidth)
 
    ' // Set height equal to width and draw another line.
-   status = GdipSetAdjustableArrowCapHeight(*myArrow, nWidth)
-   status = GdipSetPenCustomEndCap(*arrowPen, *myArrow)
-   status = GdipDrawLine(*graphics, *arrowPen, 0, 40, 100, 140)
+   GdipSetAdjustableArrowCapHeight(myArrow, nWidth)
+   GdipSetPenCustomEndCap(arrowPen, myArrow)
+   GdipDrawLine(graphics, arrowPen, 0, 40, 100, 140)
 
 END SUB
 ' ========================================================================================

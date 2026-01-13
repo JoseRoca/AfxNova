@@ -35,35 +35,33 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetMiddleInset (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create an AdjustableArrowCap with width and height set to 10.
    ' // Middle inset defaults to 0 pixels.
    DIM myArrow AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 10, TRUE)
    ' // Adjust to DPI by setting the scale width
-   status = GdipSetCustomLineCapWidthScale(*myArrow, dpiRatio)
+   GdipSetCustomLineCapWidthScale(myArrow, dpiRatio)
 
    ' // Create a Pen, and assign myArrow as the end cap.
    DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
-   status = GdipSetPenCustomEndCap(*arrowPen, *myArrow)
+   GdipSetPenCustomEndCap(arrowPen, myArrow)
 
    ' // Draw a line using arrowPen.
-   status = GdipDrawLine(*graphics, *arrowPen, 0, 20, 100, 20)
+   GdipDrawLine(graphics, arrowPen, 0, 20, 100, 20)
 
    ' // Get the inset of the arrow.
    DIM inset AS SINGLE
-   status = GdipGetAdjustableArrowCapMiddleInset(*myArrow, @inset)
+   GdipGetAdjustableArrowCapMiddleInset(myArrow, @inset)
 
    ' // Increase inset by 5 pixels and draw another line.
-   status = GdipSetAdjustableArrowCapMiddleInset(*myArrow, inset + 5)
-   status = GdipSetPenCustomEndCap(*arrowPen, *myArrow)
-   status = GdipDrawLine(*graphics, *arrowPen, 0, 50, 100, 50)
+   GdipSetAdjustableArrowCapMiddleInset(myArrow, inset + 5)
+   GdipSetPenCustomEndCap(arrowPen, myArrow)
+   GdipDrawLine(graphics, arrowPen, 0, 50, 100, 50)
 
 END SUB
 ' ========================================================================================

@@ -36,38 +36,36 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetHeight (BYVAL hdc AS HDC)
 
-   DIM status AS LONG
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create an AdjustableArrowCap with a height of 10 pixels.
    DIM myArrow AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 10, TRUE)
    ' // Adjust to DPI by setting the scale width
-   status = GdipSetCustomLineCapWidthScale(*myArrow, dpiRatio)
+   GdipSetCustomLineCapWidthScale(myArrow, dpiRatio)
 
    ' // Create a Pen, and assign myArrow as the end cap.
    DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
-   status = GdipSetPenCustomEndCap(*arrowPen, *myArrow)
+   GdipSetPenCustomEndCap(arrowPen, myArrow)
 
    ' // Draw a line using arrowPen.
-   status = GdipDrawLine(*graphics, *arrowPen, 0, 20, 100, 20)
+   GdipDrawLine(graphics, arrowPen, 0, 20, 100, 20)
 
    ' // Create a second arrow cap using the height of the first one.
    DIM nHeight AS SINGLE
-   status = GdipGetAdjustableArrowCapHeight(*myArrow, @nHeight)
+   GdipGetAdjustableArrowCapHeight(myArrow, @nHeight)
    DIM otherArrow AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(nHeight, 20, TRUE)
    ' // Adjust to DPI by setting the scale width
-   status = GdipSetCustomLineCapWidthScale(*otherArrow, dpiRatio)
+   GdipSetCustomLineCapWidthScale(otherArrow, dpiRatio)
 
    ' // Assign the new arrow cap as the end cap for arrowPen.
-   status = GdipSetPenCustomEndCap(*arrowPen, *otherArrow)
+   GdipSetPenCustomEndCap(arrowPen, otherArrow)
 
    ' // Draw a line using arrowPen.
-   status = GdipDrawLine(*graphics, *arrowPen, 0, 55, 100, 55)
+   GdipDrawLine(graphics, arrowPen, 0, 55, 100, 55)
 
 END SUB
 ' ========================================================================================

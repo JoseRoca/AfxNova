@@ -35,28 +35,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsFilled (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create an AdjustableArrowCap that is filled.
    DIM myArrow AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 10, TRUE)
    ' // Adjust to DPI by setting the scale width
-   status = GdipSetCustomLineCapWidthScale(*myArrow, dpiRatio)
+   GdipSetCustomLineCapWidthScale(myArrow, dpiRatio)
 
    ' // Create a Pen, and assign myArrow as the end cap.
    DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
    ' // Assign myArrow as the end cap.
-   status = GdipSetPenCustomEndCap(*arrowPen, *myArrow)
+   GdipSetPenCustomEndCap(arrowPen, myArrow)
 
    ' // If the cap is filled, draw a line using arrowPen.
    DIM isFilled AS BOOL
-   status = GdipGetAdjustableArrowCapFillState(*myArrow, @isFilled)
-   IF isFilled THEN status = GdipDrawLine(*graphics, *arrowPen, 0, 0, 100, 100)
+   GdipGetAdjustableArrowCapFillState(myArrow, @isFilled)
+   IF isFilled THEN GdipDrawLine(graphics, arrowPen, 0, 0, 100, 100)
 
 END SUB
 ' ========================================================================================
