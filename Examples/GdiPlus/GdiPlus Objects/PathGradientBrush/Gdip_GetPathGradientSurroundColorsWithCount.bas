@@ -38,13 +38,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientSurroundColorsWithCount (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Creates a gradient brush based on an array of points
    DIM points(0 TO 2) AS GpPointF = {(100, 0), (200, 200), (0, 200)}
@@ -53,23 +50,23 @@ SUB Example_GetPathGradientSurroundColorsWithCount (BYVAL hdc AS HDC)
    ' // Sets the surround colors
    DIM  count AS LONG = 3
    DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_LIGHTGREEN}
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @colors(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @colors(0), @count)
    
    ' // Get surround color count
    DIM colorCount AS LONG
-   status = GdipGetPathGradientSurroundColorCount(*brush, @colorCount)
+   GdipGetPathGradientSurroundColorCount(brush, @colorCount)
 
    ' // Retrieve surround colors
    DIM rgColors(0 TO 2) AS ARGB
-   status = GdipGetPathGradientSurroundColorsWithCount(*brush, @rgColors(0), @colorCount)
+   GdipGetPathGradientSurroundColorsWithCount(brush, @rgColors(0), @colorCount)
 
    ' // Create solid brush for rendering
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_WHITE
 
    ' // Draw small rectangles with each surround color
    FOR j AS LONG = 0 TO colorCount - 1
-      status = GdipSetSolidFillColor(*solidBrush, rgColors(j))
-      status = GdipFillRectangle(*graphics, *solidBrush, 15 * j, 0, 10, 10)
+      GdipSetSolidFillColor(solidBrush, rgColors(j))
+      GdipFillRectangle(graphics, solidBrush, 15 * j, 0, 10, 10)
    NEXT
 
 END SUB

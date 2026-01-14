@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientPointCount (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define polygon points
    DIM points(0 TO 3) AS GpPointF = {(30, 20), (150, 40), (100, 100), (60, 200)}
@@ -48,13 +45,13 @@ SUB Example_GetPathGradientPointCount (BYVAL hdc AS HDC)
 
    ' // Retrieve the number of boundary points
    DIM pointCount AS LONG
-   status = GdipGetPathGradientPointCount(*brush, @pointCount)
+   GdipGetPathGradientPointCount(brush, @pointCount)
 
    ' // Output result
    AfxMsg "Boundary point count: " & WSTR(pointCount)
 
    ' // Fill rectangle with the brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

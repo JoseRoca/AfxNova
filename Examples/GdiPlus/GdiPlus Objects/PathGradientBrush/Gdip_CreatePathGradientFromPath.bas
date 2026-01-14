@@ -36,13 +36,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreatePathGradientFromPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object and initializes the fill mode.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -61,13 +58,13 @@ SUB Example_CreatePathGradientFromPath (BYVAL hdc AS HDC)
    pts(9).x = 50  : pts(9).y = 50
 
    ' // Construct the path with the array of points.
-   status = GdipAddPathLine2(*path, @pts(0), 10)
+   GdipAddPathLine2(path, @pts(0), 10)
 
    ' // Use the path to construct a path gradient brush.
    DIM brush AS GdiPlusPathGradientBrush = *path
 
    ' // Set the color at the center of the path to red.
-   status = GdipSetPathGradientCenterColor(*brush, ARGB_RED)
+   GdipSetPathGradientCenterColor(brush, ARGB_RED)
 
    ' // Set the colors of the points in the array.
    DIM Colors(9) AS ARGB
@@ -82,10 +79,10 @@ SUB Example_CreatePathGradientFromPath (BYVAL hdc AS HDC)
    Colors(8) = ARGB_BLACK
    Colors(9) = ARGB_LIGHTGREEN
    DIM count AS LONG = 10
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @Colors(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @Colors(0), @count)
 
    ' // Fill the path with the path gradient brush.
-   status = GdipFillPath(*graphics, *brush, *path)
+   GdipFillPath(graphics, brush, path)
 
 END SUB
 ' ========================================================================================

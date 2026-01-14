@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientPresetBlendCount (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define triangle points
    DIM points(0 TO 2) AS GpPointF = {(0, 0), (100, 0), (50, 100)}
@@ -52,17 +49,17 @@ SUB Example_GetPathGradientPresetBlendCount (BYVAL hdc AS HDC)
    ' // Set preset blend colors and positions
    DIM blendColors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_GREEN, ARGB_BLUE}
    DIM blendPositions(0 TO 2) AS SINGLE = {0.0, 0.5, 1.0}
-   status = GdipSetPathGradientPresetBlend(*brush, @blendColors(0), @blendPositions(0), 3)
+   GdipSetPathGradientPresetBlend(brush, @blendColors(0), @blendPositions(0), 3)
 
    ' // Retrieve preset blend count
    DIM blendCount AS LONG
-   status = GdipGetPathGradientPresetBlendCount(*brush, @blendCount)
+   GdipGetPathGradientPresetBlendCount(brush, @blendCount)
 
    ' Output result
    AfxMsg "Preset blend count: " & WsTR(blendCount)
 
    ' // Fill rectangle with the brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

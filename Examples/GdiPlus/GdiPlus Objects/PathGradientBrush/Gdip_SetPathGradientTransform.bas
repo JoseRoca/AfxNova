@@ -37,13 +37,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathGradientTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    DIM pts(0 TO 2) AS GpPointF = {(0, 0), (100, 0), (100, 100)}
    DIM brush AS GdiPlusPathGradientBrush = GdiPlusPathGradientBrush(@pts(0), 3)
@@ -51,17 +48,17 @@ SUB Example_SetPathGradientTransform (BYVAL hdc AS HDC)
     ' // Sets the surround colors
    DIM  count AS LONG = 3
    DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_LIGHTGREEN, ARGB_BLACK}
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @colors(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @colors(0), @count)
    
    ' // Fill an area with the path gradient brush (no transformation).
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
    ' // Set the transformation for the brush (rotate, then translate).
    DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(0, 1, -1, 0, 150, 60)
-   status = GdipSetPathGradientTransform(*brush, *matrix)
+   GdipSetPathGradientTransform(brush, matrix)
 
    ' // Fill the same area with the transformed path gradient brush.
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

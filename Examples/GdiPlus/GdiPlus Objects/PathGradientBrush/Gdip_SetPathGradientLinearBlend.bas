@@ -35,34 +35,31 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathGradientLinearBlend (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path that consists of a single ellipse.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipse(*path, 100, 70, 200, 100)
+   GdipAddPathEllipse(path, 100, 70, 200, 100)
 
    ' // Use the path to construct a brush.
    DIM brush AS GdiPlusPathGradientBrush = *path
 
    ' // Set the color at the center of the path to red.
-   status = GdipSetPathGradientCenterColor(*brush, ARGB_RED)
+   GdipSetPathGradientCenterColor(brush, ARGB_RED)
 
    ' // Set the surround color
    DIM colors(0) AS ARGB = {ARGB_BLUE}
    DIM count AS LONG = 1
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @colors(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @colors(0), @count)
 
    ' // Set the blend shape
-   status = GdipSetPathGradientLinearBlend(*brush, 0.2, 0.7)
+   GdipSetPathGradientLinearBlend(brush, 0.2, 0.7)
 
    ' // Fill an area with the path gradient brush
-   status = GdipFillEllipse(*graphics, *brush, 100, 70, 200, 100)
+   GdipFillEllipse(graphics, brush, 100, 70, 200, 100)
 
    ' // The color is blue on the boundary and at the center.
    ' // At points that are 20 percent of the way from the boundary to the

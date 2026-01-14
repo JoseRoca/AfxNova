@@ -42,13 +42,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetPathGradientTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define triangle points
    DIM points(0 TO 2) AS GpPointF = {(0, 0), (50, 0), (50, 50)}
@@ -57,19 +54,19 @@ SUB Example_ResetPathGradientTransform (BYVAL hdc AS HDC)
    DIM brush AS GdiPlusPathGradientBrush = GdiPlusPathGradientBrush(@points(0), 3)
 
    ' // Apply horizontal scale transform to brush
-   status = GdipScalePathGradientTransform(*brush, 3.0, 1.0, MatrixOrderPrepend)
+   GdipScalePathGradientTransform(brush, 3.0, 1.0, MatrixOrderPrepend)
 
   ' // Apply translation transform (100 right, 50 down)
-   status = GdipTranslatePathGradientTransform(*brush, 100.0, 50.0, MatrixOrderAppend)
+   GdipTranslatePathGradientTransform(brush, 100.0, 50.0, MatrixOrderAppend)
 
    ' // Fill rectangle using transformed brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 400, 400)
+   GdipFillRectangle(graphics, brush, 0, 0, 400, 400)
 
    ' // Reset the transformation
-   status = GdipResetPathGradientTransform(*brush)
+   GdipResetPathGradientTransform(brush)
 
    ' // Fill the same area with the path gradient brush (no transformation).
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 400, 400)
+   GdipFillRectangle(graphics, brush, 0, 0, 400, 400)
 
 END SUB
 ' ========================================================================================

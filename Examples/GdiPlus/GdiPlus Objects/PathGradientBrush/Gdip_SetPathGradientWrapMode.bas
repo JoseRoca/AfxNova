@@ -38,13 +38,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathGradientWrapMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Creates a gradient brush based on an array of points
    DIM points(0 TO 2) AS GpPointF = {(0, 0), (100, 0), (100, 100)}
@@ -53,13 +50,13 @@ SUB Example_SetPathGradientWrapMode (BYVAL hdc AS HDC)
    ' // Sets the surround colors
    DIM  count AS LONG = 3
    DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_LIGHTGREEN}
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @colors(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @colors(0), @count)
    
    ' // Sets the wrap mode
-   status = GdipSetPathGradientWrapMode(*brush, WrapModeTileFlipX)
+   GdipSetPathGradientWrapMode(brush, WrapModeTileFlipX)
 
    ' // Fills a rectangle with the brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 800, 300)
+   GdipFillRectangle(graphics, brush, 0, 0, 800, 300)
 
 END SUB
 ' ========================================================================================

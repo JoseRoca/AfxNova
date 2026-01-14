@@ -40,43 +40,40 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientBlend (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path that consists of a single ellipse.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipse(*path, 100, 70, 200, 100)
+   GdipAddPathEllipse(path, 100, 70, 200, 100)
 
    ' // Use the path to construct a brush.
    DIM brush AS GdiPlusPathGradientBrush = *path
 
    ' // Set the color at the center of the path
-   status = GdipSetPathGradientCenterColor(*brush, ARGB_BLUE)
+   GdipSetPathGradientCenterColor(brush, ARGB_BLUE)
 
    ' // Set the color along the entire boundary of the path
    DIM colour(0) AS ARGB = {ARGB_RED}
    DIM count AS LONG = 1
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @Colour(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @Colour(0), @count)
 
    ' // Set blend factors and positions for the path gradient brush.
    DIM factors(0 TO 3) AS SINGLE = {0.0, 0.4, 0.8, 1.0}
    DIM positions(0 TO 3) AS SINGLE = {0.0, 0.3, 0.7, 1.0}
-   status = GdipSetPathGradientBlend(*brush, @factors(0), @positions(0), 4)
+   GdipSetPathGradientBlend(brush, @factors(0), @positions(0), 4)
 
    ' // Fill the ellipse with the path gradient brush.
-   status = GdipFillEllipse(*graphics, *brush, 100, 70, 200, 100)
+   GdipFillEllipse(graphics, brush, 100, 70, 200, 100)
 
    ' // Obtain information about the path gradient brush.
    DIM blendCount AS LONG
-   status = GdipGetPathGradientBlendCount(*brush, @blendCount)
+   GdipGetPathGradientBlendCount(brush, @blendCount)
    DIM blendFactors(blendCount - 1) AS SINGLE
    DIM blendPositions(blendCount - 1) AS SINGLE
-   status = GdipGetPathGradientBlend(*brush, @blendFactors(0), @blendPositions(0), blendCount)
+   GdipGetPathGradientBlend(brush, @blendFactors(0), @blendPositions(0), blendCount)
 
    FOR i AS LONG = 0 TO blendCount - 1
       ' // Inspect or use the value in rgFactors(j)

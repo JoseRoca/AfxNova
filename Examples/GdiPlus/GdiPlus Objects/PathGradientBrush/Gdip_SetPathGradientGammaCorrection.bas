@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathGradientGammaCorrection (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define triangle points
    DIM points(0 TO 2) AS GpPointF = {(0, 0), (200, 0), (100, 100)}
@@ -51,19 +48,19 @@ SUB Example_SetPathGradientGammaCorrection (BYVAL hdc AS HDC)
 
    ' // Set center color
    DIM centerColor AS ARGB = ARGB_WHITE
-   status = GdipSetPathGradientCenterColor(*brush, centerColor)
+   GdipSetPathGradientCenterColor(brush, centerColor)
 
    ' // Set surround colors
    DIM surroundColors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_LIGHTGREEN, ARGB_BLUE}
 
    DIM count AS LONG = 3
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @surroundColors(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @surroundColors(0), @count)
 
    ' // Enable gamma correction
-   status = GdipSetPathGradientGammaCorrection(*brush, TRUE)
+   GdipSetPathGradientGammaCorrection(brush, TRUE)
 
    ' // Fill a rectangle with the gamma-corrected brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 300, 300)
+   GdipFillRectangle(graphics, brush, 0, 0, 300, 300)
 
 END SUB
 ' ========================================================================================

@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawSpheres (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object and initializes the fill mode.
    DIM path1 AS GdiPlusGraphicsPath = FillModeAlternate
@@ -50,46 +47,46 @@ SUB Example_DrawSpheres (BYVAL hdc AS HDC)
    DIM x AS LONG = 90
    DIM y AS LONG = 15
    DIM nSize AS LONG = 220
-   status = GdipAddPathEllipseI(*path1, x, y, nSize, nSize)
+   GdipAddPathEllipseI(path1, x, y, nSize, nSize)
 
    ' // Use the path to construct a path gradient brush.
    DIM brush1 AS GdiPlusPathGradientBrush = *path1
 
   ' // Set the middle color of the path.
    DIM MiddleColorToOpaque AS ARGB = GDIP_ARGB_SetAlpha(ARGB_MediumAquamarine, 0)
-   status = GdipSetPathGradientCenterColor(*brush1, MiddleColorToOpaque)
+   GdipSetPathGradientCenterColor(brush1, MiddleColorToOpaque)
 
    ' // Set the entire path boundary to Alpha Black using 50% translucency.
    DIM count AS LONG = 1
    DIM BlackFullTranslucent AS ARGB = GDIP_ARGB_SetAlpha(ARGB_Black, 128)
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush1, @BlackFullTranslucent, @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush1, @BlackFullTranslucent, @count)
 
    ' // Draw the ellipse, keeping the exact coordinates defined for the path,
    ' // and using antialising mode (+ 2 and - 4 are used to better achieve antialiasing)
-   status = GdipSetSmoothingMode(*graphics, SmoothingModeAntiAlias)
-   status = GdipFillEllipseI(*graphics, *brush1, x + 2, y + 2, nSize - 4, nSize - 4)
+   GdipSetSmoothingMode(graphics, SmoothingModeAntiAlias)
+   GdipFillEllipseI(graphics, *brush1, x + 2, y + 2, nSize - 4, nSize - 4)
 
    ' // Create a second GraphicsPath object.
    DIM path2 AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add an ellipse to the path
    x = 200 : y = 200 : nSize = 150
-   status = GdipAddPathEllipse(*path2, x, y, nSize, nSize)
+   GdipAddPathEllipse(path2, x, y, nSize, nSize)
    
    ' // Create a path gradient based on the path.
    DIM brush2 AS GdiPlusPathGradientBrush = *path2
 
    ' // Set the middle color of the path.
    MiddleColorToOpaque = GDIP_ARGB_SetAlpha(ARGB_Yellow, 64)
-   status = GdipSetPathGradientCenterColor(*brush2, MiddleColorToOpaque)
+   GdipSetPathGradientCenterColor(brush2, MiddleColorToOpaque)
    
    ' // Set the entire path boundary to Alpha Black using 50% translucency
    count = 1
    BlackFullTranslucent = GDIP_ARGB_SetAlpha(ARGB_Red, 128)
-   GdipSetPathGradientSurroundColorsWithCount(*brush2, @BlackFullTranslucent, @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush2, @BlackFullTranslucent, @count)
 
    ' // Draw the ellipse, keeping the exact coords we defined for the path
-   status = GdipFillEllipse(*graphics, *brush2, x + 2, y + 2, nSize - 4, nSize - 4)
+   GdipFillEllipse(graphics, brush2, x + 2, y + 2, nSize - 4, nSize - 4)
 
 END SUB
 ' ========================================================================================

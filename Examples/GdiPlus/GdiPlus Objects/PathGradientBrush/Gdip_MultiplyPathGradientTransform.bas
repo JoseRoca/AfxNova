@@ -42,13 +42,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_MultiplyPathGradientTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define triangle points
    DIM points(0 TO 2) AS GpPointF = {(0, 0), (50, 0), (50, 50)}
@@ -57,16 +54,16 @@ SUB Example_MultiplyPathGradientTransform (BYVAL hdc AS HDC)
    DIM brush AS GdiPlusPathGradientBrush = GdiPlusPathGradientBrush(@points(0), 3)
 
    ' // Apply horizontal scale transform to brush
-   status = GdipScalePathGradientTransform(*brush, 3.0, 1.0, MatrixOrderPrepend)
+   GdipScalePathGradientTransform(brush, 3.0, 1.0, MatrixOrderPrepend)
 
    ' // Create translation matrix (10 right, 30 down)
    DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(1.0, 0.0, 0.0, 1.0, 10.0, 30.0)
 
    ' // Multiply brush's transform matrix by translation matrix
-   status = GdipMultiplyPathGradientTransform(*brush, *matrix, MatrixOrderAppend)
+   GdipMultiplyPathGradientTransform(brush, matrix, MatrixOrderAppend)
 
    ' // Fill rectangle using transformed brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

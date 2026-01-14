@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientFocusScales (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define triangle points
    DIM points(0 TO 2) AS GpPointF = {(0, 0), (100, 0), (50, 100)}
@@ -50,17 +47,17 @@ SUB Example_GetPathGradientFocusScales (BYVAL hdc AS HDC)
    DIM brush AS GdiPlusPathGradientBrush = GdiPlusPathGradientBrush(@points(0), 3)
 
    ' // Set focus scales to shrink the center color region
-   status = GdipSetPathGradientFocusScales(*brush, 0.3, 0.3)
+   GdipSetPathGradientFocusScales(brush, 0.3, 0.3)
 
    ' // Retrieve focus scales
    DIM AS SINGLE xScale, yScale
-   status = GdipGetPathGradientFocusScales(*brush, @xScale, @yScale)
+   GdipGetPathGradientFocusScales(brush, @xScale, @yScale)
 
    ' Output result
    AfxMsg "Focus scale X: " & WSTR(xScale) & CHR(13, 10) & "Focus scale Y: " & WSTR(yScale)
 
    ' // Fill rectangle to visualize the brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

@@ -42,13 +42,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathGradientSurroundColors (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Creates a gradient brush based on an array of points
    DIM pts(0 TO 2) AS GpPointF = {(20, 20), (100, 20), (100, 100)}
@@ -57,10 +54,10 @@ SUB Example_SetPathGradientSurroundColors (BYVAL hdc AS HDC)
     ' // Sets the surround colors
    DIM  count AS LONG = 3
    DIM colors(0 TO 2) AS ARGB = {ARGB_RED, ARGB_BLUE, ARGB_AQUA}
-   status = GdipSetPathGradientSurroundColorsWithCount(*brush, @colors(0), @count)
+   GdipSetPathGradientSurroundColorsWithCount(brush, @colors(0), @count)
    
    ' // Fill an area with the path gradient brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

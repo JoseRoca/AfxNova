@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathGradientFocusScales (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Creates a gradient brush based on an array of points
    DIM pts(0 TO 2) AS GpPointF = {(100, 0), (200, 200), (0, 200)}
@@ -51,14 +48,14 @@ SUB Example_SetPathGradientFocusScales (BYVAL hdc AS HDC)
    ' // blue at the boundary of the inner triangle
    DIM colors(0 TO 1) AS ARGB = {ARGB_RED, ARGB_BLUE}
    DIM relativePositions(0 TO 1) AS SINGLE = {0.0, 1.0}
-   status = GdipSetPathGradientPresetBlend(*brush, @colors(0), @relativePositions(0), 2)
+   GdipSetPathGradientPresetBlend(brush, @colors(0), @relativePositions(0), 2)
 
    ' // The inner triangle is formed by scaling the outer triangle
    ' // about its centroid. The scaling factor is 0.2 in both the x and y directions.
-   status = GdipSetPathGradientFocusScales(*brush, 0.2, 0.2)
+   GdipSetPathGradientFocusScales(brush, 0.2, 0.2)
    
    ' // Fill an area with the path gradient brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
 END SUB
 ' ========================================================================================

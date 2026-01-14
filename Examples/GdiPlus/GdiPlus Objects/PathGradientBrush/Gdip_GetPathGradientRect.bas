@@ -37,13 +37,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GdipGetPathGradientRect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path gradient brush based on an array of points.
    DIM points(0 TO 3) AS GpPointF = {(30, 20), (150, 40), (100, 100), (60, 200)}
@@ -51,14 +48,14 @@ SUB Example_GdipGetPathGradientRect (BYVAL hdc AS HDC)
 
    ' // Retrieve the bounding rectangle
    DIM rcf AS GpRectF
-   status = GdipGetPathGradientRect(*brush, @rcf)
+   GdipGetPathGradientRect(*brush, @rcf)
 
    ' // Fill a rectangle with the gradient brush
-   status = GdipFillRectangle(*graphics, *brush, rcf.x, rcf.y, rcf.width, rcf.height)
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.width, rcf.height)
 
    ' Draw the bounding rectangle using a pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1.0 * dpiRatio, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.width, rcf.height)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1.0 * graphics.dpiRatio, UnitPixel)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.width, rcf.height)
 
 END SUB
 ' ========================================================================================

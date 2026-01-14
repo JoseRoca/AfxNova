@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientGammaCorrection (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define triangle points
    DIM points(0 TO 2) AS GpPointF = {(0, 0), (100, 0), (50, 100)}
@@ -50,13 +47,13 @@ SUB Example_GetPathGradientGammaCorrection (BYVAL hdc AS HDC)
    DIM brush AS GdiPlusPathGradientBrush = GdiPlusPathGradientBrush(@points(0), 3)
 
    ' // Enable gamma correction
-   status = GdipSetPathGradientGammaCorrection(*brush, TRUE)
+   GdipSetPathGradientGammaCorrection(brush, TRUE)
 
    ' // Check if gamma correction is enabled
    DIM useGamma AS BOOL
-   status = GdipGetPathGradientGammaCorrection(*brush, @useGamma)
+   GdipGetPathGradientGammaCorrection(brush, @useGamma)
 
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 100, 100)
+   GdipFillRectangle(graphics, brush, 0, 0, 100, 100)
 
    ' Output result
    IF useGamma THEN

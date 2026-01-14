@@ -34,30 +34,27 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathGradientBlend (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path that consists of a single ellipse.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipse(*path, 100, 70, 200, 100)
+   GdipAddPathEllipse(path, 100, 70, 200, 100)
 
    ' // Use the path to construct a brush.
    DIM brush AS GdiPlusPathGradientBrush = *path
    ' // Set the color at the center of the path to blue.
-   status = GdipSetPathGradientCenterColor(*brush, ARGB_BLUE)
+   GdipSetPathGradientCenterColor(brush, ARGB_BLUE)
 
    ' // Set blend factors and positions for the path gradient brush.
    DIM factors(0 TO 3) AS SINGLE = {0.0, 0.4, 0.8, 1.0}
    DIM positions(0 TO 3) AS SINGLE = {0.0, 0.3, 0.7, 1.0}
-   status = GdipSetPathGradientBlend(*brush, @factors(0), @positions(0), 4)
+   GdipSetPathGradientBlend(brush, @factors(0), @positions(0), 4)
 
    ' // Fill an area with the path gradient brush
-   status = GdipFillEllipse(*graphics, *brush, 100, 70, 200, 100)
+   GdipFillEllipse(graphics, brush, 100, 70, 200, 100)
 
 END SUB
 ' ========================================================================================

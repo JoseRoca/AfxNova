@@ -39,31 +39,28 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    DIM pts(0 TO 2) AS GpPointF = {(0, 0), (100, 0), (100, 100)}
    DIM brush AS GdiPlusPathGradientBrush = GdiPlusPathGradientBrush(@pts(0), 3)
 
    ' // Apply scale and translation transforms to brush
-   status = GdipScalePathGradientTransform(*brush, 3.0, 1.0, MatrixOrderPrepend)
-   status = GdipTranslatePathGradientTransform(*brush, 10.0, 30.0, MatrixOrderPrepend)
+   GdipScalePathGradientTransform(brush, 3.0, 1.0, MatrixOrderPrepend)
+   GdipTranslatePathGradientTransform(brush, 10.0, 30.0, MatrixOrderPrepend)
 
    ' Fill a rectangle using the transformed brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 200)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 200)
 
    ' Retrieve the transformation matrix from the brush
    DIM matrix AS GpMatrix PTR
-   status = GdipGetPathGradientTransform(*brush, @matrix)
+   GdipGetPathGradientTransform(brush, @matrix)
 
    ' Extract matrix elements
    DIM elements(0 TO 5) AS SINGLE
-   status = GdipGetMatrixElements(matrix, @elements(0))
+   GdipGetMatrixElements(matrix, @elements(0))
 
    FOR j AS LONG = 0 TO 5
       ' Use or inspect elements(j)

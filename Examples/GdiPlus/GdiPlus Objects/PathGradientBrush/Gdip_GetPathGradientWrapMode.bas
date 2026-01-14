@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathGradientWrapMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define triangle points
    DIM points(0 TO 2) AS GpPointF = {(30, 30), (150, 30), (90, 120)}
@@ -49,10 +46,10 @@ SUB Example_GetPathGradientWrapMode (BYVAL hdc AS HDC)
 
    ' // Retrieve wrap mode
    DIM wrapMode AS GpWrapMode
-   status = GdipGetPathGradientWrapMode(*brush, @wrapMode)
+   GdipGetPathGradientWrapMode(brush, @wrapMode)
 
    ' // Fill a rectangle with the brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 400, 250)
+   GdipFillRectangle(graphics, brush, 0, 0, 400, 250)
 
    ' // Output result
    SELECT CASE wrapMode
