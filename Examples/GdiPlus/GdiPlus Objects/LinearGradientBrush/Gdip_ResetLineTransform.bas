@@ -30,26 +30,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetLineTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create linear brush
    DIM rcf AS GpRectF = (0, 0, 200, 100)
    DIM brush AS GdiPlusLinearGradientBrush = GdiPlusLinearGradientBrush(@rcf, ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
 
    ' // Apply a rotation transform
-   status = GdipRotateLineTransform(*brush, 45.0, MatrixOrderPrepend)
+   GdipRotateLineTransform(brush, 45.0, MatrixOrderPrepend)
 
    ' // Reset the transformation matrix
-   status = GdipResetLineTransform(*brush)
+   GdipResetLineTransform(brush)
 
    ' // Fill rectangle
-   status = GdipFillRectangle(*graphics, *brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

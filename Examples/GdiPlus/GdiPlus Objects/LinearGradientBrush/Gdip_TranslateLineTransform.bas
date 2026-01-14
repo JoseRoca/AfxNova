@@ -33,23 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TranslateLineTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create linear brush
    DIM rcf AS GpRectF = (0, 0, 200, 100)
    DIM brush AS GdiPlusLinearGradientBrush = GdiPlusLinearGradientBrush(@rcf, ARGB_GREEN, ARGB_BLACK, LinearGradientModeHorizontal)
 
    ' // Translate the brush
-   status = GdipTranslateLineTransform(*brush, 20.0, 10.0, MatrixOrderPrepend)
+   GdipTranslateLineTransform(brush, 20.0, 10.0, MatrixOrderPrepend)
 
    ' // Fill rectangle
-   status = GdipFillRectangle(*graphics, *brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

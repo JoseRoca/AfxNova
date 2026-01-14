@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateLineBrush (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define gradient boundary points
    DIM pt1 AS GpPointF = (20, 10)
@@ -50,7 +47,7 @@ SUB Example_CreateLineBrush (BYVAL hdc AS HDC)
    DIM brush AS GdiPlusLinearGradientBrush = GdiPlusLinearGradientBrush(@pt1, @pt2, ARGB_BLACK, ARGB_BLUE)
 
    ' // Fill rectangle using brush
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 200, 150)
+   GdipFillRectangle(graphics, brush, 0, 0, 200, 150)
 
 END SUB
 ' ========================================================================================

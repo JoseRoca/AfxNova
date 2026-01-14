@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetLineColors (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a linear gradient brush
    DIM rcf AS GpRectF = (0, 0, 200, 100)
@@ -47,11 +44,11 @@ SUB Example_GetLineColors (BYVAL hdc AS HDC)
 
    ' // Retrieve start and end colors
    DIM colors(1) AS ARGB
-   status = GdipGetLineColors(*brush, @colors(0))
+   GdipGetLineColors(brush, @colors(0))
 
    ' // (Optional) Use colors(0) and colors(1) for logic or display
    ' // Fill rectangle
-   status = GdipFillRectangle(*graphics, *brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

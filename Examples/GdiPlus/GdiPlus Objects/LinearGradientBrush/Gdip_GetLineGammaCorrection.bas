@@ -33,28 +33,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetLineGammaCorrection (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a linear gradient brush
    DIM rcf AS GpRectF = (0, 0, 200, 100)
    DIM brush AS GdiPlusLinearGradientBrush = GdiPlusLinearGradientBrush(@rcf, ARGB_GREEN, ARGB_BLACK, LinearGradientModeVertical)
 
    ' // Enable gamma correction
-   status = GdipSetLineGammaCorrection(*brush, TRUE)
+   GdipSetLineGammaCorrection(brush, TRUE)
 
    ' // Check if gamma correction is enabled
    DIM useGamma AS BOOL
-   status = GdipGetLineGammaCorrection(*brush, @useGamma)
+   GdipGetLineGammaCorrection(brush, @useGamma)
 
    ' // (Optional) Use useGamma value for logic or display
    ' // Fill rectangle
-   status = GdipFillRectangle(*graphics, *brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

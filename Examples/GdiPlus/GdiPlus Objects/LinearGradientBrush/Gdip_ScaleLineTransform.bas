@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: Gdip_SetLineColors.bas
-' Contents: GDI+ Flat API - GdipSetLineColors example
+' File: Gdip_ScaleLineTransform.bas
+' Contents: GDI+ Flat API - GdipScaleLineTransform example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -28,10 +28,10 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' This example shows how to override the initial colors of the brush after creation. It’s
-' useful when you want to reuse a brush with different color schemes dynamically.
+' This example stretches the gradient horizontally and compresses it vertically. You can
+' experiment with different scale factors and matrix orders to achieve unique visual effects.
 ' ========================================================================================
-SUB Example_SetLineColors (BYVAL hdc AS HDC)
+SUB Example_ScaleLineTransform (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
@@ -66,7 +66,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ GdipSetLineColors", @WndProc)
+   pWindow.Create(NULL, "GDI+ GdipScaleLineTransform", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
@@ -85,7 +85,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM token AS ULONG_PTR = AfxGdipInit
 
    ' // Draw the graphics
-   Example_SetLineColors(hdc)
+   Example_ScaleLineTransform(hdc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

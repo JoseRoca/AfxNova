@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetLineBlend (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a linear gradient brush
    DIM rcf AS GpRectF = (0, 0, 200, 100)
@@ -49,19 +46,19 @@ SUB Example_GetLineBlend (BYVAL hdc AS HDC)
    ' // Set custom blend
    DIM setFactors(3) AS SINGLE = {0.0, 0.4, 0.6, 1.0}
    DIM setPositions(3) AS SINGLE = {0.0, 0.2, 0.8, 1.0}
-   status = GdipSetLineBlend(*brush, @setFactors(0), @setPositions(0), 4)
+   GdipSetLineBlend(brush, @setFactors(0), @setPositions(0), 4)
 
    ' // Get blend count
    DIM count AS LONG
-   status = GdipGetLineBlendCount(*brush, @count)
+   GdipGetLineBlendCount(brush, @count)
 
    ' // Retrieve blend factors and positions
    DIM getFactors(count - 1) AS SINGLE
    DIM getPositions(count - 1) AS SINGLE
-   status = GdipGetLineBlend(*brush, @getFactors(0), @getPositions(0), count)
+   GdipGetLineBlend(brush, @getFactors(0), @getPositions(0), count)
 
    ' // Fill rectangle
-   status = GdipFillRectangle(*graphics, *brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

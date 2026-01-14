@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetLineBlendCount (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a linear gradient brush
    DIM rcf AS GpRectF = (0, 0, 200, 100)
@@ -48,14 +45,14 @@ SUB Example_GetLineBlendCount (BYVAL hdc AS HDC)
    ' // Set custom blend
    DIM factors(3) AS SINGLE = {0.0, 0.4, 0.6, 1.0}
    DIM positions(3) AS SINGLE = {0.0, 0.2, 0.8, 1.0}
-   status = GdipSetLineBlend(*brush, @factors(0), @positions(0), 4)
+   GdipSetLineBlend(brush, @factors(0), @positions(0), 4)
 
    ' // Retrieve blend count
    DIM count AS LONG
-   status = GdipGetLineBlendCount(*brush, @count)
+   GdipGetLineBlendCount(brush, @count)
 
    ' // (Optional) Use count for logic or display
-   status = GdipFillRectangle(*graphics, *brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

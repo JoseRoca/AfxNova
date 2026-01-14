@@ -34,27 +34,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_Gdip_SetBlendTriangularShape (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create linear gradient brush
    DIM rcf AS GpRectF = (0, 0, 400, 200)
    DIM brush AS GdiPlusLinearGradientBrush = GdiPlusLinearGradientBrush(@rcf, ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
 
    ' // Add three rectangles filles with bell-shaped blend brushes
-   status = GdipSetLineLinearBlend(*brush, 0.5, 0.6)
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 400, 50)
-   status = GdipSetLineLinearBlend(*brush, 0.5, 0.8)
-   status = GdipFillRectangle(*graphics, *brush, 0, 66, 400, 50)
-   status = GdipSetLineLinearBlend(*brush, 0.5, 1.0)
-   status = GdipFillRectangle(*graphics, *brush, 0, 133, 400, 50)
-   status = GdipSetLineLinearBlend(*brush, 0.5, 1.8)
-   status = GdipFillRectangle(*graphics, *brush, 0, 198, 400, 50)
+   GdipSetLineLinearBlend(brush, 0.5, 0.6)
+   GdipFillRectangle(graphics, brush, 0, 0, 400, 50)
+   GdipSetLineLinearBlend(brush, 0.5, 0.8)
+   GdipFillRectangle(graphics, brush, 0, 66, 400, 50)
+   GdipSetLineLinearBlend(brush, 0.5, 1.0)
+   GdipFillRectangle(graphics, brush, 0, 133, 400, 50)
+   GdipSetLineLinearBlend(brush, 0.5, 1.8)
+   GdipFillRectangle(graphics, brush, 0, 198, 400, 50)
 
 END SUB
 ' ========================================================================================

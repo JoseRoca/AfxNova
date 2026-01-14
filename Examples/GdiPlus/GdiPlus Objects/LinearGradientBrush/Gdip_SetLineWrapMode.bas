@@ -34,23 +34,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetLineWrapMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create linear brush
    DIM rcf AS GpRectF = (0, 0, 100, 50)
    DIM brush AS GdiPlusLinearGradientBrush = GdiPlusLinearGradientBrush(@rcf, ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
 
    ' // Change wrap mode to FlipXY
-   status = GdipSetLineWrapMode(*brush, WrapModeTileFlipXY)
+   GdipSetLineWrapMode(brush, WrapModeTileFlipXY)
 
    ' // Fill a larger rectangle to show tiling effect
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 300, 150)
+   GdipFillRectangle(graphics, brush, 0, 0, 300, 150)
 
 END SUB
 ' ========================================================================================

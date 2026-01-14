@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetLineWrapMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create linear brush
    DIM rcf AS GpRectF = (0, 0, 100, 50)
@@ -48,11 +45,11 @@ SUB Example_GetLineWrapMode (BYVAL hdc AS HDC)
 
    ' // Retrieve wrap mode
    DIM wrapMode AS GpWrapMode
-   status = GdipGetLineWrapMode(*brush, @wrapMode)
+   GdipGetLineWrapMode(brush, @wrapMode)
 
    ' // Optionally use wrapMode value (e.g., display or log)
    ' // For demonstration, fill a rectangle
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 300, 150)
+   GdipFillRectangle(graphics, brush, 0, 0, 300, 150)
 
 END SUB
 ' ========================================================================================
