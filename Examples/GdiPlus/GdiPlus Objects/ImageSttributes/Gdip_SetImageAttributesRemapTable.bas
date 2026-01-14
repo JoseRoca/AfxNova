@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetRemapTable (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create an Image object based on a .bmp file.
    ' // The image has one red stripe and one green stripe.
@@ -52,21 +49,21 @@ SUB Example_SetRemapTable (BYVAL hdc AS HDC)
    cMap.oldColor = ARGB_RED
    cMap.newColor = ARGB_BLUE
    DIM imgAttr AS GdiPlusImageAttributes
-   status = GdipSetImageAttributesRemapTable(*imgAttr, ColorAdjustTypeDefault, TRUE, 1, @cMap)
+   GdipSetImageAttributesRemapTable(imgAttr, ColorAdjustTypeDefault, TRUE, 1, @cMap)
 
    ' // Get the width and height of the image
    DIM AS LONG nWidth, nHeight
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
    
    ' // Draw the image with no color adjustment
-   status = GdipDrawImageRect(*graphics, *image, 10, 10, nWidth, nHeight)
+   GdipDrawImageRect(graphics, image, 10, 10, nWidth, nHeight)
 
    ' // Draw the image with red converted to blue.
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
             100, 10, nWidth, nHeight, _       ' // dest rect
             0, 0, nWidth, nHeight, _          ' // source rect
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

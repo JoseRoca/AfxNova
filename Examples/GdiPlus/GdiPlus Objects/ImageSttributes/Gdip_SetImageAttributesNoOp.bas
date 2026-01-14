@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetNoOp (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Load image
    DIM image AS GdiPlusImage = "climber.jpg"
@@ -46,8 +43,8 @@ SUB Example_SetNoOp (BYVAL hdc AS HDC)
    ' Get image dimensions
    DIM nWidth AS UINT
    DIM nHeight AS UINT
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
 
    ' Create ImageAttributes
    DIM imgAttr AS GdiPlusImageAttributes
@@ -61,16 +58,16 @@ SUB Example_SetNoOp (BYVAL hdc AS HDC)
    grayMatrix.m(4,4) = 1
 
    ' Apply grayscale matrix
-   status = GdipSetImageAttributesColorMatrix(*imgAttr, ColorAdjustTypeBitmap, TRUE, @grayMatrix, NULL, ColorMatrixFlagsDefault)
+   GdipSetImageAttributesColorMatrix(imgAttr, ColorAdjustTypeBitmap, TRUE, @grayMatrix, NULL, ColorMatrixFlagsDefault)
 
    ' Draw grayscale image
-   status = GdipDrawImageRectRect(*graphics, *image, 10, 10, nWidth, nHeight, 0, 0, nWidth, nHeight, UnitPixel, *imgAttr, NULL, NULL)
+   GdipDrawImageRectRect(graphics, *image, 10, 10, nWidth, nHeight, 0, 0, nWidth, nHeight, UnitPixel, imgAttr, NULL, NULL)
 
    ' Disable color adjustments using GdipSetImageAttributesNoOp
-   status = GdipSetImageAttributesNoOp(*imgAttr, ColorAdjustTypeBitmap, TRUE)
+   GdipSetImageAttributesNoOp(imgAttr, ColorAdjustTypeBitmap, TRUE)
 
    ' Draw original image (no color matrix applied)
-   status = GdipDrawImageRectRect(*graphics, *image, 210, 10, nWidth, nHeight, 0, 0, nWidth, nHeight, UnitPixel, *imgAttr, NULL, NULL)
+   GdipDrawImageRectRect(graphics, image, 210, 10, nWidth, nHeight, 0, 0, nWidth, nHeight, UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

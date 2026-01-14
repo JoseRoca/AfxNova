@@ -38,55 +38,52 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetOutputChannel (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load an image from file
    DIM image AS GdiPlusImage = "Mosaic2.bmp"
    ' // Set the resolution of this image object to the user's DPI settings
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
    
    ' // Draw the image unaltered.
    DIM AS LONG nWidth, nHeight
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
-   status = GdipDrawImageRect(*graphics, *image, 10, 10, nWidth, nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
+   GdipDrawImageRect(graphics, image, 10, 10, nWidth, nHeight)
 
    ' // Create an ImageAttributes object
    DIM imgAttr AS GdiPlusImageAttributes
 
    ' // Draw the image, showing the intensity of the cyan channel.
-   status = GdipSetImageAttributesOutputChannel(*imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsC)
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipSetImageAttributesOutputChannel(imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsC)
+   GdipDrawImageRectRect(graphics, image, _
             110, 10, nWidth, nHeight, _   ' dest rect
             0, 0, nWidth, nHeight, _      ' source dest
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
    ' // Draw the image, showing the intensity of the magenta channel.
-   status = GdipSetImageAttributesOutputChannel(*imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsM)
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipSetImageAttributesOutputChannel(imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsM)
+   GdipDrawImageRectRect(graphics, image, _
             210, 10, nWidth, nHeight, _   ' dest rect
             0, 0, nWidth, nHeight, _      ' source dest
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
    ' // Draw the image, showing the intensity of the yellow channel.
-   status = GdipSetImageAttributesOutputChannel(*imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsY)
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipSetImageAttributesOutputChannel(imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsY)
+   GdipDrawImageRectRect(graphics, image, _
             10, 110, nWidth, nHeight, _   ' dest rect
             0, 0, nWidth, nHeight, _      ' source dest
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
    ' // Draw the image, showing the intensity of the black channel.
-   status = GdipSetImageAttributesOutputChannel(*imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsK)
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipSetImageAttributesOutputChannel(imgAttr, ColorAdjustTypeBitmap, TRUE, ColorChannelFlagsK)
+   GdipDrawImageRectRect(graphics, image, _
             110, 110, nWidth, nHeight, _  ' dest rect
             0, 0, nWidth, nHeight, _      ' source dest
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

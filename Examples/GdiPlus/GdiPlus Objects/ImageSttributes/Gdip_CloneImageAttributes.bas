@@ -34,44 +34,41 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloneImageAttributes (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load an image from file
    DIM image AS GdiPlusImage = "climber.jpg"
    ' // Set the resolution of this image object to the user's DPI settings
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
    
    ' // Get the width and height of the image
    DIM AS LONG nWidth, nHeight
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
 
    ' // Create an ImageAttributes object
    DIM imgAttr AS GdiPlusImageAttributes
 
    ' // Set the wrap mode to WrapModeTile
-   GdipSetImageAttributesWrapMode(*imgAttr, WrapModeTile, ARGB_RED, FALSE)
+   GdipSetImageAttributesWrapMode(imgAttr, WrapModeTile, ARGB_RED, FALSE)
 
    ' // Clone the ImageAttributes
    DIM cloneAttr AS GdiPlusImageAttributes = imgAttr
 
    ' // Draw the image
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
             10, 10, nWidth, nHeight, _         ' dest rect
             0, 0, 2 * nWidth, 2 * nHeight, _   ' source dest
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
    ' // Draw the image using cloned attributes
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
             200, 10, nWidth, nHeight, _        ' dest rect
             0, 0, 2 * nWidth, 2 * nHeight, _   ' source dest
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

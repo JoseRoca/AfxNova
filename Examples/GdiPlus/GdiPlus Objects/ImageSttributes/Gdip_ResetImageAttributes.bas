@@ -33,22 +33,19 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetImageAttributes (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load an image
    DIM image AS GdiPlusImage = "RedGreenStripes.bmp"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
 
    ' // Get image dimensions
    DIM nWidth AS LONG, nHeight AS LONG
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
 
    ' // Create an ImageAttributes object
    DIM imgAttr AS GdiPlusImageAttributes
@@ -57,22 +54,22 @@ SUB Example_ResetImageAttributes (BYVAL hdc AS HDC)
    DIM cMap AS GpColorMap
    cMap.oldColor = ARGB_RED
    cMap.newColor = ARGB_BLUE
-   status = GdipSetImageAttributesRemapTable(*imgAttr, ColorAdjustTypeDefault, TRUE, 1, @cMap)
+   GdipSetImageAttributesRemapTable(imgAttr, ColorAdjustTypeDefault, TRUE, 1, @cMap)
 
    ' // Draw the image with color remap applied
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
       10, 10, nWidth, nHeight, _
       0, 0, nWidth, nHeight, _
-      UnitPixel, *imgAttr, NULL, NULL)
+      UnitPixel, imgAttr, NULL, NULL)
 
    ' // Reset the ImageAttributes for the default category
-   status = GdipResetImageAttributes(*imgAttr, ColorAdjustTypeDefault)
+   GdipResetImageAttributes(imgAttr, ColorAdjustTypeDefault)
 
    ' // Draw the image again with reset attributes (should appear unaltered)
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
       120, 10, nWidth, nHeight, _
       0, 0, nWidth, nHeight, _
-      UnitPixel, *imgAttr, NULL, NULL)
+      UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

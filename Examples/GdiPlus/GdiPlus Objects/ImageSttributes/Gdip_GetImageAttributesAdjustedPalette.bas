@@ -36,13 +36,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB GDIP_GetAdjustedPalette  (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a palette that has four entries.
    DIM clrPalette AS COLORPALETTE PTR
@@ -61,8 +58,8 @@ SUB GDIP_GetAdjustedPalette  (BYVAL hdc AS HDC)
    
    ' // Display the four palette colors with no adjustment.
    FOR j AS LONG = 0 TO PALETTE_SIZE - 1
-      status = GdipSetSolidFillColor(*brush, clrPalette->Entries(j))
-      status = GdipFillRectangle(*graphics, *brush, 30 * j, 0, 20, 20)
+      GdipSetSolidFillColor(brush, clrPalette->Entries(j))
+      GdipFillRectangle(graphics, brush, 30 * j, 0, 20, 20)
    NEXT
    
    ' // Create a remap table that converts green to blue.
@@ -72,16 +69,16 @@ SUB GDIP_GetAdjustedPalette  (BYVAL hdc AS HDC)
 
    ' // Create an ImageAttributes object, and set its bitmap remap table.
    DIM imgAttr AS GdiPlusImageAttributes
-   status = GdipSetImageAttributesRemapTable(*imgAttr, _
+   GdipSetImageAttributesRemapTable(imgAttr, _
              ColorAdjustTypeBitmap, TRUE, 1, @map)
 
    ' // Adjust the palette.
-   status = GdipGetImageAttributesAdjustedPalette(*imgAttr, clrPalette, ColorAdjustTypeBitmap)
+   GdipGetImageAttributesAdjustedPalette(imgAttr, clrPalette, ColorAdjustTypeBitmap)
 
    ' // Display the four palette colors after the adjustment.
    FOR j AS LONG = 0 TO PALETTE_SIZE - 1
-      status = GdipSetSolidFillColor(*brush, clrPalette->Entries(j))
-      status = GdipFillRectangle (*graphics, *brush, 30 * j, 30, 20, 20)
+      GdipSetSolidFillColor(brush, clrPalette->Entries(j))
+      GdipFillRectangle (graphics, brush, 30 * j, 30, 20, 20)
    NEXT
 
 END SUB

@@ -32,23 +32,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetToIdentity (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load an image from file
    DIM image AS GdiPlusImage = "climber.jpg"
    ' // Set the resolution of this image object to the user's DPI settings
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
    
    ' // Get the width and height of the image
    DIM AS LONG nWidth, nHeight
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
 
    ' // Create an ImageAttributes object
    DIM imgAttr AS GdiPlusImageAttributes
@@ -62,22 +59,22 @@ SUB Example_SetToIdentity (BYVAL hdc AS HDC)
    grayMatrix.m(4, 0) = 0   : grayMatrix.m(4, 1) = 0   : grayMatrix.m(4, 2) = 0   : grayMatrix.m(4, 3) = 0 : grayMatrix.m(4, 4) = 1
 
    ' // Apply grayscale matrix
-   status = GdipSetImageAttributesColorMatrix(*imgAttr, ColorAdjustTypeDefault, TRUE, @grayMatrix, NULL, ColorMatrixFlagsDefault)
+   GdipSetImageAttributesColorMatrix(imgAttr, ColorAdjustTypeDefault, TRUE, @grayMatrix, NULL, ColorMatrixFlagsDefault)
 
    ' // Draw grayscale image
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
       10, 10, nWidth, nHeight, _
       0, 0, nWidth, nHeight, _
-      UnitPixel, *imgAttr, NULL, NULL)
+      UnitPixel, imgAttr, NULL, NULL)
 
    ' // Reset to identity matrix (remove grayscale)
-   status = GdipSetImageAttributesToIdentity(*imgAttr, ColorAdjustTypeDefault)
+   GdipSetImageAttributesToIdentity(imgAttr, ColorAdjustTypeDefault)
 
    ' // Draw original image (no color adjustment)
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
       200, 10, nWidth, nHeight, _
       0, 0, nWidth, nHeight, _
-      UnitPixel, *imgAttr, NULL, NULL)
+      UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

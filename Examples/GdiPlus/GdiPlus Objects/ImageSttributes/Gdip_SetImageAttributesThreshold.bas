@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetThreshold (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create an Image object based on a .bmp file.
    ' // The image has one stripe with RGB components (160, 0, 0)
@@ -50,23 +47,23 @@ SUB Example_SetThreshold (BYVAL hdc AS HDC)
 
    ' // Create an ImageAttributes object, and set its bitmap threshold to 0.6.
    DIM imgAttr AS GdiPlusImageAttributes
-   status = GdipSetImageAttributesThreshold(*imgAttr, ColorAdjustTypeBitmap, TRUE, 0.6)
+   GdipSetImageAttributesThreshold(imgAttr, ColorAdjustTypeBitmap, TRUE, 0.6)
 
    ' // Get the width and height of the image
    DIM AS LONG nWidth, nHeight
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
 
    ' // Draw the image with no color adjustment.
-   status = GdipDrawImageRect(*graphics, *image, 10, 10, nWidth, nHeight)
+   GdipDrawImageRect(graphics, image, 10, 10, nWidth, nHeight)
 
    ' // Draw the image with the threshold applied.
    ' // 160 > 0.6*255, so the red stripe will be changed to full intensity.
    ' // 140 < 0.6*255, so the green stripe will be changed to zero intensity.
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
             100, 10, nWidth, nHeight, _   ' dest rect
             0, 0, nWidth, nHeight, _      ' source dest
-            UnitPixel, *imgAttr, NULL, NULL)
+            UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

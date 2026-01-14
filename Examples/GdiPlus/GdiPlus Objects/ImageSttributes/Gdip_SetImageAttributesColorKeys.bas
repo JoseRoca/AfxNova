@@ -33,38 +33,35 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetColorKeys (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load an image from file
    DIM image AS GdiPlusImage = "RedGreenStripes.bmp"
    ' // Set the resolution of this image object to the user's DPI settings
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
    
    ' // Get the width and height of the image
    DIM AS LONG nWidth, nHeight
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
 
    ' // Create an ImageAttributes object
    DIM imgAttr AS GdiPlusImageAttributes
 
    ' // Set color key: make green transparent
-   status = GdipSetImageAttributesColorKeys(*imgAttr, ColorAdjustTypeDefault, TRUE, GDIP_ARGB(255,0,128,0), GDIP_ARGB(255,0,255,0))
+   GdipSetImageAttributesColorKeys(imgAttr, ColorAdjustTypeDefault, TRUE, GDIP_ARGB(255,0,128,0), GDIP_ARGB(255,0,255,0))
 
    ' // Draw original image (no transparency)
-   status = GdipDrawImageRect(*graphics, *image, 10, 10, nWidth, nHeight)
+   GdipDrawImageRect(graphics, image, 10, 10, nWidth, nHeight)
 
    ' // Draw image with transparency applied
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
       120, 10, nWidth, nHeight, _
       0, 0, nWidth, nHeight, _
-      UnitPixel, *imgAttr, NULL, NULL)
+      UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================

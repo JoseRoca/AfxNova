@@ -32,38 +32,35 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetOutputChannelColorProfile (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load an image from file
    DIM image AS GdiPlusImage = "climber.jpg"
    ' // Set the resolution of this image object to the user's DPI settings
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
    
    ' // Draw the image unaltered.
    DIM AS LONG nWidth, nHeight
-   status = GdipGetImageWidth(*image, @nWidth)
-   status = GdipGetImageHeight(*image, @nHeight)
-   status = GdipDrawImageRect(*graphics, *image, 10, 10, nWidth, nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
+   GdipDrawImageRect(graphics, image, 10, 10, nWidth, nHeight)
 
    ' // Create an ImageAttributes object
    DIM imgAttr AS GdiPlusImageAttributes
 
    ' // Set CMYK color profile (must be a valid ICC file path)
    DIM colorProfileFilename AS WSTRING *MAX_PATH = "C:\Program Files\Bullzip\PDF Printer\icc\sRGB_IEC61966-2-1_no_black_scaling.icc"
-   status = GdipSetImageAttributesOutputChannelColorProfile(*imgAttr, _
+   GdipSetImageAttributesOutputChannelColorProfile(imgAttr, _
       ColorAdjustTypeDefault, TRUE, colorProfileFilename)
 
    ' // Draw image with color profile applied
-   status = GdipDrawImageRectRect(*graphics, *image, _
+   GdipDrawImageRectRect(graphics, image, _
       10, 10, nWidth, nHeight, _
       0, 0, nWidth, nHeight, _
-      UnitPixel, *imgAttr, NULL, NULL)
+      UnitPixel, imgAttr, NULL, NULL)
 
 END SUB
 ' ========================================================================================
