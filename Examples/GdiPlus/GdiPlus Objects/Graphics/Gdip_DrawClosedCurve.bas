@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawClosedCurve (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a green Pen
    DIM greenPen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 1)
@@ -61,19 +58,19 @@ SUB Example_DrawClosedCurve (BYVAL hdc AS HDC)
    curvePoints(6) = point7
 
    ' // Draw the closed curve
-   status = GdipDrawClosedCurve2(*graphics, *greenPen, @curvePoints(0), 7, 1.0)
+   GdipDrawClosedCurve2(graphics, greenPen, @curvePoints(0), 7, 1.0)
 
    ' // Create the brush
    DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
 
    ' //Draw the points in the curve
-   status = GdipFillEllipse(*graphics, *redBrush, 95, 95, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 495, 95, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 495, 495, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 195, 45, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 395, 5, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 595, 195, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 695, 395, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 95, 95, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 495, 95, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 495, 495, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 195, 45, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 395, 5, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 595, 195, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 695, 395, 10, 10)
 
 END SUB
 ' ========================================================================================

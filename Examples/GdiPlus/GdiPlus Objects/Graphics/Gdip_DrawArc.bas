@@ -32,19 +32,16 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawArc (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a red Pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 3)
 
    ' // Draw the arc
-   status = GdipDrawArc(*graphics, *pen, 0, 0, 200, 100, 0, 90)
+   GdipDrawArc(graphics, pen, 0, 0, 200, 100, 0, 90)
 
 END SUB
 ' ========================================================================================

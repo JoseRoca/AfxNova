@@ -34,24 +34,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_HalfTonePalette (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load image from file
-   DIM image AS GdiPlusImage = GdiPlusImage("climber.jpg")
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   DIM image AS GdiPlusImage = "climber.jpg"
+   image.SetResolution(graphics)
 
    ' // Draw image at (10, 10)
-   status = GdipDrawImage(*graphics, *image, 10, 10)
+   GdipDrawImage(graphics, image, 10, 10)
 
-'   ' // Get halftone palette
-   DIM hPalette AS HPALETTE
-   hPalette = GdipCreateHalftonePalette
+   ' // Get halftone palette
+   DIM hPalette AS HPALETTE = GdipCreateHalftonePalette
 
    ' // Apply palette to HDC
    SelectPalette(hdc, hPalette, FALSE)
@@ -60,13 +56,13 @@ SUB Example_HalfTonePalette (BYVAL hdc AS HDC)
    ' // Create second graphics object and draw image again
    DIM graphics2 AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   graphics2.ScaleTransform(dpiRatio)
+   graphics2.ScaleTransform
    ' // Draw the image
-   status = GdipDrawImage(*graphics2, *image, 210, 10)
+   GdipDrawImage(graphics2, image, 210, 10)
 
    ' // Cleanup
-   IF hPalette THEN DeleteObject(hPalette)
-   
+   IF hPalette THEN DeleteObject(hPalette)   
+
 END SUB
 ' ========================================================================================
 

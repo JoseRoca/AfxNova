@@ -32,27 +32,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GdipGraphicsClar (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Clear the surface to light gray
-   status = GdipGraphicsClear(*graphics, ARGB_LIGHTGRAY)
+   GdipGraphicsClear(graphics, ARGB_LIGHTGRAY)
 
    ' // Draw something after clearing
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 3.0, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *pen, 50, 50, 150, 100)
+   GdipDrawRectangle(graphics, pen, 50, 50, 150, 100)
 
    ' // Optional: draw confirmation text
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
    DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   status = GdipDrawString(*graphics, "Canvas cleared", -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, "Canvas cleared", -1, font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

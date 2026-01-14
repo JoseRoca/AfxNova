@@ -33,16 +33,13 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetTextRenderingHint (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set the text rendering hint to TextRenderingHintSingleBitPerPixel.
-   status = GdipSetTextRenderingHint(*graphics, TextRenderingHintSingleBitPerPixel)
+   GdipSetTextRenderingHint(*graphics, TextRenderingHintSingleBitPerPixel)
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -53,17 +50,17 @@ SUB Example_SetTextRenderingHint (BYVAL hdc AS HDC)
 
    ' // Draw text
    DIM rcf AS GpRectF
-   DIM format AS GdiPlusSringFormat
+   DIM format AS GdiPlusStringFormat
    DIM wszText AS WSTRING *  128 = "Low quality rendering"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format, *brush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, brush)
 
    ' // Set the text rendering hint to TextRenderingHintAntiAlias.
-   status = GdipSetTextRenderingHint(*graphics, TextRenderingHintAntiAlias)
+   GdipSetTextRenderingHint(graphics, TextRenderingHintAntiAlias)
 
    ' // Draw more text to demonstrate the difference.
    rcf.y = 50
    wszText = "High quality rendering"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format, *brush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, brush)
 
 END SUB
 ' ========================================================================================

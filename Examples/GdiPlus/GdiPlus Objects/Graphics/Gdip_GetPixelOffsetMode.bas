@@ -35,20 +35,17 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPixelOffsetMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Optionally set a pixel offset mode
-   status = GdipSetPixelOffsetMode(*graphics, PixelOffsetModeHalf)
+   GdipSetPixelOffsetMode(graphics, PixelOffsetModeHalf)
 
    ' // Retrieve the current pixel offset mode
    DIM offsetMode AS PixelOffsetMode
-   status = GdipGetPixelOffsetMode(*graphics, @offsetMode)
+   GdipGetPixelOffsetMode(graphics, @offsetMode)
 
    ' // Display the result
    DIM modeName AS STRING
@@ -65,7 +62,7 @@ SUB Example_GetPixelOffsetMode (BYVAL hdc AS HDC)
    DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   status = GdipDrawString(*graphics, "PixelOffsetMode: " & modeName, -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, "PixelOffsetMode: " & modeName, -1, font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

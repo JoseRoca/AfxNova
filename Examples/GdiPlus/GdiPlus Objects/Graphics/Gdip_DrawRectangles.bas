@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawRectangles (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 3)
@@ -50,7 +47,7 @@ SUB Example_DrawRectangles (BYVAL hdc AS HDC)
    rc(2).x = 300.0 : rc(2).y = 0.0   : rc(2).Width = 50.0  : rc(2).Height = 100.0
 
    ' // Draw the rectangles
-   status = GdipDrawRectangles(*graphics, *pen, @rc(0), 3)
+   GdipDrawRectangles(graphics, pen, @rc(0), 3)
 
 END SUB
 ' ========================================================================================

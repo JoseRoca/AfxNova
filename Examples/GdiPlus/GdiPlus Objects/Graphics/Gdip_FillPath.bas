@@ -32,23 +32,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FillPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object, and add an ellipse
    DIM ellipsePath AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipseI(*ellipsePath, 100, 50, 200, 100)
+   GdipAddPathEllipseI(ellipsePath, 100, 50, 200, 100)
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    ' // Fill ellipsePath.
-   status = GdipFillPath(*graphics, *brush, *ellipsePath)
+   GdipFillPath(graphics, brush, ellipsePath)
 
 END SUB
 ' ========================================================================================

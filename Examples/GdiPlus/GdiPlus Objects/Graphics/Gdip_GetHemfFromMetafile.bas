@@ -53,7 +53,7 @@ SUB Example_GetHemfFromMetafile (BYVAL hdc AS HDC)
    DIM graphics AS GpGraphics PTR
    status = GdipGetImageGraphicsContext(metafile, @graphics)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2.0, UnitPixel)
-   status = GdipDrawEllipse(graphics, *pen, 50.0, 50.0, 200.0, 100.0)
+   status = GdipDrawEllipse(graphics, pen, 50.0, 50.0, 200.0, 100.0)
    GdipDeleteGraphics(graphics)
 
    ' // Extract HENHMETAFILE

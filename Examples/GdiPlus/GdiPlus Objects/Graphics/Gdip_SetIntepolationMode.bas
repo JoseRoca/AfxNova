@@ -32,20 +32,17 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetInterpolationMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set the interpolation mode
-   status = GdipSetInterpolationMode(*graphics, InterpolationModeHighQuality)
+   GdipSetInterpolationMode(graphics, InterpolationModeHighQuality)
 
    ' // Get the interpolation mode
    DIM mode AS InterpolationMode
-   status = GdipGetInterpolationMode(*graphics, @mode)
+   DIM status AS GpStatus = GdipGetInterpolationMode(graphics, @mode)
    IF status = StatusOk THEN
       AfxMsg "Current interpolation mode: " & WSTR(mode)
    ELSE

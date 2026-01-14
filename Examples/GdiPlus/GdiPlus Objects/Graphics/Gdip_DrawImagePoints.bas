@@ -32,17 +32,14 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawImagePoints (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the Image object
    DIM image AS GdiPlusImage = "climber.jpg"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
 
    ' // Create an array of GpPointF structures that specify the destination of the image.
    DIM destPoints(2) AS GpPointF
@@ -51,7 +48,7 @@ SUB Example_DrawImagePoints (BYVAL hdc AS HDC)
    destPoints(2).x = 175.0 : destPoints(2).y = 120.0
 
    ' // Draw the image
-   status = GdipDrawImagePoints(*graphics, *image, @destpoints(0), 3)
+   GdipDrawImagePoints(graphics, image, @destpoints(0), 3)
 
 END SUB
 ' ========================================================================================

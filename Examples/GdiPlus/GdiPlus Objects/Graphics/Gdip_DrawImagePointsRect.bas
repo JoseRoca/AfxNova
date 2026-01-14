@@ -33,20 +33,17 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawImagePointsRect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the Image object
    DIM image AS GdiPlusImage = "pattern.png"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
 
    ' // Draw the original image
-   status = GdipDrawImage(*graphics, *image, 10, 10)
+   GdipDrawImage(graphics, image, 10, 10)
 
    ' // Define the portion of the image to draw.
    DIM srcX AS SINGLE = 70.0
@@ -65,11 +62,11 @@ SUB Example_DrawImagePointsRect (BYVAL hdc AS HDC)
    DIM redToBlue AS GpColorMap
    redToBlue.oldColor = ARGB_RED
    redToBlue.newColor = ARGB_BLUE
-   status = GdipSetImageAttributesRemapTable(*remapAttributes, ColorAdjustTypeDefault, TRUE, 1, @redToBlue)
+   GdipSetImageAttributesRemapTable(remapAttributes, ColorAdjustTypeDefault, TRUE, 1, @redToBlue)
 
    ' // Draw the cropped image
-   status = GdipDrawImagePointsRect(*graphics, *image, @destPoints(0), 3, srcx, srcy, _
-            srcwidth, srcheight, UnitPixel, *remapAttributes, NULL, NULL)
+   GdipDrawImagePointsRect(graphics, image, @destPoints(0), 3, srcx, srcy, _
+            srcwidth, srcheight, UnitPixel, remapAttributes, NULL, NULL)
 
 END SUB
 ' ========================================================================================

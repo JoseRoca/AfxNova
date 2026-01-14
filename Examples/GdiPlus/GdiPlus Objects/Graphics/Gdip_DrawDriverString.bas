@@ -40,13 +40,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawDriverString (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -66,7 +63,7 @@ SUB Example_DrawDriverString (BYVAL hdc AS HDC)
    NEXT
 
    ' // Draw the driver string
-   status = GdipDrawDriverString(*graphics, @text(0), 5, *font, *brush, @positions(0), DriverStringOptionsCmapLookup, NULL)
+   GdipDrawDriverString(graphics, @text(0), 5, font, brush, @positions(0), DriverStringOptionsCmapLookup, NULL)
 
 END SUB
 ' ========================================================================================

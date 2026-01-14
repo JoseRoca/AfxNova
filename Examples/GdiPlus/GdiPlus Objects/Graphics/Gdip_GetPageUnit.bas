@@ -32,23 +32,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPageUnit (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set page unit to inches
-   status = GdipSetPageUnit(*graphics, UnitInch)
+   GdipSetPageUnit(graphics, UnitInch)
 
    ' // Set page scale to 2.0 (double size)
-   status = GdipSetPageScale(*graphics, 2.0)
+   GdipSetPageScale(graphics, 2.0)
 
    ' // Retrieve current page unit
    DIM unit AS GpUnit
-   status = GdipGetPageUnit(*graphics, @unit)
+   GdipGetPageUnit(graphics, @unit)
 
    ' // Output the page unit
    AfxMsg("Current page unit: " & WSTR(unit))

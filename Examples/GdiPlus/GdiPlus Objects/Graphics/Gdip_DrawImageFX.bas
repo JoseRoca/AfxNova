@@ -32,42 +32,34 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawImageFX (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Load image
    DIM image AS GdiPlusImage = "climber.jpg"
 
    ' // Get image dimensions
    DIM nWidth AS UINT, nHeight AS UINT
-   GdipGetImageWidth(*image, @nWidth)
-   GdipGetImageHeight(*image, @nHeight)
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
 
    ' // Define source rectangle using actual image size
    DIM srcRect AS GpRectF = (0, 0, nWidth, nHeight)
 
    ' Create transformation matrix (scale and rotate)
    DIM matrix AS GdiPlusMatrix
-   status = GdipScaleMatrix(*matrix, 1.5, 1.5, MatrixOrderAppend)
-   status = GdipRotateMatrix(*matrix, 30.0, MatrixOrderAppend)
+   GdipScaleMatrix(matrix, 1.5, 1.5, MatrixOrderAppend)
+   GdipRotateMatrix(matrix, 30.0, MatrixOrderAppend)
 
    ' Create blur effect
    DIM effect AS GdiPlusEffect = BlurEffectGuid
    DIM blurParams(0 TO 0) AS SINGLE = {5.0}  ' Radius
-   status = GdipSetEffectParameters(*effect, @blurParams(0), SIZEOF(SINGLE))
+   GdipSetEffectParameters(effect, @blurParams(0), SIZEOF(SINGLE))
 
    ' Draw image with effect
-   status = GdipDrawImageFX(*graphics, *image, @srcRect, *matrix, *effect, NULL, UnitPixel)
-'   IF hStatus = StatusOk THEN
-'      AfxMsg "Image drawn with blur effect."
-'   ELSE
-'      AfxMsg "Failed to draw image: " & WSTR(hStatus)
-'   END IF
+   GdipDrawImageFX(graphics, image, @srcRect, matrix, effect, NULL, UnitPixel)
 
 END SUB
 ' ========================================================================================

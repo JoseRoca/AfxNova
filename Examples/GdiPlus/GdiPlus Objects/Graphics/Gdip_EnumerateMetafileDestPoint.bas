@@ -65,10 +65,12 @@ SUB Example_EnumerateMetafileDestPoint (BYVAL hdc AS HDC)
    DIM destPoint AS GpPointF = (50.0, 50.0)
 
    ' // Enumerate records
-   status = GdipEnumerateMetafileDestPoint(*graphics, metafile, @destPoint, _
-                                            @MetafileCallback, NULL, NULL)
+   status = GdipEnumerateMetafileDestPoint(graphics, metafile, @destPoint, _
+                                           @MetafileCallback, NULL, NULL)
    IF status <> 0 THEN
       AfxMsg "Enumeration failed: " & WSTR(status)
+   ELSE
+      AfxMsg "Success"
    END IF
 
    ' // Cleanup

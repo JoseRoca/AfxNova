@@ -33,20 +33,17 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GdipFlush (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Draw something simple
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, AfxGdipPointsToPixels(3, TRUE), UnitPixel)
-   status = GdipDrawEllipse(*graphics, *pen, 50, 50, 150, 100)
+   GdipDrawEllipse(graphics, pen, 50, 50, 150, 100)
 
    ' // Flush all pending operations
-   status = GdipFlush(*graphics, FlushIntentionFlush)
+   GdipFlush(graphics, FlushIntentionFlush)
 
    ' // Optional: draw confirmation text
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -54,7 +51,7 @@ SUB Example_GdipFlush (BYVAL hdc AS HDC)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 30.0)
-   status = GdipDrawString(*graphics, "Flush complete", -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, "Flush complete", -1, font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

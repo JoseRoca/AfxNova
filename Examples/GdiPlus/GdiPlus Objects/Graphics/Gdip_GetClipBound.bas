@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetClipBounds (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define initial region and rectangle
    DIM rect1 AS GpRectF = (25, 25, 100, 50)
@@ -49,29 +46,29 @@ SUB Example_GetClipBounds (BYVAL hdc AS HDC)
    DIM region1 AS GdiPlusRegion = @rect1
 
    ' // Union with rect2
-   status = GdipCombineRegionRect(*region1, @rect2, CombineModeUnion)
+   GdipCombineRegionRect(region1, @rect2, CombineModeUnion)
 
    ' // Set clipping region
-   status = GdipSetClipRegion(*graphics, *region1, CombineModeReplace)
+   GdipSetClipRegion(graphics, region1, CombineModeReplace)
 
    ' // Get current clipping region
    DIM region2 AS GdiPlusRegion
-   status = GdipGetClip(*graphics, *region2)
+   GdipGetClip(graphics, @region2)
 
    ' // Create brush and fill region
    DIM brush AS GdiPlusSolidBrush = GDIP_ARGB(100, 0, 0, 255)
-   status = GdipFillRegion(*graphics, *brush, *region2)
+   GdipFillRegion(graphics, brush, region2)
 
    ' // Get enclosing rectangle of clipping region
    DIM enclosingRect AS GpRectF
-   status = GdipGetClipBounds(*graphics, @enclosingRect)
+   GdipGetClipBounds(graphics, @enclosingRect)
 
    ' // Reset clip
-   status = GdipResetClip(*graphics)
+   GdipResetClip(graphics)
 
    ' // Create pen and draw rectangle
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 1.5, UnitWorld)
-   status = GdipDrawRectangle(*graphics, *pen, enclosingRect.X, enclosingRect.Y, enclosingRect.Width, enclosingRect.Height)
+   GdipDrawRectangle(graphics, pen, enclosingRect.X, enclosingRect.Y, enclosingRect.Width, enclosingRect.Height)
 
 END SUB
 ' ========================================================================================

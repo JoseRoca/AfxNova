@@ -39,31 +39,29 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetClipGraphics (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    DIM bluePen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2.0, UnitPixel)
-   GdipDrawRectangle(*graphics, *bluePen, 0.0, 0.0, 200.0, 200.0)
+   GdipDrawRectangle(graphics, bluePen, 0.0, 0.0, 200.0, 200.0)
 
    ' // Set a clipping rectangle on graphics
-   GdipSetClipRect(*graphics, 50.0 * dpiRatio, 50.0 * dpiRatio, 100.0 * dpiRatio, 100.0 * dpiRatio, CombineModeReplace)
+   GdipSetClipRect(graphics, 50.0 * dpiRatio, 50.0 * dpiRatio, 100.0 * dpiRatio, 100.0 * dpiRatio, CombineModeReplace)
 
    ' // Create a second graphics object
    DIM graphics2 AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   status = graphics2.ScaleTransform(dpiRatio)
+   graphics2.ScaleTransform(dpiRatio)
 
    ' // Apply graphics's clipping region to graphics2
-   GdipSetClipGraphics(*graphics2, *graphics, CombineModeReplace)
+   GdipSetClipGraphics(graphics2, graphics, CombineModeReplace)
 
    ' // Create pen and draw with graphics2
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2.0, UnitPixel)
-   GdipDrawRectangle(*graphics2, *pen, 0.0, 0.0, 200.0, 200.0)
+   GdipDrawRectangle(graphics2, pen, 0.0, 0.0, 200.0, 200.0)
 
 END SUB
 ' ========================================================================================

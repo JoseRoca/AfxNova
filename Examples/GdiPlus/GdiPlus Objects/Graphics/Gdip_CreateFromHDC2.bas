@@ -51,11 +51,11 @@ SUB Example_CreateFromHDC2 (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the bitmap
    DIM bmpGraphics AS GpGraphics PTR
-   status = GdipGetImageGraphicsContext(*bitmap, @bmpGraphics)
+   status = GdipGetImageGraphicsContext(bitmap, @bmpGraphics)
 
    ' // Draw something on the bitmap
    DIM brush AS GdiPlusSolidBrush = ARGB_GREEN
-   status = GdipFillRectangle(bmpGraphics, *brush, 50, 50, 200, 100)
+   status = GdipFillRectangle(bmpGraphics, brush, 50, 50, 200, 100)
    GdipDeleteGraphics(bmpGraphics)
 
    ' // Save the bitmap as a .png
@@ -74,7 +74,7 @@ SUB Example_CreateFromHDC2 (BYVAL hdc AS HDC)
    DIM rcf AS GpRectF
    rcf.x = 50 : rcf.y = 80 : rcf.Width = 350 : rcf.Height = 90
    DIM wszText AS WSTRING * 128 = "Image saved to output.png"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, NULL, *textBrush)
+   status = GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, textBrush)
 
 END SUB
 ' ========================================================================================

@@ -33,20 +33,18 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPixelOffsetMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Set pixel offset mode to high quality
-   status = GdipSetPixelOffsetMode(*graphics, PixelOffsetModeHighQuality)
+   GdipSetPixelOffsetMode(graphics, PixelOffsetModeHighQuality)
 
    ' // Draw a line or shape
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2.0 * dpiRatio, UnitPixel)
-   GdipDrawLine(*graphics, *pen, 100.0, 120.0, 300.0, 120.0)
+   GdipDrawLine(graphics, pen, 100.0, 120.0, 300.0, 120.0)
 
 END SUB
 ' ========================================================================================

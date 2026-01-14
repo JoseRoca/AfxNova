@@ -33,29 +33,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawImageRect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the Image object
    DIM image AS GdiPlusImage = "climber.jpg"
-   status = GdipBitmapSetResolution(*image, graphics.dpiX, graphics.dpiY)
+   image.SetResolution(graphics)
 
    ' // Create a red Pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 3)
 
    ' // Draw the original source image.
-   status = GdipDrawImage(*graphics, *image, 10, 10)
+   GdipDrawImage(graphics, image, 10, 10)
 
    ' // Draw the rectangle that bounds the image.
-   status = GdipDrawRectangle(*graphics, *pen, 200, 50, 150, 75)
+   GdipDrawRectangle(graphics, pen, 200, 50, 150, 75)
 
    ' // Draw the image
-   status = GdipDrawImageRect(*graphics, *image, 200 + 1, 50 + 1, 150 - 1, 75 - 1)
+   GdipDrawImageRect(graphics, image, 200 + 1, 50 + 1, 150 - 1, 75 - 1)
 
 END SUB
 ' ========================================================================================

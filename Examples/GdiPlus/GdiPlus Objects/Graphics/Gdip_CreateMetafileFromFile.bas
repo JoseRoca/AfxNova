@@ -32,18 +32,16 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateMetafileFromFile (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
 
    ' // Load the metafile from disk
    DIM metafile AS GpMetafile PTR
    DIM filename AS WSTRING * 64 = "SampleMetafile.emf"
-   status = GdipCreateMetafileFromFile(filename, @metafile)
+   GdipCreateMetafileFromFile(filename, @metafile)
    
    ' // Draw the image
-   status = GdipDrawImage(*graphics, metafile, 60 * graphics.DpiRatioX, 10 * graphics.DpiRatioY)
+   GdipDrawImage(*graphics, metafile, 60 * graphics.dpiRatioX, 10 * graphics.dpiRatioY)
 
    ' // Cleanup
    IF metafile THEN GdipDisposeImage(metafile)

@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FillPolygon (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
@@ -52,7 +49,7 @@ SUB Example_FillPolygon (BYVAL hdc AS HDC)
    points(4).x = 0.0   : points(4).y = 130.0
 
    ' // Fill the polygon.
-   status = GdipFillPolygon(*graphics, *brush, @points(0), 5, FillModeAlternate)
+   GdipFillPolygon(graphics, brush, @points(0), 5, FillModeAlternate)
 
 END SUB
 ' ========================================================================================

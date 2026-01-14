@@ -33,26 +33,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetVisibleClipBounds (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set clipping region to a rectangle
-   status = GdipSetClipRect(*graphics, 50, 50, 300, 150, CombineModeReplace)
+   GdipSetClipRect(graphics, 50, 50, 300, 150, CombineModeReplace)
 
    ' // Get the visible clipping bounds
    DIM boundRect AS GpRectF
-   status = GdipGetVisibleClipBounds(*graphics, @boundRect)
+   GdipGetVisibleClipBounds(graphics, @boundRect)
 
    ' // Create a solid brush (opaque red)
    DIM brush AS GdiPlusSolidBrush = ARGB_RED
 
    ' // Fill the bounding rectangle
-   status = GdipFillRectangle(*graphics, *brush, boundRect.X, boundRect.Y, boundRect.Width, boundRect.Height)
+   GdipFillRectangle(graphics, brush, boundRect.X, boundRect.Y, boundRect.Width, boundRect.Height)
 
 END SUB
 ' ========================================================================================

@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawCurveWithLabels (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a green Pen
    DIM greenPen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 3)
@@ -60,16 +57,16 @@ SUB Example_DrawCurveWithLabels (BYVAL hdc AS HDC)
    DIM tension AS SINGLE = 1.0
 
    ' // Draw the curve
-   status = GdipDrawCurve(*graphics, *greenPen, @curvePoints(0), 4)
+   GdipDrawCurve(graphics, greenPen, @curvePoints(0), 4)
 
    ' // Create the brush
    DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
 
    ' // Draw the points in the curve
-   status = GdipFillEllipse(*graphics, *redBrush, 95, 95, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 195, 45, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 395, 25, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 495, 95, 10, 10)
+   GdipFillEllipse(*graphics, *redBrush, 95, 95, 10, 10)
+   GdipFillEllipse(*graphics, *redBrush, 195, 45, 10, 10)
+   GdipFillEllipse(*graphics, *redBrush, 395, 25, 10, 10)
+   GdipFillEllipse(*graphics, *redBrush, 495, 95, 10, 10)
 
    ' // Create a font family and font
 
@@ -86,7 +83,7 @@ SUB Example_DrawCurveWithLabels (BYVAL hdc AS HDC)
       layoutRect.y = curvePoints(i).y - 10
       layoutRect.Width = 50
       layoutRect.Height = 20
-      status = GdipDrawString(*graphics, @label, -1, *font, @layoutRect, NULL, *labelBrush)
+      GdipDrawString(graphics, @label, -1, font, @layoutRect, NULL, labelBrush)
    NEXT
 
 END SUB

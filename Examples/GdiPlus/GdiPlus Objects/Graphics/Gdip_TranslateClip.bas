@@ -34,27 +34,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TranslateClip (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
   ' // Set the clipping region.
-   status = GdipSetClipRect(*graphics, 0, 0, 100, 50, CombineModeReplace)
+   GdipSetClipRect(graphics, 0, 0, 100, 50, CombineModeReplace)
 
    ' // Translate the clipping region.
-   status = GdipTranslateClip(*graphics, 40, 30)
+   GdipTranslateClip(graphics, 40, 30)
 
    ' // Fill an ellipse that is clipped by the translated clipping region.
    DIM brush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillEllipse(*graphics, *brush, 20, 40, 100, 80)
+   GdipFillEllipse(graphics, brush, 20, 40, 100, 80)
 
    ' // Draw the outline of the clipping region (rectangle).
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *pen, 40, 30, 100, 50)
+   GdipDrawRectangle(graphics, pen, 40, 30, 100, 50)
 
 END SUB
 ' ========================================================================================

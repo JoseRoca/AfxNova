@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FillClosedCurve (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
@@ -51,7 +48,7 @@ SUB Example_FillClosedCurve (BYVAL hdc AS HDC)
    points(3).x = 50.0  : points(3).y = 150.0
 
    ' // Fill the curve.
-   status = GdipFillClosedCurve2(*graphics, *brush, @points(0), 4, 1.0, FillModeALternate)
+   GdipFillClosedCurve2(graphics, brush, @points(0), 4, 1.0, FillModeALternate)
 
 END SUB
 ' ========================================================================================

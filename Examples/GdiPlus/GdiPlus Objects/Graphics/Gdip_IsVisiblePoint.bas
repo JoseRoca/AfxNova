@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsVisiblePoint (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define the point to test
    DIM x AS SINGLE = 100.0
@@ -47,12 +44,12 @@ SUB Example_IsVisiblePoint (BYVAL hdc AS HDC)
 
    ' // Check if the point is visible in the current clipping region
    DIM isVisible AS BOOL
-   status = GdipIsVisiblePoint(*graphics, x, y, @isVisible)
+   GdipIsVisiblePoint(graphics, x, y, @isVisible)
 
    ' // If visible, draw a small ellipse at that point
    IF isVisible THEN
       DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
-      status = GdipFillEllipse(*graphics, *brush, x, y, 5.0, 5.0)
+      GdipFillEllipse(graphics, brush, x, y, 5.0, 5.0)
    END IF
 
 END SUB

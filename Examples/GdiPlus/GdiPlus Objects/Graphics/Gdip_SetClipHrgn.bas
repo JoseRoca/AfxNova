@@ -37,26 +37,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetClipHrgn (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' Create a GDI region (ellipse)
-   DIM hRgn As HRGN
-   hRgn = CreateEllipticRgn(50 * dpiRatio, 50 * dpiRatio, 200 * dpiRatio, 200 * dpiRatio)
+   DIM hRgn As HRGN = CreateEllipticRgn(50 * dpiRatio, 50 * dpiRatio, 200 * dpiRatio, 200 * dpiRatio)
 
    ' // Apply the region as a clip
-   status = GdipSetClipHrgn(*graphics, hRgn, CombineModeReplace)
+   GdipSetClipHrgn(graphics, hRgn, CombineModeReplace)
 
    ' // Create a solidbrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    ' // Fill the rectangle.
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 250, 250)
+   GdipFillRectangle(graphics, brush, 0, 0, 250, 250)
 
    ' // Cleanup
    IF hRgn THEN DeleteObject(hRgn)

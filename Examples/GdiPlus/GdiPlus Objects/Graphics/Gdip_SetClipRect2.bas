@@ -33,35 +33,32 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetClipRect2 (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set the clipping region.
-   status = GdipSetClipRect(*graphics, 0.5, 0.5, 200.5, 200.5, CombineModeReplace)
+   GdipSetClipRect(graphics, 0.5, 0.5, 200.5, 200.5, CombineModeReplace)
 
    ' // Update the clipping region to the portion of the rectangle that
    ' // intersects with the current clipping region.
-   status = GdipSetClipRect(*graphics, 100.5, 100.5, 200.5, 200.5, CombineModeIntersect)
+   GdipSetClipRect(graphics, 100.5, 100.5, 200.5, 200.5, CombineModeIntersect)
 
    ' // Create a solid brush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Fill a rectangle to demonstrate the effective clipping region.
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 450, 320)
+   GdipFillRectangle(graphics, brush, 0, 0, 450, 320)
 
    ' // Reset the clipping region to infinite.
-   status = GdipResetClip(*graphics)
+   GdipResetClip(graphics)
 
    ' // Draw clipRect and intersectRect.
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1, UnitWorld)
    DIM redPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitWorld)
-   status = GdipDrawRectangle(*graphics, *blackPen, 0.5, 0.5, 200.5, 200.5)
-   status = GdipDrawRectangle(*graphics, *redPen, 100.5, 100.5, 200.5, 200.5)
+   GdipDrawRectangle(graphics, blackPen, 0.5, 0.5, 200.5, 200.5)
+   GdipDrawRectangle(graphics, redPen, 100.5, 100.5, 200.5, 200.5)
 
 END SUB
 ' ========================================================================================

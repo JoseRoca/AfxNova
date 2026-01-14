@@ -34,25 +34,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsVisibleRect (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define the rectangle to test
    DIM visibleRect AS GpRectF = (0.0, 0.0, 100.0, 100.0)
 
    ' // Check if the rectangle is visible in the current clipping region
    DIM isVisible AS BOOL
-   status = GdipIsVisibleRect(*graphics, visibleRect.X, visibleRect.Y, visibleRect.Width, visibleRect.Height, @isVisible)
+   GdipIsVisibleRect(graphics, visibleRect.X, visibleRect.Y, visibleRect.Width, visibleRect.Height, @isVisible)
 
    ' If visible, fill the rectangle
    IF isVisible THEN
       DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
-      status = GdipFillRectangle(*graphics, *brush, visibleRect.X, visibleRect.Y, visibleRect.Width, visibleRect.Height)
+      GdipFillRectangle(graphics, brush, visibleRect.X, visibleRect.Y, visibleRect.Width, visibleRect.Height)
    END IF
 
 END SUB

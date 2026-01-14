@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetNearestColor (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Brush object, and fill a rectangle with that brush.
    DIM brush AS GdiPlusSolidBrush = ARGB_VIOLET
    ' // Fill the rectangle.
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 100, 100)
+   GdipFillRectangle(graphics, brush, 0, 0, 100, 100)
 
    ' // Get the nearest 8-bit color, and fill a second rectangle with that color.
    DIM colour AS ARGB
-   status = GdipGetNearestColor(*graphics, @colour)
+   GdipGetNearestColor(graphics, @colour)
    DIM brush2 AS GdiPlusSolidBrush = colour
-   status = GdipFillRectangle(*graphics, *brush, 120, 0, 100, 100)
+   GdipFillRectangle(graphics, brush, 120, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

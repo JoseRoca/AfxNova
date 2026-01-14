@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FillRegion (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
@@ -46,10 +43,10 @@ SUB Example_FillRegion (BYVAL hdc AS HDC)
    ' // Create a Region object from a rectangle.
    DIM rcf AS GpRectF, region AS GpRegion PTR
    rcf.x = 0 : rcf.y = 0 : rcf.Width = 200 : rcf.Height = 100
-   status = GdipCreateRegionRect(@rcf, @region)
+   GdipCreateRegionRect(@rcf, @region)
 
    ' // Fill the rectangle.
-   status = GdipFillRegion(*graphics, *brush, region)
+   GdipFillRegion(graphics, brush, region)
 
 END SUB
 ' ========================================================================================

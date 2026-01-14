@@ -44,48 +44,45 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_RestoreGraphics (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Apply rotation
-   status = GdipRotateWorldTransform(*graphics, 30.0, MatrixOrderPrepend)
+   GdipRotateWorldTransform(graphics, 30.0, MatrixOrderPrepend)
    DIM state1 AS GraphicsState
-   status = GdipSaveGraphics(*graphics, @state1)
+   GdipSaveGraphics(graphics, @state1)
 
    ' // Apply translation
-   status = GdipTranslateWorldTransform(*graphics, 100.0, 0.0, MatrixOrderAppend)
+   GdipTranslateWorldTransform(graphics, 100.0, 0.0, MatrixOrderAppend)
    DIM state2 AS GraphicsState
-   status = GdipSaveGraphics(*graphics, @state2)
+   GdipSaveGraphics(graphics, @state2)
 
    ' // Apply scaling
-   status = GdipScaleWorldTransform(*graphics, 1.0, 3.0, MatrixOrderAppend)
+   GdipScaleWorldTransform(graphics, 1.0, 3.0, MatrixOrderAppend)
 
    ' // Draw red ellipse (rotate + translate + scale)
    DIM redPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1.0, UnitWorld)
-   status = GdipDrawEllipse(*graphics, *redPen, 0, 0, 100, 20)
+   GdipDrawEllipse(graphics, redPen, 0, 0, 100, 20)
 
    ' // Restore to state1 and draw the ellipse again. 
    ' // Only the rotation transformation applies.
-   status = GdipRestoreGraphics(*graphics, state1)
+   GdipRestoreGraphics(graphics, state1)
    DIM greenPen AS GdiPlusPen = GdiPlusPen(ARGB_GREEN, 1.0, UnitWorld)
-   status = GdipDrawEllipse(*graphics, *greenPen, 0, 0, 100, 20)
+   GdipDrawEllipse(graphics, greenPen, 0, 0, 100, 20)
 
    ' // The information block identified by state2 has been lost.
    ' // The following call to Restore has no effect because
    ' // GdipRestoreGraphics(state1) removed from the stack the
    ' // information blocks identified by state1 and state2.
-   status = GdipRestoreGraphics(*graphics, state2)
+   GdipRestoreGraphics(graphics, state2)
 
    ' // The Graphics object is still in the state identified by state1.
    ' // The following code draws a blue ellipse on top of the previously
    ' // drawn green ellipse.
    DIM bluePen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1.0, UnitWorld)
-   status = GdipDrawEllipse(*graphics, *bluePen, 0, 0, 100, 20)
+   GdipDrawEllipse(graphics, bluePen, 0, 0, 100, 20)
 
 END SUB
 ' ========================================================================================

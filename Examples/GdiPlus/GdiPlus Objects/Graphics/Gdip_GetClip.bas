@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetClip (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set a clipping region
-   status = GdipSetClipRect(*graphics, 100, 50, 200, 120, CombineModeReplace)
+   GdipSetClipRect(graphics, 100, 50, 200, 120, CombineModeReplace)
 
    ' // Get the clipping region.
    DIM region AS GdiPlusRegion
-   status = GdipGetClip(*graphics, *region)
+   GdipGetClip(graphics, @region)
 
    ' // Create brush and fill region
    DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
-   status = GdipFillRegion(*graphics, *brush, *region)
+   GdipFillRegion(graphics, brush, region)
 
 END SUB
 ' ========================================================================================

@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FillPie (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
@@ -52,7 +49,7 @@ SUB Example_FillPie (BYVAL hdc AS HDC)
    DIM sweepAngle AS SINGLE = 45.7
 
    ' // Fill the pie.
-   status = GdipFillPie(*graphics, *brush, x, y, nWidth, nHeight, startAngle, sweepAngle)
+   GdipFillPie(graphics, brush, x, y, nWidth, nHeight, startAngle, sweepAngle)
 
 END SUB
 ' ========================================================================================

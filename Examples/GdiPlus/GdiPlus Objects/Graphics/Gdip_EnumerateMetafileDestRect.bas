@@ -66,10 +66,12 @@ SUB Example_EnumerateMetafileDestRect (BYVAL hdc AS HDC)
    DIM destRect AS GpRectF = (50.0, 50.0, 300.0, 200.0)
 
    ' // Enumerate and replay metafile records
-   status = GdipEnumerateMetafileDestRect(*graphics, metafile, @destRect, _
-                                           @MetafileCallback, NULL, NULL)
+   status = GdipEnumerateMetafileDestRect(graphics, metafile, @destRect, _
+                                          @MetafileCallback, NULL, NULL)
    IF status <> 0 THEN
       AfxMsg "Enumeration failed: " & WSTR(status)
+   ELSE
+      AfxMsg "Success"
    END IF
 
 END SUB

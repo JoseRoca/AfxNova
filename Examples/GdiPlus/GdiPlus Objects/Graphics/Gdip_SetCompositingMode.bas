@@ -38,24 +38,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetCompositingMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush object with an alpha-blended color.
    DIM alphaBrush AS GdiPlusSolidBrush = GDIP_ARGB(180, 255, 0, 0)
 
    ' // Set the compositing mode to CompositingModeSourceOver, and fill a rectangle.
-   status = GdipSetCompositingMode(*graphics, CompositingModeSourceOver)
-   status = GdipFillRectangle(*graphics, *alphaBrush, 0, 0, 100, 100)
+   GdipSetCompositingMode(graphics, CompositingModeSourceOver)
+   GdipFillRectangle(graphics, alphaBrush, 0, 0, 100, 100)
 
    ' // Set the compositing mode to CompositingModeSourceCopy, and fill a rectangle.
-   status = GdipSetCompositingMode(*graphics, CompositingModeSourceCopy)
-   status = GdipFillRectangle(*graphics, *alphaBrush, 100, 0, 100, 100)
+   GdipSetCompositingMode(graphics, CompositingModeSourceCopy)
+   GdipFillRectangle(graphics, alphaBrush, 100, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

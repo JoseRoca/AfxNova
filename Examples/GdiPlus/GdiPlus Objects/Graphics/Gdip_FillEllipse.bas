@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FillEllipse (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
@@ -48,7 +45,7 @@ SUB Example_FillEllipse (BYVAL hdc AS HDC)
    x = 100.0 : y = 50.0 : nWidth = 200.1 : nHeight = 100.4
 
    ' // Fill the ellipse.
-   status = GdipFillEllipse(*graphics, *brush, x, y, nWidth, nHeight)
+   GdipFillEllipse(graphics, brush, x, y, nWidth, nHeight)
 
 END SUB
 ' ========================================================================================

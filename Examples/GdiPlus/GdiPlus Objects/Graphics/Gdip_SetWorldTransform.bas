@@ -34,27 +34,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetWorldTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a transformation matrix
    DIM matrix AS GdiPlusMatrix
 
    ' // Rotate 30 degrees and translate by (100, 50)
-   GdipRotateMatrix(*matrix, 30.0, MatrixOrderAppend)
-   GdipTranslateMatrix(*matrix, 100.0, 50.0, MatrixOrderAppend)
+   GdipRotateMatrix(matrix, 30.0, MatrixOrderAppend)
+   GdipTranslateMatrix(matrix, 100.0, 50.0, MatrixOrderAppend)
 
    ' // Apply the matrix to the graphics object
-   GdipSetWorldTransform(*graphics, *matrix)
+   GdipSetWorldTransform(graphics, matrix)
 
    ' Draw a rectangle using the transformed coordinates
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2.0, UnitPixel)
-   GdipDrawRectangle(*graphics, *pen, 0, 0, 150, 100)
+   GdipDrawRectangle(graphics, pen, 0, 0, 150, 100)
 
 END SUB
 ' ========================================================================================

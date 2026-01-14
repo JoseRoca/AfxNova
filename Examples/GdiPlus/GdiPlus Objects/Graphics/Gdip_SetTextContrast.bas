@@ -33,20 +33,17 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetTextContrast (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set text contrast to maximum (12)
-   status = GdipSetTextContrast(*graphics, 12)
+   GdipSetTextContrast(graphics, 12)
 
    ' // Retrieve current contrast setting
    DIM contrast AS UINT
-   status = GdipGetTextContrast(*graphics, @contrast)
+   GdipGetTextContrast(graphics, @contrast)
 
    ' // Create font and brush
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -59,7 +56,7 @@ SUB Example_SetTextContrast (BYVAL hdc AS HDC)
    DIM rcf AS GpRectF
    DIM wszText AS WSTRING * 128
    wszText = "Text contrast level: " & contrast
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, NULL, *brush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, brush)
 
 END SUB
 ' ========================================================================================

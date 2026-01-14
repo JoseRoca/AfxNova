@@ -36,36 +36,28 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetWorldTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Apply rotation transform
-   status = GdipRotateWorldTransform(*graphics, 30.0, MatrixOrderPrepend)
+   GdipRotateWorldTransform(graphics, 30.0, MatrixOrderPrepend)
 
    ' // Create a matrix object
    DIM matrix AS GdiPlusMatrix
 
    ' // Get current world transform matrix
-   DIM mtx AS GpMatrix PTR = *matrix
-   status = GdipGetWorldTransform(*graphics, @mtx)
+   GdipGetWorldTransform(graphics, @matrix)
 
    ' // Extract matrix elements
    DIM elements(5) AS SINGLE
-   status = GdipGetMatrixElements(*matrix, @elements(0))
+   GdipGetMatrixElements(matrix, @elements(0))
 
     ' // Inspect elements
    FOR j AS LONG = 0 To 5
       OutputDebugStringW("Element(" & WSTR(j) & ") = " & WSTR(elements(j)))
    NEXT
-
-    ' Cleanup
-'    If matrix Then GdipDeleteMatrix(matrix)
-'    If graphics Then GdipDeleteGraphics(graphics)
 
 END SUB
 ' ========================================================================================

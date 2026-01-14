@@ -33,22 +33,19 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsClipEmpty (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Check if the clipping region is empty
    DIM isEmpty AS BOOL
-   status = GdipIsClipEmpty(*graphics, @isEmpty)
+   GdipIsClipEmpty(graphics, @isEmpty)
 
    ' // If not empty, draw a rectangle
    IF isEmpty = FALSE THEN
       DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 3.0, UnitPixel)
-      status = GdipDrawRectangle(*graphics, *pen, 0, 0, 100, 100)
+      GdipDrawRectangle(graphics, pen, 0, 0, 100, 100)
    END IF
 
 END SUB

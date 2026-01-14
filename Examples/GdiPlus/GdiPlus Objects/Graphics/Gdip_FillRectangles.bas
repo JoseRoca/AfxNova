@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FillRectangles (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
@@ -50,7 +47,7 @@ SUB Example_FillRectangles (BYVAL hdc AS HDC)
    rects(2).x = 300.8 : rects(2).y = 0.8 : rects(2).Width = 50.8 : rects(2).Height = 150.8
 
    ' // Fill the rectangles.
-   status = GdipFillRectangles(*graphics, *brush, @rects(0), 3)
+   GdipFillRectangles(graphics, brush, @rects(0), 3)
 
 END SUB
 ' ========================================================================================

@@ -38,18 +38,16 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TranslateWorldTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1 * DpiRatio, UnitPixel)
-   status = GdipRotateWorldTransform(*graphics, 30.0, MatrixOrderPrepend)
-   status = GdipTranslateWorldTransform(*graphics, 100.0, 50.0, MatrixOrderAppend)
-   status = GdipDrawEllipse(*graphics, *pen, 0, 0, 200, 80)
+   GdipRotateWorldTransform(graphics, 30.0, MatrixOrderPrepend)
+   GdipTranslateWorldTransform(graphics, 100.0, 50.0, MatrixOrderAppend)
+   GdipDrawEllipse(graphics, pen, 0, 0, 200, 80)
 
 END SUB
 ' ========================================================================================

@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_MeasureDriverString (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create font (Arial, 16pt)
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -50,18 +47,18 @@ SUB Example_MeasureDriverString (BYVAL hdc AS HDC)
    DIM text(4) AS UINT16 = {ASC("H"), ASC("e"), ASC("l"), ASC("l"), ASC("o")}
    DIM positions(4) AS GpPointF
    FOR i AS INTEGER = 0 TO 4
-       positions(i).x = 50.0 + i * 20.0
-       positions(i).y = 100.0
+      positions(i).x = 50.0 + i * 20.0
+      positions(i).y = 100.0
    NEXT
 
    ' // Measure bounding box
    DIM boundingBox AS GpRectF
-   status = GdipMeasureDriverString(*graphics, @text(0), 5, *font, @positions(0), DriverStringOptionsCmapLookup, NULL, @boundingBox)
+   GdipMeasureDriverString(graphics, @text(0), 5, *font, @positions(0), DriverStringOptionsCmapLookup, NULL, @boundingBox)
 
    ' // Optional: draw bounding box for visualization
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1.0, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, boundingBox.X, boundingBox.Y, boundingBox.Width, boundingBox.Height)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, boundingBox.X, boundingBox.Y, boundingBox.Width, boundingBox.Height)
 
 END SUB
 ' ========================================================================================

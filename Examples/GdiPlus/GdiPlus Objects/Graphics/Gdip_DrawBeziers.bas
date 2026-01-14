@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawBeziers (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a green Pen
    DIM greenPen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 1)
@@ -61,20 +58,20 @@ SUB Example_DrawBeziers (BYVAL hdc AS HDC)
    curvePoints(6) = endPoint2
 
    ' // Draw the Bézier curves
-   status = GdipDrawBeziers(*graphics, *greenPen, @curvePoints(0), 7)
+   GdipDrawBeziers(graphics, greenPen, @curvePoints(0), 7)
 
    ' // Create the brushes
    DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
    DIM blueBrush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' //Draw the end points and control points.
-   status = GdipFillEllipse(*graphics, *redBrush, 100 - 5, 100 - 5, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 500 - 5, 100 - 5, 10, 10)
-   status = GdipFillEllipse(*graphics, *redBrush, 500 - 5, 500 - 5, 10, 10)
-   status = GdipFillEllipse(*graphics, *blueBrush, 200 - 5, 50 - 5, 10, 10)
-   status = GdipFillEllipse(*graphics, *blueBrush, 400 - 5, 10 - 5, 10, 10)
-   status = GdipFillEllipse(*graphics, *blueBrush, 600 - 5, 200 - 5, 10, 10)
-   status = GdipFillEllipse(*graphics, *blueBrush, 700 - 5, 400 - 5, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 100 - 5, 100 - 5, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 500 - 5, 100 - 5, 10, 10)
+   GdipFillEllipse(graphics, redBrush, 500 - 5, 500 - 5, 10, 10)
+   GdipFillEllipse(graphics, blueBrush, 200 - 5, 50 - 5, 10, 10)
+   GdipFillEllipse(graphics, blueBrush, 400 - 5, 10 - 5, 10, 10)
+   GdipFillEllipse(graphics, blueBrush, 600 - 5, 200 - 5, 10, 10)
+   GdipFillEllipse(graphics, blueBrush, 700 - 5, 400 - 5, 10, 10)
 
 END SUB
 ' ========================================================================================

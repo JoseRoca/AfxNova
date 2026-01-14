@@ -35,29 +35,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetClip (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set the clipping region, and draw its outline.
-   status = GdipSetClipRect(*graphics, 100, 50, 200, 120, CombineModeReplace)
+   GdipSetClipRect(graphics, 100, 50, 200, 120, CombineModeReplace)
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *blackPen, 100, 50, 200, 120)
+   GdipDrawRectangle(graphics, blackPen, 100, 50, 200, 120)
 
    ' // Fill a clipped ellipse in red.
    DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillEllipse(*graphics, *redBrush, 80, 40, 100, 70)
+   GdipFillEllipse(graphics, redBrush, 80, 40, 100, 70)
 
    ' // Reset the clipping region.
-   status = GdipResetClip(*graphics)
+   GdipResetClip(graphics)
 
    ' // Fill an unclipped ellipse with blue.
    DIM blueBrush AS GdiPlusSolidBrush = ARGB_BLUE
-   status = GdipFillEllipse(*graphics, *blueBrush, 160, 150, 100, 60)
+   GdipFillEllipse(graphics, blueBrush, 160, 150, 100, 60)
 
 END SUB
 ' ========================================================================================

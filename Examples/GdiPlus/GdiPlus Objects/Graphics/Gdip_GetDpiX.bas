@@ -34,28 +34,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetDpiX (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Set the unit of measure for graphics to inches.
-   status = GdipSetPageUnit(*graphics, UnitInch)
+   GdipSetPageUnit(graphics, UnitInch)
 
    ' // Use dpiX to convert pixels to inches, and draw a rectangle that has a width of 100 pixels.
    DIM side AS SINGLE = 100.0 / graphics.dpiX
    DIM bluePen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 3, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *bluePen, 0.0, 0.0, side, side)
+   GdipDrawRectangle(graphics, bluePen, 0.0, 0.0, side, side)
 
    ' // Set the unit of measure for graphics to pixels.
-   status = GdipSetPageUnit(*graphics, UnitPixel)
+   GdipSetPageUnit(graphics, UnitPixel)
 
    ' // Draw a 100-pixel square.
    DIM redPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 3, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *redPen, 120, 0, 100, 100)
+   GdipDrawRectangle(graphics, redPen, 120, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

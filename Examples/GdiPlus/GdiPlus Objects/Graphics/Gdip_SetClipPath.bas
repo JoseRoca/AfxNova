@@ -39,24 +39,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetClipPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path with an ellipse
    DIM path As GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipse(*path, 50.0, 50.0, 150.0, 150.0)
+   GdipAddPathEllipse(path, 50.0, 50.0, 150.0, 150.0)
 
    ' // Apply the path as a clipping region
-   status = GdipSetClipPath(*graphics, *path, CombineModeReplace)
+   GdipSetClipPath(graphics, path, CombineModeReplace)
 
    ' // Fill a rectangle to test the clip
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 250, 250)
+   GdipFillRectangle(graphics, brush, 0, 0, 250, 250)
 
 END SUB
 ' ========================================================================================

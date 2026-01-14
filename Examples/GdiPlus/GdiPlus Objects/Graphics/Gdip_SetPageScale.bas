@@ -38,21 +38,17 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPageScale (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
-   ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
 
    ' // Set the world transformation.
-   status = GdipTranslateWorldTransform(*graphics, 4.0, 1.0, MatrixOrderPrepend)
+   GdipTranslateWorldTransform(graphics, 4.0, 1.0, MatrixOrderPrepend)
 
    ' // Set the page transformation.
-   status = GdipSetPageUnit(*graphics, UnitMillimeter)
-   status = GdipSetPageScale(*graphics, 10.0)
+   GdipSetPageUnit(graphics, UnitMillimeter)
+   GdipSetPageScale(graphics, 10.0)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 3, 2)
+   GdipDrawRectangle(graphics, pen, 0, 0, 3, 2)
 
 END SUB
 ' ========================================================================================

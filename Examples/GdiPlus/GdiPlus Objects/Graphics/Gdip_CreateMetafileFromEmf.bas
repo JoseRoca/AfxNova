@@ -33,24 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateMetafileFromEmf (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-'   status = graphics.ScaleTransform(dpiRatio)
+   ' graphics.ScaleTransform
 
    ' Load an existing EMF file using GDI
-   DIM hEmf AS HENHMETAFILE
-   hEmf = GetEnhMetaFile("EMF13.emf")
+   DIM hEmf AS HENHMETAFILE = GetEnhMetaFile("EMF13.emf")
 
    ' // Create a GDI+ Metafile object from the EMF handle
    DIM metafile AS GpMetafile PTR
-   status = GdipCreateMetafileFromEmf(hEmf, FALSE, @metafile)
+   GdipCreateMetafileFromEmf(hEmf, FALSE, @metafile)
    
    ' // Draw the metafile at a specified location
-   status = GdipDrawImage(*graphics, metafile, 40 * graphics.dpiRatiox, 30 * graphics.dpiRatioY)
+   GdipDrawImage(graphics, metafile, 40 * graphics.dpiRatiox, 30 * graphics.dpiRatioY)
 
    ' // Cleanup
    IF metafile THEN GdipDisposeImage(metafile)

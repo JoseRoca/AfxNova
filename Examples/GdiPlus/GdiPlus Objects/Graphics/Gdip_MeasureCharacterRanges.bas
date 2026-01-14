@@ -10,7 +10,7 @@
 ' ########################################################################################
 
 #define _WIN32_WINNT &h0602
-'#define _GDIP_DEBUG_ 1
+#define _GDIP_DEBUG_ 1
 #INCLUDE ONCE "AfxNova/AfxGdipObjects.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -38,13 +38,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create font
    DIM fontFamily AS GdiPlusFontFamily = "Times New Roman"
@@ -54,61 +51,52 @@ SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
    DIM blueBrush AS GdiPlusSolidBrush = ARGB_BLUE
    DIM redBrush AS GdiPlusSolidBrush = GDIP_ARGB(100, 255, 0, 0)
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1.0, UnitPixel)
-   status = GdipScalePenTransform(*blackPen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipScalePenTransform(blackPen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
 
    ' // Create string format
-   DIM stringFormat As GpStringFormat PTR
-   status = GdipStringFormatGetGenericDefault(@stringFormat)
+   DIM stringFormat As GdiPlusStringFormat
+   GdipStringFormatGetGenericDefault(@stringFormat)
 
    ' // Define character ranges
    DIM charRanges(2) As GpCharacterRange
    charRanges(0).First = 3  : charRanges(0).Length = 5
    charRanges(1).First = 15 : charRanges(1).Length = 2
    charRanges(2).First = 30 : charRanges(2).Length = 15
-   status = GdipSetStringFormatMeasurableCharacterRanges(stringFormat, 3, @charRanges(0))
+   GdipSetStringFormatMeasurableCharacterRanges(stringFormat, 3, @charRanges(0))
 
    ' // Allocate regions
-   DIM regions(0 TO 2) AS GpRegion PTR
-   FOR i AS LONG = 0 TO 2
-      status = GdipCreateRegion(@regions(i))
-   NEXT
+   DIM regions(0 TO 2) AS GdiPlusRegion
 
    ' // Text to draw
    DIM text AS WSTRING * 128 = "The quick, brown fox easily jumps over the lazy dog."
 
    ' // Measure and draw for layoutRectA
    DIM layoutRectA AS GpRectF = (20.0, 20.0, 130.0, 130.0)
-   status = GdipMeasureCharacterRanges(*graphics, @text, -1, *font, @layoutRectA, stringFormat, 3, @regions(0))
-   status = GdipDrawString(*graphics, @text, -1, *font, @layoutRectA, stringFormat, *blueBrush)
-   status = GdipDrawRectangle(*graphics, *blackPen, layoutRectA.X, layoutRectA.Y, layoutRectA.Width, layoutRectA.Height)
+   GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectA, stringFormat, 3, @regions(0))
+   GdipDrawString(graphics, @text, -1, font, @layoutRectA, stringFormat, blueBrush)
+   GdipDrawRectangle(graphics, blackPen, layoutRectA.X, layoutRectA.Y, layoutRectA.Width, layoutRectA.Height)
    FOR i AS LONG = 0 TO 2
-      status = GdipFillRegion(*graphics, *redBrush, regions(i))
+      GdipFillRegion(graphics, redBrush, regions(i))
    NEXT
 
    ' // Measure and draw for layoutRectB
    DIM layoutRectB AS GpRectF = (160.0, 20.0, 165.0, 130.0)
-   status = GdipMeasureCharacterRanges(*graphics, @text, -1, *font, @layoutRectB, stringFormat, 3, @regions(0))
-   status = GdipDrawString(*graphics, @text, -1, *font, @layoutRectB, stringFormat, *blueBrush)
-   status = GdipDrawRectangle(*graphics, *blackPen, layoutRectB.X, layoutRectB.Y, layoutRectB.Width, layoutRectB.Height)
+   GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectB, stringFormat, 3, @regions(0))
+   GdipDrawString(graphics, @text, -1, font, @layoutRectB, stringFormat, blueBrush)
+   GdipDrawRectangle(graphics, blackPen, layoutRectB.X, layoutRectB.Y, layoutRectB.Width, layoutRectB.Height)
    FOR i AS LONG = 0 TO 2
-      status = GdipFillRegion(*graphics, *redBrush, regions(i))
+      GdipFillRegion(graphics, redBrush, regions(i))
    NEXT
 
    ' // Set trailing space flag and draw for layoutRectC
    DIM layoutRectC As GpRectF = (335.0, 20.0, 165.0, 130.0)
-   status = GdipSetStringFormatFlags(stringFormat, StringFormatFlagsMeasureTrailingSpaces)
-   status = GdipMeasureCharacterRanges(*graphics, @text, -1, *font, @layoutRectC, stringFormat, 3, @regions(0))
-   status = GdipDrawString(*graphics, @text, -1, *font, @layoutRectC, stringFormat, *blueBrush)
-   status = GdipDrawRectangle(*graphics, *blackPen, layoutRectC.X, layoutRectC.Y, layoutRectC.Width, layoutRectC.Height)
+   GdipSetStringFormatFlags(stringFormat, StringFormatFlagsMeasureTrailingSpaces)
+   GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectC, stringFormat, 3, @regions(0))
+   GdipDrawString(graphics, @text, -1, font, @layoutRectC, stringFormat, blueBrush)
+   GdipDrawRectangle(graphics, blackPen, layoutRectC.X, layoutRectC.Y, layoutRectC.Width, layoutRectC.Height)
    FOR i AS LONG = 0 TO 2
-      status = GdipFillRegion(*graphics, *redBrush, regions(i))
+      GdipFillRegion(graphics, redBrush, regions(i))
    NEXT
-
-   ' // Cleanup
-   FOR i AS LONG = 0 TO 2
-      IF regions(i) THEN GdipDeleteRegion(regions(i))
-   NEXT
-   IF stringFormat THEN GdipDeleteStringFormat(stringFormat)
 
 END SUB
 ' ========================================================================================

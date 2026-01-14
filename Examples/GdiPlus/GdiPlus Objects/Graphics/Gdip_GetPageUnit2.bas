@@ -32,33 +32,31 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPageUnit (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
 
    ' // Set page unit to pixels
-   status = GdipSetPageUnit(*graphics, UnitPixel)
+   GdipSetPageUnit(graphics, UnitPixel)
 
    ' // Create a black pen
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1 * dpiRatio, UnitPixel)
    ' // Draw a rectangle
-   status = GdipDrawRectangle(*graphics, *blackPen, 0, 0, 100 * dpiRatio, 100 * dpiRatio)
+   GdipDrawRectangle(graphics, blackPen, 0, 0, 100 * dpiRatio, 100 * dpiRatio)
 
    ' // Retrieve current page unit
    DIM unit AS GpUnit
-   status = GdipGetPageUnit(*graphics, @unit)
+   GdipGetPageUnit(*graphics, @unit)
 
    IF unit = UnitPixel THEN
-      status = GdipSetPageUnit(*graphics, UnitInch)
+      GdipSetPageUnit(graphics, UnitInch)
    END IF
 
    ' // Create a red pen
    DIM redPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1 * dpiRatio, UnitPixel)
 
-   status = GdipDrawRectangle(*graphics, *redPen, 2, 0, 1, 1)
+   GdipDrawRectangle(graphics, redPen, 2, 0, 1, 1)
 
 END SUB
 ' ========================================================================================

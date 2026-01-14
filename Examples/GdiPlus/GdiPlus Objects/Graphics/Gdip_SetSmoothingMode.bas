@@ -35,24 +35,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetSmoothingMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush object with an alpha-blended color.
    DIM brush AS GdiPlusSolidBrush = ARGB_RED
 
    ' // Set the smoothing mode to SmoothingModeHighSpeed, and fill an ellipse.
-   status = GdipSetSmoothingMode(*graphics, SmoothingModeHighSpeed)
-   status = GdipFillEllipse(*graphics, *brush, 20, 50, 200, 100)
+   GdipSetSmoothingMode(graphics, SmoothingModeHighSpeed)
+   GdipFillEllipse(graphics, brush, 20, 50, 200, 100)
 
    ' // Set the smoothing mode to SmoothingModeHighQuality, and fill an ellipse.
-   status = GdipSetSmoothingMode(*graphics, SmoothingModeHighQuality)
-   status = GdipFillEllipse(*graphics, *brush, 230, 50, 200, 100)
+   GdipSetSmoothingMode(graphics, SmoothingModeHighQuality)
+   GdipFillEllipse(graphics, brush, 230, 50, 200, 100)
 
 END SUB
 ' ========================================================================================

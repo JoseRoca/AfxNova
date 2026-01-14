@@ -60,7 +60,7 @@ SUB Example_CreateMetafileFromStream (BYVAL hdc AS HDC)
    END IF
 
    ' // Draw the metafile
-   status = GdipDrawImage(*graphics, metafile, 50.0, 50.0)
+   status = GdipDrawImage(graphics, metafile, 50.0, 50.0)
 
    ' // Cleanup
    IF metafile THEN GdipDisposeImage(metafile)

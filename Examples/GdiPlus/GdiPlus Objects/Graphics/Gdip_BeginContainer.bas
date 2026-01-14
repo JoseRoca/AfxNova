@@ -33,36 +33,33 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_BeginContainer (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Draw a base rectangle (no transformation)
    DIM basePen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2.0)
-   status = GdipDrawRectangle(*graphics, *basePen, 20, 20, 100, 50)
+   GdipDrawRectangle(graphics, basePen, 20, 20, 100, 50)
 
    ' // Begin container
    DIM container AS GraphicsContainer
-   status = GdipBeginContainer2(*graphics, @container)
+   GdipBeginContainer2(graphics, @container)
 
    ' // Apply transformation inside container
-   status = GdipTranslateWorldTransform(*graphics, 150, 0, MatrixOrderPrepend)
-   status = GdipRotateWorldTransform(*graphics, 30.0, MatrixOrderAppend)
+   GdipTranslateWorldTransform(graphics, 150, 0, MatrixOrderPrepend)
+   GdipRotateWorldTransform(graphics, 30.0, MatrixOrderAppend)
 
    ' // Draw transformed rectangle
    DIM redPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2.0)
-   status = GdipDrawRectangle(*graphics, *redPen, 20, 20, 100, 50)
+   GdipDrawRectangle(graphics, redPen, 20, 20, 100, 50)
 
    ' // End container (restores previous state)
-   status = GdipEndContainer(*graphics, container)
+   GdipEndContainer(graphics, container)
 
    ' // Draw another rectangle (back to original state)
    DIM bluePen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2.0)
-   status = GdipDrawRectangle(*graphics, *bluePen, 20, 90, 100, 50)
+   GdipDrawRectangle(graphics, bluePen, 20, 90, 100, 50)
 
 END SUB
 ' ========================================================================================

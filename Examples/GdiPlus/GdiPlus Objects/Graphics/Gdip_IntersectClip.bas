@@ -33,38 +33,35 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IntersectClip (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Define clipping rectangle
    DIM clipRect AS GpRectF = (0.5, 0.5, 200.5, 200.5)
-   status = GdipSetClipRect(*graphics, clipRect.X, clipRect.Y, clipRect.Width, clipRect.Height, CombineModeReplace)
+   GdipSetClipRect(graphics, clipRect.X, clipRect.Y, clipRect.Width, clipRect.Height, CombineModeReplace)
 
    ' // Define intersection rectangle
    DIM intRect AS GpRectF = (100.5, 100.5, 200.5, 200.5)
-   status = GdipSetClipRect(*graphics, intRect.X, intRect.Y, intRect.Width, intRect.Height, CombineModeIntersect)
+   GdipSetClipRect(graphics, intRect.X, intRect.Y, intRect.Width, intRect.Height, CombineModeIntersect)
 
    ' // Create solid brush (opaque blue)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Fill a large rectangle to show clipping effect
-   status = GdipFillRectangle(*graphics, *brush, 0, 0, 500, 500)
+   GdipFillRectangle(graphics, brush, 0, 0, 500, 500)
 
    ' // Reset clipping region
-   status = GdipResetClip(*graphics)
+   GdipResetClip(graphics)
 
    ' // Create pens
    DIM penBlack AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2.0, UnitPixel)
    DIM penRed AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2.0, UnitPixel)
 
    ' // Draw clipRect and intersectRect outlines
-   status = GdipDrawRectangle(*graphics, *penBlack, clipRect.X, clipRect.Y, clipRect.Width, clipRect.Height)
-   status = GdipDrawRectangle(*graphics, *penRed, intRect.X, intRect.Y, intRect.Width, intRect.Height)
+   GdipDrawRectangle(graphics, penBlack, clipRect.X, clipRect.Y, clipRect.Width, clipRect.Height)
+   GdipDrawRectangle(graphics, penRed, intRect.X, intRect.Y, intRect.Width, intRect.Height)
 
 END SUB
 ' ========================================================================================

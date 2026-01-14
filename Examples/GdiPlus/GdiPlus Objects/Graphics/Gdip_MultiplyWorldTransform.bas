@@ -39,26 +39,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_MultiplyWorldTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
    ' // Create transformation matrix and apply translation
    DIM matrix AS GdiPlusMatrix
-   status = GdipCreateMatrix(*matrix)
-   status = GdipTranslateMatrix(*matrix, 150.0 * dpiRatio, 100.0 * dpiRatio, MatrixOrderPrepend)
+   GdipTranslateMatrix(matrix, 150.0 * dpiRatio, 100.0 * dpiRatio, MatrixOrderPrepend)
 
     ' // Apply rotation first
-   status = GdipRotateWorldTransform(*graphics, 30.0, MatrixOrderPrepend)
+   GdipRotateWorldTransform(graphics, 30.0, MatrixOrderPrepend)
     ' // Then apply translation via matrix multiplication
-   status = GdipMultiplyWorldTransform(*graphics, *matrix, MatrixOrderAppend)
+   GdipMultiplyWorldTransform(graphics, matrix, MatrixOrderAppend)
    ' // Create pen and draw ellipse
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * dpiRatio, UnitPixel)
-   status = GdipDrawEllipse(*graphics, *pen, -80, -40, 160, 80)
+   GdipDrawEllipse(graphics, pen, -80, -40, 160, 80)
 
 END SUB
 ' ========================================================================================

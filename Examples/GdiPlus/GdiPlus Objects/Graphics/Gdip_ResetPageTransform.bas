@@ -33,28 +33,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetPageTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
 
    ' // Set custom page transformation
-   status = GdipSetPageUnit(*graphics, UnitMillimeter)
-   status = GdipSetPageScale(*graphics, 2.0)
+   GdipSetPageUnit(graphics, UnitMillimeter)
+   GdipSetPageScale(graphics, 2.0)
 
    ' // Draw a rectangle using millimeters
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1.0, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 30, 20)  ' 3cm x 2cm
+   GdipDrawRectangle(graphics, pen, 0, 0, 30, 20)  ' 3cm x 2cm
 
    ' // Reset page transform to default (UnitPixel, scale 1.0)
-   status = GdipResetPageTransform(*graphics)
+   GdipResetPageTransform(graphics)
    ' // Set the scale transform to the dpi ratios
-   status = GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
 
    ' // Draw another rectangle using default pixel units
-   status = GdipDrawRectangle(*graphics, *pen, 270, 0, 100, 100)
+   GdipDrawRectangle(graphics, pen, 270, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

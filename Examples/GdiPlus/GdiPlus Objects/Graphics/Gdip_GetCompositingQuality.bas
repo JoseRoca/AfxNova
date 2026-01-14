@@ -41,30 +41,27 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetCompositingQuality (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush object with an alpha-blended color.
    DIM alphaBrush AS GdiPlusSolidBrush = GDIP_ARGB(128, 255, 0, 0)
 
    ' // Set the compositing quality to CompositingQualityHighQuality, and fill a rectangle.
-   status = GdipSetCompositingQuality(*graphics, CompositingQualityHighQuality)
-   status = GdipFillRectangle(*graphics, *alphaBrush, 0, 0, 100, 100)
+   GdipSetCompositingQuality(graphics, CompositingQualityHighQuality)
+   GdipFillRectangle(graphics, alphaBrush, 0, 0, 100, 100)
 
    ' // Get the compositing quality.
    DIM compQuality AS CompositingQuality
-   status = GdipGetCompositingQuality(*graphics, @compQuality)
+   GdipGetCompositingQuality(graphics, @compQuality)
 
    ' // Change the compositing mode if it is CompositingModeSourceCopy.
    IF compQuality = CompositingQualityHighQuality THEN
-      GdipSetCompositingQuality(*graphics, CompositingQualityHighSpeed)
+      GdipSetCompositingQuality(graphics, CompositingQualityHighSpeed)
    END IF
-   status = GdipFillRectangle(*graphics, *alphaBrush, 0, 100, 100, 100)
+   GdipFillRectangle(graphics, alphaBrush, 0, 100, 100, 100)
 
 END SUB
 ' ========================================================================================

@@ -37,26 +37,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TransformPoints (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
   ' // Draw a line that connects the two points.
    ' // No transformation has been performed yet.
    DIM pts(1) AS GpPointF
    pts(0).x = 0 : pts(0).y = 0 : pts(1).x = 100 : pts(1).y = 50
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1 * DpiRatio, UnitPixel)
-   status = GdipDrawLine(*graphics, *pen, pts(0).x, pts(0).y, pts(1).x, pts(1).y)
+   GdipDrawLine(graphics, pen, pts(0).x, pts(0).y, pts(1).x, pts(1).y)
 
    ' // Set the world transformation of the Graphics object.
-   status = GdipTranslateWorldTransform(*graphics, 40, 30, MatrixOrderPrepend)
+   GdipTranslateWorldTransform(graphics, 40, 30, MatrixOrderPrepend)
 
    ' // Transform the points in the array from world to page coordinates.
-   status = GdipTransformPoints(*graphics, CoordinateSpacePage, CoordinateSpaceWorld, @pts(0), 2)
+   GdipTransformPoints(graphics, CoordinateSpacePage, CoordinateSpaceWorld, @pts(0), 2)
 
    ' // It is the world transformation that takes points from world
    ' // space to page space. Because the world transformation is a
@@ -65,8 +63,8 @@ SUB Example_TransformPoints (BYVAL hdc AS HDC)
 
    ' // Draw a line that connects the transformed points.
    DIM pen2 AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * DpiRatio, UnitPixel)
-   status = GdipResetWorldTransform(*graphics)
-   status = GdipDrawLine(*graphics, *pen2, pts(0).x, pts(0).y, pts(1).x, pts(1).y)
+   GdipResetWorldTransform(graphics)
+   GdipDrawLine(graphics, pen2, pts(0).x, pts(0).y, pts(1).x, pts(1).y)
 
 END SUB
 ' ========================================================================================

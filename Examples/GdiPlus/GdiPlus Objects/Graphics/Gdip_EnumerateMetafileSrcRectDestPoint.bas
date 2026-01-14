@@ -71,10 +71,12 @@ SUB Example_EnumerateMetafileSrcRectDestPoint (BYVAL hdc AS HDC)
    DIM destPoint AS GpPointF = (300.0, 100.0)
 
    ' // Enumerate and replay cropped metafile
-   status = GdipEnumerateMetafileSrcRectDestPoint(*graphics, metafile, @destPoint, @srcRect, _
-                                                   UnitPixel, @MetafileCallback, NULL, NULL)
+   status = GdipEnumerateMetafileSrcRectDestPoint(graphics, metafile, @destPoint, @srcRect, _
+                                                  UnitPixel, @MetafileCallback, NULL, NULL)
    IF status <> 0 THEN
       AfxMsg "Enumeration failed: " & WSTR(status)
+   ELSE
+      AfxMsg "Success"
    END IF
 
 END SUB

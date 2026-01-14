@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawLine (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a blue Pen
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 3)
@@ -48,7 +45,7 @@ SUB Example_DrawLine (BYVAL hdc AS HDC)
    x1 = 100.0 : y1 = 100.0 : x2 = 300.0 : y2 = 100.0
 
    ' // Draw the line
-   status = GdipDrawLine(*graphics, *blackPen, x1, y1, x2, y2)
+   GdipDrawLine(graphics, blackPen, x1, y1, x2, y2)
 
 END SUB
 ' ========================================================================================

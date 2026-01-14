@@ -40,31 +40,28 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetCompositingMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a SolidBrush object with an alpha-blended color.
    DIM alphaBrush AS GdiPlusSolidBrush = GDIP_ARGB(128, 255, 0, 0)
 
    ' // Set the compositing mode to CompositingModeSourceCopy, and fill a rectangle.
-   status = GdipSetCompositingMode(*graphics, CompositingModeSourceCopy)
-   status = GdipFillRectangle(*graphics, *alphaBrush, 0, 0, 100, 100)
+   GdipSetCompositingMode(graphics, CompositingModeSourceCopy)
+   GdipFillRectangle(graphics, alphaBrush, 0, 0, 100, 100)
 
    ' // Get the compositing mode.
    DIM compMode AS CompositingMode
-   status = GdipGetCompositingMode(*graphics, @compMode)
+   GdipGetCompositingMode(graphics, @compMode)
 
    ' // Change the compositing mode if it is CompositingModeSourceCopy.
    IF compMode = CompositingModeSourceCopy THEN
-      status = GdipSetCompositingMode(*graphics, CompositingModeSourceOver)
+      GdipSetCompositingMode(graphics, CompositingModeSourceOver)
    END IF
    ' // Fill a rectangle
-   status = GdipFillRectangle(*graphics, *alphaBrush, 0, 100, 100, 100)
+   GdipFillRectangle(graphics, alphaBrush, 0, 100, 100, 100)
 
 END SUB
 ' ========================================================================================

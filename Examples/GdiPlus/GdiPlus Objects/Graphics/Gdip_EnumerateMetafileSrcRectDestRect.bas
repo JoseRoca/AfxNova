@@ -68,10 +68,12 @@ SUB Example_EnumerateMetafileSrcRectDestRect (BYVAL hdc AS HDC)
    DIM destRect AS GpRectF = (300.0, 100.0, 400.0, 200.0)
 
    ' // Enumerate and replay cropped metafile
-   status = GdipEnumerateMetafileSrcRectDestRect(*graphics, metafile, @destRect, @srcRect, _
-                                                  UnitPixel, @MetafileCallback, NULL, NULL)
+   status = GdipEnumerateMetafileSrcRectDestRect(graphics, metafile, @destRect, @srcRect, _
+                                                 UnitPixel, @MetafileCallback, NULL, NULL)
    IF status <> 0 THEN
       AfxMsg "Enumeration failed: " & WSTR(status)
+   ELSE
+      AfxMsg "Success"
    END IF
 
 END SUB

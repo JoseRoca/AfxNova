@@ -32,23 +32,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetRenderingOrigin (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a hatch brush
    DIM brush AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleCross, ARGB_BLACK, ARGB_LIGHTGRAY)
 
    ' // Draw first rectangle with default origin
-   status = GdipFillRectangle(*graphics, *brush, 35, 50, 150, 100)
+   GdipFillRectangle(graphics, brush, 35, 50, 150, 100)
 
    ' // Set rendering origin and draw a second rectangle
-   status = GdipSetRenderingOrigin(*graphics, 10, 10)
-   status = GdipFillRectangle(*graphics, *brush, 215, 50, 150, 100)
+   GdipSetRenderingOrigin(graphics, 10, 10)
+   GdipFillRectangle(graphics, brush, 215, 50, 150, 100)
 
 END SUB
 ' ========================================================================================

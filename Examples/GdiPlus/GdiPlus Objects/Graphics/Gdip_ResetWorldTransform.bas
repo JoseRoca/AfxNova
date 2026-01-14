@@ -35,24 +35,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetWorldTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform(dpiRatio)
 
- ' // Rotate the transformation and draw a rectangle.
-   status = GdipRotateWorldTransform(*graphics, 45.0, MatrixOrderPrepend)
+   ' // Rotate the transformation and draw a rectangle.
+   GdipRotateWorldTransform(graphics, 45.0, MatrixOrderPrepend)
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *blackPen, 100, 0, 100, 50)
+   GdipDrawRectangle(graphics, blackPen, 100, 0, 100, 50)
 
    ' // Reset the transformation to identity, and draw a second rectangle.
-   status = GdipResetWorldTransform(*graphics)
-   status = GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipResetWorldTransform(graphics)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
    DIM redPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
-   status = GdipDrawRectangle(*graphics, *redPen, 100, 0, 100, 50)
+   GdipDrawRectangle(graphics, redPen, 100, 0, 100, 50)
 
 END SUB
 ' ========================================================================================
