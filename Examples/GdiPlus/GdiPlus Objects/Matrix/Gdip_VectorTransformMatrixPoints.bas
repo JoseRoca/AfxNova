@@ -40,17 +40,14 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_VectorTransformMatrixPoints (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2 * dpiRatio, UnitPixel)
-   status = GdipSetPenEndCap(*pen, LineCapArrowAnchor)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2 * graphics.dpiRatio, UnitPixel)
+   GdipSetPenEndCap(pen, LineCapArrowAnchor)
    
    ' // Create a solid brush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
@@ -60,19 +57,19 @@ SUB Example_VectorTransformMatrixPoints (BYVAL hdc AS HDC)
    DIM vector AS GpPointF = (100, 50)
 
    ' // Draw the original point and vector in blue
-   status = GdipFillEllipse(*graphics, *brush, pt.x - 5.0, pt.y - 5.0, 10.0, 10.0)
-   status = GdipDrawLine(*graphics, *pen, 0, 0, vector.x, vector.y)
+   GdipFillEllipse(graphics, brush, pt.x - 5.0, pt.y - 5.0, 10.0, 10.0)
+   GdipDrawLine(graphics, pen, 0, 0, vector.x, vector.y)
 
    ' // Transform
    DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(0.8, 0.6, -0.6, 0.8, 100.0, 0.0)
-   status = GdipTransformMatrixPoints(*matrix, @pt, 1)
-   status = GdipVectorTransformMatrixPoints(*matrix, @vector, 1)
+   GdipTransformMatrixPoints(matrix, @pt, 1)
+   GdipVectorTransformMatrixPoints(matrix, @vector, 1)
 
    ' // Draw the transformed point and vector in red.
-   status = GdipSetPenColor(*pen, ARGB_RED)
-   status = GdipSetSolidFillColor(*brush, ARGB_RED)
-   status = GdipFillEllipse(*graphics, *brush, pt.X - 5.0, pt.Y - 5.0, 10.0, 10.0)
-   status = GdipDrawLine(*graphics, *pen, 0, 0, vector.x, vector.y)
+   GdipSetPenColor(pen, ARGB_RED)
+   GdipSetSolidFillColor(brush, ARGB_RED)
+   GdipFillEllipse(graphics, brush, pt.X - 5.0, pt.Y - 5.0, 10.0, 10.0)
+   GdipDrawLine(graphics, pen, 0, 0, vector.x, vector.y)
 
 END SUB
 ' ========================================================================================

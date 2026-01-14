@@ -33,28 +33,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ScaleMatrix (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create identity matrix
    DIM matrix AS GdiPlusMatrix
 
    ' // Apply horizontal and vertical scaling
-   status = GdipScaleMatrix(*matrix, 2.0, 1.5, MatrixOrderAppend)
+   GdipScaleMatrix(matrix, 2.0, 1.5, MatrixOrderAppend)
 
    ' // Apply matrix to graphics
-   status = GdipSetWorldTransform(*graphics, *matrix)
+   GdipSetWorldTransform(graphics, matrix)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2, UnitPixel)
 
    ' // Draw scaled rectangle
-   GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, 50, 50, 100, 60)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 50, 50, 100, 60)
 
 END SUB
 ' ========================================================================================

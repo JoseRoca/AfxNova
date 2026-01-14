@@ -36,26 +36,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_MultiplyMatrix (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create a matrix for horizontal scaling
    DIM matrix1 AS GdiPlusMatrix = GdiPlusMatrix(3, 0, 0, 1, 0, 0)
 
    ' // Translation
-   DIM matrix2 AS GdiPlusMatrix = GdiPlusMatrix(1, 0, 0, 1, 20 * dpiRatio, 40 * dpiRatio)
+   DIM matrix2 AS GdiPlusMatrix = GdiPlusMatrix(1, 0, 0, 1, 20 * graphics.dpiRatioX, 40 * graphics.dpiRatioY)
 
    ' // Create a pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * dpiRatio, UnitPixel)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * graphics.dpiRatio, UnitPixel)
 
-   status = GdipMultiplyMatrix(*matrix1, *matrix2, MatrixOrderAppend)
-   status = GdipSetWorldTransform(*graphics, *matrix1)
-   status = GdipScaleWorldTransform(*graphics, dpiRatio, dpiRatio, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 100, 100)
+   GdipMultiplyMatrix(matrix1, matrix2, MatrixOrderAppend)
+   GdipSetWorldTransform(graphics, matrix1)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 0, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

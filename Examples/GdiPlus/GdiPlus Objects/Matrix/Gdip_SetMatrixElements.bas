@@ -34,28 +34,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetMatrixElements (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create identity matrix
    DIM matrix AS GdiPlusMatrix
-   status = GdipSetMatrixElements(*matrix, 1, 0, 0, 1, 30 * graphics.dpiRatioX, 50 * graphics.dpiRatioY)
+   GdipSetMatrixElements(matrix, 1, 0, 0, 1, 30 * graphics.dpiRatioX, 50 * graphics.dpiRatioY)
 
    ' // Apply matrix to graphics
-   status = GdipSetWorldTransform(*graphics, *matrix)
+   GdipSetWorldTransform(graphics, matrix)
 
    ' // Scale graphics according the dpi ratios
-   status = GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
 
    ' // Create a pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2 * dpiRatio, UnitPixel)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2 * graphics.dpiRatio, UnitPixel)
 
    ' // Draw a rectangle
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 80, 40)
+   GdipDrawRectangle(graphics, pen, 0, 0, 80, 40)
 
 END SUB
 ' ========================================================================================

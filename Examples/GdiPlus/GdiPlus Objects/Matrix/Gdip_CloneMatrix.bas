@@ -36,8 +36,6 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloneMatrix (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
@@ -50,20 +48,20 @@ SUB Example_CloneMatrix (BYVAL hdc AS HDC)
    DIM clonedMatrix AS GdiPlusMatrix = *matrix
 
    ' // Apply translation to the cloned matrix
-   status = GdipTranslateMatrix(*clonedMatrix, 40 * graphics.dpiRatioX, 25 * graphics.dpiRatioY, MatrixOrderAppend)
+   GdipTranslateMatrix(clonedMatrix, 40 * dpiRatio, 25 * dpiRatio, MatrixOrderAppend)
 
    ' // Create a blue pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1, UnitPixel)
 
    ' // Apply first transform and draw scaled rectangle
-   status = GdipSetWorldTransform(*graphics, *matrix)
-   status = GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 100, 100)
+   GdipSetWorldTransform(graphics, matrix)
+   GdipScaleWorldTransform(graphics, dpiRatio, dpiRatio, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 0, 0, 100, 100)
 
    ' // Apply second transform and draw scaled + translated rectangle
-   status = GdipSetWorldTransform(*graphics, *clonedMatrix)
-   status = GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 100, 100)
+   GdipSetWorldTransform(graphics, clonedMatrix)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 0, 0, 100, 100)
 
 END SUB
 ' ========================================================================================

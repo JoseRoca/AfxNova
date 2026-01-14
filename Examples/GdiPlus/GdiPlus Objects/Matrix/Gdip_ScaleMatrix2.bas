@@ -37,31 +37,29 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ScaleMatrix (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create identity matrix
    DIM matrix AS GdiPlusMatrix
 
    ' // Rotate 30 degrees clockwise
-   status = GdipRotateMatrix(*matrix, 30, MatrixOrderAppend)
+   GdipRotateMatrix(matrix, 30, MatrixOrderAppend)
 
    ' // Apply horizontal and vertical scaling
-   status = GdipScaleMatrix(*matrix, 3.0, 2.0, MatrixOrderAppend)
+   GdipScaleMatrix(matrix, 3.0, 2.0, MatrixOrderAppend)
 
    ' // Apply matrix to graphics
-   status = GdipSetWorldTransform(*graphics, *matrix)
+   GdipSetWorldTransform(graphics, matrix)
 
    ' // Create pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2 * dpiRatio, UnitPixel)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2 * graphics.dpiRatio, UnitPixel)
 
    ' // Draw scaled ellipse
-   GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawEllipse(*graphics, *pen, 0, 0, 80, 40)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawEllipse(graphics, pen, 0, 0, 80, 40)
 
 END SUB
 ' ========================================================================================

@@ -41,31 +41,29 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ShearMatrix (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create identity matrix
    DIM matrix AS GdiPlusMatrix
 
    ' // First a scaling
-   status = GdipScaleMatrix(*matrix, 2.0, 2.0, MatrixOrderAppend)
+   GdipScaleMatrix(matrix, 2.0, 2.0, MatrixOrderAppend)
 
    ' // Then a shear
-   status = GdipShearMatrix(*matrix, 3.0, 0.0, MatrixOrderAppend)
+   GdipShearMatrix(matrix, 3.0, 0.0, MatrixOrderAppend)
 
    ' // Apply matrix to graphics
-   status = GdipSetWorldTransform(*graphics, *matrix)
+   GdipSetWorldTransform(graphics, matrix)
 
    ' // Create pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2 * dpiRatio, UnitPixel)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2 * graphics.dpiRatio, UnitPixel)
 
    ' // Draw scaled rectangle
-   GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 100, 50)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 0, 0, 100, 50)
 
 END SUB
 ' ========================================================================================

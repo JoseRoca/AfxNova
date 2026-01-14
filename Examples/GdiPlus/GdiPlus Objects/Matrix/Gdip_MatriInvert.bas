@@ -37,27 +37,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_MatrixInvert (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create a matrix
-   DIM matrix AS GdiPlusMatrix= GdiPlusMatrix(1, 0, 0, 1, 30 * dpiRatio, 20 * dpiRatio)
+   DIM matrix AS GdiPlusMatrix= GdiPlusMatrix(1, 0, 0, 1, 30 * graphics.dpiRatioX, 20 * graphics.dpiRatioY)
 
    ' // Create a pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * dpiRatio, UnitPixel)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * graphics.dpiRatio, UnitPixel)
 
-   status = GdipSetWorldTransform(*graphics, *matrix)
-   status = GdipScaleWorldTransform(*graphics, dpiRatio, dpiRatio, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 200, 100)
+   GdipSetWorldTransform(graphics, matrix)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 0, 0, 200, 100)
 
-   status = GdipInvertMatrix(*matrix)
-   status = GdipSetWorldTransform(*graphics, *matrix)
-   status = GdipScaleWorldTransform(*graphics, dpiRatio, dpiRatio, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, 0, 0, 200, 100)
+   GdipInvertMatrix(matrix)
+   GdipSetWorldTransform(graphics, matrix)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 0, 0, 200, 100)
 
 END SUB
 ' ========================================================================================

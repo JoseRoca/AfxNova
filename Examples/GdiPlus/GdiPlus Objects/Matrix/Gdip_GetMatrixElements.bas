@@ -33,25 +33,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetMatrixElements (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create identity matrix
    DIM matrix AS GdiPlusMatrix
 
    ' // First translate
-   status = GdipTranslateMatrix(*matrix, 40 * dpiRatio, 30 * dpiRatio, MatrixOrderAppend)
+   GdipTranslateMatrix(matrix, 40 * graphics.dpiRatioX, 30 * graphics.dpiRatioY, MatrixOrderAppend)
    ' // Then rotate
-   status = GdipRotateMatrix(*matrix, 45, MatrixOrderAppend)
+   GdipRotateMatrix(matrix, 45, MatrixOrderAppend)
 
    ' // Retrieve matrix elements
    DIM elements(0 TO 5) AS SINGLE
-   status = GdipGetMatrixElements(*matrix, @elements(0))
+   GdipGetMatrixElements(matrix, @elements(0))
 
    ' // Create font and brush
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -68,7 +65,7 @@ SUB Example_GetMatrixElements (BYVAL hdc AS HDC)
    text &= "dx  = " & STR(elements(4)) & !"\n"
    text &= "dy  = " & STR(elements(5))
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 200.0)
-   GdipDrawString(*graphics, text, LEN(text), *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, text, LEN(text), font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

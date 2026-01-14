@@ -37,37 +37,35 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TranslateMatrix (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create identity matrix
    DIM matrix AS GdiPlusMatrix
 
    ' // First a rotation
-   status = GdipRotateMatrix(*matrix, 30, MatrixOrderAppend)
+   GdipRotateMatrix(matrix, 30, MatrixOrderAppend)
    ' // Then a translation
-   status = GdipTranslateMatrix(*matrix, 150 * graphics.dpiRatioX, 100 * graphics.dpiRatioY, MatrixOrderAppend)
+   GdipTranslateMatrix(matrix, 150 * graphics.dpiRatioX, 100 * graphics.dpiRatioY, MatrixOrderAppend)
 
    ' // Apply matrix to graphics
-   status = GdipSetWorldTransform(*graphics, *matrix)
+   GdipSetWorldTransform(graphics, matrix)
 
    ' // Create pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * dpiRatio, UnitPixel)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * graphics.dpiRatio, UnitPixel)
 
    ' // Scale graphics according the dpi ratios
-   status = GdipScaleWorldTransform(*graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
 
    ' // Draw a tramsformed ellipse. The composite transformation
    ' // is rotate 30 degrees, then translate 150 right and 100 down.
-   status = GdipDrawEllipse(*graphics, *pen, -40, -20, 80, 40)
+   GdipDrawEllipse(graphics, pen, -40, -20, 80, 40)
 
    ' // Draw rotated axes with the origin at the center of the ellipse.
-   status = GdipDrawLine(*graphics, *pen, -50, 0, 50, 0)
-   status = GdipDrawLine(*graphics, *pen, 0, -50, 0, 50)
+   GdipDrawLine(graphics, pen, -50, 0, 50, 0)
+   GdipDrawLine(graphics, pen, 0, -50, 0, 50)
 
 END SUB
 ' ========================================================================================

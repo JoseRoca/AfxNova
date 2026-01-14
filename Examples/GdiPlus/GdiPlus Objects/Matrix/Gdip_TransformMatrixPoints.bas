@@ -34,12 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TransformMatrixPoints (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform
 
    ' // Create identity matrix
    DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(1, 0, 0, 2, 0, 0)
@@ -49,14 +47,14 @@ SUB Example_TransformMatrixPoints (BYVAL hdc AS HDC)
        (160, 125), (200, 100), (250, 150)}
 
    ' // Create pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * dpiRatio, UnitPixel)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * graphics.dpiRatio, UnitPixel)
 
    ' // Draw the curve
-   status = GdipDrawCurve(*graphics, *pen, @rgPoints(0), 5)
+   GdipDrawCurve(graphics, pen, @rgPoints(0), 5)
    ' // Transform the points
-   status = GdipTransformMatrixPoints(*matrix, @rgPoints(0), 5)
+   GdipTransformMatrixPoints(matrix, @rgPoints(0), 5)
    ' // Draw the curve after the transformation
-   status = GdipDrawCurve(*graphics, *pen, @rgPoints(0), 5)
+   GdipDrawCurve(graphics, pen, @rgPoints(0), 5)
 
 END SUB
 ' ========================================================================================
