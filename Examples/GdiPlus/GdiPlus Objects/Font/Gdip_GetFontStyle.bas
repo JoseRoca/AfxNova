@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetFontStyle (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -48,7 +45,7 @@ SUB Example_GetFontStyle (BYVAL hdc AS HDC)
 
    ' // Get the font size
    DIM style AS LONG
-   status = GdipGetFontStyle(*font, @style)
+   GdipGetFontStyle(font, @style)
 
    ' // Create a second font object with the same size
    DIM font2 AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
@@ -59,7 +56,7 @@ SUB Example_GetFontStyle (BYVAL hdc AS HDC)
    ' // Draw a string
    DIM rcf AS GpRectF = (30, 30, 0, 0)
    DIM wszText AS WSTRING * 64 = "Font with an acquired style"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font2, @rcf, NULL, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font2, @rcf, NULL, solidBrush)
 
 END SUB
 ' ========================================================================================

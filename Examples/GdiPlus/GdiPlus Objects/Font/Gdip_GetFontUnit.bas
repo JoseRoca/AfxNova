@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetFontUnit (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -48,10 +45,10 @@ SUB Example_GetFontUnit (BYVAL hdc AS HDC)
 
    ' // Get the unit of measure
    DIM unit AS GpUnit
-   status = GdipGetFontUnit(*font, @unit)
+   GdipGetFontUnit(font, @unit)
 
    ' // Set the Graphics units of graphics to the retrieved unit value.
-   status = GdipSetPageUnit(*graphics, unit)
+   GdipSetPageUnit(*graphics, unit)
 
    ' // Create a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
@@ -59,7 +56,7 @@ SUB Example_GetFontUnit (BYVAL hdc AS HDC)
    ' // Draw a string
    DIM rcf AS GpRectF = (30, 30, 0, 0)
    DIM wszText AS WSTRING * 64 = "Here is some text"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, NULL, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, solidBrush)
 
 END SUB
 ' ========================================================================================

@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetFontHeight (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a font from a font family
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -51,11 +48,11 @@ SUB Example_GetFontHeight (BYVAL hdc AS HDC)
    ' // Draw first line of text
    DIM text1 AS WSTRING * 64 = "The first line of text"
    DIM rcf1 AS GpRectF = (0, 0, 300, 100)
-   status = GdipDrawString(*graphics, text1, LEN(text1), *font, @rcf1, NULL, *brush1)
+   GdipDrawString(graphics, text1, LEN(text1), font, @rcf1, NULL, brush1)
 
    ' // Get the font height
    DIM height AS SINGLE
-   status = GdipGetFontHeight(*font, *graphics, @height)
+   GdipGetFontHeight(font, graphics, @height)
 
    ' // Create second brush (red)
    DIM brush2 AS GdiPlusSolidBrush = ARGB_RED
@@ -63,7 +60,7 @@ SUB Example_GetFontHeight (BYVAL hdc AS HDC)
    ' // Draw second line of text below the first
    DIM text2 AS WSTRING * 64 = "The second line of text"
    DIM rcf2 AS GpRectF = (0, height, 300, 100)
-   status = GdipDrawString(*graphics, text2, LEN(text2), *font, @rcf2, NULL, *brush2)
+   GdipDrawString(graphics, text2, LEN(text2), font, @rcf2, NULL, brush2)
 
 END SUB
 ' ========================================================================================

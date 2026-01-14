@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetFontFamily (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -48,7 +45,7 @@ SUB Example_GetFontFamily (BYVAL hdc AS HDC)
 
    ' // Get the font family of the font
    DIM fontFamily2 AS GpFontFamily PTR
-   status = GdipGetFamily(*font, @fontFamily2)
+   GdipGetFamily(font, @fontFamily2)
 
    ' // Create a second font from the retrieved font family
    DIM familyFont AS GdiPlusFont = GdiPlusFont(fontFamily2, AfxGdipPointsToPixels(14, TRUE), FontStyleRegular, UnitPixel)
@@ -59,7 +56,7 @@ SUB Example_GetFontFamily (BYVAL hdc AS HDC)
    ' // Draw a string
    DIM rcf AS GpRectF = (30, 30, 0, 0)
    DIM wszText AS WSTRING * 64 = "This is a Font created from a FontFamily"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *familyFont, @rcf, NULL, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), familyFont, @rcf, NULL, solidBrush)
 
 END SUB
 ' ========================================================================================

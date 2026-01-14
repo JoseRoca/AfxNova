@@ -38,10 +38,8 @@ SUB Example_GetLogFontW (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
-   ' // Set the scale transform
    ' // Set the scale transform (don't use it in this example or the font will be scaled twice)
-'   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-'   status = graphics.ScaleTransform(dpiRatio)
+   ' graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -49,7 +47,7 @@ SUB Example_GetLogFontW (BYVAL hdc AS HDC)
 
    ' //Retrieve the LOGFONTW structure
    DIM lf AS LOGFONTW
-   status = GdipGetLogFontW(*font, *graphics, @lf)
+   status = GdipGetLogFontW(font, graphics, @lf)
 
    ' // Display some attributes (for example, in console)
    ' PRINT "LOGFONTW FaceName: "; lf.lfFaceName
@@ -66,7 +64,7 @@ SUB Example_GetLogFontW (BYVAL hdc AS HDC)
    ' // Draw a string using the second font
    DIM rcf AS GpRectF = (30, 30, 0, 0)
    DIM wszText AS WSTRING * 64 = "Font from LOGFONTW"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font2, @rcf, NULL, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font2, @rcf, NULL, solidBrush)
 
 END SUB
 ' ========================================================================================

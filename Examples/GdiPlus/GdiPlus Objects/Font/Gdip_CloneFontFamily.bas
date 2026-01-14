@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -55,7 +52,7 @@ SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
    ' // Draw a string using the clones font family
    DIM rcf AS GpRectF = (30, 30, 0, 0)
    DIM wszText AS WSTRING * 64 = "Text from cloned FontFamily"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, NULL, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, solidBrush)
 
 END SUB
 ' ========================================================================================

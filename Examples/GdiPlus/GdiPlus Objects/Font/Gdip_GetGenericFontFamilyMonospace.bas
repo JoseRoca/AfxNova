@@ -32,17 +32,14 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetGenericFontFamilyMonospace (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Get the generic monospace font family
    DIM monoFamily AS GpFontFamily PTR
-   status = GdipGetGenericFontFamilyMonospace(@monoFamily)
+   GdipGetGenericFontFamilyMonospace(@monoFamily)
 
    ' Create a font from the generic monospace family
    DIM font AS GdiPlusFont = GdiPlusFont(monoFamily, AfxGdipPointsToPixels(14, TRUE), FontStyleRegular, UnitPixel)
@@ -54,7 +51,7 @@ SUB Example_GetGenericFontFamilyMonospace (BYVAL hdc AS HDC)
    ' // Draw a string
    DIM text AS WSTRING * 64 = "Fixed-width text example"
    DIM layout AS GpRectF = (20.0, 20.0, 300.0, 100.0)
-   status = GdipDrawString(*graphics, text, LEN(text), *font, @layout, NULL, *solidBrush)
+   GdipDrawString(graphics, text, LEN(text), font, @layout, NULL, solidBrush)
 
 END SUB
 ' ========================================================================================

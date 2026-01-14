@@ -34,14 +34,11 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetLogFontA (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    ' // Set the scale transform (don't use it in this example or the font will be scaled twice)
-'   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-'   status = graphics.ScaleTransform(dpiRatio)
+   ' graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Arial"
@@ -49,7 +46,7 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
 
    ' //Retrieve the LOGFONTA structure
    DIM lf AS LOGFONTA
-   status = GdipGetLogFontA(*font, *graphics, @lf)
+   GdipGetLogFontA(font, graphics, @lf)
 
    ' // Display some attributes (for example, in console)
    ' PRINT "LOGFONTA FaceName: "; lf.lfFaceName
@@ -66,7 +63,7 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
    ' // Draw a string using the second font
    DIM rcf AS GpRectF = (30, 30, 0, 0)
    DIM wszText AS WSTRING * 64 = "Font from LOGFONTA"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font2, @rcf, NULL, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font2, @rcf, NULL, solidBrush)
 
 END SUB
 ' ========================================================================================
