@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsVisiblePathPoint (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the pen and brush
    DIM yellowPen AS GdiPlusPen = GdiPlusPen(ARGB_YELLOW, 20, UnitWorld)
@@ -50,9 +47,9 @@ SUB Example_IsVisiblePathPoint (BYVAL hdc AS HDC)
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
    ' // Add an ellipse
-   status = GdipAddPathEllipse(*path, 50, 50, 200, 100)
+   GdipAddPathEllipse(path, 50, 50, 200, 100)
    ' // Draw the path
-   status = GdipDrawPath(*graphics, *yellowPen, *path)
+   GdipDrawPath(graphics, yellowPen, path)
 
    ' // Create an array of four points, and determine whether each
    ' // point in the array touches the outline of the path.
@@ -66,13 +63,13 @@ SUB Example_IsVisiblePathPoint (BYVAL hdc AS HDC)
 
    FOR i AS LONG = 0 TO 3
       DIM result AS BOOL
-      status = GdipIsVisiblePathPoint(*path, pts(i).x, pts(i).y, *graphics, @result)
+      GdipIsVisiblePathPoint(path, pts(i).x, pts(i).y, graphics, @result)
       IF result THEN
-         status = GdipSetSolidFillColor(*brush, ARGB_LIGHTGREEN)
+         GdipSetSolidFillColor(brush, ARGB_LIGHTGREEN)
       ELSE
-         status = GdipSetSolidFillColor(*brush, ARGB_RED)
+         GdipSetSolidFillColor(brush, ARGB_RED)
       END IF
-      status = GdipFillEllipse(*graphics, *brush, pts(i).x - 3, pts(i).y - 3, 6, 6)
+      GdipFillEllipse(graphics, brush, pts(i).x - 3, pts(i).y - 3, 6, 6)
    NEXT
 
 END SUB

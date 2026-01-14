@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawPie (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -50,13 +47,13 @@ SUB Example_DrawPie (BYVAL hdc AS HDC)
    DIM nHeight AS SINGLE = 150
    DIM startAngle AS SINGLE = 30
    DIM sweepAngle AS SINGLE = 120
-   status = GdipAddPathPie(*path, x, y, nWidth, nHeight, startAngle, sweepAngle)
+   GdipAddPathPie(path, x, y, nWidth, nHeight, startAngle, sweepAngle)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_CRIMSON, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

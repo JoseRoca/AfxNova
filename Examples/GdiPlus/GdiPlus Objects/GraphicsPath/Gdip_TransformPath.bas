@@ -32,28 +32,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TransformPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathRectangle(*path, 100, 10, 200, 50)
+   GdipAddPathRectangle(path, 100, 10, 200, 50)
 
    ' // Draw the path in blue before applying a transformation.
    DIM bluePen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1, UnitWorld)
-   status = GdipDrawPath(*graphics, *bluePen, *path)
+   GdipDrawPath(graphics, bluePen, path)
 
    ' // Transform the path.
    DIM matrix AS GdiPlusMatrix
-   status = GdipRotateMatrix(*matrix, 30, MatrixOrderPrepend)
-   status = GdipTransformPath(*path, *matrix)
+   GdipRotateMatrix(matrix, 30, MatrixOrderPrepend)
+   GdipTransformPath(path, matrix)
    DIM redPen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitWorld)
-   status = GdipDrawPath(*graphics, *redPen, *path)
+   GdipDrawPath(graphics, redPen, path)
 
 END SUB
 ' ========================================================================================

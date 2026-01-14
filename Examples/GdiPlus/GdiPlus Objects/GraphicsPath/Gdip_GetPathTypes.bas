@@ -32,41 +32,38 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathTypes (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add a shape
-   status = GdipAddPathRectangle(*path, 100, 80, 150, 100)
+   GdipAddPathRectangle(path, 100, 80, 150, 100)
 
    ' // Get number of points
    DIM count AS LONG
-   status = GdipGetPointCount(*path, @count)
+   GdipGetPointCount(path, @count)
 
    ' // Allocate array for types
    DIM types(ANY) AS BYTE
    REDIM types(count - 1)
 
    ' // Retrieve types
-   status = GdipGetPathTypes(*path, @types(0), count)
+   GdipGetPathTypes(*path, @types(0), count)
 
    ' // Display points
    FOR i AS LONG = 0 TO count - 1
-       OutputDebugStringW("Type " & WSTR(i) & ": (" & WSTR(types(i)) & ")")
+      OutputDebugStringW("Type " & WSTR(i) & ": (" & WSTR(types(i)) & ")")
    NEXT
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_ORANGE, 2, UnitWorld)
 
    ' // Draw the path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

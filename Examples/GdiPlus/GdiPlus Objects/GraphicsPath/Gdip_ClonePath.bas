@@ -32,17 +32,14 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ClonePath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create original path
    DIM originalPath AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipse(*originalPath, 120, 70, 150, 100)
+   GdipAddPathEllipse(originalPath, 120, 70, 150, 100)
 
    ' // Clone the path
    DIM clonedPath AS GdiPlusGraphicsPath = *originalPath
@@ -51,7 +48,7 @@ SUB Example_ClonePath (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_DARKORANGE, 2, UnitWorld)
 
    ' // Draw cloned path
-   status = GdipDrawPath(*graphics, *pen, *clonedPath)
+   GdipDrawPath(graphics, pen, clonedPath)
 
 END SUB
 ' ========================================================================================

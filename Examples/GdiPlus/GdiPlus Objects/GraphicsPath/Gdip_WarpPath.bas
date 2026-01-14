@@ -36,13 +36,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_WarpPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -57,12 +54,12 @@ SUB Example_WarpPath (BYVAL hdc AS HDC)
    pts(6).x = 40 : pts(6).y = 90
    pts(7).x = 50 : pts(7).y = 60
 
-   status = GdipAddPathLine2(*path, @pts(0), 8)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine2(path, @pts(0), 8)
+   GdipClosePathFigure(path)
 
    ' // Draw the path before applying a warp transformation.
    DIM bluePen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1, UnitWorld)
-   status = GdipDrawPath(*graphics, *bluePen, *path)
+   GdipDrawPath(graphics, bluePen, path)
 
    ' // Define a warp transformation, and warp the path.
    DIM srcRect AS GpRectF = (10, 50, 50, 100)
@@ -75,18 +72,18 @@ SUB Example_WarpPath (BYVAL hdc AS HDC)
    destPts(3).x = 400 : destPts(3).y = 150
 
    ' // Warp the path
-   status = GdipWarpPath(*path, NULL, @destPts(0), 4, srcRect.x, srcRect.y, srcRect.Width, srcRect.Height, WarpModePerspective, FlatnessDefault)
+   GdipWarpPath(path, NULL, @destPts(0), 4, srcRect.x, srcRect.y, srcRect.Width, srcRect.Height, WarpModePerspective, FlatnessDefault)
 
    ' // Draw the warped path.
-   status = GdipDrawPath(*graphics, *bluePen, *path)
+   GdipDrawPath(graphics, bluePen, path)
 
    ' // Draw the source rectangle and the destination polygon.
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1, UnitWorld)
-   status = GdipDrawRectangle(*graphics, *blackPen, srcRect.x, srcRect.y, srcRect.Width, srcRect.Height)
-   status = GdipDrawLine(*graphics, *blackPen, destpts(0).x, destPts(0).y, destPts(1).x, destPts(1).y)
-   status = GdipDrawLine(*graphics, *blackPen, destpts(0).x, destPts(0).y, destPts(2).x, destPts(2).y)
-   status = GdipDrawLine(*graphics, *blackPen, destpts(1).x, destPts(1).y, destPts(3).x, destPts(3).y)
-   status = GdipDrawLine(*graphics, *blackPen, destpts(2).x, destPts(2).y, destPts(3).x, destPts(3).y)
+   GdipDrawRectangle(graphics, blackPen, srcRect.x, srcRect.y, srcRect.Width, srcRect.Height)
+   GdipDrawLine(graphics, blackPen, destpts(0).x, destPts(0).y, destPts(1).x, destPts(1).y)
+   GdipDrawLine(graphics, blackPen, destpts(0).x, destPts(0).y, destPts(2).x, destPts(2).y)
+   GdipDrawLine(graphics, blackPen, destpts(1).x, destPts(1).y, destPts(3).x, destPts(3).y)
+   GdipDrawLine(graphics, blackPen, destpts(2).x, destPts(2).y, destPts(3).x, destPts(3).y)
 
 END SUB
 ' ========================================================================================

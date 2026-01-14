@@ -32,23 +32,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetWorldBounds (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add a shape
-   status = GdipAddPathEllipse(*path, 100, 80, 150, 100)
+   GdipAddPathEllipse(path, 100, 80, 150, 100)
 
    ' // Get world bounds
    DIM bounds AS GpRectF
-   status = GdipGetPathWorldBounds(*path, @bounds, NULL, NULL)
+   GdipGetPathWorldBounds(path, @bounds, NULL, NULL)
 
    ' // Display bounds
    OutputDebugStringW("Bounding box:")
@@ -61,7 +58,7 @@ SUB Example_GetWorldBounds (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_ORANGE, 2, UnitWorld)
 
    ' // Draw the path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

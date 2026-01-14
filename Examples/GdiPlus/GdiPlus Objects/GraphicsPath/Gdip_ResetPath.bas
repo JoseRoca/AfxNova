@@ -32,31 +32,28 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ResetPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add initial shape
-   status = GdipAddPathRectangle(*path, 100, 80, 150, 100)
+   GdipAddPathRectangle(path, 100, 80, 150, 100)
 
    ' // Reset the path
-   status = GdipResetPath(*path)
+   GdipResetPath(path)
 
    ' // Add new shape after reset
-   status = GdipAddPathEllipse(*path, 120, 100, 100, 60)
+   GdipAddPathEllipse(path, 120, 100, 100, 60)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_DARKSLATEBLUE, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

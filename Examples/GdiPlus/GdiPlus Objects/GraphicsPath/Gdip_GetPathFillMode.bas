@@ -32,23 +32,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetFillMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath with alternate fill mode
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add a shape
-   status = GdipAddPathEllipse(*path, 100, 70, 200, 100)
+   GdipAddPathEllipse(path, 100, 70, 200, 100)
 
    ' // Retrieve fill mode
    DIM fillMode AS LONG
-   status = GdipGetPathFillMode(*path, @fillMode)
+   GdipGetPathFillMode(path, @fillMode)
 
    ' // Display result
    SELECT CASE fillMode
@@ -64,7 +61,7 @@ SUB Example_GetFillMode (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_ORANGE, 2, UnitWorld)
 
    ' // Draw the path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

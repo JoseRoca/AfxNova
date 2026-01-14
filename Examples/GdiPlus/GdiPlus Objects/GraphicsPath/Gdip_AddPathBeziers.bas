@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawBeziers (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -55,13 +52,13 @@ SUB Example_DrawBeziers (BYVAL hdc AS HDC)
    pts(6).x = 330 : pts(6).y = 150   ' End of second curve
 
    ' // Add connected Bézier curves
-   status = GdipAddPathBeziers(*path, @pts(0), 7)
+   GdipAddPathBeziers(path, @pts(0), 7)
 
    ' // Create pen
-   DIM  pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2, UnitWorld)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

@@ -32,28 +32,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloseFigure (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add an arc (open by default)
-   status = GdipAddPathArc(*path, 140, 15, 100, 150, 0, 180)
+   GdipAddPathArc(path, 140, 15, 100, 150, 0, 180)
 
    ' // Close the figure (connects end point to start point)
-   status = GdipClosePathFigure(*path)
+   GdipClosePathFigure(path)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

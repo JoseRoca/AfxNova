@@ -32,37 +32,34 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ReversePath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add a triangle
-   status = GdipAddPathLine(*path, 100, 100, 200, 100)
-   status = GdipAddPathLine(*path, 200, 100, 150, 200)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 100, 100, 200, 100)
+   GdipAddPathLine(path, 200, 100, 150, 200)
+   GdipClosePathFigure(path)
 
    ' // Draw original path in blue
    DIM penBlue AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2, UnitWorld)
-   status = GdipDrawPath(*graphics, *penBlue, *path)
+   GdipDrawPath(graphics, penBlue, path)
 
    ' // Reverse the path
-   status = GdipReversePath(*path)
+   GdipReversePath(path)
 
    ' // Offset the path for visibility
    DIM matrix AS GdiPlusMatrix
-   status = GdipTranslateMatrix(*matrix, 120, 0, MatrixOrderAppend)
-   status = GdipTransformPath(*path, *matrix)
+   GdipTranslateMatrix(matrix, 120, 0, MatrixOrderAppend)
+   GdipTransformPath(path, matrix)
 
    ' // Draw reversed path in red
    DIM penRed AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2, UnitWorld)
-   status = GdipDrawPath(*graphics, *penRed, *path)
+   GdipDrawPath(graphics, penRed, path)
 
 END SUB
 ' ========================================================================================

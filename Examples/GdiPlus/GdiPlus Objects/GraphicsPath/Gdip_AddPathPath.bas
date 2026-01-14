@@ -32,31 +32,28 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawPathPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create base path
    DIM basePath AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipse(*basePath, 120, 70, 150, 100)
+   GdipAddPathEllipse(basePath, 120, 70, 150, 100)
 
    ' // Create another path to add
    DIM subPath AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathRectangle(*subPath, 150, 100, 90, 40)
+   GdipAddPathRectangle(subPath, 150, 100, 90, 40)
 
    ' // Merge subPath into basePath
    DIM connect AS BOOL = FALSE  ' FALSE = separate figure
-   status = GdipAddPathPath(*basePath, *subPath, connect)
+   GdipAddPathPath(basePath, subPath, connect)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2, UnitWorld)
 
    ' // Draw combined path
-   status = GdipDrawPath(*graphics, *pen, *basePath)
+   GdipDrawPath(graphics, pen, basePath)
 
 END SUB
 ' ========================================================================================

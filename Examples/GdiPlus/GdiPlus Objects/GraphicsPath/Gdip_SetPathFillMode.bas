@@ -32,27 +32,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPathFillMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add overlapping shapes
-   status = GdipAddPathEllipse(*path, 100, 80, 150, 100)
-   status = GdipAddPathEllipse(*path, 130, 110, 150, 100)
+   GdipAddPathEllipse(path, 100, 80, 150, 100)
+   GdipAddPathEllipse(path, 130, 110, 150, 100)
 
    ' // Change fill mode to Winding
-   status = GdipSetPathFillMode(*path, FillModeWinding)
+   GdipSetPathFillMode(path, FillModeWinding)
 
    ' // Fill the path
    DIM brush AS GdiPlusSolidBrush = ARGB_LIGHTSKYBLUE
-   status = GdipFillPath(*graphics, *brush, *path)
+   GdipFillPath(graphics, brush, path)
 
 END SUB
 ' ========================================================================================

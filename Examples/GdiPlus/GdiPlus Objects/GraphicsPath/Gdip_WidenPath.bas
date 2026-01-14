@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_WidenPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -56,17 +53,17 @@ SUB Example_WidenPath (BYVAL hdc AS HDC)
    pts(1).x = 160 : pts(1).y = 100
    pts(2).x = 140 : pts(2).y = 60
    pts(3).x = 60  : pts(3).y = 100
-   status = GdipAddPathClosedCurve(*path, @pts(0), 4)
+   GdipAddPathClosedCurve(path, @pts(0), 4)
 
    ' // The GdipWidenPath function respects the dash style of the specified pen
    ' // (the green pen in this case). The following instruction changes it.
-   status = GdipSetPenDashStyle(*greenPen, DashStyleDash)
+   GdipSetPenDashStyle(greenPen, DashStyleDash)
 
    ' // Widen the path.
-   status = GdipWidenPath(*path, *greenPen, NULL, FlatnessDefault)
+   GdipWidenPath(path, greenPen, NULL, FlatnessDefault)
 
    ' // Draw the path.
-   status = GdipDrawPath(*graphics, *bluePen, *path)
+   GdipDrawPath(graphics, bluePen, path)
 
 END SUB
 ' ========================================================================================

@@ -32,28 +32,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_FlattenPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add a Bézier curve
-   status = GdipAddPathBezier(*path, 50, 150, 100, 50, 200, 250, 250, 150)
+   GdipAddPathBezier(path, 50, 150, 100, 50, 200, 250, 250, 150)
 
    ' // Flatten the path (convert curve to lines)
-   status = GdipFlattenPath(*path, NULL, 0.25)
+   GdipFlattenPath(path, NULL, 0.25)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_ORANGE, 2, UnitWorld)
 
    ' // Draw flattened path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

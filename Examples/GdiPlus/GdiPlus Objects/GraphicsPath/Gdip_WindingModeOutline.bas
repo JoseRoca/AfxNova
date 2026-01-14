@@ -36,13 +36,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_WindingModeOutline (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -57,13 +54,13 @@ SUB Example_WindingModeOutline (BYVAL hdc AS HDC)
    pts(1).x = 160 : pts(1).y = 100
    pts(2).x = 140 : pts(2).y = 60
    pts(3).x = 60  : pts(3).y = 100
-   status = GdipAddPathClosedCurve(*path, @pts(0), 4)
+   GdipAddPathClosedCurve(path, @pts(0), 4)
 
-   status = GdipWidenPath(*path, *greenPen, NULL, FlatnessDefault)
-   status = GdipDrawPath(*graphics, *bluePen, *path)
-   status = GdipWindingModeOutline(*path, NULL, FlatnessDefault)
-   status = GdipTranslateWorldTransform(*graphics, 180, 0, MatrixOrderPrepend)
-   status = GdipDrawPath(*graphics, *bluePen, *path)
+   GdipWidenPath(path, greenPen, NULL, FlatnessDefault)
+   GdipDrawPath(graphics, bluePen, path)
+   GdipWindingModeOutline(path, NULL, FlatnessDefault)
+   GdipTranslateWorldTransform(graphics, 180, 0, MatrixOrderPrepend)
+   GdipDrawPath(graphics, bluePen, path)
 
 END SUB
 ' ========================================================================================

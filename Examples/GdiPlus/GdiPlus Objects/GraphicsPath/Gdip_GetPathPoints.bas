@@ -32,30 +32,27 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPathPoints (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add a shape
-   status = GdipAddPathRectangle(*path, 100, 80, 150, 100)
+   GdipAddPathRectangle(path, 100, 80, 150, 100)
 
    ' // Get number of points
    DIM count AS LONG
-   status = GdipGetPointCount(*path, @count)
+   GdipGetPointCount(path, @count)
 
    ' // Allocate array for points
    DIM pts(ANY) AS GpPointF
    REDIM pts(count - 1)
 
    ' // Retrieve points
-   status = GdipGetPathPoints(*path, @pts(0), count)
+   GdipGetPathPoints(path, @pts(0), count)
 
    ' // Display points
    FOR i AS LONG = 0 TO count - 1
@@ -66,7 +63,7 @@ SUB Example_GetPathPoints (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_ORANGE, 2, UnitWorld)
 
    ' // Draw the path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

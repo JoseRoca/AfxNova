@@ -32,25 +32,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawLine (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object and initializes the fill mode.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add a line from (50, 50) to (250, 150)
-   status = GdipAddPathLine(*path, 50, 50, 250, 150)
+   GdipAddPathLine(path, 50, 50, 250, 150)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

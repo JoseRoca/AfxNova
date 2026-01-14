@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawClosedCurve2 (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object and initializes the fill mode.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -53,13 +50,13 @@ SUB Example_DrawClosedCurve2 (BYVAL hdc AS HDC)
 
    ' // Add closed curve with tension
    DIM tension AS SINGLE = 0.5
-   status = GdipAddPathClosedCurve2(*path, @pts(0), 5, tension)
+   GdipAddPathClosedCurve2(path, @pts(0), 5, tension)
 
    ' // Create pen
-   DIM  pen AS GdiPlusPen = GdiPlusPen(ARGB_ORANGE, 2, UnitWorld)
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_ORANGE, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

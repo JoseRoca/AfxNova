@@ -32,30 +32,27 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ClearMarkers (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add some shapes
-   status = GdipAddPathRectangle(*path, 50, 50, 100, 60)
-   status = GdipSetPathMarker(*path)  ' Set a marker after the rectangle
-   status = GdipAddPathEllipse(*path, 200, 50, 100, 60)
+   GdipAddPathRectangle(path, 50, 50, 100, 60)
+   GdipSetPathMarker(path)  ' Set a marker after the rectangle
+   GdipAddPathEllipse(path, 200, 50, 100, 60)
 
    ' // Clear all markers
-   status = GdipClearPathMarkers(*path)
+   GdipClearPathMarkers(path)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_DARKBLUE, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

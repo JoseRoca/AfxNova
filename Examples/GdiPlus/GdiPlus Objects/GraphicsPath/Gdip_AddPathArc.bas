@@ -32,25 +32,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawArc (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object and initializes the fill mode.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
       ' // Adds an elliptical arc to the current figure of this path.
-   status = GdipAddPathArc(*path, 140, 15, 100, 150, 0, 180)
+   GdipAddPathArc(path, 140, 15, 100, 150, 0, 180)
    ' // Closes the current figure of the path.
-   status = GdipClosePathFigure(*path)
+   GdipClosePathFigure(path)
 
    ' // Create a red pen
    DIM  pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitWorld)
    ' // Draw the path.
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

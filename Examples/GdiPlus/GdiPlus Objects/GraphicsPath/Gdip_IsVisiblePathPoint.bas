@@ -32,22 +32,19 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsVisiblePathPoint (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathEllipse(*path, 100, 80, 150, 100)
+   GdipAddPathEllipse(path, 100, 80, 150, 100)
 
    ' // Check if point is on the path
    ' // Returns error 5 (StatusObjectBusy)
    DIM isVisible AS BOOL
-   status = GdipIsVisiblePathPoint(*path, 150, 120, *graphics, @isVisible)
+   GdipIsVisiblePathPoint(path, 150, 120, graphics, @isVisible)
    IF isVisible THEN
       AfxMsg "Point is visible"
    ELSE
@@ -58,7 +55,7 @@ SUB Example_IsVisiblePathPoint (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 5, UnitWorld)
 
    ' // Draw the path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================

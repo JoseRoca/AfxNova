@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_DrawPathString (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -53,13 +50,13 @@ SUB Example_DrawPathString (BYVAL hdc AS HDC)
    DIM text AS WSTRING * 32 = "Hello, GDI+!"
    DIM style AS LONG = FontStyleRegular
    DIM emSize AS SINGLE = 36
-   status = GdipAddPathString(*path, @text, -1, *fontFamily, style, emSize, @layout, NULL)
+   GdipAddPathString(path, @text, -1, *fontFamily, style, emSize, @layout, NULL)
 
    ' // Create pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_DARKRED, 2, UnitWorld)
 
    ' // Draw path
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
 END SUB
 ' ========================================================================================
