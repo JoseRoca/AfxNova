@@ -218,14 +218,15 @@ PRIVATE CONSTRUCTOR CWmiServices (BYREF wszDisplayName AS WSTRING)
    IF hr = S_OK OR hr = S_FALSE THEN m_bUninitCOM = TRUE
    ' // Connect to WMI using a moniker
    hr = CoGetObject(@wszDisplayName, NULL, @IID_IDispatch, cast(ANY PTR, @m_pServices))
+   SetLastError(hr)
 END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' Connects to the namespace that is specified on the cbsNamespace parameter on the computer
-' that is specified in the cbsServer parameter. The target computer can be either local or
+' Connects to the namespace that is specified on the wszNamespace parameter on the computer
+' that is specified in the wszServer parameter. The target computer can be either local or
 ' remote, but it must have WMI installed.
-' - cbsServer:
+' - wszServer:
 '   Computer name to which you are connecting. If the remote computer is in a different domain
 '   than the user account under which you log in, then use the fully qualified computer name.
 '   If you do not provide this parameter, the call defaults to the local computer.
@@ -233,42 +234,42 @@ END CONSTRUCTOR
 '   You also can use an IP address in this parameter. If the IP address is in IPv6 format,
 '   the target computer must be running IPv6. An address in IPv4 looks like 111.222.333.444
 '   An IP address in IPv6 format looks like 2010:836B:4179::836B:4179
-' - cbsNamespace:
+' - wszNamespace:
 '   String that specifies the namespace to which you log on. For example, to log on to the
 '   root\default namespace, use root\default. If you do not specify this parameter, it
 '   defaults to the namespace that is configured as the default namespace for scripting.
 '      Example: DIM pServices AS CWmiServices = CWmiServices(".", "root\cimv2")
 '      where "." is a shortcut for the local computer.
-' - cbsUser [in, optional]
+' - wszUser [in, optional]
 '   User name to use to connect. The string can be in the form of either a user name or a
 '   Domain\Username. Leave this parameter blank to use the current security context. The
-'   cbsUser parameter should only be used with connections to remote WMI servers. If you
-'   attempt to specify cbsUser for a local WMI connection, the connection attempt fails.
+'   wszUser parameter should only be used with connections to remote WMI servers. If you
+'   attempt to specify wszUser for a local WMI connection, the connection attempt fails.
 '   If Kerberos authentication is in use, then the username and password that is specified
-'   in cbsUser and cbsPassword cannot be intercepted on a network. You can use the UPN
+'   in wszUser and wszPassword cannot be intercepted on a network. You can use the UPN
 '   format to specify the cbsUser.
 '      Example: "DomainName\UserName"
-'   Note: If a domain is specified in cbsAuthority, then the domain must not be specified
+'   Note: If a domain is specified in wszAuthority, then the domain must not be specified
 '   here. Specifying the domain in both parameters results in an Invalid Parameter error.
-' - cbsPassword [in, optional]
+' - wszPassword [in, optional]
 '   String that specifies the password to use when attempting to connect. Leave the
-'   parameter blank to use the current security context. The cbsPassword parameter should
+'   parameter blank to use the current security context. The wszPassword parameter should
 '   only be used with connections to remote WMI servers. If you attempt to specify
-'   cbsPassword for a local WMI connection, the connection attempt fails. If Kerberos
-'   authentication is in use then the username and password that is specified in cbsUser
-'   and cbsPassword cannot be intercepted on the network.
-' - cbsLocale [in, optional]
+'   wszPassword for a local WMI connection, the connection attempt fails. If Kerberos
+'   authentication is in use then the username and password that is specified in wszUser
+'   and wszPassword cannot be intercepted on the network.
+' - wszLocale [in, optional]
 '   String that specifies the localization code. If you want to use the current locale,
 '   leave it blank. If not blank, this parameter must be a string that indicates the
 '   desired locale where information must be retrieved. For Microsoft locale identifiers,
 '   the format of the string is "MS_xxxx", where xxxx is a string in the hexadecimal form
 '   that indicates the LCID. For example, American English would appear as "MS_409".
-' - cbsAuthority [in, optional]
+' - wszAuthority [in, optional]
 '   ""
 '      This parameter is optional. However, if it is specified, only Kerberos or NTLMDomain
 '      can be used.
 '   Kerberos:
-'      If the cbsAuthority parameter begins with the string "Kerberos:", then Kerberos
+'      If the wszAuthority parameter begins with the string "Kerberos:", then Kerberos
 '      authentication is used and this parameter should contain a Kerberos principal name.
 '      The Kerberos principal name is specified as Kerberos:domain, such as Kerberos:fabrikam
 '      where fabrikam is the server to which you are attempting to connect.
@@ -281,9 +282,9 @@ END CONSTRUCTOR
 '      determine whether NTLM or Kerberos authentication is used. This parameter should
 '      only be used with connections to remote WMI servers. If you attempt to set the
 '      authority for a local WMI connection, the connection attempt fails.
-'      Note: If the domain is specified in cbsUser, which is the preferred location, then
-'     it must not be specified here. Specifying the domain in both parameters results in
-'     an Invalid Parameter error.
+'      Note: If the domain is specified in wszUser, which is the preferred location, then
+'      it must not be specified here. Specifying the domain in both parameters results in
+'      an Invalid Parameter error.
 ' - iSecurityFlags [in, optional]
 '     Used to pass flag values to ConnectServer.
 '     0 (0x0)
@@ -295,7 +296,7 @@ END CONSTRUCTOR
 '        to prevent your program from ceasing to respond indefinitely if the connection
 '        cannot be established.
 ' If successful, WMI returns an SWbemServices object that is bound to the namespace that
-' is specified in cbsNamespace on the computer that is specified in cbsServer.
+' is specified in cbsNamespace on the computer that is specified in wszServer.
 ' Usage example with the local computer:
 '    DIM pServices AS CWmiServices = CWmiServices(".", "root\cimv2")
 '    IF pServices.ServicesPtr = NULL THEN END
