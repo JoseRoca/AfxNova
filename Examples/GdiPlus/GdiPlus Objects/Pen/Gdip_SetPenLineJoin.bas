@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenLineJoin (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 15, UnitWorld)
 
    ' // Set the join style, and draw a rectangle.
-   status = GdipSetPenLineJoin(*pen, LineJoinRound)
-   status = GdipDrawRectangle(*graphics, *pen, 20, 20, 160, 100)
+   GdipSetPenLineJoin(pen, LineJoinRound)
+   GdipDrawRectangle(graphics, pen, 20, 20, 160, 100)
 
    ' // Reset the join style, and draw a second rectangle.
-   status = GdipSetPenLineJoin(*pen, LineJoinBevel)
-   status = GdipDrawRectangle(*graphics, *pen, 220, 20, 160, 100)
+   GdipSetPenLineJoin(pen, LineJoinBevel)
+   GdipDrawRectangle(graphics, pen, 220, 20, 160, 100)
 
 END SUB
 ' ========================================================================================

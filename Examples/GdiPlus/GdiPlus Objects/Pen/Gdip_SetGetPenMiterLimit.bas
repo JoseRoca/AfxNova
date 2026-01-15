@@ -33,31 +33,28 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetGetMiterLimit (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object and set its line join to miter
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 10, UnitWorld)
-   status = GdipSetPenLineJoin(*pen, LineJoinMiter)
+   GdipSetPenLineJoin(pen, LineJoinMiter)
 
    ' // Set the miter limit
-   status = GdipSetPenMiterLimit(*pen, 2.0)
+   GdipSetPenMiterLimit(pen, 2.0)
 
    ' // Draw a polygon with sharp angles
    DIM points(2) AS GpPointF
    points(0).x = 50 : points(0).y = 50
    points(1).x = 100 : points(1).y = 150
    points(2).x = 150 : points(2).y = 50
-   status = GdipDrawPolygon(*graphics, *pen, @points(0), 3)
+   GdipDrawPolygon(graphics, pen, @points(0), 3)
 
    ' // Retrieve the miter limit
    DIM miterLimit AS SINGLE
-   status = GdipGetPenMiterLimit(*pen, @miterLimit)
+   GdipGetPenMiterLimit(pen, @miterLimit)
    OutputDebugStringW("Miter limit: " & WSTR(miterLimit))
 
 END SUB

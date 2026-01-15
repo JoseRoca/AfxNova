@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenEndCap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object and set its end cap
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 10, UnitWorld)
-   status = GdipSetPenEndCap(*pen, LineCapArrowAnchor)
+   GdipSetPenEndCap(pen, LineCapArrowAnchor)
 
    ' // Draw a line with the pen
-   status = GdipDrawLine(*graphics, *pen, 50, 50, 300, 50)
+   GdipDrawLine(graphics, pen, 50, 50, 300, 50)
 
    ' // Retrieve the end cap style
    DIM endCap AS GpLineCap
-   status = GdipGetPenEndCap(*pen, @endCap)
+   GdipGetPenEndCap(pen, @endCap)
    AfxMsg "End cap style: " & WSTR(endCap)
 
 END SUB

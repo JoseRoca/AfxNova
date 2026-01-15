@@ -33,26 +33,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_GREEN, 10, UnitWorld)
 
    ' // Set the pen mode (optional, defaults to PenAlignmentCenter)
-   status = GdipSetPenMode(*pen, PenAlignmentInset)
+   GdipSetPenMode(pen, PenAlignmentInset)
 
    ' // Draw a line with the pen
-   status = GdipDrawLine(*graphics, *pen, 50, 50, 300, 50)
+   GdipDrawLine(graphics, pen, 50, 50, 300, 50)
 
    ' // Retrieve the pen mode
    DIM penMode AS GpPenAlignment
-   status = GdipGetPenMode(*pen, @penMode)
+   GdipGetPenMode(pen, @penMode)
    AfxMsg "Pen mode: " & WSTR(penMode)
 
 END SUB

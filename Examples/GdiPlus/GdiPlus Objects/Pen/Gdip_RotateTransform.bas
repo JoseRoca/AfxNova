@@ -33,23 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_RotatePenTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 5, UnitWorld)
 
    ' // Scale the pen
-   status = GdipScalePenTransform(*pen, 1, 4, MatrixOrderPrepend)
+   GdipScalePenTransform(pen, 1, 4, MatrixOrderPrepend)
    ' // Rotate the pen
-   status = GdipRotatePenTransform(*pen, 30, MatrixOrderPrepend)
+   GdipRotatePenTransform(pen, 30, MatrixOrderPrepend)
    ' // Draw an ellipse with the transformed pen.
-   status = GdipDrawEllipse(*graphics, *pen, 100, 30, 200, 200)
+   GdipDrawEllipse(graphics, pen, 100, 30, 200, 200)
 
 END SUB
 ' ========================================================================================

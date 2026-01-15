@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenFillType (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a HatchBrush
    DIM hatchBrush AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleDiagonalCross, ARGB_RED, ARGB_YELLOW)
@@ -48,11 +45,11 @@ SUB Example_GetPenFillType (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(*hatchBrush, 10, UnitWorld)
 
    ' // Draw a line with the pen
-   status = GdipDrawLine(*graphics, *pen, 50, 50, 300, 50)
+   GdipDrawLine(graphics, pen, 50, 50, 300, 50)
 
    ' // Retrieve the pen's fill type
    DIM fillType AS GpPenType
-   status = GdipGetPenFillType(*pen, @fillType)
+   GdipGetPenFillType(pen, @fillType)
    AfxMsg "Pen fill type: " & WSTR(fillType)
 
 END SUB

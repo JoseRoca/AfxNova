@@ -34,25 +34,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenCustomEndCap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object, and add a rectangle to it.
    DIM pStrokePath AS GdiPlusGraphicsPath = GdiPlusGraphicsPath(FillModeAlternate)
-   status = GdipAddPathRectangleI(*pStrokePath, -10, -5, 20, 10)
+   GdipAddPathRectangleI(pStrokePath, -10, -5, 20, 10)
 
    ' // Create a pen, and set the custom end cap based on the GraphicsPath object.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1, UnitWorld)
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *pStrokePath, LineCapFlat, 0)
-   status = GdipSetPenCustomEndCap(*pen, *custCap)
+   GdipSetPenCustomEndCap(pen, custCap)
 
    ' // Draw a line with the custom end cap.
-   status = GdipDrawLine(*graphics, *pen, 0, 0, 200, 100)
+   GdipDrawLine(graphics, pen, 0, 0, 200, 100)
 
 END SUB
 ' ========================================================================================

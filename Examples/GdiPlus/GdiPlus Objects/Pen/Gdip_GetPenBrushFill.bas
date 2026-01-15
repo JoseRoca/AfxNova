@@ -34,26 +34,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenBrushFill (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a HatchBrush object.
    DIM hatchBrush AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleHorizontal, ARGB_RED, ARGB_YELLOW)
 
    ' // Create a pen based on a hatch brush, and use that pen to draw a line.
    DIM pen AS GdiPlusPen = GdiPlusPen(*hatchBrush, 15, UnitWorld)
-   status = GdipDrawLine(*graphics, *pen, 0, 0, 200, 100)
+   GdipDrawLine(graphics, pen, 0, 0, 200, 100)
 
    ' // Get the pen's brush, and use that brush to fill a rectangle.
-   DIM brush AS GpBrush PTR
-   status = GdipGetPenBrushFill(*pen, @brush)
-   status = GdipFillRectangle(*graphics, brush, 0, 100, 200, 100)
-   IF brush THEN GdipDeleteBrush(brush)
+   DIM brush AS GdiPlusBrush PTR
+   GdipGetPenBrushFill(pen, @brush)
+   GdipFillRectangle(graphics, brush, 0, 100, 200, 100)
 
 END SUB
 ' ========================================================================================

@@ -33,28 +33,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenEndCap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 15, UnitWorld)
 
    ' // Set the end cap of the pen, and draw a line.
-   status = GdipSetPenEndCap(*pen, LineCapArrowAnchor)
-   status = GdipDrawLine(*graphics, *pen, 0, 50, 390, 150)
+   GdipSetPenEndCap(pen, LineCapArrowAnchor)
+   GdipDrawLine(graphics, pen, 0, 50, 390, 150)
 
    ' // Reset the end cap, and draw a second line.
-   status = GdipSetPenEndCap(*pen, LineCapTriangle)
-   status = GdipDrawLine(*graphics, *pen, 0, 80, 390, 180)
+   GdipSetPenEndCap(pen, LineCapTriangle)
+   GdipDrawLine(graphics, pen, 0, 80, 390, 180)
 
    ' // Reset the end cap, and draw a third line.
-   status = GdipSetPenEndCap(*pen, LineCapRound)
-   status = GdipDrawLine(*graphics, *pen, 0, 110, 390, 210)
+   GdipSetPenEndCap(pen, LineCapRound)
+   GdipDrawLine(graphics, pen, 0, 110, 390, 210)
 
 END SUB
 ' ========================================================================================

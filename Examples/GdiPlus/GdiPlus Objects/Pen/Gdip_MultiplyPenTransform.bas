@@ -34,28 +34,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_MultiplyPenTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen, and use it to draw a rectangle.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2, UnitWorld)
-   status = GdipDrawRectangle(*graphics, *pen, 10, 50, 150, 100)
+   GdipDrawRectangle(graphics, pen, 10, 50, 150, 100)
 
    ' // Change the widthofthepen
-   status = GdipSetPenWidth(*pen, 5)
+   GdipSetPenWidth(pen, 5)
    ' // Rotate the pen
-   status = GdipRotatePenTransform(*pen, 30, MatrixOrderPrepend)
+   GdipRotatePenTransform(pen, 30, MatrixOrderPrepend)
    ' // Stretch the pen
    DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(1, 0, 0, 4, 0, 0)   ' // vertical stretch
-   status = GdipMultiplyPenTransform(*pen, *matrix, MatrixOrderPrepend)
+   GdipMultiplyPenTransform(pen, matrix, MatrixOrderPrepend)
 
    ' // Draw an ellipse with the transformed pen.
-   status = GdipDrawEllipse(*graphics, *pen, 90, 30, 200, 200)
+   GdipDrawEllipse(graphics, pen, 90, 30, 200, 200)
 
 END SUB
 ' ========================================================================================

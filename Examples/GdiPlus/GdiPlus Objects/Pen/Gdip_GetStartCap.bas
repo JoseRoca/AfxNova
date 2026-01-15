@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStartCap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object and set its start cap
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_GREEN, 10, UnitWorld)
-   status = GdipSetPenStartCap(*pen, LineCapRoundAnchor)
+   GdipSetPenStartCap(pen, LineCapRoundAnchor)
 
    ' // Draw a line with the pen
-   status = GdipDrawLine(*graphics, *pen, 50, 50, 300, 50)
+   GdipDrawLine(graphics, pen, 50, 50, 300, 50)
 
    ' // Retrieve the start cap style
    DIM startCap AS GpLineCap
-   status = GdipGetPenStartCap(*pen, @startCap)
+   GdipGetPenStartCap(pen, @startCap)
    AfxMsg "Start cap style: " & WSTR(startCap)
 
 END SUB

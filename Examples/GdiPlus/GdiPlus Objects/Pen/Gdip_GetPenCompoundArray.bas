@@ -33,30 +33,27 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenCompoundArray (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create an array of real numbers and a Pen object.
    DIM compVals(5) AS SINGLE = {0.0, 0.2, 0.5, 0.7, 0.9, 1.0}
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 30, UnitWorld)
 
    ' // Set the compound array of the pen.
-   status = GdipSetPenCompoundArray(*pen, @compVals(0), 6)
+   GdipSetPenCompoundArray(pen, @compVals(0), 6)
 
    ' // Draw a line with the pen.
-   status = GdipDrawLine(*graphics, *pen, 8, 20, 390, 200)
+   GdipDrawLine(graphics, pen, 8, 20, 390, 200)
 
    ' // Obtain information about the pen.
    DIM count AS LONG
    DIM compValues(ANY) AS SINGLE
-   status = GdipGetPenCompoundCount(*pen, @count)
+   GdipGetPenCompoundCount(pen, @count)
    REDIM compValues(count - 1) AS SINGLE
-   status = GdipGetPenCompoundArray(*pen, @compValues(0), count)
+   GdipGetPenCompoundArray(pen, @compValues(0), count)
 
    FOR j AS LONG = 0 TO count - 1
       ' // Inspect or use the value in compValues(j).

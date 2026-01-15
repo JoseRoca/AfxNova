@@ -33,22 +33,19 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenDashOffset (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object, set the dash style, and draw a line.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 15, UnitWorld)
-   status = GdipSetPenDashStyle(*pen, DashStyleDash)
-   status = GdipDrawLine(*graphics, *pen, 0, 50, 400, 50)
+   GdipSetPenDashStyle(pen, DashStyleDash)
+   GdipDrawLine(graphics, pen, 0, 50, 400, 50)
 
    ' // Set the dash offset value for the pen, and draw a second line.
-   status = GdipSetPenDashOffset(*pen, 10)
-   status = GdipDrawLine(*graphics, *pen, 0, 80, 400, 80)
+   GdipSetPenDashOffset(pen, 10)
+   GdipDrawLine(graphics, pen, 0, 80, 400, 80)
 
 END SUB
 ' ========================================================================================

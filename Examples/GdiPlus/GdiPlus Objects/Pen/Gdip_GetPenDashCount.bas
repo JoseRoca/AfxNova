@@ -33,25 +33,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenDashCount (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object and set a custom dash pattern
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 5, UnitWorld)
    DIM dashVals(3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
-   status = GdipSetPenDashArray(*pen, @dashVals(0), 4)
+   GdipSetPenDashArray(pen, @dashVals(0), 4)
 
    ' // Draw a dashed line
-   status = GdipDrawLine(*graphics, *pen, 20, 50, 380, 50)
+   GdipDrawLine(graphics, pen, 20, 50, 380, 50)
 
    ' // Retrieve the dash count
    DIM dashCount AS LONG
-   status = GdipGetPenDashCount(*pen, @dashCount)
+   GdipGetPenDashCount(pen, @dashCount)
    AfxMsg "Dash count: " & WSTR(dashCount)
 
 END SUB

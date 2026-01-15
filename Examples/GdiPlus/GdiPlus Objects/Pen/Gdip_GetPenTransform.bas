@@ -10,7 +10,7 @@
 ' ########################################################################################
 
 #define _WIN32_WINNT &h0602
-'#define _GDIP_DEBUG_ 1
+#define _GDIP_DEBUG_ 1
 #INCLUDE ONCE "AfxNova/AfxGdipObjects.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -33,32 +33,29 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen and apply a transform
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 10, UnitWorld)
-   status = GdipRotatePenTransform(*pen, 45, MatrixOrderPrepend)
+   GdipRotatePenTransform(pen, 45, MatrixOrderPrepend)
 
    ' // Retrieve the pen's transformation matrix
    DIM matrix AS GdiPlusMatrix
-   status = GdipGetPenTransform(*pen, *matrix)
+   GdipGetPenTransform(pen, @matrix)
 
    ' // Inspect the matrix elements
    DIM elements(5) AS SINGLE
-   status = GdipGetMatrixElements(*matrix, @elements(0))
+   GdipGetMatrixElements(matrix, @elements(0))
 
    FOR i AS INTEGER = 0 TO 5
       OutputDebugStringW(WSTR(elements(i)))
    NEXT
 
    ' // Draw a line with the transformed pen
-   status = GdipDrawLine(*graphics, *pen, 50, 50, 300, 50)
+   GdipDrawLine(graphics, pen, 50, 50, 300, 50)
 
 END SUB
 ' ========================================================================================

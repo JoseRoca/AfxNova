@@ -33,21 +33,18 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenWidth (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen of width 2, and use it to draw a rectangle.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2, UnitWorld)
-   status = GdipDrawRectangle(*graphics, *pen, 20, 50, 160, 100)
+   GdipDrawRectangle(graphics, pen, 20, 50, 160, 100)
 
    ' // Reset the pen's width to 15, and draw another rectangle.
-   status = GdipSetPenWidth(*pen, 15)
-   status = GdipDrawRectangle(*graphics, *pen, 210, 50, 160, 100)
+   GdipSetPenWidth(pen, 15)
+   GdipDrawRectangle(graphics, pen, 210, 50, 160, 100)
 
 END SUB
 ' ========================================================================================

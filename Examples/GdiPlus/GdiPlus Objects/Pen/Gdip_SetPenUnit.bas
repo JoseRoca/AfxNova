@@ -33,21 +33,18 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenUnit (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen with UnitPixel and draw a line
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 10, UnitPixel)
-   status = GdipDrawLine(*graphics, *pen, 20, 20, 380, 20)
+   GdipDrawLine(graphics, pen, 20, 20, 380, 20)
 
    ' // Change the pen's unit to UnitWorld
-   status = GdipSetPenUnit(*pen, UnitWorld)
-   status = GdipDrawLine(*graphics, *pen, 20, 60, 380, 60)
+   GdipSetPenUnit(pen, UnitWorld)
+   GdipDrawLine(graphics, pen, 20, 60, 380, 60)
 
 END SUB
 ' ========================================================================================

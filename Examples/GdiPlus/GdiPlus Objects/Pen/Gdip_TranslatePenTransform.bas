@@ -33,25 +33,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_TranslatePenTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 10, UnitWorld)
 
    ' // Draw a line with the original pen
-   status = GdipDrawLine(*graphics, *pen, 50, 50, 300, 50)
+   GdipDrawLine(graphics, pen, 50, 50, 300, 50)
 
    ' // Translate the pen's transform
-   status = GdipTranslatePenTransform(*pen, 10, 10, MatrixOrderPrepend)
+   GdipTranslatePenTransform(pen, 10, 10, MatrixOrderPrepend)
 
    ' // Draw a second line with the translated pen
-   status = GdipDrawLine(*graphics, *pen, 50, 100, 300, 100)
+   GdipDrawLine(graphics, pen, 50, 100, 300, 100)
 
 END SUB
 ' ========================================================================================

@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenLMode (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a black and a green pen.
    DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1, UnitWorld)
    DIM greenPen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 15, UnitWorld)
 
    ' // Set the alignment of the green pen.
-   status = GdipSetPenMode(*greenPen, PenAlignmentInset)
+   GdipSetPenMode(greenPen, PenAlignmentInset)
 
    ' // Draw two ellipses using each pen.
-   status = GdipDrawEllipseI(*graphics, *greenPen, 150, 20, 100, 200)
-   status = GdipDrawEllipseI(*graphics, *blackPen, 150, 20, 100, 200)
+   GdipDrawEllipseI(graphics, greenPen, 150, 20, 100, 200)
+   GdipDrawEllipseI(graphics, blackPen, 150, 20, 100, 200)
 
 END SUB
 ' ========================================================================================

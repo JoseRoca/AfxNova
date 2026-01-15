@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ClonePen (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 4, UnitWorld)
@@ -47,7 +44,7 @@ SUB Example_ClonePen (BYVAL hdc AS HDC)
    DIM clonedPen AS GdiPlusPen = *pen
 
    ' // Draw a rectangle using the cloned Pen object.
-   status = GdipDrawRectangleI(*graphics, *clonedPen, 10, 10, 100, 50)
+   GdipDrawRectangleI(graphics, clonedPen, 10, 10, 100, 50)
 
 END SUB
 ' ========================================================================================

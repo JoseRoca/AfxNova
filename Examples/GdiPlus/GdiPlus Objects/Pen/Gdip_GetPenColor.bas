@@ -34,25 +34,22 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenColor (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen, and use it to draw a line.
    DIM pen AS GdiPlusPen = GdiPlusPen(GDIP_ARGB(255, 200, 150, 100), 5, UnitWorld)
-   status = GdipDrawLine(*graphics, *pen, 0, 0, 200, 100)
+   GdipDrawLine(graphics, pen, 0, 0, 200, 100)
 
    ' // Get the pen's color, and use that color to create a brush.
    DIM argbColor AS ARGB
-   status = GdipGetPenColor(*pen, @argbColor)
+   GdipGetPenColor(pen, @argbColor)
    DIM solidBrush AS GdiPlusSolidBrush = argbColor
 
    ' // Use the brush to fill a rectangle.
-   status = GdipFillRectangle(*graphics, *solidBrush, 0, 100, 200, 100)
+   GdipFillRectangle(graphics, solidBrush, 0, 100, 200, 100)
 
 END SUB
 ' ========================================================================================

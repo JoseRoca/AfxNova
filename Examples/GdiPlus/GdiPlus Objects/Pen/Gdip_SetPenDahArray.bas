@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetPenDashArray (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
   ' // Create and set an array of real numbers.
    DIM dashVals(3) AS SINGLE = {5.0, 2.0, 15.0, 4.0}
@@ -48,10 +45,10 @@ SUB Example_SetPenDashArray (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 5, UnitWorld)
 
    ' // Set the dash pattern for the custom dashed line.
-   status = GdipSetPenDashArray(*pen, @dashVals(0), 4)
+   GdipSetPenDashArray(pen, @dashVals(0), 4)
 
    ' // Draw the custom dashed line.
-   status = GdipDrawLine(*graphics, *pen, 10, 20, 390, 200)
+   GdipDrawLine(graphics, pen, 10, 20, 390, 200)
 
 END SUB
 ' ========================================================================================

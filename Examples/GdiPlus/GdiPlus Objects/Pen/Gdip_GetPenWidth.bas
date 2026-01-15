@@ -34,27 +34,24 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenWidth (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen of width 2, and use it to draw a rectangle.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 15, UnitWorld)
-   status = GdipDrawRectangle(*graphics, *pen, 20, 20, 200, 100)
+   GdipDrawRectangle(graphics, pen, 20, 20, 200, 100)
 
    ' // Get the width of the pen.
    DIM nWidth AS REAL
-   status = GdipGetPenWidth(*pen, @nWidth)
+   GdipGetPenWidth(pen, @nWidth)
 
    ' // Create another pen that has the same width.
    DIM pen2 AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 15, UnitWorld)
 
    ' // Draw a second line.
-   status = GdipDrawLine(*graphics, *pen2, 20, 60, 200, 140)
+   GdipDrawLine(graphics, pen2, 20, 60, 200, 140)
 
 END SUB
 ' ========================================================================================

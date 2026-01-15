@@ -35,36 +35,33 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenCustomEndCap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a GraphicsPath object, and add a rectangle to it.
    DIM pStrokePath AS GdiPlusGraphicsPath = FillModeAlternate
-   status = GdipAddPathRectangle(*pStrokePath, -10, -5, 20, 10)
+   GdipAddPathRectangle(pStrokePath, -10, -5, 20, 10)
 
   ' // Create a pen, and set the custom end cap based on the GraphicsPath object.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1, UnitWorld)
    DIM custCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *pStrokePath, LineCapFlat, 0)
-   status = GdipSetPenCustomEndCap(*pen, *custCap)
+   GdipSetPenCustomEndCap(pen, custCap)
 
    ' // Draw a line with the custom end cap.
-   status = GdipDrawLineI(*graphics, *pen, 0, 0, 200, 100)
+   GdipDrawLine(graphics, pen, 0, 0, 200, 100)
 
    ' // Obtain the custom end cap for the pen.
    DIM customLineCap AS GpCustomLineCap PTR
-   status = GdipGetPenCustomEndCap(*pen, @customLineCap)
+   GdipGetPenCustomEndCap(pen, @customLineCap)
 
    ' // Create another pen, and use the same custom end cap.
    DIM pen2 AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 3, UnitWorld)
-   status = GdipSetPenCustomEndCap(*pen2, customLineCap)
+   GdipSetPenCustomEndCap(pen2, customLineCap)
 
    ' // Draw a line using the second pen.
-   status = GdipDrawLine(*graphics, *pen2, 0, 100, 200, 150)
+   GdipDrawLine(graphics, pen2, 0, 100, 200, 150)
 
 END SUB
 ' ========================================================================================

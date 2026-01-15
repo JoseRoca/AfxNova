@@ -34,32 +34,29 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenDashCap (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen with a dash cap.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 15, UnitWorld)
-   status = GdipSetPenDashStyle(*pen, DashStyleDash)
-   status = GdipSetPenDashCap197819(*pen, DashCapRound)
+   GdipSetPenDashStyle(pen, DashStyleDash)
+   GdipSetPenDashCap197819(pen, DashCapRound)
 
-   status = GdipDrawLine(*graphics, *pen, 10, 10, 400, 200)
+   GdipDrawLine(graphics, pen, 10, 10, 400, 200)
 
    ' // Obtain the dash cap for the pen.
    DIM dashCap AS DashCap
-   status = GdipGetPenDashCap197819(*pen, @dashCap)
+   GdipGetPenDashCap197819(pen, @dashCap)
 
    ' // Create another pen, and use the same dash cap.
    DIM pen2 AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 15, UnitWorld)
-   status = GdipSetPenDashStyle(*pen2, DashStyleDash)
-   status = GdipSetPenDashCap197819(*pen2, dashCap)
+   GdipSetPenDashStyle(pen2, DashStyleDash)
+   GdipSetPenDashCap197819(pen2, dashCap)
 
    ' // Draw a second line.
-   status = GdipDrawLine(*graphics, *pen2, 10, 10, 400, 300)
+   GdipDrawLine(graphics, pen2, 10, 10, 400, 300)
 
 END SUB
 ' ========================================================================================

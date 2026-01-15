@@ -33,23 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_ScalePenTransform (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a pen, and use it to draw a rectangle.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2, UnitWorld)
-   status = GdipDrawRectangle(*graphics, *pen, 30, 50, 150, 100)
+   GdipDrawRectangle(graphics, pen, 30, 50, 150, 100)
 
    ' // Scale the pen
-   status = GdipScalePenTransform(*pen, 8, 4, MatrixOrderPrepend)
+   GdipScalePenTransform(pen, 8, 4, MatrixOrderPrepend)
 
    '// Draw a rectangle with the transformed pen.
-   status = GdipDrawRectangle(*graphics, *pen, 210, 50, 150, 100)
+   GdipDrawRectangle(graphics, pen, 210, 50, 150, 100)
 
 END SUB
 ' ========================================================================================

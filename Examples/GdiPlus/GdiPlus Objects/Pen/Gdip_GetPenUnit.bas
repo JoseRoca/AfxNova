@@ -33,23 +33,20 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetPenUnit (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Pen object with UnitWorld
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 10, UnitWorld)
 
    ' // Draw a line with the pen
-   status = GdipDrawLine(*graphics, *pen, 50, 50, 300, 50)
+   GdipDrawLine(graphics, pen, 50, 50, 300, 50)
 
    ' // Retrieve the unit of the pen
    DIM unit AS GpUnit
-   status = GdipGetPenUnit(*pen, @unit)
+   GdipGetPenUnit(pen, @unit)
    AfxMsg "Pen unit: " & WSTR(unit)
 
 END SUB
