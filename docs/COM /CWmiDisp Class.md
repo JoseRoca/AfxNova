@@ -700,7 +700,7 @@ PRINT "Press any key..."
 SLEEP
 ```
 
-To improve enumeration performance set the iFlags parameter if the **ExecQuery** method to *WbemFlagReturnImmediately* and *WbemFlagForwardOnly* (the combined value of these flags is 48) to allow semisynchronous return of the data with an enumerator that discards each item from WMI as it is delivered. In this case don't call the **ObjectsCount** method because it will return 0, since the operation has not been completed.
+To improve enumeration performance set the *iFlags* parameter of the **ExecQuery** method to *WbemFlagReturnImmediately* and *WbemFlagForwardOnly* (the combined value of these flags is 48) to allow semisynchronous return of the data with an enumerator that discards each item from WMI as it is delivered. In this case don't call the **ObjectsCount** method because it will return 0, since the operation has not been completed.
 
 ```
 #include "windows.bi"
