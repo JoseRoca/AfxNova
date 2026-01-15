@@ -36,13 +36,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStringFormatLineAlign (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Times New Roman"
@@ -53,25 +50,25 @@ SUB Example_GetStringFormatLineAlign (BYVAL hdc AS HDC)
 
    ' // Create a StringFormat object, and set its trimming style.
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatLineAlign(*format, StringAlignmentCenter)
+   GdipSetStringFormatLineAlign(format, StringAlignmentCenter)
 
    ' // Get the line alignment from the StringFormat object.
    DIM strAlignment AS LONG
-   status = GdipGetStringFormatHotkeyPrefix(*format, @strAlignment)
+   GdipGetStringFormatHotkeyPrefix(format, @strAlignment)
 
    ' // Create a second StringFormat object with the same line alignment.
    DIM format2 AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatLineAlign(*format2, strAlignment)
+   GdipSetStringFormatLineAlign(format2, strAlignment)
 
    ' // Use the second StringFormat object in a call to DrawString.
    DIM wszText AS WSTRING * 64 = "This text was formatted by a second StringFormat object."
    DIM rcf AS GpRectF = (30, 30, 150, 200)
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format2, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format2, solidBrush)
 
    ' // Draw the rectangle that encloses the text
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.width, rcf.height)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.width, rcf.height)
 
 END SUB
 ' ========================================================================================

@@ -37,13 +37,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStringFormatFlags (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Times New Roman"
@@ -51,15 +48,15 @@ SUB Example_GetStringFormatFlags (BYVAL hdc AS HDC)
 
    ' // Create a StringFormat object, and set its format flags.
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatFlags(*format, StringFormatFlagsDirectionVertical OR StringFormatFlagsNoFitBlackBox)
+   GdipSetStringFormatFlags(format, StringFormatFlagsDirectionVertical OR StringFormatFlagsNoFitBlackBox)
 
    ' // Get the format flags from the StringFormat object.
    DIM flags AS LONG
-   status = GdipGetStringFormatFlags(*format, @flags)
+   GdipGetStringFormatFlags(format, @flags)
 
    ' // Create a second StringFormat object with the same flags.
    DIM format2 AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatFlags(*format2, flags)
+   GdipSetStringFormatFlags(format2, flags)
 
    ' // Create a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
@@ -67,12 +64,12 @@ SUB Example_GetStringFormatFlags (BYVAL hdc AS HDC)
    ' // Draw the string using the second StringFormat object
    DIM wszText AS WSTRING * 64 = "This text is vertical because of a format flag."
    DIM rcf AS GpRectF = (30, 30, 150, 200)
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format2, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format2, solidBrush)
 
    ' // Draw the rectangle that encloses the text
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.width, rcf.height)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.width, rcf.height)
 
 END SUB
 ' ========================================================================================

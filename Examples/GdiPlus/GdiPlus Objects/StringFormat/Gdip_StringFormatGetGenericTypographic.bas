@@ -33,21 +33,18 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetGenericTypographic (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Times New Roman"
    DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
 
    ' // Create a generic StringFormat object.
-   DIM format AS GpStringFormat PTR
-   status = GdipStringFormatGetGenericTypographic(@format)
+   DIM format AS GdiPlusStringFormat
+   GdipStringFormatGetGenericTypographic(@format)
 
    ' // Create a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
@@ -55,15 +52,12 @@ SUB Example_GetGenericTypographic (BYVAL hdc AS HDC)
    ' // Draw the string using the second StringFormat object
    DIM wszText AS WSTRING * 128 = "This text was formatted by a generic typographic StringFormat object."
    DIM rcf AS GpRectF = (30, 30, 150, 200)
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, format, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, solidBrush)
 
    ' // Draw the rectangle that encloses the text
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.width, rcf.height)
-
-   ' // Cleanup
-   IF format THEN GdipDeleteStringFormat(format)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.width, rcf.height)
 
 END SUB
 ' ========================================================================================

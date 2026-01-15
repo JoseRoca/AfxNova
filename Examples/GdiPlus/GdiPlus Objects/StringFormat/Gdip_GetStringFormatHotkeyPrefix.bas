@@ -37,13 +37,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStringFormatHotkeyPrefix (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Times New Roman"
@@ -51,15 +48,15 @@ SUB Example_GetStringFormatHotkeyPrefix (BYVAL hdc AS HDC)
 
    ' // Create a StringFormat object
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatHotkeyPrefix(*format, HotkeyPrefixShow)
+   GdipSetStringFormatHotkeyPrefix(format, HotkeyPrefixShow)
 
  ' // Get the hot key prefix from the StringFormat object.
    DIM hotkeyPrefix AS LONG
-   status = GdipGetStringFormatHotkeyPrefix(*format, @hotkeyPrefix)
+   GdipGetStringFormatHotkeyPrefix(format, @hotkeyPrefix)
 
    ' // Create a second StringFormat object with the same hotkey prefix.
    DIM format2 AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatHotkeyPrefix(*format2, hotkeyPrefix)
+   GdipSetStringFormatHotkeyPrefix(format2, hotkeyPrefix)
 
    ' // Create a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
@@ -67,12 +64,12 @@ SUB Example_GetStringFormatHotkeyPrefix (BYVAL hdc AS HDC)
    ' // Draw the string
    DIM wszText AS WSTRING * 64 = "This &text has some &underlined characters."
    DIM rcf AS GpRectF = (30, 30, 160, 200)
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format2, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format2, solidBrush)
 
    ' // Draw the rectangle that encloses the text
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.width, rcf.height)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.width, rcf.height)
 
 END SUB
 ' ========================================================================================

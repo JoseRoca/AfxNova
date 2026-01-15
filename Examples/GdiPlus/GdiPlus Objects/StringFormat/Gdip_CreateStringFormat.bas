@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateStringFormat (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily ="Times New Roman"
@@ -46,7 +43,7 @@ SUB Example_CreateStringFormat (BYVAL hdc AS HDC)
 
    ' // Create a StringFormat object
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatAlign(*format, StringAlignmentCenter)
+   GdipSetStringFormatAlign(format, StringAlignmentCenter)
 
    ' // Create a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLACK
@@ -54,14 +51,14 @@ SUB Example_CreateStringFormat (BYVAL hdc AS HDC)
    ' // Draw the string
    DIM wszText AS WSTRING * 64 = "Sample text"
    DIM rcf AS GpRectF = (30, 30, 200, 25)
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, solidBrush)
 
    ' // Create a Pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 3, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
 
    ' // Draw a rectangle
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipDrawRectangle(graphics, *pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

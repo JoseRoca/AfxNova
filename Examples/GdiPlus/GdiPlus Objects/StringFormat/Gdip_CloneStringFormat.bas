@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloneStringFormat (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
@@ -50,7 +47,7 @@ SUB Example_CloneStringFormat (BYVAL hdc AS HDC)
 
    ' // Create a StringFormat object.
    DIM stringFormat AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
-   status = GdipSetStringFormatAlign(*stringFormat, StringAlignmentCenter)
+   GdipSetStringFormatAlign(stringFormat, StringAlignmentCenter)
 
    ' // Clone the StringFormat object.
    DIM clonedStringFormat AS GdiPlusStringFormat = *stringFormat
@@ -58,12 +55,12 @@ SUB Example_CloneStringFormat (BYVAL hdc AS HDC)
    ' // Use the generic StringFormat object in a call to DrawString.
    DIM rcf AS GpRectF = (30, 30, 200, 200)
    DIM wszText AS WSTRING * 64 = "This text was formatted by a cloned StringFormat object."
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *clonedStringFormat, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, clonedStringFormat, solidBrush)
 
    ' // Draw the rectangle that encloses the text.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

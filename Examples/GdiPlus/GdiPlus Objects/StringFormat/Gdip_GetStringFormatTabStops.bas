@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStringFormatTabStops (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Times New Roman"
@@ -53,25 +50,25 @@ SUB Example_GetStringFormatTabStops (BYVAL hdc AS HDC)
    ' // Create StringFormat and set tab stops
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
    DIM tabs(2) AS SINGLE = {150, 100, 100}
-   status = GdipSetStringFormatTabStops(*format, 0, 3, @tabs(0))
+   GdipSetStringFormatTabStops(format, 0, 3, @tabs(0))
    DIM rcf AS GpRectF = (20, 20, 500, 100)
    rcf.x = 20 : rcf.y = 20 : rcf.Width = 500 : rcf.Height = 100
    DIM wszText AS WSTRING * 128 = "Name" & CHR(9) & "Test 1" & CHR(9) & "Test 2" & CHR(9) & "Test 3"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, solidBrush)
 
    ' // Draw the rectangle that encloses the text.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1, UnitPixel)
-   status = GdipScalePenTransform(*pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
    ' // Get the tab stops.
    DIM tabStopCount AS LONG
    DIM firstTabOffset AS SINGLE
    DIM tabStops(ANY) AS SINGLE
 
-   status = GdipGetStringFormatTabStopCount(*format, @tabStopCount)
+   GdipGetStringFormatTabStopCount(format, @tabStopCount)
    REDIM tabStops(tabStopCount - 1)
-   status = GdipGetStringFormatTabStops(*format, tabStopCount, @firstTabOffset, @tabStops(0))
+   GdipGetStringFormatTabStops(format, tabStopCount, @firstTabOffset, @tabStops(0))
 
    FOR i AS LONG = 0 TO tabStopCount - 1
       ' // Inspect or use the value in tabStops(i)

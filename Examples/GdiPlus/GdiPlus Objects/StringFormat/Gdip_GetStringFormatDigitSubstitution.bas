@@ -35,13 +35,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetStringFormatDigitSubstitution (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create the font
    DIM fontFamily AS GdiPlusFontFamily = "Tahoma"
@@ -49,11 +46,11 @@ SUB Example_GetStringFormatDigitSubstitution (BYVAL hdc AS HDC)
 
    ' // Create StringFormat and set digit substitution
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_ARABIC)
-   status = GdipSetStringFormatDigitSubstitution(*format, LANG_ARABIC, StringDigitSubstituteNational)
+   GdipSetStringFormatDigitSubstitution(format, LANG_ARABIC, StringDigitSubstituteNational)
 
    ' // Get the digit substitute set
    DIM language AS LANGID, substitute AS StringDigitSubstitute
-   status = GdipGetStringFormatDigitSubstitution(*format, @language, @substitute)
+   GdipGetStringFormatDigitSubstitution(format, @language, @substitute)
    AfxMsg WSTR("Language: " & WSTR(language) & CHR(13, 10) & "Digit substitute : " & WSTR(substitute))
 
    ' // Create a solid brush
@@ -62,7 +59,7 @@ SUB Example_GetStringFormatDigitSubstitution (BYVAL hdc AS HDC)
    ' Draw string with digits
    DIM rcf AS GpRectF = (30, 30, 300, 50)
    DIM wszText AS WSTRING * 64 = "Year: 2025"
-   status = GdipDrawString(*graphics, wszText, LEN(wszText), *font, @rcf, *format, *solidBrush)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, solidBrush)
 
 END SUB
 ' ========================================================================================
