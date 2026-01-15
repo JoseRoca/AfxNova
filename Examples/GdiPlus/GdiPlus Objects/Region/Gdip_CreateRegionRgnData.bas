@@ -32,13 +32,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateRegionRgnData (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -51,27 +48,27 @@ SUB Example_CreateRegionRgnData (BYVAL hdc AS HDC)
    pts(3).x = 120 : pts(3).y = 70
    pts(4).x = 150 : pts(4).y = 60
    pts(5).x = 140 : pts(5).y = 10
-   status = GdipAddPathClosedCurve(*path, @pts(0), 6)
+   GdipAddPathClosedCurve(path, @pts(0), 6)
 
    ' // Create a region from a path.
    DIM originalRegion AS GdiPlusRegion
-   originalRegion.FromPath(*path)
+   originalRegion.FromPath(path)
 
    ' // Get the region data size
    DIM dataSize AS UINT
-   status = GdipGetRegionDataSize(*originalRegion, @dataSize)
+   GdipGetRegionDataSize(originalRegion, @dataSize)
 
    ' // Allocate buffer and get region data
    DIM regionBuffer AS STRING = SPACE(dataSize)
    DIM sizeFilled AS UINT
-   status = GdipGetRegionData(*originalRegion, STRPTR(regionBuffer), dataSize, @sizeFilled)
+   GdipGetRegionData(originalRegion, STRPTR(regionBuffer), dataSize, @sizeFilled)
 
    ' // Create a new region from the region data
    DIM recreatedRegion AS GdiPlusRegion = GdiPlusRegion(STRPTR(regionBuffer), sizeFilled)
 
    ' // Fill the recreated region with a brush
    DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
-   status = GdipFillRegion(*graphics, *brush, *recreatedRegion)
+   GdipFillRegion(graphics, brush, recreatedRegion)
 
 END SUB
 ' ========================================================================================

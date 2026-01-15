@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CombineRegionPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -52,18 +49,18 @@ SUB Example_CombineRegionPath (BYVAL hdc AS HDC)
    pts(3).x = 120 : pts(3).y = 70
    pts(4).x = 150 : pts(4).y = 60
    pts(5).x = 140 : pts(5).y = 10
-   status = GdipAddPathClosedCurve(*path, @pts(0), 6)
+   GdipAddPathClosedCurve(path, @pts(0), 6)
 
    ' // Create a Region object from a rectangle.
    DIM rcf AS GpRectF = (65, 15, 70, 45)
    DIM rectRegion AS GdiPlusRegion = @rcf
 
    ' // Form the union of the region and the interior of a path.
-   status = GdipCombineRegionPath(*rectRegion, *path, CombineModeUnion)
+   GdipCombineRegionPath(rectRegion, path, CombineModeUnion)
 
    ' // Fill the union of the two regions with a red brush.
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillRegion(*graphics, *solidBrush, *rectRegion)
+   GdipFillRegion(graphics, solidBrush, rectRegion)
 
 END SUB
 ' ========================================================================================

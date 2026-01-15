@@ -33,24 +33,21 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetInfinite (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a rectangular region.
    DIM rcf AS GpRectF = (65, 15, 70, 45)
    DIM rectRegion AS GdiPlusRegion = @rcf
 
    ' // Make the region infinite, and then fill it with a blue brush.
-   status = GdipSetInfinite(*rectRegion)
+   GdipSetInfinite(rectRegion)
    
    ' // Fill the region with a blue brush
    DIM blueBrush AS GdiPlusSolidBrush = ARGB_BLUE
-   status = GdipFillRegion(*graphics, *blueBrush, *rectRegion)
+   GdipFillRegion(graphics, blueBrush, rectRegion)
 
 END SUB
 ' ========================================================================================

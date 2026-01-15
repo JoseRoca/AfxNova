@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_SetEmpty (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a rectangular region.
    DIM rcf AS GpRectF = (50, 60, 300, 120)
@@ -48,13 +45,13 @@ SUB Example_SetEmpty (BYVAL hdc AS HDC)
    
    ' // Fill the region with a red brush
    DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillRegion(*graphics, *redBrush, *rectRegion)
+   GdipFillRegion(graphics, redBrush, rectRegion)
 
    ' // Make the region empty, and then fill it with a blue brush.
    ' // The color won't change because it is empty and can't be filled with FillRegion.
-   status = GdipSetEmpty(*rectRegion)
+   GdipSetEmpty(rectRegion)
    DIM blueBrush AS GdiPlusSolidBrush = ARGB_BLUE
-   status = GdipFillRegion(*graphics, *blueBrush, *rectRegion)
+   GdipFillRegion(graphics, blueBrush, rectRegion)
 
 END SUB
 ' ========================================================================================

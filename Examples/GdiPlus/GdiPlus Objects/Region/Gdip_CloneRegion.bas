@@ -34,13 +34,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CloneRegion (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -53,7 +50,7 @@ SUB Example_CloneRegion (BYVAL hdc AS HDC)
    pts(3).x = 120 : pts(3).y = 70
    pts(4).x = 150 : pts(4).y = 60
    pts(5).x = 140 : pts(5).y = 10
-   status = GdipAddPathClosedCurve(*path, @pts(0), 6)
+   GdipAddPathClosedCurve(path, @pts(0), 6)
 
    ' // Create a Region object from a rectangle.
    DIM rcf AS GpRectF = (65, 15, 70, 45)
@@ -61,22 +58,22 @@ SUB Example_CloneRegion (BYVAL hdc AS HDC)
 
    ' // Create a region from a curved path.
    DIM pathRegion AS GdiPlusRegion
-   pathRegion.FromPath(*path)
+   pathRegion.FromPath(path)
 
    ' // Make a copy (clone) of the curved region.
    DIM clonedRegion AS GdiPlusRegion = *pathRegion
 
    ' // Fill the cloned region with a red brush.
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillRegion(*graphics, *solidBrush, *clonedRegion)
+   GdipFillRegion(graphics, solidBrush, clonedRegion)
 
    ' // Form the union of the cloned region and the rectangular region.
-   status = GdipCombineRegionRect(*clonedRegion, @rcf, CombineModeUnion)
+   GdipCombineRegionRect(clonedRegion, @rcf, CombineModeUnion)
 
    ' // Fill the union of the two regions with a semitransparent blue brush.
    ' // Create brushes
    DIM alphaBrush AS GdiPlusSolidBrush = GDIP_ARGB(128, 0, 0, 255)
-   status = GdipFillRegion(*graphics, *alphaBrush, *clonedRegion)
+   GdipFillRegion(graphics, alphaBrush, clonedRegion)
 
 END SUB
 ' ========================================================================================

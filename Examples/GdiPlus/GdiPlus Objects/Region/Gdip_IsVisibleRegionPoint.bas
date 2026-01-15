@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsVisibleRegionPoint (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a region from a rectangle
    DIM rcf AS GpRectF = (50, 50, 100, 100)
@@ -47,11 +44,11 @@ SUB Example_IsVisibleRegionPoint (BYVAL hdc AS HDC)
 
    ' // Fill the the region with a red brush.
    DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillRegion(*graphics, *redBrush, *region)
+   GdipFillRegion(graphics, redBrush, region)
 
    ' // Test if a point is inside the region
    DIM result AS BOOL
-   status = GdipIsVisibleRegionPoint(*region, 75.0, 75.0, *graphics, @result)
+   GdipIsVisibleRegionPoint(region, 75.0, 75.0, graphics, @result)
    IF result THEN
       MessageBox(NULL, "Point is inside the region", "GDI+", MB_OK)
    ELSE

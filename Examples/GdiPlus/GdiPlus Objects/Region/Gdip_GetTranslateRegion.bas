@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetTranslateRegion (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -52,18 +49,18 @@ SUB Example_GetTranslateRegion (BYVAL hdc AS HDC)
    pts(3).x = 120 : pts(3).y = 70
    pts(4).x = 150 : pts(4).y = 60
    pts(5).x = 140 : pts(5).y = 10
-   status = GdipAddPathClosedCurve(*path, @pts(0), 6)
+   GdipAddPathClosedCurve(path, @pts(0), 6)
 
    ' // Create a region from a path.
    DIM pathRegion AS GdiPlusRegion
    pathRegion.FromPath(*path)
 
    ' // Translate the region.
-   status = GdipTranslateRegion(*pathRegion, 100, 60)
+   GdipTranslateRegion(pathRegion, 100, 60)
 
    ' // Fill the region with a brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillRegion(*graphics, *solidBrush, *pathRegion)
+   GdipFillRegion(graphics, solidBrush, pathRegion)
 
 END SUB
 ' ========================================================================================

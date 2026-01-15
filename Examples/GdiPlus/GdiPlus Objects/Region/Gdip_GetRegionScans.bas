@@ -33,45 +33,41 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetRegionScans (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a Path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' // Add an ellipse to the path
-   status = GdipAddPathEllipse(*path, 30, 10, 50, 230)
+   GdipAddPathEllipse(path, 30, 10, 50, 230)
 
    ' // Create a region from a path.
    DIM pathRegion AS GdiPlusRegion
-   pathRegion.FromPath(*path)
+   pathRegion.FromPath(path)
 
    ' // Fill the region with a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
-   status = GdipFillRegion(*graphics, *solidBrush, *pathRegion)
+   GdipFillRegion(graphics, solidBrush, pathRegion)
 
    ' // Get current world transform matrix
-   DIM matrix AS GpMatrix PTR
-   status = GdipCreateMatrix(@matrix)
-   status = GdipGetWorldTransform(*graphics, @matrix)
+   DIM matrix AS GdiPlusMatrix
+   GdipGetWorldTransform(graphics, @matrix)
 
    ' // Get the rectangles.
    DIM count AS UINT
-   status = GdipGetRegionScansCount(*pathRegion, @count, matrix)
+   GdipGetRegionScansCount(pathRegion, @count, matrix)
    DIM rects(count - 1) AS GpRectF
-   status = GdipGetRegionScans(*pathRegion, @rects(0), @count, matrix)
+   GdipGetRegionScans(pathRegion, @rects(0), @count, matrix)
 
    ' // Create a Pen
    DIM pen AS GdiPlusPen = ARGB_BLACK
 
    ' // Draw the rectangles.
    FOR j AS LONG = 0 TO count - 1
-      status = GdipDrawRectangle(*graphics, *pen, rects(j).x, rects(j).y, rects(j).width, rects(j).height)
+      GdipDrawRectangle(graphics, pen, rects(j).x, rects(j).y, rects(j).width, rects(j).height)
    NEXT
 
    ' // Cleanup

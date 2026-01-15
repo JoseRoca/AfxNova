@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetRegionBounds (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -52,15 +49,15 @@ SUB Example_GetRegionBounds (BYVAL hdc AS HDC)
    pts(3).x = 120 : pts(3).y = 70
    pts(4).x = 150 : pts(4).y = 60
    pts(5).x = 140 : pts(5).y = 10
-   status = GdipAddPathClosedCurve(*path, @pts(0), 6)
+   GdipAddPathClosedCurve(path, @pts(0), 6)
 
    ' // Create a region from a path.
    DIM pathRegion AS GdiPlusRegion
-   pathRegion.FromPath(*path)
+   pathRegion.FromPath(path)
 
    ' // Get the region's enclosing rectangle.
    DIM rcf AS GpRectF
-   status = GdipGetRegionBounds(*pathRegion, *graphics, @rcf)
+   GdipGetRegionBounds(pathRegion, graphics, @rcf)
 
    ' // Create a solid brush
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
@@ -69,8 +66,8 @@ SUB Example_GetRegionBounds (BYVAL hdc AS HDC)
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1.0, UnitWorld)
 
   ' // Show the region and the enclosing rectangle.
-   status = GdipFillRegion(*graphics, *solidBrush, *pathRegion)
-   status = GdipDrawRectangle(*graphics, *pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipFillRegion(graphics, solidBrush, pathRegion)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
 
 END SUB
 ' ========================================================================================

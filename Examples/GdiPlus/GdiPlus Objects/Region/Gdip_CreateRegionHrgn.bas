@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreateRegionHrgn (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a simple GDI region (an ellipse)
    DIM hRgn AS HRGN = CreateEllipticRgn(50, 50, 200, 150)
@@ -49,7 +46,10 @@ SUB Example_CreateRegionHrgn (BYVAL hdc AS HDC)
 
    ' // Fill the GDI+ region with a brush
    DIM brush AS GdiPlusSolidBrush = ARGB_GREEN
-   status = GdipFillRegion(*graphics, *brush, *gdipRegion)
+   GdipFillRegion(graphics, brush, gdipRegion)
+
+   ' // Cleanup
+   IF hRgn THEN DeleteObject(hRgn)
 
 END SUB
 ' ========================================================================================

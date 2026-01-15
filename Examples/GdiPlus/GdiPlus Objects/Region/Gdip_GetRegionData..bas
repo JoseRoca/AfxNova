@@ -33,13 +33,10 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_GetRegionData (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' // Create a path
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
@@ -52,22 +49,22 @@ SUB Example_GetRegionData (BYVAL hdc AS HDC)
    pts(3).x = 120 : pts(3).y = 70
    pts(4).x = 150 : pts(4).y = 60
    pts(5).x = 140 : pts(5).y = 10
-   status = GdipAddPathClosedCurve(*path, @pts(0), 6)
+   GdipAddPathClosedCurve(path, @pts(0), 6)
 
    ' // Create a region from a path.
    DIM pathRegion AS GdiPlusRegion
-   pathRegion.FromPath(*path)
+   pathRegion.FromPath(path)
 
    ' // Get the region data.
    DIM bufferSize AS UINT
-   status = GdipGetRegionDataSize(*pathRegion, @bufferSize)
+   GdipGetRegionDataSize(pathRegion, @bufferSize)
    DIM sizeFilled AS UINT
    DIM strBuffer AS STRING = SPACE(bufferSize)
-   status = GdipGetRegionData(*pathRegion, STRPTR(strBuffer), bufferSize, @sizeFilled)
+   GdipGetRegionData(pathRegion, STRPTR(strBuffer), bufferSize, @sizeFilled)
 
    ' // Fill the region with a semitransparent blue brush.
    DIM solidBrush AS GdiPlusSOlidBrush = ARGB_RED
-   status = GdipFillRegion(*graphics, *solidBrush, *pathRegion)
+   GdipFillRegion(graphics, solidBrush, pathRegion)
 
 END SUB
 ' ========================================================================================

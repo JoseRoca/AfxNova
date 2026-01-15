@@ -34,8 +34,6 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_IsEqualRegion (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
 
@@ -47,7 +45,7 @@ SUB Example_IsEqualRegion (BYVAL hdc AS HDC)
    DIM rectRegion2 AS GdiPlusRegion = @rcf
 
    DIM result AS BOOL
-   GdipIsEqualRegion (*rectRegion, *rectRegion2, *graphics, @result)
+   GdipIsEqualRegion (rectRegion, rectRegion2, graphics, @result)
    IF result THEN AfxMsg("Equal") ELSE AfxMsg("Not equal")
 
 END SUB
