@@ -34,28 +34,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterIsValid (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' Add a simple figure
-   status = GdipAddPathLine(*path, 50, 50, 150, 50)
-   status = GdipAddPathLine(*path, 150, 50, 100, 120)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 50, 50, 150, 50)
+   GdipAddPathLine(path, 150, 50, 100, 120)
+   GdipClosePathFigure(path)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
 
    ' Check if iterator is valid
    DIM isValid AS BOOL
-   status = GdipPathIterIsValid(*iterator, @isValid)
+   GdipPathIterIsValid(iterator, @isValid)
 
    ' Display result in window
    DIM fontFamily AS GdiPlusFontFamily ="Arial"
@@ -64,7 +61,7 @@ SUB Example_PathIterIsValid (BYVAL hdc AS HDC)
 
    DIM info AS STRING = "PathIterator is valid: " & IIF(isValid, "True", "False")
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

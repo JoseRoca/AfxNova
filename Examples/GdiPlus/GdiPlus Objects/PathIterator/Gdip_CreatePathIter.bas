@@ -34,33 +34,30 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_CreatePathIter (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath with two figures
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' First figure: triangle (closed)
-   status = GdipAddPathLine(*path, 10, 10, 100, 10)
-   status = GdipAddPathLine(*path, 100, 10, 55, 80)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 10, 10, 100, 10)
+   GdipAddPathLine(path, 100, 10, 55, 80)
+   GdipClosePathFigure(path)
 
    ' Second figure: open zigzag
-   status = GdipStartPathFigure(*path)
-   status = GdipAddPathLine(*path, 120, 10, 180, 50)
-   status = GdipAddPathLine(*path, 180, 50, 120, 90)
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 120, 10, 180, 50)
+   GdipAddPathLine(path, 180, 50, 120, 90)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
 
    ' Get subpath count
    DIM subpathCount AS LONG
-   status = GdipPathIterGetSubpathCount(*iterator, @subpathCount)
+   GdipPathIterGetSubpathCount(iterator, @subpathCount)
 
    ' Create font and brush for drawing text
    DIM fontFamily AS GdiPlusFontFamily ="Arial"
@@ -73,11 +70,11 @@ SUB Example_CreatePathIter (BYVAL hdc AS HDC)
    DIM yOffset AS SINGLE = 10.0
 
    FOR i AS LONG = 1 TO subpathCount
-      status = GdipPathIterNextSubpath(*iterator, @resultCount, @startIdx, @endIdx, @isClosed)
+      GdipPathIterNextSubpath(iterator, @resultCount, @startIdx, @endIdx, @isClosed)
       DIM info AS STRING
       info = "Subpath " & i & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
-      DIM layout AS GpRectF = (10 * dpiRatio, yOffset * dpiRatio, 300 * dpiRatio, 20 * dpiRatio)
-      status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+      DIM layout AS GpRectF = (10 * graphics.dpiRatioX, yOffset * graphics.dpiRatioY, 300 * graphics.dpiRatioX, 20 * graphics.dpiRatioY)
+      GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
       yOffset += 20.0
    NEXT
 

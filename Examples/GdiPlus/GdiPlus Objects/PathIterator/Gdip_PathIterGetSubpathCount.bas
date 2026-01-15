@@ -36,33 +36,30 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterGetSubpathCount (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath with two figures
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' First figure: triangle
-   status = GdipAddPathLine(*path, 30, 30, 130, 30)
-   status = GdipAddPathLine(*path, 130, 30, 80, 100)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 30, 30, 130, 30)
+   GdipAddPathLine(path, 130, 30, 80, 100)
+   GdipClosePathFigure(path)
 
    ' Second figure: open zigzag
-   status = GdipStartPathFigure(*path)
-   status = GdipAddPathLine(*path, 160, 40, 210, 90)
-   status = GdipAddPathLine(*path, 210, 90, 160, 140)
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 160, 40, 210, 90)
+   GdipAddPathLine(path, 210, 90, 160, 140)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
 
    ' Get subpath count
    DIM subpathCount AS LONG
-   status = GdipPathIterGetSubpathCount(*iterator, @subpathCount)
+   GdipPathIterGetSubpathCount(iterator, @subpathCount)
 
    ' Display the count in the window
    DIM fontFamily AS GdiPlusFontFamily ="Arial"
@@ -71,7 +68,7 @@ SUB Example_PathIterGetSubpathCount (BYVAL hdc AS HDC)
 
    DIM info AS STRING = "Subpath (figure) count: " & subpathCount
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

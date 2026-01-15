@@ -35,29 +35,26 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterHasCurve (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' Add a line segment
-   status = GdipAddPathLine(*path, 20, 20, 120, 20)
+   GdipAddPathLine(path, 20, 20, 120, 20)
 
    ' Add a Bézier curve
-   status = GdipAddPathBezier(*path, 130, 30, 160, 10, 190, 50, 220, 30)
+   GdipAddPathBezier(path, 130, 30, 160, 10, 190, 50, 220, 30)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
 
    ' Check for curves
    DIM hasCurve AS BOOL
-   status = GdipPathIterHasCurve(*iterator, @hasCurve)
+   GdipPathIterHasCurve(iterator, @hasCurve)
 
    ' Display result in window
    DIM fontFamily AS GdiPlusFontFamily ="Arial"
@@ -66,7 +63,7 @@ SUB Example_PathIterHasCurve (BYVAL hdc AS HDC)
 
    DIM info AS STRING = "Path contains curves: " & IIF(hasCurve, "True", "False")
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

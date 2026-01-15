@@ -35,33 +35,30 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterRewind (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath with two figures
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' First figure: triangle
-   status = GdipAddPathLine(*path, 30, 30, 130, 30)
-   status = GdipAddPathLine(*path, 130, 30, 80, 100)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 30, 30, 130, 30)
+   GdipAddPathLine(path, 130, 30, 80, 100)
+   GdipClosePathFigure(path)
 
    ' Second figure: zigzag
-   status = GdipStartPathFigure(*path)
-   status = GdipAddPathLine(*path, 160, 40, 210, 90)
-   status = GdipAddPathLine(*path, 210, 90, 160, 140)
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 160, 40, 210, 90)
+   GdipAddPathLine(path, 210, 90, 160, 140)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
 
    ' First pass: count subpaths
    DIM subpathCount AS LONG
-   status = GdipPathIterGetSubpathCount(*iterator, @subpathCount)
+   GdipPathIterGetSubpathCount(iterator, @subpathCount)
 
    ' Display count
    DIM fontFamily AS GdiPlusFontFamily ="Arial"
@@ -70,10 +67,10 @@ SUB Example_PathIterRewind (BYVAL hdc AS HDC)
 
    DIM info AS STRING = "Subpath count (first pass): " & subpathCount
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
 
    ' Rewind iterator
-   status = GdipPathIterRewind(*iterator)
+   GdipPathIterRewind(iterator)
 
    ' Second pass: iterate and display each subpath
    DIM resultCount AS LONG, startIdx AS LONG, endIdx AS LONG
@@ -82,12 +79,12 @@ SUB Example_PathIterRewind (BYVAL hdc AS HDC)
    DIM subpathIndex AS LONG = 1
 
    DO
-      status = GdipPathIterNextSubpath(*iterator, @resultCount, @startIdx, @endIdx, @isClosed)
+      GdipPathIterNextSubpath(iterator, @resultCount, @startIdx, @endIdx, @isClosed)
       IF resultCount = 0 THEN EXIT DO
       DIM lin AS STRING
       lin = "Subpath " & subpathIndex & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
       DIM layout AS GpRectF = (10.0, yOffset, 400.0, 20.0)
-      status = GdipDrawString(*graphics, lin, -1, *font, @layout, NULL, *brush)
+      GdipDrawString(graphics, lin, -1, font, @layout, NULL, brush)
       yOffset += 20.0
       subpathIndex += 1
    LOOP

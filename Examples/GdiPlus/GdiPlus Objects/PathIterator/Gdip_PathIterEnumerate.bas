@@ -35,33 +35,30 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterEnumerate (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath with mixed figures
    DIM path AS GdiPlusGraphicsPath =  FillModeAlternate
 
    ' Add a triangle
-   status = GdipAddPathLine(*path, 20, 20, 120, 20)
-   status = GdipAddPathLine(*path, 120, 20, 70, 100)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 20, 20, 120, 20)
+   GdipAddPathLine(path, 120, 20, 70, 100)
+   GdipClosePathFigure(path)
 
    ' Add a zigzag line
-   status = GdipStartPathFigure(*path)
-   status = GdipAddPathLine(*path, 150, 30, 200, 80)
-   status = GdipAddPathLine(*path, 200, 80, 150, 130)
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 150, 30, 200, 80)
+   GdipAddPathLine(path, 200, 80, 150, 130)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
 
    ' Get total point count
    DIM totalCount AS LONG
-   status = GdipPathIterGetCount(*iterator, @totalCount)
+   GdipPathIterGetCount(iterator, @totalCount)
 
    ' Allocate arrays
    DIM points(0 TO totalCount - 1) AS GpPointF
@@ -69,11 +66,11 @@ SUB Example_PathIterEnumerate (BYVAL hdc AS HDC)
 
    ' Enumerate all path data
    DIM resultCount AS LONG
-   status = GdipPathIterEnumerate(*iterator, @resultCount, @points(0), @types(0), totalCount)
+   GdipPathIterEnumerate(iterator, @resultCount, @points(0), @types(0), totalCount)
 
    ' Draw the path
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 2.0, UnitPixel)
-   status = GdipDrawPath(*graphics, *pen, *path)
+   GdipDrawPath(graphics, pen, path)
 
    ' Display point info
    DIM fontFamily AS GdiPlusFontFamily ="Arial"
@@ -85,7 +82,7 @@ SUB Example_PathIterEnumerate (BYVAL hdc AS HDC)
       DIM info AS STRING
       info = "Point " & i & ": (" & points(i).x & ", " & points(i).y & ") Type=" & types(i)
       DIM layout AS GpRectF = (10.0, yOffset, 300.0, 20.0)
-      status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+      GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
       yOffset += 20.0
    NEXT
 

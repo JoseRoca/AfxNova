@@ -34,28 +34,25 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterNextMarker (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath with two marker sections
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' First section: triangle
-   status = GdipAddPathLine(*path, 30, 30, 130, 30)
-   status = GdipAddPathLine(*path, 130, 30, 80, 100)
-   status = GdipClosePathFigure(*path)
-   status = GdipSetPathMarker(*path)  ' Set marker after first figure
+   GdipAddPathLine(path, 30, 30, 130, 30)
+   GdipAddPathLine(path, 130, 30, 80, 100)
+   GdipClosePathFigure(path)
+   GdipSetPathMarker(path)  ' Set marker after first figure
 
    ' Second section: zigzag
-   status = GdipStartPathFigure(*path)
-   status = GdipAddPathLine(*path, 160, 40, 210, 90)
-   status = GdipAddPathLine(*path, 210, 90, 160, 140)
-   status = GdipSetPathMarker(*path)  ' Set marker after second figure
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 160, 40, 210, 90)
+   GdipAddPathLine(path, 210, 90, 160, 140)
+   GdipSetPathMarker(path)  ' Set marker after second figure
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
@@ -71,12 +68,12 @@ SUB Example_PathIterNextMarker (BYVAL hdc AS HDC)
    DIM markerIndex AS LONG = 1
 
    DO
-      status = GdipPathIterNextMarker(*iterator, @resultCount, @startIdx, @endIdx)
+      GdipPathIterNextMarker(iterator, @resultCount, @startIdx, @endIdx)
       IF resultCount = 0 THEN EXIT DO
       DIM info AS STRING
       info = "Marker " & markerIndex & ": Start=" & startIdx & ", End=" & endIdx
       DIM layout AS GpRectF = (10.0, yOffset, 300.0, 20.0)
-      status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+      GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
       yOffset += 20.0
       markerIndex += 1
    LOOP

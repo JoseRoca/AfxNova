@@ -32,33 +32,30 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterGetCount (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath with multiple segments
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' Add a triangle
-   status = GdipAddPathLine(*path, 20, 20, 120, 20)
-   status = GdipAddPathLine(*path, 120, 20, 70, 100)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 20, 20, 120, 20)
+   GdipAddPathLine(path, 120, 20, 70, 100)
+   GdipClosePathFigure(path)
 
    ' Add a zigzag line
-   status = GdipStartPathFigure(*path)
-   status = GdipAddPathLine(*path, 150, 30, 200, 80)
-   status = GdipAddPathLine(*path, 200, 80, 150, 130)
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 150, 30, 200, 80)
+   GdipAddPathLine(path, 200, 80, 150, 130)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
 
    ' Get total point count
    DIM totalCount AS LONG
-   status = GdipPathIterGetCount(*iterator, @totalCount)
+   GdipPathIterGetCount(iterator, @totalCount)
 
    ' Display the count in the window
    DIM fontFamily AS GdiPlusFontFamily ="Arial"
@@ -67,7 +64,7 @@ SUB Example_PathIterGetCount (BYVAL hdc AS HDC)
 
    DIM info AS STRING = "Total path points: " & totalCount
    DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+   GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
 
 END SUB
 ' ========================================================================================

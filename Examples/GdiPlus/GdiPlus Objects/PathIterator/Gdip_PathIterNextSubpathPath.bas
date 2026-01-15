@@ -34,26 +34,23 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 ' ========================================================================================
 SUB Example_PathIterNextSubpathPath (BYVAL hdc AS HDC)
 
-   DIM status AS GpStatus
-
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   status = graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
    ' Create a GraphicsPath with two figures
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
    ' First figure: triangle (closed)
-   status = GdipAddPathLine(*path, 30, 30, 130, 30)
-   status = GdipAddPathLine(*path, 130, 30, 80, 100)
-   status = GdipClosePathFigure(*path)
+   GdipAddPathLine(path, 30, 30, 130, 30)
+   GdipAddPathLine(path, 130, 30, 80, 100)
+   GdipClosePathFigure(path)
 
    ' Second figure: zigzag (open)
-   status = GdipStartPathFigure(*path)
-   status = GdipAddPathLine(*path, 160, 40, 210, 90)
-   status = GdipAddPathLine(*path, 210, 90, 160, 140)
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 160, 40, 210, 90)
+   GdipAddPathLine(path, 210, 90, 160, 140)
 
    ' Create PathIterator
    DIM iterator AS GdiPlusPathIterator = *path
@@ -74,15 +71,15 @@ SUB Example_PathIterNextSubpathPath (BYVAL hdc AS HDC)
    DIM subpathIndex AS LONG = 1
 
    DO
-      status = GdipCreatePath(FillModeAlternate, @subpath)
-      status = GdipPathIterNextSubpathPath(*iterator, @resultCount, subpath, @isClosed)
+      GdipCreatePath(FillModeAlternate, @subpath)
+      GdipPathIterNextSubpathPath(*iterator, @resultCount, subpath, @isClosed)
       IF resultCount = 0 THEN EXIT DO
       ' Draw the subpath
-      status = GdipDrawPath(*graphics, *pen, subpath)
+      GdipDrawPath(graphics, pen, subpath)
       ' Display subpath info
       DIM info AS STRING = "Subpath " & subpathIndex & ": Points=" & resultCount & ", Closed=" & IIF(isClosed, "True", "False")
       DIM layout AS GpRectF = (10.0, yOffset, 400.0, 20.0)
-      status = GdipDrawString(*graphics, info, -1, *font, @layout, NULL, *brush)
+      GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
       yOffset += 20.0
       subpathIndex += 1
       IF subpath THEN GdipDeletePath(subpath)
