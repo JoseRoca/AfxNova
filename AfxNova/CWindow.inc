@@ -874,10 +874,10 @@ END PROPERTY
 
 ' =====================================================================================
 ' Sets the handle of the font used as default.
+' If m_hFont already exists, ignore it because the font is already being used.
 ' =====================================================================================
 PRIVATE PROPERTY CWindow.Font (BYVAL hFont AS HFONT)
-   IF m_hFont THEN ..DeleteObject m_hFont
-   m_hFont = hFont
+   IF m_hFont = NULL THEN m_hFont = hFont
 END PROPERTY
 ' =====================================================================================
 
@@ -1457,6 +1457,8 @@ PRIVATE FUNCTION CWindow.AddControl ( _
          IF dwStyle = -1 THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_PUSHBUTTON OR BS_CENTER OR BS_VCENTER
          IF dwStyle = BS_FLAT THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_PUSHBUTTON OR BS_CENTER OR BS_VCENTER OR BS_FLAT
          IF dwStyle = BS_DEFPUSHBUTTON THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_CENTER OR BS_VCENTER OR BS_DEFPUSHBUTTON
+         IF dwStyle = BS_BITMAP THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_PUSHBUTTON OR BS_BITMAP
+         IF dwStyle = BS_ICON THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_PUSHBUTTON OR BS_ICON
          IF dwStyle = BS_OWNERDRAW THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_OWNERDRAW
          #if _WIN32_WINNT = &h0602
          IF dwStyle = BS_SPLITBUTTON THEN dwStyle = WS_VISIBLE OR WS_TABSTOP OR BS_CENTER OR BS_VCENTER OR BS_SPLITBUTTON
