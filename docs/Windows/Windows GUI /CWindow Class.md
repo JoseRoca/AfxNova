@@ -1910,6 +1910,8 @@ DIM hFont AS HFONT = pWindow.Font
 ```
 pWindow.Font = hFont
 ```
+The Set property can only be used before calling the **Create** method. If the windows has already been creates, calling this property is ignored.
+
 ---
 
 ## GetClientRect
