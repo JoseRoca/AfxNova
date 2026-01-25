@@ -72,7 +72,7 @@ Public:
    DECLARE STATIC SUB Indeterminate (BYVAL hButton AS HWND)
    DECLARE STATIC FUNCTION GetState (BYVAL hButton AS HWND) AS LRESULT
    DECLARE STATIC SUB SetState (BYVAL hButton AS HWND, BYVAL bstate AS BOOLEAN)
-   DECLARE STATIC FUNCTION GetStyle (BYVAL hButton AS HWND) AS LONG_PTR
+   DECLARE STATIC FUNCTION GetStyle (BYVAL hButton AS HWND) AS DWORD
    DECLARE STATIC SUB SetStyle (BYVAL hButton AS HWND, BYVAL dwStyle AS DWORD, BYVAL fRedraw AS BOOLEAN)
    DECLARE STATIC FUNCTION GetIdealSize (BYVAL hButton AS HWND, BYVAL pSize AS SIZE PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetIdealSize (BYVAL hButton AS HWND) AS SIZE
@@ -101,8 +101,6 @@ Public:
 
    DECLARE STATIC FUNCTION SetDarkMode(BYVAL hButton AS HWND) AS HRESULT
    DECLARE STATIC FUNCTION RemoveDarkMode(BYVAL hButton AS HWND) AS HRESULT
-
-DECLARE STATIC SUB SetData (BYVAL hButton AS HWND)
 
 END TYPE
 ' ========================================================================================
@@ -217,7 +215,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Deletes an image (icon or bitmap) associated a button.
+' * Deletes an image (icon or bitmap) associated a button.
 ' Returns TRUE or FALSE.
 ' ========================================================================================
 PRIVATE FUNCTION CButton.DeleteImage (BYVAL hButton AS HWND, BYVAL ImageType AS DWORD) AS BOOLEAN
@@ -225,7 +223,7 @@ PRIVATE FUNCTION CButton.DeleteImage (BYVAL hButton AS HWND, BYVAL ImageType AS 
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Deletes a bitmap associated with a button.
+' * Deletes a bitmap associated with a button.
 ' Returns TRUE or FALSE.
 ' ========================================================================================
 PRIVATE FUNCTION CButton.DeleteBitmap (BYVAL hButton AS HWND) AS BOOLEAN
@@ -233,7 +231,7 @@ PRIVATE FUNCTION CButton.DeleteBitmap (BYVAL hButton AS HWND) AS BOOLEAN
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Deletes an icon associated with a button.
+' * Deletes an icon associated with a button.
 ' Returns TRUE or FALSE.
 ' ========================================================================================
 PRIVATE FUNCTION CButton.DeleteIcon (BYVAL hButton AS HWND) AS BOOLEAN
@@ -346,7 +344,7 @@ END SUB
 ' ========================================================================================
 ' * Gets the style of button.
 ' ========================================================================================
-PRIVATE FUNCTION CButton.GetStyle (BYVAL hButton AS HWND) AS LONG_PTR
+PRIVATE FUNCTION CButton.GetStyle (BYVAL hButton AS HWND) AS DWORD
    RETURN GetWindowLongPtrW(hButton, GWL_STYLE)
 END FUNCTION
 ' ========================================================================================
