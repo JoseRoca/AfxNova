@@ -28,7 +28,6 @@
 #include once "windows.bi"
 #include once "win/uxtheme.bi"
 #include once "AfxNova/DWSTRING.inc"
-#include once "win/Windowsx.bi"
 
 NAMESPACE AfxNova
 
@@ -55,8 +54,9 @@ Public:
    DECLARE STATIC FUNCTION EnumTools (BYVAL hTooltip AS HWND, BYVAL iTool AS DWORD, BYVAL lpti AS TOOLINFOW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetBubbleSize (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR) AS DWORD
    DECLARE STATIC FUNCTION GetCurrentTool (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetDelayTime (BYVAL hTooltip AS HWND, BYVAL dwDuration AS DWORD) AS LONG
+   DECLARE STATIC FUNCTION GetDelayTime (BYVAL hTooltip AS HWND, BYVAL flag AS DWORD) AS LONG
    DECLARE STATIC SUB GetMargin (BYVAL hTooltip AS HWND, BYVAL lprc AS RECT PTR)
+   DECLARE STATIC FUNCTION GetMargin (BYVAL hTooltip AS HWND) AS RECT
    DECLARE STATIC FUNCTION GetMaxTipWidth (BYVAL hTooltip AS HWND) AS LONG
    DECLARE STATIC SUB GetText (BYVAL hTooltip AS HWND, BYVAL numChars AS DWORD, BYVAL lpti AS TOOLINFOW PTR)
    DECLARE STATIC FUNCTION GetTipBkColor (BYVAL hTooltip AS HWND) AS COLORREF
@@ -71,12 +71,14 @@ Public:
    DECLARE STATIC FUNCTION RelayEvent (BYVAL hTooltip AS HWND, BYVAL lpmsg AS tagMSG PTR) AS LONG
    DECLARE STATIC SUB SetDelayTime (BYVAL hTooltip AS HWND, BYVAL dwDuration AS DWORD, BYVAL iTime AS SHORT)
    DECLARE STATIC SUB SetMargin (BYVAL hTooltip AS HWND, BYVAL lprc AS RECT PTR)
+   DECLARE STATIC SUB SetMargin (BYVAL hTooltip AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG, BYVAL nRight AS LONG, BYVAL nBottom AS LONG)
    DECLARE STATIC FUNCTION SetMaxTipWidth (BYVAL hTooltip AS HWND, BYVAL iWidth AS LONG) AS LONG
    DECLARE STATIC SUB SetTipBkColor (BYVAL hTooltip AS HWND, BYVAL clr AS COLORREF)
    DECLARE STATIC SUB SetTipTextColor (BYVAL hTooltip AS HWND, BYVAL clr AS COLORREF)
    DECLARE STATIC FUNCTION SetTitle (BYVAL hTooltip AS HWND, BYVAL nIcon AS LONG, BYVAL pwszTitle AS WSTRING PTR) AS BOOLEAN
    DECLARE STATIC SUB SetToolInfo (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
    DECLARE STATIC SUB SetWindowTheme (BYVAL hTooltip AS HWND, BYVAL pwszTheme AS WSTRING PTR)
+   DECLARE STATIC SUB SetDarkMode (BYVAL hTooltip AS HWND)
    DECLARE STATIC SUB TrackActivate (BYVAL hTooltip AS HWND, BYVAL bActivate AS BOOLEAN, BYVAL lpti AS TOOLINFOW PTR)
    DECLARE STATIC SUB TrackPosition (BYVAL hTooltip AS HWND, BYVAL xPos AS LONG, BYVAL yPos AS LONG)
    DECLARE STATIC SUB Update (BYVAL hTooltip AS HWND)
@@ -121,7 +123,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Activates or deactivates a ToolTip control.
+' * Activates or deactivates a ToolTip control.
 ' ========================================================================================
 PRIVATE SUB CToolTip.Activate (BYVAL hTooltip AS HWND, BYVAL fActivate AS BOOLEAN)
    SendMessageW(hTooltip, TTM_ACTIVATE, fActivate, 0)
@@ -140,6 +142,7 @@ END SUB
 
 ' ========================================================================================
 ' Registers a tool with a ToolTip control.
+' See the AddTooltip method.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.AddTool (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR) AS BOOLEAN
    IF lpti = NULL THEN RETURN FALSE
@@ -163,6 +166,7 @@ END FUNCTION
 
 ' ========================================================================================
 ' Removes a tool from a ToolTip control.
+' Seet the DeleteToolTip method.
 ' ========================================================================================
 PRIVATE SUB CToolTip.DelTool (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
    IF lpti = NULL THEN EXIT SUB
@@ -219,15 +223,15 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the information for the current tool in a ToolTip control.
+' * Retrieves the information for the current tool in a ToolTip control.
 ' ========================================================================================
-PRIVATE FUNCTION CToolTip.GetDelayTime (BYVAL hTooltip AS HWND, BYVAL dwDuration AS DWORD) AS LONG
-   RETURN SendMessageW(hTooltip, TTM_GETDELAYTIME, cast(WPARAM, dwDuration), 0)
+PRIVATE FUNCTION CToolTip.GetDelayTime (BYVAL hTooltip AS HWND, BYVAL flag AS DWORD) AS LONG
+   RETURN SendMessageW(hTooltip, TTM_GETDELAYTIME, cast(WPARAM, flag), 0)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the top, left, bottom, and right margins set for a ToolTip window. A margin is
+' * Retrieves the top, left, bottom, and right margins set for a ToolTip window. A margin is
 ' the distance, in pixels, between the ToolTip window border and the text contained within
 ' the ToolTip window.
 ' ========================================================================================
@@ -235,9 +239,16 @@ PRIVATE SUB CToolTip.GetMargin (BYVAL hTooltip AS HWND, BYVAL lprc AS RECT PTR)
    SendMessageW(hTooltip, TTM_GETMARGIN, 0, cast(LPARAM, lprc))
 END SUB
 ' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CToolTip.GetMargin (BYVAL hTooltip AS HWND) AS RECT
+   DIM rc AS RECT
+   SendMessageW(hTooltip, TTM_GETMARGIN, 0, cast(LPARAM, @rc))
+   RETURN rc
+END FUNCTION
+' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the maximum width for a ToolTip window.
+' * Retrieves the maximum width for a ToolTip window.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.GetMaxTipWidth (BYVAL hTooltip AS HWND) AS LONG
    RETURN SendMessageW(hTooltip, TTM_GETMAXTIPWIDTH, 0, 0)
@@ -259,7 +270,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the background color in a ToolTip window.
+' * Retrieves the background color in a ToolTip window.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.GetTipBkColor (BYVAL hTooltip AS HWND) AS COLORREF
    RETURN SendMessageW(hTooltip, TTM_GETTIPBKCOLOR, 0, 0)
@@ -267,7 +278,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the text color in a ToolTip window.
+' * Retrieves the text color in a ToolTip window.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.GetTipTextColor (BYVAL hTooltip AS HWND) AS COLORREF
    RETURN SendMessageW(hTooltip, TTM_GETTIPTEXTCOLOR, 0, 0)
@@ -360,7 +371,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the top, left, bottom, and right margins for a ToolTip window. A margin is the
+' * Sets the top, left, bottom, and right margins for a ToolTip window. A margin is the
 ' distance, in pixels, between the ToolTip window border and the text contained within the
 ' ToolTip window.
 ' ========================================================================================
@@ -368,9 +379,15 @@ PRIVATE SUB CToolTip.SetMargin (BYVAL hTooltip AS HWND, BYVAL lprc AS RECT PTR)
    SendMessageW(hTooltip, TTM_SETMARGIN, 0, cast(LPARAM, lprc))
 END SUB
 ' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CToolTip.SetMargin (BYVAL hTooltip AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG, BYVAL nRight AS LONG, BYVAL nBottom AS LONG)
+   DIM rc AS RECT = (nLeft, nTop, nRight, nBottom)
+   SendMessageW(hTooltip, TTM_SETMARGIN, 0, cast(LPARAM, @rc))
+END SUB
+' ========================================================================================
 
 ' ========================================================================================
-' Sets the maximum width for a ToolTip window.
+' * Sets the maximum width for a ToolTip window.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.SetMaxTipWidth (BYVAL hTooltip AS HWND, BYVAL iWidth AS LONG) AS LONG
    RETURN SendMessageW(hTooltip, TTM_SETMAXTIPWIDTH, 0, cast(LPARAM, iWidth))
@@ -378,7 +395,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the background color in a ToolTip window.
+' * Sets the background color in a ToolTip window.
+' Does nothing when using visual styles.
 ' ========================================================================================
 PRIVATE SUB CToolTip.SetTipBkColor (BYVAL hTooltip AS HWND, BYVAL clr AS COLORREF)
    SendMessageW(hTooltip, TTM_SETTIPBKCOLOR, cast(WPARAM, clr), 0)
@@ -386,7 +404,8 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the text color in a ToolTip window.
+' * Sets the text color in a ToolTip window.
+' Does nothing when using visual styles.
 ' ========================================================================================
 PRIVATE SUB CToolTip.SetTipTextColor (BYVAL hTooltip AS HWND, BYVAL clr AS COLORREF)
    SendMessageW(hTooltip, TTM_SETTIPTEXTCOLOR, cast(WPARAM, clr), 0)
@@ -394,7 +413,9 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Adds a standard icon and title string to a ToolTip.
+' * Adds a standard icon and title string to a ToolTip.
+' If you use visual styles, you will get a bigger caption size that if you don't, and you
+' can also use the large predefined icons.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.SetTitle (BYVAL hTooltip AS HWND, BYVAL nIcon AS LONG, BYVAL pwszTitle AS WSTRING PTR) AS BOOLEAN
    RETURN SendMessageW(hTooltip, TTM_SETTITLEW, nIcon, cast(LPARAM, pwszTitle))
@@ -424,6 +445,16 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
+' Sets the dark mode visual style of a ToolTip control.
+' You need to use visual styles.
+' ========================================================================================
+PRIVATE SUB CToolTip.SetDarkMode (BYVAL hTooltip AS HWND)
+   DIM wszTheme AS WSTRING * 20 = "DarkMode_Explorer"
+   SendMessageW(hTooltip, TTM_SETWINDOWTHEME, 0, cast(LPARAM, @wszTheme))
+END SUB
+' ========================================================================================
+
+' ========================================================================================
 ' Activates or deactivates a tracking ToolTip.
 ' ========================================================================================
 PRIVATE SUB CToolTip.TrackActivate (BYVAL hTooltip AS HWND, BYVAL bActivate AS BOOLEAN, BYVAL lpti AS TOOLINFOW PTR)
@@ -438,7 +469,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Activates or deactivates a tracking ToolTip.
+' Sets the position of a tracking tooltip.
 ' ========================================================================================
 PRIVATE SUB CToolTip.TrackPosition (BYVAL hTooltip AS HWND, BYVAL xPos AS LONG, BYVAL yPos AS LONG)
    SendMessageW(hTooltip, TTM_TRACKPOSITION, 0, cast(LPARAM, MAKELONG(xPos, yPos)))
@@ -446,7 +477,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Activates or deactivates a tracking ToolTip.
+' Forces the current tooltip to be redrawn.
 ' ========================================================================================
 PRIVATE SUB CToolTip.Update (BYVAL hTooltip AS HWND)
    SendMessageW(hTooltip, TTM_UPDATE, 0, 0)
@@ -468,16 +499,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Allows a subclass procedure to cause a ToolTip to display text for a window other than
-' the one beneath the mouse cursor.
-' ========================================================================================
-PRIVATE FUNCTION CToolTip.WindowFromPoint (BYVAL hTooltip AS HWND, BYVAL lppt AS POINT PTR) AS HWND
-   RETURN cast(HWND, SendMessageW(hTooltip, TTM_WINDOWFROMPOINT, 0, cast(LPARAM, lppt)))
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Creates a tooltip for a control.
+' * Creates a tooltip for a control.
 ' Parameters:
 ' - hwnd      = Handle of the window or control
 ' - wszText   = Tooltip text
@@ -526,7 +548,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets/replaces the text of a tooltip control
+' * Sets/replaces the text of a tooltip control
 ' Parameters:
 ' - hTooltip = Handle of the tooltip control
 ' - hwnd     = Handle of the window or control
@@ -562,7 +584,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Removes a tool from a tooltip control.
+' * Removes a tool from a tooltip control.
 ' Parameters:
 ' - hTooltip = Handle of the tooltip control
 ' - hwnd     = Handle of the window or control
@@ -590,29 +612,5 @@ PRIVATE SUB CToolTip.DeleteTooltip (BYVAL hTooltip AS HWND, BYVAL hwnd AS HWND)
    SendMessageW(hTooltip, TTM_DELTOOL, 0, CAST(LPARAM, @tti))
 END SUB
 ' ========================================================================================
-#define Tooltip_Delete AfxDeleteTooltip
-' ========================================================================================
 
 END NAMESPACE
-
-'' ========================================================================================
-'' Retrieves the handle of the font used by the ToolTip control.
-'' ========================================================================================
-'PRIVATE FUNCTION Tooltip_GetFont (BYVAL hTooltip AS HWND) AS HFONT
-'   RETURN cast(HFONT, SendMessageW(hTooltip, WM_GETFONT, 0, 0))
-'END FUNCTION
-'' ========================================================================================
-
-'' ========================================================================================
-'' Sets the font used by the ToolTip control.
-'' Parameters:
-'' - hTooltip  = Handle to the ToolTip control.
-'' - hFont     = Handle to the font. If this parameter is NULL, the control uses the default
-''               system font to draw text.
-'' - fRedraw   = Specifies whether the control should be redrawn immediately upon setting the font.
-''               If this parameter is TRUE, the control redraws itself.
-'' ========================================================================================
-'PRIVATE SUB CToolTip.SetFont (BYVAL hTooltip AS HWND, BYVAL hFont AS HFONT = NULL, BYVAL fRedraw AS BOOLEAN = FALSE)
-'   SendMessageW(hTooltip, WM_SETFONT, cast(WPARAM, hFont), cast(LPARAM, fRedraw))
-'END SUB
-'' ========================================================================================
