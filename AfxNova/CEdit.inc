@@ -70,6 +70,7 @@ Public:
    DECLARE STATIC SUB GetRect (BYVAL hEdit AS HWND, BYVAL prc AS RECT PTR)
    DECLARE STATIC FUNCTION GetRect (BYVAL hEdit AS HWND) AS RECT
    DECLARE STATIC FUNCTION GetSel (BYVAL hEdit AS HWND, BYREF dwStartPos AS DWORD, BYREF dwEndPos AS DWORD) AS LONG
+   DECLARE STATIC FUNCTION GetSel (BYVAL hEdit AS HWND, BYVAL pdwStartPos AS DWORD PTR, BYVAL pdwEndPos AS DWORD PTR) AS LONG
    DECLARE STATIC FUNCTION GetSel (BYVAL hEdit AS HWND) AS ..POINTL
    DECLARE STATIC FUNCTION GetSelStart (BYVAL hEdit AS HWND) AS DWORD
    DECLARE STATIC FUNCTION GetSelEnd (BYVAL hEdit AS HWND) AS DWORD
@@ -98,7 +99,9 @@ Public:
    DECLARE STATIC SUB SetPasswordChar (BYVAL hEdit AS HWND, BYVAL dwchar AS DWORD)
    DECLARE STATIC FUNCTION SetReadOnly (BYVAL hEdit AS HWND, BYVAL fReadOnly AS BOOLEAN) AS LONG
    DECLARE STATIC SUB SetRect (BYVAL hEdit AS HWND, BYREF rc AS RECT)
+   DECLARE STATIC SUB SetRect (BYVAL hEdit AS HWND, BYVAL prc AS RECT PTR)
    DECLARE STATIC SUB SetRectNoPaint (BYVAL hEdit AS HWND, BYREF rc AS RECT)
+   DECLARE STATIC SUB SetRectNoPaint (BYVAL hEdit AS HWND, BYVAL prc AS RECT PTR)
    DECLARE STATIC SUB SetSel (BYVAL hEdit AS HWND, BYVAL nStart AS LONG, BYVAL nEnd AS LONG)
    DECLARE STATIC FUNCTION SetTabStops (BYVAL hEdit AS HWND, BYVAL cTabs AS LONG, BYVAL prgTabStops AS LONG PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
@@ -123,7 +126,7 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' Determines whether there are any actions in an edit control's undo queue. You can send
+' * Determines whether there are any actions in an edit control's undo queue. You can send
 ' this message to either an edit control or a rich edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.CanUndo (BYVAL hEdit AS HWND) AS BOOLEAN
@@ -132,7 +135,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets information about the character closest to a specified point in the client area of
+' * Gets information about the character closest to a specified point in the client area of
 ' an edit control. You can send this message to either an edit control or a rich edit control.
 ' Return value: The LOWORD specifies the zero-based index of the character nearest the
 ' specified point. This index is relative to the beginning of the control, not the beginning
@@ -148,7 +151,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Deletes (clears) the current selection, if any, from the edit control.
+' * Deletes (clears) the current selection, if any, from the edit control.
 ' ========================================================================================
 PRIVATE SUB CEdit.Clear (BYVAL hEdit AS HWND)
    SendMessageW(hEdit, WM_CLEAR, 0, 0)
@@ -156,7 +159,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Copies the current selection to the clipboard in CF_TEXT format.
+' * Copies the current selection to the clipboard in CF_TEXT format.
 ' ========================================================================================
 PRIVATE SUB CEdit.Copy (BYVAL hEdit AS HWND)
    SendMessageW(hEdit, WM_COPY, 0, 0)
@@ -164,7 +167,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Deletes (cuts) the current selection, if any, in the edit control and copy the deleted
+' * Deletes (cuts) the current selection, if any, in the edit control and copy the deleted
 ' text to the clipboard in CF_TEXT format.
 ' ========================================================================================
 PRIVATE SUB CEdit.Cut (BYVAL hEdit AS HWND)
@@ -173,7 +176,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Resets the undo flag of an edit control. The undo flag is set whenever an operation
+' * Resets the undo flag of an edit control. The undo flag is set whenever an operation
 ' within the edit control can be undone.
 ' ========================================================================================
 PRIVATE SUB CEdit.EmptyUndoBuffer (BYVAL hEdit AS HWND)
@@ -186,7 +189,7 @@ END SUB
 ' Return value: False if the control was previous enabled; otherwise TRUE
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.Enable (BYVAL hEdit AS HWND) AS BOOLEAN
-   RETURN EnableWindow(hEdit, TRUE)
+   RETURN EnableWindow(hEdit, CTRUE)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -222,7 +225,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the zero-based index of the uppermost visible line in a multiline edit control.
+' * Gets the zero-based index of the uppermost visible line in a multiline edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetFirstVisibleLine (BYVAL hEdit AS HWND) AS LONG
    RETURN SendMessageW(hEdit, EM_GETFIRSTVISIBLELINE, 0, 0)
@@ -255,7 +258,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the current text limit for an edit control. The return value is the text limit.
+' * Gets the current text limit for an edit control. The return value is the text limit.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetLimitText (BYVAL hEdit AS HWND) AS DWORD
    RETURN SendMessageW(hEdit, EM_GETLIMITTEXT, 0, 0)
@@ -263,7 +266,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Copies a line of text from an edit control.
+' * Copies a line of text from an edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetLine (BYVAL hEdit AS HWND, BYVAL which AS DWORD) AS DWSTRING
    DIM buffer AS DWSTRING
@@ -274,7 +277,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the number of lines in a multiline edit control.
+' * Gets the number of lines in a multiline edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetLineCount (BYVAL hEdit AS HWND) AS LONG
    RETURN SendMessageW(hEdit, EM_GETLINECOUNT, 0, 0)
@@ -306,7 +309,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the state of an edit control's modification flag. The flag indicates whether the
+' * Gets the state of an edit control's modification flag. The flag indicates whether the
 ' contents of the edit control have been modified.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetModify (BYVAL hEdit AS HWND) AS BOOLEAN
@@ -345,10 +348,15 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the starting and ending character positions of the current selection in an edit control.
+' * Gets the starting and ending character positions of the current selection in an edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetSel (BYVAL hEdit AS HWND, BYREF dwStartPos AS DWORD, BYREF dwEndPos AS DWORD) AS LONG
    RETURN SendMessageW(hEdit, EM_GETSEL, CAST(WPARAM, @dwStartPos), cast(LPARAM, @dwEndPos))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CEdit.GetSel (BYVAL hEdit AS HWND, BYVAL pdwStartPos AS DWORD PTR, BYVAL pdwEndPos AS DWORD PTR) AS LONG
+   RETURN SendMessageW(hEdit, EM_GETSEL, CAST(WPARAM, pdwStartPos), cast(LPARAM, pdwEndPos))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -360,7 +368,7 @@ PRIVATE FUNCTION CEdit.GetSel (BYVAL hEdit AS HWND) AS ..POINTL
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Gets the starting character position of the current selection in an edit control.
+' * Gets the starting character position of the current selection in an edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetSelStart (BYVAL hEdit AS HWND) AS DWORD
    DIM dwStartPos AS DWORD, dwEndPos AS DWORD
@@ -369,7 +377,7 @@ PRIVATE FUNCTION CEdit.GetSelStart (BYVAL hEdit AS HWND) AS DWORD
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Gets the ending character position of the current selection in an edit control.
+' * Gets the ending character position of the current selection in an edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetSelEnd (BYVAL hEdit AS HWND) AS DWORD
    DIM dwStartPos AS DWORD, dwEndPos AS DWORD
@@ -398,11 +406,13 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the position of the scroll box (thumb) in the vertical scroll bar of a multiline
-' edit control.
+' * Gets the position of the scroll box (thumb) in the vertical scroll bar of a multiline
+' edit control. Note: With multiline edit controls always returns 0, so we are using
+' GetScrollPos as an alternative.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.GetThumb (BYVAL hEdit AS HWND) AS LONG
-   RETURN SendMessageW(hEdit, EM_GETTHUMB, 0, 0)
+'   RETURN SendMessageW(hEdit, EM_GETTHUMB, 0, 0)
+   RETURN GetScrollPos(hEdit, SB_VERT)
 END FUNCTION
 ' ========================================================================================
 
@@ -442,7 +452,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the length, in characters, of a line in an edit control.
+' * Retrieves the length, in characters, of a line in an edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.LineLength (BYVAL hEdit AS HWND, BYVAL index AS LONG) AS LONG
    RETURN SendMessageW(hEdit, EM_LINELENGTH, index, 0)
@@ -450,7 +460,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Scrolls the text in a multiline edit control.
+' * Scrolls the text in a multiline edit control.
 ' If the message is sent to a multiline edit control, the return value is TRUE.
 ' If the message is sent to a single-line edit control, the return value is FALSE.
 ' ========================================================================================
@@ -479,7 +489,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Replaces the current selection in an edit control with the specified text.
+' * Replaces the current selection in an edit control with the specified text.
 ' ========================================================================================
 PRIVATE SUB CEdit.ReplaceSel (BYVAL hEdit AS HWND, BYVAL bCanBeUndone AS BOOLEAN, BYVAL pwszText AS WSTRING PTR)
    SendMessageW hEdit, EM_REPLACESEL, CAST(WPARAM, bCanBeUndone), CAST(LPARAM, pwszText)
@@ -487,7 +497,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Scrolls the text vertically in a multiline edit control.
+' * Scrolls the text vertically in a multiline edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.Scroll (BYVAL hEdit AS HWND, BYVAL nAction AS LONG) AS DWORD
    RETURN SendMessageW(hEdit, EM_SCROLL, nAction, 0)
@@ -585,7 +595,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets or clears the modification flag for an edit control. The modification flag
+' * Sets or clears the modification flag for an edit control. The modification flag
 ' indicates whether the text within the edit control has been modified.
 ' ========================================================================================
 PRIVATE SUB CEdit.SetModify (BYVAL hEdit AS HWND, BYVAL fModify AS BOOLEAN)
@@ -620,6 +630,11 @@ PRIVATE SUB CEdit.SetRect (BYVAL hEdit AS HWND, BYREF rc AS RECT)
    SendMessageW hEdit, EM_SETRECT, 0, cast(LPARAM, @rc)
 END SUB
 ' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CEdit.SetRect (BYVAL hEdit AS HWND, BYVAL prc AS RECT PTR)
+   SendMessageW hEdit, EM_SETRECT, 0, cast(LPARAM, prc)
+END SUB
+' ========================================================================================
 
 ' ========================================================================================
 ' Sets the formatting rectangle of a multiline edit control. The EM_SETRECTNP message is
@@ -630,6 +645,11 @@ END SUB
 ' ========================================================================================
 PRIVATE SUB CEdit.SetRectNoPaint (BYVAL hEdit AS HWND, BYREF rc AS RECT)
    SendMessageW hEdit, EM_SETRECTNP, 0, CAST(LPARAM, @rc)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CEdit.SetRectNoPaint (BYVAL hEdit AS HWND, BYVAL prc AS RECT PTR)
+   SendMessageW hEdit, EM_SETRECTNP, 0, CAST(LPARAM, prc)
 END SUB
 ' ========================================================================================
 
@@ -670,6 +690,8 @@ END SUB
 
 ' ========================================================================================
 ' * Displays a balloon tip associated with an edit control.
+' Can be used, for example, to display warning or error messages like "Invalud inùt",
+' instead of a message box.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL peditballoontip AS EDITBALLOONTIP PTR) AS BOOLEAN
    IF peditballoontip = NULL THEN RETURN FALSE
