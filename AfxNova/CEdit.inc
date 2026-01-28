@@ -54,7 +54,8 @@ Public:
    DECLARE STATIC FUNCTION Enable (BYVAL hEdit AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION Disable (BYVAL hEdit AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION FmtLines (BYVAL hEdit AS HWND, BYVAL AddEolFlag AS BOOLEAN) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetCueBannerText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL cchText AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetCueBannerText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL cchText AS DWORD) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetCueBannerText (BYVAL hEdit AS HWND, BYVAL cchText AS DWORD) AS DWSTRING
    DECLARE STATIC FUNCTION GetFirstVisibleLine (BYVAL hEdit AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetHandle (BYVAL hEdit AS HWND) AS ..HLOCAL
    DECLARE STATIC FUNCTION GetIMEStatus (BYVAL hEdit AS HWND, BYVAL nStatusType AS LONG) AS LONG
@@ -109,9 +110,8 @@ Public:
    DECLARE STATIC FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL peditballoontip AS EDITBALLOONTIP PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL pwszTitle AS WSTRING PTR, BYVAL pwszText AS WSTRING PTR, BYVAL iIcon AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION Undo (BYVAL hEdit AS HWND) AS BOOLEAN
-
-   DECLARE STATIC FUNCTION SetDarkMode(BYVAL hEdit AS HWND) AS HRESULT
-   DECLARE STATIC FUNCTION RemoveDarkMode(BYVAL hEdit AS HWND) AS HRESULT
+   DECLARE STATIC FUNCTION SetDarkMode (BYVAL hEdit AS HWND) AS HRESULT
+   DECLARE STATIC FUNCTION RemoveDarkMode (BYVAL hEdit AS HWND) AS HRESULT
 
 END TYPE
 ' ========================================================================================
@@ -216,11 +216,18 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the text that is displayed as the textual cue, or tip, in an edit control.
+' * Gets the text that is displayed as the textual cue, or tip, in an edit control.
 ' To use this method, you must provide a manifest specifying Comctl32.dll version 6.0.
 ' ========================================================================================
-PRIVATE FUNCTION CEdit.GetCueBannerText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL cchText AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CEdit.GetCueBannerText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL cchText AS DWORD) AS BOOLEAN
    RETURN SendMessageW(hEdit, EM_GETCUEBANNER, cast(WPARAM, pwszText), cchText)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CEdit.GetCueBannerText (BYVAL hEdit AS HWND, BYVAL cchText AS DWORD) AS DWSTRING
+   DIM dwsText AS DWSTRING = WSPACE(cchText + 1)
+   SendMessageW(hEdit, EM_GETCUEBANNER, cast(WPARAM, *dwsText), LEN(dwsText))
+   RETURN dwsText
 END FUNCTION
 ' ========================================================================================
 
@@ -513,7 +520,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the text that is displayed as the textual cue, or tip, for an edit control.
+' * Sets the text that is displayed as the textual cue, or tip, for an edit control.
 ' - pwszText: A pointer to a Unicode string that contains the text to display as the textual cue.
 ' - bDrawFocused: TRUE if the cue banner should show even when the edit control has focus;
 '   otherwise, FALSE. FALSE is the default behavior—the cue banner disappears when the user
@@ -521,7 +528,7 @@ END SUB
 ' If the message succeeds, it returns TRUE. Otherwise it returns FALSE.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.SetCueBannerText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL fDrawFocused AS BOOLEAN = FALSE) AS LONG
-   RETURN SendMessageW(hEdit, EM_SETCUEBANNER, cast(WPARAM, fDrawFocused), cast(LPARAM, pwszText))
+   RETURN SendMessageW(hEdit, EM_SETCUEBANNER, fDrawFocused, cast(LPARAM, pwszText))
 END FUNCTION
 ' ========================================================================================
 
@@ -722,7 +729,7 @@ END FUNCTION
 ' * Set the edit control dark mode.
 ' Only affects the scroll bars of a multiline edit control.
 ' ========================================================================================
-PRIVATE FUNCTION CEdit.SetDarkMode(BYVAL hEdit AS HWND) AS HRESULT
+PRIVATE FUNCTION CEdit.SetDarkMode (BYVAL hEdit AS HWND) AS HRESULT
    RETURN SetWindowTheme(hEdit, "DarkMode_Explorer", NULL)
 END FUNCTION
 ' ========================================================================================
@@ -730,7 +737,7 @@ END FUNCTION
 ' * Removes the edit control dark mode.
 ' Only affects the scroll bars of a multiline edit control.
 ' ========================================================================================
-PRIVATE FUNCTION CEdit.RemoveDarkMode(BYVAL hEdit AS HWND) AS HRESULT
+PRIVATE FUNCTION CEdit.RemoveDarkMode (BYVAL hEdit AS HWND) AS HRESULT
    RETURN SetWindowTheme(hEdit, NULL, NULL)
 END FUNCTION
 ' ========================================================================================
