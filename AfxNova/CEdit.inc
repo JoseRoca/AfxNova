@@ -29,6 +29,7 @@
 #include once "win/commctrl.bi"
 #include once "win/uxtheme.bi"
 #include once "AfxNova/DWSTRING.inc"
+USING AfxNova
 
 NAMESPACE AfxNova
 

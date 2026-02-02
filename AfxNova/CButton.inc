@@ -30,6 +30,7 @@
 #include once "AfxNova/DWSTRING.inc"
 ' // conflicting define in windowsx.bi
 #undef DeleteBitmap
+USING AfxNova
 
 NAMESPACE AfxNova
 
@@ -258,10 +259,10 @@ END FUNCTION
 ' * Gets the text of a button.
 ' ========================================================================================
 PRIVATE FUNCTION CButton.GetText (BYVAL hButton AS HWND) AS DWSTRING
-   DIM nLen AS LONG = ..GetWindowTextLengthW(hButton)
+   DIM nLen AS LONG = GetWindowTextLengthW(hButton)
    DIM dwsText AS DWSTRING = WSPACE(nLen + 1)
    GetWindowTextW(hButton, dwsText, nLen +  1)
-   RETURN LEFT(dwsText, nLen)
+   RETURN dwsText
 END FUNCTION
 ' ========================================================================================
 

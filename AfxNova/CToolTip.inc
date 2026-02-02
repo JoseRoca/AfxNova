@@ -28,6 +28,7 @@
 #include once "windows.bi"
 #include once "win/uxtheme.bi"
 #include once "AfxNova/DWSTRING.inc"
+USING AfxNova
 
 NAMESPACE AfxNova
 
@@ -50,6 +51,7 @@ Public:
    DECLARE STATIC SUB Deactivate (BYVAL hTooltip AS HWND)
    DECLARE STATIC FUNCTION AddTool (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION AdjustRect (BYVAL hTooltip AS HWND, BYVAL fLarger AS BOOLEAN, BYVAL lprc AS RECT PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION AdjustRect (BYVAL hTooltip AS HWND, BYVAL fLarger AS BOOLEAN, BYREF rc AS RECT) AS BOOLEAN
    DECLARE STATIC SUB DelTool (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
    DECLARE STATIC FUNCTION EnumTools (BYVAL hTooltip AS HWND, BYVAL iTool AS DWORD, BYVAL lpti AS TOOLINFOW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetBubbleSize (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR) AS DWORD
@@ -59,6 +61,7 @@ Public:
    DECLARE STATIC FUNCTION GetMargin (BYVAL hTooltip AS HWND) AS RECT
    DECLARE STATIC FUNCTION GetMaxTipWidth (BYVAL hTooltip AS HWND) AS LONG
    DECLARE STATIC SUB GetText (BYVAL hTooltip AS HWND, BYVAL numChars AS DWORD, BYVAL lpti AS TOOLINFOW PTR)
+   DECLARE STATIC FUNCTION GetText (BYVAL hTooltip AS HWND, BYVAL hwnd AS HWND, BYVAL numChars AS DWORD) AS DWSTRING
    DECLARE STATIC FUNCTION GetTipBkColor (BYVAL hTooltip AS HWND) AS COLORREF
    DECLARE STATIC FUNCTION GetTipTextColor (BYVAL hTooltip AS HWND) AS COLORREF
    DECLARE STATIC SUB GetTitle (BYVAL hTooltip AS HWND, BYVAL pTTGetTitle AS TTGETTITLE PTR)
@@ -69,7 +72,7 @@ Public:
    DECLARE STATIC SUB Pop (BYVAL hTooltip AS HWND)
    DECLARE STATIC SUB Popup (BYVAL hTooltip AS HWND)
    DECLARE STATIC FUNCTION RelayEvent (BYVAL hTooltip AS HWND, BYVAL lpmsg AS tagMSG PTR) AS LONG
-   DECLARE STATIC SUB SetDelayTime (BYVAL hTooltip AS HWND, BYVAL dwDuration AS DWORD, BYVAL iTime AS SHORT)
+   DECLARE STATIC SUB SetDelayTime (BYVAL hTooltip AS HWND, BYVAL flag AS DWORD, BYVAL iTime AS SHORT)
    DECLARE STATIC SUB SetMargin (BYVAL hTooltip AS HWND, BYVAL lprc AS RECT PTR)
    DECLARE STATIC SUB SetMargin (BYVAL hTooltip AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG, BYVAL nRight AS LONG, BYVAL nBottom AS LONG)
    DECLARE STATIC FUNCTION SetMaxTipWidth (BYVAL hTooltip AS HWND, BYVAL iWidth AS LONG) AS LONG
@@ -79,7 +82,8 @@ Public:
    DECLARE STATIC SUB SetToolInfo (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
    DECLARE STATIC SUB SetWindowTheme (BYVAL hTooltip AS HWND, BYVAL pwszTheme AS WSTRING PTR)
    DECLARE STATIC SUB SetDarkMode (BYVAL hTooltip AS HWND)
-   DECLARE STATIC SUB TrackActivate (BYVAL hTooltip AS HWND, BYVAL bActivate AS BOOLEAN, BYVAL lpti AS TOOLINFOW PTR)
+   DECLARE STATIC SUB TrackActivate (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
+   DECLARE STATIC SUB TrackDeactivate (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
    DECLARE STATIC SUB TrackPosition (BYVAL hTooltip AS HWND, BYVAL xPos AS LONG, BYVAL yPos AS LONG)
    DECLARE STATIC SUB Update (BYVAL hTooltip AS HWND)
    DECLARE STATIC SUB UpdateTipText (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
@@ -131,7 +135,7 @@ END SUB
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE SUB CToolTip.Activate (BYVAL hTooltip AS HWND)
-   SendMessageW(hTooltip, TTM_ACTIVATE, TRUE, 0)
+   SendMessageW(hTooltip, TTM_ACTIVATE, CTRUE, 0)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
@@ -161,6 +165,11 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.AdjustRect (BYVAL hTooltip AS HWND, BYVAL fLarger AS BOOLEAN, BYVAL lprc AS RECT PTR) AS BOOLEAN
    RETURN SendMessageW(hTooltip, TTM_ADJUSTRECT, cast(WPARAM, fLarger), cast(LPARAM, lprc))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CToolTip.AdjustRect (BYVAL hTooltip AS HWND, BYVAL fLarger AS BOOLEAN, BYREF rc AS RECT) AS BOOLEAN
+   RETURN SendMessageW(hTooltip, TTM_ADJUSTRECT, cast(WPARAM, fLarger), cast(LPARAM, @rc))
 END FUNCTION
 ' ========================================================================================
 
@@ -209,15 +218,22 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the information for the current tool in a ToolTip control.
+' * Retrieves the information for the current tool in a ToolTip control.
+' IF lpti is NULL, the return value indicates the existence of the current tool without
+' actually retrieving the tool information. If this value is not NULL, the cbSize member
+' of the TOOLINFO structure must be filled in before sending this message.
+' A “current tool” only exists in two situations:
+' - The mouse is physically over a tool’s rectangle, or
+' - The tooltip is currently active (track mode, or a tooltip is being shown)
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.GetCurrentTool (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR) AS BOOLEAN
-   IF lpti = NULL THEN RETURN FALSE
-#ifdef __FB_64BIT__
-   IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 64 ELSE lpti->cbSize = 72
-#else
-   IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 44 ELSE lpti->cbSize = 48
-#endif
+   IF lpti <> NULL THEN
+   #ifdef __FB_64BIT__
+      IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 64 ELSE lpti->cbSize = 72
+   #else
+      IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 44 ELSE lpti->cbSize = 48
+   #endif
+   END IF
    RETURN SendMessageW(hTooltip, TTM_GETCURRENTTOOLW, 0, cast(LPARAM, lpti))
 END FUNCTION
 ' ========================================================================================
@@ -256,7 +272,16 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the information a ToolTip control maintains about a tool.
+' * Retrieves the information a ToolTip control maintains about a tool.
+' - hTooltip: Handle of the ToolTip control.
+' Example:
+' DIM ti AS TOOLINFOW
+' ti.hwnd = GetParent(hCtl)
+' ti.uId = CAST(UINT_PTR, hCtl)
+' DIM wszText AS WSTRING * 50 + 1
+' ti.lpszText = @wszText
+' CToolTip.GetText(hTTP, 50, @ti)
+' IF ti.lpszText THEN print *ti.lpszText
 ' ========================================================================================
 PRIVATE SUB CToolTip.GetText (BYVAL hTooltip AS HWND, BYVAL numChars AS DWORD, BYVAL lpti AS TOOLINFOW PTR)
    IF lpti = NULL THEN EXIT SUB
@@ -267,6 +292,40 @@ PRIVATE SUB CToolTip.GetText (BYVAL hTooltip AS HWND, BYVAL numChars AS DWORD, B
 #endif
    SendMessageW(hTooltip, TTM_GETTEXTW, numChars, cast(LPARAM, lpti))
 END SUB
+' ========================================================================================
+' ========================================================================================
+' * Retrieves the information a ToolTip control maintains about a tool.
+' - hTooltip: Handle of the ToolTip control.
+' - hwnd: Handle to the window that contains the tool.
+' - numChars: Maximum number of characters to return.
+' Note: To be used with tooltips added with the AddTooltip method. With tooltips with
+' different characteristics, use the previous GetText procedure passing a TOOLINFOW structure.
+' ========================================================================================
+PRIVATE FUNCTION CToolTip.GetText (BYVAL hTooltip AS HWND, BYVAL hwnd AS HWND, BYVAL numChars AS DWORD) AS DWSTRING
+   DIM ti AS TOOLINFOW
+#ifdef __FB_64BIT__
+   IF CToolTip.ComCtlVersion < 600 THEN ti.cbSize = 64 ELSE ti.cbSize = 72
+#else
+   IF CToolTip.ComCtlVersion < 600 THEN ti.cbSize = 44 ELSE ti.cbSize = 48
+#endif
+   ' Try IDISHWND pattern first
+   ti.hwnd = GetParent(hwnd)
+   ti.uId = CAST(UINT_PTR, hwnd)
+   IF SendMessageW(hTooltip, TTM_GETTOOLINFOW, 0, cast(LPARAM, @ti)) = 0 THEN
+      ' Try non-IDISHWND pattern
+      ti.hwnd = hwnd
+      ti.uId  = 0
+      IF SendMessageW(hTooltip, TTM_GETTOOLINFOW, 0, cast(LPARAM, @ti)) = 0 THEN
+         RETURN ""   ' Tool not found
+      END IF
+   END IF
+   ' At this point ti contains the REAL tool info
+   ' Now retrieve the text
+   DIM dwsText AS DWSTRING = WSPACE(numChars + 1)
+   ti.lpszText = *dwsText
+   SendMessageW(hTooltip, TTM_GETTEXTW, numChars, cast(LPARAM, @ti))
+   RETURN dwsText
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
@@ -289,12 +348,14 @@ END FUNCTION
 ' Retrieves information concerning the title of a tooltip control.
 ' ========================================================================================
 PRIVATE SUB CToolTip.GetTitle (BYVAL hTooltip AS HWND, BYVAL pTTGetTitle AS TTGETTITLE PTR)
+   IF pTTGetTitle = NULL THEN EXIT SUB
+   pTTGetTitle->dwSize = SIZEOF(TTGETTITLE)
    SendMessageW(hTooltip, TTM_GETTITLE, 0, cast(LPARAM, pTTGetTitle))
 END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves a count of the tools maintained by a ToolTip control.
+' * Retrieves a count of the tools maintained by a ToolTip control.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.GetToolCount (BYVAL hTooltip AS HWND) AS LONG
    RETURN SendMessageW(hTooltip, TTM_GETTOOLCOUNT, 0, 0)
@@ -302,7 +363,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the information that a ToolTip control maintains about a tool.
+' * Retrieves the information that a ToolTip control maintains about a tool.
 ' ========================================================================================
 PRIVATE FUNCTION CToolTip.GetToolInfo (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR) AS BOOLEAN
    IF lpti = NULL THEN RETURN FALSE
@@ -339,7 +400,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Removes a displayed ToolTip window from view.
+' * Removes a displayed ToolTip window from view.
 ' ========================================================================================
 PRIVATE SUB CToolTip.Pop (BYVAL hTooltip AS HWND)
    SendMessageW hTooltip, TTM_POP, 0, 0
@@ -347,7 +408,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Causes the ToolTip to display at the coordinates of the last mouse message.
+' * Causes the ToolTip to display at the coordinates of the last mouse message.
 ' ========================================================================================
 PRIVATE SUB CToolTip.Popup (BYVAL hTooltip AS HWND)
    SendMessageW hTooltip, TTM_POPUP, 0, 0
@@ -363,10 +424,10 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the initial, pop-up, and reshow durations for a ToolTip control.
+' * Sets the initial, pop-up, and reshow durations for a ToolTip control.
 ' ========================================================================================
-PRIVATE SUB CToolTip.SetDelayTime (BYVAL hTooltip AS HWND, BYVAL dwDuration AS DWORD, BYVAL iTime AS SHORT)
-   SendMessageW(hTooltip, TTM_SETDELAYTIME, dwDuration, MAKELONG(iTime, 0))
+PRIVATE SUB CToolTip.SetDelayTime (BYVAL hTooltip AS HWND, BYVAL flag AS DWORD, BYVAL iTime AS SHORT)
+   SendMessageW(hTooltip, TTM_SETDELAYTIME, flag, MAKELONG(iTime, 0))
 END SUB
 ' ========================================================================================
 
@@ -437,7 +498,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the visual style of a ToolTip control.
+' * Sets the visual style of a ToolTip control.
 ' ========================================================================================
 PRIVATE SUB CToolTip.SetWindowTheme (BYVAL hTooltip AS HWND, BYVAL pwszTheme AS WSTRING PTR)
    SendMessageW(hTooltip, TTM_SETWINDOWTHEME, 0, cast(LPARAM, pwszTheme))
@@ -445,7 +506,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the dark mode visual style of a ToolTip control.
+' * Sets the dark mode visual style of a ToolTip control.
 ' You need to use visual styles.
 ' ========================================================================================
 PRIVATE SUB CToolTip.SetDarkMode (BYVAL hTooltip AS HWND)
@@ -455,16 +516,29 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Activates or deactivates a tracking ToolTip.
+' * Activates or deactivates a tracking ToolTip.
 ' ========================================================================================
-PRIVATE SUB CToolTip.TrackActivate (BYVAL hTooltip AS HWND, BYVAL bActivate AS BOOLEAN, BYVAL lpti AS TOOLINFOW PTR)
+PRIVATE SUB CToolTip.TrackActivate (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
    IF lpti = NULL THEN EXIT SUB
 #ifdef __FB_64BIT__
    IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 64 ELSE lpti->cbSize = 72
 #else
    IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 44 ELSE lpti->cbSize = 48
 #endif
-   SendMessageW(hTooltip, TTM_TRACKACTIVATE, cast(WPARAM, bActivate), cast(LPARAM, lpti))
+   SendMessageW(hTooltip, TTM_TRACKACTIVATE, CTRUE, cast(LPARAM, lpti))
+END SUB
+' ========================================================================================
+' ========================================================================================
+' * Activates or deactivates a tracking ToolTip.
+' ========================================================================================
+PRIVATE SUB CToolTip.TrackDeactivate (BYVAL hTooltip AS HWND, BYVAL lpti AS TOOLINFOW PTR)
+   IF lpti = NULL THEN EXIT SUB
+#ifdef __FB_64BIT__
+   IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 64 ELSE lpti->cbSize = 72
+#else
+   IF CToolTip.ComCtlVersion < 600 THEN lpti->cbSize = 44 ELSE lpti->cbSize = 48
+#endif
+   SendMessageW(hTooltip, TTM_TRACKACTIVATE, FALSE, cast(LPARAM, lpti))
 END SUB
 ' ========================================================================================
 

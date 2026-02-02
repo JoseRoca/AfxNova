@@ -29,6 +29,7 @@
 #include once "win/commctrl.bi"
 #include once "win/uxtheme.bi"
 #include once "AfxNova/DWSTRING.inc"
+USING AfxNova
 
 NAMESPACE AfxNova
 
@@ -634,7 +635,7 @@ PRIVATE FUNCTION CCombo.GetText (BYVAL hCombo AS HWND, BYVAL index AS LONG) AS D
    DIM nLen AS LONG = SendMessageW(hCombo, CB_GETLBTEXTLEN, index, 0)
    DIM dwsText AS DWSTRING = WSPACE(nLen + 1)
    SendMessageW(hCombo, CB_GETLBTEXT, index, cast(LPARAM, *dwsText))
-   RETURN LEFT(dwsText, LEN(dwsText) - 1)
+   RETURN dwsText
 END FUNCTION
 ' ========================================================================================
 
