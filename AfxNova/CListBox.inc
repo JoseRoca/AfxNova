@@ -653,7 +653,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Set the edit control dark mode.
+' * Set the control dark mode.
 ' Only affects the scroll bars.
 ' ========================================================================================
 PRIVATE FUNCTION CListBox.SetDarkMode (BYVAL hListBox AS HWND) AS HRESULT
@@ -661,7 +661,7 @@ PRIVATE FUNCTION CListBox.SetDarkMode (BYVAL hListBox AS HWND) AS HRESULT
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' * Removes the edit control dark mode.
+' * Removes the control dark mode.
 ' Only affects the scroll bars.
 ' ========================================================================================
 PRIVATE FUNCTION CListBox.RemoveDarkMode (BYVAL hListBox AS HWND) AS HRESULT
