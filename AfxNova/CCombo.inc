@@ -111,6 +111,8 @@ Public:
    DECLARE STATIC FUNCTION SetText (BYVAL hCombo AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetText (BYVAL hCombo AS HWND, BYVAL index AS LONG, BYVAL pwszText AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION ReplaceText (BYVAL hCombo AS HWND, BYVAL index AS LONG, BYVAL pwszText AS WSTRING PTR) AS LONG
+   DECLARE STATIC FUNCTION SetDarkMode (BYVAL hCombo AS HWND) AS HRESULT
+   DECLARE STATIC FUNCTION RemoveDarkMode (BYVAL hCombo AS HWND) AS HRESULT
 
 END TYPE
 ' ========================================================================================
@@ -660,6 +662,21 @@ END FUNCTION
 PRIVATE FUNCTION CCombo.ReplaceText (BYVAL hCombo AS HWND, BYVAL index AS LONG, BYVAL pwszText AS WSTRING PTR) AS LONG
    IF SendMessageW(hCombo, CB_DELETESTRING, index, 0) = CB_ERR THEN RETURN CB_ERR
    RETURN SendMessageW(hCombo, CB_INSERTSTRING, index, CAST(LPARAM, pwszText))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Set the control dark mode.
+' ========================================================================================
+PRIVATE FUNCTION CCombo.SetDarkMode (BYVAL hCombo AS HWND) AS HRESULT
+   RETURN SetWindowTheme(hCombo, "DarkMode_CFD", NULL)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Removes the control dark mode.
+' ========================================================================================
+PRIVATE FUNCTION CCombo.RemoveDarkMode (BYVAL hCombo AS HWND) AS HRESULT
+   RETURN SetWindowTheme(hCombo, NULL, NULL)
 END FUNCTION
 ' ========================================================================================
 
