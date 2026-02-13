@@ -680,4 +680,185 @@ PRIVATE FUNCTION CCombo.RemoveDarkMode (BYVAL hCombo AS HWND) AS HRESULT
 END FUNCTION
 ' ========================================================================================
 
+' ########################################################################################
+
+' ========================================================================================
+' CComboEx class
+' ========================================================================================
+TYPE CComboEx
+
+Private:
+   m_pData AS ANY PTR   ' Not used by the static functions, but we can't have an empty type.
+
+Protected:
+   DECLARE CONSTRUCTOR
+   DECLARE DESTRUCTOR
+
+Public:
+   DECLARE STATIC FUNCTION DeleteItem (BYVAL hComboEx AS HWND, BYVAL nIndex AS LONG) AS LONG
+   DECLARE STATIC FUNCTION GetComboControl (BYVAL hComboEx AS HWND) AS HWND
+   DECLARE STATIC FUNCTION GetEditControl (BYVAL hComboEx AS HWND) AS HWND
+   DECLARE STATIC FUNCTION GetExtendedStyle (BYVAL hComboEx AS HWND) AS DWORD
+   DECLARE STATIC FUNCTION GetImageList (BYVAL hComboEx AS HWND) AS HIMAGELIST
+   DECLARE STATIC FUNCTION GetItem (BYVAL hComboEx AS HWND, BYVAL pCBItem AS COMBOBOXEXITEMW PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItem (BYVAL hComboEx AS HWND, BYREF CBItem AS COMBOBOXEXITEMW) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItem (BYVAL hComboEx AS HWND) AS COMBOBOXEXITEMW
+   DECLARE STATIC FUNCTION HasEditChanged (BYVAL hComboEx AS HWND) AS BOOLEAN
+   DECLARE STATIC FUNCTION InsertItem (BYVAL hComboEx AS HWND, BYVAL pCBItem AS COMBOBOXEXITEMW PTR) AS LONG
+   DECLARE STATIC FUNCTION InsertItem (BYVAL hComboEx AS HWND, BYREF CBItem AS COMBOBOXEXITEMW) AS LONG
+   DECLARE STATIC FUNCTION SetExtendedStyle (BYVAL hComboEx AS HWND, BYVAL dwMask AS DWORD, BYVAL dwExStyle AS DWORD) AS DWORD
+   DECLARE STATIC FUNCTION SetImageList (BYVAL hComboEx AS HWND, BYVAL himl AS HIMAGELIST) AS HIMAGELIST
+   DECLARE STATIC FUNCTION SetItem (BYVAL hComboEx AS HWND, BYVAL pCBItem AS COMBOBOXEXITEMW PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetItem (BYVAL hComboEx AS HWND, BYREF CBItem AS COMBOBOXEXITEMW) AS BOOLEAN
+   DECLARE STATIC SUB SetWindowTheme (BYVAL hComboEx AS HWND, BYVAL pwszStyle AS WSTRING PTR)
+   DECLARE STATIC FUNCTION SetDarkMode (BYVAL hCombo AS HWND) AS HRESULT
+   DECLARE STATIC FUNCTION RemoveDarkMode (BYVAL hCombo AS HWND) AS HRESULT
+
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE CONSTRUCTOR CComboEx
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE DESTRUCTOR CComboEx
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Removes an item from a ComboBoxEx control. Returns an INT value that represents the number
+' of items remaining in the control. If iIndex is invalid, the message returns CB_ERR.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.DeleteItem (BYVAL hComboEx AS HWND, BYVAL nIndex AS LONG) AS LONG
+   RETURN SendMessageW(hComboEx, CBEM_DELETEITEM, nIndex, 0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the handle to the combo box control within the ComboBoxEx control.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.GetComboControl (BYVAL hComboEx AS HWND) AS HWND
+   RETURN cast(HWND, SendMessageW(hComboEx, CBEM_GETCOMBOCONTROL, 0, 0))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the handle to the edit control within the ComboBoxEx control if it uses the
+' CBS_DROPDOWN style. Otherwise, the message returns NULL.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.GetEditControl (BYVAL hComboEx AS HWND) AS HWND
+   RETURN cast(HWND, SendMessageW(hComboEx, CBEM_GETEDITCONTROL, 0, 0))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns a DWORD value that contains the ComboBoxEx control extended styles in use for the control.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.GetExtendedStyle (BYVAL hComboEx AS HWND) AS DWORD
+   RETURN SendMessageW(hComboEx, CBEM_GETEXTENDEDSTYLE, 0, 0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the handle to an image list assigned to a ComboBoxEx control.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.GetImageList (BYVAL hComboEx AS HWND) AS HIMAGELIST
+   RETURN cast(HIMAGELIST, SendMessageW(hComboEx, CBEM_GETIMAGELIST, 0, 0))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves item information for a given ComboBoxEx item. Returns TRUE or FALSE.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.GetItem (BYVAL hComboEx AS HWND, BYVAL pCBItem AS COMBOBOXEXITEMW PTR) AS BOOLEAN
+   RETURN SendMessageW(hComboEx, CBEM_GETITEMW, 0, cast(LPARAM, pCBItem))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.GetItem (BYVAL hComboEx AS HWND, BYREF CBItem AS COMBOBOXEXITEMW) AS BOOLEAN
+   RETURN SendMessageW(hComboEx, CBEM_GETITEMW, 0, cast(LPARAM, @CBItem))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.GetItem (BYVAL hComboEx AS HWND) AS COMBOBOXEXITEMW
+   DIM item AS COMBOBOXEXITEMW
+   SendMessageW(hComboEx, CBEM_GETITEMW, 0, cast(LPARAM, @item))
+   RETURN item
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Determines whether or not the user has changed the text of a ComboBoxEx edit control.
+' Returns TRUE or FALSE.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.HasEditChanged (BYVAL hComboEx AS HWND) AS BOOLEAN
+   RETURN SendMessageW(hComboEx, CBEM_HASEDITCHANGED, 0, 0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the index at which the new item was inserted if successful, or -1 otherwise.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.InsertItem (BYVAL hComboEx AS HWND, BYVAL pCBItem AS COMBOBOXEXITEMW PTR) AS LONG
+   RETURN SendMessageW(hComboEx, CBEM_INSERTITEMW, 0, cast(LPARAM, pCBItem))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.InsertItem (BYVAL hComboEx AS HWND, BYREF CBItem AS COMBOBOXEXITEMW) AS LONG
+   IF VARPTR(CBItem) = 0 THEN RETURN FALSE
+   RETURN SendMessageW(hComboEx, CBEM_INSERTITEMW, 0, cast(LPARAM, @CBItem))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns a DWORD value that contains the extended styles previously used for the control.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.SetExtendedStyle (BYVAL hComboEx AS HWND, BYVAL dwExMask AS DWORD, BYVAL dwExStyle AS DWORD) AS DWORD
+   RETURN SendMessageW(hComboEx, CBEM_SETEXTENDEDSTYLE, cast(WPARAM, dwExMask), cast(LPARAM, dwExStyle))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the handle to the image list previously associated with the control, or returns
+' NULL if no image list was previously set.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.SetImageList (BYVAL hComboEx AS HWND, BYVAL himl AS HIMAGELIST) AS HIMAGELIST
+   RETURN cast(HIMAGELIST, SendMessageW(hComboEx, CBEM_SETIMAGELIST, 0, cast(LPARAM, himl)))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the attributes for an item in a ComboBoxEx control.
+' Returns nonzero if successful, or zero otherwise.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.SetItem (BYVAL hComboEx AS HWND, BYREF CBItem AS COMBOBOXEXITEMW) AS BOOLEAN
+   IF VARPTR(CBItem) = 0 THEN RETURN FALSE
+   RETURN SendMessageW(hComboEx, CBEM_SETITEMW, 0, cast(LPARAM, @CBItem))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the visual style of a ComboboxEx control.
+' ========================================================================================
+PRIVATE SUB CComboEx.SetWindowTheme (BYVAL hComboEx AS HWND, BYVAL pwszStyle AS WSTRING PTR)
+   SendMessageW(hComboEx, CBEM_SETWINDOWTHEME, 0, cast(LPARAM, pwszStyle))
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Set the control dark mode.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.SetDarkMode (BYVAL hComboEx AS HWND) AS HRESULT
+   RETURN ..SetWindowTheme(hComboEx, "DarkMode_CFD", NULL)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Removes the control dark mode.
+' ========================================================================================
+PRIVATE FUNCTION CComboEx.RemoveDarkMode (BYVAL hComboEx AS HWND) AS HRESULT
+   RETURN ..SetWindowTheme(hComboEx, NULL, NULL)
+END FUNCTION
+' ========================================================================================
+
 END NAMESPACE
