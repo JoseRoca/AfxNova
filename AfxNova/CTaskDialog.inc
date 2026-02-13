@@ -28,6 +28,7 @@
 #include once "windows.bi"
 #include once "win/uxtheme.bi"
 #include once "AfxNova/DWSTRING.inc"
+USING AfxNova
 
 #if _WIN32_WINNT >= &h0600
 
