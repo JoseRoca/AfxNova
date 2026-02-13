@@ -125,12 +125,12 @@ Public:
    DECLARE STATIC FUNCTION Indeterminate (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG, BYVAL fIndeterminate AS SHORT) AS BOOLEAN
    DECLARE STATIC FUNCTION InsertMarkHitTest (BYVAL hToolBar AS HWND, BYVAL lppt AS POINT PTR, BYVAL lptbim AS TBINSERTMARK PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION InsertMarkHitTest (BYVAL hToolBar AS HWND, BYREF pt AS POINT, BYVAL tbim AS TBINSERTMARK) AS BOOLEAN
-   DECLARE STATIC FUNCTION IsButtonChecked (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION IsButtonEnabled (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION IsButtonHidden (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION IsButtonHighlighted (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION IsButtonIndeterminate (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION IsButtonPressed (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION IsButtonChecked (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
+   DECLARE STATIC FUNCTION IsButtonEnabled (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
+   DECLARE STATIC FUNCTION IsButtonHidden (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
+   DECLARE STATIC FUNCTION IsButtonHighlighted (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
+   DECLARE STATIC FUNCTION IsButtonIndeterminate (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
+   DECLARE STATIC FUNCTION IsButtonPressed (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
    DECLARE STATIC FUNCTION LoadImages (BYVAL hToolBar AS HWND, BYVAL iBitmapID AS DWORD, BYVAL hinst AS HINSTANCE) AS LONG
    DECLARE STATIC FUNCTION MapAccelerator (BYVAL hToolBar AS HWND, BYVAL chAccel AS DWORD, BYVAL pIDBtn AS DWORD PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION MapAccelerator (BYVAL hToolBar AS HWND, BYVAL chAccel AS DWORD, BYREF IDBtn AS DWORD) AS BOOLEAN
@@ -148,8 +148,8 @@ Public:
    DECLARE STATIC SUB SaveRestore (BYVAL hToolBar AS HWND, BYVAL fSave AS LONG, BYREF tbsp AS TBSAVEPARAMSW)
    DECLARE STATIC FUNCTION SetAnchorHighlight (BYVAL hToolBar AS HWND, BYVAL fAnchor AS BOOLEAN) AS BOOLEAN
    DECLARE STATIC FUNCTION SetBitmapSize (BYVAL hToolBar AS HWND, BYVAL dxBitmap AS SHORT, BYVAL dyBitmap AS SHORT) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYVAL lptbbi AS TBBUTTONINFOW PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYREF tbbi AS TBBUTTONINFOW) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYVAL lptbbi AS TBBUTTONINFOW PTR) AS LONG
+   DECLARE STATIC FUNCTION SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYREF tbbi AS TBBUTTONINFOW) AS LONG
    DECLARE STATIC FUNCTION SetButtonSize (BYVAL hToolBar AS HWND, BYVAL dxButton AS SHORT, BYVAL dyButton AS SHORT) AS BOOLEAN
    DECLARE STATIC FUNCTION SetButtonWidth (BYVAL hToolBar AS HWND, BYVAL cxMin AS SHORT, BYVAL cxMax AS SHORT) AS BOOLEAN
    DECLARE STATIC FUNCTION SetCmdId (BYVAL hToolBar AS HWND, BYVAL index AS SHORT, BYVAL cmdid AS SHORT) AS BOOLEAN
@@ -826,8 +826,6 @@ END FUNCTION
 
 ' ========================================================================================
 ' Retrieves the insertion mark information for a point in a toolbar.
-' Minimum operating systems Windows 2000, Windows NT 4.0 with Internet Explorer 4.0,
-' Windows 98, Windows 95 with Internet Explorer 4.0
 ' ========================================================================================
 PRIVATE FUNCTION CToolBar.InsertMarkHitTest (BYVAL hToolBar AS HWND, BYVAL lppt AS POINT PTR, BYVAL lptbim AS TBINSERTMARK PTR) AS BOOLEAN
    RETURN SendMessageW(hToolBar, TB_INSERTMARKHITTEST, CAST(WPARAM, lppt), CAST(LPARAM, lptbim))
@@ -842,8 +840,9 @@ END FUNCTION
 ' ========================================================================================
 ' * Determines whether the specified button in a toolbar is checked.
 ' Returns TRUE if the point is an insertion mark, or FALSE otherwise.
+' Returns -1 if idButton does not exist.
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.IsButtonChecked (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.IsButtonChecked (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
    RETURN SendMessageW(hToolBar, TB_ISBUTTONCHECKED, cast(WPARAM, idButton), 0)
 END FUNCTION
 ' ========================================================================================
@@ -851,8 +850,9 @@ END FUNCTION
 ' ========================================================================================
 ' * Determines whether the specified button in a toolbar is enabled.
 ' Returns TRUE if the button is enabled, or FALSE otherwise.
+' Returns -1 if idButton does not exist.
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.IsButtonEnabled (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.IsButtonEnabled (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
    RETURN SendMessageW(hToolBar, TB_ISBUTTONENABLED, cast(WPARAM, idButton), 0)
 END FUNCTION
 ' ========================================================================================
@@ -860,8 +860,9 @@ END FUNCTION
 ' ========================================================================================
 ' * Determines whether the specified button in a toolbar is hidden.
 ' Returns TRUE if the button is hidden, or FALSE otherwise.
+' Returns -1 if idButton does not exist.
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.IsButtonHidden (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.IsButtonHidden (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
    RETURN SendMessageW(hToolBar, TB_ISBUTTONHIDDEN, cast(WPARAM, idButton), 0)
 END FUNCTION
 ' ========================================================================================
@@ -869,8 +870,9 @@ END FUNCTION
 ' ========================================================================================
 ' * Checks the highlight state of a toolbar button.
 ' Returns TRUE if the button is highlighted, or FALSE otherwise.
+' Returns -1 if idButton does not exist.
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.IsButtonHighlighted (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.IsButtonHighlighted (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
    RETURN SendMessageW(hToolBar, TB_ISBUTTONHIGHLIGHTED, cast(WPARAM, idButton), 0)
 END FUNCTION
 ' ========================================================================================
@@ -878,8 +880,9 @@ END FUNCTION
 ' ========================================================================================
 ' Determines whether the specified button in a toolbar is indeterminate.
 ' Returns TRUE if the button is in a indetermides state, or FALSE otherwise.
+' Returns -1 if idButton does not exist.
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.IsButtonIndeterminate (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.IsButtonIndeterminate (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
    RETURN SendMessageW(hToolBar, TB_ISBUTTONINDETERMINATE, cast(WPARAM, idButton), 0)
 END FUNCTION
 ' ========================================================================================
@@ -887,8 +890,9 @@ END FUNCTION
 ' ========================================================================================
 ' Determines whether the specified button in a toolbar is pressed.
 ' Returns TRUE if the button is pressed, or FALSE otherwise.
+' Returns -1 if idButton does not exist.
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.IsButtonPressed (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.IsButtonPressed (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG) AS LONG
    RETURN SendMessageW(hToolBar, TB_ISBUTTONPRESSED, cast(WPARAM, idButton), 0)
 END FUNCTION
 ' ========================================================================================
@@ -955,6 +959,7 @@ END FUNCTION
 ' ========================================================================================
 ' Presses or releases the specified button in a toolbar.
 ' Returns TRUE if successful, or FALSE otherwise.
+' Returns -1 if idButton does not exist.
 ' ========================================================================================
 PRIVATE FUNCTION CToolBar.PressButton (BYVAL hToolBar AS HWND, BYVAL idButton AS LONG, BYVAL fPress AS SHORT) AS BOOLEAN
    RETURN SendMessageW(hToolBar, TB_PRESSBUTTON, cast(WPARAM, idButton), cast(LPARAM, MAKELONG(fPress, 0)))
@@ -1021,13 +1026,14 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the information for an existing button in a toolbar.
 ' Returns TRUE if successful, or FALSE otherwise.
+' Returns -1 if iID does mt exist.
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYVAL lptbbi AS TBBUTTONINFOW PTR) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYVAL lptbbi AS TBBUTTONINFOW PTR) AS LONG
    RETURN SendMessageW(hToolBar, TB_SETBUTTONINFOW, cast(WPARAM, iID), CAST(LPARAM, lptbbi))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CToolBar.SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYREF tbbi AS TBBUTTONINFOW) AS BOOLEAN
+PRIVATE FUNCTION CToolBar.SetButtonInfo (BYVAL hToolBar AS HWND, BYVAL iID AS LONG, BYREF tbbi AS TBBUTTONINFOW) AS LONG
    RETURN SendMessageW(hToolBar, TB_SETBUTTONINFOW, cast(WPARAM, iID), CAST(LPARAM, @tbbi))
 END FUNCTION
 ' ========================================================================================
