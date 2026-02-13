@@ -167,7 +167,7 @@ A "rich edit control" is a window in which the user can enter and edit text. The
 | [Undo](#undo) | This message undoes the last edit control operation in the control's undo queue. |
 
 
-## CRichEdit File Operations Methods
+## CRichEditCtx File Operations Methods
 
 | Name       | Description |
 | ---------- | ----------- |
