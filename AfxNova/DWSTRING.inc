@@ -276,7 +276,7 @@ END PROPERTY
 PRIVATE PROPERTY DWSTRING.Utf8 () AS STRING
    DWSTRING_DP("buffer: " & ..WSTR(m_pBuffer))
    DIM cbLen AS LONG = WideCharToMultiByte(CP_UTF8, 0, m_pBuffer, -1, NULL, 0, NULL, NULL)
-   DIM s AS STRING = SPACE(cbLen)
+   DIM s AS STRING = STRING(cbLen, 0)
    WideCharToMultiByte(CP_UTF8, 0, m_pBuffer, -1, STRPTR(s), cbLen, NULL, NULL)
    RETURN LEFT(s, cbLen - 1) ' Remove null terminator
 END PROPERTY
@@ -510,6 +510,20 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
+' Detecta si la codificacion es utf-8
+' ========================================================================================
+FUNCTION DWSTRING.IsUtf8 (BYREF s AS STRING) AS BOOLEAN
+   IF LEN(s) = 0 THEN RETURN FALSE
+   ' Optional: Detect UTF-8 BOM
+   IF LEN(s) >= 3 THEN
+      IF ASC(s,1) = &hEF AND ASC(s,2) = &hBB AND ASC(s,3) = &hBF THEN RETURN TRUE
+   END IF
+   DIM wLen AS LONG = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, STRPTR(s), LEN(s), NULL, 0)
+   RETURN (wLen <> 0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' The string parameter is appended to the string held in the class. If the internal string
 ' buffer overflows, the class will automatically extend it to an appropriate size.
 ' ========================================================================================
@@ -518,6 +532,7 @@ PRIVATE FUNCTION DWSTRING.Add (BYVAL pwszStr AS WSTRING PTR) AS BOOLEAN
    RETURN this.AppendBuffer(pwszStr, .LEN(*pwszStr))
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 PRIVATE FUNCTION DWSTRING.Add (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT = 0) AS BOOLEAN
    DWSTRING_DP("STRING - buffer: " & ..WSTR(m_pBuffer) & " - codepage: " & ..WSTR(nCodePage))
@@ -525,19 +540,20 @@ PRIVATE FUNCTION DWSTRING.Add (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT 
    ' // Create the wide string from the incoming ansi string
    DIM dwLen AS UINT, pbuffer AS ANY PTR
    DIM bRes AS BOOLEAN = TRUE   ' // assume success for now
+   IF nCodePage = CP_UTF8 THEN   ' // check if it s really utf-8
+      IF this.IsUtf8(ansiStr) = FALSE THEN nCodePage = CP_ACP
+   END IF
    IF nCodePage = CP_UTF8 THEN
-      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), .LEN(ansiStr), NULL, 0)
+      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), -1, NULL, 0)
       IF dwLen = 0 THEN RETURN FALSE
-      dwLen *= 2
-      pbuffer = Allocate(dwLen)
-      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), .LEN(ansiStr), pbuffer, dwLen)
+      pbuffer = Allocate(dwLen * 2)
+      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), -1, pbuffer, dwLen)
       IF dwLen = 0 THEN bRes = FALSE
    ELSE
-      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), .LEN(ansiStr), pbuffer, dwLen)
+      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), -1, NULL, 0)
       IF dwLen = 0 THEN RETURN FALSE
-      dwLen *= 2
-      pbuffer = Allocate(dwLen)
-      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), .LEN(ansiStr), pbuffer, dwLen)
+      pbuffer = Allocate(dwLen * 2)
+      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), -1, pbuffer, dwLen)
       IF dwLen = 0 THEN bRes = FALSE
    END IF
    IF bRes = FALSE THEN
@@ -554,6 +570,7 @@ PRIVATE FUNCTION DWSTRING.Add (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT 
    RETURN bRes
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 PRIVATE FUNCTION DWSTRING.Add (BYREF dws AS DWSTRING) AS BOOLEAN
    DWSTRING_DP("DWSTRING")
