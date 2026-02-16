@@ -122,7 +122,12 @@ FUNCTION DeleteImage (BYVAL hButton AS HWND, BYVAL ImageType AS DWORD) AS BOOLEA
 | Parameter | Description |
 | --------- | ----------- |
 | *hButton* | The handle of the button control. |
-| *ImageType* | The type of image to delete. This parameter can be one of the following values:<br>IMAGE_BITMAP<br>IMAGE_ICON |
+| *ImageType* | The type of image to delete. This parameter can be one of the following values: |
+
+| Value | Meaning |
+| ------------ | ----------- |
+| **IMAGE_BITMAP** | A bitmap. |
+| **IMAGE_ICON** | An icon. |
 
 #### Usage examples
 ```
@@ -152,18 +157,19 @@ Enables a button. Returns FALSE if the windows was previously enabled; otherwise
 ```
 FUNCTION Enable (BYVAL hButton AS HWND) AS BOOLEAN
 ```
+
 #### Usage example
 ```
 CButton.Enable(hButton)
 ```
 ---
 
-### <a name="getcheck"></a>GetCheck
+### GetCheck
 
 Gets the check state of a radio button or check box. 
 
 ```
-FUNCTION GetCheck () AS DWORD
+FUNCTION GetCheck (BYVAL hButton AS HWND) AS LRESULT
 ```
 #### Return value
 
@@ -175,14 +181,20 @@ The return value from a button created with the **BS_AUTOCHECKBOX**, **BS_AUTORA
 | **BST_INDETERMINATE** | Button is grayed, indicating an indeterminate state (applies only if the button has the **BS_3STATE** or **BS_AUTO3STATE** style). |
 | **BST_UNCHECKED** | Button is cleared. |
 
+#### Usage example
+```
+DIM bst AS LRESULT = CButton.GetCheck(hButton)
+```
 ---
 
-### <a name="getidealsize"></a>GetIdealSize
+### GetIdealSize
 
 Gets the size of the button that best fits its text and image, if an image list is present.
 
 ```
-FUNCTION GetIdealSize (BYREF tSize AS SIZE) AS BOOLEAN
+FUNCTION GetIdealSize (BYVAL hButton AS HWND, BYVAL pSize AS SIZE PTR) AS BOOLEAN
+FUNCTION GetIdealSize (BYVAL hButton AS HWND, BYREF sz AS SIZE) AS BOOLEAN
+FUNCTION GetIdealSize (BYVAL hButton AS HWND) AS SIZE
 ```
 
 | Parameter  | Description |
@@ -203,19 +215,34 @@ When sent to a button of any other type, the size of the control's window rectan
 
 To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
+#### Usage examples
+```
+DIM sz AS SIZE
+DIM res AS BOOLEAN = CButton.GetCheck(hButton, @sz)
+DIM res AS BOOLEAN = CButton.GetCheck(hButton, sz)
+sz = CButton.GetCheck(hButton)
+```
 ---
 
-### <a name="getbitmap"></a>GetBitmap
+### GetBitmap
 
 Retrieves a handle to the bitmap associated with the button.
+
+```
+FUNCTION GetBitmap (BYVAL hButton AS HWND) AS HANDLE
+```
 
 #### Return value
 
 The return value is a handle to the bitmap, if any; otherwise, it is NULL.
 
+#### Usage example
+```
+DIM hBmp AS HBIRMAP = CButton.GetBitmap(hButton)
+```
 ---
 
-### <a name="geticon"></a>GetIcon
+### GetIcon
 
 Retrieves a handle to the icon associated with the button.
 
@@ -223,19 +250,23 @@ Retrieves a handle to the icon associated with the button.
 
 The return value is a handle to the icon, if any; otherwise, it is NULL.
 
+#### Usage example
+```
+DIM hicon AS HICON = CButton.GetIcon(hButton)
+```
 ---
 
-### <a name="getimage"></a>GetImage
+### GetImage
 
 Retrieves a handle to the image (icon or bitmap) associated with the button.
 
 ```
-FUNCTION GetImage (BYVAL imageType aS LONG) AS HANDLE
+FUNCTION GetImage (BYVAL hButton AS HWND, BYVAL imgType AS LONG) AS HANDLE
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *nType* | The type of image to associate with the button. This parameter can be one of the following values. |
+| *imgType* | The type of image to associate with the button. This parameter can be one of the following values. |
 
 | Value | Meaning |
 | ------------ | ----------- |
@@ -246,6 +277,11 @@ FUNCTION GetImage (BYVAL imageType aS LONG) AS HANDLE
 
 The return value is a handle to the image, if any; otherwise, it is NULL.
 
+#### Usage examples
+```
+DIM hBmp AS HBITMAP = CButton.GetIcon(hButton, IMAGE_BITMAP)
+DIM hIcon AS HICON = CButton.GetIcon(hButton, IMAGE_ICON)
+```
 ---
 
 ### <a name="getimagelist"></a>GetImageList
