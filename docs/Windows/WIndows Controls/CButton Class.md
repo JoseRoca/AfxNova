@@ -1,6 +1,6 @@
 # CButton Class
 
-Wrapper class on top of all the Windows `Button` messages and functions.
+Wrapper static class on top of all the Windows `Button` messages and functions.
 
 A button control is a small, rectangular child window that can be clicked on and off. Buttons can be used alone or in groups and can either be labeled or appear without text. A button typically changes appearance when the user clicks it.
 
