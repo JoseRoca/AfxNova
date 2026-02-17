@@ -677,7 +677,7 @@ To use this message, you must provide a manifest specifying Comclt32.dll version
 
 ### SetDropdownState
 
-Sets the drop down state for a button with style **TBSTYLE_DROPDOWN**.
+Sets the drop down state for a specified button with style of **BS_SPLITBUTTON**.
 ```
 FUNCTION SetDropDownState (BYVAL hButton AS HWND, BYVAL fDropDown AS BOOLEAN) AS BOOLEAN
 ```
