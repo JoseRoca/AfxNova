@@ -1096,7 +1096,7 @@ CButton.SetDarkMode (hButton)
 
 ### RemoveDarkMode
 
-Removes the dark mode of the button.
+Removes dark mode from the button.
 
 ```
 FUNCTION RemoveDarkMode (BYVAL hButton AS HWND) AS HRESULT
