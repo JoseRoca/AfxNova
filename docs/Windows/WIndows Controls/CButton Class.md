@@ -223,9 +223,9 @@ To use this message, you must provide a manifest specifying Comclt32.dll version
 #### Usage examples
 ```
 DIM sz AS SIZE
-DIM res AS BOOLEAN = CButton.GetCheck(hButton, @sz)
-DIM res AS BOOLEAN = CButton.GetCheck(hButton, sz)
-sz = CButton.GetCheck(hButton)
+DIM res AS BOOLEAN = CButton.GetIdealSize(hButton, @sz)
+DIM res AS BOOLEAN = CButton.GetIdealSize(hButton, sz)
+sz = CButton.GetIdealSize(hButton)
 ```
 ---
 
