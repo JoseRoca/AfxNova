@@ -40,7 +40,7 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [SetCheck](#setcheck) | Sets the check state of a radio button or check box. |
 | [SetDarkMode](#setdarkmode) | Sets the dark mode of the button. |
 | [SetDontClick](#setdontclick) | Sets a flag on a radio button that controls the generation of BN_CLICKED messages when the button receives focus. |
-| [SetDropdownState](#setdropdownstate) | Sets the drop down state for a specified button with style of BS_SPLITBUTTON. |
+| [SetDropDownState](#setdropdownstate) | Sets the drop down state for a specified button with style of BS_SPLITBUTTON. |
 | [SetElevationRequiredState](#setelevationrequiredstate) | Sets the elevation required state for a specified button or command link to display an elevated icon. |
 | [SetIcon](#seticon) | Associates a new icon with the button. |
 | [SetImage](#setimage) | Associates a new image (icon or bitmap) with the button. |
