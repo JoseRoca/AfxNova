@@ -1,6 +1,6 @@
 # CButton Class
 
-Wrapper static class on top of all the Windows `Button` messages and functions.
+Wrapper static class on top of all the Windows `Button` messages.
 
 A button control is a small, rectangular child window that can be clicked on and off. Buttons can be used alone or in groups and can either be labeled or appear without text. A button typically changes appearance when the user clicks it.
 
@@ -372,15 +372,14 @@ CButton.GetSplitInfo(hButton, @info)
 CButton.GetSplitInfo(hButton, info)
 info = CButton.GetSplitInfo(hButton)
 ```
-
 ---
 
-### <a name="getstate"></a>GetState
+### GetState
 
 Retrieves the state of a button or check box. 
 
 ```
-FUNCTION GetState () AS DWORD
+FUNCTION GetState (BYVAL hButton AS HWND) AS LRESULT
 ```
 
 #### Return value
@@ -397,32 +396,55 @@ The return value specifies the current state of the button. It is a combination 
 | **BST_PUSHED** | The button is being shown in the pushed state. |
 | **BST_UNCHECKED** | No special state. Equivalent to zero. |
 
+#### Usage example
+```
+DIM bst AS LRESULT = CButton.GetState(hButton)
+```
 ---
 
-### <a name="getstyle"></a>GetStyle
+### GetStyle
 
 Retrieves the style of button.
 
 ```
-FUNCTION GetStyle () AS DWORD
+FUNCTION GetStyle (BYVAL hButton AS HWND) AS DWORD
+```
+
+#### Return value
+
+The style of the button.
+
+#### Usage example
+```
+DIM dwStyle AS DWORD = CButton.GetStyle(hButton)
 ```
 ---
 
-### <a name="gettext"></a>GetText
+### GetText
 
 Retrieves the text in a button control.
 
 ```
-FUNCTION GetText () AS DWSTRING
+FUNCTION GetText (BYVAL hButton AS HWND) AS DWSTRING
+```
+
+#### Usage example
+```
+DIM dwsText AS DWSTRING = CButton.GetText(hButton)
 ```
 ---
 
-### <a name="gettextlength"></a>GetTextLength
+### GetTextLength
 
 Determines the length, in characters, of the text associated with a button.
 
 ```
-FUNCTION GetTextLength () AS LONG
+FUNCTION GetTextLength (BYVAL hButton AS HWND) AS LONG
+```
+
+#### Usage example
+```
+DIM cbLen AS LONG = CButton.GetTextLength(hButton)
 ```
 
 #### Return value
@@ -431,16 +453,19 @@ The return value is the length of the text in characters, not including the term
 
 ---
 
-### <a name="gettextmargin"></a>GetTextMargin
+### GetTextMargin
 
 Retrieves the margins used to draw text in a button control.
 
 ```
-FUNCTION GetTextMargin (BYREF tMargin AS RECT) AS BOOLEAN
+FUNCTION GetTextMargin (BYVAL hButton AS HWND, BYVAL pMargin AS RECT PTR) AS BOOLEAN
+FUNCTION GetTextMargin (BYVAL hButton AS HWND, BYREF pMargin AS RECT) AS BOOLEAN
+FUNCTION GetTextMargin (BYVAL hButton AS HWND) AS RECT
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *tMargin* | A pointer to a **RECT** structure that contains the margins to use for drawing text. |
+| *pMargin* | A pointer to a **RECT** structure that contains the margins to use for drawing text. |
+| *margin* | A **RECT** structure that contains the margins to use for drawing text. |
 
 #### Return value
 
@@ -448,53 +473,52 @@ If the message succeeds, it returns TRUE. Otherwise it returns FALSE.
 
 #### Remarks
 
-To use this message, you must provide a manifest specifying Comclt32.dll version 6.0. For more information on manifests, see Enabling Visual Styles.
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
+#### Usage example
+```
+DIM rc AS RECT
+CButton.GetTextMargin(hButton, @rc)
+CButton.GetTextMargin(hButton, rc)
+rc = CButton.GetTextMargin(hButton)
+```
 ---
 
-### <a name="gray"></a>Gray
+### Gray
 
 Sets the button state to grayed, indicating an indeterminate state. Use this value only if the button has the **BS_3STATE** or **BS_AUTO3STATE** style.
 
 ```
-SUB Gray ()
+SUB Gray (BYVAL hButton AS HWND)
+```
+
+#### Usage example
+```
+CButton.Gray(hButton)
 ```
 ---
 
-### <a name="isdlgbuttonchecked"></a>IsDlgButtonChecked
-
-Determines whether a button control is checked or whether a three-state button control is checked, unchecked, or indeterminate.
-
-```
-FUNCTION IsDlgButtonChecked (BYVAL cIDButton AS LONG) AS UINT
-```
-| Parameter | Description |
-| --------- | ----------- |
-| *cIDButton* | The identifier of the button control. |
-
-#### Return value
-
-The return value from a button created with the **BS_AUTOCHECKBOX**, **BS_AUTORADIOBUTTON**, **BS_AUTO3STATE**, **BS_CHECKBOX**, **BS_RADIOBUTTON**, or **BS_3STATE** styles can be one of the values in the following table. If the button has any other style, the return value is zero.
-
-| Return code | Description |
-| ----------- | ----------- |
-| **BST_CHECKED** | The button is checked. |
-| **BST_INDETERMINATE** | The button is in an indeterminate state (applies only if the button has the **BS_3STATE** or **BS_AUTO3STATE** style). |
-| **BST_UNCHECKED** | The button is not checked. |
-
-#### Remarks
-
-The **IsDlgButtonChecked** method sends a **BM_GETCHECK** message to the specified button control.
-
----
-
-### <a name="setbitmap"></a>SetBitmap
+### SetBitmap
 
 Associates a new bitmap with the button.
 
 ```
-FUNCTION SetBitmap (BYVAL hbmp AS HBITMAP) AS HBITMAP
+FUNCTION SetBitmap (BYVAL hButton AS HWND, BYVAL hbmp AS HBITMAP) AS HBITMAP
 ```
+
+#### Return value
+
+The return value is a handle to the bitmap previously associated with the button, if any; otherwise, it is NULL.
+
+#### Usage example
+```
+CButton.SetBitmap(hButton, hBmp)
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hButton* | The handle of the button control. |
+| *hBmp* | Handle of bitmap. |
 
 #### Return value
 
@@ -502,12 +526,12 @@ The return value is a handle to the bitmap previously associated with the button
 
 ---
 
-### <a name="setcheck"></a>SetCheck
+### SetCheck
 
 Sets the check state of a radio button or check box.
 
 ```
-SUB SetCheck (BYVAL checkState AS LONG)
+SUB SetCheck (BYVAL hButton AS HWND, BYVAL checkState AS LONG)
 ```
 | Value | Meaning |
 | ----- | ----------- |
@@ -527,84 +551,124 @@ This message always returns zero.
 
 The **BM_SETCHECK** message has no effect on push buttons.
 
+#### Usage example
+```
+CButton.SetCheck(hButton, BST_CHECKED)
+```
 ---
 
-### <a name="setdontclick"></a>SetDontClick
+### SetDontClick
 
 Sets a flag on a radio button that controls the generation of BN_CLICKED messages when the button receives focus.
 
 ```
-SUB SetDontClick (BYVAL bState AS BOOLEAN)
+SUB SetDontClick (BYVAL hButton AS HWND, BYVAL fState AS BOOLEAN)
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *bState* | A BOOLEAN that specifies the state. TRUE to set the flag, otherwise FALSE. |
+| *fState* | A BOOLEAN that specifies the state. TRUE to set the flag, otherwise FALSE. |
 
-#### Return value
+#### Usage example
+```
+CButton.SetDontClick(hButton, TRUE)
+```
 
-No return value.
+#### Remarks
+
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
 ---
 
-### <a name="setdropdownstate"></a>SetDropdownState
+### SetDropdownState
 
 Sets the drop down state for a button with style **TBSTYLE_DROPDOWN**.
 ```
-FUNCTION SetDropDownState (BYVAL bDropDown AS BOOLEAN) AS BOOLEAN
+FUNCTION SetDropDownState (BYVAL hButton AS HWND, BYVAL fDropDown AS BOOLEAN) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *bDropDown* | A BOOLEAN that is TRUE for state of **BST_DROPDOWNPUSHED**, or FALSE otherwise. |
+| *fDropDown* | A BOOLEAN that is TRUE for state of **BST_DROPDOWNPUSHED**, or FALSE otherwise. |
 
 #### Return value
 
 Returns TRUE if successful, or FALSE otherwise.
 
-### <a name="seticon"></a>SetIcon
+#### Remarks
+
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
+
+#### Usage example
+```
+CButton.SetDropDownState(hButton, TRUE)
+```
+---
+
+### SetIcon
 
 Associates a new icon with the button.
 
 ```
-FUNCTION SetIcon (BYVAL hIcon AS HICON) AS HICON
+FUNCTION SetIcon (BYVAL hButton AS HWND, BYVAL hIcon AS HICON) AS HICON
 ```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hButton* | The handle of the button control. |
+| *hIcon* | Handle of icon. |
 
 #### Return value
 
 The return value is a handle to the icon previously associated with the button, if any; otherwise, it is NULL.
 
+#### Usage example
+```
+CButton.SetIcon(hButton, hIcon)
+```
 ---
 
-### <a name="setimage"></a>SetImage
+### SetImage
 
 Associates a new image (icon or bitmap) with the button. The return value is a handle to the image previously associated with the button, if any; otherwise, it is NULL.
 
 ```
-FUNCTION SetImage (BYVAL ImageType AS DWORD, BYVAL hImage AS HANDLE) AS HANDLE
+FUNCTION SetImage (BYVAL hButton AS HWND, BYVAL ImageType AS DWORD, BYVAL hImage AS HANDLE) AS HANDLE
 ```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hButton* | The handle of the button control. |
+| *ImageType* | The type of image to delete. This parameter can be one of the following values (se below): |
+| *hImage* | Handle of the icon or bitmap. |
+
+| Value | Meaning |
+| ------------ | ----------- |
+| **IMAGE_BITMAP** | A bitmap. |
+| **IMAGE_ICON** | An icon. |
 
 #### Return value
 
 The return value is a handle to the image (icon or bitmap) previously associated with the button, if any; otherwise, it is NULL.
 
+#### Usage examples
+```
+CButton.SetImage(hButton, IMAGE_BITMAP, hBmp)
+CButton.SetImage(hButton, IMAGE_ICON, hIcon)
+```
 ---
 
-### <a name="setimagelist"></a>SetImageList
+### SetImageList
 
 Assigns an image list to a button control.
 
 ```
-FUNCTION SetImageList (BYVAL pbuttonImagelist AS BUTTON_IMAGELIST PTR) AS BOOLEAN
+FUNCTION SetImageList (BYVAL hButton AS HWND, BYVAL pbuttonImagelist AS BUTTON_IMAGELIST PTR) AS BOOLEAN
+FUNCTION CButton.SetImageList (BYVAL hButton AS HWND, BYVAL himl AS HIMAGELIST, BYVAL nLeft AS LONG, _
+   BYVAL nTop AS LONG, BYVAL nRight AS LONG, BYVAL nBottom AS LONG, BYVAL uALign AS UINT = 0) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
 | *pbuttonImagelist* | A pointer to a **BUTTON_IMAGELIST** structure that contains image list information. |
-
-```
-FUNCTION SetImageList (BYVAL pbuttonImagelist AS BUTTON_IMAGELIST PTR) AS BOOLEAN
-FUNCTION SetImageList (BYVAL himl AS HIMAGELIST, BYVAL nLeft AS LONG, BYVAL nTop AS LONG, _
-   BYVAL nRight AS LONG, BYVAL nBottom AS LONG, BYVAL uALign AS DWORD = 0) AS BOOLEAN
-```
 
 | Parameter | Description |
 | --------- | ----------- |
@@ -631,7 +695,7 @@ If the message succeeds, it returns TRUE. Otherwise it returns FALSE.
 
 #### Remarks
 
-To use this message, you must provide a manifest specifying Comclt32.dll version 6.0. For more information on manifests, see Enabling Visual Styles.
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
 The image list referred to in the himl member of the **BUTTON_IMAGELIST** structure should contain either a single image to be used for all states or individual images for each state. The following states are defined in vssym32.h.
 ```
