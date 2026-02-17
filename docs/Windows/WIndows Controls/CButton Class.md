@@ -32,7 +32,6 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [GetTextLength](#gettextlength) | Retrieves the length of the text in a button control. |
 | [GetTextMargin](#gettextmargin) | Retrieves the margins used to draw text in a button control. |
 | [Gray](#gray) | Sets the button state to grayed, indicating an indeterminate state. |
-| [IsDlgButtonChecked](#isdlgbuttonchecked) | Determines whether a button control is checked or whether a three-state button control is checked, unchecked, or indeterminate. |
 | [SetBitmap](#setbitmap) | Associates a new bitmap with a button. |
 | [SetCheck](#setcheck) | Sets the check state of a radio button or check box. |
 | [SetDontClick](#setdontclick) | Sets a flag on a radio button that controls the generation of BN_CLICKED messages when the button receives focus. |
@@ -43,6 +42,8 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [SetImageList](#setimagelist) | Assigns an image list to a button control. |
 | [SetNote](#setnote) | Sets the text of the note associated with a specified Command Link button. |
 | [SetSplitInfo](#setsplitinfo) | Sets information for a specified split button control. |
+| [SetSplitSize](#setsplitsize) | Sets the split size (glyph area) of a split button (BCSIF_SIZE). |
+| [SetSplitStyle](#setsplitstyle) | Sets the split style of a split button. |
 | [SetState](#setstate) | Sets the highlight state of a button. |
 | [SetStyle](#setstyle) | Sets the style of a button. |
 | [SetText](#settext) | Sets the text of a button. |
@@ -604,6 +605,31 @@ CButton.SetDropDownState(hButton, TRUE)
 ```
 ---
 
+### SetElevationRequiredState
+
+Sets the elevation required state for a specified button or command link to display an elevated icon.
+
+```
+FUNCTION SetElevationRequiredState (BYVAL fRequired AS BOOLEAN) AS LONG
+```
+| Parameter | Description |
+| --------- | ----------- |
+| *fRequired* | A BOOL that is TRUE to draw an elevated icon, or FALSE otherwise. |
+
+#### Return value
+
+Returns 1 if successful, or an error code otherwise.
+
+#### Remarks
+
+An application must be manifested to use comctl32.dll version 6 to gain this functionality.
+
+#### Usage example
+```
+CButton.SetElevationRequiredState(hButton, TRUE)
+```
+---
+
 ### SetIcon
 
 Associates a new icon with the button.
@@ -714,28 +740,7 @@ Each value is an index to the appropriate image in the image list. If only one i
 
 ---
 
-### <a name="setelevationrequiredstate"></a>SetElevationRequiredState
-
-Sets the elevation required state for a specified button or command link to display an elevated icon.
-
-```
-FUNCTION SetElevationRequiredState (BYVAL bRequired AS BOOLEAN) AS LONG
-```
-| Parameter | Description |
-| --------- | ----------- |
-| *bRequired* | A BOOL that is TRUE to draw an elevated icon, or FALSE otherwise. |
-
-#### Return value
-
-Returns 1 if successful, or an error code otherwise.
-
-#### Remarks
-
-An application must be manifested to use comctl32.dll version 6 to gain this functionality.
-
----
-
-### <a name="setnote"></a>SetNote
+### SetNote
 
 Sets the text of the note associated with a specified command link button.
 
@@ -744,7 +749,7 @@ FUNCTION SetNote (BYREF pwsz AS WSTRING) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *pwsz* | The handle to the image list. |
+| *pwsz* | A pointer to a null-terminated unicode string that contains the note. |
 
 #### Return value
 
@@ -756,88 +761,23 @@ Beginning with comctl32 DLL version 6.01, command link buttons may have a note.
 
 The **BCM_SETNOTE** message works only with the **BS_COMMANDLINK** and **BS_DEFCOMMANDLINK** button styles.
 
----
-
-### <a name="setnote"></a>SetNote
-
-Sets the text of the note associated with a specified command link button.
-
-```
-FUNCTION SetNote (BYREF pwsz AS WSTRING) AS BOOLEAN
-```
-| Parameter | Description |
-| --------- | ----------- |
-| *pwsz* | The handle to the image list. |
-
-#### Return value
-
-Returns TRUE if successful, or FALSE otherwise.
-
-#### Remarks
-
-Beginning with comctl32 DLL version 6.01, command link buttons may have a note.
-
-The **BCM_SETNOTE** message works only with the **BS_COMMANDLINK** and **BS_DEFCOMMANDLINK** button styles.
+The note text is displayed underneath the main caption. Command Link buttons require extra vertical space; if the control is too short, Windows will hide the note and render a single-line layout. ake the button taller to ensure the note becomes visible.
 
 ---
 
-
-### <a name="setnote"></a>SetNote
-
-Sets the text of the note associated with a specified command link button.
-
-```
-FUNCTION SetNote (BYREF pwsz AS WSTRING) AS BOOLEAN
-```
-| Parameter | Description |
-| --------- | ----------- |
-| *pwsz* | The handle to the image list. |
-
-#### Return value
-
-Returns TRUE if successful, or FALSE otherwise.
-
-#### Remarks
-
-Beginning with comctl32 DLL version 6.01, command link buttons may have a note.
-
-The **BCM_SETNOTE** message works only with the **BS_COMMANDLINK** and **BS_DEFCOMMANDLINK** button styles.
-
----
-
-### <a name="setnote"></a>SetNote
-
-Sets the text of the note associated with a specified command link button.
-
-```
-FUNCTION SetNote (BYREF pwsz AS WSTRING) AS BOOLEAN
-```
-| Parameter | Description |
-| --------- | ----------- |
-| *pwsz* | The handle to the image list. |
-
-#### Return value
-
-Returns TRUE if successful, or FALSE otherwise.
-
-#### Remarks
-
-Beginning with comctl32 DLL version 6.01, command link buttons may have a note.
-
-The **BCM_SETNOTE** message works only with the **BS_COMMANDLINK** and **BS_DEFCOMMANDLINK** button styles.
-
----
-
-### <a name="Setsplitinfo"></a>SetSplitInfo
+### SetSplitInfo
 
 Sets information for a specified split button control.
 
 ```
-FUNCTION SetSplitInfo (BYREF pInfo AS BUTTON_SPLITINFO) AS BOOLEAN
+FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
+FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYREF info AS BUTTON_SPLITINFO) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *pInfo* | A pointer to a **BUTTON_SPLITINFO** structure containing information about the split button. |
+| *hButton* | Handle of the button control. |
+| *pinfo* | A pointer to a **BUTTON_SPLITINFO** structure containing information about the split button. |
+| *info* | A **BUTTON_SPLITINFO** structure containing information about the split button. |
 
 #### Return value
 
@@ -849,72 +789,138 @@ Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** butt
 
 ---
 
-### <a name="setstate"></a>SetState
+### SetSplitSize
+
+Sets the split size (glyph area) of a split button.
+
+```
+SetSplitSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
+```
+| Parameter | Description |
+| --------- | ----------- |
+| *hButton* | Handle of the button control. |
+| *cx* | The width of the glyph area. |
+| *cy* | The height of the glyph area. |
+
+#### Return value
+
+Returns TRUE if successful, or FALSE otherwise.
+
+#### Remarks
+
+Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
+
+---
+
+### SetSplitStyle
+
+Sets the split style of a split button
+
+```
+FUNCTION SetSplitStyle (BYVAL hButton AS HWND, BYVAL uStyle AS UINT) AS BOOLEAN
+```
+| Parameter | Description |
+| --------- | ----------- |
+| *hButton* | Handle of the button control. |
+| *uStyle* | The split button style. Value must be one or more of the following flags: |
+
+| Value  | Meaning |
+| ------ | ------- |
+| **BCSS_ALIGNLEFT** | Align the image or glyph horizontally with the left margin. |
+| **BCSS_IMAGE** | Draw an icon image as the glyph. |
+| **BCSS_NOSPLIT** | No split. |
+| **BCSS_STRETCH** | Stretch glyph, but try to retain aspect ratio. |
+
+#### Return value
+
+Returns TRUE if successful, or FALSE otherwise.
+
+#### Remarks
+
+Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
+
+---
+
+### SetState
 
 Sets the highlight state of a button. The highlight state indicates whether the button is highlighted as if the user had pushed it. 
 
 ```
-SUB SetState (BYVAL bstate AS BOOLEAN)
+SUB SetState (BYVAL hButton AS HWND, BYVAL bstate AS BOOLEAN)
 ```
 | Parameter | Description |
 | --------- | ----------- |
 | *bstate* | A BOOLEAN that specifies whether the button is highlighted. A value of TRUE highlights the button. A value of FALSE removes any highlighting. |
 
-#### Return value
-
-This message always returns zero.
-
-####Remarks
+#### Remarks
 
 Highlighting affects only the appearance of a button. It has no effect on the check state of a radio button or check box.
 
 A button is automatically highlighted when the user positions the cursor over it and presses and holds the left mouse button. The highlighting is removed when the user releases the mouse button.
 
+#### Usage example
+```
+CButton.SetState(hButton, TRUE)
+```
 ---
 
-### <a name="setstyle"></a>SetStyle
+### SetStyle
 
 Sets the style of a button.
 
 ```
-SUB SetStyle (BYVAL dwStyle AS DWORD, BYVAL bRedraw AS BOOLEAN)
+SUB SetStyle (BYVAL hButton AS HWND, BYVAL dwStyle AS DWORD, BYVAL fRedraw AS BOOLEAN)
 ```
 | Parameter | Description |
 | --------- | ----------- |
 | *dwStyle* | The button style. This parameter can be a combination of button styles. |
-| *bRedraw* | A BOOLEAN that specifies whether the button is to be redrawn. A value of TRUE redraws the button; a value of FALSE does not redraw the button. |
+| *fRedraw* | A BOOLEAN that specifies whether the button is to be redrawn. A value of TRUE redraws the button; a value of FALSE does not redraw the button. |
 
 For a table of button styles, see [Button Styles](https://learn.microsoft.com/en-us/windows/win32/controls/button-styles).
 
 ---
 
-### <a name="setstext"></a>SetText
+### SetText
 
 Sets the text of a button.
 
 ```
-FUNCTION SetText (BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
+FUNCTION SetText (BYVAL hButton AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hButton* | The handle of te button control. |
 | *pwszText* | The new text. |
 
 #### Return value
 
 If the function succeeds, the return value is nonzero. If the function fails, the return value is zero.
 
+#### Usage example
+```
+CButton.SetText(hButton, "Ok")
+```
 ---
 
-### <a name="settextmargin"></a>SetTextMargin
+### SetTextMargin
 
 Sets the margins used to draw text in a button control.
 
 ```
-FUNCTION SetTextMargin (BYREF tMargin AS RECT) AS BOOLEAN
+FUNCTION SetTextMargin (BYVAL hButton AS HWND, BYVAL pMargin AS RECT PTR) AS BOOLEAN
+FUNCTION SetTextMargin (BYVAL hButton AS HWND, BYREF margin AS RECT) AS BOOLEAN
+FUNCTION SetTextMargin (BYVAL hButton AS HWND, BYVAL nLeft AS LONG, BYVAL nTop AS LONG, _
+   BYVAL nRight AS LONG, BYVAL nBottom AS LONG) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *tMargin* | A pointer to a **RECT** structure that specifies the margins to use for drawing text. |
+| *hButton* | The handle of the button control. |
+| *pMargin* | A pointer to a **RECT** structure that specifies the margins to use for drawing text. |
+| *margin* | A **RECT** structure that specifies the margins to use for drawing text. |
+| *nLeft* | The left margin. |
+| *nTop* | The top margin. |
+| *nRight* | The right margin. |
+| *nBottom* | The bottom margin. |
 
 #### Return value
 
@@ -926,12 +932,17 @@ To use this message, you must provide a manifest specifying Comclt32.dll version
 
 ---
 
-### <a name="uncheck"></a>Uncheck
+### Uncheck
 
 Sets the button state to cleared.
 
 ```
 SUB CButton.Uncheck ()
+```
+
+#### Example usage
+```
+CButton.Uncheck(hButton)
 ```
 ---
 
