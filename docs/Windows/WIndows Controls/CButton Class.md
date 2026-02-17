@@ -53,7 +53,7 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [SetStyle](#setstyle) | Sets the style of a button. |
 | [SetText](#settext) | Sets the text of a button. |
 | [SetTextMargin](#settextmargin) | Sets the margins for drawing text in a button control. |
-| [Uncheck](#uncheck) | Sets the button state to cleared. |
+| [Uncheck](#uncheck) | Unchecks the button.
 
 ---
 
@@ -1068,7 +1068,7 @@ To use this message, you must provide a manifest specifying Comclt32.dll version
 
 ### Uncheck
 
-Sets the button state to cleared.
+Unchecks the button.
 
 ```
 SUB CButton.Uncheck ()
