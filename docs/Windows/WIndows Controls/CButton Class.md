@@ -11,8 +11,6 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | Name       | Description |
 | ---------- | ----------- |
 | [Check](#check) | Changes the button's state to checked. |
-| [CheckDlgButton](#checkdlgbutton) | Changes the check state of a button control. |
-| [CheckRadioButton](#checkradiobutton) | Adds a check mark to (checks) a specified radio button in a group and removes a check mark from (clears) all other radio buttons in the group. |
 | [Click](#click) | Simulates the user clicking a button. |
 | [DeleteBitmap](#deletebitmap) | Deletes a bitmap associated with a button. |
 | [DeleteIcon](#deleteicon) | Deletes an icon associated with a button. |
