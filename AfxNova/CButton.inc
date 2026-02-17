@@ -323,7 +323,7 @@ PRIVATE SUB CButton.Check (BYVAL hButton AS HWND)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
-' * Sets the button state to cleared.
+' * Unchecks the button.
 ' ========================================================================================
 PRIVATE SUB CButton.Uncheck (BYVAL hButton AS HWND)
    SendMessageW hButton, BM_SETCHECK, BST_UNCHECKED, 0
