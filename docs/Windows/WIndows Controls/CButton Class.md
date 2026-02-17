@@ -30,7 +30,7 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [GetSplitSize](#getsplitsize) | Gets the size of the glyph in the image list. |
 | [GetSplitStyle](#getsplitstyle) | Gets the style of the split button. |
 | [GetState](#getstate) | Retrieves the state of a button or check box. |
-| [GetStyle](#getstyle) | Retrieves the style of button. |
+| [GetStyle](#getstyle) | Retrieves the style of the button. |
 | [GetText](#gettext) | Retrieves the text in a button control. |
 | [GetTextLength](#gettextlength) | Retrieves the length of the text in a button control. |
 | [GetTextMargin](#gettextmargin) | Retrieves the margins used to draw text in a button control. |
@@ -491,7 +491,7 @@ DIM bst AS LRESULT = CButton.GetState(hButton)
 
 ### GetStyle
 
-Retrieves the style of button.
+Retrieves the style of the button.
 
 ```
 FUNCTION GetStyle (BYVAL hButton AS HWND) AS DWORD
