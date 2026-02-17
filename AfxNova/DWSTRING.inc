@@ -510,11 +510,11 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Detecta si la codificacion es utf-8
+' Detect if the codification is valid utf-8
 ' ========================================================================================
 FUNCTION DWSTRING.IsUtf8 (BYREF s AS STRING) AS BOOLEAN
    IF LEN(s) = 0 THEN RETURN FALSE
-   ' Optional: Detect UTF-8 BOM
+   ' // Detect if it has a UTF-8 BOM
    IF LEN(s) >= 3 THEN
       IF ASC(s,1) = &hEF AND ASC(s,2) = &hBB AND ASC(s,3) = &hBF THEN RETURN TRUE
    END IF
@@ -540,7 +540,7 @@ PRIVATE FUNCTION DWSTRING.Add (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT 
    ' // Create the wide string from the incoming ansi string
    DIM dwLen AS UINT, pbuffer AS ANY PTR
    DIM bRes AS BOOLEAN = TRUE   ' // assume success for now
-   IF nCodePage = CP_UTF8 THEN   ' // check if it s really utf-8
+   IF nCodePage = CP_UTF8 THEN   ' // check if it is really valid utf-8
       IF this.IsUtf8(ansiStr) = FALSE THEN nCodePage = CP_ACP
    END IF
    IF nCodePage = CP_UTF8 THEN
