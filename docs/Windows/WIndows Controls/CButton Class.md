@@ -25,8 +25,10 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [GetImageList](#getimagelist) | Gets the BUTTON_IMAGELIST structure that describes the image list assigned to a button control.  |
 | [GetNote](#getnote) | Gets the text of the note associated with the Command Link button. |
 | [GetNoteLength](#getnotelength) | Gets the length of the note text that may be displayed in the description for a command link. |
+| [GetSplitImageList](#getsplitimagelist) | Gets the handle of the split button image list. |
 | [GetSplitInfo](#getsplitinfo) | Gets information for a specified split button control. |
-| [GetSplitSize](#getsplitsze) | Gets the size of the glyph in the image list. |
+| [GetSplitSize](#getsplitsize) | Gets the size of the glyph in the image list. |
+| [GetSplitStyle](#getsplitstyle) | Gets the style of the split button. |
 | [GetState](#getstate) | Retrieves the state of a button or check box. |
 | [GetStyle](#getstyle) | Retrieves the style of button. |
 | [GetText](#gettext) | Retrieves the text in a button control. |
@@ -345,6 +347,30 @@ DIM cbNote AS LONG = CButton.GetNoteLength(hButton)
 ```
 ---
 
+### GetSplitImageList
+
+Gets the handle of the split button image list.
+
+```
+FUNCTION GetSplitImageList (BYVAL hButton AS HWND) AS HIMAGELIST
+```
+
+#### Return value
+
+The handle of the split button image list.
+
+#### Remarks
+
+Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
+
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
+
+#### Usage example
+```
+DIM himl AS HIMAGELIST = CButton.GetSplitImageList
+```
+---
+
 ### GetSplitInfo
 
 Gets information for a split button control. 
@@ -401,7 +427,7 @@ To use this message, you must provide a manifest specifying Comclt32.dll version
 
 ### GetSplitStyle
 
-Gets the split burron style.
+Gets the split button style.
 
 ```
 FUNCTION GetSplitStyle (BYVAL hButton AS HWND) AS UINT
