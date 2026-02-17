@@ -36,7 +36,6 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [GetTextMargin](#gettextmargin) | Retrieves the margins used to draw text in a button control. |
 | [Gray](#gray) | Sets the button state to grayed, indicating an indeterminate state. |
 | [Indeterminate](#indeterminate) | Sets the button state to grayed, indicating an indeterminate state. Use this value only if the button has the BS_3STATE or BS_AUTO3STATE style. |
-| [Gray](#gray) | Sets the button state to grayed, indicating an indeterminate state. |
 | [RemoveDarkMode](#removedarkmode) | Remove the dark mode of the button. |
 | [SetCheck](#setcheck) | Sets the check state of a radio button or check box. |
 | [SetDarkMode](#setdarkmode) | Sets the dark mode of the button. |
