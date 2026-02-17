@@ -425,6 +425,10 @@ Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** butt
 
 To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
+#### Usage examples
+```
+DIM sz AS SIZE = CButton.GetSplitSize(hButton)
+```
 ---
 
 ### GetSplitStyle
@@ -452,6 +456,10 @@ Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** butt
 
 To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
+#### Usage examples
+```
+DIM dwStyle AS UINT  = CButton.GetSplitStyle(hButton)
+```
 ---
 
 ### GetState
@@ -572,6 +580,12 @@ Sets the button state to grayed, indicating an indeterminate state. Use this val
 SUB Gray (BYVAL hButton AS HWND)
 ```
 
+#### Usage example
+```
+CButton.Gray(hButton)
+```
+---
+
 ### Indeterminate
 
 Sets the button state to grayed, indicating an indeterminate state. Use this value only if the button has the **BS_3STATE** or **BS_AUTO3STATE** style.
@@ -593,15 +607,6 @@ Associates a new bitmap with the button.
 FUNCTION SetBitmap (BYVAL hButton AS HWND, BYVAL hbmp AS HBITMAP) AS HBITMAP
 ```
 
-#### Return value
-
-The return value is a handle to the bitmap previously associated with the button, if any; otherwise, it is NULL.
-
-#### Usage example
-```
-CButton.SetBitmap(hButton, hBmp)
-```
-
 | Parameter | Description |
 | --------- | ----------- |
 | *hButton* | The handle of the button control. |
@@ -611,6 +616,10 @@ CButton.SetBitmap(hButton, hBmp)
 
 The return value is a handle to the bitmap previously associated with the button, if any; otherwise, it is NULL.
 
+#### Usage example
+```
+CButton.SetBitmap(hButton, hBmp)
+```
 ---
 
 ### SetCheck
@@ -851,6 +860,10 @@ The **BCM_SETNOTE** message works only with the **BS_COMMANDLINK** and **BS_DEFC
 
 The note text is displayed underneath the main caption. Command Link buttons require extra vertical space; if the control is too short, Windows will hide the note and render a single-line layout. ake the button taller to ensure the note becomes visible.
 
+#### Usage examples
+```
+CButton.SetNote(hButton, "My note")
+```
 ---
 
 ### SetSplitImageList
@@ -872,6 +885,10 @@ Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** butt
 
 To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
+#### Usage examples
+```
+CButton.SetNote(hButton, himlGlyph)
+```
 ---
 
 ### SetSplitInfo
@@ -920,6 +937,10 @@ Returns TRUE if successful, or FALSE otherwise.
 
 Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
 
+#### Usage examples
+```
+CButton.SetSplitSize(hButton, 30, 30)
+```
 ---
 
 ### SetSplitStyle
@@ -949,6 +970,10 @@ Returns TRUE if successful, or FALSE otherwise.
 
 Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
 
+#### Usage examples
+```
+CButton.SetSplitStyle(hButton, BCSS_ALIGNLEFT)
+```
 ---
 
 ### SetState
