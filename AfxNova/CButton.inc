@@ -90,13 +90,13 @@ Public:
    #if _WIN32_WINNT >= &h0600
    DECLARE STATIC SUB SetDontClick (BYVAL hButton AS HWND, BYVAL bState AS BOOLEAN)
    DECLARE STATIC FUNCTION SetDropDownState (BYVAL hButton AS HWND, BYVAL fDropDown AS BOOLEAN) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetSplitGlyphSize (BYVAL hButton AS HWND) AS SIZE
    DECLARE STATIC FUNCTION GetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSplitInfo (BYVAL hButton AS HWND, BYVAL info AS BUTTON_SPLITINFO) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSplitInfo (BYVAL hButton AS HWND) AS BUTTON_SPLITINFO
    DECLARE STATIC FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYREF info AS BUTTON_SPLITINFO) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSplitStyle (BYVAL hButton AS HWND) AS UINT
-   DECLARE STATIC FUNCTION GetSplitSize (BYVAL hButton AS HWND) AS SIZE
    DECLARE STATIC FUNCTION GetSplitImageList (BYVAL hButton AS HWND) AS HIMAGELIST
    DECLARE STATIC FUNCTION SetSplitStyle (BYVAL hButton AS HWND, BYVAL uStyle AS UINT) AS BOOLEAN
    DECLARE STATIC FUNCTION SetSplitSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
@@ -449,6 +449,17 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+PRIVATE FUNCTION CButton.GetSplitGlyphSize (BYVAL hButton AS HWND) AS SIZE
+   DIM info AS BUTTON_SPLITINFO
+   info.mask = BCSIF_SIZE
+   SendMessageW(hButton, BCM_GETSPLITINFO, 0, CAST(LPARAM, @info))
+   DIM sz AS SIZE
+   sz.cx = info.size.cx
+   sz.cy = info.size.cy
+   RETURN sz
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
 ' Gets information for a specified split button control.
 ' ========================================================================================
 PRIVATE FUNCTION CButton.GetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
@@ -475,17 +486,6 @@ PRIVATE FUNCTION CButton.GetSplitStyle (BYVAL hButton AS HWND) AS UINT
    info.mask = BCSIF_STYLE
    SendMessageW(hButton, BCM_GETSPLITINFO, 0, CAST(LPARAM, @info))
    RETURN info.uSplitStyle
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CButton.GetSplitSize (BYVAL hButton AS HWND) AS SIZE
-   DIM info AS BUTTON_SPLITINFO
-   info.mask = BCSIF_SIZE
-   SendMessageW(hButton, BCM_GETSPLITINFO, 0, CAST(LPARAM, @info))
-   DIM sz AS SIZE
-   sz.cx = info.size.cx
-   sz.cy = info.size.cy
-   RETURN sz
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
