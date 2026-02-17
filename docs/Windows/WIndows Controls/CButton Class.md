@@ -26,12 +26,14 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [GetNote](#getnote) | Gets the text of the note associated with the Command Link button. |
 | [GetNoteLength](#getnotelength) | Gets the length of the note text that may be displayed in the description for a command link. |
 | [GetSplitInfo](#getsplitinfo) | Gets information for a specified split button control. |
+| [GetSplitSize](#getsplitsze) | Gets the size of the glyph in the image list. |
 | [GetState](#getstate) | Retrieves the state of a button or check box. |
 | [GetStyle](#getstyle) | Retrieves the style of button. |
 | [GetText](#gettext) | Retrieves the text in a button control. |
 | [GetTextLength](#gettextlength) | Retrieves the length of the text in a button control. |
 | [GetTextMargin](#gettextmargin) | Retrieves the margins used to draw text in a button control. |
 | [Gray](#gray) | Sets the button state to grayed, indicating an indeterminate state. |
+| [Indeterminate](#indeterminate) | Sets the button state to grayed, indicating an indeterminate state. Use this value only if the button has the BS_3STATE or BS_AUTO3STATE style. |
 | [SetBitmap](#setbitmap) | Associates a new bitmap with a button. |
 | [SetCheck](#setcheck) | Sets the check state of a radio button or check box. |
 | [SetDontClick](#setdontclick) | Sets a flag on a radio button that controls the generation of BN_CLICKED messages when the button receives focus. |
@@ -366,6 +368,8 @@ Returns TRUE if successful, or FALSE otherwise.
 
 Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
 
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
+
 #### Usage examples
 ```
 info AS BUTTON_SPLITINFO
@@ -373,6 +377,53 @@ CButton.GetSplitInfo(hButton, @info)
 CButton.GetSplitInfo(hButton, info)
 info = CButton.GetSplitInfo(hButton)
 ```
+---
+
+### GetSplitSize
+
+Gets the size of the glyph in the image list.
+
+```
+FUNCTION GetSplitSize (BYVAL hButton AS HWND) AS SIZE
+```
+
+#### Return value
+
+A **SIZE** structure that specifies the size of the glyph.
+
+#### Remarks
+
+Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
+
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
+
+---
+
+### GetSplitStyle
+
+Gets the split burron style.
+
+```
+FUNCTION GetSplitStyle (BYVAL hButton AS HWND) AS UINT
+```
+
+#### Return value
+
+The split button style. Can be be one or more of the following flags.
+
+| Value | Description |
+| ------------ | ----------- |
+| **BCSS_ALIGNLEFT** | Align the image or glyph horizontally with the left margin. |
+| **BCSS_IMAGE** | Draw an icon image as the glyph. |
+| **BCSS_NOSPLIT** | No split. |
+| **BCSS_STRETCH** | Stretch glyph, but try to retain aspect ratio. |
+
+#### Remarks
+
+Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
+
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
+
 ---
 
 ### GetState
@@ -493,9 +544,16 @@ Sets the button state to grayed, indicating an indeterminate state. Use this val
 SUB Gray (BYVAL hButton AS HWND)
 ```
 
+### Indeterminate
+
+Sets the button state to grayed, indicating an indeterminate state. Use this value only if the button has the **BS_3STATE** or **BS_AUTO3STATE** style.
+
+```
+SUB Indeterminate (BYVAL hButton AS HWND)
+```
 #### Usage example
 ```
-CButton.Gray(hButton)
+CButton.Indeterminate(hButton)
 ```
 ---
 
@@ -689,15 +747,17 @@ Assigns an image list to a button control.
 
 ```
 FUNCTION SetImageList (BYVAL hButton AS HWND, BYVAL pbuttonImagelist AS BUTTON_IMAGELIST PTR) AS BOOLEAN
-FUNCTION CButton.SetImageList (BYVAL hButton AS HWND, BYVAL himl AS HIMAGELIST, BYVAL nLeft AS LONG, _
+FUNCTION SetImageList (BYVAL hButton AS HWND, BYVAL himl AS HIMAGELIST, BYVAL nLeft AS LONG, _
    BYVAL nTop AS LONG, BYVAL nRight AS LONG, BYVAL nBottom AS LONG, BYVAL uALign AS UINT = 0) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hButton* | The handle to the button control. |
 | *pbuttonImagelist* | A pointer to a **BUTTON_IMAGELIST** structure that contains image list information. |
 
 | Parameter | Description |
 | --------- | ----------- |
+| *hButton* | The handle to the button control. |
 | *hImageList* | The handle to the image list. |
 | *nLeft* | The x-coordinate of the upper-left corner of the rectangle for the image. |
 | *nTop* | The y-coordinate of the upper-left corner of the rectangle for the image. |
@@ -765,6 +825,27 @@ The note text is displayed underneath the main caption. Command Link buttons req
 
 ---
 
+### SetSplitImageList
+
+Sets the image list used as split glyph (BCSIF_IMAGE / BCSIF_GLYPH).
+
+```
+FUNCTON SetSplitImageList (BYVAL hButton AS HWND, BYVAL himlGlyph AS HIMAGELIST) AS BOOLEAN
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hButton* | The handle to the button control. |
+| *himlGlyph* | The handle of the image list. |
+
+#### Remarks
+
+Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
+
+To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
+
+---
+
 ### SetSplitInfo
 
 Sets information for a specified split button control.
@@ -773,6 +854,7 @@ Sets information for a specified split button control.
 FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
 FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYREF info AS BUTTON_SPLITINFO) AS BOOLEAN
 ```
+
 | Parameter | Description |
 | --------- | ----------- |
 | *hButton* | Handle of the button control. |
