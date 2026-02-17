@@ -306,49 +306,56 @@ bi = CButton.GetImageList(hButton)
 ```
 ---
 
-### <a name="getnote"></a>GetNote
+### GetNote
 
 Gets the text of the note associated with the Command Link button.
 
 ```
-FUNCTION GetNote () AS DWSTRING
+FUNCTION GetNote (BYVAL hButton AS HWND) AS DWSTRING
 ```
 
 #### Remarks
 
 The **BCM_GETNOTE** message works only with buttons that have the **BS_COMMANDLINK** or **BS_DEFCOMMANDLINK** button style.
 
-**GetLastResul** will contain:
-
-**ERROR_NOT_SUPPORTED**, if the button does not have the **BS_DEFCOMMANDLINK** or **BS_COMMANDLINK** style.
-
+#### Usage example
+```
+DIM dwsNote AS DWSTRING = CButton.GetNote(hButton)
+```
 ---
 
-### <a name="getnotelength"></a>GetNoteLength
+### GetNoteLength
 
 Gets the length of the note text that may be displayed in the description for a command link.
 
 ```
-FUNCTION GetNoteLength () AS LONG
+FUNCTION GetNoteLength (BYVAL hButton AS HWND) AS LONG
 ```
 
 #### Return value
 
 Returns the length of the note text in Unicode characters, not including any terminating NULL, or zero if there is no note text.
 
+#### Usage example
+```
+DIM cbNote AS LONG = CButton.GetNoteLength(hButton)
+```
 ---
 
-### <a name="getsplitindo"></a>GetSplitInfo
+### GetSplitInfo
 
 Gets information for a split button control. 
 
 ```
-FUNCTION GetSplitInfo (BYREF pInfo AS BUTTON_SPLITINFO) AS BOOLEAN
+FUNCTION GetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
+FUNCTION GetSplitInfo (BYVAL hButton AS HWND, BYVAL info AS BUTTON_SPLITINFO) AS BOOLEAN
+FUNCTION GetSplitInfo (BYVAL hButton AS HWND) AS BUTTON_SPLITINFO
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
-| *pInfo* | A pointer to a **BUTTON_SPLITINFO** structure to receive information on the button. The caller is responsible for allocating the memory for the structure. Set the **mask** member of this structure to determine what information to receive. |
+| *pinfo* | A pointer to a **BUTTON_SPLITINFO** structure to receive information on the button. The caller is responsible for allocating the memory for the structure. Set the **mask** member of this structure to determine what information to receive. |
+| *info* | A **BUTTON_SPLITINFO** structure to receive information on the button. The caller is responsible for allocating the memory for the structure. Set the **mask** member of this structure to determine what information to receive. |
 
 #### Return value
 
@@ -357,6 +364,14 @@ Returns TRUE if successful, or FALSE otherwise.
 #### Remarks
 
 Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** button styles.
+
+#### Usage examples
+```
+info AS BUTTON_SPLITINFO
+CButton.GetSplitInfo(hButton, @info)
+CButton.GetSplitInfo(hButton, info)
+info = CButton.GetSplitInfo(hButton)
+```
 
 ---
 
