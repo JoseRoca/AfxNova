@@ -36,8 +36,10 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [GetTextMargin](#gettextmargin) | Retrieves the margins used to draw text in a button control. |
 | [Gray](#gray) | Sets the button state to grayed, indicating an indeterminate state. |
 | [Indeterminate](#indeterminate) | Sets the button state to grayed, indicating an indeterminate state. Use this value only if the button has the BS_3STATE or BS_AUTO3STATE style. |
-| [SetBitmap](#setbitmap) | Associates a new bitmap with a button. |
+| [Gray](#gray) | Sets the button state to grayed, indicating an indeterminate state. |
+| [RemoveDarkMode](#removedarkmode) | Remove the dark mode of the button. |
 | [SetCheck](#setcheck) | Sets the check state of a radio button or check box. |
+| [SetDarkMode](#setdarkmode) | Sets the dark mode of the button. |
 | [SetDontClick](#setdontclick) | Sets a flag on a radio button that controls the generation of BN_CLICKED messages when the button receives focus. |
 | [SetDropdownState](#setdropdownstate) | Sets the drop down state for a specified button with style of BS_SPLITBUTTON. |
 | [SetElevationRequiredState](#setelevationrequiredstate) | Sets the elevation required state for a specified button or command link to display an elevated icon. |
@@ -1054,4 +1056,30 @@ CButton.Uncheck(hButton)
 ```
 ---
 
+### SetDarkMode
 
+Sets the dark mode of the button.
+
+```
+FUNCTION SetDarkMode(BYVAL hButton AS HWND) AS HRESULT
+```
+
+#### Example usage
+```
+CButton.SetDarkMode (hButton)
+```
+---
+
+### RemoveDarkMode
+
+Remove the dark mode of the button.
+
+```
+FUNCTION RemoveDarkMode (BYVAL hButton AS HWND) AS HRESULT
+```
+
+#### Example usage
+```
+CButton.RemoveDarkMode(hButton)
+```
+---
