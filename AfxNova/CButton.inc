@@ -98,8 +98,8 @@ Public:
    DECLARE STATIC FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYREF info AS BUTTON_SPLITINFO) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSplitStyle (BYVAL hButton AS HWND) AS UINT
    DECLARE STATIC FUNCTION GetSplitImageList (BYVAL hButton AS HWND) AS HIMAGELIST
+   DECLARE STATIC FUNCTION SetSplitGlyphSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION SetSplitStyle (BYVAL hButton AS HWND, BYVAL uStyle AS UINT) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetSplitSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION SetSplitImageList (BYVAL hButton AS HWND, BYVAL himlGlyph AS HIMAGELIST) AS BOOLEAN
    DECLARE STATIC FUNCTION GetNoteLength (BYVAL hButton AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetNote (BYVAL hButton AS HWND) AS DWSTRING
@@ -498,6 +498,17 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Sets the split size (glyph area) of a split button (BCSIF_SIZE).
+' ========================================================================================
+PRIVATE FUNCTION CButton.SetSplitGlyphSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
+   DIM info AS BUTTON_SPLITINFO
+   info.mask = BCSIF_SIZE
+   info.size.cx = cx
+   info.size.cy = cy
+   RETURN SendMessageW(hButton, BCM_SETSPLITINFO, 0, CAST(LPARAM, @info))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
 ' Sets information for a specified split button control.
 ' ========================================================================================
 PRIVATE FUNCTION CButton.SetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
@@ -516,17 +527,6 @@ PRIVATE FUNCTION CButton.SetSplitStyle (BYVAL hButton AS HWND, BYVAL uStyle AS U
    DIM info AS BUTTON_SPLITINFO
    info.mask = BCSIF_STYLE
    info.uSplitStyle = uStyle
-   RETURN SendMessageW(hButton, BCM_SETSPLITINFO, 0, CAST(LPARAM, @info))
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-' Sets the split size (glyph area) of a split button (BCSIF_SIZE).
-' ========================================================================================
-PRIVATE FUNCTION CButton.SetSplitSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
-   DIM info AS BUTTON_SPLITINFO
-   info.mask = BCSIF_SIZE
-   info.size.cx = cx
-   info.size.cy = cy
    RETURN SendMessageW(hButton, BCM_SETSPLITINFO, 0, CAST(LPARAM, @info))
 END FUNCTION
 ' ========================================================================================
