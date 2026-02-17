@@ -46,8 +46,8 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [SetImage](#setimage) | Associates a new image (icon or bitmap) with the button. |
 | [SetImageList](#setimagelist) | Assigns an image list to a button control. |
 | [SetNote](#setnote) | Sets the text of the note associated with a specified Command Link button. |
+| [SetSplitGlyphSize](#setsplitglyphsize) | Sets the split size (glyph area) of a split button (BCSIF_SIZE). |
 | [SetSplitInfo](#setsplitinfo) | Sets information for a specified split button control. |
-| [SetSplitSize](#setsplitsize) | Sets the split size (glyph area) of a split button (BCSIF_SIZE). |
 | [SetSplitStyle](#setsplitstyle) | Sets the split style of a split button. |
 | [SetState](#setstate) | Sets the highlight state of a button. |
 | [SetStyle](#setstyle) | Sets the style of a button. |
@@ -915,12 +915,12 @@ Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** butt
 
 ---
 
-### SetSplitSize
+### SetSplitGlyphSize
 
 Sets the split size (glyph area) of a split button.
 
 ```
-SetSplitSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
+SetSplitGlyphSize (BYVAL hButton AS HWND, BYVAL cx AS LONG, BYVAL cy AS LONG) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
@@ -938,7 +938,7 @@ Use this message only with the **BS_SPLITBUTTON** and **BS_DEFSPLITBUTTON** butt
 
 #### Usage examples
 ```
-CButton.SetSplitSize(hButton, 30, 30)
+CButton.SetSplitGlyphSize(hButton, 30, 30)
 ```
 ---
 
