@@ -15,8 +15,8 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [DeleteBitmap](#deletebitmap) | Deletes a bitmap associated with a button. |
 | [DeleteIcon](#deleteicon) | Deletes an icon associated with a button. |
 | [DeleteImage](#deleteimage) | Deletes an image (icon or bitmap) associated with a button. |
-| [Disable](#disable) | Disables a button. |
-| [Enable](#enable) | Enables a button. |
+| [Disable](#disable) | Disables the button. |
+| [Enable](#enable) | Enables the button. |
 | [GetCheck](#getcheck) | Gets the check state of a radio button or check box.  |
 | [GetIdealSize](#getidealsize) | Gets the size of the button that best fits its text and image, if an image list is present. |
 | [GetBitmap](#getbitmap) | Retrieves a handle to the bitmap associated with the button. |
@@ -142,7 +142,7 @@ CButton.Deleteimage(hButton, IMAGE_ICON)
 
 ### Disable
 
-Disables a button. Returns FALSE if the windows was previously disabled; otherwise TRUE.
+Disables the button. Returns FALSE if the windows was previously disabled; otherwise TRUE.
 
 ```
 FUNCTION Disable (BYVAL hButton AS HWND) AS BOOLEAN
@@ -156,7 +156,7 @@ CButton.Disable(hButton)
 
 ### Enable
 
-Enables a button. Returns FALSE if the windows was previously enabled; otherwise TRUE.
+Enables the button. Returns FALSE if the windows was previously enabled; otherwise TRUE.
 
 ```
 FUNCTION Enable (BYVAL hButton AS HWND) AS BOOLEAN
