@@ -282,18 +282,28 @@ DIM hIcon AS HICON = CButton.GetIcon(hButton, IMAGE_ICON)
 ```
 ---
 
-### <a name="getimagelist"></a>GetImageList
+### GetImageList
 
 Gets the **BUTTON_IMAGELIST** structure that describes the image list assigned to a button control. 
 
 ```
-FUNCTION GetImageList () AS BUTTON_IMAGELIST PTR
+FUNCTION GetImageList (BYVAL hButton AS HWND, BYVAL pbuttonImagelist AS BUTTON_IMAGELIST PTR) AS BOOLEAN
+FUNCTION GetImageList (BYVAL hButton AS HWND, BYREF buttonImagelist AS BUTTON_IMAGELIST) AS BOOLEAN
+FUNCTION GetImageList (BYVAL hButton AS HWND) AS BUTTON_IMAGELIST
 ```
 
-#### Return value
+| Parameter | Description |
+| --------- | ----------- |
+| *pbuttonImagelist* | A pointer to a **BUTTON_IMAGELIST** structure that receives the image list information. |
+| *buttonImagelist* | A **BUTTON_IMAGELIST** structure that receives the image list information. |
 
-A pointer to a **BUTTON_IMAGELIST** structure that contains image list information.
-
+#### Usage examples
+```
+DIM bi AS BUTTON_IMAGELIST
+CButton.GetImageList(hButton, @bi)
+CButton.GetImageList(hButton, bi)
+bi = CButton.GetImageList(hButton)
+```
 ---
 
 ### <a name="getnote"></a>GetNote
