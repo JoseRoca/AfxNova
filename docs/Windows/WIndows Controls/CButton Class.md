@@ -27,7 +27,7 @@ Typical buttons are the check box, radio button, and pushbutton. A `CButton` obj
 | [GetNoteLength](#getnotelength) | Gets the length of the note text that may be displayed in the description for a command link. |
 | [GetSplitImageList](#getsplitimagelist) | Gets the handle of the split button image list. |
 | [GetSplitInfo](#getsplitinfo) | Gets information for a specified split button control. |
-| [GetSplitSize](#getsplitsize) | Gets the size of the glyph in the image list. |
+| [GetSplitGlyphSize](#getsplitglyphsize) | Gets the size of the glyph in the image list. |
 | [GetSplitStyle](#getsplitstyle) | Gets the style of the split button. |
 | [GetState](#getstate) | Retrieves the state of a button or check box. |
 | [GetStyle](#getstyle) | Retrieves the style of the button. |
@@ -406,12 +406,12 @@ info = CButton.GetSplitInfo(hButton)
 ```
 ---
 
-### GetSplitSize
+### GetSplitGlyphSize
 
 Gets the size of the glyph in the image list.
 
 ```
-FUNCTION GetSplitSize (BYVAL hButton AS HWND) AS SIZE
+FUNCTION GetSplitGlyphSize (BYVAL hButton AS HWND) AS SIZE
 ```
 
 #### Return value
@@ -426,7 +426,7 @@ To use this message, you must provide a manifest specifying Comclt32.dll version
 
 #### Usage examples
 ```
-DIM sz AS SIZE = CButton.GetSplitSize(hButton)
+DIM sz AS SIZE = CButton.GetSplitGlyphSize(hButton)
 ```
 ---
 
