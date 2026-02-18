@@ -1294,7 +1294,7 @@ An undo operation can also be undone. For example, you can restore deleted text 
 Sets the dark mode of the edit control.
 
 ```
-FUNCTION SetDarkMode(BYVAL hEdit AS HWND) AS HRESULT
+FUNCTION SetDarkMode (BYVAL hEdit AS HWND) AS HRESULT
 ```
 
 #### Example usage
@@ -1308,11 +1308,11 @@ CButton.SetDarkMode(hEdit)
 Removes dark mode from the button.
 
 ```
-FUNCTION RemoveDarkMode (BYVAL hButton AS HWND) AS HRESULT
+FUNCTION RemoveDarkMode (BYVAL hEdit AS HWND) AS HRESULT
 ```
 
 #### Example usage
 ```
-CButton.RemoveDarkMode(hButton)
+CButton.RemoveDarkMode(hEdit)
 ```
 ---
