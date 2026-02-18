@@ -505,35 +505,46 @@ Multiline edit controls do not support the password style or messages.
 ```
 DIM c AS LOMG = CEdit.GetPasswordChar(hEdit)
 ```
-
 ---
 
-### <a name="getrect"></a>GetRect
+### GetRect
 
-Gets the password character that an edit control displays when the user enters text. 
+Gets the formatting rectangle of an edit control. The formatting rectangle is the limiting rectangle into which the control draws the text. The limiting rectangle is independent of the size of the edit-control window.
+
 ```
-SUB GetRect (BYREF rc AS RECT)
-FUNCTION GetRect () AS RECT
+SUB CEdit.GetRect (BYVAL hEdit AS HWND, BYVAL prc AS RECT PTR)
+SUB GetRect (BYVAL hEdit AS HWND, BYREF rc AS RECT)
+FUNCTION GetRect (NYVAL hEdit AS HWND) AS RECT
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *rc* | A pointer to a **RECT** structure that receives the formatting rectangle. |
+| *prc* | A pointer to a **RECT** structure that receives the formatting rectangle. |
+| *rc* | A **RECT** structure that receives the formatting rectangle. |
 
 #### Return value
 
 Gets the formatting rectangle of an edit control. The formatting rectangle is the limiting rectangle into which the control draws the text. The limiting rectangle is independent of the size of the edit-control window.
 
+#### Usage examples
+```
+DIM rc AS RECT
+CEdit.GetRect(hEdit, @rc)
+CEdit.GetRect(hEdit, rc)
+rc = CEdit.GetRect(hEdit)
+```
 ---
 
-### <a name="getsel"></a>GetSel
+### GetSel
 
 Gets the starting and ending character positions (in characters) of the current selection in an edit control.
 ```
-FUNCTION GetSel (BYREF dwStartPos AS DWORD, BYREF dwEndPos AS DWORD) AS LONG
-FUNCTION GetSel () AS POINTL
+FUNCTION CEdit.GetSel (BYVAL hEdit AS HWND, BYVAL pdwStartPos AS DWORD PTR, BYVAL pdwEndPos AS DWORD PTR) AS LONG
+FUNCTION GetSel (BYVAL hEdit AS HWND, BYREF dwStartPos AS DWORD, BYREF dwEndPos AS DWORD) AS LONG
+FUNCTION GetSel (BYVAL hEdit AS HWND) AS POINTL
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control |
 | *dwStartPos* | A pointer to a DWORD value that receives the starting position of the selection. This parameter can be NULL. |
 | *dwEndPos* | A pointer to a DWORD value that receives the position of the first unselected character after the end of the selection. This parameter can be NULL. |
 
@@ -545,13 +556,21 @@ The starting and ending character positions (in characters) of the current selec
 
 If there is no selection, the starting and ending values are both the position of the caret.
 
+#### Usage examples
+```
+DIM AS DWORD dwStartPos, dwEndPos
+CEdit.GetSel(hEdit, @dwStartPos, @dwEndPos)
+CEdit.GetSel(hEdit, dwStartPos, dwEndPos)
+DIM pt AS POINTL
+pt = CEdit.GetSel(hEdit)
+```
 ---
 
-### <a name="getselstart"></a>GetSelStart
+### GetSelStart
 
 Gets the starting character position of the current selection in an edit control.
 ```
-FUNCTION GetSelStart () AS DWORD
+FUNCTION GetSelStart (BYVAL hEdit AS HWND) AS DWORD
 ```
 
 #### Return value
@@ -562,13 +581,17 @@ The starting character position of the current selection in an edit control.
 
 If there is no selection, the starting and ending values are both the position of the caret.
 
+#### Usage example
+```
+DIM sel AS DWORD = CEdit.GetSelStart(hEdit)
+```
 ---
 
-### <a name="getselend"></a>GetSelEnd
+### GetSelEnd
 
 Gets the ending character position of the current selection in an edit control.
 ```
-FUNCTION GetSelEnd () AS DWORD
+FUNCTION GetSelEnd (BYVAL hEdit AS HWND) AS DWORD
 ```
 #### Return value
 
@@ -578,88 +601,84 @@ The ending character position of the current selection in an edit control.
 
 If there is no selection, the starting and ending values are both the position of the caret.
 
+#### Usage example
+```
+DIM sel AS DWORD = CEdit.GetSelEnd(hEdit)
+```
 ---
 
-### <a name="gettext"></a>GetText
+### GetText
 
 Retrieves the text in a edit control.
 ```
-FUNCTION GetText () AS DWSTRING
+FUNCTION GetText (BYVAL hEdit AS HWND) AS DWSTRING
 ```
 #### Return value
 
 The retrieved text.
 
-#### Usage examples
+#### Usage example
 
 ```
-DIM pEdit AS CEdit = CEdit(pDlg, 103)
-pEdit.Gettext
-```
-```
-CEdit(pDlg, 103).GetText
+DIM dwsText AS DWSTRING = CEdit.GetText(hEdit)
 ```
 ---
 
-### <a name="gettextlength"></a>GetTextLength
+### GetTextLength
 
 Retrieves the length of the text in a edit control.
 ```
-FUNCTION GetTextLength () AS DWSTRING
+FUNCTION GetTextLength (BYVAL hEdit AS HWND) AS LONG
 ```
 #### Return value
 
 The length of the text in a edit control.
 
-#### Usage examples
-
+#### Usage example
 ```
-DIM pEdit AS CEdit = CEdit(pDlg, 103)
-DIM nLen AS LONG = pEdit.GetTextLength
-```
-```
-DIM nLen AS LONG = CEdit(pDlg, 103).GetTextLength
+DIM nLen AS LONG = CEdit.GetTextLength(hEdit)
 ```
 ---
 
-### <a name="getthumb"></a>GetThumb
+### GetThumb
 
 Gets the position of the scroll box (thumb) in the vertical scroll bar of a multiline edit control.
 ```
-FUNCTION GetThumb () AS LONG
+FUNCTION GetThumb (BYVAL HEdit AS HWND) AS LONG
 ```
 #### Return value
 
 The position of the scroll box.
 
-#### Usage examples
+#### Usage example
 
 ```
-DIM pEdit AS CEdit = CEdit(pDlg, 103)
-DIM nPos AS LONG = pEdit.GetThumb
-```
-```
-DIM nPos AS LONG = CEdit(pDlg, 103).GetThumb
+DIM nPos AS LONG = CEdit.GetThumb(hEdit)
 ```
 ---
 
-### <a name="getwordbreakproc"></a>GetWordBreakProc
+### GetWordBreakProc
 
 Gets the address of the current Wordwrap function.
 ```
-FUNCTION GetWordBreakProc () AS LONG_PTR
+FUNCTION GetWordBreakProc (BYVAL hEdit AS HWND) AS LONG_PTR
 ```
 #### Return value
 
 The address of the current Wordwrap function.
 
+#### Usage example
+
+```
+DIM proc AS LONG_PTR = CEdit.GetWordBreakProc(hEdit)
+```
 ---
 
-### <a name="hideballoontip"></a>HideBalloonTip
+### HideBalloonTip
 
 Hides any balloon tip associated with an edit control.
 ```
-FUNCTION HideBalloonTip () AS BOOLEAN
+FUNCTION HideBalloonTip (BYVAL hEdit AS HWND) AS BOOLEAN
 ```
 #### Return value
 
@@ -667,6 +686,9 @@ If the method succeeds, it returns TRUE. Otherwise it returns FALSE.
 
 To use this method, you must provide a manifest specifying Comclt32.dll version 6.0.
 
+```
+DIM bRes AS BOOLEAN = CEdit.HideBalloonTip(hEdit)
+```
 ---
 
 ### <a name="limittext"></a>LimitText / SetLimitText
