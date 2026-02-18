@@ -1090,7 +1090,7 @@ FUNCTION SetDarkMode(BYVAL hButton AS HWND) AS HRESULT
 
 #### Example usage
 ```
-CButton.SetDarkMode (hButton)
+CButton.SetDarkMode(hButton)
 ```
 ---
 
