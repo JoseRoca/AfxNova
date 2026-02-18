@@ -43,11 +43,13 @@
 | [LineScroll](#linescoll) | Scrolls the text in a multiline edit control. |
 | [Paste](#paste) | Copies the current content of the clipboard to the edit control at the current caretposition. Data is inserted only if the clipboard contains data in CF_TEXT format. |
 | [PosFromChar](#posfromchar) | Retrieves the client area coordinates of a specified character in an edit control. |
+| [RemoveDarkMode](#removedarkmode) | Removes dark mode from the button. |
 | [ReplaceSel](#replacesel) | Replaces the current selection in an edit control with the specified text. |
 | [Scroll](#scroll) | Scrolls the text vertically in a multiline edit control. |
 | [ScrollCaret](#scrollcaret) | Scrolls the caret into view in an edit control. |
 | [SetCueBannerText](#setcuebannertext) | Sets the textual cue, or tip, that is displayed by the edit control to prompt the user for information. |
 | [SetCueBannerTextFocused](#setcuebannertextfocused) | Sets the text that is displayed as the textual cue, or tip, for an edit control. |
+| [SetDarkMode](#setdarknode) | Sets the dark mode of the edit control. |
 | [SetHandle](#sethandle) | Sets the handle of the memory that will be used by a multiline edit control. |
 | [SetIMEStatus](#setimestatus) | Sets the status flags that determine how an edit control interacts with the Input Method Editor (IME). |
 | [SetLimitText](#limittext) | Sets the text limit of an edit control. |
@@ -1286,3 +1288,31 @@ An undo operation can also be undone. For example, you can restore deleted text 
 
 ---
 
+
+### SetDarkMode
+
+Sets the dark mode of the edit control.
+
+```
+FUNCTION SetDarkMode(BYVAL hEdit AS HWND) AS HRESULT
+```
+
+#### Example usage
+```
+CButton.SetDarkMode(hEdit)
+```
+---
+
+### RemoveDarkMode
+
+Removes dark mode from the button.
+
+```
+FUNCTION RemoveDarkMode (BYVAL hButton AS HWND) AS HRESULT
+```
+
+#### Example usage
+```
+CButton.RemoveDarkMode(hButton)
+```
+---
