@@ -695,30 +695,31 @@ DIM bRes AS BOOLEAN = CEdit.HideBalloonTip(hEdit)
 
 Sets the text limit of an edit control. The text limit is the maximum amount of text, in characters, that the user can type into the edit control.
 ```
-SUB LimitText (BYVAL chMax AS DWORD)
+SUB LimitText (BYVAL hEdit AS HWND, BYVAL chMax AS DWORD)
+SUB SetLimitText (BYVAL hEdit AS HWND, BYVAL chMax AS DWORD)
 ```
-#### Return value
 
-This method does not return a value.
+| Parameter | Description |
+| --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
+| *chMax* | The maximum number of characters the user can enter. This number does not include the terminating null character. |
 
 #### Usage examples
 ```
-DIM pEdit AS CEdit = CEdit(pDlg, 103)
-pEdit.LimitText(50)
-```
-```
-CEdit(pDlg, 103).LimitText(50)
+CEdit.LimitText(hEdit, 50)
+CEdit.SetLimitText(hEdit, 50)
 ```
 ---
 
-### <a name="linefromchar"></a>LineFromChar
+### LineFromChar
 
 Gets the index of the line that contains the specified character index in a multiline edit control. A character index is the zero-based index of the character from the beginning of the edit control. 
 ```
-FUNCTION LineFromChar (BYVAL index AS LONG) AS LONG
+FUNCTION LineFromChar (BYVAL hEdit AS HWND, BYVAL index AS LONG) AS LONG
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *index* | The character index of the character contained in the line whose number is to be retrieved. If this parameter is -1, it retrieves either the line number of the current line (the line containing the caret) or, if there is a selection, the line number of the line containing the beginning of the selection. |
 
 #### Return value
@@ -727,14 +728,15 @@ The return value is the zero-based line number of the line containing the charac
 
 ---
 
-### <a name="lineindex"></a>LineIndex
+### LineIndex
 
 Gets the character index of the first character of a specified line in a multiline edit control. A character index is the zero-based index of the character from the beginning of the edit control.
 ```
-FUNCTION LineIndex (BYVAL nLine AS LONG) AS LONG
+FUNCTION LineIndex (BYVAL hEdit AS HWND, BYVAL nLine AS LONG) AS LONG
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *nLine* | The zero-based line number. A value of -1 specifies the current line number (the line that contains the caret). |
 
 #### Return value
@@ -743,27 +745,32 @@ The return value is the character index of the line specified in the *nLine* par
 
 ---
 
-### <a name="linelength"></a>LineLength
+### LineLength
 
 Retrieves the length, in characters, of a line in an edit control.
 ```
-FUNCTION LineLength (BYVAL index AS LONG) AS LONG
+FUNCTION LineLength (BYVAL hEdit AS HWND, BYVAL index AS LONG) AS LONG
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *index* | The character index of a character in the line whose length is to be retrieved. If this parameter is greater than the number of characters in the control, the return value is zero.This parameter can be -1. In this case, the method returns the number of unselected characters on lines containing selected characters. For example, if the selection extended from the fourth character of one line through the eighth character from the end of the next line, the return value would be 10 (three characters on the first line and seven on the next). |
 
 #### Return value
 
 The length, in characters, of a line in an edit control.
 
+#### Usage example
+```
+DIM nLen AS LONG = CEdit.LineLength(hEdit, 5)
+```
 ---
 
-### <a name="linescroll"></a>LineScroll
+### LineScroll
 
 Scrolls the text in a multiline edit control.
 ```
-FUNCTION LineScroll (BYVAL x AS LONG, BYVAL y AS LONG) AS BOOLEAN
+FUNCTION LineScroll (BYVAL hEdit AS HWND, BYVAL x AS LONG, BYVAL y AS LONG) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
@@ -777,6 +784,7 @@ If the message is sent to a multiline edit control, the return value is TRUE.
 If the message is sent to a single-line edit control, the return value is FALSE.
 
 #### Remarks
+
 The control does not scroll vertically past the last line of text in the edit control. If the current line plus the number of lines specified by the lParam parameter exceeds the total number of lines in the edit control, the value is adjusted so that the last line of the edit control is scrolled to the top of the edit-control window.
 
 The **LineScroll** method scrolls the text vertically or horizontally in a multiline edit control. It can be used to scroll horizontally past the last character of any line.
@@ -787,37 +795,29 @@ The **LineScroll** method scrolls the text vertically or horizontally in a multi
 
 Copies the current content of the clipboard to the edit control at the current caret position. Data is inserted only if the clipboard contains data in CF_TEXT format.
 ```
-SUB Paste ()
+SUB Paste (BYVAL hEdit AS HWND)
 ```
-#### Return value
+#### Usage example
 
-This method does not return a value.
-
-#### Usage examples
-
-Note: 103 is the identifier of the edit control. Change it to the real one.
 ```
-DIM pEdit AS CEdit = CEdit(pDlg, 103)
-pEdit.Paste
-```
-```
-CEdit(pDlg, 103).Paste
+CEdit.Paste(hEdit)
 ```
 ---
 
-### <a name="posfromchar"></a>PosFromChar
+### PosFromChar
 
 Retrieves the client area coordinates of a specified character in an edit control.
 ```
-FUNCTION PosFromChar (BYVAL index AS LONG) AS LONG
+FUNCTION PosFromChar (BYVAL hEdit AS HWND, BYVAL index AS LONG) AS LONG
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *index* | The zero-based index of the character. |
 
 #### Return value
 
-The return value contains the client area coordinates of the character. The LOWORD contains the horizontal coordinate and the HIWORD contains the vertical coordinate.
+The return value contains the client area coordinates of the character. The **LOWORD** contains the horizontal coordinate and the **HIWORD** contains the vertical coordinate.
 
 #### Remarks
 
@@ -827,20 +827,16 @@ If the character is a line delimiter, the returned coordinates indicate a point 
 
 ---
 
-### <a name="replacesel"></a>ReplaceSel
+### ReplaceSel
 
 Replaces the selected text in an edit control or a rich edit control with the specified text.
 ```
-SUB ReplaceSel (BYVAL bCanBeUndone AS BOOLEAN, BYVAL pwszText AS WSTRING PTR)
+SUB ReplaceSel (BYVAL hEdit AS HWND, BYVAL bCanBeUndone AS BOOLEAN, BYVAL pwszText AS WSTRING PTR)
 ```
 | Parameter | Description |
 | --------- | ----------- |
 | *bCanBeUndone* | Specifies whether the replacement operation can be undone. If this is TRUE, the operation can be undone. If this is FALSE, the operation cannot be undone. |
 | *pwszText* | A pointer to a null-terminated string containing the replacement text. |
-
-#### Return value
-
-This method does not return a value.
 
 #### Remarks
 
@@ -848,16 +844,21 @@ Use the **ReplaceSel** mrthod to replace only a portion of the text in an edit c
 
 If there is no selection, the replacement text is inserted at the caret.
 
+#### Usage example
+```
+CEdit.ReplaceSel(hEdit, TRUE, "new text")
+```
 ---
 
-### <a name="scroll"></a>Scroll
+### Scroll
 
 Scrolls the text vertically in a multiline edit control. This message is equivalent to sending a **WM_VSCROLL** message to the edit control.
 ```
-FUNCTION Scroll (BYVAL nAction AS LONG) AS DWORD
+FUNCTION Scroll (BYVAL hEdit AS HWND, BYVAL nAction AS LONG) AS DWORD
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *nAction* | The action the scroll bar is to take. This parameter can be one of the following values. |
 
 | Value | Meaning |
@@ -875,28 +876,37 @@ If the method is successful, the HIWORD of the return value is TRUE, and the LOW
 
 To scroll to a specific line or character position, use the **LineScroll** method. To scroll the caret into view, use the **ScrollCaret** method.
 
+#### Usage example
+```
+CEdit.Scroll(hEdit, SB_LINEDOWN)
+```
 ---
 
-### <a name="scrollcaret"></a>ScrollCaret
+### ScrollCaret
 
 Scrolls the caret into view in an edit control.
 ```
-SUB ScrollCaret ()
+SUB ScrollCaret (BYVAL HEdit AS HWND)
 ```
 #### Return value
 
 This method does not return a value.
 
+#### Usage example
+```
+CEdit.ScrollCaret(hEdit)
+```
 ---
 
-### <a name="setcuebannertext"></a>SetCueBannerText
+### SetCueBannerText
 
 Sets the text that is displayed as the textual cue, or tip, for an edit control.
 ```
-SUB ScrollCaret ()
+SUB SetCueBannerText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL fDrawFocused AS BOOLEAN = FALSE) AS LONG
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *pwszText* | A pointer to a Unicode string that contains the text to display as the textual cue. |
 | *bDrawFocused* | TRUE if the cue banner should show even when the edit control has focus; otherwise, FALSE. FALSE is the default behavior—the cue banner disappears when the user clicks in the control. |
 
@@ -904,16 +914,21 @@ SUB ScrollCaret ()
 
 If the message succeeds, it returns TRUE. Otherwise it returns FALSE.
 
+#### Usage example
+```
+CEdit.SetCueBanneText(hEdit, "Cue text)
+```
 ---
 
-### <a name="sethandle"></a>SetHandle
+### SetHandle
 
 Sets the handle of the memory that will be used by a multiline edit control.
 ```
-SUB SetHandle (BYVAL hLocal AS ..HLOCAL)
+SUB SetHandle (BYVAL hEdit AS HWND; BYVAL hLocal AS ..HLOCAL)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *hLocal* | A handle to the memory buffer the edit control uses to store the currently displayed text instead of allocating its own memory. If necessary, the control reallocates this memory. |
 
 #### Return value
@@ -929,14 +944,15 @@ Calling **SetHandle** clears the undo buffer (the **Undo** method returns zero) 
 
 ---
 
-### <a name="setimestatus"></a>SetIMEStatus
+### SetIMEStatus
 
 Sets the status flags that determine how an edit control interacts with the Input Method Editor (IME).
 ```
-SUB SetHandle (BYVAL hLocal AS ..HLOCAL)
+SUB SetIMEStatus (BYVAL hEdit AS HWND, BYVAL nStatusType AS LONG, BYVAL flags AS DWORD) AS DWORD
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *nStatusType* | The type of status to set. This parameter can be **EMSIS_COMPOSITIONSTRING**. |
 | *flags* | Data specific to the status type. If *nStatusType* is **EMSIS_COMPOSITIONSTRING**, this parameter can be one or more of the following values. |
 
@@ -952,14 +968,15 @@ Returns the previous value of the *flags* parameter.
 
 ---
 
-### <a name="SetMargins"></a>SetMargins
+### SetMargins
 
 Sets the widths of the left and right margins for an edit control. The message redraws the control to reflect the new margins.
 ```
-SUB SetMargins (BYVAL nMargins AS LONG, BYVAL nWidth AS LONG)
+SUB SetMargins (BYVAL hEdit AS HWND, BYVAL nMargins AS LONG, BYVAL nWidth AS LONG)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *nMargins* | One or more of the following values:<br>**EC_LEFTMARGIN**: Sets the left margin.<br>**EC_RIGHTMARGIN**: Sets the right margin. |
 | *nWidth* | The low-order word specifies the new width of the left margin, in pixels. The high-order word specifies the new width of the right margin, in pixels. |
 
@@ -969,67 +986,67 @@ This method does not return a value.
 
 ---
 
-### <a name="setleftmargin"></a>SetLeftMargin
+### SetLeftMargin
 
 Sets the width of the left margin for an edit control. The message redraws the control to reflect the new margins.
 ```
-SUB SetLeftMargin (BYVAL nWidth AS WORD)
+SUB SetLeftMargin (BYVAL hEdit AS HWND, BYVAL nWidth AS WORD)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *nWidth* | The new width of the left margin, in pixels. |
 
-#### Return value
-
-This method does not return a value.
-
+#### Usage example
+```
+CEdit.SetLeftMargin(hEdit, 30)
+```
 ---
 
-### <a name="setrightmargin"></a>SetRightMargin
+### SetRightMargin
 
 Sets the width of the right margin for an edit control. The message redraws the control to reflect the new margins.
 ```
-SUB SetRightMargin (BYVAL nWidth AS WORD)
+SUB SetRightMargin (BYVAL hEdit AS HWND, BYVAL nWidth AS WORD)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *nWidth* | The new width of the right margin, in pixels. |
 
-#### Return value
-
-This method does not return a value.
-
+#### Usage example
+```
+CEdit.SetRightMargin(hEdit, 30)
+```
 ---
 
-### <a name="setmodify"></a>SetModify
+### SetModify
 
 Sets or clears the modification flag for an edit control. The modification flag indicates whether the text within the edit control has been modified.
 ```
-SUB SetModify (BYVAL bModify AS BOOLEAN)
+SUB SetModify (BYVAL hEdit AS HWND, BYVAL bModify AS BOOLEAN)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *bModify* | The new value for the modification flag. A value of TRUE indicates the text has been modified, and a value of FALSE indicates it has not been modified. |
 
-#### Return value
-
-This method does not return a value.
-
+#### Usage example
+```
+CEdit.SetModify(hEdit, TRUE)
+```
 ---
 
-### <a name="setpasswordchar"></a>SetPasswordChar
+### SetPasswordChar
 
 Sets or removes the password character for an edit control. When a password character is set, that character is displayed in place of the characters typed by the user.
 ```
-SUB SetPasswordChar (BYVAL dwchar AS DWORD)
+SUB SetPasswordChar (BYVAL hEdit AS HWND, BYVAL dwchar AS DWORD)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *dwchar* | The character to be displayed in place of the characters typed by the user. If this parameter is zero, the control removes the current password character and displays the characters typed by the user. |
-
-#### Return value
-
-This method does not return a value.
 
 #### Remarks
 
@@ -1041,14 +1058,15 @@ Multiline edit controls do not support the password style or messages.
 
 ---
 
-### <a name="setreadonly"></a>SetReadOnly
+### SetReadOnly
 
 Sets or removes the read-only style (**ES_READONLY**) of an edit control.
 ```
-FUNCTION SetReadOnly (BYVAL bReadOnly AS BOOLEAN) AS LONG
+FUNCTION SetReadOnly (BYVAL hEdit AS HWND, BYVAL bReadOnly AS BOOLEAN) AS LONG
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *bReadOnly* | Specifies whether to set or remove the **ES_READONLY** style. A value of TRUE sets the **ES_READONLY** style; a value of FALSE removes the **ES_READONLY** style. |
 
 #### Return value
@@ -1061,25 +1079,28 @@ When an edit control has the **ES_READONLY** style, the user cannot change the t
 
 To determine whether an edit control has the **ES_READONLY** style, use the **GetWindowLong** function with the **GWL_STYLE** flag.
 
+#### Usage example
+```
+CEdit.SetReadOnly(hEdit, TRUE)
+```
 ---
 
-### <a name="setrect"></a>SetRect
+### SetRect
 
 Sets the formatting rectangle of a multiline edit control. The formatting rectangle is the limiting rectangle into which the control draws the text. The limiting rectangle is independent of the size of the edit control window. This message is processed only by multiline edit controls.
 ```
-SUB SetRect (BYREF rc AS RECT)
+SUB SetRect (BYVAL hEdit AS HWND, BYVAL prc AS RECT PTR)
+SUB SetRect (BYVAL hEdit AS HWND, BYREF rc AS RECT)
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *rc* | A pointer to a **RECT** structure that specifies the new dimensions of the rectangle. If this parameter is NULL, the formatting rectangle is set to its default values. |
-
-#### Return value
-
-This method does not return a value.
+| *hEdit* | The handle of the edit control. |
+| *prc* | A pointer to a **RECT** structure that specifies the new dimensions of the rectangle. If this parameter is NULL, the formatting rectangle is set to its default values. |
+| *rc* | A **RECT** structure that specifies the new dimensions of the rectangle. If this parameter is NULL, the formatting rectangle is set to its default values. |
 
 #### Remarks
 
-Setting *rc* to NULL has no effect if a touch device is installed, or if **SetRect** is called from a thread that has a hook installed (see **SetWindowsHookEx**). In these cases, *rc* should contain a valid pointer to a **RECT** structure.
+Setting *prc* to NULL has no effect if a touch device is installed, or if **SetRect** is called from a thread that has a hook installed (see **SetWindowsHookEx**). In these cases, *prc* should contain a valid pointer to a **RECT** structure.
 
 The **SetRect** method causes the text of the edit control to be redrawn. To change the size of the formatting rectangle without redrawing the text, use the **SetRectNoPaint** method.
 
@@ -1091,7 +1112,7 @@ If the edit control contains a border, the formatting rectangle is reduced by th
 
 ---
 
-### <a name="setrectnopaint"></a>SetRectNoPaint
+### SetRectNoPaint
 
 Sets the formatting rectangle of a multiline edit control. The **SetRectNoPain** method is identical to the **SetRect** message, except that **SetRectNoPaint** does not redraw the edit control window.
 
@@ -1099,26 +1120,25 @@ The formatting rectangle is the limiting rectangle into which the control draws 
 
 This message is processed only by multiline edit controls.
 ```
-SUB SetRectNoPaint (BYREF rc AS RECT)
+SUB SetRectNoPaint (BYVAL hEdit AS HWND, BYREF rc AS RECT)
 ```
 | Parameter | Description |
 | --------- | ----------- |
-| *rc* | A pointer to a **RECT** structure that specifies the new dimensions of the rectangle. If this parameter is NULL, the formatting rectangle is set to its default values. |
-
-#### Return value
-
-This method does not return a value.
+| *hEdit* | The handle of the edit control. |
+| *prc* | A pointer to a **RECT** structure that specifies the new dimensions of the rectangle. If this parameter is NULL, the formatting rectangle is set to its default values. |
+| *rc* | A **RECT** structure that specifies the new dimensions of the rectangle. If this parameter is NULL, the formatting rectangle is set to its default values. |
 
 ---
 
-### <a name="setsel"></a>SetSel
+### SetSel
 
 Selects a range of characters in an edit control. 
 ```
-SUB SetSel (BYVAL nStart AS LONG, BYVAL nEnd AS LONG)
+SUB SetSel (BYVAL hEdit AS HWND, BYVAL nStart AS LONG, BYVAL nEnd AS LONG)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *nStart* | The starting character position of the selection. |
 | *nEnd* | The ending character position of the selection. |
 
@@ -1136,22 +1156,23 @@ If the start is 0 and the end is -1, all the text in the edit control is selecte
 
 The control displays a flashing caret at the end position regardless of the relative values of start and end.
 
+#### Usage example
+```
+CEdit.SetSel(hEdit, 10, 20)
+```
 ---
 
-### <a name="settabpos"></a>SetTabPos
+### SetTabPos
 
 Sets the tab stops in a multiline edit control. When text is copied to the control, any tab character in the text causes space to be generated up to the next tab stop. This message is processed only by multiline edit controls.
 ```
-FUNCTION SetTabStops (BYVAL cTabs AS LONG, BYVAL prgTabStops AS LONG) AS BOOLEAN
+FUNCTION SetTabStops (BYVAL hEdit AS HWND, BYVAL cTabs AS LONG, BYVAL prgTabStops AS LONG) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *cTabs* | The number of tab stops contained in the array. If this parameter is zero, the *prgTabStops* parameter is ignored and default tab stops are set at every 32 dialog template units. If this parameter is 1, tab stops are set at every n dialog template units, where n is the distance pointed to by the *prgTabStops* parameter. If this parameter is greater than 1, *prgTabStops* is a pointer to an array of tab stops. |
 | *prgTabStops* | A pointer to an array of unsigned integers specifying the tab stops, in dialog template units. If the *cTabs* parameter is 1, this parameter is a pointer to an unsigned integer containing the distance between all tab stops, in dialog template units. |
-
-#### Return value
-
-This method does not return a value.
 
 #### Remarks
 
@@ -1161,14 +1182,15 @@ The values specified in the array are in dialog template units, which are the de
 
 ---
 
-### <a name="settext"></a>SetText
+### SetText
 
 Changes the text of the edit control.
 ```
-FUNCTION SetText (BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
+FUNCTION SetText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *pwszText* | The new text. |
 
 #### Return value
@@ -1179,21 +1201,22 @@ If the function succeeds, the return value is TRUE. If the function fails, the r
 
 The **SetText** method does not expand tab characters (ASCII code 0x09). Tab characters are displayed as vertical bar (|) characters.
 
+#### Usage example
+```
+CEdit.SetTextl(hEdit, "New text")
+```
 ---
 
-### <a name="setwordbreakproc"></a>SetWordBreakProc
+### SetWordBreakProc
 
 Replaces an edit control's default Wordwrap function with an application-defined Wordwrap function. You can send this message to either an edit control or a rich edit control.
 ```
-SUB SetWordBreakProc (BYVAL pfn AS LONG_PTR)
+SUB SetWordBreakProc (BYAL hEdit AS HWND, BYVAL pfn AS LONG_PTR)
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *pfn* | The address of the application-defined Wordwrap function. For more information about breaking lines, see the description of the [EditWordBreakProc](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-editwordbreakprocw) callback function. |
-
-#### Return value
-
-This method does not return a value.
 
 #### Remarks
 
@@ -1207,11 +1230,28 @@ A Wordwrap function defines the point at which the system should break a line of
 
 Displays a balloon tip associated with an edit control.
 ```
-FUNCTION ShowBalloonTip (BYREF peditballoontip AS EDITBALLOONTIP) AS BOOLEAN
+FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL peditballoontip AS EDITBALLOONTIP PTR) AS BOOLEAN
+FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYREF edittip AS EDITBALLOONTIP) AS BOOLEAN
+FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL pwszTitle AS WSTRING PTR, _
+   BYVAL pwszText AS WSTRING PTR, BYVAL iIcon AS LONG) AS BOOLEAN
 ```
 | Parameter | Description |
 | --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
 | *peditballoontip* | A pointer to an **EDITBALLOONTIP** structure that contains information about the balloon tip to display. |
+| *pwszTitle* | The title of the ballon tip. |
+| *pwszText* | The text of the ballon tip. |
+| *iIcon* | type of icon to associate with the balloon tip. This member can be one of the following values. |
+
+| Value | Meaning |
+| ----- | ------- |
+| *TTI_ERROR* | Use the error icon. |
+| *TTI_INFO* | Use the information icon. |
+| *TTI_NONE* | Use no icon. |
+| *TTI_WARNING* | Use the warning icon. |
+| *TTI_INFO_LARGE* | Use the large information icon. This is assumed to be an HICON value. |
+| *TTI_WARNING_LARGE* | Use the large warning icon. This is assumed to be an HICON value. |
+| *TTI_ERROR_LARGE* | Use the large error icon. This is assumed to be an HICON value. |
 
 #### Return value
 
@@ -1223,11 +1263,11 @@ To use this message, you must provide a manifest specifying Comclt32.dll version
 
 ---
 
-### <a name="undo"></a>Undo
+### Undo
 
 Undoes the last edit control operation in the control's undo queue.
 ```
-SUB Undo ()
+SUB Undo (BYVAL hEdit AS HWND)
 ```
 #### Return value
 
@@ -1235,15 +1275,10 @@ For a single-line edit control, the return value is always TRUE.
 
 For a multiline edit control, the return value is TRUE if the undo operation is successful, or FALSE if the undo operation fails.
 
-#### Usage examples
+#### Usage example
 
-Note: 103 is the identifier of the edit control. Change it to the real one.
 ```
-DIM pEdit AS CEdit = CEdit(pDlg, 103)
-pEdit.Undo
-```
-```
-CEdit(pDlg, 103).Undo
+CEdit.Undo(hEdit)
 ```
 #### Remarks
 
