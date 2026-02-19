@@ -20,5 +20,5 @@ What we need is a type library browser able to generate code in the proper synta
 * [Enumerations and modules](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/H\)%20Enumerations%20and%20modules.md)
 * [CoClasses](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/I\)%20Retrieving%20the%20CoClasses.md)
 * [Interfaces](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/J\)%20Retireving%20the%20Interfaces.md)
-* Methods and properties
+* [Methods and properties](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/K\)%20Retrieving%20methods%20and%20properties.md)
 * Parameters
