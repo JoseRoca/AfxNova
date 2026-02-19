@@ -17,6 +17,7 @@ What we need is a type library browser able to generate code in the proper synta
 * Enumerating the constants
 * Enumerating structures and constants
 * Aliases and typedefs
+* Enumerations and modules
 * CoClasses
 * Interfaces
 * Methods and properties
