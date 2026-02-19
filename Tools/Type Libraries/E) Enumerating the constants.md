@@ -1,6 +1,6 @@
 # Enumerating the constants
 
-If the retrieved type info is of type TKIND_ENUM or TKIND_MODULE, the cvars member of the [TYPEATTR structure](https://msdn.microsoft.com/en-us/library/windows/desktop/ms221003(v=vs.85).aspx) contains the number of variables and the GetVarDesc method of the ITypeInfo interface retrieves a [VARDESC structure](https://msdn.microsoft.com/en-us/library/windows/desktop/ms221391(v=vs.85).aspx) that describes the specified variable.
+If the retrieved type info is of type `TKIND_ENUM` or `TKIND_MODULE`, the cvars member of the [TYPEATTR structure](https://msdn.microsoft.com/en-us/library/windows/desktop/ms221003(v=vs.85).aspx) contains the number of variables and the **GetVarDesc** method of the **ITypeInfo** interface retrieves a [VARDESC structure](https://msdn.microsoft.com/en-us/library/windows/desktop/ms221391(v=vs.85).aspx) that describes the specified variable.
 
 ```
 ' =====================================================================================
@@ -54,7 +54,7 @@ END FUNCTION
 ' =====================================================================================
 ```
 
-Modules can also contain string constants and declarations of functions and procedures of external DLLs. This is covered by the following code in the GetFunctions method.
+Modules can also contain string constants and declarations of functions and procedures of external DLLs. This is covered by the following code in the **GetFunctions** method.
 
 ```
 hr = pTypeInfo->GetDllEntry(pFuncDesc->memid, pFuncDesc->invkind, @bstrDllName, @bstrEntryPoint, @wOrdinal)
