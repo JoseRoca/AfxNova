@@ -1,6 +1,6 @@
 # Interfaces
 
-The type infos TKIND_INTERFACE and TKIND_DISPATCH provide information about the implemented interfaces and its methods and properties.
+The type infos `TKIND_INTERFACE` and `TKIND_DISPATCH` provide information about the implemented interfaces and its methods and properties.
 
 ```
          ' ----------------------------------------------------------------------------
@@ -121,13 +121,13 @@ The type infos TKIND_INTERFACE and TKIND_DISPATCH provide information about the 
             END IF
 ```
 
-A very important particularity is that the information can be returned in two different kind of views, the VTable view and the Automation view.
+A very important particularity is that the information can be returned in two different kind of views, the `VTable` view and the `Automation` view.
 
-To change the type of views from the default Automation one to the VTable one, we have to call the GetRefTypeOfImplType of the ITypeInfo interface. The meager documentation provided by Microsoft states that "If a type description describes a COM class, it retrieves the type description of the implemented interface types. For an interface, GetRefTypeOfImplType returns the type information for inherited interfaces, if any exist." See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms221569(v=vs.85).aspx
+To change the type of views from the default `Automation` one to the `VTable` one, we have to call the **GetRefTypeOfImplType** of the **ITypeInfo** interface. The meager documentation provided by Microsoft states that "If a type description describes a COM class, it retrieves the type description of the implemented interface types. For an interface, **GetRefTypeOfImplType** returns the type information for inherited interfaces, if any exist." See: [GetRefTypeOfImplType](https://msdn.microsoft.com/en-us/library/windows/desktop/ms221569(v=vs.85).aspx)
 
-There is a remark at the bottom: "If the TKIND_DISPATCH type description is for a dual interface, the TKIND_INTERFACE type description can be obtained by calling GetRefTypeOfImplType with an indexof –1, and by passing the returned pRefTypehandle to GetRefTypeInfo to retrieve the type information."
+There is a remark at the bottom: "If the TKIND_DISPATCH type description is for a dual interface, the TKIND_INTERFACE type description can be obtained by calling **GetRefTypeOfImplType** with an indexof –1, and by passing the returned *pRefTypehandle* to **GetRefTypeInfo** to retrieve the type information."
 
-So, if we have a TKIND_DISPATCH description and be want a TKIND_INTERFACE description (assuming that the Dispatch interface is dual and not a dispatch only interface), we can get it passing -1 to GetRefTypeOfImplType.
+So, if we have a TKIND_DISPATCH description and be want a TKIND_INTERFACE description (assuming that the Dispatch interface is dual and not a dispatch only interface), we can get it passing -1 to **GetRefTypeOfImplType+*.
 
 ```
 ' // Attempt to change the view to VTable
