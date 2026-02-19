@@ -23,7 +23,7 @@ Your browser relies on the fundamental COM system components:
 
 The graphical interface is typically organized as a TreeView that reflects the hierarchy:
 
-TypeLib<br>
+**TypeLib**<br>
  ├─ Documentation<br>
  ├─ Guids<br>
  ├─ Constants<br>
