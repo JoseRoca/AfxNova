@@ -1,6 +1,6 @@
 # Retrieving the parameters
 
-One of the members of the FUNDESC structure, cParams, contains the number of parameters of each function or method. Parameters can be of any kind of data type and be passed by value or by reference.
+One of the members of the [FUNDESC](https://learn.microsoft.com/en-us/windows/win32/api/oaidl/ns-oaidl-funcdesc) structure, *cParams*, contains the number of parameters of each function or method. Parameters can be of any kind of data type and be passed by value or by reference.
 
 ```
 ' =====================================================================================
