@@ -1,6 +1,6 @@
 # Parsing the information
 
-To parse the type library information we need to call the methods of the ITypeInfo interface.
+To parse the type library information we need to call the methods of the **ITypeInfo** interface.
 
 This is my definition of that interface:
 
@@ -38,7 +38,7 @@ END TYPE
 #endif
 ```
 
-To extract the type library information first wee need to rerieve how many TypeInfos it contains:
+To extract the type library information first wee need to rerieve how many **TypeInfos** it contains:
 
 ```
    ' // Retrieves the number of TypeInfos
