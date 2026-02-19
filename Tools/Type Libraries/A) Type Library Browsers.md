@@ -10,7 +10,15 @@ Microsoft provides an OLE-COM Viewer, `Oleview.exe`, an application supplied wit
 
 # The making of a Type Library browser
 
-What we need is a type library browser able to generate code in the proper syntax to be used with `FreeBasic`.
+Creating a Type Library (TypeLib) browser involves building an application that reads binary metadata (.tlb, .dll, .ocx) and parses the COM (Component Object Model) interface information—such as CoClasses, interfaces, enums, and methods—into a readable format. A customized browser allows developers to understand component object models, generate wrappers, and explore API documentation.
+
+#### Core components for making a TypeLib Browser
+
+The foundational Windows APIs used to load and parse `.tlb` files, i.e. the **LoadTypeLib** function and the **ITypeLib** and **ITypeInfo** interfaces.
+
+A user interface to display the hierarchy, such as a **TreeView** (for library -> coclasses -> interfaces -> methods -> parameters) and information such guids, constants, enumerations and structures.
+
+The following articles describe with code how to build a `TypeLib Browser` with `Freebasic`.
 
 * [Retrieving information from the registry](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/B\)%20Retrieving%20the%20type%20libraries.md)
 * [Loading the type library](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/C\)%20Loading%20the%20type%20library.md)
@@ -23,3 +31,18 @@ What we need is a type library browser able to generate code in the proper synta
 * [Interfaces](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/J\)%20Retireving%20the%20Interfaces.md)
 * [Methods and properties](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/K\)%20Retrieving%20methods%20and%20properties.md)
 * [Parameters](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/L\)%20Retrieving%20the%20parameters.md)
+
+### Step-by-step development approach
+
+*  Step 1: Load the Type Library
+ * Use the **LoadTypeLib** API function to load the `.tlb` file into memory. If the file is embedded within a DLL or EXE, use **LoadTypeLibEx** to extract it from the resource section.
+* Step 2: Enumerate type information
+ * Iterate through the **ITypeLib** interface to get the count of type descriptions. Use **GetTypeInfo** to retrieve each **ITypeInfo** interface. This provides access to the details of each class, interface, and enum.
+* Step 3: Parse the metadata
+For each **ITypeInfo**, extract the following:
+ * CoClasses: Component classes that can be instantiated.
+ * Interfaces: The methods, properties, and functions (VTable entries).
+ * GUIDs: The IID (Interface ID) and CLSID (Class ID).
+* Step 4: Display/Generate Output
+ * View: Map the parsed information into a TreeView.
+ * Generate code: Convert the parsed data into readable programming language syntax (e.g., `FreeBasic`).
