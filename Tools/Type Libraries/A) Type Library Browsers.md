@@ -35,7 +35,7 @@ The following articles describe with code how to build a `TypeLib Browser` with 
 ### Step-by-step development approach
 
 *  Step 1: Load the Type Library
- * Use the **LoadTypeLib** API function to load the `.tlb` file into memory. If the file is embedded within a DLL or EXE, use **LoadTypeLibEx** to extract it from the resource section.
++ Use the **LoadTypeLib** API function to load the `.tlb` file into memory. If the file is embedded within a DLL or EXE, use **LoadTypeLibEx** to extract it from the resource section.
 * Step 2: Enumerate type information
  * Iterate through the **ITypeLib** interface to get the count of type descriptions. Use **GetTypeInfo** to retrieve each **ITypeInfo** interface. This provides access to the details of each class, interface, and enum.
 * Step 3: Parse the metadata
