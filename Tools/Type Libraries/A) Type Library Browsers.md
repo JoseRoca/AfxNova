@@ -25,7 +25,7 @@ The graphical interface is typically organized as a TreeView that reflects the h
 
 **TypeLib**<br>
  ├─ Documentation<br>
- ├─ Guids<br>
+ ├─ GUIDs<br>
  ├─ Constants<br>
  ├─ Enumerations<br>
  ├─ Structures<br>
@@ -49,9 +49,9 @@ The following sections explain, step by step, how to build a TypeLib Browser in 
 * [Methods and properties](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/K\)%20Retrieving%20methods%20and%20properties.md)
 * [Parameters](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/L\)%20Retrieving%20the%20parameters.md)
 
-The sections above focus mainly on FreeBasic code examples that demonstrate how to load a type library, extract its metadata, and classify the information into a structured format. For developers who prefer to explore or reuse the full implementation, the complete source code is available in the repository: https://github.com/JoseRoca/AfxNova/tree/main/Tools/TLB_101
+The sections above focus mainly on `FreeBasic` code examples that demonstrate how to load a type library, extract its metadata, and organize the information. For developers who want to explore or reuse the full implementation, can find the complete source here: https://github.com/JoseRoca/AfxNova/tree/main/Tools/TLB_101
 
-### Step-by-step development approach
+### Step-by-step development
 
 *  **Step 1: Load the Type Library**
 
@@ -69,7 +69,7 @@ For each **ITypeInfo**, extract the following:
 **CoClasses**: Component classes that can be instantiated.<br>
 **Constants**: Fixed values that do not change during a program's execution.<br>
 **Enumerations**: User-defined data types that consist of a set of named integer constants.<br>
-**Structures:**: User-defines data types that group several related variables into one place.<br>
+**Structures:**: User-defined data types that group several related variables into one place.<br>
 **Interfaces**: The methods, properties, and functions (VTable entries).<br>
 
 * **Step 4: Display/Generate Output**
