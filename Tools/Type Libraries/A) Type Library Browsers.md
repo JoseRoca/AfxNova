@@ -11,7 +11,7 @@ Microsoft provides an OLE-COM Viewer, Oleview.exe, an application supplied with 
 
 What we need is a type library browser able to generate code in the proper syntax to be used with FreeBasic.
 
-[Retrieving information from the registry] https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/B)%20Retrieving%20the%20type%20libraries.md)]
+* [Retrieving information from the registry](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/B)%20Retrieving%20the%20type%20libraries.md)]
 
 * Loading the type library
 * Parsing the information
