@@ -127,7 +127,7 @@ To change the type of views from the default `Automation` one to the `VTable` on
 
 There is a remark at the bottom: "If the TKIND_DISPATCH type description is for a dual interface, the TKIND_INTERFACE type description can be obtained by calling **GetRefTypeOfImplType** with an indexof –1, and by passing the returned *pRefTypehandle* to **GetRefTypeInfo** to retrieve the type information."
 
-So, if we have a TKIND_DISPATCH description and be want a TKIND_INTERFACE description (assuming that the Dispatch interface is dual and not a dispatch only interface), we can get it passing -1 to **GetRefTypeOfImplType+*.
+So, if we have a TKIND_DISPATCH description and be want a TKIND_INTERFACE description (assuming that the Dispatch interface is dual and not a dispatch only interface), we can get it passing -1 to **GetRefTypeOfImplType**.
 
 ```
 ' // Attempt to change the view to VTable
