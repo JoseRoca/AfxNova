@@ -49,6 +49,8 @@ The following sections explain, step by step, how to build a TypeLib Browser in 
 * [Methods and properties](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/K\)%20Retrieving%20methods%20and%20properties.md)
 * [Parameters](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/L\)%20Retrieving%20the%20parameters.md)
 
+The sections above focus mainly on FreeBasic code examples that demonstrate how to load a type library, extract its metadata, and classify the information into a structured format. For developers who prefer to explore or reuse the full implementation, the complete source code is available in the repository: https://github.com/JoseRoca/AfxNova/tree/main/Tools/TLB_101
+
 ### Step-by-step development approach
 
 *  **Step 1: Load the Type Library**
