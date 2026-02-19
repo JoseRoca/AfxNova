@@ -35,20 +35,25 @@ The following articles describe with code how to build a `TypeLib Browser` with 
 ### Step-by-step development approach
 
 *  **Step 1: Load the Type Library**
+
 Use the **LoadTypeLib** API function to load the `.tlb` file into memory. If the file is embedded within a DLL or EXE, use **LoadTypeLibEx** to extract it from the resource section.
 
 * **Step 2: Enumerate type information**
+
 Iterate through the **ITypeLib** interface to get the count of type descriptions. Use **GetTypeInfo** to retrieve each **ITypeInfo** interface. This provides access to the details of each class, interface, and enum.
 
 * **Step 3: Parse the metadata**
+
 For each **ITypeInfo**, extract the following:
-**GUIDs**: The IID (Interface ID) and CLSID (Class ID).
-**CoClasses**: Component classes that can be instantiated.
-**Constants**: Fixed values that do not change during a program's execution.
-**Enumerations**: User-defined data types that consist of a set of named integer constants. 
-**Structures:**: User-defines data types that group several related variables into one place.
-**Interfaces**: The methods, properties, and functions (VTable entries).
+
+**GUIDs**: The IID (Interface ID) and CLSID (Class ID).<br>
+**CoClasses**: Component classes that can be instantiated.<br>
+**Constants**: Fixed values that do not change during a program's execution.<br>
+**Enumerations**: User-defined data types that consist of a set of named integer constants.<br>
+**Structures:**: User-defines data types that group several related variables into one place.<br>
+**Interfaces**: The methods, properties, and functions (VTable entries).<br>
 
 * **Step 4: Display/Generate Output**
-**View**: Map the parsed information into a TreeView.
+
+**View**: Map the parsed information into a TreeView.<br>
 **Generate code**: Convert the parsed data into readable programming language syntax (e.g., `FreeBasic`).
