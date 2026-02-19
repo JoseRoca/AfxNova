@@ -1,6 +1,6 @@
 # Enumerating structures and unions
 
-If the retrieved type info is of type TKIND_RECORD or TKIND_UNION, the cvars member of the TYPEATTR structure contains the number of members or data members and the GetVarDesc method of the ITypeInfo interface retrieves a VARDESC structure that describes the specified member or data member.
+If the retrieved type info is of type TKIND_RECORD or TKIND_UNION, the *cvars* member of the TYPEATTR structure contains the number of members or data members and the GetVarDesc method of the ITypeInfo interface retrieves a VARDESC structure that describes the specified member or data member.
 
 The parsing of this type info is more convoluted that in the case of the constants because they don't contain simple values, but the names and types of the members of an structure that can be simple data types, but also pointers, arrays or even other structures.
 
