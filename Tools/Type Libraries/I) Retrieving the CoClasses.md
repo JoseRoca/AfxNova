@@ -1,6 +1,6 @@
 # CoClasses
 
-CoClasses provide information about each COM class, such the ProgID (Program Identifier), CLSID (Class Identifier), attributes, the in-process server and the implemented interfaces.
+`CoClasses` provide information about each COM class, such the **ProgID** (Program Identifier), **CLSID** (Class Identifier), attributes, the in-process server and the implemented interfaces.
 
 ```
          ' ----------------------------------------------------------------------------
