@@ -18,7 +18,7 @@ What we need is a type library browser able to generate code in the proper synta
 * [Enumerating structures and constants](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/F\)%20Enumerating%20structures%20and%20unions.md)
 * [Aliases and typedefs](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/G\)%20Aliases%20and%20typedefs.md)
 * [Enumerations and modules](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/H\)%20Enumerations%20and%20modules.md)
-* CoClasses
+* [CoClasses](https://github.com/JoseRoca/AfxNova/blob/main/Tools/Type%20Libraries/I\)%20Retrieving%20the%20CoClasses.md)
 * Interfaces
 * Methods and properties
 * Parameters
