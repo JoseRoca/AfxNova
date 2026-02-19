@@ -1,6 +1,6 @@
 # Loading the type library
 
-Once we have retrieved the path of the type library, the next step if to load it calling the API functions LoadTypelib or LoadTypeLibEx, that return a pointer of the ITypeLib interface.
+Once we have retrieved the path of the type library, the next step if to load it calling the API functions **LoadTypelib** or **LoadTypeLibEx**, that return a pointer of the **ITypeLib** interface.
 
 This is my definition of that interface:
 
