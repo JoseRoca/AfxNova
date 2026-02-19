@@ -1,6 +1,6 @@
 # Retrieving the type libraries
 
-All the registered type libraries have an entry in the registry under HKEY_CLASSES_ROOT\TypeLib. Under this section, every subkey is the CLSID of a TypeLibrary. Under the CLSID subkey there are one or more subkeys with the version numbers, that generally take the format MajorVersion.MinorVersion (e.g.: 1.0). Opening these version subkeys, there are other subkeys. The one that we need is the default one (0), which can contain one or two subkeys, "win32" and/or "win64". Opening these subkeys we can retrieve the path of the type library.
+All the registered type libraries have an entry in the registry under `HKEY_CLASSES_ROOT\TypeLib`. Under this section, every subkey is the `CLSID` of a TypeLibrary. Under the `CLSID` subkey there are one or more subkeys with the version numbers, that generally take the format MajorVersion.MinorVersion (e.g.: 1.0). Opening these version subkeys, there are other subkeys. The one that we need is the default one (0), which can contain one or two subkeys, "win32" and/or "win64". Opening these subkeys we can retrieve the path of the type library.
 
 ```
 ' ========================================================================================
