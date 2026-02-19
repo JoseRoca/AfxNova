@@ -1,6 +1,6 @@
 # Retrieving the methods and properties
 
-The cFuncs member of the TYPEATTR structure contains the number of methods and properties implemented in an interface and the GetFuncDesc method of the ITypeInfo interface retrieves the FUNCDESC structure that contains information about a specified function ( https://msdn.microsoft.com/en-us/library/windows/desktop/ms221425(v=vs.85).aspx ), as well as the return type.
+The *cFuncs* member of the `TYPEATTR` structure contains the number of methods and properties implemented in an interface and the **GetFuncDesc** method of the **ITypeInfo** interface retrieves the [FUNCDESC](https://msdn.microsoft.com/en-us/library/windows/desktop/ms221425(v=vs.85).aspx) structure that contains information about a specified function, as well as the return type.
 
 ```
 ' =====================================================================================
