@@ -64,7 +64,7 @@ Public:
    DECLARE STATIC FUNCTION GetCurSel (BYVAL hListBox AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetHorizontalExtent (BYVAL hListBox AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetListBoxInfo (BYVAL hListBox AS HWND) AS LONG
-   DECLARE STATIC FUNCTION GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
+   DECLARE STATIC FUNCTION GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS ANY PTR
    DECLARE STATIC FUNCTION GetItemHeight (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL prc AS RECT PTR) AS LONG
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYREF rc AS RECT) AS LONG
@@ -81,7 +81,7 @@ Public:
    DECLARE STATIC FUNCTION InsertItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS ANY PTR) AS LONG
    DECLARE STATIC FUNCTION InsertString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszText AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION ItemFromPoint (BYVAL hListBox AS HWND, BYVAL x AS SHORT, BYVAL y AS SHORT) AS LONG
-   DECLARE STATIC FUNCTION ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS LONG_PTR = 0) AS LONG
+   DECLARE STATIC FUNCTION ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS ANY PTR = NULL) AS LONG
    DECLARE STATIC SUB ResetContent (BYVAL hListBox AS HWND)
    DECLARE STATIC FUNCTION SelectItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS ANY PTR) AS LONG
    DECLARE STATIC FUNCTION SelectString (BYVAL hListBox AS HWND, BYVAL start AS LONG, BYVAL pwszText AS WSTRING PTR) AS LONG
@@ -89,13 +89,13 @@ Public:
    DECLARE STATIC FUNCTION SelItemRange (BYVAL hListBox AS HWND, BYVAL fSel AS BOOLEAN, BYVAL startIndex AS SHORT, BYVAL endIndex AS SHORT) AS LONG
    DECLARE STATIC FUNCTION SelItemRangeEx (BYVAL hListBox AS HWND, BYVAL startIndex AS LONG, BYVAL endIndex AS LONG) AS LONG
    DECLARE STATIC FUNCTION SetAnchorIndex (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
-   DECLARE STATIC FUNCTION SetCaretIndex (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
-   DECLARE STATIC FUNCTION SetColumnWidth (BYVAL hListBox AS HWND, BYVAL nWidth AS DWORD) AS LONG
+   DECLARE STATIC FUNCTION SetCaretIndex (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL fVisibility AS BOOLEAN = FALSE) AS LONG
+   DECLARE STATIC SUB SetColumnWidth (BYVAL hListBox AS HWND, BYVAL nWidth AS DWORD)
    DECLARE STATIC FUNCTION SetCount (BYVAL hListBox AS HWND, BYVAL nCount AS DWORD) AS LONG
    DECLARE STATIC FUNCTION SetCurSel (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
    DECLARE STATIC SUB SetHorizontalExtent (BYVAL hListBox AS HWND, BYVAL cxExtent AS LONG)
-   DECLARE STATIC FUNCTION SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS LONG) AS LONG
-   DECLARE STATIC FUNCTION SetItemHeight (BYVAL hListBox AS HWND, BYVAL nHeight AS DWORD) AS LONG
+   DECLARE STATIC FUNCTION SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS ANY PTR) AS LONG
+   DECLARE STATIC FUNCTION SetItemHeight (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL nHeight AS DWORD) AS LONG
    DECLARE STATIC FUNCTION SetLocale (BYVAL hListBox AS HWND, BYVAL wLocaleID AS DWORD) AS LONG
    DECLARE STATIC FUNCTION SetSel (BYVAL hListBox AS HWND, BYVAL fSelect AS BOOLEAN, BYVAL index AS LONG = -1) AS LONG
    DECLARE STATIC FUNCTION SetText (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR) AS LONG
@@ -244,8 +244,8 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the application-defined value associated with the specified list box item.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
-   RETURN SendMessageW(hListBox, LB_GETITEMDATA, index, 0)
+PRIVATE FUNCTION CListBox.GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS ANY PTR
+   RETURN cast(ANY PTR, SendMessageW(hListBox, LB_GETITEMDATA, index, 0))
 END FUNCTION
 ' ========================================================================================
 
@@ -442,8 +442,8 @@ END FUNCTION
 ' * Sets the focus rectangle to the item at the specified index in a multiple-selection list
 ' box. If the item is not visible, it is scrolled into view.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.SetCaretIndex (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
-   RETURN SendMessageW(hListBox, LB_SETCARETINDEX, index, 0)
+PRIVATE FUNCTION CListBox.SetCaretIndex (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL fVisibility AS BOOLEAN = FALSE) AS LONG
+   RETURN SendMessageW(hListBox, LB_SETCARETINDEX, index, cast(LPARAM, fVisibility))
 END FUNCTION
 ' ========================================================================================
 
@@ -451,9 +451,9 @@ END FUNCTION
 ' Sets the width, in pixels, of all columns in a multiple-column list box (created with
 ' the LBS_MULTICOLUMN style).
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.SetColumnWidth (BYVAL hListBox AS HWND, BYVAL nWidth AS DWORD) AS LONG
-   RETURN SendMessageW(hListBox, LB_SETCOLUMNWIDTH, nWidth, 0)
-END FUNCTION
+PRIVATE SUB CListBox.SetColumnWidth (BYVAL hListBox AS HWND, BYVAL nWidth AS DWORD)
+   SendMessageW(hListBox, LB_SETCOLUMNWIDTH, nWidth, 0)
+END SUB
 ' ========================================================================================
 
 ' ========================================================================================
@@ -489,8 +489,8 @@ END SUB
 ' ========================================================================================
 ' Sets a value associated with the specified item in a list box.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS LONG) AS LONG
-   RETURN SendMessageW(hListBox, LB_SETITEMDATA, index, pData)
+PRIVATE FUNCTION CListBox.SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS ANY PTR) AS LONG
+   RETURN SendMessageW(hListBox, LB_SETITEMDATA, index, cast(LPARAM, pData))
 END FUNCTION
 ' ========================================================================================
 
@@ -499,8 +499,8 @@ END FUNCTION
 ' LBS_OWNERDRAWVARIABLE style, this message sets the height of the item specified by the
 ' nHeight parameter. Otherwise, this message sets the height of all items in the list box.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.SetItemHeight (BYVAL hListBox AS HWND, BYVAL nHeight AS DWORD) AS LONG
-   RETURN SendMessageW(hListBox, LB_SETITEMHEIGHT, nHeight, 0)
+PRIVATE FUNCTION CListBox.SetItemHeight (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL nHeight AS DWORD) AS LONG
+   RETURN SendMessageW(hListBox, LB_SETITEMHEIGHT, index, nHeight)
 END FUNCTION
 ' ========================================================================================
 
@@ -573,7 +573,7 @@ END FUNCTION
 ' ========================================================================================
 ' * Replaces a string, and his associated data, into a list box.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS LONG_PTR = 0) AS LONG
+PRIVATE FUNCTION CListBox.ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS ANY PTR = NULL) AS LONG
    DIM lRes AS LONG = SendMessageW(hListBox, LB_DELETESTRING, index, 0)
    IF lRes = LB_ERR THEN RETURN lRes
    ' // Insert the new string
