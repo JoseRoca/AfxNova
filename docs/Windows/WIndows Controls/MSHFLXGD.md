@@ -37,7 +37,7 @@ dwShape = "SHAPE {SELECT * FROM `Customers`}  AS Customers " & _
 grid.DataSource = adodc
 ```
 
-### Constructor
+### Constructor of the class
 
 | Name       | Description |
 | ---------- | ----------- |
