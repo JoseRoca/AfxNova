@@ -20,6 +20,7 @@
 ' ########################################################################################
 
 #pragma once
+#include once "windows.bi"
 #include once "AfxNova/AfxCOM.inc"
 #include once "AfxNova/AfxADO.bi"
 #include once "AfxNova/RGB_Colors.bi"
@@ -904,7 +905,8 @@ Public:
    DECLARE FUNCTION GetLastResult () AS LONG
    DECLARE FUNCTION SetResult (BYVAL Result AS LONG) AS LONG
    DECLARE FUNCTION GetErrorInfo (BYVAL dwError AS LONG = -1) AS DWSTRING
-   DECLARE FUNCTION hWnd () AS LONG
+'   DECLARE FUNCTION hWnd () AS LONG
+   DECLARE FUNCTION hWnd () AS HWND
 
    DECLARE FUNCTION AddItem (BYREF Item AS WSTRING, BYVAL Index AS LONG = -1) AS HRESULT
    DECLARE FUNCTION RemoveItem (BYVAL Index AS LONG) AS HRESULT
@@ -994,18 +996,18 @@ Public:
    DECLARE PROPERTY GridColorFixed (BYVAL clr AS OLE_COLOR)
    DECLARE PROPERTY GridColorUnpopulated () AS OLE_COLOR 
    DECLARE PROPERTY GridColorUnpopulated (BYVAL clr AS OLE_COLOR)
-   DECLARE PROPERTY GridColorBand (BYVAL BandNumber AS LONG) AS GridLineSettings 
-   DECLARE PROPERTY GridColorBand (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
-   DECLARE PROPERTY GridColorBand () AS GridLineSettings 
-   DECLARE PROPERTY GridColorBand (BYVAL value AS GridLineSettings)
-   DECLARE PROPERTY GridColorHeader (BYVAL BandNumber AS LONG) AS GridLineSettings 
-   DECLARE PROPERTY GridColorHeader (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
-   DECLARE PROPERTY GridColorHeader () AS GridLineSettings 
-   DECLARE PROPERTY GridColorHeader (BYVAL value AS GridLineSettings)
-   DECLARE PROPERTY GridColorIndent (BYVAL BandNumber AS LONG) AS GridLineSettings 
-   DECLARE PROPERTY GridColorIndent (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
-   DECLARE PROPERTY GridColorIndent () AS GridLineSettings 
-   DECLARE PROPERTY GridColorIndent (BYVAL value AS GridLineSettings)
+   DECLARE PROPERTY GridColorBand (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+   DECLARE PROPERTY GridColorBand (BYVAL BandNumber AS LONG, BYVAL value AS OLE_COLOR)
+   DECLARE PROPERTY GridColorBand () AS OLE_COLOR 
+   DECLARE PROPERTY GridColorBand (BYVAL value AS OLE_COLOR)
+   DECLARE PROPERTY GridColorHeader (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+   DECLARE PROPERTY GridColorHeader (BYVAL BandNumber AS LONG, BYVAL value AS OLE_COLOR)
+   DECLARE PROPERTY GridColorHeader () AS OLE_COLOR 
+   DECLARE PROPERTY GridColorHeader (BYVAL value AS OLE_COLOR)
+   DECLARE PROPERTY GridColorIndent (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+   DECLARE PROPERTY GridColorIndent (BYVAL BandNumber AS LONG, BYVAL value AS OLE_COLOR)
+   DECLARE PROPERTY GridColorIndent () AS OLE_COLOR 
+   DECLARE PROPERTY GridColorIndent (BYVAL value AS OLE_COLOR)
    DECLARE PROPERTY RowHeight (BYVAL Index AS LONG) AS LONG
    DECLARE PROPERTY RowHeight (BYVAL Index AS LONG, BYVAL rHeight AS LONG)
    DECLARE PROPERTY RowHeightMin () AS LONG
@@ -1262,10 +1264,10 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Returns the window handle assigned by the Windows operating system to the grid control.
 ' ========================================================================================
-PRIVATE FUNCTION CMSHFlexGrid.hWnd () AS LONG
+PRIVATE FUNCTION CMSHFlexGrid.hWnd () AS ..HWND
    DIM hWin AS LONG
    m_Result = m_grid->get_hWnd(@hWin)
-   RETURN hWin
+   RETURN cast(..HWND, hWin)
 END FUNCTION
 ' ========================================================================================
 
@@ -1940,27 +1942,27 @@ END PROPERTY
 ' ========================================================================================
 ' Returns or sets the color of the gridlines specifically for a targeted hierarchical band.
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorBand (BYVAL BandNumber AS LONG) AS GridLineSettings 
-   DIM value AS GridLineSettings
-   m_Result = m_grid->get_GridColorBand(BandNumber, @value)
-   PROPERTY = value
+PRIVATE PROPERTY CMSHFlexGrid.GridColorBand (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+   DIM clr AS OLE_COLOR
+   m_Result = m_grid->get_GridColorBand(BandNumber, @clr)
+   PROPERTY = clr
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorBand (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
-   m_Result = m_grid->put_GridColorBand(BandNumber, value)
+PRIVATE PROPERTY CMSHFlexGrid.GridColorBand (BYVAL BandNumber AS LONG, BYVAL clr AS OLE_COLOR)
+   m_Result = m_grid->put_GridColorBand(BandNumber, clr)
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorBand () AS GridLineSettings 
-   DIM value AS GridLineSettings
-   m_Result = m_grid->get_GridColorBand(0, @value)
-   PROPERTY = value
+PRIVATE PROPERTY CMSHFlexGrid.GridColorBand () AS OLE_COLOR 
+   DIM clr AS OLE_COLOR
+   m_Result = m_grid->get_GridColorBand(0, @clr)
+   PROPERTY = clr
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorBand (BYVAL value AS GridLineSettings)
-   m_Result = m_grid->put_GridColorBand(0, value)
+PRIVATE PROPERTY CMSHFlexGrid.GridColorBand (BYVAL clr AS OLE_COLOR)
+   m_Result = m_grid->put_GridColorBand(0, clr)
 END PROPERTY
 ' ========================================================================================
 
@@ -1968,54 +1970,54 @@ END PROPERTY
 ' Returns or sets the color of the gridlines specifically for the header area of a
 ' designated hierarchical band.
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader (BYVAL BandNumber AS LONG) AS GridLineSettings 
-   DIM value AS GridLineSettings
-   m_Result = m_grid->get_GridColorHeader(BandNumber, @value)
-   PROPERTY = value
+PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+   DIM clr AS OLE_COLOR
+   m_Result = m_grid->get_GridColorHeader(BandNumber, @clr)
+   PROPERTY = clr
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
-   m_Result = m_grid->put_GridColorHeader(BandNumber, value)
+PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader (BYVAL BandNumber AS LONG, BYVAL clr AS OLE_COLOR)
+   m_Result = m_grid->put_GridColorHeader(BandNumber, clr)
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader () AS GridLineSettings 
-   DIM value AS GridLineSettings
-   m_Result = m_grid->get_GridColorHeader(0, @value)
-   PROPERTY = value
+PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader () AS OLE_COLOR 
+   DIM clr AS OLE_COLOR
+   m_Result = m_grid->get_GridColorHeader(0, @clr)
+   PROPERTY = clr
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader (BYVAL value AS GridLineSettings)
-   m_Result = m_grid->put_GridColorHeader(0, value)
+PRIVATE PROPERTY CMSHFlexGrid.GridColorHeader (BYVAL clr AS OLE_COLOR)
+   m_Result = m_grid->put_GridColorHeader(0, clr)
 END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
 ' Returns or sets the color within the indented area of a specific hierarchical band.
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent (BYVAL BandNumber AS LONG) AS GridLineSettings 
-   DIM value AS GridLineSettings
-   m_Result = m_grid->get_GridColorIndent(BandNumber, @value)
-   PROPERTY = value
+PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+   DIM clr AS OLE_COLOR
+   m_Result = m_grid->get_GridColorIndent(BandNumber, @clr)
+   PROPERTY = clr
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
-   m_Result = m_grid->put_GridColorIndent(BandNumber, value)
+PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent (BYVAL BandNumber AS LONG, BYVAL clr AS OLE_COLOR)
+   m_Result = m_grid->put_GridColorIndent(BandNumber, clr)
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent () AS GridLineSettings 
-   DIM value AS GridLineSettings
-   m_Result = m_grid->get_GridColorIndent(0, @value)
-   PROPERTY = value
+PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent () AS OLE_COLOR 
+   DIM clr AS OLE_COLOR
+   m_Result = m_grid->get_GridColorIndent(0, @clr)
+   PROPERTY = clr
 END PROPERTY
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent (BYVAL value AS GridLineSettings)
-   m_Result = m_grid->put_GridColorIndent(0, value)
+PRIVATE PROPERTY CMSHFlexGrid.GridColorIndent (BYVAL clr AS OLE_COLOR)
+   m_Result = m_grid->put_GridColorIndent(0, clr)
 END PROPERTY
 ' ========================================================================================
 
