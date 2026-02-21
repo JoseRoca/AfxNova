@@ -41,7 +41,7 @@ grid.DataSource = adodc
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructor](#constructor) | Attaches an instance of the MSHFlexGrid control.  |
+| [Constructor](#constructor) | Attaches an instance of the MSHFlexGrid control. |
 
 ---
 
