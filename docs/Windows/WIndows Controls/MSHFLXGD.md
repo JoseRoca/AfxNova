@@ -2214,8 +2214,8 @@ grid.GridColorUnpopulated = BGR(128, 192, 255)
 Returns or sets the color of the gridlines specifically for a targeted hierarchical band.
 
 ```
-PROPERTY GridColorBand (BYVAL BandNumber AS LONG) AS GridLineSettings 
-PROPERTY GridColorBand (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
+PROPERTY GridColorBand (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+PROPERTY GridColorBand (BYVAL BandNumber AS LONG, BYVAL clr AS OLE_COLOR)
 PROPERTY GridColorBand () AS OLE_COLOR 
 PROPERTY GridColorBand (BYVAL clr AS OLE_COLOR)
 ```
@@ -2264,8 +2264,8 @@ grid.GridColorBand(1) = &HC0C0C0 ' Light Gray
 Returns or sets the color of the gridlines specifically for the header area of a designated hierarchical band.
 
 ```
-PROPERTY GridColorHeader (BYVAL BandNumber AS LONG) AS GridLineSettings 
-PROPERTY GridColorHeader (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
+PROPERTY GridColorHeader (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+PROPERTY GridColorHeader (BYVAL BandNumber AS LONG, BYVAL clr AS OLE_COLOR)
 PROPERTY GridColorHeader () AS OLE_COLOR 
 PROPERTY GridColorHeader (BYVAL clr AS OLE_COLOR)
 ```
@@ -2314,8 +2314,8 @@ grid.GridColorHeader(1) = &HC0C0C0  ' vbSilver
 Returns or sets the color within the indented area of a specific hierarchical band.
 
 ```
-PROPERTY GridColorIndent (BYVAL BandNumber AS LONG) AS GridLineSettings 
-PROPERTY GridColorIndent (BYVAL BandNumber AS LONG, BYVAL value AS GridLineSettings)
+PROPERTY GridColorIndent (BYVAL BandNumber AS LONG) AS OLE_COLOR 
+PROPERTY GridColorIndent (BYVAL BandNumber AS LONG, BYVAL clr AS OLE_COLOR)
 PROPERTY GridColorIndent () AS OLE_COLOR 
 PROPERTY GridColorIndent (BYVAL clr AS OLE_COLOR)
 ```
