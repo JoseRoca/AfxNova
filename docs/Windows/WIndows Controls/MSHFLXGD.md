@@ -49,7 +49,7 @@ grid.DataSource = adodc
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AboutBox](#aboutbox) | Displays an about box |
+| [AboutBox](#aboutbox) | Displays an about box. |
 | [AddItem](#additem) | Adds a row to an MSHFlexGrid. This property doesn’t support named arguments. |
 | [Clear](#clear) | Clears the contents of the MSHFlexGrid. This includes all text, pictures, and cell formatting. This method does not affect the number of rows and columns within the MSHFlexGrid. |
 | [ClearStucture](#clearstructure) | Clears any mapping information from the MSHFlexGrid that regards the order and name of the displayed columns. |
