@@ -231,7 +231,7 @@ grid.DataSource = adodc
 | [Expand](#expand) | Occurs when the user expands a row within the MSHFlexGrid. The Col and Row properties of the MSHFlexGrid contain the cell used to expand the band. |
 | [LeaveCell](#leavecell) | Occurs when the currently active cell changes to a different cell. |
 | [RowColChange](#rowcolchange) | Occurs when the currently active cell changes to a different cell. |
-| [scroll](#scroll) | Occurs when the contents of the MSHFlexGrid are scrolled. This can be done using the scroll bars, keyboard, or programmatically by changing the **TopRow** or **LeftCol** properties. |
+| [Scroll](#scroll) | Occurs when the contents of the MSHFlexGrid are scrolled. This can be done using the scroll bars, keyboard, or programmatically by changing the **TopRow** or **LeftCol** properties. |
 | [SelChange](#selchange) | Occurs when the selected range changes to a different cell or range of cells. |
 
 ---
