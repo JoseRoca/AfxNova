@@ -703,7 +703,7 @@ grid.RemoveItem grid.Row
 
 #### Remarks
 
-**The "Last Row" error: You cannot use **RemoveItem** to delete the very last remaining non-fixed row in the grid. Attempting to do so triggers Runtime Error 30015: "Can not remove last non-fixed row."
+**The "Last Row" error**: You cannot use **RemoveItem** to delete the very last remaining non-fixed row in the grid. Attempting to do so triggers Runtime Error 30015: "Can not remove last non-fixed row."
 
 **Workaround**: If you need to clear the last row, either set the **Rows** property to equal the **FixedRows** or use the **Clear** method.
 
