@@ -738,7 +738,7 @@ If your goal is to wipe all data but keep the column headers, it is much faster 
 
 ### AllowBigSelection
 
-Returns or sets a value that determines whether clicking on a column or row header should ause the entire column or row to be selected.
+Returns or sets a value that determines whether clicking on a column or row header should cause the entire column or row to be selected.
 
 ```
 PROPERTY AllowBigSelection () AS BOOLEAN
