@@ -544,16 +544,16 @@ PRIVATE FUNCTION DWSTRING.Add (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT 
       IF this.IsUtf8(ansiStr) = FALSE THEN nCodePage = CP_ACP
    END IF
    IF nCodePage = CP_UTF8 THEN
-      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), -1, NULL, 0)
+      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), .LEN(ansiStr), NULL, 0)
       IF dwLen = 0 THEN RETURN FALSE
       pbuffer = Allocate(dwLen * 2)
-      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), -1, pbuffer, dwLen)
+      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), .LEN(ansiStr), pbuffer, dwLen)
       IF dwLen = 0 THEN bRes = FALSE
    ELSE
-      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), -1, NULL, 0)
+      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), .LEN(ansiStr), NULL, 0)
       IF dwLen = 0 THEN RETURN FALSE
       pbuffer = Allocate(dwLen * 2)
-      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), -1, pbuffer, dwLen)
+      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), .LEN(ansiStr), pbuffer, dwLen)
       IF dwLen = 0 THEN bRes = FALSE
    END IF
    IF bRes = FALSE THEN
