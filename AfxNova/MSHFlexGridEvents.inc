@@ -255,7 +255,7 @@ PRIVATE FUNCTION CMSHFlexGridEvents.OLEStartDrag (BYVAL pData AS Afx_IVBDataObje
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' * Fired after every OleDragOver event to allow the cource component to provide a custom DataObject.
+' * Fired after every OLEDragOver event to allow the source component to provide visual feedback to the user.
 ' ========================================================================================
 PRIVATE FUNCTION CMSHFlexGridEvents.OLEGiveFeedBack (BYVAL Effect AS LONG PTR, BYVAL DefaultCursors AS SHORT PTR) AS HRESULT
    CMSHGRIDEVT_DP("Effect: " & WSTR(*Effect) & "; " & "DefaultCursors: " & WSTR(*DefaultCursors))
@@ -394,10 +394,9 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          RETURN hr
 
       CASE 1550   ' // OLEStartDrag
-         DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[1].ppDispVal)
+         DIM pData AS Afx_IVBDataObject PTR PTR = cast(ANY PTR, pDispParams->rgvarg[1].ppDispVal)
          DIM AllowedEffects AS LONG = *pDispParams->rgvarg[0].plVal
-         hr = this.OLEStartDrag(@pData, @AllowedEffects)
-         pDispParams->rgvarg[1].ppDispVal = pData
+         hr = this.OLEStartDrag(pData, @AllowedEffects)
          *pDispParams->rgvarg[0].plVal = AllowedEffects
          RETURN hr
 
@@ -410,10 +409,9 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          RETURN hr
 
       CASE 1552   ' // OLESetData
-         DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[1].ppDispVal)
+         DIM pData AS Afx_IVBDataObject PTR PTR = cast(ANY PTR, pDispParams->rgvarg[1].ppDispVal)
          DIM DataFormat AS SHORT = *pDispParams->rgvarg[0].piVal
-         hr = this.OLESetData(@pData, @dataFormat)
-         pDispParams->rgvarg[1].ppDispVal = pData
+         hr = this.OLESetData(pData, @dataFormat)
          *pDispParams->rgvarg[0].piVal = DataFormat
          RETURN hr
 
@@ -424,15 +422,14 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          RETURN hr
 
       CASE 1554   ' // OLEDragOver
-         DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[6].ppDispVal)
+         DIM pData AS Afx_IVBDataObject PTR PTR = cast(ANY PTR, pDispParams->rgvarg[6].ppDispVal)
          DIM Effect AS LONG = *pDispParams->rgvarg[5].plVal
          DIM iButton AS SHORT = *pDispParams->rgvarg[4].piVal
          DIM iShift AS SHORT = *pDispParams->rgvarg[3].piVal
          DIM x AS SINGLE = *pDispParams->rgvarg[2].pfltVal
          DIM y AS SINGLE = *pDispParams->rgvarg[1].pfltVal
          DIM iState AS SHORT = *pDispParams->rgvarg[0].piVal
-         hr = this.OLEDragOver(@pData, @Effect, @iButton, @iShift, @x, @y, @iState)
-         pDispParams->rgvarg[6].ppDispVal = pData
+         hr = this.OLEDragOver(pData, @Effect, @iButton, @iShift, @x, @y, @iState)
          *pDispParams->rgvarg[5].plVal = EFfect
          *pDispParams->rgvarg[4].piVal = iButton
          *pDispParams->rgvarg[3].piVal = iShift
@@ -442,14 +439,13 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          RETURN hr
 
       CASE 1555   ' // OLEDragDrop
-         DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[5].ppDispVal)
+         DIM pData AS Afx_IVBDataObject PTR PTR = cast(ANY PTR, pDispParams->rgvarg[5].ppDispVal)
          DIM Effect AS LONG = *pDispParams->rgvarg[4].plVal
          DIM iButton AS SHORT = *pDispParams->rgvarg[3].piVal
          DIM iShift AS SHORT = *pDispParams->rgvarg[2].piVal
          DIM x AS SINGLE = *pDispParams->rgvarg[1].pfltVal
          DIM y AS SINGLE = *pDispParams->rgvarg[0].pfltVal
-         hr = this.OLEDragDrop(@pData, @Effect, @iButton, @iShift, @x, @y)
-         pDispParams->rgvarg[5].ppDispVal = pData
+         hr = this.OLEDragDrop(pData, @Effect, @iButton, @iShift, @x, @y)
          *pDispParams->rgvarg[4].plVal = EFfect
          *pDispParams->rgvarg[3].piVal = iButton
          *pDispParams->rgvarg[2].piVal = iShift
