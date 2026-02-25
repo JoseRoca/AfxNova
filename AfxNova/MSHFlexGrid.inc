@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
 ' File: MSHFlxgd.inc
-' Copyright (c) 2025 José Roca
+' Copyright (c) 2026 José Roca
 ' Portions Copyright (c) Microsoft Corporation.
 ' All Rights Reserved.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -40,6 +40,23 @@ NAMESPACE AfxNova
    #define _CMSHGRID_DP_ 1
    #MACRO CMSHGRID_DP(st)
       #IF (_CMSHGRID_DEBUG_ = 1)
+         OutputDebugStringW(__FUNCTION__ + ": " + st)
+      #ENDIF
+   #ENDMACRO
+#ENDIF
+' ========================================================================================
+
+' ========================================================================================
+' Macro for debug
+' To allow debugging, define _CMSHGRIDEVT_DEBUG_ 1 in your application before including this file.
+' ========================================================================================
+#ifndef _CMSHGRIDEVT_DEBUG_
+   #define _CMSHGRIDEVT_DEBUG_ 0
+#ENDIF
+#ifndef _CMSHGRIDEVT_DP_
+   #define _CMSHGRIDEVT_DP_ 1
+   #MACRO CMSHGRIDEVT_DP(st)
+      #IF (_CMSHGRIDEVT_DEBUG_ = 1)
          OutputDebugStringW(__FUNCTION__ + ": " + st)
       #ENDIF
    #ENDMACRO
@@ -907,7 +924,7 @@ END TYPE
 
 ' ########################################################################################
 
-
+' +++++++++++++++++++++
 ' ########################################################################################
 ' CMSHFlexGrid class
 ' ########################################################################################
@@ -916,6 +933,7 @@ TYPE CMSHFlexGrid
 Private:
    m_grid AS Afx_IMSHFlexGrid PTR
    m_Result AS HRESULT
+   m_dwCookie AS DWORD
 
 Public:
    DECLARE CONSTRUCTOR (BYVAL pDisp AS IDispatch PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
@@ -925,7 +943,6 @@ Public:
    DECLARE FUNCTION GetErrorInfo (BYVAL dwError AS LONG = -1) AS DWSTRING
 '   DECLARE FUNCTION hWnd () AS LONG
    DECLARE FUNCTION hWnd () AS HWND
-
    DECLARE FUNCTION AddItem (BYREF Item AS WSTRING, BYVAL Index AS LONG = -1) AS HRESULT
    DECLARE FUNCTION RemoveItem (BYVAL Index AS LONG) AS HRESULT
    DECLARE PROPERTY AllowBigSelection () AS BOOLEAN
@@ -1260,6 +1277,7 @@ Public:
    DECLARE PROPERTY Picture () AS IPicture PTR
    DECLARE FUNCTION AboutBox () AS HRESULT
    DECLARE FUNCTION Version () AS SHORT
+   DECLARE FUNCTION SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
 
 END TYPE
 
@@ -1275,8 +1293,45 @@ END CONSTRUCTOR
 ' ========================================================================================
 PRIVATE DESTRUCTOR CMSHFlexGrid
    CMSHGRID_DP("m_grid: " & WSTR(m_grid))
+   IF m_dwCookie THEN AfxUnAdvise(m_grid, AFX_IID_DMSHFlexGridEvents, m_dwCookie)
    IF m_grid THEN AfxSafeRelease(m_grid)
 END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the last result code
+' ========================================================================================
+PRIVATE FUNCTION CMSHFlexGrid.GetLastResult () AS HRESULT
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the last result code.
+' ========================================================================================
+PRIVATE FUNCTION CMSHFlexGrid.SetResult (BYVAL Result AS HRESULT) AS HRESULT
+   m_Result = Result
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns a description of the last result code.
+' ========================================================================================
+PRIVATE FUNCTION CMSHFlexGrid.GetErrorInfo (BYVAL nError AS LONG = -1) AS DWSTRING
+   IF nError = -1 THEN nError = m_Result
+   DIM cbLen AS DWORD, pBuffer AS WSTRING PTR, dwsMsg AS DWSTRING
+   cbLen = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER OR _
+           FORMAT_MESSAGE_FROM_SYSTEM OR FORMAT_MESSAGE_IGNORE_INSERTS, _
+           NULL, nError, BYVAL MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), _
+           cast(LPWSTR, @pBuffer), 0, NULL)
+   IF cbLen THEN
+      dwsMsg = *pBuffer
+      LocalFree pBuffer
+   END IF
+   IF nError THEN dwsMsg = "Error &h" + HEX(nError) & CHR(13, 10) + dwsMsg
+   RETURN dwsMsg
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1286,6 +1341,7 @@ PRIVATE FUNCTION CMSHFlexGrid.hWnd () AS ..HWND
    DIM hWin AS LONG
    m_Result = m_grid->get_hWnd(@hWin)
    CMSHGRID_DP("hWnd: " & WSTR(hWin))
+'   RETURN cptr(..HWND, cint(hWin))
    RETURN cast(..HWND, hWin)
 END FUNCTION
 ' ========================================================================================
@@ -2745,7 +2801,7 @@ END PROPERTY
 ' Specifies how the bands display within the MSHFlexGrid.
 ' ========================================================================================
 PRIVATE PROPERTY CMSHFlexGrid.BandDisplay () AS BandDisplaySettings
-   DIM settings AS LONG
+   DIM settings AS BandDisplaySettings
    m_Result = m_grid->get_BandDisplay(@settings)
    CMSHGRID_DP("settings: " & WSTR(settings))
    RETURN settings
@@ -4181,5 +4237,34 @@ PRIVATE FUNCTION CMSHFlexGrid.Version () AS SHORT
    RETURN ver
 END FUNCTION
 ' ========================================================================================
+
+' ========================================================================================
+' Sets the events sink.
+' ========================================================================================
+PRIVATE FUNCTION CMSHFlexGrid.SetEvents (BYVAL pEvtSink AS ANY PTR) AS HRESULT
+   ' // Disable events
+   IF pEvtSink = NULL THEN
+      IF m_dwCookie THEN
+         DIM hr AS HRESULT = AfxUnadvise(m_grid, AFX_IID_DMSHFlexGridEvents, m_dwCookie)
+         IF hr <> S_OK THEN RETURN hr
+         m_dwCookie = 0
+      ELSE
+         SetResult(E_POINTER)
+         RETURN E_POINTER
+      END IF
+   END IF
+   ' // Set events
+   IF m_dwCookie THEN
+      DIM hr AS HRESULT = AfxUnadvise(m_grid, AFX_IID_DMSHFlexGridEvents, m_dwCookie)
+      IF hr <> S_OK THEN RETURN hr
+      m_dwCookie = 0
+   END IF
+   SetResult(AfxAdvise(m_grid, pEvtSink, AFX_IID_DMSHFlexGridEvents, @m_dwCookie))
+   RETURN m_Result
+END FUNCTION
+' ========================================================================================
+
+' // Events
+#include once "MSHFlexGridEvents.inc"
 
 END NAMESPACE
