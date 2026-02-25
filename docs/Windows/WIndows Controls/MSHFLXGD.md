@@ -225,11 +225,27 @@ grid.DataSource = adodc
 
 | Name       | Description |
 | ---------- | ----------- |
+| [Click](#click) | Occurs when the user presses and then releases a mouse button over the grid. |
+| [DblClick](#dblclick) | Occurs when the user double-clicks the grid with the mouse button. |
 | [Collapse](#collapse) | Occurs when the user collapses a row within the grid. The Col and Row properties of the MSHFlexGrid contain the cell used to collapse the band. |
 | [Compare](#compare) | Occurs when the Sort property for the MSHFlexGrid is set to Custom Sort (9), so the user can customize the sort process. |
 | [EnterCell](#entercell) | Occurs when the currently active cell changes to a different cell. |
 | [Expand](#expand) | Occurs when the user expands a row within the MSHFlexGrid. The Col and Row properties of the MSHFlexGrid contain the cell used to expand the band. |
+| [KeyDown](#keydown) | Occurs when the user presses a key while the grid has the focus. |
+| [KeyPress](#keypress) | Occurs when the user presses and releases an ascii key. |
+| [KeyUp](#keyup) | Occurs when the user releases a key. |
 | [LeaveCell](#leavecell) | Occurs when the currently active cell changes to a different cell. |
+| [MouseDpwn](#mousedown) | Occurs when the user presses a mouse button. |
+| [MouseMove](#mousemove) | Occurs when the user moves the mouse. |
+| [MouseUp](#mouseup) | Occurs when the user releases a mouse button. |
+| [OLECompleteDrag](#olecompletedrag) | Fired after an OLE drag operation is started. |
+| [OLEDragDrop](#oledragdrop) | Fired when a source component is dropped onto a target component. |
+| [OLEDragEnter](#oledragenter) | Fired when an object is dragged in to the bounds of an element that is acting as the drop target. |
+| [OLEGiveFeedback](#olegivefeedack) | Fired after a drop to inform the source component that a drag action was either performed or cancelled |
+| [OLESetData](#olesedata) | Fired on the source component when a target component performs the GetData method in the source's DataObject component. |
+| [OLEStartDrag](#olestartdrag) | Fired after an OLE drag operation is started. |
+
+
 | [RowColChange](#rowcolchange) | Occurs when the currently active cell changes to a different cell. |
 | [Scroll](#scroll) | Occurs when the contents of the MSHFlexGrid are scrolled. This can be done using the scroll bars, keyboard, or programmatically by changing the **TopRow** or **LeftCol** properties. |
 | [SelChange](#selchange) | Occurs when the selected range changes to a different cell or range of cells. |
