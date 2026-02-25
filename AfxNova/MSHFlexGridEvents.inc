@@ -381,19 +381,19 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          *pDispParams->rgvarg[0].piVal = iCmp
          RETURN hr
 
-      CASE 140
+      CASE 140   ' // Collapse
          DIM iCancel AS SHORT = *pDispParams->rgvarg[0].piVal
          hr = this.Collapse(@iCancel)
          *pDispParams->rgvarg[0].piVal = iCancel
          RETURN hr
 
-      CASE 141
+      CASE 141  ' // Expand
          DIM iCancel AS SHORT = *pDispParams->rgvarg[0].piVal
          hr = this.Expand(@iCancel)
          *pDispParams->rgvarg[0].piVal = iCancel
          RETURN hr
 
-      CASE 1550
+      CASE 1550   ' // OLEStartDrag
          DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[1].ppDispVal)
          DIM AllowedEffects AS LONG = *pDispParams->rgvarg[0].plVal
          hr = this.OLEStartDrag(@pData, @AllowedEffects)
@@ -401,7 +401,7 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          *pDispParams->rgvarg[0].plVal = AllowedEffects
          RETURN hr
 
-      CASE 1551
+      CASE 1551   ' // OLEGiveFeedBack
          DIM Effect AS LONG = *pDispParams->rgvarg[1].plVal
          DIM DefaultCursors AS SHORT = *pDispParams->rgvarg[0].piVal
          hr = this.OLEGiveFeedBack(@Effect, @DefaultCursors)
@@ -409,7 +409,7 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          *pDispParams->rgvarg[0].piVal = DefaultCursors
          RETURN hr
 
-      CASE 1552
+      CASE 1552   ' // OLESetData
          DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[1].ppDispVal)
          DIM DataFormat AS SHORT = *pDispParams->rgvarg[0].piVal
          hr = this.OLESetData(@pData, @dataFormat)
@@ -417,13 +417,13 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          *pDispParams->rgvarg[0].piVal = DataFormat
          RETURN hr
 
-      CASE 1553
+      CASE 1553   ' // OLECompleteDrag
          DIM Effect AS LONG = *pDispParams->rgvarg[0].plVal
          hr = this.OLECompleteDrag(@Effect)
          *pDispParams->rgvarg[0].plVal^= EFfect
          RETURN hr
 
-      CASE 1554
+      CASE 1554   ' // OLEDragOver
          DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[6].ppDispVal)
          DIM Effect AS LONG = *pDispParams->rgvarg[5].plVal
          DIM iButton AS SHORT = *pDispParams->rgvarg[4].piVal
@@ -441,7 +441,7 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          *pDispParams->rgvarg[0].piVal = iState
          RETURN hr
 
-      CASE 1555
+      CASE 1555   ' // OLEDragDrop
          DIM pData AS ANY PTR = cast(ANY PTR, pDispParams->rgvarg[5].ppDispVal)
          DIM Effect AS LONG = *pDispParams->rgvarg[4].plVal
          DIM iButton AS SHORT = *pDispParams->rgvarg[3].piVal
