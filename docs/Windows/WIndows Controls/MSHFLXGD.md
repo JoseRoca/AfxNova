@@ -244,7 +244,7 @@ grid.DataSource = adodc
 | [OLEGiveFeedback](#olegivefeedack) | Fired after a drop to inform the source component that a drag action was either performed or cancelled |
 | [OLESetData](#olesedata) | Fired on the source component when a target component performs the GetData method in the source's DataObject component. |
 | [OLEStartDrag](#olestartdrag) | Fired after an OLE drag operation is started. |
-| [RowColChange](#rowcolchange) | Occurs when the currently active cell changes to a different cell. |
+| [RowSelChange](#rowcolchange) | Fired when the current cell changes to a new cell. |
 | [Scroll](#scroll) | Occurs when the contents of the MSHFlexGrid are scrolled. This can be done using the scroll bars, keyboard, or programmatically by changing the TopRow or LeftCol properties. |
 | [SelChange](#selchange) | Occurs when the selected range changes to a different cell or range of cells. |
 
@@ -7010,4 +7010,205 @@ PROPERTY Picture () AS IPicture PTR
 
 This is typically used for printing the grid, saving it to disk, or copying it to the clipboard.
 
+---
+
+### Click
+
+Occurs when the user presses and then releases a mouse button over the grid. |
+
+```
+FUNCTION Click () AS HRESULT
+```
+---
+
+### DblClick
+
+Occurs when the user double-clicks the grid with the mouse button.
+
+```
+FUNCTION DblClick () AS HRESULT
+```
+---
+
+### Collapse
+
+Occurs when the user collapses a row within the grid. The Col and Row properties of the MSHFlexGrid contain the cell used to collapse the band.
+
+```
+FUNCTION Collapse (BYVAL iCancel AS SHORT PTR) AS HRESULT
+```
+---
+
+### Compare
+
+Occurs when the Sort property for the MSHFlexGrid is set to Custom Sort (9), so the user can customize the sort process.
+
+```
+FUNCTION Compare (BYVAL row1 AS LONG, BYVAL row2 AS LONG, BYVAL iCmp AS SHORT PTR) AS HRESULT
+```
+---
+
+### EnterCell
+
+Occurs when the currently active cell changes to a different cell.
+
+```
+FUNCTION EnterCell () AS HRESULT
+```
+---
+
+### Expand
+
+Occurs when the user expands a row within the MSHFlexGrid. The Col and Row properties of the MSHFlexGrid contain the cell used to expand the band.
+
+```
+FUNCTION Expand (BYVAL iCancel AS SHORT PTR) AS HRESULT
+```
+---
+
+### KeyDown
+
+Occurs when the user presses a key while the grid has the focus.
+
+```
+FUNCTION KeyDown (BYVAL keyCode AS SHORT PTR, BYVAL iShift AS SHORT) AS HRESULT
+```
+---
+
+### KeyPress
+
+Occurs when the user presses and releases an ascii key.
+
+```
+FUNCTION KeyPress (BYVAL keyAscii AS SHORT PTR) AS HRESULT
+```
+---
+
+### KeyUp
+
+Occurs when the user releases a key.
+
+```
+FUNCTION KeyUp (BYVAL keyCode AS SHORT PTR, BYVAL iShift AS SHORT) AS HRESULT
+```
+---
+
+### LeaveCell
+
+Occurs when the currently active cell changes to a different cell.
+
+```
+FUNCTION LeaveCell () AS HRESULT
+```
+---
+
+### MouseDown
+
+Occurs when the user presses a mouse button.
+
+```
+FUNCTION MouseDown MouseMove (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
+```
+---
+
+### MouseMove
+
+Occurs when the user moves the mouse.
+
+```
+FUNCTION MouseMove (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, _
+   BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
+```
+---
+
+### MouseUp
+
+Occurs when the user releases a mouse button.
+
+```
+FUNCTION MouseUp (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, _
+   BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
+```
+---
+
+### OLECompleteDrag
+
+Fired after an OLE drag operation is started.
+
+```
+FUNCTION OLECompleteDrag (BYVAL Effect AS LONG PTR) AS HRESULT
+```
+---
+
+### OLEDragDrop
+
+Fired when a source component is dropped onto a target component.
+
+```
+FUNCTION OLEDragDrop (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS LONG PTR, _
+   BYVAL iButton AS SHORT PTR, BYVAL iShift AS SHORT PTR, BYVAL x AS SINGLE PTR, BYVAL y AS SINGLE PTR) AS HRESULT
+```
+---
+
+### OLEDragEnter
+
+Fired when an object is dragged in to the bounds of an element that is acting as the drop target.
+
+```
+FUNCTION OLEDragEnter
+```
+---
+
+### OLEGiveFeedback
+
+Fired after a drop to inform the source component that a drag action was either performed or cancelled.
+
+```
+FUNCTION OLEGiveFeedBack (BYVAL Effect AS LONG PTR, BYVAL DefaultCursors AS SHORT PTR) AS HRESULT
+```
+---
+
+### OLESetData
+
+Fired on the source component when a target component performs the GetData method in the source's DataObject component.
+
+```
+FUNCTION OLESetData (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL DataFormat AS SHORT PTR) AS HRESULT
+```
+---
+
+### OLEStartDrag
+
+Fired after an OLE drag operation is started.
+
+```
+FUNCTION OLEStartDrag (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL AllowedEffects AS LONG PTR) AS HRESULT
+```
+---
+
+### RowSelChange
+
+Fired when the current cell changes to a new cell.
+
+```
+FUNCTION RowSelChange () AS HRESULT
+```
+---
+
+### Scroll
+
+Occurs when the contents of the MSHFlexGrid are scrolled. This can be done using the scroll bars, keyboard, or programmatically by changing the TopRow or LeftCol properties.
+
+```
+FUNCTION Scroll () AS HRESULT
+```
+---
+
+### SelChange
+
+Occurs when the selected range changes to a different cell or range of cells.
+
+```
+FUNCTION SelChange () AS HRESULT
+```
 ---
