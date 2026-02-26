@@ -244,10 +244,8 @@ grid.DataSource = adodc
 | [OLEGiveFeedback](#olegivefeedack) | Fired after a drop to inform the source component that a drag action was either performed or cancelled |
 | [OLESetData](#olesedata) | Fired on the source component when a target component performs the GetData method in the source's DataObject component. |
 | [OLEStartDrag](#olestartdrag) | Fired after an OLE drag operation is started. |
-
-
 | [RowColChange](#rowcolchange) | Occurs when the currently active cell changes to a different cell. |
-| [Scroll](#scroll) | Occurs when the contents of the MSHFlexGrid are scrolled. This can be done using the scroll bars, keyboard, or programmatically by changing the **TopRow** or **LeftCol** properties. |
+| [Scroll](#scroll) | Occurs when the contents of the MSHFlexGrid are scrolled. This can be done using the scroll bars, keyboard, or programmatically by changing the TopRow or LeftCol properties. |
 | [SelChange](#selchange) | Occurs when the selected range changes to a different cell or range of cells. |
 
 ---
