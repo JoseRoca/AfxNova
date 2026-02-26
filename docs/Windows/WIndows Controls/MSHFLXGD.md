@@ -240,8 +240,7 @@ grid.DataSource = adodc
 | [MouseUp](#mouseup) | Occurs when the user releases a mouse button. |
 | [OLECompleteDrag](#olecompletedrag) | Fired after an OLE drag operation is started. |
 | [OLEDragDrop](#oledragdrop) | Fired when a source component is dropped onto a target component. |
-| [OLEDragEnter](#oledragenter) | Fired when an object is dragged in to the bounds of an element that is acting as the drop target. |
-| [OLEGiveFeedback](#olegivefeedack) | Fired after a drop to inform the source component that a drag action was either performed or cancelled |
+| [OLEDragOver](#oledragover) | Fired when an object is dragged in to the bounds of an element that is acting as the drop target. || [OLEGiveFeedback](#olegivefeedack) | Fired after a drop to inform the source component that a drag action was either performed or cancelled |
 | [OLESetData](#olesedata) | Fired on the source component when a target component performs the GetData method in the source's DataObject component. |
 | [OLEStartDrag](#olestartdrag) | Fired after an OLE drag operation is started. |
 | [RowSelChange](#rowcolchange) | Fired when the current cell changes to a new cell. |
@@ -7150,12 +7149,14 @@ FUNCTION OLEDragDrop (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS 
 ```
 ---
 
-### OLEDragEnter
+### OLEDragOver
 
-Fired when an object is dragged in to the bounds of an element that is acting as the drop target.
+Occurs when an object is dragged into the bounds of an element that is acting as the drop target,
 
 ```
-FUNCTION OLEDragEnter
+FUNCTION LEDragOver (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS LONG PTR, _
+   BYVAL iButton AS SHORT PTR, BYVAL iShift AS SHORT PTR, BYVAL x AS SINGLE PTR, BYVAL y AS SINGLE PTR, _
+   BYVAL iState AS SHORT PTR) AS HRESULT
 ```
 ---
 
