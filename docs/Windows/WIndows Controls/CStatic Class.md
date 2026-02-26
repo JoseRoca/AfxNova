@@ -4,6 +4,27 @@ Applications often use static controls to label other controls or to separate a 
 
 Although static controls can be used in overlapped, pop-up, and child windows, they are designed for use in dialog boxes, where the system standardizes their behavior. By using static controls outside dialog boxes, a developer increases the risk that the application might behave in a nonstandard fashion. Typically, a developer either uses static controls in dialog boxes or uses the SS_OWNERDRAW style to create customized static controls.
 
+
+| Name | Description |
+| ---- | ----------- |
+| [DeleteBitmap](#deletebitmap) | Deletes a bitmap associated with a static control. |
+| [DeleteCursor](#deletecursor) | Deletes a cursor associated with a static control. |
+| [DeleteEnhancedMetafile](#deleteenhancedmetafile) | Deletes an enhanced metafile associated with a static control. |
+| [DeleteIcon](#deleteicon) | Deletes an icon associated with a static control. |
+| [DeleteImage](#deleteimage) | Deletes an image associated with a static control. |
+| [Disable](#disable) | Disables the control. |
+| [Enable](#enable) | Enables the control. |
+| [GetIcon](#geticon) | Retrieves a handle to the icon associated with a static control that has the SS_ICON style. |
+| [GetImage](#getimage) | Retrieves a handle to the image (icon or bitmap) associated with a static control. |
+| [GetText](#getext) | Gets the text of a static control. |
+| [GetTextLength](#getextlength) | Gets the length of the text of a static control. |
+| [SetBitmap](#setbitmap) | Associates a bitmap with a static control. |
+| [SetCursor](#setcursor) | Associates a cursor with a static control. |
+| [SetEnhancedMetafile](#setenhancedmetafile) | Associates an enhanced metafile with a static control. |
+| [SetIcon](#seticon) | Associates an icon with an static control. |
+| [SetImage](#setimage) | Associates a new image with a static control. |
+| [SetText](#settext) | Sets the text of a static control. |
+
 #### Static control types
 
 There are four types of static controls. Each type has one or more Static Control Styles.
@@ -71,28 +92,6 @@ The window procedure for the predefined static control window class performs def
 | **WM_SETTEXT** | Sets the text and repaints for text static controls. |
 
 The predefined window procedure passes all other messages to DefWindowProc for default processing.
-
----
-
-| Name | Description |
-| ---- | ----------- |
-| [DeleteBitmap](#deletebitmap) | Deletes a bitmap associated with a static control. |
-| [DeleteCursor](#deletecursor) | Deletes a cursor associated with a static control. |
-| [DeleteEnhancedMetafile](#deleteenhancedmetafile) | Deletes an enhanced metafile associated with a static control. |
-| [DeleteIcon](#deleteicon) | Deletes an icon associated with a static control. |
-| [DeleteImage](#deleteimage) | Deletes an image associated with a static control. |
-| [Disable](#disable) | Disables the control. |
-| [Enable](#enable) | Enables the control. |
-| [GetIcon](#geticon) | Retrieves a handle to the icon associated with a static control that has the SS_ICON style. |
-| [GetImage](#getimage) | Retrieves a handle to the image (icon or bitmap) associated with a static control. |
-| [GetText](#getext) | Gets the text of a static control. |
-| [GetTextLength](#getextlength) | Gets the length of the text of a static control. |
-| [SetBitmap](#setbitmap) | Associates a bitmap with a static control. |
-| [SetCursor](#setcursor) | Associates a cursor with a static control. |
-| [SetEnhancedMetafile](#setenhancedmetafile) | Associates an enhanced metafile with a static control. |
-| [SetIcon](#seticon) | Associates an icon with an static control. |
-| [SetImage](#setimage) | Associates a new image with a static control. |
-| [SetText](#settext) | Sets the text of a static control. |
 
 ---
 
