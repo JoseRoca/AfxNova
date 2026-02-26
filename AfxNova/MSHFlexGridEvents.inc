@@ -18,7 +18,7 @@ TYPE CMSHFlexGridEvents EXTENDS OBJECT
    DECLARE VIRTUAL FUNCTION Click () AS HRESULT
    DECLARE VIRTUAL FUNCTION DblClick () AS HRESULT
    DECLARE VIRTUAL FUNCTION KeyDown (BYVAL keyCode AS SHORT PTR, BYVAL iShift AS SHORT) AS HRESULT
-   DECLARE VIRTUAL FUNCTION KeyPress (BYVAL keyAscii AS SHORT PTR) AS HRESULT
+   DECLARE VIRTUAL FUNCTION KeyPress (BYVAL keyAnsi AS SHORT PTR) AS HRESULT
    DECLARE VIRTUAL FUNCTION KeyUp (BYVAL keyCode AS SHORT PTR, BYVAL iShift AS SHORT) AS HRESULT
    DECLARE VIRTUAL FUNCTION MouseDown (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
    DECLARE VIRTUAL FUNCTION MouseMove (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
@@ -143,10 +143,10 @@ PRIVATE FUNCTION CMSHFlexGridEvents.KeyDown (BYVAL keyCode AS SHORT PTR, BYVAL i
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' * Occurs when the user presses and releases an ascii key.
+' * Occurs when the user presses and releases an ansi key.
 ' ========================================================================================
-PRIVATE FUNCTION CMSHFlexGridEvents.KeyPress (BYVAL keyAscii AS SHORT PTR) AS HRESULT
-   CMSHGRIDEVT_DP("keyAscii = " & HEX(*keyAscii))
+PRIVATE FUNCTION CMSHFlexGridEvents.KeyPress (BYVAL keyAnsi AS SHORT PTR) AS HRESULT
+   CMSHGRIDEVT_DP("keyansi = " & HEX(*keyAnsi))
    RETURN S_OK
 END FUNCTION
 ' ========================================================================================
@@ -282,7 +282,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Occurs when an object is dragged into the bounds of an element that is acting as the frop target,
+' Occurs when an object is dragged into the bounds of an element that is acting as the drop target,
 ' ========================================================================================
 PRIVATE FUNCTION CMSHFlexGridEvents.OLEDragOver (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS LONG PTR, _
 BYVAL iButton AS SHORT PTR, BYVAL iShift AS SHORT PTR, BYVAL x AS SINGLE PTR, BYVAL y AS SINGLE PTR, BYVAL iState AS SHORT PTR) AS HRESULT
@@ -322,9 +322,9 @@ PRIVATE FUNCTION CMSHFlexGridEvents.Invoke (BYVAL dispIdMember AS DISPID, BYVAL 
          RETURN hr
 
       CASE -603   ' // KeyPress
-         DIM keyAscii AS SHORT = *pDispParams->rgvarg[0].piVal
-         hr = this.KeyPress(@keyAscii)
-         *pDispParams->rgvarg[0].piVal = keyAscii
+         DIM keyAnsi AS SHORT = *pDispParams->rgvarg[0].piVal
+         hr = this.KeyPress(@keyAnsi)
+         *pDispParams->rgvarg[0].piVal = keyAnsi
          RETURN hr
 
       CASE -604   ' // KeyUp

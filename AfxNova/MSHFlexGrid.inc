@@ -21,7 +21,7 @@
 
 #pragma once
 #include once "windows.bi"
-#include once "AfxNova/CADODB.inc"
+#include once "AfxNova/AfxAdo.bi"
 #include once "AfxNova/RGB_Colors.bi"
 #include once "AfxNova/RGB_Colors.bi"
 #include once "vbCompat.bi"
