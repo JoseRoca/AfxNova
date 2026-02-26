@@ -92,7 +92,7 @@ Public:
    DECLARE STATIC FUNCTION SetDropDownState (BYVAL hButton AS HWND, BYVAL fDropDown AS BOOLEAN) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSplitGlyphSize (BYVAL hButton AS HWND) AS SIZE
    DECLARE STATIC FUNCTION GetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetSplitInfo (BYVAL hButton AS HWND, BYVAL info AS BUTTON_SPLITINFO) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetSplitInfo (BYVAL hButton AS HWND, BYREF info AS BUTTON_SPLITINFO) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSplitInfo (BYVAL hButton AS HWND) AS BUTTON_SPLITINFO
    DECLARE STATIC FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUTTON_SPLITINFO PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetSplitInfo (BYVAL hButton AS HWND, BYREF info AS BUTTON_SPLITINFO) AS BOOLEAN
@@ -467,7 +467,7 @@ PRIVATE FUNCTION CButton.GetSplitInfo (BYVAL hButton AS HWND, BYVAL pinfo AS BUT
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CButton.GetSplitInfo (BYVAL hButton AS HWND, BYVAL info AS BUTTON_SPLITINFO) AS BOOLEAN
+PRIVATE FUNCTION CButton.GetSplitInfo (BYVAL hButton AS HWND, BYREF info AS BUTTON_SPLITINFO) AS BOOLEAN
    RETURN SendMessageW(hButton, BCM_GETSPLITINFO, 0, CAST(LPARAM, @info))
 END FUNCTION
 ' ========================================================================================

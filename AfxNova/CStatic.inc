@@ -116,7 +116,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Deletes a cursor associated with a static control. Returns TRUE or FALSE.
+' Deletes an enhanced metafile associated with a static control. Returns TRUE or FALSE.
 ' ========================================================================================
 PRIVATE FUNCTION CStatic.DeleteEnhancedMetafile (BYVAL hStatic AS HWND) AS BOOLEAN
    RETURN DeleteObject(cast(HGDIOBJ, SendMessageW(hStatic, STM_SETIMAGE, cast(WPARAM, IMAGE_ENHMETAFILE), 0)))
@@ -168,7 +168,7 @@ END FUNCTION
 
 ' ========================================================================================
 ' Associates a cursor with a static control.
-' The return value is a handle to the cursor previously associated with the static control,
+' The return value is a handle to the cursor previously associated with the static control.
 ' ========================================================================================
 PRIVATE FUNCTION CStatic.SetCursor (BYVAL hStatic AS HWND, BYVAL hCur AS HCURSOR) AS HCURSOR
    RETURN cast(HCURSOR, SendMessageW(hStatic, STM_SETIMAGE, cast(WPARAM, IMAGE_CURSOR), cast(LPARAM, hCur)))
@@ -187,6 +187,8 @@ END FUNCTION
 
 ' ========================================================================================
 ' Associates an icon with an static control.
+' The return value is a handle to the icon previously associated with the static control,
+' if any; otherwise, it is NULL.
 ' ========================================================================================
 PRIVATE FUNCTION CStatic.SetIcon (BYVAL hStatic AS HWND, BYVAL hIcon AS HICON) AS HICON
    RETURN CAST(..HICON, SendMessageW(hStatic, STM_SETICON, CAST(WPARAM, hIcon), 0))
