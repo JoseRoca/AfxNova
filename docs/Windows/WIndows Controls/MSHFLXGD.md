@@ -7031,11 +7031,16 @@ FUNCTION DblClick () AS HRESULT
 
 ### Collapse
 
-Occurs when the user collapses a row within the grid. The Col and Row properties of the MSHFlexGrid contain the cell used to collapse the band.
+Occurs when the user collapses a row within the grid. The **Col** and **Row** properties of the `MSHFlexGrid` contain the cell used to collapse the band.
 
 ```
 FUNCTION Collapse (BYVAL iCancel AS SHORT PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *iCancel* | Return TRUE to cancel the action. |
+
 ---
 
 ### Compare
@@ -7045,6 +7050,19 @@ Occurs when the Sort property for the MSHFlexGrid is set to Custom Sort (9), so 
 ```
 FUNCTION Compare (BYVAL row1 AS LONG, BYVAL row2 AS LONG, BYVAL iCmp AS SHORT PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *row1* | The first row in a pair of rows being compared. |
+| *row2* | The second row in a pair of rows being compared. |
+| *iCmp* | An integer that represents the sort order of each pair, as descibed below. |
+
+| Setting  | Description |
+| -------- | ----------- |
+| -1 | If *row1* should appear before *row2*. |
+| 0 | If both rows are equal or either row can appear before the other. |
+| 1 | If *row1* should appear after *row2*. |
+
 ---
 
 ### EnterCell
@@ -7063,15 +7081,26 @@ Occurs when the user expands a row within the MSHFlexGrid. The Col and Row prope
 ```
 FUNCTION Expand (BYVAL iCancel AS SHORT PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *iCancel* | Return TRUE to cancel the action. |
+
 ---
 
 ### KeyDown
 
-Occurs when the user presses a key while the grid has the focus.
+Occurs when the user presses a key while the grid has the focus. It is primarily used to detect special key presses, such as function keys (F1-F12), navigation keys (HOME, END, PAGEUP), or key combinations with CTRL/ALT/SHIFT.
 
 ```
 FUNCTION KeyDown (BYVAL keyCode AS SHORT PTR, BYVAL iShift AS SHORT) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *keyCode* | An integer that represents the key code of the key that was pressed. |
+| *iShift* | The state of SHIFT, CTRL, and ALT. |
+
 ---
 
 ### KeyPress
@@ -7079,8 +7108,13 @@ FUNCTION KeyDown (BYVAL keyCode AS SHORT PTR, BYVAL iShift AS SHORT) AS HRESULT
 Occurs when the user presses and releases an ascii key.
 
 ```
-FUNCTION KeyPress (BYVAL keyAscii AS SHORT PTR) AS HRESULT
+FUNCTION KeyPress (BYVAL keyAnsi AS SHORT PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *keyAnsi* | An integer value that represents a standard numeric ANSI key code. |
+
 ---
 
 ### KeyUp
@@ -7090,6 +7124,12 @@ Occurs when the user releases a key.
 ```
 FUNCTION KeyUp (BYVAL keyCode AS SHORT PTR, BYVAL iShift AS SHORT) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *keyCode* | An integer that represents the key code of the key that was released. |
+| *iShift* | An integer which acts as a bit field corresponding to the state of the SHIFT, CTRL, and ALT keys when they are depressed. The SHIFT key is bit 0, the CTRL key is bit 1, and the ALT key is bit 2. These bits correspond to the values 1 (Shift Mask), 2 (Ctrl Mask), and 4 (Alt Mask), respectively. The*i* Shift parameter indicates the state of these keys; some, all, or none of the bits can be set, indicating that some, all, or none of the keys are depressed. For example, if both the CTRL and ALT keys were depressed, the value of *iShift* would be 6. |
+
 ---
 
 ### LeaveCell
@@ -7106,8 +7146,17 @@ FUNCTION LeaveCell () AS HRESULT
 Occurs when the user presses a mouse button.
 
 ```
-FUNCTION MouseDown MouseMove (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
+FUNCTION MouseDown MouseMove (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, _
+   BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *iButton* | An integer value that identifies which mouse button caused the event. 1 = left button (1), 2 = right button, or 4 = middle button. |
+| *iShift* | An integer which acts as a bit field corresponding to the state of the SHIFT, CTRL, and ALT keys when they are depressed. The SHIFT key is bit 0, the CTRL key is bit 1, and the ALT key is bit 2. These bits correspond to the values 1 (Shift Mask), 2 (Ctrl Mask), and 4 (Alt Mask), respectively. The*i* Shift parameter indicates the state of these keys; some, all, or none of the bits can be set, indicating that some, all, or none of the keys are depressed. For example, if both the CTRL and ALT keys were depressed, the value of *iShift* would be 6. |
+| *x* | The horizontal position, in pixels, from the left edge of the grid. |
+| *y* | The vertical position, in pixels, from the top edge of the grid. |
+
 ---
 
 ### MouseMove
@@ -7118,6 +7167,14 @@ Occurs when the user moves the mouse.
 FUNCTION MouseMove (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, _
    BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *iButton* | An integer value that identifies which mouse button caused the event. 1 = left button (1), 2 = right button, or 4 = middle button. |
+| *iShift* | An integer which acts as a bit field corresponding to the state of the SHIFT, CTRL, and ALT keys when they are depressed. The SHIFT key is bit 0, the CTRL key is bit 1, and the ALT key is bit 2. These bits correspond to the values 1 (Shift Mask), 2 (Ctrl Mask), and 4 (Alt Mask), respectively. The*i* Shift parameter indicates the state of these keys; some, all, or none of the bits can be set, indicating that some, all, or none of the keys are depressed. For example, if both the CTRL and ALT keys were depressed, the value of *iShift* would be 6. |
+| *x* | The horizontal position, in pixels, from the left edge of the grid. |
+| *y* | The vertical position, in pixels, from the top edge of the grid. |
+
 ---
 
 ### MouseUp
@@ -7128,6 +7185,14 @@ Occurs when the user releases a mouse button.
 FUNCTION MouseUp (BYVAL iButton AS SHORT, BYVAL iShift AS SHORT, BYVAL x AS OLE_XPOS_PIXELS, _
    BYVAL y AS OLE_YPOS_PIXELS) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *iButton* | An integer value that identifies which mouse button caused the event. 1 = left button (1), 2 = right button, or 4 = middle button. |
+| *iShift* | An integer which acts as a bit field corresponding to the state of the SHIFT, CTRL, and ALT keys when they are depressed. The SHIFT key is bit 0, the CTRL key is bit 1, and the ALT key is bit 2. These bits correspond to the values 1 (Shift Mask), 2 (Ctrl Mask), and 4 (Alt Mask), respectively. The*i* Shift parameter indicates the state of these keys; some, all, or none of the bits can be set, indicating that some, all, or none of the keys are depressed. For example, if both the CTRL and ALT keys were depressed, the value of *iShift* would be 6. |
+| *x* | The horizontal position, in pixels, from the left edge of the grid. |
+| *y* | The vertical position, in pixels, from the top edge of the grid. |
+
 ---
 
 ### OLECompleteDrag
@@ -7137,6 +7202,17 @@ Fired after an OLE drag operation is started.
 ```
 FUNCTION OLECompleteDrag (BYVAL Effect AS LONG PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *Effect* | The action to be performed |
+
+| Constant  | Value | Description |
+| --------- | ----- | ----------- |
+| **vbDropEffectNone** | 0 | Drop target cannot accept the data. |
+| **vbDropEffectCopy** | 1 | Drop results in a copy of data from the source to the target. The original data is unaltered by the drag operation. |
+| **vbDropEffectMove** | 2 | Drop results in data being moved from drag source to drop source. The drag source should remove the data from itself after the move. |
+
 ---
 
 ### OLEDragDrop
@@ -7147,6 +7223,22 @@ Fired when a source component is dropped onto a target component.
 FUNCTION OLEDragDrop (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS LONG PTR, _
    BYVAL iButton AS SHORT PTR, BYVAL iShift AS SHORT PTR, BYVAL x AS SINGLE PTR, BYVAL y AS SINGLE PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pData* | An object containing formats that the source will provide and (possibly) the data for those formats. If no data is contained in the object, it is provided when the control calls the **GetData** method. The **SetData** and **Clear** methods cannot be used here. |
+| *Effect* | The action that has been performed (if any), thus allowing the source to take appropriate action if the component was moved (such as the source deleting the data). See the table below. |
+| *iButton* | An integer value that identifies which mouse button caused the event. 1 = left button (1), 2 = right button, or 4 = middle button. |
+| *iShift* | An integer which acts as a bit field corresponding to the state of the SHIFT, CTRL, and ALT keys when they are depressed. The SHIFT key is bit 0, the CTRL key is bit 1, and the ALT key is bit 2. These bits correspond to the values 1 (Shift Mask), 2 (Ctrl Mask), and 4 (Alt Mask), respectively. The*i* Shift parameter indicates the state of these keys; some, all, or none of the bits can be set, indicating that some, all, or none of the keys are depressed. For example, if both the CTRL and ALT keys were depressed, the value of *iShift* would be 6. |
+| *x* | The horizontal position, in pixels, from the left edge of the grid. |
+| *y* | The vertical position, in pixels, from the top edge of the grid. |
+
+| Constant  | Value | Description |
+| --------- | ----- | ----------- |
+| **vbDropEffectNone** | 0 | Drop target cannot accept the data. |
+| **vbDropEffectCopy** | 1 | Drop results in a copy of data from the source to the target. The original data is unaltered by the drag operation. |
+| **vbDropEffectMove** | 2 | Drop results in data being moved from drag source to drop source. The drag source should remove the data from itself after the move. |
+
 ---
 
 ### OLEDragOver
@@ -7154,10 +7246,27 @@ FUNCTION OLEDragDrop (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS 
 Occurs when an object is dragged into the bounds of an element that is acting as the drop target,
 
 ```
-FUNCTION LEDragOver (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS LONG PTR, _
+FUNCTION OLEDragOver (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL Effect AS LONG PTR, _
    BYVAL iButton AS SHORT PTR, BYVAL iShift AS SHORT PTR, BYVAL x AS SINGLE PTR, BYVAL y AS SINGLE PTR, _
    BYVAL iState AS SHORT PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pData* | An object containing formats that the source will provide and (possibly) the data for those formats. If no data is contained in the object, it is provided when the control calls the **GetData** method. The **SetData** and **Clear** methods cannot be used here. |
+| *Effect* | The action that has been performed (if any), thus allowing the source to take appropriate action if the component was moved (such as the source deleting the data). See the table below. |
+| *iButton* | An integer value that identifies which mouse button caused the event. 1 = left button (1), 2 = right button, or 4 = middle button. |
+| *iShift* | An integer which acts as a bit field corresponding to the state of the SHIFT, CTRL, and ALT keys when they are depressed. The SHIFT key is bit 0, the CTRL key is bit 1, and the ALT key is bit 2. These bits correspond to the values 1 (Shift Mask), 2 (Ctrl Mask), and 4 (Alt Mask), respectively. The*i* Shift parameter indicates the state of these keys; some, all, or none of the bits can be set, indicating that some, all, or none of the keys are depressed. For example, if both the CTRL and ALT keys were depressed, the value of *iShift* would be 6. |
+| *x* | The horizontal position, in pixels, from the left edge of the grid. |
+| *y* | The vertical position, in pixels, from the top edge of the grid. |
+| *state* | An integer that corresponds to the transition state of the control being dragged in relation to a target form or control. The possible values are:<br>*flexEnter(0)*: Source component is being dragged within the range of a target.<br>*flexLeave(1)*Source component is being dragged out of the range of a target.*flexOver(2)Source component has moved from one position in the target to another.:
+
+| Constant  | Value | Description |
+| --------- | ----- | ----------- |
+| **vbDropEffectNone** | 0 | Drop target cannot accept the data. |
+| **vbDropEffectCopy** | 1 | Drop results in a copy of data from the source to the target. The original data is unaltered by the drag operation. |
+| **vbDropEffectMove** | 2 | Drop results in data being moved from drag source to drop source. The drag source should remove the data from itself after the move. |
+
 ---
 
 ### OLEGiveFeedback
@@ -7167,6 +7276,18 @@ Fired after a drop to inform the source component that a drag action was either 
 ```
 FUNCTION OLEGiveFeedBack (BYVAL Effect AS LONG PTR, BYVAL DefaultCursors AS SHORT PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *Effect* | The action that has been performed (if any), thus allowing the source to take appropriate action if the component was moved (such as the source deleting the data). See the table below. |
+| *DefaultCursors* | A boolean value which determines whether the default or a user-defined mouse cursor is used. |
+
+| Constant  | Value | Description |
+| --------- | ----- | ----------- |
+| **vbDropEffectNone** | 0 | Drop target cannot accept the data. |
+| **vbDropEffectCopy** | 1 | Drop results in a copy of data from the source to the target. The original data is unaltered by the drag operation. |
+| **vbDropEffectMove** | 2 | Drop results in data being moved from drag source to drop source. The drag source should remove the data from itself after the move. |
+
 ---
 
 ### OLESetData
@@ -7176,6 +7297,16 @@ Fired on the source component when a target component performs the GetData metho
 ```
 FUNCTION OLESetData (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL DataFormat AS SHORT PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pData* | An object in which to place the requested data. The component calls the SetData method to load the requested format. |
+| *DataFormat* | An integer specifying the format of the data that the target component is requesting. The source component uses this value to determine what to load into the **DataObject** object. |
+
+#### Remarks
+
+In certain cases, you may wish to defer loading data into the DataObject object of a source component to save time, especially if the source component supports many formats. This event allows the source to respond to only one request for a given format of data. When this event is called, the source should check the format parameter to determine what needs to be loaded and then perform the SetData method on the DataObject object to load the data which is then passed back to the target component.
+
 ---
 
 ### OLEStartDrag
@@ -7185,6 +7316,18 @@ Fired after an OLE drag operation is started.
 ```
 FUNCTION OLEStartDrag (BYVAL pData AS Afx_IVBDataObject PTR PTR, BYVAL AllowedEffects AS LONG PTR) AS HRESULT
 ```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pData* | An object containing formats that the source will provide. You may provide the values for this parameter in this event. |
+| *AllowedEffects* | An  integer containing the effects that the source component supports. The possible values are: |
+
+| Constant  | Value | Description |
+| --------- | ----- | ----------- |
+| **vbDropEffectNone** | 0 | Drop target cannot accept the data. |
+| **vbDropEffectCopy** | 1 | Drop results in a copy of data from the source to the target. The original data is unaltered by the drag operation. |
+| **vbDropEffectMove** | 2 | Drop results in data being moved from drag source to drop source. The drag source should remove the data from itself after the move. |
+
 ---
 
 ### RowSelChange
