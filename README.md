@@ -2,7 +2,8 @@
 
 Windows Framework for FreeBasic
 
-Requires Windows 10 or later.
+Requires Windows 10 or later.<br>
+`AfxNova` is frequently used in combination with IDEs like the [Tiko Editor](https://github.com/PaulSquires/tiko) to develop robust GUI applications
 
 `AfxNova` is a modern, open‑source Windows framework designed specifically for the **FreeBASIC** programming language. It provides a comprehensive, object‑oriented foundation for building native Win32 and Win64 applications, combining clean abstractions with full access to low‑level Windows APIs when needed. Developed as the next evolutionary step after the **Afx**, `AfxNova` reimagines the architecture with a more consistent design, improved performance, and support for the latest FreeBASIC features.
 
