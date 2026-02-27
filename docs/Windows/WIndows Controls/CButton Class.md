@@ -6,6 +6,8 @@ A button control is a small, rectangular child window that can be clicked on and
 
 Typical buttons are the check box, radio button, and pushbutton. A `CButton` object can become any of these, based on the button style specified at its initialization by the **AddControl** method of the `CWindow`class.
 
+See: [About Buttons](https://learn.microsoft.com/en-us/windows/win32/controls/about-buttons)
+
 **Include file**: CButton.inc.
 
 | Name       | Description |
