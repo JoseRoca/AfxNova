@@ -144,7 +144,7 @@ CButton.Deleteimage(hButton, IMAGE_ICON)
 
 ### Disable
 
-Disables the button. Returns FALSE if the windows was previously disabled; otherwise TRUE.
+Disables the button. Returns FALSE if the button was previously disabled; otherwise TRUE.
 
 ```
 FUNCTION Disable (BYVAL hButton AS HWND) AS BOOLEAN
@@ -158,7 +158,7 @@ CButton.Disable(hButton)
 
 ### Enable
 
-Enables the button. Returns FALSE if the windows was previously enabled; otherwise TRUE.
+Enables the button. Returns FALSE if the button was previously enabled; otherwise TRUE.
 
 ```
 FUNCTION Enable (BYVAL hButton AS HWND) AS BOOLEAN
