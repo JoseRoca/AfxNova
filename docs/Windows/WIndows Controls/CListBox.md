@@ -16,6 +16,8 @@ A drag list box is a special type of list box that enables the user to drag item
 
 Drag list boxes have the same window styles and process the same messages as standard list boxes. To create a drag list box, first create a standard list box and then call the **MakeDragList** function.
 
+See: [About List Boxes](https://learn.microsoft.com/en-us/windows/win32/controls/about-list-boxes)
+
 **Include file**: CListBox.inc.
 
 | Name       | Description |
