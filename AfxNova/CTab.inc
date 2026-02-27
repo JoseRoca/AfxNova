@@ -68,7 +68,8 @@ Public:
    DECLARE STATIC FUNCTION GetText (BYVAL hTab AS HWND, BYVAL nTabIndex AS DWORD) AS DWSTRING
    DECLARE STATIC FUNCTION GetToolTips (BYVAL hTab AS HWND) AS HWND
    DECLARE STATIC FUNCTION HighlightItem (BYVAL hTab AS HWND, BYVAL idItem AS LONG, BYVAL fHighlight AS WORD) AS LONG
-   DECLARE STATIC FUNCTION HitTest (BYVAL hTab AS HWND, BYREF info AS TC_HITTESTINFO) AS LONG
+   DECLARE STATIC FUNCTION HitTest (BYVAL hTab AS HWND, BYVAL pInfo AS TCHITTESTINFO PTR) AS LONG
+   DECLARE STATIC FUNCTION HitTest (BYVAL hTab AS HWND, BYREF info AS TCHITTESTINFO) AS LONG
    DECLARE STATIC FUNCTION InsertItem (BYVAL hTab AS HWND, BYVAL iItem AS DWORD, BYVAL pitem AS TCITEMW PTR) AS LONG
    DECLARE STATIC FUNCTION InsertItem (BYVAL hTab AS HWND, BYVAL iItem AS DWORD, BYREF item AS TCITEMW) AS LONG
    DECLARE STATIC FUNCTION InsertTab (BYVAL hTab AS HWND, BYVAL nTabIndex AS DWORD, BYVAL iImage AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL lParam AS ..LPARAM = 0) AS LONG
@@ -286,7 +287,12 @@ END FUNCTION
 ' ========================================================================================
 ' Determines which tab, if any, is at a specified screen position.
 ' ========================================================================================
-PRIVATE FUNCTION CTab.HitTest (BYVAL hTab AS HWND, BYREF info AS TC_HITTESTINFO) AS LONG
+PRIVATE FUNCTION CTab.HitTest (BYVAL hTab AS HWND, BYVAL pInfo AS TCHITTESTINFO PTR) AS LONG
+   RETURN SendMessageW(hTab, TCM_HITTEST, 0, CAST(LPARAM, pInfo))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CTab.HitTest (BYVAL hTab AS HWND, BYREF info AS TCHITTESTINFO) AS LONG
    RETURN SendMessageW(hTab, TCM_HITTEST, 0, CAST(LPARAM, @info))
 END FUNCTION
 ' ========================================================================================
@@ -446,8 +452,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Assigns a ToolTip control to a tab control. You can use this macro or send the
-' TCM_SETTOOLTIPS message explicitly.
+' Assigns a ToolTip control to a tab control.
 ' ========================================================================================
 PRIVATE SUB CTab.SetToolTips (BYVAL hTab AS HWND, BYVAL hwndTT AS HWND)
    SendMessageW hTab, TCM_SETTOOLTIPS, CAST(WPARAM, hwndTT), 0
