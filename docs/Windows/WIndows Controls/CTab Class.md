@@ -2,6 +2,8 @@
 
 A tab control is analogous to the dividers in a notebook or the labels in a file cabinet. By using a tab control, an application can define multiple pages for the same area of a window or dialog box. Each page consists of a certain type of information or a group of controls that the application displays when the user selects the corresponding tab.
 
+See: [About Tab Controls](https://learn.microsoft.com/en-us/windows/win32/controls/tab-controls)
+
 **Include file**: CTab.inc.
 
 | Name       | Description |
@@ -39,119 +41,6 @@ A tab control is analogous to the dividers in a notebook or the labels in a file
 | [SetPadding](#setpadding) | Sets the amount of space (padding) around each tab's icon and label in a tab control. |
 | [SetText](#settext) | Sets the name of a tab in a Tab control. |
 | [SetToolTips](#settooltips) | Assigns a ToolTip control to a tab control. You can use this macro or send the |
-
-#### Creating tab controls
-
-You can create a tab control by calling the CreateWindowEx function, specifying the WC_TABCONTROL window class. This window class is registered when the common controls DLL is loaded. To ensure that the DLL is loaded, use the InitCommonControlsEx function.
-
-In Microsoft Visual Studio, you can create a tab control by using the Toolbox.
-
-You send messages to a tab control to add tabs and otherwise affect the control's appearance and behavior. Each message has a corresponding macro that you can use instead of sending the message explicitly. You cannot disable an individual tab in a tab control. However, you can disable a tab control in a property sheet by disabling the corresponding page.
-
-#### Tab control styles
-
-You can apply certain characteristics to tab controls by specifying tab control styles when the control is created. For example, you can specify the alignment and general appearance of the tabs in a tab control.
-
-You can cause the tabs to look like buttons by specifying the TCS_BUTTONS style. Tabs in this type of tab control should serve the same function as button controls; that is, clicking a tab should carry out a command instead of displaying a page. Because the display area in a button tab control is typically not used, no border is drawn around it.
-
-You can cause a tab to receive the input focus when clicked by specifying the TCS_FOCUSONBUTTONDOWN style. This style is typically used only with the TCS_BUTTONS style. You can specify that a tab does not receive input focus when clicked by using the TCS_FOCUSNEVER style.
-
-By default, a tab control displays only one row of tabs. If not all tabs can be shown at once, the tab control displays an up-down control so that the user can scroll additional tabs into view. You can cause a tab control to display multiple rows of tabs, if necessary, by specifying the TCS_MULTILINE style. With this style, all tabs can be displayed at once. The tabs are left-aligned within each row unless you specify the TCS_RIGHTJUSTIFY style. In this case, the width of each tab is increased so that each row of tabs fills the entire width of the tab control.
-
-A tab control automatically sizes each tab to fit its icon, if any, and its label. To give all tabs the same width, you can specify the TCS_FIXEDWIDTH style. The control sizes all the tabs to fit the widest label, or you can assign a specific width and height by using the TCM_SETITEMSIZE message. Within each tab, the control centers the icon and label, placing the icon to the left of the label. You can force the icon to the left, leaving the label centered, by specifying the TCS_FORCEICONLEFT style. You can left-align both the icon and label by using the TCS_FORCELABELLEFT style. You cannot use the TCS_FIXEDWIDTH style with the TCS_RIGHTJUSTIFY style.
-
-You can specify that the parent window draws the tabs in the control by using the TCS_OWNERDRAWFIXED style. For more information, see Owner-Drawn Tabs.
-
-You can specify that a tab control will create a tooltip control by using the TCS_TOOLTIPS style. For more information about this, see Tab Control Tooltips.
-
-#### Tabs and tab attributes
-
-Each tab in a tab control consists of an icon, a label, and application-defined data. This information is specified by a TCITEM structure. You can add tabs to a tab control, retrieve the number of tabs, retrieve and set the contents of a tab, and delete tabs. Tabs are identified by their zero-based index.
-
-To add tabs to a tab control, use the TCM_INSERTITEM message, specifying the position of the item and the address of a TCITEM structure. You can retrieve and set the contents of an existing tab by using the TCM_GETITEM and TCM_SETITEM messages. For each tab, you can specify an icon, a label, or both. You can also specify application-defined data to associate with the tab.
-
-You can retrieve the current number of tabs by using the TCM_GETITEMCOUNT message, delete a tab by using the TCM_DELETEITEM message, and delete all tabs in a tab control by using the TCM_DELETEALLITEMS message.
-
-You can associate application-defined data with each tab. For example, you might save information about each page with its corresponding tab. By default, a tab control allocates four extra bytes per tab for application-defined data. You can change the number of extra bytes per tab by using the TCM_SETITEMEXTRA message. You can only use this message when the tab control is empty.
-
-The application-defined data is specified by the lParam member of the TCITEM structure. If you use more than 4 bytes of application-defined data, you need to define your own structure and use it instead of TCITEM. You can retrieve and set application-defined data the same way you retrieve and set other information about a tab—by using the TCM_GETITEM and TCM_SETITEM messages.
-
-The first member of your structure must be a TCITEMHEADER structure, and the remaining members must specify application-defined data. TCITEMHEADER is identical to TCITEM, except it does not have the lParam member. The difference between the size of your structure and the size of TCITEMHEADER should equal the number of extra bytes per tab.
-
-#### Display area
-
-The display area of a tab control is the area in which an application displays the current page. Typically, an application creates a child window or dialog box, setting the window size and position to fit the display area. Given the window rectangle for a tab control, you can calculate the bounding rectangle of the display area by using the TCM_ADJUSTRECT message.
-
-Sometimes the display area must be a particular size—for example, the size of a modeless child dialog box. Given the bounding rectangle for the display area, you can use TCM_ADJUSTRECT to calculate the corresponding window rectangle for the tab control.
-
-#### Tab selection
-When the user selects a tab, a tab control sends its parent window notification codes in the form of WM_NOTIFY messages. The TCN_SELCHANGING notification code is sent before the selection changes, and the TCN_SELCHANGE notification code is sent after the selection changes.
-
-You can process TCN_SELCHANGING to save the state of the outgoing page. You can return TRUE to prevent the selection from changing. For example, you might not want to switch away from a child dialog box in which a control has an invalid setting.
-
-You must process TCN_SELCHANGE to display the incoming page in the display area. This might simply entail changing the information displayed in a child window. More often, each page consists of a child window or dialog box. In this case, an application might process this notification by destroying or hiding the outgoing child window or dialog box and by creating or showing the incoming child window or dialog box.
-
-You can retrieve and set the current selection by using the TCM_GETCURSEL and TCM_SETCURSEL messages.
-
-#### Tab control image lists
-
-Each tab can have an icon associated with it, which is specified by an index in the image list for the tab control. When a tab control is created, it has no image list associated with it. An application can create an image list by using the ImageList_Create function and then assign it to a tab control by using the TCM_SETIMAGELIST message.
-
-You can add images to a tab control's image list just as you would to any other image list. However, an application should remove images by using the TCM_REMOVEIMAGE message instead of the ImageList_Remove function. This message ensures that each tab remains associated with the same image as before.
-
-Destroying a tab control does not destroy an image list that is associated with it. You must destroy the image list separately. This is useful if you want to assign the same image list to multiple tab controls.
-
-To retrieve the handle to the image list currently associated with a tab control, you can use the TCM_GETIMAGELIST message.
-
-#### Tab size and position
-
-Each tab in a tab control has a size and position. You can set the size of tabs, retrieve the bounding rectangle of a tab, or determine which tab is at a specified position.
-
-For fixed-width and owner-drawn tab controls, you can set the exact width and height of tabs by using the TCM_SETITEMSIZE message. In other tab controls, each tab's size is calculated based on the icon and label for the tab. The tab control includes space for a border and an additional margin. You can set the thickness of the margin by using the TCM_SETPADDING message.
-
-You can determine the current bounding rectangle for a tab by using the TCM_GETITEMRECT message. You can determine which tab, if any, is at a specified location by using the TCM_HITTEST message.
-
-In a tab control with the TCS_MULTILINE style, you can determine the current number of rows of tabs by using the TCM_GETROWCOUNT message.
-
-#### Owner-drawn tabs
-
-If a tab control has the TCS_OWNERDRAWFIXED style, the parent window must paint tabs by processing the WM_DRAWITEM message. The tab control sends this message whenever a tab needs to be painted. The lParam parameter specifies the address of a DRAWITEMSTRUCT structure, which contains the index of the tab, its bounding rectangle, and the device context (DC) in which to draw.
-
-By default, the itemData member of DRAWITEMSTRUCT contains the value of the lParam member of the TCITEM structure. However, if you change the amount of application-defined data per tab, itemData contains the address of the data instead. You can change the amount of application-defined data per tab by using the TCM_SETITEMEXTRA message.
-
-To specify the size of items in a tab control, the parent window must process the WM_MEASUREITEM message. Because all tabs in an owner-drawn tab control are the same size, this message is sent only once. There is no tab control style for owner-drawn tabs of varying size. You can also set the width and height of tabs by using the TCM_SETITEMSIZE message.
-
-#### Tab control tooltips
-
-You can use a tooltip control to provide a brief description of each tab in a tab control. A tab control that has the TCS_TOOLTIPS style creates a tooltip control when it is created and destroys the tooltip control when it is destroyed. You can also create a tooltip control and assign it to a tab control.
-
-If you use a tooltip control with a tab control, the parent window must process the TTN_GETDISPINFO notification code to provide a description of each tab on request.
-
-To use the same tooltip control with more than one tab control, create the tooltip control yourself and assign it to the tab control by using the TCM_SETTOOLTIPS message. You can retrieve the handle to a tab control's current tooltip control by using the TCM_GETTOOLTIPS message. If you create your own tooltip control, you should not use the TCS_TOOLTIPS style.
-
-#### Default tab control message processing
-
-This section describes the message processing performed by a tab control. Messages specific to tab controls are discussed in other sections of this documentation.
-
-| Message | Processing performed |
-| --------| ----------- |
-| **WM_CAPTURECHANGED** | Does nothing if the tab control released the mouse capture itself. If another window captured the mouse and a button is held down, the command releases the button. |
-| **WM_CREATE** | Allocates and initializes an internal data structure. The control creates a tooltip control if the TCS_TOOLTIPS style is specified. |
-| **WM_DESTROY** | Frees resources allocated during WM_CREATE processing. |
-| **WM_GETDLGCODE** | Returns a combination of the DLGC_WANTARROWS and DLGC_WANTCHARS values. |
-| **WM_GETFONT** | Returns the handle to the font used for labels. |
-| **WM_KEYDOWN** | Processes direction keys and changes the selection, if appropriate. |
-| **WM_KILLFOCUS** | Invalidates the tab that has the focus so it will be repainted to reflect an unfocused state. |
-| **WM_LBUTTONDOWN** | Forwards the message to the tooltip control, if any, and changes the selection if the user is clicking a tab. If the user is clicking a button, the control redraws the button to give a sunken appearance and captures the mouse. If the user is clicking either a tab or button and the TCS_FOCUSONBUTTONDOWN style is specified, the control sets the focus to itself. |
-| **WM_LBUTTONUP** | Releases the mouse if a button was pressed. If the cursor is over the button and is being held down, the control changes the selection accordingly and redraws the button. |
-| **WM_MOUSEMOVE** | Forwards the message to the tooltip control, if any. If the TCS_BUTTONS style is specified and the mouse button is being held down after clicking, the control may also redraw the affected button to give it a raised or sunken appearance. |
-| **WM_NOTIFY** | Forwards notification codes sent by the tooltip control. |	
-| **WM_PAINT** | Draws a border around the display area (unless the TCS_BUTTONS style is specified) and paints any tabs that intersect the invalid rectangle. For each tab, it draws the body of the tab (or sends a WM_DRAWITEM message to the parent window) and then draws a border around the tab. If the wParam parameter is non-NULL, the control assumes that the value is an HDC and paints using that device context. |	
-| **WM_RBUTTONDOWN** | Sends an NM_RCLICK notification code to the parent window. |	
-| **WM_SETFOCUS** | Invalidates the tab that has the focus so that it will be repainted to reflect a focused state. |	
-| **WM_SETFONT** | Sets the font used for labels. |	
-| **WM_SETREDRAW** | Sets the state of an internal flag that determines whether the control is repainted when items are inserted and deleted, when the font is changed, and so on. |	
-| **WM_SIZE** | Recalculates the positions of tabs and may invalidate part of the tab control to force repainting of some or all tabs. |	
 
 ---
 
