@@ -4,6 +4,7 @@ Applications often use static controls to label other controls or to separate a 
 
 Although static controls can be used in overlapped, pop-up, and child windows, they are designed for use in dialog boxes, where the system standardizes their behavior. By using static controls outside dialog boxes, a developer increases the risk that the application might behave in a nonstandard fashion. Typically, a developer either uses static controls in dialog boxes or uses the SS_OWNERDRAW style to create customized static controls.
 
+**Include file**: CStatic.inc.
 
 | Name | Description |
 | ---- | ----------- |
