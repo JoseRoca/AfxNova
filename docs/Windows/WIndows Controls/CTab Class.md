@@ -2,6 +2,8 @@
 
 A tab control is analogous to the dividers in a notebook or the labels in a file cabinet. By using a tab control, an application can define multiple pages for the same area of a window or dialog box. Each page consists of a certain type of information or a group of controls that the application displays when the user selects the corresponding tab.
 
+**Include file**: CTab.inc.
+
 | Name       | Description |
 | ---------- | ----------- |
 | [AddTab](#addtab) |Retrieves the number of tabs and calls InsertTab to add a new tab.  |
