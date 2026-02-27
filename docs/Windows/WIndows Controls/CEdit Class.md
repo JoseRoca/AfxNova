@@ -2,6 +2,8 @@
 
 `CEdit` is a class on top of the Edit control. An *edit control* is a rectangular control window typically used in a dialog box to permit the user to enter and edit text by typing on the keyboard. The system automatically processes all user-initiated text operations and notifies the application when the operations are completed.
 
+See: [About Edit Controls](https://learn.microsoft.com/en-us/windows/win32/controls/about-edit-controls)
+
 **Include file**: CEdit.inc.
 
 | Name       | Description |
