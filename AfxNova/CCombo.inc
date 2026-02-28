@@ -832,7 +832,7 @@ END FUNCTION
 ' Sets the attributes for an item in a ComboBoxEx control.
 ' Returns nonzero if successful, or zero otherwise.
 ' ========================================================================================
-PRIVATE FUNCTION CComboEx.SetItem (BYVAL hComboEx AS HWND, BYREF pCBItem AS COMBOBOXEXITEMW PTR) AS BOOLEAN
+PRIVATE FUNCTION CComboEx.SetItem (BYVAL hComboEx AS HWND, BYVAL pCBItem AS COMBOBOXEXITEMW PTR) AS BOOLEAN
    IF pCBItem = NULL THEN RETURN FALSE
    RETURN SendMessageW(hComboEx, CBEM_SETITEMW, 0, cast(LPARAM, pCBItem))
 END FUNCTION
