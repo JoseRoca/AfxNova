@@ -2812,7 +2812,7 @@ FUNCTION GdipEndContainer (BYVAL graphics AS GpGraphics PTR, _
 
 #### Remarks
 
-When you call the **GdipBeginContainer** function, an information block that holds the state of the **Graphics** object is put on a stack. The **GdipBeginContainer** method returns a value that identifies that information block. When you pass the identifying value to the **GdipEndContainer** method, the information block is removed from the stack and is used to restore the **Graphics** object to the state it was in at the time of the GdipBeginContainer call.
+When you call the **GdipBeginContainer** function, an information block that holds the state of the **Graphics** object is put on a stack. The **GdipBeginContainer** method returns a value that identifies that information block. When you pass the identifying value to the **GdipEndContainer** method, the information block is removed from the stack and is used to restore the **Graphics** object to the state it was in at the time of the **GdipBeginContainer** call.
 
 Containers can be nested; that is, you can call the **GdipBeginContainer** function several times before you call the **GdipEndContainer** function. Each time you call the **GdipBeginContainer** function, an information block is put on the stack, and you receive an identifier for the information block. When you pass one of those identifiers to the **GdipEndContainer** function, the **Graphics** object is returned to the state it was in at the time of the **GdipBeginContainer** call that returned that particular identifier. The information block placed on the stack by that **GdipBeginContainer** call is removed from the stack, and all information blocks placed on that stack after that **GdipBeginContainer** call are also removed.
 
