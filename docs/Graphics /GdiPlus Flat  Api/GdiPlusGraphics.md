@@ -5612,7 +5612,7 @@ FUNCTION GdipGetPageUnit (BYVAL graphics AS GpGraphics PTR, BYVAL unit AS GpUnit
 | Parameter  | Description |
 | ---------- | ----------- |
 | *graphics* | [in] Pointer to the **Graphics** object. |
-| *unit* | [out] Pointer to a variable that receives an element of the **Unit** enumeration that indicates the unit of measure currently set for the **Graphics** object. |
+| *unit* | [out] Pointer to a variable that receives an element of the **GpUnit** enumeration that indicates the unit of measure currently set for the **Graphics** object. |
 
 #### Example
 
