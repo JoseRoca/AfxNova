@@ -615,3 +615,32 @@ PRIVATE FUNCTION AfxGetNetworkAdapterMACAddress (BYREF wszServerName AS WSTRING 
    RETURN pServices.PropValue("MACAddress")
 END FUNCTION
 ' ========================================================================================
+
+' ========================================================================================
+' Gets the physical sector size of the physical disk, in bytes. For example: for 4K native
+' and 512-byte emulated disks, the value of this property should be 4096.
+' ========================================================================================
+PRIVATE FUNCTION AfxGetPhysicalDiskSectorSize (BYREF wszServerName AS WSTRING = ".") AS UINT64
+   DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\" & wszServerName & $"\root\Microsoft\Windows\Storage"
+   DIM nError AS DWORD = GetLastError
+   IF nError THEN AfxMsg(__FUNCTION__ & CHR(13,10) & "Error: &h" & HEX(nError, 8) & CHR(13,10) & AfxWmiGetErrorCodeText(nError))
+   IF pServices.ServicesPtr = NULL THEN RETURN 0
+   pServices.ExecQuery("SELECT PhysicalSectorSize FROM MSFT_PhysicalDisk")
+   pServices.GetNamedProperties
+   RETURN VAL(pServices.PropValue("PhysicalSectorSize"))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Gets the total physical storage size of the disk, in bytes.
+' ========================================================================================
+PRIVATE FUNCTION AfxGetPhysicalDiskSize (BYREF wszServerName AS WSTRING = ".") AS UINT64
+   DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\" & wszServerName & $"\root\Microsoft\Windows\Storage"
+   DIM nError AS DWORD = GetLastError
+   IF nError THEN AfxMsg(__FUNCTION__ & CHR(13,10) & "Error: &h" & HEX(nError, 8) & CHR(13,10) & AfxWmiGetErrorCodeText(nError))
+   IF pServices.ServicesPtr = NULL THEN RETURN 0
+   pServices.ExecQuery("SELECT Size FROM MSFT_PhysicalDisk")
+   pServices.GetNamedProperties
+   RETURN VAL(pServices.PropValue("Size"))
+END FUNCTION
+' ========================================================================================
