@@ -2075,7 +2075,7 @@ FUNCTION GdipDrawImagePointsRectI (BYVAL graphics AS GpGraphics PTR, BYVAL image
 
 #### Remarks
 
-The value of the count parameter must equal 3 to specify the coordinates of the upper-left corner, upper-right corner, and lower-left corner of the parallelogram. The coordinate of the lower-right corner is calculated using the three given coordinates, the width, and the height of the image. The portion of the source image to be drawn is scaled to fit the parallelogram.
+The value of the *count* parameter must equal 3 to specify the coordinates of the upper-left corner, upper-right corner, and lower-left corner of the parallelogram. The coordinate of the lower-right corner is calculated using the three given coordinates, the width, and the height of the image. The portion of the source image to be drawn is scaled to fit the parallelogram.
 
 #### Example
 
