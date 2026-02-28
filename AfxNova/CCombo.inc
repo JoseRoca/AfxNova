@@ -666,7 +666,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Set the control dark mode.
+' Sets the control dark mode.
 ' ========================================================================================
 PRIVATE FUNCTION CCombo.SetDarkMode (BYVAL hCombo AS HWND) AS HRESULT
    RETURN SetWindowTheme(hCombo, "DarkMode_CFD", NULL)
@@ -730,8 +730,8 @@ END DESTRUCTOR
 ' Removes an item from a ComboBoxEx control. Returns an INT value that represents the number
 ' of items remaining in the control. If iIndex is invalid, the message returns CB_ERR.
 ' ========================================================================================
-PRIVATE FUNCTION CComboEx.DeleteItem (BYVAL hComboEx AS HWND, BYVAL nIndex AS LONG) AS LONG
-   RETURN SendMessageW(hComboEx, CBEM_DELETEITEM, nIndex, 0)
+PRIVATE FUNCTION CComboEx.DeleteItem (BYVAL hComboEx AS HWND, BYVAL iIndex AS LONG) AS LONG
+   RETURN SendMessageW(hComboEx, CBEM_DELETEITEM, iIndex, 0)
 END FUNCTION
 ' ========================================================================================
 
@@ -812,7 +812,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns a DWORD value that contains the extended styles previously used for the control.
+' Sets extended styles within a ComboBoxEx control.
 ' ========================================================================================
 PRIVATE FUNCTION CComboEx.SetExtendedStyle (BYVAL hComboEx AS HWND, BYVAL dwExMask AS DWORD, BYVAL dwExStyle AS DWORD) AS DWORD
    RETURN SendMessageW(hComboEx, CBEM_SETEXTENDEDSTYLE, cast(WPARAM, dwExMask), cast(LPARAM, dwExStyle))
@@ -832,6 +832,12 @@ END FUNCTION
 ' Sets the attributes for an item in a ComboBoxEx control.
 ' Returns nonzero if successful, or zero otherwise.
 ' ========================================================================================
+PRIVATE FUNCTION CComboEx.SetItem (BYVAL hComboEx AS HWND, BYREF pCBItem AS COMBOBOXEXITEMW PTR) AS BOOLEAN
+   IF pCBItem = NULL THEN RETURN FALSE
+   RETURN SendMessageW(hComboEx, CBEM_SETITEMW, 0, cast(LPARAM, pCBItem))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
 PRIVATE FUNCTION CComboEx.SetItem (BYVAL hComboEx AS HWND, BYREF CBItem AS COMBOBOXEXITEMW) AS BOOLEAN
    IF VARPTR(CBItem) = 0 THEN RETURN FALSE
    RETURN SendMessageW(hComboEx, CBEM_SETITEMW, 0, cast(LPARAM, @CBItem))
@@ -847,7 +853,7 @@ END SUB
 ' ========================================================================================
 
 ' ========================================================================================
-' Set the control dark mode.
+' Sets the control dark mode.
 ' ========================================================================================
 PRIVATE FUNCTION CComboEx.SetDarkMode (BYVAL hComboEx AS HWND) AS HRESULT
    RETURN ..SetWindowTheme(hComboEx, "DarkMode_CFD", NULL)
