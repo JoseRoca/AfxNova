@@ -2143,6 +2143,6 @@ SUB SetWindowTheme (BYVAL hToolbar AS HWND, BYVAL pwszTheme AS WSTRING PTR)
 
 To use this message, you must provide a manifest specifying Comclt32.dll version 6.0.
 
-Sending this message is equivalent to calling SetWindowTheme on the toolbar and its tooltip control, if any.
+Sending this message is equivalent to calling **SetWindowTheme** on the toolbar and its tooltip control, if any.
 
 ---
