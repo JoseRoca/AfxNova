@@ -4,13 +4,13 @@ The RichEdit procedures provides detailed descriptions of various procedures rel
 
 | Name       | Description |
 | ---------- | ----------- |
-| [RichEdit_AutoUrlDetect](#richedit_autoUrlDetect) | Enables or disables automatic detection of URLs by a rich edit control. |
-| [RichEdit_CallAutocorrectProc](#richedit_callAutocorrectProc) | Calls the application-defined autocorrect callback procedure. |
-| [RichEdit_CanPaste](#richedit_canPaste) | Determines whether a rich edit control can paste a specified clipboard format. |
-| [RichEdit_CanRedo](#richedit_canRedo) | Determines whether there are any actions in the rich edit control redo queue. |
-| [RichEdit_CanUndo](#richedit_canUndo) | Determines whether there are any actions in the rich edit control undo queue. |
-| [RichEdit_CharFromPos](#richedit_charFromPos) | Retrieves information about the character closest to a specified point in the client area of a rich edit control. |
-| [RichEdit_DisplayBand](#richedit_displayBand) | Displays a portion of the contents of a rich edit control, as previously formatted for a device using the EM_FORMATRANGE message. |
+| [RichEdit_AutoUrlDetect](#richedit_autourldetect) | Enables or disables automatic detection of URLs by a rich edit control. |
+| [RichEdit_CallAutocorrectProc](#richedit_callautocorrectproc) | Calls the application-defined autocorrect callback procedure. |
+| [RichEdit_CanPaste](#richedit_canpaste) | Determines whether a rich edit control can paste a specified clipboard format. |
+| [RichEdit_CanRedo](#richedit_canredo) | Determines whether there are any actions in the rich edit control redo queue. |
+| [RichEdit_CanUndo](#richedit_canundo) | Determines whether there are any actions in the rich edit control undo queue. |
+| [RichEdit_CharFromPos](#richedit_charfrompos) | Retrieves information about the character closest to a specified point in the client area of a rich edit control. |
+| [RichEdit_DisplayBand](#richedit_displayband) | Displays a portion of the contents of a rich edit control, as previously formatted for a device using the EM_FORMATRANGE message. |
 | [RichEdit_EmptyUndoBuffer](#richedit_emptyundobuffer) | Resets the undo flag of a rich edit control. The undo flag is set whenever an operation within the rich edit control can be undone. |
 | [RichEdit_ExGetSel](#richedit_exgetdel) | Retrieves the starting and ending character positions of the selection in a rich edit control. |
 | [RichEdit_ExLimitText](#richedit_exlimittext) | Sets an upper limit to the amount of text the user can type or paste into a rich edit control. |
