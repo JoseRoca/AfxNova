@@ -38,6 +38,7 @@
 #include once "CMonthCal.inc"
 #include once "CProgressBar.inc"
 #include once "CRebar.inc"
+#include once "CRichEdit.inc"
 #include once "CStatic.inc"
 #include once "CStatusBar.inc"
 #include once "CTab.inc"

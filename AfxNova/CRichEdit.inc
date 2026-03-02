@@ -34,6 +34,18 @@ USING AfxNova
 NAMESPACE AfxNova
 
 ' ========================================================================================
+' Custom structure used by the CRichEdit.LoadRtfFromResourceW function.
+' ========================================================================================
+#ifndef AFX_RICHEDIT_CUSTOMDATA
+TYPE AFX_RICHEDIT_CUSTOMDATA
+   pData  AS BYTE PTR
+   nLen   AS LONG
+   curPos AS LONG
+END TYPE
+#endif
+' ========================================================================================
+
+' ========================================================================================
 ' CRichEdit class
 ' ========================================================================================
 TYPE CRichEdit
@@ -1430,18 +1442,6 @@ PRIVATE FUNCTION CRichEdit.LoadRtfFromFile ( _
    CloseHandle hFile
 
 END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Custom structure used by the CRichEdit.LoadRtfFromResourceW function.
-' ========================================================================================
-#ifndef AFX_RICHEDIT_CUSTOMDATA
-TYPE AFX_RICHEDIT_CUSTOMDATA
-   pData  AS BYTE PTR
-   nLen   AS LONG
-   curPos AS LONG
-END TYPE
-#endif
 ' ========================================================================================
 
 ' ========================================================================================
