@@ -387,6 +387,42 @@ PRINT
 PRINT "Press any key..."
 SLEEP
 ```
+
+Using an enumerator:
+
+```
+DO   ' // fake loop to avoid nested IFs/ENDIFs
+
+   ' // Connect to WMI using a moniker
+   ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
+   DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
+   IF pServices.ServicesPtr = NULL THEN EXIT DO
+
+   ' // Execute a query
+   DIM hr AS HRESULT = pServices.ExecQuery("SELECT * FROM Win32_Process", 48)
+   IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : EXIT DO
+
+   ' // Enumerate the objects using the standard IEnumVARIANT enumerator (NextObject method)
+   ' // and retrieve the properties using the CDispInvoke class.
+   DIM pDispServ AS CDispInvoke
+   DO
+      pDispServ = pServices.NextObject
+      IF pDispServ.DispPtr = NULL THEN EXIT DO
+      PRINT "Name: "; pDispServ.Get("Name")
+      PRINT "ProcessID "; pDispServ.Get("ProcessID")
+      PRINT "ThreadCount "; pDispServ.Get("ThreadCount")
+      PRINT "PageFileUsage "; pDispServ.Get("PageFileUsage")
+      PRINT "PageFaults "; pDispServ.Get("PageFaults")
+      PRINT "WorkingSetSize "; pDispServ.Get("WorkingSetSize")
+   LOOP
+
+   EXIT DO   ' // Inconditional exit
+LOOP
+
+PRINT
+PRINT "Press any key..."
+SLEEP
+```
 ---
 
 ## Get
