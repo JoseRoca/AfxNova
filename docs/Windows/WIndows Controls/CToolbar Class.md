@@ -850,7 +850,7 @@ FUNCTION GetInsertMarkColor (BYVAL hToolbar AS HWND) AS COLORREF
 
 #### Return value
 
-Returns a COLORREF value that contains the current insertion mark color.
+Returns a **COLORREF** value that contains the current insertion mark color.
 
 ---
 
