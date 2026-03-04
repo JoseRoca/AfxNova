@@ -16,8 +16,8 @@ Windows Management Instrumentation (WMI) is the infrastructure for management da
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Constructor(Moniker)](#constructor1) | Connects to WMI using a moniker. |
-| [Constructor(Server)](#constructor2) | Connects to the namespace that is specified on the *wszNamespace* parameter on the computer that is specified in the *wszServer* parameter. The target computer can be either local or remote, but it must have WMI installed. |
+| [Constructor (Moniker)](#constructor1) | Connects to WMI using a moniker. |
+| [Constructor (Server)](#constructor2) | Connects to the namespace that is specified on the *wszNamespace* parameter on the computer that is specified in the *wszServer* parameter. The target computer can be either local or remote, but it must have WMI installed. |
 
 ---
 
@@ -48,7 +48,7 @@ Windows Management Instrumentation (WMI) is the infrastructure for management da
 
 ---
 
-## <a name="Constructor1"></a>Constructor(Moniker)
+## <a name="constructor1"></a>Constructor (Moniker)
 
 Connects to WMI using a moniker.
 
@@ -82,7 +82,7 @@ print "Result: ", VAL(dvRes)
 ```
 ---
 
-## <a name="Constructor2"></a>Constructor(Server)
+## <a name="constructor2"></a>Constructor (Server)
 
 Connects to the namespace that is specified on the *wszNamespace* parameter on the computer that is specified in the *wszServer* parameter. The target computer can be either local or remote, but it must have WMI installed.
 
