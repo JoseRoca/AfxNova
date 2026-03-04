@@ -151,7 +151,6 @@ Returns S_OK (0) on success, or an HRESULT code on failure.
 Using an enumerator (the standard **IEnumVARIANT** interface) to retrieve the information:
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -181,7 +180,6 @@ SLEEP
 If the query returns more than one object, then we will use a loop:
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -217,7 +215,6 @@ SLEEP
 To improve enumeration performance set the *iFlags* parameter of the **ExecQuery** method to *WbemFlagReturnImmediately* and *WbemFlagForwardOnly* (the combined value of these flags is 48) to allow semisynchronous return of the data with an enumerator that discards each item from WMI as it is delivered. In this case don't call the **ObjectsCount** method because it will return 0, since the operation has not been completed.
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -246,7 +243,6 @@ SLEEP
 If there are several objects in the collection, we can use a loop:
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -277,7 +273,6 @@ SLEEP
 Calling the **GetNamedProperties** method after executing the query. **GetNamedProperties** generates a named collection of properties. This has the advantage of not having to use **CDispInvoke**.
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -312,7 +307,6 @@ SLEEP
 **Using a loop**:
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -458,7 +452,6 @@ May return one of the error codes in the following list:
 #### Example
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -487,7 +480,6 @@ SLEEP
 Example
 
 ```
-#include "windows.bi"
 #include "AfxNpva/CWmiDisp.inc"
 USING AfxNova
 
@@ -592,7 +584,6 @@ May return one of the error codes in the following list:
 #### Examples
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -627,7 +618,6 @@ SLEEP
 Using a loop:
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -690,7 +680,6 @@ S_OK on success or an error code.
 #### Example
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -752,7 +741,6 @@ Te retrieved object.
 #### Example
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
@@ -782,7 +770,6 @@ SLEEP
 To improve enumeration performance set the *iFlags* parameter of the **ExecQuery** method to *WbemFlagReturnImmediately* and *WbemFlagForwardOnly* (the combined value of these flags is 48) to allow semisynchronous return of the data with an enumerator that discards each item from WMI as it is delivered. In this case don't call the **ObjectsCount** method because it will return 0, since the operation has not been completed.
 
 ```
-#include "windows.bi"
 #include "AfxNova/CWmiDisp.inc"
 USING AfxNova
 
