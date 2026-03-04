@@ -58,7 +58,7 @@ Public:
    DECLARE STATIC FUNCTION GetText (BYVAL hStatusBar AS HWND, BYVAL nPart AS DWORD) AS DWSTRING
    DECLARE STATIC FUNCTION GetTextDrawingMode (BYVAL hStatusBar AS HWND, BYVAL nPart AS DWORD) AS LONG
    DECLARE STATIC FUNCTION GetTextLength (BYVAL hStatusBar AS HWND, BYVAL nPart AS DWORD) AS LONG
-   DECLARE STATIC SUB GetTipText (BYVAL hStatusBar AS HWND, BYVAL nPart AS WORD, BYVAL pwszText AS WSTRING PTR, BYVAL wMaxLen AS WORD)
+   DECLARE STATIC SUB GetTipText (BYVAL hStatusBar AS HWND, BYVAL nPart AS WORD, BYVAL pwszText AS WSTRING PTR, BYVAL wLen AS WORD)
    DECLARE STATIC FUNCTION GetTipText (BYVAL hStatusBar AS HWND, BYVAL nPart AS WORD) AS DWSTRING
    DECLARE STATIC FUNCTION IsSimple (BYVAL hStatusBar AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION SetBkColor (BYVAL hStatusBar AS HWND, BYVAL clrBk AS COLORREF) AS COLORREF
@@ -211,9 +211,9 @@ END FUNCTION
 ' Using this message incorrectly can cause problems for your application. For example, if
 ' the text is too large for the pwszText buffer, it could cause a buffer overflow.
 ' ========================================================================================
-PRIVATE SUB CStatusBar.GetTipText (BYVAL hStatusBar AS HWND, BYVAL nPart AS WORD, BYVAL pwszText AS WSTRING PTR, BYVAL wMaxLen AS WORD)
+PRIVATE SUB CStatusBar.GetTipText (BYVAL hStatusBar AS HWND, BYVAL nPart AS WORD, BYVAL pwszText AS WSTRING PTR, BYVAL wLen AS WORD)
    IF pwszText = NULL THEN EXIT SUB
-   SendMessageW(hStatusBar, SB_GETTIPTEXTW, cast(WPARAM, MAKELONG(nPart, wMaxLen)), cast(LPARAM, pwszText))
+   SendMessageW(hStatusBar, SB_GETTIPTEXTW, cast(WPARAM, MAKELONG(nPart, wLen)), cast(LPARAM, pwszText))
 END SUB
 ' ========================================================================================
 
