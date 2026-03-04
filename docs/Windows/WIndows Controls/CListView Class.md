@@ -3768,7 +3768,7 @@ Returns the index of the item or subitem tested, if any, or -1 otherwise. If an 
 
 #### Remarks
 
-This macro passes -1 as the wparam of the message, specifying that the **iGroup** member of plvhti is retrieved.
+This macro passes -1 as the wparam of the message, specifying that the **iGroup** member of *plvhti* is retrieved.
 
 ---
 
