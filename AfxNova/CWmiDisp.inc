@@ -29,6 +29,7 @@
 #include once "AfxNova/AfxWmiDisp.bi"
 #include once "AfxNova/AfxCOM.inc"
 #include once "AfxNova/DVARIANT.inc"
+#include once "AfxNova/CDispInvoke.inc"
 USING AfxNova
 
 NAMESPACE AfxNova
