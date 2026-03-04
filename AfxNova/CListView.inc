@@ -81,13 +81,10 @@ Public:
    DECLARE STATIC FUNCTION GetGroupHeaderImageList (BYVAL hListView AS HWND) AS HIMAGELIST
    DECLARE STATIC FUNCTION GetGroupInfo (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG, BYVAL pgrp AS LVGROUP PTR) AS LONG
    DECLARE STATIC FUNCTION GetGroupInfo (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG, BYREF grp AS LVGROUP) AS LONG
-   DECLARE STATIC FUNCTION GetGroupInfo (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG) AS LVGROUP
    DECLARE STATIC FUNCTION GetGroupInfoByIndex (BYVAL hListView AS HWND, BYVAL iIndex AS LONG, BYREF grp AS LVGROUP) AS BOOLEAN
    DECLARE STATIC FUNCTION GetGroupInfoByIndex (BYVAL hListView AS HWND, BYVAL iIndex AS LONG, BYREF pgrp AS LVGROUP PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetGroupInfoByIndex (BYVAL hListView AS HWND, BYVAL iIndex AS LONG) AS LVGROUP
    DECLARE STATIC SUB GetGroupMetrics (BYVAL hListView AS HWND, BYVAL pGroupMetrics AS LVGROUPMETRICS PTR)
    DECLARE STATIC SUB GetGroupMetrics (BYVAL hListView AS HWND, BYREF GroupMetrics AS LVGROUPMETRICS)
-   DECLARE STATIC FUNCTION GetGroupMetrics (BYVAL hListView AS HWND) AS LVGROUPMETRICS
    DECLARE STATIC FUNCTION GetGroupRect (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG, BYVAL nType AS LONG, BYVAL prc AS RECT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetGroupRect (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG, BYVAL nType AS LONG, BYREF rc AS RECT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetGroupRect (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG, BYVAL nType AS LONG) AS RECT
@@ -97,7 +94,7 @@ Public:
    DECLARE STATIC FUNCTION GetHotItem (BYVAL hListView AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetHoverTime (BYVAL hListView AS HWND) AS DWORD
    DECLARE STATIC FUNCTION GetImageList (BYVAL hListView AS HWND, BYVAL iImageList AS LONG) AS HIMAGELIST
-   DECLARE STATIC FUNCTION GetInsertMark (BYVAL hListView AS HWND, BYREF pvim AS LVINSERTMARK PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetInsertMark (BYVAL hListView AS HWND, BYVAL pvim AS LVINSERTMARK PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetInsertMark (BYVAL hListView AS HWND, BYREF vim AS LVINSERTMARK) AS BOOLEAN
    DECLARE STATIC FUNCTION GetInsertMark (BYVAL hListView AS HWND) AS LVINSERTMARK
    DECLARE STATIC FUNCTION GetInsertMarkColor (BYVAL hListView AS HWND) AS COLORREF
@@ -109,10 +106,10 @@ Public:
    DECLARE STATIC FUNCTION GetItem (BYVAL hListView AS HWND, BYVAL pitem AS LVITEMW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItem (BYVAL hListView AS HWND, BYREF item AS LVITEMW) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemCount (BYVAL hListView AS HWND) AS LONG
-   DECLARE STATIC FUNCTION GetItemPosition (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL pt AS POINT PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItemPosition (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL ppt AS POINT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemPosition (BYVAL hListView AS HWND, BYVAL i AS LONG, BYREF pt AS POINT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemPosition (BYVAL hListView AS HWND, BYVAL i AS LONG) AS POINT
-   DECLARE STATIC FUNCTION GetItemRect (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL rc AS RECT PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItemRect (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL prc AS RECT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hListView AS HWND, BYVAL i AS LONG, BYREF rc AS RECT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL code AS LONG) AS RECT
    DECLARE STATIC FUNCTION GetItemSpacing (BYVAL hListView AS HWND, BYVAL fSmall AS BOOLEAN) AS DWORD
@@ -120,12 +117,12 @@ Public:
    DECLARE STATIC FUNCTION GetItemVerticalSpacing (BYVAL hListView AS HWND, BYVAL fSmall AS BOOLEAN) AS DWORD
    DECLARE STATIC FUNCTION GetItemState (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL mask AS LONG) AS UINT
    DECLARE STATIC SUB GetItemText (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL iSubItem AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG = MAX_PATH + 1)
-   DECLARE STATIC FUNCTION GetTextW (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL iSubItem AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
+   DECLARE STATIC FUNCTION GetText (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL iSubItem AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
    DECLARE STATIC FUNCTION GetNextItem (BYVAL hListView AS HWND, BYVAL iStart AS LONG, BYVAL flags AS UINT) AS LONG
    DECLARE STATIC FUNCTION GetSelection (BYVAL hListView AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetFocusedItem (BYVAL hListView AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetNumberOfWorkAreas (BYVAL hListView AS HWND) AS DWORD
-   DECLARE STATIC FUNCTION GetOrigin (BYVAL hListView AS HWND, BYVAL ptOrg AS POINT PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetOrigin (BYVAL hListView AS HWND, BYVAL pptOrg AS POINT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetOrigin (BYVAL hListView AS HWND, BYREF ptOrg AS POINT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetOrigin (BYVAL hListView AS HWND) AS POINT
    DECLARE STATIC FUNCTION GetOutlineColor (BYVAL hListView AS HWND) AS COLORREF
@@ -133,7 +130,8 @@ Public:
    DECLARE STATIC FUNCTION GetSelectedCount (BYVAL hListView AS HWND) AS UINT
    DECLARE STATIC FUNCTION GetSelectionMark (BYVAL hListView AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetStringWidth (BYVAL hListView AS HWND, BYREF wszText AS WSTRING) AS LONG
-   DECLARE STATIC FUNCTION GetSubItemRect (BYVAL hListView AS HWND, BYVAL iItem AS LONG, BYVAL iSubItem AS LONG, BYVAL nCode AS LONG, BYREF rc AS RECT) AS LONG
+   DECLARE STATIC FUNCTION GetSubItemRect (BYVAL hListView AS HWND, BYVAL iItem AS LONG, BYVAL iSubItem AS LONG, BYVAL nCode AS LONG, BYVAL prc AS RECT PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetSubItemRect (BYVAL hListView AS HWND, BYVAL iItem AS LONG, BYVAL iSubItem AS LONG, BYVAL nCode AS LONG, BYREF rc AS RECT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSubItemRect (BYVAL hListView AS HWND, BYVAL iItem AS LONG, BYVAL iSubItem AS LONG, BYVAL nCode AS LONG) AS RECT
    DECLARE STATIC FUNCTION GetTextBkColor (BYVAL hListView AS HWND) AS COLORREF
    DECLARE STATIC FUNCTION GetTextColor (BYVAL hListView AS HWND) AS COLORREF
@@ -189,7 +187,7 @@ Public:
    DECLARE STATIC SUB SetCheckState (BYVAL hListView AS HWND, BYVAL iIndex AS LONG, BYVAL fCheck AS BOOLEAN)
    DECLARE STATIC FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMN PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMN) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetColumnOrderArray (BYVAL hListView AS HWND, BYVAL iCount AS LONG, BYVAL pi AS LONG PTR) AS BOOLEAN
+   DECLARE STATIC SUB SetColumnOrderArray (BYVAL hListView AS HWND, BYVAL iCount AS LONG, BYVAL pi AS LONG PTR)
    DECLARE STATIC FUNCTION SetColumnWidth (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL cx AS LONG) AS BOOLEAN
    DECLARE STATIC SUB SetExtendedListViewStyle (BYVAL hListView AS HWND, BYVAL dwExStyle AS DWORD)
    DECLARE STATIC SUB SetExtendedListViewStyleEx (BYVAL hListView AS HWND, BYVAL dwExMask AS DWORD, BYVAL dwExStyle AS DWORD)
@@ -208,17 +206,17 @@ Public:
    DECLARE STATIC FUNCTION SetInfoTip (BYVAL hListView AS HWND, BYREF lvInfoTip AS LVSETINFOTIP) AS BOOLEAN
    DECLARE STATIC FUNCTION SetInsertMark (BYVAL hListView AS HWND, BYVAL plvim AS LVINSERTMARK PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetInsertMark (BYVAL hListView AS HWND, BYREF lvim AS LVINSERTMARK) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetInsertMarkColor (BYVAL hListView AS HWND, BYVAL colr AS COLORREF) AS COLORREF
+   DECLARE STATIC FUNCTION SetInsertMarkColor (BYVAL hListView AS HWND, BYVAL clr AS COLORREF) AS COLORREF
    DECLARE STATIC FUNCTION SetItem (BYVAL hListView AS HWND, BYVAL pitem AS LVITEMW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetItem (BYVAL hListView AS HWND, BYREF item AS LVITEMW) AS BOOLEAN
-   DECLARE STATIC SUB SetItemCount (BYVAL hListView AS HWND, BYVAL cItems AS LONG)
-   DECLARE STATIC SUB SetItemCountEx (BYVAL hListView AS HWND, BYVAL cItems AS LONG, BYVAL dwFlags AS LONG)
+   DECLARE STATIC FUNCTION SetItemCount (BYVAL hListView AS HWND, BYVAL cItems AS LONG) AS LRESULT
+   DECLARE STATIC FUNCTION SetItemCountEx (BYVAL hListView AS HWND, BYVAL cItems AS LONG, BYVAL dwFlags AS LONG) AS LRESULT
    DECLARE STATIC FUNCTION SetItemPosition (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL x AS SHORT, BYVAL y AS SHORT) AS BOOLEAN
    DECLARE STATIC SUB SetItemPosition32 (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL x AS LONG, BYVAL y AS LONG)
    DECLARE STATIC SUB SetItemState (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL dwState AS DWORD, BYVAL mask AS DWORD)
-   DECLARE STATIC SUB SetItemText (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL iSubItem AS LONG, BYREF wszText AS WSTRING)
+   DECLARE STATIC SUB SetItemText (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL iSubItem AS LONG, BYVAL pwszText AS WSTRING PTR)
    DECLARE STATIC SUB SetText (BYVAL hListView AS HWND, BYVAL i AS LONG, BYREF wszText AS WSTRING)
-   DECLARE STATIC FUNCTION SetOutlineColor (BYVAL hListView AS HWND, BYVAL colr AS COLORREF) AS COLORREF
+   DECLARE STATIC FUNCTION SetOutlineColor (BYVAL hListView AS HWND, BYVAL clr AS COLORREF) AS COLORREF
    DECLARE STATIC SUB SetSelectedColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG)
    DECLARE STATIC FUNCTION SetSelectionMark (BYVAL hListView AS HWND, BYVAL iIndex AS LONG) AS LONG
    DECLARE STATIC FUNCTION SetTextBkColor (BYVAL hListView AS HWND, BYVAL clrTextBk AS COLORREF) AS BOOLEAN
@@ -232,8 +230,8 @@ Public:
    DECLARE STATIC SUB SetWorkAreas (BYVAL hListView AS HWND, BYVAL nWorkAreas AS LONG, BYVAL prc AS RECT PTR)
    DECLARE STATIC SUB SetWorkAreas (BYVAL hListView AS HWND, BYVAL nWorkAreas AS LONG, BYREF rc AS RECT)
    DECLARE STATIC FUNCTION SortGroups (BYVAL hListView AS HWND, BYVAL _pfnGroupCompare AS PFNLVGROUPCOMPARE PTR, BYVAL _plv AS ANY PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION SortItems (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION SortItemsEx (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION SortItems (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LPARAM) AS LONG
+   DECLARE STATIC FUNCTION SortItemsEx (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LPARAM) AS LONG
    DECLARE STATIC FUNCTION SubItemHitTest (BYVAL hListView AS HWND, BYVAL plvhti AS LVHITTESTINFO PTR) AS LONG
    DECLARE STATIC FUNCTION SubItemHitTest (BYVAL hListView AS HWND, BYREF lvhti AS LVHITTESTINFO) AS LONG
    DECLARE STATIC FUNCTION SubItemHitTestEx (BYVAL hListView AS HWND, BYVAL plvhti AS LVHITTESTINFO PTR) AS LONG
@@ -279,7 +277,7 @@ Public:
    DECLARE STATIC FUNCTION GetNextItemIndex (BYVAL hListView AS HWND, BYREF lvii AS LVITEMINDEX, BYVAL flags AS ..LPARAM) AS LONG
    DECLARE STATIC FUNCTION SetItemIndexState (BYVAL hListView AS HWND, BYVAL plvii AS LVITEMINDEX PTR, BYVAL dwData AS UINT, BYVAL mask AS UINT) AS HRESULT
    DECLARE STATIC FUNCTION SetItemIndexState (BYVAL hListView AS HWND, BYREF lvii AS LVITEMINDEX, BYVAL dwData AS UINT, BYVAL mask AS UINT) AS HRESULT
-   DECLARE STATIC FUNCTION GetEmptyText (BYVAL hListView AS HWND, BYREF wszText AS WSTRING, BYVAL cchText AS DWORD) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetEmptyText (BYVAL hListView AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL cchText AS DWORD) AS BOOLEAN
    DECLARE STATIC FUNCTION GetFooterRect (BYVAL hListView AS HWND, BYVAL prc AS RECT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetFooterRect (BYVAL hListView AS HWND, BYREF rc AS RECT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetFooterRect (BYVAL hListView AS HWND) AS RECT
@@ -332,8 +330,8 @@ PRIVATE FUNCTION CListView.CreateDragImage (BYVAL hListView AS HWND, BYVAL i AS 
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CListView.CreateDragImage (BYVAL hListView AS HWND, BYVAL i AS LONG, BYREF lpptUpLeft AS POINT) AS HIMAGELIST
-   RETURN CAST(HIMAGELIST, SendMessageW(hListView, LVM_CREATEDRAGIMAGE, i, CAST(LPARAM, @lpptUpLeft)))
+PRIVATE FUNCTION CListView.CreateDragImage (BYVAL hListView AS HWND, BYVAL i AS LONG, BYREF tUpLeft AS POINT) AS HIMAGELIST
+   RETURN CAST(HIMAGELIST, SendMessageW(hListView, LVM_CREATEDRAGIMAGE, i, CAST(LPARAM, @tUpLeft)))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -479,7 +477,7 @@ END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG) AS LVCOLUMNW
-   DIM pcol AS LVCOLUMN
+   DIM pcol AS LVCOLUMNW
    SendMessageW(hListView, LVM_GETCOLUMN, iCol, CAST(LPARAM, @pcol))
    RETURN pcol
 END FUNCTION
@@ -569,19 +567,16 @@ END FUNCTION
 ' Gets group information.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetGroupInfo (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG, BYVAL pgrp AS LVGROUP PTR) AS LONG
+   IF pgrp = NULL THEN RETURN -1
+   pgrp->cbSize = SIZEOF(LVGROUP)
    RETURN SendMessageW(hListView, LVM_GETGROUPINFO, iGroupId, CAST(LPARAM, pgrp))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetGroupInfo (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG, BYREF grp AS LVGROUP) AS LONG
+   IF VARPTR(grp) = NULL THEN RETURN -1
+   grp.cbSize = SIZEOF(LVGROUP)
    RETURN SendMessageW(hListView, LVM_GETGROUPINFO, iGroupId, CAST(LPARAM, @grp))
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CListView.GetGroupInfo (BYVAL hListView AS HWND, BYVAL iGroupId AS LONG) AS LVGROUP
-   DIM grp AS LVGROUP
-   SendMessageW(hListView, LVM_GETGROUPINFO, iGroupId, CAST(LPARAM, @grp))
-   RETURN grp
 END FUNCTION
 ' ========================================================================================
 
@@ -589,19 +584,16 @@ END FUNCTION
 ' Gets information on a specified group.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetGroupInfoByIndex (BYVAL hListView AS HWND, BYVAL iIndex AS LONG, BYREF pgrp AS LVGROUP PTR) AS BOOLEAN
+   IF pgrp = NULL THEN RETURN FALSE
+   pgrp->cbSize = SIZEOF(LVGROUP)
    RETURN SendMessageW(hListView, LVM_GETGROUPINFOBYINDEX, iIndex, CAST(LPARAM, pgrp))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetGroupInfoByIndex (BYVAL hListView AS HWND, BYVAL iIndex AS LONG, BYREF grp AS LVGROUP) AS BOOLEAN
+   IF VARPTR(grp) = NULL THEN RETURN FALSE
+   grp.cbSize = SIZEOF(LVGROUP)
    RETURN SendMessageW(hListView, LVM_GETGROUPINFOBYINDEX, iIndex, CAST(LPARAM, @grp))
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CListView.GetGroupInfoByIndex (BYVAL hListView AS HWND, BYVAL iIndex AS LONG) AS LVGROUP
-   DIM grp AS LVGROUP
-   SendMessageW(hListView, LVM_GETGROUPINFOBYINDEX, iIndex, CAST(LPARAM, @grp))
-   RETURN grp
 END FUNCTION
 ' ========================================================================================
 
@@ -609,20 +601,17 @@ END FUNCTION
 ' Gets information about the display of groups.
 ' ========================================================================================
 PRIVATE SUB CListView.GetGroupMetrics (BYVAL hListView AS HWND, BYVAL pGroupMetrics AS LVGROUPMETRICS PTR)
+   IF pGroupMetrics = NULL THEN EXIT SUB
+   pGroupMetrics->cbSize = SIZEOF(LVGROUPMETRICS)
    SendMessageW hListView, LVM_GETGROUPMETRICS, 0, CAST(LPARAM, pGroupMetrics)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE SUB CListView.GetGroupMetrics (BYVAL hListView AS HWND, BYREF GroupMetrics AS LVGROUPMETRICS)
+   IF VARPTR(GroupMetrics) = NULL THEN EXIT SUB
+   GroupMetrics.cbSize = SIZEOF(LVGROUPMETRICS)
    SendMessageW hListView, LVM_GETGROUPMETRICS, 0, CAST(LPARAM, @GroupMetrics)
 END SUB
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CListView.GetGroupMetrics (BYVAL hListView AS HWND) AS LVGROUPMETRICS
-   DIM GroupMetrics AS LVGROUPMETRICS
-   SendMessageW hListView, LVM_GETGROUPMETRICS, 0, CAST(LPARAM, @GroupMetrics)
-   RETURN GroupMetrics
-END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
@@ -698,18 +687,23 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the position of the insertion point.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.GetInsertMark (BYVAL hListView AS HWND, BYREF pvim AS LVINSERTMARK PTR) AS BOOLEAN
+PRIVATE FUNCTION CListView.GetInsertMark (BYVAL hListView AS HWND, BYVAL pvim AS LVINSERTMARK PTR) AS BOOLEAN
+   IF pvim = NULL THEN RETURN FALSE
+   pvim->cbSize = SIZEOF(LVINSERTMARK)
    RETURN SendMessageW(hListView, LVM_GETINSERTMARK, 0, CAST(LPARAM, pvim))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetInsertMark (BYVAL hListView AS HWND, BYREF vim AS LVINSERTMARK) AS BOOLEAN
+   IF VARPTR(vim) = NULL THEN RETURN FALSE
+   vim.cbSize = SIZEOF(LVINSERTMARK)
    RETURN SendMessageW(hListView, LVM_GETINSERTMARK, 0, CAST(LPARAM, @vim))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetInsertMark (BYVAL hListView AS HWND) AS LVINSERTMARK
    DIM vim AS LVINSERTMARK
+   vim.cbSize = SIZEOF(LVINSERTMARK)
    SendMessageW(hListView, LVM_GETINSERTMARK, 0, CAST(LPARAM, @vim))
    RETURN vim
 END FUNCTION
@@ -786,8 +780,8 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the position of a list-view item.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.GetItemPosition (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL pt AS POINT PTR) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_GETITEMPOSITION, i, CAST(LPARAM, pt))
+PRIVATE FUNCTION CListView.GetItemPosition (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL ppt AS POINT PTR) AS BOOLEAN
+   RETURN SendMessageW(hListView, LVM_GETITEMPOSITION, i, CAST(LPARAM, ppt))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -863,7 +857,7 @@ END SUB
 ' ========================================================================================
 ' * Gets the text of a list-view item or subitem.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.GetTextW (BYVAL hListView AS HWND, BYVAL item AS LONG, BYVAL iSubItem AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
+PRIVATE FUNCTION CListView.GetText (BYVAL hListView AS HWND, BYVAL item AS LONG, BYVAL iSubItem AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
    DIM dwsText AS DWSTRING
    DIM lvi AS LVITEMW
    DIM nLen AS LONG
@@ -919,8 +913,8 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the current view origin for a list-view control.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.GetOrigin (BYVAL hListView AS HWND, BYVAL ptOrg AS POINT PTR) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_GETORIGIN, 0, CAST(LPARAM, @ptOrg))
+PRIVATE FUNCTION CListView.GetOrigin (BYVAL hListView AS HWND, BYVAL pptOrg AS POINT PTR) AS BOOLEAN
+   RETURN SendMessageW(hListView, LVM_GETORIGIN, 0, CAST(LPARAM, pptOrg))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -982,11 +976,18 @@ END FUNCTION
 ' Gets information about the rectangle that surrounds a subitem in a list-view control.
 ' This function is intended to be used only on list-view controls that use the LVS_REPORT style.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.GetSubItemRect (BYVAL hListView AS HWND, BYVAL iItem AS LONG, BYVAL iSubItem AS LONG, BYVAL nCode AS LONG, BYREF rc AS RECT) AS LONG
-   IF VARPTR(rc) THEN
-      rc.Top = iSubItem
-      rc.Left = nCode
-   END IF
+PRIVATE FUNCTION CListView.GetSubItemRect (BYVAL hListView AS HWND, BYVAL iItem AS LONG, BYVAL iSubItem AS LONG, BYVAL nCode AS LONG, BYVAL prc AS RECT PTR) AS BOOLEAN
+   IF prc = NULL THEN RETURN FALSE
+   prc->Top = iSubItem
+   prc->Left = nCode
+   RETURN SendMessageW(hListView, LVM_GETSUBITEMRECT, iItem, CAST(LPARAM, prc))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CListView.GetSubItemRect (BYVAL hListView AS HWND, BYVAL iItem AS LONG, BYVAL iSubItem AS LONG, BYVAL nCode AS LONG, BYREF rc AS RECT) AS BOOLEAN
+   IF VARPTR(rc) = NULL THEN RETURN FALSE
+   rc.Top = iSubItem
+   rc.Left = nCode
    RETURN SendMessageW(hListView, LVM_GETSUBITEMRECT, iItem, CAST(LPARAM, @rc))
 END FUNCTION
 ' ========================================================================================
@@ -1020,17 +1021,22 @@ END FUNCTION
 ' Gets information about a tile in a list-view control.
 ' ========================================================================================
 PRIVATE SUB CListView.GetTileInfo (BYVAL hListView AS HWND, BYVAL pti AS LVTILEINFO PTR)
+   IF pti = NULL THEN EXIT SUB
+   pti->cbSize = SIZEOF(LVTILEINFO)
    SendMessageW hListView, LVM_GETTILEINFO, 0, CAST(LPARAM, pti)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE SUB CListView.GetTileInfo (BYVAL hListView AS HWND, BYREF ti AS LVTILEINFO)
+   IF VARPTR(ti) = NULL THEN EXIT SUB
+   ti.cbSize = SIZEOF(LVTILEINFO)
    SendMessageW hListView, LVM_GETTILEINFO, 0, CAST(LPARAM, @ti)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetTileInfo (BYVAL hListView AS HWND) AS LVTILEINFO
    DIM ti AS LVTILEINFO
+   ti.cbSize = SIZEOF(LVTILEINFO)
    SendMessageW hListView, LVM_GETTILEINFO, 0, CAST(LPARAM, @ti)
    RETURN ti
 END FUNCTION
@@ -1040,24 +1046,29 @@ END FUNCTION
 ' Gets information about a list-view control in tile view.
 ' ========================================================================================
 PRIVATE SUB CListView.GetTileViewInfo (BYVAL hListView AS HWND, BYVAL ptvi AS LVTILEVIEWINFO PTR)
+   IF ptvi = NULL THEN EXIT SUB
+   ptvi->cbSize = SIZEOF(LVTILEVIEWINFO)
    SendMessageW hListView, LVM_GETTILEVIEWINFO, 0, CAST(LPARAM, ptvi)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE SUB CListView.GetTileViewInfo (BYVAL hListView AS HWND, BYREF tvi AS LVTILEVIEWINFO)
+   IF VARPTR(tvi) = NULL THEN EXIT SUB
+   tvi.cbSize = SIZEOF(LVTILEVIEWINFO)
    SendMessageW hListView, LVM_GETTILEVIEWINFO, 0, CAST(LPARAM, @tvi)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetTileViewInfo (BYVAL hListView AS HWND) AS LVTILEVIEWINFO
    DIM tvi AS LVTILEVIEWINFO
+   tvi.cbSize = SIZEOF(LVTILEVIEWINFO)
    SendMessageW hListView, LVM_GETTILEVIEWINFO, 0, CAST(LPARAM, @tvi)
    RETURN tvi
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Gets the ToolTip control that the list-view control uses to display ToolTips.
+' * Gets the ToolTip control that the list-view control uses to display tooltips.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetToolTips (BYVAL hListView AS HWND) AS HWND
    RETURN CAST(HWND, SendMessageW(hListView, LVM_GETTOOLTIPS, 0, 0))
@@ -1177,7 +1188,7 @@ END FUNCTION
 '      wszText = "Column " & STR(i)
 '      lvc.pszText = @wszText
 '      lvc.cx = 50
-'      pListView.InsertColumn(i, @lvc)
+'      CListView.InsertColumn(i, @lvc)
 '   NEXT
 ' ========================================================================================
 PRIVATE FUNCTION CListView.InsertColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMN PTR) AS LONG
@@ -1196,7 +1207,7 @@ END FUNCTION
 ' * Inserts a new column in a list-view control.
 ' - hCtl: Handle to the ListView control.
 ' - iCol: Index of the new column.
-' - pwszText: The column header text.
+' - wszText: The column header text.
 ' - nWidth: The width of the column, in pixels.
 ' - nFormat: Alignment of the column header and the subitem text in the column.
 '   The alignment of the leftmost column is always left-justified; it cannot be changed.
@@ -1275,7 +1286,7 @@ END FUNCTION
 
 ' ========================================================================================
 ' Inserts a new item in a list-view control.
-' - hwndLV: Handle to the ListView control.
+' - hListView: Handle to the ListView control.
 ' - iItem: Index at which the new item should be inserted. If this value is greater than
 '   the number of items currently contained by the listview control, the new item will be
 '   appended to the end of the list and assigned the correct index. Examine the return
@@ -1306,8 +1317,8 @@ END FUNCTION
 
 ' ========================================================================================
 ' Appends a new item in a list-view control.
-' - hwndLV: Handle to the ListView control.
-' - nImage: Zero-based index of the item's icon in the control's image list.
+' - hListView: Handle to the ListView control.
+' - iImage: Zero-based index of the item's icon in the control's image list.
 ' - pwszText: The item text.
 ' Returns the index of the new item if successful, or -1 otherwise.
 ' ========================================================================================
@@ -1325,8 +1336,8 @@ END FUNCTION
 ' ========================================================================================
 ' Retrieves the insertion point closest to a specified point.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.InsertMarkHitTest (BYVAL hListView AS HWND, BYVAL pt AS POINT PTR, BYVAL pvim AS LVINSERTMARK PTR) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_INSERTMARKHITTEST, CAST(WPARAM, pt), CAST(LPARAM, pvim))
+PRIVATE FUNCTION CListView.InsertMarkHitTest (BYVAL hListView AS HWND, BYVAL ppt AS POINT PTR, BYVAL pvim AS LVINSERTMARK PTR) AS BOOLEAN
+   RETURN SendMessageW(hListView, LVM_INSERTMARKHITTEST, CAST(WPARAM, ppt), CAST(LPARAM, pvim))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
@@ -1471,9 +1482,9 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the left-to-right order of columns in a list-view control.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.SetColumnOrderArray (BYVAL hListView AS HWND, BYVAL iCount AS LONG, BYVAL pi AS LONG PTR) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_SETCOLUMNORDERARRAY, iCount, CAST(LPARAM, pi))
-END FUNCTION
+PRIVATE SUB CListView.SetColumnOrderArray (BYVAL hListView AS HWND, BYVAL iCount AS LONG, BYVAL prgi AS LONG PTR)
+   SendMessageW(hListView, LVM_SETCOLUMNORDERARRAY, iCount, CAST(LPARAM, prgi))
+END SUB
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1619,14 +1630,13 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the color of the insertion point.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.SetInsertMarkColor (BYVAL hListView AS HWND, BYVAL colr AS COLORREF) AS COLORREF
-   RETURN SendMessageW(hListView, LVM_SETINSERTMARKCOLOR, 0, colr)
+PRIVATE FUNCTION CListView.SetInsertMarkColor (BYVAL hListView AS HWND, BYVAL clr AS COLORREF) AS COLORREF
+   RETURN SendMessageW(hListView, LVM_SETINSERTMARKCOLOR, 0, clr)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets some or all of a list-view item's attributes. You can also use ListView_SetItem to
-' set the text of a subitem.
+' Sets some or all of a list-view item's attributes. You can also use SetItem to set the text of a subitem.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.SetItem (BYVAL hListView AS HWND, BYVAL pitem AS LVITEMW PTR) AS BOOLEAN
    RETURN SendMessageW(hListView, LVM_SETITEM, 0, CAST(LPARAM, pitem))
@@ -1641,17 +1651,17 @@ END FUNCTION
 ' ========================================================================================
 ' Causes the list-view control to allocate memory for the specified number of items.
 ' ========================================================================================
-PRIVATE SUB CListView.SetItemCount (BYVAL hListView AS HWND, BYVAL cItems AS LONG)
-   SendMessageW hListView, LVM_SETITEMCOUNT, cItems, 0
-END SUB
+PRIVATE FUNCTION CListView.SetItemCount (BYVAL hListView AS HWND, BYVAL cItems AS LONG) AS LRESULT
+   RETURN SendMessageW(hListView, LVM_SETITEMCOUNT, cItems, 0)
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Sets the virtual number of items in a virtual list view.
 ' ========================================================================================
-PRIVATE SUB CListView.SetItemCountEx (BYVAL hListView AS HWND, BYVAL cItems AS LONG, BYVAL dwFlags AS LONG)
-   SendMessageW hListView, LVM_SETITEMCOUNT, cItems, dwFlags
-END SUB
+PRIVATE FUNCTION CListView.SetItemCountEx (BYVAL hListView AS HWND, BYVAL cItems AS LONG, BYVAL dwFlags AS LONG) AS LRESULT
+   RETURN SendMessageW(hListView, LVM_SETITEMCOUNT, cItems, dwFlags)
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1664,7 +1674,7 @@ END FUNCTION
 
 ' ========================================================================================
 ' Moves an item to a specified position in a list-view control (in icon or small icon view).
-' This macro differs from the ListView_SetItemPosition macro in that it uses 32-bit coordinates.
+' This method differs from the SetItemPosition method in that it uses 32-bit coordinates.
 ' ========================================================================================
 PRIVATE SUB CListView.SetItemPosition32 (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL x AS LONG, BYVAL y AS LONG)
    DIM ptNewPos AS POINT
@@ -1688,10 +1698,10 @@ END SUB
 ' ========================================================================================
 ' * Changes the text of a list-view item or subitem.
 ' ========================================================================================
-PRIVATE SUB CListView.SetItemText (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL iSubItem AS LONG, BYREF wszText AS WSTRING)
+PRIVATE SUB CListView.SetItemText (BYVAL hListView AS HWND, BYVAL i AS LONG, BYVAL iSubItem AS LONG, BYVAL pwszText AS WSTRING PTR)
    DIM lvi AS LVITEMW
    lvi.iSubItem = iSubItem
-   lvi.pszText = @wszText
+   lvi.pszText = pwszText
    SendMessageW hListView, LVM_SETITEMTEXTW, i, CAST(LPARAM, @lvi)
 END SUB
 ' ========================================================================================
@@ -1707,8 +1717,8 @@ END SUB
 ' Sets the color of the border of a list-view control if the LVS_EX_BORDERSELECT extended
 ' window style is set.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.SetOutlineColor (BYVAL hListView AS HWND, BYVAL colr AS COLORREF) AS COLORREF
-   RETURN SendMessageW(hListView, LVM_SETOUTLINECOLOR, 0, colr)
+PRIVATE FUNCTION CListView.SetOutlineColor (BYVAL hListView AS HWND, BYVAL clr AS COLORREF) AS COLORREF
+   RETURN SendMessageW(hListView, LVM_SETOUTLINECOLOR, 0, clr)
 END FUNCTION
 ' ========================================================================================
 
@@ -1780,7 +1790,7 @@ END FUNCTION
 ' ========================================================================================
  
  ' ========================================================================================
-' Sets the ToolTip control that the list-view control will use to display ToolTips.
+' Sets the ToolTip control that the list-view control will use to display tooltips.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.SetToolTips (BYVAL hListView AS HWND, BYVAL hwndToolTip AS HWND) AS HWND
    RETURN CAST(HWND, SendMessageW(hListView, LVM_SETTOOLTIPS, CAST(LPARAM, hwndToolTip), 0))
@@ -1820,7 +1830,7 @@ END FUNCTION
 ' Uses an application-defined comparison function to sort the items of a list-view control.
 ' The index of each item changes to reflect the new sequence.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.SortItems (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CListView.SortItems (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LPARAM) AS LONG
    RETURN SendMessageW(hListView, LVM_SORTITEMS, CAST(WPARAM, _lPrm), CAST(LPARAM, _pfnCompare))
 END FUNCTION
 ' ========================================================================================
@@ -1829,7 +1839,7 @@ END FUNCTION
 ' Uses an application-defined comparison function to sort the items of a list-view control.
 ' The index of each item changes to reflect the new sequence.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.SortItemsEx (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CListView.SortItemsEx (BYVAL hListView AS HWND, BYVAL _pfnCompare AS PFNLVCOMPARE PTR, BYVAL _lPrm AS LPARAM) AS LONG
    RETURN SendMessageW(hListView, LVM_SORTITEMSEX, CAST(WPARAM, _lPrm), CAST(LPARAM, _pfnCompare))
 END FUNCTION
 ' ========================================================================================
@@ -1862,7 +1872,7 @@ END FUNCTION
 
 ' ========================================================================================
 ' Updates a list-view item. If the list-view control has the LVS_AUTOARRANGE style, this
-' macro causes the list-view control to be arranged.
+' method causes the list-view control to be arranged.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.Update (BYVAL hListView AS HWND, BYVAL iItem AS LONG) AS BOOLEAN
    RETURN SendMessageW(hListView, LVM_UPDATE, iItem, 0)
@@ -1878,7 +1888,7 @@ END FUNCTION
 ' a listview. Instead, it defines item states or LVIS_* values that determine the listview
 ' item's appearance and functionality. LVIS_FOCUSED and LVIS_SELECTED in particular are
 ' the states that determine a listview item's selection state.
-' Note that the last parameter passed to this macro is a mask specifying which bits are
+' Note that the last parameter passed to this method is a mask specifying which bits are
 ' about to change. LVIS_FOCUSED and LVIS_SELECTED are defined in commctrl.inc as &H0001
 ' and &H0002 respectively, so you need to set the last four bits of the mask.
 ' See the following Microsoft article: How To Select a Listview Item Programmatically
@@ -2000,11 +2010,9 @@ END FUNCTION
 ' * Gets the text of the specified column of the header of a listview control.
 ' - hCtl Handle to the ListView control.
 ' - nCol: Zero-based index of the column
-' - pwszText: A pointer to a buffer that receives the item or subitem text.
 ' - cchTextMax : Maximum number of characters to return. Both this value and the size of the
 '   buffer pointed by pwszText must be one character bigger that the wanted length of the text
 '   to return to make room for the null character terminator.
-' Returns the number of characters in the pszText member of the LVITEM structure.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetHeaderText (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
    DIM hLvHeader AS HWND = CAST(HWND, SendMessageW(hListView, LVM_GETHEADER, 0, 0))
@@ -2045,7 +2053,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Retrieves the font used by the ToolTip control that the list-view control uses to display ToolTips.
+' * Retrieves the font used by the ToolTip control that the list-view control uses to display tooltips.
 ' The return value is a handle to the font used by the control, or NULL if the control is
 ' using the system font.
 ' ========================================================================================
@@ -2056,7 +2064,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the font used by the ToolTip control that the list-view control uses to display ToolTips.
+' Sets the font used by the ToolTip control that the list-view control uses to display tooltips.
 ' Parameters:
 ' - hCtl    = Handle to the ListView control.
 ' - hFont   = Handle to the font. If this parameter is NULL, the control uses the default system font to draw text.
@@ -2227,7 +2235,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets information on a footer item for a specified list-view control.
+' Gets the coordinates of a footer for a specified item in a list-view control.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetFooterItemRect (BYVAL hListView AS HWND, BYVAL iItem AS UINT, BYVAL prc AS RECT PTR) AS BOOLEAN
    RETURN SendMessageW(hListView, LVM_GETFOOTERITEMRECT, iItem, CAST(LPARAM, prc))
@@ -2304,8 +2312,8 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the text meant for display when the list-view control appears empty.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.GetEmptyText (BYVAL hListView AS HWND, BYREF wszText AS WSTRING, BYVAL cchText AS DWORD) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_GETEMPTYTEXT, cchText, CAST(LPARAM, @wszText))
+PRIVATE FUNCTION CListView.GetEmptyText (BYVAL hListView AS HWND, BYVAL pwszText AS WSTRING PTR, BYVAL cchText AS DWORD) AS BOOLEAN
+   RETURN SendMessageW(hListView, LVM_GETEMPTYTEXT, cchText, CAST(LPARAM, pwszText))
 END FUNCTION
 ' ========================================================================================
 
@@ -2332,14 +2340,14 @@ END FUNCTION
 #endif
 
 ' ========================================================================================
-' Set listview dark mode.
+' Sets the listview dark mode.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.SetDarkMode (BYVAL hListView AS HWND) AS HRESULT
    RETURN SetWindowTheme(hListView, "DarkMode_Explorer", NULL)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Remove listview dark mode.
+' Removes the listview dark mode.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.RemoveDarkMode (BYVAL hListView AS HWND) AS HRESULT
    RETURN SetWindowTheme(hListView, NULL, NULL)
