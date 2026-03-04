@@ -109,7 +109,7 @@ If successful, WMI returns an **SWbemServices** object that is bound to the name
 **Usage example** (with the local computer):
 
 ```
-DIM pServices AS CWmiServices = CWmiServices(".", "root\\cimv2")
+DIM pServices AS CWmiServices = CWmiServices(".", "root\cimv2")
 ```
 
 ### Remarks
