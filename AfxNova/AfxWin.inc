@@ -255,6 +255,7 @@ PRIVATE FUNCTION AfxWindowsVersion () AS LONG
    pfnRtlGetVersion = CAST(ANY PTR, GetProcAddress(hLib, "RtlGetVersion"))
    IF pfnRtlGetVersion = NULL THEN EXIT FUNCTION
    DIM osverinfo AS OSVERSIONINFOEXW
+   osverinfo.dwOSVersionInfoSize = SIZEOF(osverinfo)
    IF pfnRtlGetVersion(@osverinfo) = 0 THEN   ' STATUS_SUCCESS
       FUNCTION = (osverinfo.dwMajorVersion + osverinfo.dwMinorVersion / 100) * 100
    END IF
@@ -274,6 +275,7 @@ PRIVATE FUNCTION AfxWindowsPlatform () AS LONG
    pfnRtlGetVersion = CAST(ANY PTR, GetProcAddress(hLib, "RtlGetVersion"))
    IF pfnRtlGetVersion = NULL THEN EXIT FUNCTION
    DIM osverinfo AS OSVERSIONINFOEXW
+   osverinfo.dwOSVersionInfoSize = SIZEOF(osverinfo)
    IF pfnRtlGetVersion(@osverinfo) = 0 THEN   ' STATUS_SUCCESS
       FUNCTION = osverinfo.dwPlatformId
    END IF
@@ -291,6 +293,7 @@ PRIVATE FUNCTION AfxWindowsBuild () AS LONG
    pfnRtlGetVersion = CAST(ANY PTR, GetProcAddress(hLib, "RtlGetVersion"))
    IF pfnRtlGetVersion = NULL THEN EXIT FUNCTION
    DIM osverinfo AS OSVERSIONINFOEXW
+   osverinfo.dwOSVersionInfoSize = SIZEOF(osverinfo)
    IF pfnRtlGetVersion(@osverinfo) = 0 THEN   ' STATUS_SUCCESS
       FUNCTION = osverinfo.dwBuildNumber
    END IF
@@ -1042,7 +1045,7 @@ END FUNCTION
 ' ========================================================================================
 ' * Retrieves the MAC address of a machine's Ethernet card.
 ' This function only supports one NIC card on your PC.
-' Remarks: I have need to call the UuidCreateSequential function dynamically because,
+' Remarks: I have needes to call the UuidCreateSequential function dynamically because,
 ' the time of writing, the library for the RPCRT4.DLL seems broken and the linker fails.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetMACAddress () AS STRING
@@ -4278,7 +4281,9 @@ END FUNCTION
 PRIVATE FUNCTION AfxWindowsBitness () AS LONG
    DIM SysInfo AS SYSTEM_INFO
    GetNativeSystemInfo(@SysInfo)
-   RETURN IIF(SysInfo.wProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64, 64, 32)
+   ' PROCESSOR_ARCHITECTURE_ARM64 = 12
+   RETURN IIF(SysInfo.wProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64 _
+      OR SysInfo.wProcessorArchitecture = 12, 64, 32)
 END FUNCTION
 ' ========================================================================================
 #define AfxGetProcessorAddressWidth AfxWindowsBitness
@@ -4303,7 +4308,7 @@ PRIVATE FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
          RETURN CAST(LONG_PTR, sysInfo.lpMinimumApplicationAddress)
       CASE "pagesize"
          RETURN sysInfo.dwPageSize
-      CASE ElsE
+      CASE ELSE
          RETURN -1 ' Invalid metric name
    END SELECT
 END FUNCTION
