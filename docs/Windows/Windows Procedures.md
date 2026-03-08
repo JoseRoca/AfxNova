@@ -38,6 +38,7 @@ Assorted Windows procedures.
 | [AfxCreateDirectory](#afxmakedir) | Creates a new directory. |
 | [AfxCurDir](#afxcurdir) | Retrieves the current directory for the current process. |
 | [AfxDeleteFile](#Afxdeletefile) | Deletes the specified file. |
+| [AfxExeFileExt](#afxgetexefileext) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
 | [AfxExeFileName](#afxgetexefilename) | Returns the file name of the program which is currently executing. |
 | [AfxExeFileNameX](#afxgetexefilenameX) | Returns the file name and extension of the program which is currently executing. |
 | [AfxExePath](#afxexepath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
@@ -835,6 +836,10 @@ FUNCTION AfxGetExeFileExt () AS DWSTRING
 #### Return value
 
 The extension portion of the file name. That is the last period (.) in the string plus the text to the right of it.
+
+#### Alias
+
+**AfxExeFileExt**
 
 ---
 
