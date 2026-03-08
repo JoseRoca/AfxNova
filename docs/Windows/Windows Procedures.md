@@ -3489,7 +3489,7 @@ NEXT
 ```
 ---
 
-## AfxGetAllMACAddresses
+## AfxGetAllPhysicalMACAddresses
 
 Populates a dynamic array of STRINGs with all *real* MAC addresses (Ethernet/Wi-Fi).
 
