@@ -23,6 +23,7 @@ Assorted Windows procedures.
 | [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
 | [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
+| [AfxGetWindowsDirectory](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxMsg](#afxmsg) | Displays an application modal message box. |
 | [AfxUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
 | [AfxWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
@@ -1181,7 +1182,7 @@ FUNCTION AfxGetWinDir () AS DWSTRING
 
 #### Alias
 
-**AfxWindir**
+**AfxWindir**, **"AfxWindowsDirectory**
 
 ---
 
