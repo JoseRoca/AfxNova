@@ -47,6 +47,7 @@ Assorted Windows procedures.
 | [AfxFileCopy](#Afxcopyfile) | Copies an existing file to a new file. |
 | [AfxFileDateTime](#afxfiledatetime) | Returns the file's last modified date and time as Date Serial. |
 | [AfxFileExists](#afxfileexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
+| [AfxFileName](#afxgetfilename) | Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.). |
 | [AfxFileReadAllLines](#afxfilereadalllines) | Reads all the lines of the specified file into a safe array. |
 | [AfxFileScan](#afxfilescan) | Scans a text file and returns the number of occurrences of the specified delimiter. |
 | [AfxFolderExists](#afxfolderexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
@@ -956,6 +957,10 @@ FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS DWSTRING
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
+
+#### Alias
+
+**AfxFileName**
 
 ---
 
