@@ -326,7 +326,10 @@ Assorted Windows procedures.
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxGetWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
+| [AfxGetWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
+| [AfxGetWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
 | [AfxGetWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
+| [AfxGetWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxIsProcessElevated](#afxisprocesselevated) | Checks if the process is running with real administrative privileges. |
 | [AfxMemoryLoad](#afxmemoryload) | Returns the amount of actual physical memory, in bytes. |
@@ -3319,6 +3322,10 @@ Platform 2:
 
 **Note 2**: As Windows 10 and Windows 11 return the same version number, we also need to call **AfxWindowsBuild** to differentiate them. Windows 11 is Windows 10 build 21996 and higher.
 
+#### Alias
+
+**AfxGetWindowsVersion**
+
 ---
 
 ### AfxWindowsMajorVersion
@@ -3328,6 +3335,11 @@ Returns the Windows major version.
 ```
 FUNCTION AfxWindowsMajorVersion () AS LONG
 ```
+
+#### Alias
+
+**AfxGetWindowsMajorVersion**
+
 ---
 
 ### AfxWindowsMinorVersion
@@ -3337,6 +3349,11 @@ Returns the Windows minor version.
 ```
 FUNCTION AfxWindowsMinorVersion () AS LONG
 ```
+
+#### Alias
+
+**AfxGetWindowsMinorVersion**
+
 ---
 
 ### AfxProcessorArchitecture
