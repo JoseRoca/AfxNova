@@ -768,7 +768,7 @@ The size in bytes of the file on success, or 0 on failure.
 
 ### AfxExePath
 
-Returns the path of the program which is currently executing. Alias: **AfxGetExePath**.
+Returns the path of the program which is currently executing.
 
 ```
 FUNCTION AfxExePath () AS DWSTRING
@@ -779,6 +779,10 @@ FUNCTION AfxGetExePath () AS DWSTRING
 
 Unicode replacement for Free Basic's **ExePath** function. The path name has not a trailing backslash, except if it is a drive, e.g. "C:\".
 
+#### Alias
+
+ **AfxGetExePath**.
+ 
 ---
 
 ### AfxGetExePathName
