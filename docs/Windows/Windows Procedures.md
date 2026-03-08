@@ -322,6 +322,7 @@ Assorted Windows procedures.
 | [AfxMemoryLoad](#afxmemoryload) | Returns the amount of actual physical memory, in bytes. |
 | [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
+| [AfxTotalPhysicalMemory](#afxtotalphysicalmemory) | Returns the amount of actual physical memory, in bytes. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxWindowsFeatureUpdate](#afxwindowsfeatureupdate | Returns the Windows feature update versión, e.g. 22H2. |
@@ -3508,6 +3509,15 @@ Returns the amount of actual physical memory, in bytes.
 
 ```
 FUNCTION AfxMemoryLoad () AS DWORD
+```
+---
+
+### AfxTotalPhysicalMemory
+
+Returns the amount of actual physical memory, in bytes.
+
+```
+FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
 ```
 ---
 
