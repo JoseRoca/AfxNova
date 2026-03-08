@@ -39,6 +39,7 @@ Assorted Windows procedures.
 | [AfxCurDir](#afxcurdir) | Retrieves the current directory for the current process. |
 | [AfxDeleteFile](#Afxdeletefile) | Deletes the specified file. |
 | [AfxExePath](#afxexepath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
+| [AfxExePathName](#afxgetexpathname) | Returns the path of the program which is currently executing. The path has a trailing backslash. |
 | [AfxFileCopy](#Afxcopyfile) | Copies an existing file to a new file. |
 | [AfxFileDateTime](#afxfiledatetime) | Returns the file's last modified date and time as Date Serial. |
 | [AfxFileExists](#afxfileexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
@@ -796,6 +797,10 @@ FUNCTION AfxGetExePathName () AS DWSTRING
 #### Remarks
 
 The path name has a trailing backslash.
+
+#### Alias
+
+**AfxExePathName**
 
 ---
 
