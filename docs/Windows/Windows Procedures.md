@@ -25,6 +25,7 @@ Assorted Windows procedures.
 | [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
 | [AfxMsg](#afxmsg) | Displays an application modal message box. |
 | [AfxUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
+| [AfxWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 
 ---
 
@@ -1081,6 +1082,11 @@ Retrieves the path of the Windows directory. This path does not end with a backs
 ```
 FUNCTION AfxGetWinDir () AS DWSTRING
 ```
+
+#### Alias
+
+**AfxWindir**
+
 ---
 
 ### AfxIsCompressedFile
