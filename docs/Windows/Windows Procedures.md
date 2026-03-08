@@ -41,6 +41,7 @@ Assorted Windows procedures.
 | [AfxExeFileExt](#afxgetexefileext) | Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it. |
 | [AfxExeFileName](#afxgetexefilename) | Returns the file name of the program which is currently executing. |
 | [AfxExeFileNameX](#afxgetexefilenameX) | Returns the file name and extension of the program which is currently executing. |
+| [AfxGetExeFullPath](#afxgetexefullpath) | Returns the complete drive, path, file name, and extension of the program which is currently executing. |
 | [AfxExePath](#afxexepath) | Returns the path of the program which is currently executing. The path has not a trailing backslash except if it is a drive, e.g. C:\. |
 | [AfxExePathName](#afxgetexpathname) | Returns the path of the program which is currently executing. The path has a trailing backslash. |
 | [AfxFileCopy](#Afxcopyfile) | Copies an existing file to a new file. |
@@ -878,6 +879,11 @@ Returns the complete drive, path, file name, and extension of the program which 
 ```
 FUNCTION AfxGetExeFullPath () AS DWSTRING
 ```
+
+#### Alias
+
+**AfxExeFullPath**
+
 ---
 
 ### AfxGetFileExt
