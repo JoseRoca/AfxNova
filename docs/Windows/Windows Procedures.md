@@ -97,6 +97,7 @@ Assorted Windows procedures.
 | [AfxMkDir](#afxmakedir) | Creates a new directory. |
 | [AfxMoveFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
 | [AfxName](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxPathName](#afxgetpathname) | Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:). |
 | [AfxRemoveDirectory](#afxremovedir) | Deletes an existing empty directory. |
 | [AfxRemoveDir](#afxremovedir) | Deletes an existing empty directory. |
 | [AfxRenameFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
@@ -1079,6 +1080,10 @@ FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
+
+#### Alias
+
+**AfxPathName**
 
 ---
 
