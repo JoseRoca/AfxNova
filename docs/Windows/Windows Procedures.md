@@ -92,6 +92,7 @@ Assorted Windows procedures.
 | [AfxIsSystemFile](#afxissystemfile) | Returns True if the specified path is a system file; False if it is not. |
 | [AfxIsTemporaryFile](#afxistemporaryfile) | Returns True if the specified path is a temporary file; False if it is not. |
 | [AfxKill](#afxdeletefile) | Deletes the specified file. |
+| [AfxLongPathName](#afxgetlongpathname) | Retrieves the short path form of the specified path. |
 | [AfxMakeDir](#afxmakedir) | Creates a new directory. |
 | [AfxMkDir](#afxmakedir) | Creates a new directory. |
 | [AfxMoveFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
@@ -104,6 +105,7 @@ Assorted Windows procedures.
 | [AfxSaveTempFile](#afxsavetempfile) | Saves the contents of a string buffer in a temporary file. |
 | [AfxSetCurDir](#afxchdir) | Changes the current directory for the current process. |
 | [AfxSetCurrentDirectory](#afxchdir) | Changes the current directory for the current process. |
+| [AfxShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
 
 ---
 
@@ -1060,6 +1062,10 @@ FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. To extend the limit of MAX_PATH wode characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
 
+#### Alias
+
+**AfxLongPathName**
+
 ---
 
 ### AfxGetPathName
@@ -1087,6 +1093,10 @@ FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. To extend the limit of MAX_PATH wode characters to 32,767 wide characters, prepend "\\\\?\\" to the path. |
+
+#### Alias
+
+**AfxShortPathName**
 
 ---
 
