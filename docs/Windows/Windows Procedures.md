@@ -82,6 +82,7 @@ Assorted Windows procedures.
 | [AfxGetSpecialFolderLocation](#afxgetspecialfolderlocation) | Retrieves the path of an special folder. |
 | [AfxGetSystemDllPath](#afxgetsystemdllpath) | Retrieves the fully qualified path for the file that contains the specified module. |
 | [AfxGetSystemDrive](#afxsystemdrive) | Retrieves the fully qualified path for the file that contains the specified module. |
+| [AfxGetSystemDirectory](#afxsystemdirectory) | Retrieves the path of the system directory. |
 | [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxIsCompressedFile](#afxiscompressedfile) | Returns True if the specified file or directory is compressed; False if it is not. |
 | [AfxIsEncryptedFile](#afxisencryptedfile) | Returns True if the specified file or directory is encrypted; False if it is not. |
@@ -113,6 +114,7 @@ Assorted Windows procedures.
 | [AfxSetCurrentDirectory](#afxchdir) | Changes the current directory for the current process. |
 | [AfxShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
 | [AfxSystemDllPath](#afxgetsystemdllpath) | Retrieves the fully qualified path for the file that contains the specified module. |
+| [AfxSystemDirectory](#afxsystemdirectory) | Retrieves the path of the system directory. |
 | [AfxSystemDrive](#afxsystemdrive) | Retrieves the fully qualified path for the file that contains the specified module. |
 
 ---
@@ -1190,6 +1192,20 @@ FUNCTION AfxSystemDrive () AS DWSTRING
 #### Alias
 
 **AfxGetSystemDrive**
+
+---
+
+### AfxSystemDirectory
+
+Retrieves the path of the system directory.
+
+```
+FUNCTION AfxSystemDirectory () AS DWSTRING
+```
+
+#### Alias
+
+**AfxGetSystemDirectory**
 
 ---
 
