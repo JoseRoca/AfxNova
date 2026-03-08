@@ -339,6 +339,7 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
+| [AfxAvailablePageFile](#afxavailablepagefile) | Returns maximum amount of memory the current process can commit, in bytes. |
 | [AfxAvailablePhysicalMemory](#afxavailablephysicalmemory) | Returns the amount of physical memory currently available, in bytes. |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
@@ -3478,6 +3479,15 @@ Returns the current committed memory limit for the system or the current process
 
 ```
 FUNCTION AfxTotalPageFile () AS DWORDLONG
+```
+---
+
+### AfxAvailablePageFile
+
+Returns maximum amount of memory the current process can commit, in bytes. This value is equal to or smaller than the system-wide available commit value.
+
+```
+FUNCTION AfxAvailablePageFile () AS DWORDLONG
 ```
 ---
 
