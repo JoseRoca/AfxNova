@@ -343,6 +343,7 @@ Assorted Windows procedures.
 | [AfxAvailablePhysicalMemory](#afxavailablephysicalmemory) | Returns the amount of physical memory currently available, in bytes. |
 | [AfxAvailableVirtualMemory](#afxavailablevirtualmemory) | Returns size of the user-mode portion of the virtual address space of the calling process, in bytes. |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
+| [AfxGetPhysicallyInstalledSystemMemory](#afxgetphysicallyinstalledsystemmemory) | Retrieves the amount of RAM that is physically installed on the computer, in kilobytes. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxGetWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxGetWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
@@ -352,6 +353,7 @@ Assorted Windows procedures.
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxIsProcessElevated](#afxisprocesselevated) | Checks if the process is running with real administrative privileges. |
 | [AfxMemoryLoad](#afxmemoryload) | Returns the amount of actual physical memory, in bytes. |
+| [AfxPhysicallyInstalledSystemMemory](#afxgetphysicallyinstalledsystemmemory) | Retrieves the amount of RAM that is physically installed on the computer, in kilobytes. |
 | [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
 | [AfxTotalPageFile](#afxtotalpagefile) | Returns the current committed memory limit for the system or the current process, whichever is smaller, in bytes. |
@@ -3671,6 +3673,20 @@ Retrieves the name of the user associated with the current thread.
 ```
 FUNCTION AfxGetUserDomain () AS DWSTRING
 ```
+---
+
+### AfxGetPhysicallyInstalledSystemMemory
+
+Retrieves the amount of RAM that is physically installed on the computer, in kilobytes.
+
+```
+FUNCTION AfxGetPhysicallyInstalledSystemMemory () AS ULONGLONG
+```
+
+#### Alias
+
+**AfxPhysicallyInstalledSystemMemory**
+
 ---
 
 ### AfxIsProcessElevated
