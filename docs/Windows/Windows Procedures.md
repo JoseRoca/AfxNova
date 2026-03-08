@@ -315,6 +315,7 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
+| [AfxAvailablePhysicalMemory](#afxavailablephysicalmemory) | Returns the amount of physical memory currently available, in bytes. |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
@@ -3515,6 +3516,15 @@ FUNCTION AfxMemoryLoad () AS DWORD
 ### AfxTotalPhysicalMemory
 
 Returns the amount of actual physical memory, in bytes.
+
+```
+FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
+```
+---
+
+### AfxAvailablePhysicalMemory
+
+Returns the amount of physical memory currently available, in bytes. This is the amount of physical memory that can be immediately reused without having to write its contents to disk first. It is the sum of the size of the standby, free, and zero lists.
 
 ```
 FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
