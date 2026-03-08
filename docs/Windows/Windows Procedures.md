@@ -318,6 +318,7 @@ Assorted Windows procedures.
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
+| [AfxIsProcessElevated](#afxisprocesselevated) | Checks if the process is running with real administrative privileges. |
 | [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
@@ -3424,7 +3425,16 @@ FUNCTION AfxMsg (BYVAL hWin AS HWND, BYVAL pwszText AS WSTRING PTR, BYREF wszCap
 Retrieves the name of the user associated with the current thread.
 
 ```
-FUNCTION FUNCTION AfxGetUserDomain () AS DWSTRING
+FUNCTION AfxGetUserDomain () AS DWSTRING
+```
+---
+
+### AfxIsProcessElevated
+
+Checks if the process is running with real administrative privileges.
+
+```
+FUNCTION AfxIsProcessElevated () AS BOOLEAN
 ```
 ---
 
