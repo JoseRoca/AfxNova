@@ -1373,7 +1373,7 @@ PRIVATE FUNCTION RichEdit_GetRtfText (BYVAL hRichEdit AS HWND) AS STRING
    SendMessageW hRichEdit, EM_STREAMOUT, SF_RTF, cast(LPARAM, @eds)
    ' // Copy the ansi contents of the STRING to a STRING
 '   DIM s AS STRING = SPACE(cws.m_BufferLen - 2)   ' // -2 to remove the ending nulls
-'   IF LEN(s) THEN CopyMemory(STRPTR(s), cws.m_pBuffer, cws.m_BufferLen - 2)
+'   IF LEN(s) THEN CopyMemory(STRPTR(s), dws.m_pBuffer, dws.m_BufferLen - 2)
    DIM s AS STRING = SPACE(LEN(dws) * 2)
    IF LEN(s) THEN CopyMemory(STRPTR(s), dws, LEN(dws) * 2)
    RETURN s

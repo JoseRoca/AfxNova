@@ -262,7 +262,7 @@ PRIVATE FUNCTION CTab.GetText (BYVAL hTab AS HWND, BYVAL nTabIndex AS DWORD) AS 
    DIM ttc_item AS TCITEMW
    ttc_item.mask = TCIF_TEXT
    ttc_item.pszText = @wszText
-   ttc_item.cchTextMax = SIZEOF(wszText)
+   ttc_item.cchTextMax = SIZEOF(wszText)\2
    SendMessageW(hTab, TCM_GETITEMW, cast(WPARAM, nTabIndex), cast(LPARAM, @ttc_item))
    RETURN wszText
 END FUNCTION

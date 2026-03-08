@@ -27,6 +27,7 @@
 #pragma once
 #include once "windows.bi"
 #include once "win/uxtheme.bi"
+#INCLUDE ONCE "AfxNova/AfxWin.inc"
 #include once "AfxNova/DWSTRING.inc"
 USING AfxNova
 
@@ -223,7 +224,7 @@ END SUB
 ' ========================================================================================
 PRIVATE FUNCTION CStatusBar.GetTipText (BYVAL hStatusBar AS HWND, BYVAL nPart AS WORD) AS DWSTRING
    DIM wszBuffer AS WSTRING * 65535
-   SendMessageW hStatusBar, SB_GETTIPTEXTW, MAKELONG(nPart, SIZEOF(wszBuffer)), CAST(LPARAM, @wszBuffer)
+   SendMessageW hStatusBar, SB_GETTIPTEXTW, MAKELONG(nPart, SIZEOF(wszBuffer)\2), CAST(LPARAM, @wszBuffer)
    RETURN wszBuffer
 END FUNCTION
 ' ========================================================================================

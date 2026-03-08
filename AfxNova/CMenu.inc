@@ -928,7 +928,7 @@ PRIVATE FUNCTION CMenu.FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS U
       DIM hSubMenu AS ..HMENU = GetSubMenu(hMenu, i)
       IF hSubMenu <> 0 THEN
          ' Recursively search the submenu
-         IF MenuFindItemPosition(hSubMenu, itemID, itemPos) THEN
+         IF CMenu.FindItemPosition(hSubMenu, itemID, itemPos) THEN
             itemPos = itemPos + i + 1 ' Adjust position relative to parent menu
             RETURN TRUE
          END IF
@@ -964,7 +964,7 @@ BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FAL
    IF fByPosition = FALSE AND item > 0 THEN
       ' // Find the item position
       DIM itemPos AS LONG
-      IF MenuFindItemPosition (hMenu, item, itemPos) THEN
+      IF CMenu.FindItemPosition (hMenu, item, itemPos) THEN
          ' // If found, insert the item before that position
          IF itemPos THEN
             item = itemPos
@@ -1215,7 +1215,6 @@ END FUNCTION
 ' replace the default check-mark bitmap for a menu item, an application must determine
 ' the correct bitmap size by calling CMenu.GetCheckMarkWidth and CMenu.GetCheckMarkHeight.
 ' =====================================================================================
-' =====================================================================================
 PRIVATE FUNCTION CMenu.GetCheckMarkWidth () AS LONG
    RETURN GetSystemMetrics(SM_CYMENUCHECK)
 END FUNCTION
@@ -1323,7 +1322,7 @@ PRIVATE FUNCTION CMenu.GetContextHelpId (BYVAL hMenu AS HMENU) AS BOOLEAN
 END FUNCTION
 ' =====================================================================================
  
- ' ========================================================================================
+' ========================================================================================
 ' Creates a floating context menu.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.ContextMenu (BYVAL hwnd AS HWND, BYVAL hPopupMenu AS HMENU, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL flags AS UINT) AS LONG
@@ -1559,7 +1558,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Convert a bitmap to a PARGB32 bitmap.
+' Converts a bitmap to a PARGB32 bitmap.
 ' Parameters:
 ' - hDC       = Handle of the device context.
 ' - pargb     = Pointer to the address of the buffer bitmap pixels.

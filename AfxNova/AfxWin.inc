@@ -36,9 +36,9 @@
 #INCLUDE ONCE "crt/string.bi"
 #INCLUDE ONCE "win/wincrypt.bi"
 #INCLUDE ONCE "win/iphlpapi.bi"
-#INCLUDE ONCE "AfxNova/AfxWsh.inc"
 #INCLUDE ONCE "AfxNova/DWSTRProcs.inc"
 #INCLUDE ONCE "AfxNova/AfxPath.inc"
+'#INCLUDE ONCE "AfxNova/AfxWsh.inc"
 #INCLUDE ONCE "AfxNova/AfxExt.bi"   ' // Windows API extensions
 USING AfxNova
 
@@ -270,6 +270,8 @@ END FUNCTION
 ' ========================================================================================
 #define AfxGetWindowsVersion AfxWindowsVersion
 ' ========================================================================================
+
+' ========================================================================================
 PRIVATE FUNCTION AfxWindowsMajorVersion () AS LONG
    DIM hLib AS HMODULE = LoadLibraryW("NtDll.dll")
    IF hLib = NULL THEN EXIT FUNCTION
@@ -287,6 +289,8 @@ END FUNCTION
 ' ========================================================================================
 #define AfxGetWindowsMajorVersion AfxWindowsMajorVersion
 ' ========================================================================================
+
+' ========================================================================================
 PRIVATE FUNCTION AfxWindowsMinorVersion () AS LONG
    DIM hLib AS HMODULE = LoadLibraryW("NtDll.dll")
    IF hLib = NULL THEN EXIT FUNCTION
@@ -303,6 +307,27 @@ PRIVATE FUNCTION AfxWindowsMinorVersion () AS LONG
 END FUNCTION
 ' ========================================================================================
 #define AfxGetWindowsMinorVersion AfxWindowsMinorVersion
+' ========================================================================================
+
+' ========================================================================================
+' Returns the full Windows version as a string.
+' ========================================================================================
+PRIVATE FUNCTION AfxWindowsVersionStr () AS DWSTRING
+   DIM hLib AS HMODULE = LoadLibraryW("NtDll.dll")
+   IF hLib = NULL THEN EXIT FUNCTION
+   DIM pfnRtlGetVersion AS FUNCTION (BYVAL lpVersionInformation AS OSVERSIONINFOEXW PTR) AS LONG
+   pfnRtlGetVersion = CAST(ANY PTR, GetProcAddress(hLib, "RtlGetVersion"))
+   IF pfnRtlGetVersion = NULL THEN EXIT FUNCTION
+   DIM dwsVer AS DWSTRING
+   DIM osverinfo AS OSVERSIONINFOEXW
+   osverinfo.dwOSVersionInfoSize = SIZEOF(osverinfo)
+   IF pfnRtlGetVersion(@osverinfo) = 0 THEN   ' STATUS_SUCCESS
+      FUNCTION = WSTR(osverinfo.dwMajorVersion) + "." + WSTR(osverinfo.dwMinorVersion) + "." + WSTR(osverinfo.dwBuildNumber)
+   END IF
+   FreeLibrary hLib
+END FUNCTION
+' ========================================================================================
+#define AfxGetWindowsVersion AfxWindowsVersion
 ' ========================================================================================
 
 ' ========================================================================================
@@ -386,7 +411,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetWinDir () AS DWSTRING
    DIM wszWinDir AS WSTRING * MAX_PATH
-   GetWindowsDirectoryW wszWinDir, SIZEOF(wszWinDir)
+   GetWindowsDirectoryW(wszWinDir, SIZEOF(wszWinDir) \ 2)
    RETURN wszWinDir
 END FUNCTION
 ' ========================================================================================
@@ -452,7 +477,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetExePath () AS DWSTRING
    DIM buffer AS WSTRING * MAX_PATH, p AS LONG
-   GetModuleFileNameW NULL, buffer, SIZEOF(buffer)
+   GetModuleFileNameW(NULL, buffer, SIZEOF(buffer)\2)
    p = INSTRREV(buffer, ANY ":/\")
    IF p THEN
       buffer = LEFT(buffer, p)
@@ -470,7 +495,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetExePathName () AS DWSTRING
    DIM buffer AS WSTRING * MAX_PATH, p AS LONG
-   GetModuleFileNameW NULL, buffer, SIZEOF(buffer)
+   GetModuleFileNameW(NULL, buffer, SIZEOF(buffer)\2)
    p = INSTRREV(buffer, ANY ":/\")
    RETURN LEFT(buffer, p)
 END FUNCTION
@@ -483,7 +508,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetExeFileName () AS DWSTRING
    DIM buffer AS WSTRING * MAX_PATH, p AS LONG
-   GetModuleFileNameW NULL, buffer, SIZEOF(buffer)
+   GetModuleFileNameW(NULL, buffer, SIZEOF(buffer)\2)
    p = INSTRREV(buffer, ANY ":/\")
    IF p THEN buffer = MID(buffer, p + 1)
    p = INSTRREV(buffer, ".")
@@ -499,7 +524,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetExeFileNameX () AS DWSTRING
    DIM buffer AS WSTRING * MAX_PATH, p AS LONG
-   GetModuleFileNameW NULL, buffer, SIZEOF(buffer)
+   GetModuleFileNameW(NULL, buffer, SIZEOF(buffer)\2)
    p = INSTRREV(buffer, ANY ":/\")
    IF p THEN buffer = MID(buffer, p + 1)
    RETURN buffer
@@ -513,7 +538,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetExeFileExt () AS DWSTRING
    DIM buffer AS WSTRING * MAX_PATH, p AS LONG
-   GetModuleFileNameW NULL, buffer, SIZEOF(buffer)
+   GetModuleFileNameW(NULL, buffer, SIZEOF(buffer)\2)
    p = INSTRREV(buffer, ".")
    IF p THEN RETURN MID(buffer, p) ELSE RETURN buffer
 END FUNCTION
@@ -526,7 +551,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetExeFullPath () AS DWSTRING
    DIM buffer AS WSTRING * MAX_PATH, cb AS LONG
-   cb = GetModuleFileNameW(NULL, buffer, SIZEOF(buffer))
+   cb = GetModuleFileNameW(NULL, buffer, SIZEOF(buffer)\2)
    RETURN LEFT(buffer, cb)
 END FUNCTION
 ' ========================================================================================
@@ -628,7 +653,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS DWSTRING
    DIM wszLongPath AS WSTRING * MAX_PATH
-   GetLongPathNameW(wszPath, wszLongPath, SIZEOF(wszLongPath))
+   GetLongPathNameW(wszPath, wszLongPath, SIZEOF(wszLongPath)\2)
    RETURN wszLongPath
 END FUNCTION
 ' ========================================================================================
@@ -640,7 +665,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS DWSTRING
    DIM wszShortPath AS WSTRING * MAX_PATH
-   GetShortPathNameW(wszPath, wszShortPath, SIZEOF(wszShortPath))
+   GetShortPathNameW(wszPath, wszShortPath, SIZEOF(wszShortPath)\2)
    RETURN wszShortPath
 END FUNCTION
 ' ========================================================================================
@@ -688,7 +713,7 @@ PRIVATE FUNCTION AfxGetSystemDllPath (BYREF wszDllName AS WSTRING) AS DWSTRING
    DIM wszPath AS WSTRING * MAX_PATH
    DIM hLib AS HMODULE = LoadLibraryW(wszDllName)
    IF hLib THEN
-      GetModuleFileNameW(hLib, wszPath, SIZEOF(wszPath))
+      GetModuleFileNameW(hLib, wszPath, SIZEOF(wszPath)\2)
       FreeLibrary hLib
    END IF
    RETURN wszPath
@@ -704,7 +729,7 @@ PRIVATE FUNCTION AfxGetPathFromProcessId (BYVAL dwProcessId AS DWORD) AS DWSTRIN
    DIM hProcess AS HANDLE, wszPath AS WSTRING * MAX_PATH
    hProcess = OpenProcess(PROCESS_QUERY_INFORMATION OR PROCESS_VM_READ, FALSE, dwProcessId)
    IF hProcess <> NULL THEN
-      GetModuleFileNameExW(hProcess, NULL, wszPath, SIZEOF(wszPath))
+      GetModuleFileNameExW(hProcess, NULL, wszPath, SIZEOF(wszPath)\2)
       CloseHandle(hProcess)
    END IF
    RETURN wszPath
@@ -722,7 +747,7 @@ PRIVATE FUNCTION AfxGetPathFromWindowHandle (BYVAL hWin AS HWND) AS DWSTRING
    IF idProc THEN
       hProcess = OpenProcess(PROCESS_QUERY_INFORMATION OR PROCESS_VM_READ, FALSE, idProc)
       IF hProcess THEN
-         GetModuleFileNameExW(hProcess, NULL, wszPath, SIZEOF(wszPath))
+         GetModuleFileNameExW(hProcess, NULL, wszPath, SIZEOF(wszPath)\2)
          CloseHandle(hProcess)
          RETURN wszPath
       END IF
@@ -1106,7 +1131,7 @@ END FUNCTION
 ' Returns TRUE on success or FALSE on failure.
 ' ========================================================================================
 PRIVATE FUNCTION AfxShowSysInfo (BYVAL hWin AS HWND) AS BOOLEAN
-   DIM hk AS HKEY, wszPath AS WSTRING * MAX_PATH, cbData AS DWORD = SIZEOF(wszPath)
+   DIM hk AS HKEY, wszPath AS WSTRING * MAX_PATH, cbData AS DWORD = SIZEOF(wszPath)\2
    IF RegOpenKeyExW(HKEY_LOCAL_MACHINE, "Software\Microsoft\Shared Tools\MSInfo", 0, _
                     KEY_QUERY_VALUE, @hk) <> ERROR_SUCCESS THEN EXIT FUNCTION
    RegQueryValueExW hk, "Path", 0, 0, cast(LPBYTE, @wszPath), @cbData
@@ -4577,7 +4602,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetUserName () AS DWSTRING
    DIM buffer AS WSTRING * 260
-   DIM dwBufLen AS DWORD = SIZEOF(buffer)
+   DIM dwBufLen AS DWORD = SIZEOF(buffer)\2
    GetUserNameW(buffer, @dwBufLen)
    RETURN buffer
 END FUNCTION
@@ -4590,7 +4615,7 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetComputerName () AS DWSTRING
    DIM buffer AS WSTRING * MAX_COMPUTERNAME_LENGTH + 1
-   DIM dwBufLen AS DWORD = SIZEOF(buffer)
+   DIM dwBufLen AS DWORD = SIZEOF(buffer)\2
    GetComputerNameW(buffer, @dwBufLen)
    RETURN buffer
 END FUNCTION
@@ -4744,11 +4769,11 @@ END FUNCTION
 ' ========================================================================================
 ' * Returns the Windows feature update versión, e.g. 22H2.
 ' ========================================================================================
-PRIVATE FUNCTION AfxWindowsFeatureUpdate () AS DWSTRING
-   RETURN AfxRegRead("HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\DisplayVersion")
-END FUNCTION
-' ========================================================================================
-#define AfxGetWindowsFeatureUpdate AfxWindowsFeatureUpdate
+'PRIVATE FUNCTION AfxWindowsFeatureUpdate () AS DWSTRING
+'   RETURN AfxRegRead("HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\DisplayVersion")
+'END FUNCTION
+'' ========================================================================================
+'#define AfxGetWindowsFeatureUpdate AfxWindowsFeatureUpdate
 ' ========================================================================================
 
 ' ========================================================================================
@@ -4902,12 +4927,13 @@ END FUNCTION
 #define AfxGetAvailableVirtualMemory AfxAvailableVirtualMemory
 ' ========================================================================================
 
+#if _WIN32_WINNT >= &h0600
 ' ========================================================================================
 ' Retrieves the amount of RAM that is physically installed on the computer, in kilobytes.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetPhysicallyInstalledSystemMemory () AS ULONGLONG
    DIM mem AS ULONGLONG
-   ..GetPhysicallyInstalledSystemMemory(@mem)
+   GetPhysicallyInstalledSystemMemory(@mem)
    RETURN mem
 END FUNCTION
 ' ========================================================================================
@@ -4928,29 +4954,30 @@ PRIVATE FUNCTION AfxGetProductInfo () AS DWORD
    osverinfo.dwOSVersionInfoSize = SIZEOF(osverinfo)
    IF pfnRtlGetVersion THEN pfnRtlGetVersion(@osverinfo)
    FreeLibrary hLib
-   ..GetProductInfo(osverinfo.dwMajorVersion, osverinfo.dwMinorVersion, 0, 0, @dwReturnedProductType)
+   GetProductInfo(osverinfo.dwMajorVersion, osverinfo.dwMinorVersion, 0, 0, @dwReturnedProductType)
    RETURN dwReturnedProductType
 END FUNCTION
 ' ========================================================================================
+#endif
 
 ' ========================================================================================
 ' * Returns TRUE if Windows applications are using dark mode, or FALSE otherwise.
 ' It affects Win32/UWP applications.
 ' ========================================================================================
-PRIVATE FUNCTION AfxAppsUseDarkMode () AS BOOLEAN
-   DIM dws AS DWSTRING = AfxRegRead("HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize\AppsUseLightTheme")
-   IF LEN(dws) THEN RETURN (VAL(dws) = 0)
-END FUNCTION
+'PRIVATE FUNCTION AfxAppsUseDarkMode () AS BOOLEAN
+'   DIM dws AS DWSTRING = AfxRegRead("HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize\AppsUseLightTheme")
+'   IF LEN(dws) THEN RETURN (VAL(dws) = 0)
+'END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' * Returns TRUE if Windows is using dark mode, or FALSE otherwise.
 ' It affects the shell (taskbar, start menu, etc.).
 ' ========================================================================================
-PRIVATE FUNCTION AfxSystemUsesDarkMode () AS BOOLEAN
-   DIM dws AS DWSTRING = AfxRegRead("HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize\SystemUsesLightTheme")
-   IF LEN(dws) THEN RETURN (VAL(dws) = 0)
-END FUNCTION
+'PRIVATE FUNCTION AfxSystemUsesDarkMode () AS BOOLEAN
+'   DIM dws AS DWSTRING = AfxRegRead("HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize\SystemUsesLightTheme")
+'   IF LEN(dws) THEN RETURN (VAL(dws) = 0)
+'END FUNCTION
 ' ========================================================================================
 
 
@@ -5049,7 +5076,7 @@ END FUNCTION
 ' * Retrieves the Internet Explorer version (major.minor).
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetInternetExplorerVersion () AS SINGLE
-   DIM hk AS HKEY, wszData AS WSTRING * 1024, cbData AS DWORD = SIZEOF(wszData)
+   DIM hk AS HKEY, wszData AS WSTRING * 1024, cbData AS DWORD = SIZEOF(wszData)\2
    IF RegOpenKeyExW(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Internet Explorer", 0, _
                     KEY_QUERY_VALUE, @hk) <> ERROR_SUCCESS THEN EXIT FUNCTION
    RegQueryValueExW hk, "Version", NULL, NULL, cast(BYTE PTR, @wszData), @cbData
@@ -5062,7 +5089,7 @@ END FUNCTION
 ' * Retrieves the path of the default browser.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetDefaultBrowserPath () AS DWSTRING
-   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)
+   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)\2
    IF SUCCEEDED(AssocQueryStringW(0, ASSOCSTR_EXECUTABLE, "http", "open", wszPath, @cchOut)) THEN RETURN wszPath
    RETURN ""
 END FUNCTION
@@ -5072,7 +5099,7 @@ END FUNCTION
 ' * Retrieves the name of the default browser.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetDefaultBrowserName () AS DWSTRING
-   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)
+   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)\2
    IF SUCCEEDED(AssocQueryStringW(0, ASSOCSTR_EXECUTABLE, "http", "open", wszPath, @cchOut)) THEN
       RETURN AfxGetFileName(wszPath)
    END IF
@@ -5136,7 +5163,7 @@ END FUNCTION
 ' * Retrieves the path of the default mail client application.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetDefaultMailClientPath () AS DWSTRING
-   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)
+   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)\2
    IF SUCCEEDED(AssocQueryStringW(0, ASSOCSTR_EXECUTABLE, "mailto", "open", wszPath, @cchOut)) THEN RETURN wszPath
    RETURN ""
 END FUNCTION
@@ -5146,7 +5173,7 @@ END FUNCTION
 ' * Retrieves the name of the default mail client application.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetDefaultMailClientName () AS DWSTRING
-   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)
+   DIM wszPath AS WSTRING * MAX_PATH, cchOut AS DWORD = SIZEOF(wszPath)\2
    IF SUCCEEDED(AssocQueryStringW(0, ASSOCSTR_EXECUTABLE, "mailto", "open", wszPath, @cchOut)) THEN
       RETURN AfxGetFileName(wszPath)
    END IF

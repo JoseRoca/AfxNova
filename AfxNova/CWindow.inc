@@ -702,7 +702,7 @@ PRIVATE FUNCTION CWindow.Create (BYVAL hParent AS HWND = NULL, BYREF wszTitle AS
             hParent, NULL, m_hInstance, CAST(HANDLE, @this))
    IF m_hwnd = NULL THEN EXIT FUNCTION
    ' // Get the class name
-   ..GetClassNameW(m_hwnd, @m_wszClassName, SIZEOF(m_wszClassName))
+   ..GetClassNameW(m_hwnd, @m_wszClassName, SIZEOF(m_wszClassName)\2)
    FUNCTION = m_hwnd
    ' // Set the font
    IF m_hFont THEN ..SendMessageW m_hwnd, WM_SETFONT, CAST(WPARAM, m_hFont), FALSE
@@ -2550,10 +2550,10 @@ BYVAL nLen AS LONG = 260, BYVAL bPassword AS BOOLEAN = FALSE) AS DWSTRING
    ' // IDS_OK (801) as the identifier and the Cancel button IDS_CANCEL (801).
    DIM hUser32Instance AS HINSTANCE = GetModuleHandleW("user32.dll")
    DIM wszOk AS WSTRING * 260
-   DIM cbLen AS LONG = LoadStringW(hUser32Instance, 800, @wszOk, SIZEOF(wszOk))
+   DIM cbLen AS LONG = LoadStringW(hUser32Instance, 800, @wszOk, SIZEOF(wszOk)\2)
    IF cbLen THEN wszOk = "&" & wszOk : SendMessageW(hOkButton, WM_SETTEXT, 0, cast(LPARAM, @wszOk))
    DIM wszCancel AS WSTRING * 260
-   cbLen = LoadStringW(hUser32Instance, 801, @wszCancel, SIZEOF(wszCancel))
+   cbLen = LoadStringW(hUser32Instance, 801, @wszCancel, SIZEOF(wszCancel)\2)
    IF cbLen THEN wszCancel = "&" & wszCancel : SendMessageW(hCancelButton, WM_SETTEXT, 0, cast(LPARAM, @wszCancel))
    ' // Set the text and the limit
    IF nLen = 0 THEN nLen = 260
