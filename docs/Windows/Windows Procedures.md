@@ -341,6 +341,7 @@ Assorted Windows procedures.
 | ---------- | ----------- |
 | [AfxAvailablePageFile](#afxavailablepagefile) | Returns maximum amount of memory the current process can commit, in bytes. |
 | [AfxAvailablePhysicalMemory](#afxavailablephysicalmemory) | Returns the amount of physical memory currently available, in bytes. |
+| [AfxAvailableVirtualMemory](#afxavailablevirtualmemory) | Returns size of the user-mode portion of the virtual address space of the calling process, in bytes. |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxGetWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
@@ -355,6 +356,7 @@ Assorted Windows procedures.
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
 | [AfxTotalPageFile](#afxtotalpagefile) | Returns the current committed memory limit for the system or the current process, whichever is smaller, in bytes. |
 | [AfxTotalPhysicalMemory](#afxtotalphysicalmemory) | Returns the amount of actual physical memory, in bytes. |
+| [AfxTotalVirtualMemory](#afxtotalvirtualmemory) | Returns size of the user-mode portion of the virtual address space of the calling process, in bytes. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxWindowsFeatureUpdate](#afxwindowsfeatureupdate) | Returns the Windows feature update versión, e.g. 22H2. |
@@ -3704,6 +3706,24 @@ Returns the amount of physical memory currently available, in bytes. This is the
 
 ```
 FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
+```
+---
+
+### AfxTotalVirtualMemory
+
+Returns size of the user-mode portion of the virtual address space of the calling process, in bytes. This value depends on the type of process, the type of processor, and the configuration of the operating system. For example, this value is approximately 2 GB for most 32-bit processes on an x86 processor and approximately 3 GB for 32-bit processes that are large address aware running on a system with 4-gigabyte tuning enabled.
+
+```
+FUNCTION FUNCTION AfxTotalVirtualMemory () AS DWORDLONG
+```
+---
+
+### AfxAvailableVirtualMemory
+
+Returns amount of unreserved and uncommitted memory currently in the user-mode portion of the virtual address space of the calling process, in bytes.
+
+```
+FUNCTION FUNCTION AfxAvailableVirtualMemory () AS DWORDLONG
 ```
 ---
 
