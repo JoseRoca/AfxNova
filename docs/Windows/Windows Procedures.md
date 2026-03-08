@@ -81,6 +81,7 @@ Assorted Windows procedures.
 | [AfxGetShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
 | [AfxGetSpecialFolderLocation](#afxgetspecialfolderlocation) | Retrieves the path of an special folder. |
 | [AfxGetSystemDllPath](#afxgetsystemdllpath) | Retrieves the fully qualified path for the file that contains the specified module. |
+| [AfxGetSystemDrive](#afxsystemdrive) | Retrieves the fully qualified path for the file that contains the specified module. |
 | [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxIsCompressedFile](#afxiscompressedfile) | Returns True if the specified file or directory is compressed; False if it is not. |
 | [AfxIsEncryptedFile](#afxisencryptedfile) | Returns True if the specified file or directory is encrypted; False if it is not. |
@@ -112,6 +113,7 @@ Assorted Windows procedures.
 | [AfxSetCurrentDirectory](#afxchdir) | Changes the current directory for the current process. |
 | [AfxShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
 | [AfxSystemDllPath](#afxgetsystemdllpath) | Retrieves the fully qualified path for the file that contains the specified module. |
+| [AfxSystemDrive](#afxsystemdrive) | Retrieves the fully qualified path for the file that contains the specified module. |
 
 ---
 
@@ -1174,6 +1176,20 @@ To locate the file for a module that was loaded by another process, use the **Ge
 #### Alias
 
 **AfxSystemDllPath**
+
+---
+
+### AfxSystemDrive
+
+Returns the system drive name, e.g. "C:".
+
+```
+FUNCTION AfxSystemDrive () AS DWSTRING
+```
+
+#### Alias
+
+**AfxGetSystemDrive**
 
 ---
 
