@@ -317,6 +317,7 @@ Assorted Windows procedures.
 | ---------- | ----------- |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
+| [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxWindowsFeatureUpdate](#afxwindowsfeatureupdate | Returns the Windows feature update versión, e.g. 22H2. |
@@ -324,7 +325,7 @@ Assorted Windows procedures.
 | [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
 | [AfxWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
 | [AfxWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
-| [AfxWindowsProcessorArchitecture](#afxwindowsprocessorarchitecture) | Returns the processor architecture of the operating system. |
+| [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 
 ---
 
