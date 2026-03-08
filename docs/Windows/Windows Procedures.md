@@ -75,6 +75,7 @@ Assorted Windows procedures.
 | [AfxGetFolderName](#afxgetfoldername) | Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name. |
 | [AfxGetKnowFolderPath](#afxgetknowfolderpath) | Retrieves the path of an special folder. Requires Windows Vista/Windows 7 or superior. |
 | [AfxGetLongPathName](#afxgetlongpathname) | Retrieves the short path form of the specified path. |
+| [AfxGetPathFromProcessId](#afxgetpathfromprocessid) | Retrieves the path of the executable file given its process identifier. |
 | [AfxGetPathName](#afxgetpathname) | Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:). |
 | [AfxGetShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
 | [AfxGetSpecialFolderLocation](#afxgetspecialfolderlocation) | Retrieves the path of an special folder. |
@@ -98,6 +99,7 @@ Assorted Windows procedures.
 | [AfxMkDir](#afxmakedir) | Creates a new directory. |
 | [AfxMoveFile](#afxmovefile) | Moves an existing file or a directory, including its children. |
 | [AfxName](#afxmovefile) | Moves an existing file or a directory, including its children. |
+| [AfxPathFromProcessId](#afxgetpathfromprocessid) | Retrieves the path of the executable file given its process identifier. |
 | [AfxPathName](#afxgetpathname) | Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:). |
 | [AfxRemoveDirectory](#afxremovedir) | Deletes an existing empty directory. |
 | [AfxRemoveDir](#afxremovedir) | Deletes an existing empty directory. |
@@ -1072,6 +1074,24 @@ FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 #### Alias
 
 **AfxLongPathName**
+
+---
+
+### AfxGetPathFromProcessId
+
+Retrieves the path of the executable file given its process identifier.
+
+```
+FUNCTION AfxGetPathFromProcessId (BYVAL dwProcessId AS DWORD) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *dwProcessId* | The process identifier. |
+
+#### Alias
+
+**AfxPathFromProcessId**
 
 ---
 
