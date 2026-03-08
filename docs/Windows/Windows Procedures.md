@@ -14,8 +14,11 @@ Assorted Windows procedures.
 | [AfxCommandLineCount](#afxcommandlinecount) | Returns the number of command line arguments used to call the program |
 | [AfxExtractResource](#afxextractresource) | Extracts resource data and returns it as a string. |
 | [AfxExtractResourceToFile](#afxextractresourcetofile) | Extracts resource data and saves it to a file. |
+| [AfxGetAllMACAddresses](#afxgetallmacaddresses) | Populates a dynamic array of STRINGs with all the real MAC addresses of the system. |
+| [AfxGetAllPhysicalMACAddresses](#afxgetallphysicalmacaddresses) | Populates a dynamic array of STRINGs with all *real* MAC addresses (Ethernet/Wi-Fi). |
 | [AfxGetComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
-| [AfxGetMACAddress](#AfxGetMACAddress) | Retrieves the MAC address of a machine's Ethernet card. |
+| [AfxGetMACAddress](#afxgetmacaddress) | Retrieves the MAC address of a machine's Ethernet card. |
+| [AfxGetMACAddressEx](#afxgetmacaddressex) | Retrieves the MAC address of a machine's Ethernet card. |
 | [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
 | [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
@@ -3444,6 +3447,68 @@ The MAC address in the following format: MM-MM-MM-SS-SS-SS. The leftmost 6 digit
 
 This function only supports one NIC card on your PC.
 
+---
+
+## AfxGetMACAddressEx
+
+Get the MAC address of the first valid physical adapter using **GetAdaptersAddresses**.
+
+```
+FUNCTION AfxGetMACAddress () AS STRING
+```
+
+#### Return value
+
+The MAC address in the following format: MM-MM-MM-SS-SS-SS. The leftmost 6 digits, called a "prefix", is associated with the adapter manufacturer. The rightmost digits of a MAC address represent an identification number for the specific device.
+
+#### Remarks
+
+This is the Microsoft-recommended method.
+
+---
+
+## AfxGetAllMACAddresses
+
+Populates a dynamic array of STRINGs with all the real MAC addresses of the system.
+
+```
+FUNCTION AfxGetAllMACAddresses (macs() AS STRING) AS LONG
+```
+
+#### Return value
+
+The number of elements in the array or -1 on failure.
+
+#### Usage example
+```
+DIM macs(ANY) AS STRING
+DIM count AS LONG = AfxGetAllMACAddresses(macs())
+FOR i AS LONG = LBOUND(macs) TO UBOUND(macs)
+   PRINT macs(i)
+NEXT
+```
+---
+
+## AfxGetAllMACAddresses
+
+Populates a dynamic array of STRINGs with all *real* MAC addresses (Ethernet/Wi-Fi).
+
+```
+FUNCTION AfxGetAllPhysicalMACAddresses (macs() AS STRING) AS LONG
+```
+
+#### Return value
+
+The number of elements in the array or -1 on failure.
+
+#### Usage example
+```
+DIM macs(ANY) AS STRING
+DIM count AS LONG = AfxGetAllMACAddresses(macs())
+FOR i AS LONG = LBOUND(macs) TO UBOUND(macs)
+   PRINT macs(i)
+NEXT
+```
 ---
 
 ## AfxGetBrowserHandle
