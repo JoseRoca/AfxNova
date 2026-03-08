@@ -1531,6 +1531,11 @@ Returns the frequency, in hertz (cycles per second), of the display device in a 
 ```
 FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
 ```
+
+#### Aliases
+
+**AfxGetScreenRefreshDate**, **AfxScreenRefreshDate**
+
 ---
 
 ### AfxGetDisplayPixelsHeight
