@@ -108,6 +108,7 @@ Assorted Windows procedures.
 | [AfxSetCurDir](#afxchdir) | Changes the current directory for the current process. |
 | [AfxSetCurrentDirectory](#afxchdir) | Changes the current directory for the current process. |
 | [AfxShortPathName](#afxgetshortpathname) | Retrieves the short path form of the specified path. |
+| [AfxSystemDllPath](#afxgetsystemdllpath) | Retrieves the fully qualified path for the file that contains the specified module. |
 
 ---
 
@@ -1142,6 +1143,10 @@ FUNCTION AfxGetSystemDllPath (BYREF wszDllName AS WSTRING) AS DWSTRING
 #### Remarks
 
 To locate the file for a module that was loaded by another process, use the **GetModuleFileNameEx** function.
+
+#### Alias
+
+**AfxSystemDllPath**
 
 ---
 
