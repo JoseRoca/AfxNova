@@ -201,6 +201,7 @@ Assorted Windows procedures.
 | [AfxGetControlHandle](#afxgetcontrolhandle) | Returns the handle of the control with the specified identifier. |
 | [AfxGetFormHandle](#afxgetformhandle) | Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. |
 | [AfxGetHwndFromPID](#afxgethwndfrompid) | Retrieves a window handle given it's process identifier. |
+| [AfxPathFromWindowHandle](#afxgetpathfromwindowhandle) | Retrieves the path of the executable file that created the specified window. |
 | [AfxGetPathFromWindowHandle](#afxgetpathfromwindowhandle) | Retrieves the path of the executable file that created the specified window. |
 
 ---
@@ -1767,6 +1768,10 @@ FUNCTION AfxGetPathFromWindowHandle (BYVAL hwnd AS HWND) AS DWSTRING
 #### Return value
 
 The path of the executable file.
+
+#### Alias
+
+**AfxPathFromWindowHandle**
 
 ---
 
