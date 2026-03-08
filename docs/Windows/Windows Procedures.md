@@ -3370,7 +3370,7 @@ FUNCTION AfxWindowsBuild () AS LONG
 
 #### Alias
 
-** AfxGetWindowsBuild**
+**AfxGetWindowsBuild**
 
 ---
 
