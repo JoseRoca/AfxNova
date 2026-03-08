@@ -6,7 +6,7 @@ Assorted Windows procedures.
 
 ---
 
-# Windows
+## Windows
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -96,7 +96,7 @@ Assorted Windows procedures.
 
 ---
 
-# Window
+## Window
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -137,7 +137,7 @@ Assorted Windows procedures.
 
 ---
 
-# Window styles
+## Window styles
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -152,7 +152,7 @@ Assorted Windows procedures.
 
 ---
 
-# Display
+## Display
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -164,7 +164,7 @@ Assorted Windows procedures.
 
 ---
 
-# Messages
+## Messages
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -174,7 +174,7 @@ Assorted Windows procedures.
 
 ---
 
-# Handles
+## Handles
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -185,7 +185,7 @@ Assorted Windows procedures.
 
 ---
 
-# Common Dialogs
+## Common Dialogs
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -198,7 +198,7 @@ Assorted Windows procedures.
 
 ---
 
-# High DPI
+## High DPI
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -226,7 +226,7 @@ Assorted Windows procedures.
 
 ---
 
-# Fonts
+## Fonts
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -244,7 +244,7 @@ Assorted Windows procedures.
 
 ---
 
-# Clipboard
+## Clipboard
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -256,7 +256,7 @@ Assorted Windows procedures.
 
 ---
 
-# Bitmap
+## Bitmap
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -266,7 +266,7 @@ Assorted Windows procedures.
 
 ---
 
-# Device Independent Bitmap (DIB)
+## Device Independent Bitmap (DIB)
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -276,7 +276,7 @@ Assorted Windows procedures.
 
 ---
 
-# Metric conversions
+## Metric conversions
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -298,7 +298,7 @@ Assorted Windows procedures.
 
 ---
 
-# Mail and Internet
+## Mail and Internet
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -311,7 +311,7 @@ Assorted Windows procedures.
 
 ---
 
-# Versioning
+## Versioning
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -321,10 +321,12 @@ Assorted Windows procedures.
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
 | [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
+| [AfxWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
+| [AfxWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
 
 ---
 
-## AfxCommand
+### AfxCommand
 
 Returns command line parameters used to call the program. Unicode replacement for FreeBasic's **Command** keyword. **WCOmmand** is an alias or **AfxCommand**.
 
@@ -351,7 +353,7 @@ If index is greater than the number of arguments passed to the program, a null s
 
 ---
 
-## AfxCommandLineCount
+### AfxCommandLineCount
 
 Returns the number of command line arguments used to call the program. **WCommandArgsc** is an alias for **AfxCommandLineCount**.
 
@@ -365,7 +367,7 @@ The number of command line arguments used to call the program.
 
 ---
 
-## AfxExtractResource
+### AfxExtractResource
 
 Extracts resource data and returns it as a string.
 
@@ -406,7 +408,7 @@ END IF
 ```
 ---
 
-## AfxExtractResourceToFile
+### AfxExtractResourceToFile
 
 Extracts resource data and saves it to a file.
 
@@ -442,7 +444,7 @@ where "#111" is the identifier in the resource file for
 ```
 ---
 
-## AfxChDir
+### AfxChDir
 
 Changes the current directory for the current process. Aliases: **AfxSetCurDir**, **AfxSetCurrentDirectory**.
 
@@ -472,7 +474,7 @@ To get extended error information, call **GetLastError**.
 
 ---
 
-## AfxCopyFile
+### AfxCopyFile
 
 Copies an existing file to a new file. Alias: **AfxFileCopy**.
 
@@ -499,7 +501,8 @@ If the function fails, the return value is FALSE. To get extended error informat
 **AfxFileCopy** is an unicode replacement for Free Basic's **FileCopy** and returns 0 on success, or 1 if an error occurred.
 
 ---
-## AfxMkDir
+
+### AfxMkDir
 
 Creates a new directory. Aliases: **AfxMakeDir**, **AfxCreateDirectory**.
 
@@ -536,7 +539,7 @@ Possible errors include the following.
 
 ---
 
-## AfxDeleteFile
+### AfxDeleteFile
 
 Deletes the specified file. Alias: **AfxKill**.
 
@@ -563,7 +566,7 @@ If an application attempts to delete a file that does not exist, this function f
 
 ---
 
-## AfxFileDateTime
+### AfxFileDateTime
 
 Returns the file's last modified date and time as Date Serial. Unicode replacement for Free Basic's **FileDateTime**.
 
@@ -586,7 +589,7 @@ DIM dt AS DOUBLE = AfxFileDateTime(wszFileName)
 PRINT Format(dt, "yyyy-mm-dd hh:mm AM/PM")
 ```
 
-## AfxCurdir
+### AfxCurdir
 
 Retrieves the current directory for the current process. Aliases: **AfxGetCurDir**, **AfxGetCurrentDirectory**- Unicode replacement for Free Basic's **CurDir**.
 
@@ -602,7 +605,7 @@ The name of the current directory for the current process.
 
 ---
 
-## AfxMoveFile
+### AfxMoveFile
 
 Moves an existing file or a directory, including its children. Aliases: **AfxRenameFile**, **AfxMoveFile**. **AfxName** is an unicode replacement for Free Basic's **Name**.
 
@@ -633,7 +636,7 @@ To get extended error information, call **GetLastError**.
 
 ---
 
-## AfxRemoveDir 
+### AfxRemoveDir 
 
 Deletes an existing empty directory. Aliases: **AfxRemoveDirectory**. **AfxRmDir** is an unicode replacement for Free Basic's **RmDir**.
 
@@ -667,7 +670,7 @@ These functions mark a directory for deletion on close. Therefore, the directory
 
 ---
 
-## AfxFileExists
+### AfxFileExists
 
 Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used).
 
@@ -695,7 +698,7 @@ Be aware that some other thread or process could create or delete a file with th
 
 ---
 
-## AfxFolderExists
+### AfxFolderExists
 
 Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used).
 
@@ -723,7 +726,7 @@ Be aware that some other thread or process could create or delete a file with th
 
 ---
 
-## AfxGetFileSize
+### AfxGetFileSize
 
 Returns the size in bytes of the specified file. Alias: **AfxFileLen**.
 
@@ -742,7 +745,7 @@ The size in bytes of the file on success, or 0 on failure.
 
 ---
 
-## AfxExePath
+### AfxExePath
 
 Returns the path of the program which is currently executing. Alias: **AfxGetExePath**.
 
@@ -757,7 +760,7 @@ Unicode replacement for Free Basic's **ExePath** function. The path name has not
 
 ---
 
-## AfxGetExePathName
+### AfxGetExePathName
 
 Returns the path of the program which is currently executing.
 
@@ -771,7 +774,7 @@ The path name has a trailing backslash.
 
 ---
 
-## AfxGetDriveType
+### AfxGetDriveType
 
 Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
 
@@ -789,7 +792,7 @@ DRIVE_UNKNOWN (0), DRIVE_NO_ROOT_DIR (1), DRIVE_REMOVABLE (2), DRIVE_FIXED(3), D
 
 ---
 
-## AfxGetExeFileExt
+### AfxGetExeFileExt
 
 Parses a path/filename and returns the extension portion of the path/file name.
 
@@ -803,7 +806,7 @@ The extension portion of the file name. That is the last period (.) in the strin
 
 ---
 
-## AfxGetExeFileName
+### AfxGetExeFileName
 
 Returns the file name of the program which is currently executing.
 
@@ -811,7 +814,7 @@ Returns the file name of the program which is currently executing.
 FUNCTION AfxGetExeFileName () AS DWSTRING
 ```
 
-## AfxGetExeFileNameX
+### AfxGetExeFileNameX
 
 Returns the file name and extension of the program which is currently executing.
 
@@ -820,7 +823,7 @@ FUNCTION AfxGetExeFileNameX () AS DWSTRING
 ```
 ---
 
-## AfxGetExeFullPath
+### AfxGetExeFullPath
 
 Returns the complete drive, path, file name, and extension of the program which is currently executing.
 
@@ -829,7 +832,7 @@ FUNCTION AfxGetExeFullPath () AS DWSTRING
 ```
 ---
 
-## AfxGetFileExt
+### AfxGetFileExt
 
 Parses a path/filename and returns the extension portion of the path/file name. That is the last period (.) in the string plus the text to the right of it.
 
@@ -843,7 +846,7 @@ FUNCTION AfxGetFileExt (BYREF wszPath AS WSTRING) AS DWSTRING
 
 ---
 
-## AfxGetFileCreationTime
+### AfxGetFileCreationTime
 
 Returns the time the file was created, in FILETIME format.
 
@@ -858,7 +861,7 @@ FUNCTION AfxGetFileCreationTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BOO
 
 ---
 
-## AfxGetFileLastAccessTime
+### AfxGetFileLastAccessTime
 
 Returns the time the file was accessed, in FILETIME format.
 
@@ -873,7 +876,7 @@ FUNCTION AfxGetFileLastAccessTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS B
 
 ---
 
-## AfxGetFileLastWriteTime
+### AfxGetFileLastWriteTime
 
 Returns the time the file was last written to, truncated, or overwritten, in FILETIME format.
 
@@ -888,7 +891,7 @@ FUNCTION AfxGetFileLastWriteTime (BYREF wszFileSpec AS WSTRING, BYVAL bUTC AS BO
 
 ---
 
-## AfxGetFileName
+### AfxGetFileName
 
 Parses a path/filename and returns the file name portion. That is the text to the right of the last backslash (\) or colon (:), ending just before the last period (.).
 
@@ -902,7 +905,7 @@ FUNCTION AfxGetFileName (BYREF wszPath AS WSTRING) AS DWSTRING
 
 ---
 
-## AfxGetFileNameX
+### AfxGetFileNameX
 
 Parses a path/filename and returns the file name and extension portion. That is the text to the right of the last backslash (\\) or colon (:).
 
@@ -916,7 +919,7 @@ FUNCTION AfxGetFileNameX (BYREF wszPath AS WSTRING) AS DWSTRING
 
 ---
 
-## AfxGetFileVersion
+### AfxGetFileVersion
 
 Retrieves the version of the specified file multiplied by 100, e.g. 601 for version 6.01.
 
@@ -931,7 +934,7 @@ FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS DWORD
 ---
 
 
-## AfxGetFolderName
+### AfxGetFolderName
 
 Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name.
 
@@ -945,7 +948,7 @@ FUNCTION AfxGetFolderName (BYREF wszPath AS WSTRING) AS DWSTRING
 
 ---
 
-## <AfxGetKnowFolderPath
+### AfxGetKnowFolderPath
 
 Retrieves the path of an special folder.
 
@@ -977,7 +980,7 @@ AfxGetKnowFolderPath(@FOLDERID_CommonPrograms)
 ```
 ---
 
-## AfxGetLongPathName
+### AfxGetLongPathName
 
 Retrieves the short path form of the specified path.
 ```
@@ -990,7 +993,7 @@ FUNCTION AfxGetLongPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 
 ---
 
-## AfxGetPathName
+### AfxGetPathName
 
 Parses a path/filename and returns the path portion. That is the text up to and including the last backslash (\) or colon (:).
 
@@ -1004,7 +1007,7 @@ FUNCTION AfxGetPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 
 ---
 
-## AfxGetShortPathName
+### AfxGetShortPathName
 
 Retrieves the short path form of the specified path.
 
@@ -1018,7 +1021,7 @@ FUNCTION AfxGetShortPathName (BYREF wszPath AS WSTRING) AS DWSTRING
 
 ---
 
-## AfxGetSpecialFolderLocation
+### AfxGetSpecialFolderLocation
 
 Retrieves the path of a special folder.
 
@@ -1036,7 +1039,7 @@ For a list of CSIDL values see: [CSIDL](https://msdn.microsoft.com/en-us/library
 
 ---
 
-## AfxGetSystemDllPath
+### AfxGetSystemDllPath
 
 Retrieves the fully qualified path for the file that contains the specified module.
 
@@ -1054,7 +1057,7 @@ To locate the file for a module that was loaded by another process, use the **Ge
 
 ---
 
-## AfxGetWinDir
+### AfxGetWinDir
 
 Retrieves the path of the Windows directory. This path does not end with a backslash unless the Windows directory is the root directory. For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows. If the system was installed in the root directory of drive C, the path retrieved is C:\\.
 
@@ -1063,7 +1066,7 @@ FUNCTION AfxGetWinDir () AS DWSTRING
 ```
 ---
 
-## AfxIsCompressedFile
+### AfxIsCompressedFile
 
 Returns True if the specified file or directory is compressed; False if it is not.
 
@@ -1077,7 +1080,7 @@ FUNCTION AfxIsCompressedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsEncryptedFile
+### AfxIsEncryptedFile
 
 Returns True if the specified file or directory is encrypted; False if it is not.
 
@@ -1091,7 +1094,7 @@ FUNCTION AfxIsEncryptedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsFolder
+### AfxIsFolder
 
 Returns True if the specified path is a folder; False if it is not.
 
@@ -1105,7 +1108,7 @@ FUNCTION AfxIsFolder (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsHiddenFile
+### AfxIsHiddenFile
 
 Returns True if the specified path is a hidden file or directory; False if it is not.
 
@@ -1119,7 +1122,7 @@ FUNCTION AfxIsHiddenFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsNormalFile
+### AfxIsNormalFile
 
 Returns True if the specified path is a normal file (a file that does not have other attributes set); False if it is not.
 
@@ -1133,7 +1136,7 @@ FUNCTION AfxIsNormalFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsNotContentIndexedFile
+### AfxIsNotContentIndexedFile
 
 Returns TRUE if the specified file or directory is not to be indexed by the content indexing service; FALSE, otherwise.
 
@@ -1147,7 +1150,7 @@ FUNCTION AfxIsNotContentIndexedFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsOfflineFile
+### AfxIsOfflineFile
 
 Returns TRUE if the specified file file is not available immediately; FALSE, otherwise.
 
@@ -1161,7 +1164,7 @@ FUNCTION AfxIsOfflineFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsReadOnlyFile
+### AfxIsReadOnlyFile
 
 Returns True if the specified path is a read only file; False if it is not.
 
@@ -1175,7 +1178,7 @@ FUNCTION AfxIsReadOnlyFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## <a name="AfxIsReparsePointFile"></a>AfxIsReparsePointFile
+### <a name="AfxIsReparsePointFile"></a>AfxIsReparsePointFile
 
 Returns TRUE if the specified path is a file or directory that has an associated reparse point, or a file that is a symbolic link.; FALSE, otherwise.
 
@@ -1189,7 +1192,7 @@ FUNCTION AfxIsReparsePointFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsSparseFile
+### AfxIsSparseFile
 
 Returns TRUE if the specified path is a sparse file; FALSE, otherwise.
 
@@ -1203,7 +1206,7 @@ FUNCTION AfxIsSparseFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsSystemFile
+### AfxIsSystemFile
 
 Returns True if the specified path is a system file; False if it is not.
 
@@ -1217,7 +1220,7 @@ FUNCTION AfxIsSystemFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxIsTemporaryFile
+### AfxIsTemporaryFile
 
 Returns True if the specified path is a temporary file; False if it is not.
 
@@ -1231,7 +1234,7 @@ FUNCTION AfxIsTemporaryFile (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 ---
 
-## AfxFileScan
+### AfxFileScan
 
 Scans a text file ans returns the number of occurrences of the specified delimiter.
 
@@ -1251,7 +1254,7 @@ Use **AfxFileScanA** for ansi text files and **AfxFileScanW** for unicode text f
 
 ---
 
-## AfxFileReadAllLines
+### AfxFileReadAllLines
 
 Reads all the lines of the specified file into a safe array.
 
@@ -1273,7 +1276,7 @@ Because it returns a safe array, this function is located in the DSafeArray.inc 
 
 ---
 
-## AfxSaveIconToFile
+### AfxSaveIconToFile
 
 Saves an icon to a file.
 
@@ -1301,7 +1304,7 @@ DIM hr AS HRESULT = AfxSaveIconToFile(hIcon, "test2.ico")
 ```
 ---
 
-## AfxSaveTempFile
+### AfxSaveTempFile
 
 Saves the contents of a string buffer in a temporary file.
 
@@ -1320,7 +1323,7 @@ Temporary files whose names have been created by this function are not automatic
 
 ---
 
-## AfxAddWindowExStyle
+### AfxAddWindowExStyle
 
 Adds a new extended style to the specified window.
 
@@ -1348,7 +1351,7 @@ If the window has a class style of CS_CLASSDC or CS_OWNDC, do not set the extend
 
 ---
 
-## AfxAddWindowStyle
+### AfxAddWindowStyle
 
 Adds a new style to the specified window.
 
@@ -1370,7 +1373,7 @@ The previous window styles.
 AfxAddWindowStyle(hwnd, WS_HSCROLL)
 ```
 
-## AfxGetWindowExStyle
+### AfxGetWindowExStyle
 
 Retrieves the extended window styles.
 
@@ -1384,7 +1387,7 @@ FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS DWORD
 
 ---
 
-## AfxGetWindowStyle
+### AfxGetWindowStyle
 
 Retrieves the window styles.
 
@@ -1398,7 +1401,7 @@ FUNCTION AfxGetWindowStyle (BYVAL hwnd AS HWND) AS DWORD
 
 ---
 
-## AfxRemoveWindowExStyle
+### AfxRemoveWindowExStyle
 
 Removes an extended style from the specified window.
 
@@ -1415,7 +1418,7 @@ FUNCTION AfxRemoveWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) A
 
 The previous extended window styles.
 
-## AfxRemoveWindowStyle
+### AfxRemoveWindowStyle
 
 Removes a style from the specified window.
 
@@ -1434,7 +1437,7 @@ The previous window styles.
 
 ---
 
-## AfxSetWindowExStyle
+### AfxSetWindowExStyle
 
 Sets the extended style(s) of the specified window.
 
@@ -1453,7 +1456,7 @@ The previous extended window styles.
 
 ---
 
-## AfxSetWindowStyle
+### AfxSetWindowStyle
 
 Sets the style(s) of the specified window.
 
@@ -1472,7 +1475,7 @@ The previous window styles.
 
 ---
 
-## AfxForceVisibleDisplay
+### AfxForceVisibleDisplay
 
 If you use dual (or even triple/quad) displays then you have undoubtedly encountered the following situation: You change the physical order of your displays, or otherwise reconfigure the logical ordering using your display software. This sometimes has the side-effect of changing your desktop coordinates from zero-based to negative starting coordinates (i.e. the top-left coordinate of your desktop changes from 0,0 to -1024,-768).
 
@@ -1492,7 +1495,7 @@ SUB AfxForceVisibleDisplay (BYVAL hwnd AS HWND)
 
 ---
 
-## AfxGetDisplayBitsPerPixel
+### AfxGetDisplayBitsPerPixel
 
 Returns the color resolution, in bits per pixel, of the display device.
 
@@ -1501,7 +1504,7 @@ FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
 ```
 ---
 
-## AfxGetDisplayFrequency
+### AfxGetDisplayFrequency
 
 Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. This value is also known as the display device's vertical refresh rate.
 
@@ -1510,7 +1513,7 @@ FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
 ```
 ---
 
-## AfxGetDisplayPixelsHeight
+### AfxGetDisplayPixelsHeight
 
 Returns the height, in pixels, of the current display device on the computer on which the calling thread is running.
 
@@ -1519,7 +1522,7 @@ FUNCTION AfxGetDisplayPixelsHeight () AS DWORD
 ```
 ---
 
-## AfxGetDisplayPixelsWidth
+### AfxGetDisplayPixelsWidth
 
 Returns the width, in pixels, of the current display device on the computer on which the calling thread is running.
 
@@ -1533,7 +1536,7 @@ Contrarily to **GetSystemMetrics** or **GetDeviceCaps**, it returns the real wid
 
 ---
 
-## AfxDoEvents
+### AfxDoEvents
 
 Processes pending Windows messages. Call this procedure if you are performing a tight FOR/NEXT or DO/LOOP and need to allow your application to be responsive to user input.
 
@@ -1577,7 +1580,7 @@ If an application processes this message, it should return zero.
 
 ---
 
-## AfxPumpMessages
+### AfxPumpMessages
 
 Processes pending Windows messages. Call this procedure if you are performing a tight FOR/NEXT or DO/LOOP and need to allow your application to be responsive to user input.
 
@@ -1586,7 +1589,7 @@ SUB AfxPumpMessages
 ```
 ---
 
-## AfxGetControlHandle
+### AfxGetControlHandle
 
 Returns the handle of the control with the specified identifier. The reference handle can be the handle of the form or the handle of any other control on the form.
 
@@ -1605,7 +1608,7 @@ Returns the handle of the control or NULL.
 
 ---
 
-## AfxGetFormHandle
+### AfxGetFormHandle
 
 Finds the handle of the top-level window or MDI child window that is the ancestor of the specified window handle. The reference handle is the handle of any control on the form.
 
@@ -1623,7 +1626,7 @@ Handle of the ancestor window.
 
 ---
 
-## AfxGetHwndFromPID
+### AfxGetHwndFromPID
 
 Retrieves a window handle given it's process identifier.
 
@@ -1641,7 +1644,7 @@ The window handle or NULL.
 
 ---
 
-## AfxGetPathFromWindowHandle
+### AfxGetPathFromWindowHandle
 
 Retrieves the path of the executable file that created the specified window.
 
@@ -1659,7 +1662,7 @@ The path of the executable file.
 
 ---
 
-## AfxBrowseForFolder
+### AfxBrowseForFolder
 
 Displays a dialog box that enables the user to select a folder.
 
@@ -1712,7 +1715,7 @@ DIM dws AS DWSTRING = AfxBrowseForFolder(hwnd, "C:")
 ```
 ---
 
-## AfxChooseColorDialog
+### AfxChooseColorDialog
 
 Displays the Windows choose color dialog.
 
@@ -1733,7 +1736,7 @@ The selected color, or -1 if the user has canceled the dialog.
 
 ---
 
-## AfxControlRunDLL
+### AfxControlRunDLL
 
 Control_RunDLL is an undocumented procedure in the Shell32.dll which can be used to launch control panel applications. You’ve to pass the name of the control panel file (.cpl) and the tool represented by it will be launched. For launching some control panel applications, you’ve to provide a valid windows handle (hwnd parameter) and program instance (*hInst*) parameter).
 
@@ -1773,7 +1776,7 @@ AfxControlRunDLL(0, 0, "appwiz.cpl", SW_SHOWNORMAL)   ' Opens the applications w
 ```
 ---
 
-## AfxOpenFileDialog
+### AfxOpenFileDialog
 
 Creates an **Open** dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened. The dialog box uses the Explorer-style user interface.
 
@@ -1826,8 +1829,7 @@ DIM dws AS DWSTRING = AfxOpenFileDialog(hwnd, "", wszFile, wszInitialDir, wszFil
 ```
 ---
 
-
-## AfxSaveFileDialog
+### AfxSaveFileDialog
 
 Creates a **Save** dialog box that lets the user specify the drive, directory, and name of a file to save. The dialog box uses the Explorer-style user interface.
 
@@ -1878,7 +1880,7 @@ DIM dws AS DWSTRING = AfxSaveFileDialog(hwnd, "", wszFile, wszInitialDir, wszFil
 ```
 ---
 
-## AfxShowSysInfo
+### AfxShowSysInfo
 
 Displays the Windows Information System dialog.
 
@@ -1896,7 +1898,7 @@ If the function succeeds, the return value is TRUE. If the function fails, the r
 
 ---
 
-## AfxGetMonitorHorizontalScaling
+### AfxGetMonitorHorizontalScaling
 
 Returns the horizontal scaling of the monitor that the window is currently displayed on.
 
@@ -1914,7 +1916,7 @@ If the application to which the window belongs is not DPI aware, a computer usin
 
 ---
 
-## AfxGetMonitorVerticalScaling
+### AfxGetMonitorVerticalScaling
 
 Returns the vertical scaling of the monitor that the window is currently displayed on.
 
@@ -1932,7 +1934,7 @@ If the application to which the window belongs is not DPI aware, a computer usin
 
 ---
 
-## AfxGetMonitorLogicalHeight
+### AfxGetMonitorLogicalHeight
 
 Returns the logical height of the monitor that the window is currently displayed on.
 
@@ -1950,7 +1952,7 @@ If the application to which the window belongs is not DPI aware, a monitor with 
 
 ---
 
-## AfxGetMonitorLogicalWidth
+### AfxGetMonitorLogicalWidth
 
 Returns the logical width of the monitor that the window is currently displayed on.
 
@@ -1968,7 +1970,7 @@ If the application to which the window belongs is not DPI aware, a monitor with 
 
 ---
 
-## AfxIsDPIResolutionAtLeast
+### AfxIsDPIResolutionAtLeast
 
 Determines if screen resolution meets minimum requirements in relative pixels, e.g. for a screen resolution of 1920x1080 pixels and a DPI of 192 (scaling ratio = 2), the maximum relative pixels for a DPI aware application is 960x540.
 
@@ -1985,7 +1987,7 @@ FUNCTION AfxIsDPIResolutionAtLeast (BYVAL cxMin AS LONG, BYVAL cyMin AS LONG) AS
 
 TRUE or FALSE.
 
-## AfxIsProcessDPIAware
+### AfxIsProcessDPIAware
 
 Determines whether the current process is dots per inch (dpi) aware such that it adjusts the sizes of UI elements to compensate for the dpi setting.
 
@@ -1999,7 +2001,7 @@ TRUE if the process is dpi aware; otherwise, FALSE.
 
 ---
 
-## AfxIsResolutionAtLeast
+### AfxIsResolutionAtLeast
 
 Determines if screen resolution meets minimum requirements.
 
@@ -2018,7 +2020,7 @@ TRUE or FALSE.
 
 ---
 
-## AfxLoadIconMetric
+### AfxLoadIconMetric
 
 Loads a specified icon resource with a client-specified system metric.
 
@@ -2050,7 +2052,7 @@ Icons are extracted or created as follows.
 
 ---
 
-## AfxLogPixelsX
+### AfxLogPixelsX
 
 Retrieves the number of pixels per logical inch along the screen width. In a system with multiple display monitors, this value is the same for all monitors. Aliases: **AfxGetDpi**, **AfxGetDpiX**.
 
@@ -2061,7 +2063,7 @@ FUNCTION AfxGetDpiX () AS LONG
 ```
 ---
 
-## AfxLogPixelsY
+### AfxLogPixelsY
 
 Retrieves the number of pixels per logical inch along the screen height. In a system with multiple display monitors, this value is the same for all monitors. Alias: **AfxGetDpiY**.
 
@@ -2071,7 +2073,7 @@ FUNCTION AfxGetDpiY () AS LONG
 ```
 ---
 
-## AfxScaleRatioX
+### AfxScaleRatioX
 
 Retrieves the desktop horizontal scaling ratio.
 
@@ -2080,7 +2082,7 @@ FUNCTION AfxScaleRatioX () AS LONG
 ```
 ---
 
-## AfxScaleRatioY
+### AfxScaleRatioY
 
 Retrieves the desktop vertical scaling ratio.
 
@@ -2089,7 +2091,7 @@ FUNCTION AfxScaleRatioY () AS LONG
 ```
 ---
 
-## AfxScaleX
+### AfxScaleX
 
 Scales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system.
 
@@ -2103,7 +2105,7 @@ The scaled coordinate.
 
 ---
 
-## AfxScaleY
+### AfxScaleY
 
 Scales a vertical coordinate according the DPI (dots per pixel) being used by the operating system.
 
@@ -2117,7 +2119,7 @@ The scaled coordinate.
 
 ---
 
-## AfxSetProcessDPIAware
+### AfxSetProcessDPIAware
 
 Sets the current process as dots per inch (dpi) aware.
 
@@ -2147,7 +2149,7 @@ DLLs should accept the dpi setting of the host process rather than call **AfxSet
 </assembly>
 ```
 
-## AfxUnscaleX
+### AfxUnscaleX
 
 Unscales an horizontal coordinate according the DPI (dots per pixel) being used by the operating system.
 
@@ -2165,7 +2167,7 @@ The unscaled coordinate.
 
 ---
 
-## AfxUnscaleY
+### AfxUnscaleY
 
 Unscales a vertical coordinate according the DPI (dots per pixel) being used by the operating system.
 
@@ -2183,7 +2185,7 @@ The unscaled coordinate.
 
 ---
 
-## AfxUseDpiScaling
+### AfxUseDpiScaling
 
 Returns TRUE if the OS uses DPI scaling; FALSE otherwise.
 
@@ -2192,7 +2194,7 @@ FUNCTION AfxUseDpiScaling () AS BOOLEAN
 ```
 ---
 
-## AfxCreateFont
+### AfxCreateFont
 
 Creates a logical font.
 
@@ -2230,7 +2232,7 @@ hFont = AfxCreateFont("Marlett", 8, -1, FW_NORMAL, , , , SYMBOL_CHARSET)
 ```
 ---
 
-## AfxGetFontHeight
+### AfxGetFontHeight
 
 Returns the logical height of a font given its point size.
 
@@ -2243,7 +2245,7 @@ FUNCTION AfxGetFontHeight (BYVAL nPointSize AS LONG) AS LONG
 
 ---
 
-## AfxGetFontPointSize
+### AfxGetFontPointSize
 
 Returns the point size of a font given its logical height.
 
@@ -2257,7 +2259,7 @@ FUNCTION AfxGetFontPointSize (BYVAL nHeight AS LONG) AS LONG
 
 ---
 
-## AfxGetWindowFont
+### AfxGetWindowFont
 
 Retrieves the font with which the window or control is currently drawing its text.
 
@@ -2275,7 +2277,7 @@ The handle of the font.
 
 ---
 
-## AfxGetWindowFontInfo
+### AfxGetWindowFontInfo
 
 Retrieves information about the font being used by a window or control.
 
@@ -2293,7 +2295,7 @@ A LOGFONTW structure.
 
 ---
 
-## AfxGetWindowsFontInfo
+### AfxGetWindowsFontInfo
 
 Retrieves information about the fonts used by Windows.
 
@@ -2312,7 +2314,7 @@ TRUE on succes or FALSE on failure. To get extended error information, call **Ge
 
 ---
 
-## AfxGetWindowsFontPointSize
+### AfxGetWindowsFontPointSize
 
 Retrieves the point size of the fonts used by Windows.
 
@@ -2326,7 +2328,7 @@ FUNCTION AfxGetWindowsFontPointSize (BYVAL nType AS LONG) AS LONG
 
 ---
 
-## AfxModifyFontFaceName
+### AfxModifyFontFaceName
 
 Modifies the face name of the font of a window or control.
 
@@ -2351,7 +2353,7 @@ The returned font must be destroyed with **DeleteObject** or the macro **DeleteF
 
 ---
 
-## AfxModifyFontHeight
+### AfxModifyFontHeight
 
 Modifies the height of the font used by a window of control.
 
@@ -2376,7 +2378,7 @@ The returned font must be destroyed with **DeleteObject** or the macro **DeleteF
 
 ---
 
-## AfxModifyFontSettings
+### AfxModifyFontSettings
 
 Modifies settings of the font used by a window of control.
 
@@ -2400,7 +2402,7 @@ To get extended error information call **GetLastError**.
 
 The returned font must be destroyed with **DeleteObject** or the macro **DeleteFont** when no longer needed to prevent memory leaks.
 
-## AfxSetWindowFont
+### AfxSetWindowFont
 
 Sets the font that a control is to use when drawing text.
 
@@ -2428,7 +2430,7 @@ The size of the control does not change as a result of receiving this message. T
 
 ---
 
-## AfxClearClipboard
+### AfxClearClipboard
 
 Clears the contents of the clipboard.
 
@@ -2442,7 +2444,7 @@ If the function succeeds, the return value is nonzero. If the function fails, th
 
 ---
 
-## AfxGetClipboardData
+### AfxGetClipboardData
 
 Retrieves data from the clipboard in the specified format.
 
@@ -2489,7 +2491,7 @@ Standard clipboard formats:
 
 If the function succeeds, the return value is the handle to the data. If the function fails, the return value is NULL.
 
-## AfxGetClipboardText
+### AfxGetClipboardText
 
 Returns a text string from the clipboard.
 
@@ -2503,7 +2505,7 @@ The retrieved text string.
 
 ---
 
-## AfxSetClipboardData
+### AfxSetClipboardData
 
 Places data on the clipboard in a specified clipboard format.
 
@@ -2557,7 +2559,7 @@ If **AfxSetClipboardData** succeeds, the system owns the object identified by th
 
 ---
 
-## AfxSetClipboardText
+### AfxSetClipboardText
 
 Places a text string into the clipboard.
 
@@ -2575,7 +2577,7 @@ If the function succeeds, the return value is the handle to the data. If the fun
 
 ---
 
-## AfxCaptureDisplay
+### AfxCaptureDisplay
 
 Captures the display and returns an handle to a bitmap.
 
@@ -2594,7 +2596,7 @@ DIM hBitmap AS HBITMAP = AfxCaptureDisplay
 ```
 ---
 
-## AfxGetBitmapHeight
+### AfxGetBitmapHeight
 
 Retrieves the height of the specified bitmap.
 
@@ -2612,7 +2614,7 @@ The height of the bitmap on success or 0 on failure.
 
 ---
 
-## AfxGetBitmapWidth
+### AfxGetBitmapWidth
 
 Retrieves the width of the specified bitmap.
 
@@ -2630,7 +2632,7 @@ The width of the bitmap on success or 0 on failure.
 
 ---
 
-## AfxCreateDIBSection
+### AfxCreateDIBSection
 
 Creates a DIB section.
 
@@ -2672,7 +2674,7 @@ hbmp = AfxCreateDIBSection(hdcWindow, 10, 10, @pvBits)
 ReleaseDC(hwnd, hdcWindow)
 ```
 
-## AfxCenterWindow
+### AfxCenterWindow
 
 Centers a window on the screen or over another window. It also ensures that the placement is done within the work area.
 
@@ -2687,7 +2689,7 @@ SUB AfxCenterWindow (BYVAL hwnd AS HWND = NULL, BYVAL hwndParent AS HWND = NULL)
 
 ---
 
-## AfxForceSetForegroundWindow
+### AfxForceSetForegroundWindow
 
 Brings the thread that created the specified window into the foreground and activates the window. Keyboard input is directed to the window, and various visual cues are changed for the user. The system assigns a slightly higher priority to the thread that created the foreground window than it does to other threads.
 
@@ -2705,7 +2707,7 @@ Replacement for the **SetForegroundWindow** API function, that sometimes fails.
 
 ---
 
-## AfxGetSystemInfo
+### AfxGetSystemInfo
 
 Retrieves information about the current system.
 
@@ -2723,7 +2725,7 @@ FUNCTION AfxGetSystemInfo (BYREF metricName AS STRING) AS LONG_PTR
 
 ---
 
-## AfxGetTopEnabledWindow
+### AfxGetTopEnabledWindow
 
 Retrieves the handle of the enabled and visible window at the top of the z-order in an application.
 
@@ -2737,7 +2739,7 @@ Handle of the window at top of z-order or NULL.
 
 ---
 
-## AfxGetTopLevelParent
+### AfxGetTopLevelParent
 
 Retrieves the window's top-level parent window.
 
@@ -2755,7 +2757,7 @@ Handle of the top-level parent window.
 
 ---
 
-## AfxGetTopLevelWindow
+### AfxGetTopLevelWindow
 
 Retrieves the window's top-level parent or owner window.
 
@@ -2773,7 +2775,7 @@ Handle of the top-level parent or owner window.
 
 ---
 
-## AfxGetWindowBounds
+### AfxGetWindowBounds
 
 Retrieves the bounds of a window without the drop shadows.
 ```
@@ -2790,7 +2792,7 @@ In Windows Vista and later, the Window Rect includes the area occupied by the dr
 
 ---
 
-## AfxGetWindowClassName
+### AfxGetWindowClassName
 
 Retrieves the name of the class to which the specified window belongs. 
 
@@ -2808,7 +2810,7 @@ The name of the class.
 
 ---
 
-## AfxGetWindowClientHeight
+### AfxGetWindowClientHeight
 
 Returns the height of the client area of window, in pixels.
 
@@ -2822,7 +2824,7 @@ FUNCTION AfxGetWindowClientHeight (BYVAL hwnd AS HWND) AS LONG
 
 ---
 
-## AfxGetWindowClientRect
+### AfxGetWindowClientRect
 
 Retrieves the coordinates of a window's client area. The client coordinates specify the upper-left and lower-right corners of the client area. Because client coordinates are relative to the upper-left corner of a window's client area, the coordinates of the upper-left corner are (0,0).
 
@@ -2840,7 +2842,7 @@ A RECT structure with the retrieved coordinates of the window's client area.
 
 ---
 
-## AfxGetWindowClientWidth
+### AfxGetWindowClientWidth
 
 Returns the width of the client area of a window, in pixels.
 
@@ -2854,7 +2856,7 @@ FUNCTION AfxGetWindowClientWidth (BYVAL hwnd AS HWND) AS LONG
 
 ---
 
-## AfxGetWindowHeight
+### AfxGetWindowHeight
 
 Returns the height of a window, in pixels.
 
@@ -2868,7 +2870,7 @@ FUNCTION AfxGetWindowHeight (BYVAL hwnd AS HWND) AS LONG
 
 ---
 
-## AfxGetWindowLocation
+### AfxGetWindowLocation
 
 Returns the location of the top left corner of the window, in pixels. The location is relative to the upper-left corner of the client area in the parent window.
 
@@ -2884,7 +2886,7 @@ SUB AfxGetWindowLocation (BYVAL hwnd AS HWND, BYREF nLeft AS LONG, BYREF nTop AS
 
 ---
 
-## AfxGetWindowRect
+### AfxGetWindowRect
 
 Retrieves the dimensions of the bounding rectangle of the specified window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
 
@@ -2898,7 +2900,7 @@ A RECT structure with the retrieved dimensions.
 
 ---
 
-## AfxGetWindowSize
+### AfxGetWindowSize
 
 Gets the width and height of the specified window, in pixels.
 
@@ -2914,7 +2916,7 @@ FUNCTION AfxGetWindowSize (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL nHeig
 
 ---
 
-## AfxGetWindowText
+### AfxGetWindowText
 
 Gets the text of a window. This function can also be used to retrieve the text of buttons, edit and static controls.
 
@@ -2939,7 +2941,7 @@ This function uses the WM_GETTEXT message because **GetWindowText** cannot retri
 DIM dwsText AS DWSTRING = AfxGetWindowText(hwnd)
 MessageBoxW 0, dwsText, "", MB_OK
 
-## AfxGetWindowTextLength
+### AfxGetWindowTextLength
 
 Retrieves the length of the text of a window. This function can also be used to retrieve the length of the text of buttons, edit and static controls.
 
@@ -2967,7 +2969,7 @@ Sending a WM_GETTEXTLENGTH message to a non-text static control, such as a stati
 
 ---
 
-## AfxGetWindowWidth
+### AfxGetWindowWidth
 
 Returns the width of a window, in pixels.
 
@@ -2981,7 +2983,7 @@ FUNCTION AfxGetWindowWidth (BYVAL hwnd AS HWND) AS LONG
 
 ---
 
-## AfxGetWorkAreaHeight
+### AfxGetWorkAreaHeight
 
 Retrieves the height of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
 
@@ -2989,7 +2991,7 @@ Retrieves the height of the work area on the primary display monitor expressed i
 FUNCTION AfxGetWorkAreaHeight () AS LONG
 ```
 
-## AfxGetWorkAreaRect
+### AfxGetWorkAreaRect
 
 Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
 
@@ -3003,7 +3005,7 @@ A RECT structure with the retrieved coordinates.
 
 ---
 
-## AfxGetWorkAreaWidth
+### AfxGetWorkAreaWidth
 
 Retrieves the width of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the **GetMonitorInfo** function.
 
@@ -3011,7 +3013,7 @@ Retrieves the width of the work area on the primary display monitor expressed in
 FUNCTION AfxGetWorkAreaWidth () AS LONG
 ```
 
-## AfxRedrawNonClientArea
+### AfxRedrawNonClientArea
 
 Redraws the non-client area of the specified window.
 
@@ -3027,7 +3029,7 @@ If the function fails, the return value is FALSE. To get extended error informat
 
 ---
 
-## AfxMoveWindowForDpi
+### AfxMoveWindowForDpi
 
 Changes the position and dimensions of the specified window. For a top-level window, the position and dimensions are relative to the upper-left corner of the screen. For a child window, they are relative to the upper-left corner of the parent window's client area. DPI aware versiomn of the API function **MoveWindow**.
 
@@ -3058,7 +3060,7 @@ If the *bRepaint* parameter is TRUE, the system sends the WM_PAINT message to th
 
 ---
 
-## AfxRedrawWindow
+### AfxRedrawWindow
 
 Redraws the specified window.
 
@@ -3067,7 +3069,7 @@ SUB AfxRedrawWindow (BYVAL hwnd AS HWND)
 ```
 ---
 
-## AfxSetWindowClientSize
+### AfxSetWindowClientSize
 
 Adjusts the bounding rectangle of a window based on the desired size of the client area.
 
@@ -3091,7 +3093,7 @@ SUB AfxSetWindowClientSizeForDpi (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVA
 
 ---
 
-## AfxSetWindowIcon
+### AfxSetWindowIcon
 
 Associates a new large icon with a window. The system displays the large icon in the ALT+TAB dialog box, and the small icon in the window caption.
 
@@ -3111,7 +3113,7 @@ The return value is a handle to the previous large or small icon, depending on t
 
 ---
 
-## AfxSetWindowLocation
+### AfxSetWindowLocation
 
 Sets the location of the top left corner of the window, in pixels.The location is relative to the upper-left corner of the client area in the parent window.
 
@@ -3136,7 +3138,7 @@ If the function fails, the return value is FALSE. To get extended error informat
 
 ---
 
-## AfxSetWindowPosForDpi
+### AfxSetWindowPosForDpi
 
 Changes the size, position, and Z order of a child, pop-up, or top-level window. DPI aware version of the API function **SetWindowPos**.
 
@@ -3159,7 +3161,7 @@ PRIVATE FUNCTION AfxSetWindowPosForDPI (BYVAL hwnd AS HWND, BYVAL hWndInsertAfte
 
 ---
 
-## AfxSetWindowSize
+### AfxSetWindowSize
 
 Sets the size of the specified window, in pixels.
 
@@ -3180,7 +3182,7 @@ FUNCTION AfxSetWindowSizeForDpi (BYVAL hwnd AS HWND, BYVAL nWidth AS LONG, BYVAL
 
 ---
 
-## AfxSetWindowText
+### AfxSetWindowText
 
 Sets the text of a window. This function can also be used to set the text of buttons, edit and static controls.
 
@@ -3201,7 +3203,7 @@ If the function fails, the return value is FALSE.
 
 ---
 
-## AfxShowWindowState
+### AfxShowWindowState
 
 Sets the specified window's show state.
 
@@ -3249,7 +3251,7 @@ As noted in the discussion of the *nCmdShow* parameter, the *nCmdShow* value is 
 
 ---
 
-## AfxWindowsVersion
+### AfxWindowsVersion
 
 Returns the Windows version.
 
@@ -3286,7 +3288,25 @@ Platform 2:
 
 ---
 
-## AfxWindowsBuild
+### AfxWindowsMajorVersion
+
+Returns the Windows major version.
+
+```
+FUNCTION AfxWindowsMajorVersion () AS LONG
+```
+---
+
+### AfxWindowsMinorVersion
+
+Returns the Windows minor version.
+
+```
+FUNCTION AfxWindowsMinorVersion () AS LONG
+```
+---
+
+### AfxWindowsBuild
 
 Returns the Windows build number.
 
@@ -3295,7 +3315,7 @@ FUNCTION AfxWindowsBuild () AS LONG
 ```
 ---
 
-## AfxWindowsPlatform
+### AfxWindowsPlatform
 
 Returns the Windows platform.
 
@@ -3312,7 +3332,7 @@ FUNCTION AfxWindowsPlatform () AS LONG
 
 ---
 
-## AfxWindowsBitness
+### AfxWindowsBitness
 
 Returns the Windows bitness (32 or 64 bit).
 
@@ -3321,7 +3341,7 @@ FUNCTION AfxWindowsBitness () AS LONG
 ```
 ---
 
-## AfxIsPlatformNT
+### AfxIsPlatformNT
 
 Returns TRUE if the Windows Platform is NT; FALSE, otherwise.
 
@@ -3330,7 +3350,7 @@ FUNCTION AfxIsPlatformNT () AS BOOLEAN
 ```
 ---
 
-## AfxComCtlVersion
+### AfxComCtlVersion
 
 Returns the version of CommCtl32.dll
 
@@ -3344,7 +3364,7 @@ The version of CommCtl32.dll multiplied by 100, e.g. 582 for version 5.82.
 
 ---
 
-## AfxMsg
+### AfxMsg
 
 Displays an application modal message box. Can be used with any string data type or literal.It is a quick shortcur for the **MessageBoxW** API function.
 
@@ -3368,7 +3388,7 @@ FUNCTION AfxMsg (BYVAL hWin AS HWND, BYVAL pwszText AS WSTRING PTR, BYREF wszCap
 
 ---
 
-## AfxGetWinDir
+### AfxGetWinDir
 
 Retrieves the path of the Windows directory. This path does not end with a backslash unless the Windows directory is the root directory. For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows. If the system was installed in the root directory of drive C, the path retrieved is C:\\.
 
@@ -3377,7 +3397,7 @@ FUNCTION AfxGetWinDir () AS DWSTRING
 ```
 ---
 
-## AfxGetWinErrMsg
+### AfxGetWinErrMsg
 
 Retrieves the localized description of the specified Windows error code.
 
@@ -3395,7 +3415,7 @@ The localized description of the error code.
 
 ---
 
-## AfxGetComputerName
+### AfxGetComputerName
 
 Retrieves the NetBIOS name of the local computer. This name is established at system startup, when the system reads it from the registry.
 
@@ -3413,7 +3433,7 @@ The behavior of this function can be affected if the local computer is a node in
 
 ---
 
-## AfxGetUserName
+### AfxGetUserName
 
 Retrieves the name of the user associated with the current thread.
 
@@ -3431,7 +3451,7 @@ If the current thread is impersonating another client, the **AfxGetUserName** fu
 
 ---
 
-## AfxGetMACAddress
+### AfxGetMACAddress
 
 Retrieves the MAC address of a machine's Ethernet card.
 
@@ -3449,7 +3469,7 @@ This function only supports one NIC card on your PC.
 
 ---
 
-## AfxGetMACAddressEx
+### AfxGetMACAddressEx
 
 Get the MAC address of the first valid physical adapter using **GetAdaptersAddresses**.
 
@@ -3467,7 +3487,7 @@ This is the Microsoft-recommended method.
 
 ---
 
-## AfxGetAllMACAddresses
+### AfxGetAllMACAddresses
 
 Populates a dynamic array of STRINGs with all the real MAC addresses of the system.
 
@@ -3489,7 +3509,7 @@ NEXT
 ```
 ---
 
-## AfxGetAllPhysicalMACAddresses
+### AfxGetAllPhysicalMACAddresses
 
 Populates a dynamic array of STRINGs with all *real* MAC addresses (Ethernet/Wi-Fi).
 
@@ -3511,7 +3531,7 @@ NEXT
 ```
 ---
 
-## AfxGetBrowserHandle
+### AfxGetBrowserHandle
 
 Retrieves the handle of the top level window of the web browser.
 
@@ -3542,7 +3562,7 @@ DIM hwndBrowser AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")   ' // Chrom
 
 **AfxGetInternetExplorerHandle**, **AfxGetFireFoxHandle** and **AfxGetGoogleChromeHandle** are wrappers functions that call AfxGetBrowserHandle passing the appropriate class name ("IEFrame", "MozillaWindowClass" and "Chrome_WidgetWin_1").
 
-## AfxGetDefaultBrowserName
+### AfxGetDefaultBrowserName
 
 Retrieves the name of the default browser.
 
@@ -3556,7 +3576,7 @@ The retrieved name or an empty string.
 
 ---
 
-## AfxGetDefaultBrowserPath
+### AfxGetDefaultBrowserPath
 
 Retrieves the path of the default browser.
 
@@ -3570,7 +3590,7 @@ The retrieved path or an empty string.
 
 ---
 
-## AfxGetDefaultMailClientName
+### AfxGetDefaultMailClientName
 
 Retrieves the name of the default client mail application.
 
@@ -3584,7 +3604,7 @@ The retrieved name or an empty string.
 
 ---
 
-## AfxGetDefaultMailClientPath
+### AfxGetDefaultMailClientPath
 
 Retrieves the path of the default client mail application.
 
@@ -3598,7 +3618,7 @@ The retrieved path or an empty string.
 
 ---
 
-## AfxGetInternetExplorerVersion
+### AfxGetInternetExplorerVersion
 
 Returns the Internet Explorer version installed.
 
@@ -3612,7 +3632,7 @@ The Internet Explorer version (major.minor).
 
 ---
 
-## AfxHiMetricToPixelsX
+### AfxHiMetricToPixelsX
 
 Converts from HiMetric to Pixels (horizontal resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3628,7 +3648,7 @@ SUB AfxHiMetricToPixelsX (BYVAL hm AS LONG) AS LONG
 
 The size in pixels.
 
-## AfxHiMetricToPixelsY
+### AfxHiMetricToPixelsY
 
 Converts from HiMetric to Pixels (vertical resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3646,7 +3666,7 @@ The size in pixels.
 
 ---
 
-## AfxPixelsToHiMetricX
+### AfxPixelsToHiMetricX
 
 Converts from Pixels to HiMetric (horizontal resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3664,7 +3684,7 @@ The size in HiMetric units.
 
 ---
 
-## AfxPixelsToHiMetricY
+### AfxPixelsToHiMetricY
 
 Converts from Pixels to HiMetric (vertical resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
 
@@ -3682,7 +3702,7 @@ The size in HiMetric units.
 
 ---
 
-## AfxPixelsToPointsX
+### AfxPixelsToPointsX
 
 Converts pixels to points size (1/72 of an inch). Horizontal resolution.
 
@@ -3700,7 +3720,7 @@ The number of points.
 
 ---
 
-## AfxPixelsToPointsY
+### AfxPixelsToPointsY
 
 Converts pixels to points size (1/72 of an inch). Vertical resolution.
 
@@ -3718,7 +3738,7 @@ The number of points.
 
 ---
 
-## AfxPixelsToTwipsX
+### AfxPixelsToTwipsX
 
 Converts pixels to twips. Horizontal resolution.
 
@@ -3736,7 +3756,7 @@ The number of twips.
 
 ---
 
-## AfxPixelsToTwipsY
+### AfxPixelsToTwipsY
 
 Converts pixels to twips. Vertical resolution.
 
@@ -3754,7 +3774,7 @@ The number of twips.
 
 ---
 
-## AfxPointSizeToDip
+### AfxPointSizeToDip
 
 Converts point size to DIP (device independent pixel). DIP is defined as 1/96 of an inch and a point is 1/72 of an inch.
 
@@ -3772,7 +3792,7 @@ The number of DIP pixels.
 
 ---
 
-## AfxPointsToPixelsX
+### AfxPointsToPixelsX
 
 Converts a point size (1/72 of an inch) to pixels. Horizontal resolution.
 
@@ -3790,7 +3810,7 @@ The number of pixels.
 
 ---
 
-## AfxPointsToPixelsY
+### AfxPointsToPixelsY
 
 Converts a point size (1/72 of an inch) to pixels. Vertical resolution.
 
@@ -3808,7 +3828,7 @@ The number of pixels.
 
 ---
 
-## AfxTwipsPerPixelX
+### AfxTwipsPerPixelX
 
 Returns the width of a pixel in twips (horizontal resolution). Pixel dimensions can vary between systems and may not always be square, so separate functions for pixel width and height are required.
 
@@ -3822,7 +3842,7 @@ The number of twips per pixel.
 
 ---
 
-## AfxTwipsPerPixelY
+### AfxTwipsPerPixelY
 
 Returns the width of a pixel in twips (vertical resolution). Pixel dimensions can vary between systems and may not always be square, so separate functions for pixel width and height are required.
 
@@ -3836,7 +3856,7 @@ The number of twips per pixel.
 
 ---
 
-## AfxTwipsToPixelsX
+### AfxTwipsToPixelsX
 
 Converts twips to pixels. Horizontal resolution.
 
@@ -3854,7 +3874,7 @@ The number of pixels.
 
 ---
 
-## AfxTwipsToPixelsY
+### AfxTwipsToPixelsY
 
 Converts twips to pixels. Vertical resolution.
 
@@ -3872,7 +3892,7 @@ The number of pixels.
 
 ---
 
-## AfxDibLoadImage
+### AfxDibLoadImage
 
 Loads a DIB in memory and returns a pointer to it.
 
@@ -3890,7 +3910,7 @@ A pointer to the bitmap file header. You must release it with **CoTaskMemFree** 
 
 ---
 
-## AfxDibSaveImage
+### AfxDibSaveImage
 
 Saves a DIB to a file.
 
