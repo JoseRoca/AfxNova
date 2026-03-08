@@ -53,6 +53,7 @@ Assorted Windows procedures.
 | [AfxFileReadAllLines](#afxfilereadalllines) | Reads all the lines of the specified file into a safe array. |
 | [AfxFileScan](#afxfilescan) | Scans a text file and returns the number of occurrences of the specified delimiter. |
 | [AfxFolderExists](#afxfolderexists) | Searches a directory for a file or subdirectory with a name that matches a specific name (or partial name if wildcards are used). |
+| [AfxFolderName](#afxgetfoldername) | Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name. |
 | [AfxGetCurDir](#afxcurdir) | Retrieves the current directory for the current process. |
 | [AfxGetCurrentDirectory](#afxcurdir) | Retrieves the current directory for the current process. |
 | [AfxGetDriveType](#afxgetdrivetype) | Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive. |
@@ -1005,7 +1006,6 @@ FUNCTION AfxGetFileVersion (BYVAL pwszFileName AS WSTRING PTR) AS DWORD
 
 ---
 
-
 ### AfxGetFolderName
 
 Returns a string containing the name of the folder for a specified path, i.e. the path minus the file name.
@@ -1017,6 +1017,10 @@ FUNCTION AfxGetFolderName (BYREF wszPath AS WSTRING) AS DWSTRING
 | Parameter  | Description |
 | ---------- | ----------- |
 | *wszPath* | The path/filename string. |
+
+#### Alias
+
+**AfxGetFolderName**
 
 ---
 
