@@ -12,6 +12,7 @@ Assorted Windows procedures.
 | ---------- | ----------- |
 | [AfxCommand](#afxcommand) | Returns command line parameters used to call the program. |
 | [AfxCommandLineCount](#afxcommandlinecount) | Returns the number of command line arguments used to call the program |
+| [AfxComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
 | [AfxExtractResource](#afxextractresource) | Extracts resource data and returns it as a string. |
 | [AfxExtractResourceToFile](#afxextractresourcetofile) | Extracts resource data and saves it to a file. |
 | [AfxGetAllMACAddresses](#afxgetallmacaddresses) | Populates a dynamic array of STRINGs with all the real MAC addresses of the system. |
@@ -23,6 +24,7 @@ Assorted Windows procedures.
 | [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
 | [AfxMsg](#afxmsg) | Displays an application modal message box. |
+| [AfxUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
 
 ---
 
@@ -327,7 +329,7 @@ Assorted Windows procedures.
 | [AfxTotalPhysicalMemory](#afxtotalphysicalmemory) | Returns the amount of actual physical memory, in bytes. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
-| [AfxWindowsFeatureUpdate](#afxwindowsfeatureupdate | Returns the Windows feature update versión, e.g. 22H2. |
+| [AfxWindowsFeatureUpdate](#afxwindowsfeatureupdate) | Returns the Windows feature update versión, e.g. 22H2. |
 | [AfxWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
 | [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
 | [AfxWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
