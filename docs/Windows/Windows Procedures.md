@@ -13,11 +13,14 @@ Assorted Windows procedures.
 | [AfxCommand](#afxcommand) | Returns command line parameters used to call the program. |
 | [AfxCommandLineCount](#afxcommandlinecount) | Returns the number of command line arguments used to call the program |
 | [AfxComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
+| [AfxComputerNameDnsHostname](#afxgetcomputernamednshostname) | Retrieves the The DNS host name of the local computer. |
+| [AfxGetComputerNameDnsHostname](#afxgetcomputernamednshostname) | Retrieves the The DNS host name of the local computer. |
 | [AfxExtractResource](#afxextractresource) | Extracts resource data and returns it as a string. |
 | [AfxExtractResourceToFile](#afxextractresourcetofile) | Extracts resource data and saves it to a file. |
 | [AfxGetAllMACAddresses](#afxgetallmacaddresses) | Populates a dynamic array of STRINGs with all the real MAC addresses of the system. |
 | [AfxGetAllPhysicalMACAddresses](#afxgetallphysicalmacaddresses) | Populates a dynamic array of STRINGs with all *real* MAC addresses (Ethernet/Wi-Fi). |
 | [AfxGetComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
+| [AfxGetComputerNameDnsHostname](#afxgetcomputernamednshostname) | Retrieves the The DNS host name of the local computer. |
 | [AfxGetMACAddress](#afxgetmacaddress) | Retrieves the MAC address of a machine's Ethernet card. |
 | [AfxGetMACAddressEx](#afxgetmacaddressex) | Retrieves the MAC address of a machine's Ethernet card. |
 | [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
@@ -3673,6 +3676,20 @@ The NetBIOS name of the local computer.
 #### Remarks
 
 The behavior of this function can be affected if the local computer is a node in a cluster. For more information, see **ResUtilGetEnvironmentWithNetName** and **UseNetworkName**.
+
+---
+
+### AfxGetComputerNameDnsHostname
+
+Retrieves the DNS host name of the local computer. If the local computer is a node in a cluster, dwsBuffer receives the DNS host name of the cluster virtual server.
+
+```
+FUNCTION AfxGetComputerNameDnsHostname () AS DWSTRING
+```
+
+#### Alias
+
+AfxComputerNameDnsHostname
 
 ---
 
