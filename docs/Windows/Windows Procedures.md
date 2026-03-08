@@ -319,6 +319,7 @@ Assorted Windows procedures.
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxIsProcessElevated](#afxisprocesselevated) | Checks if the process is running with real administrative privileges. |
+| [AfxMemoryLoad](#afxmemoryload) | Returns the amount of actual physical memory, in bytes. |
 | [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
@@ -3420,24 +3421,6 @@ FUNCTION AfxMsg (BYVAL hWin AS HWND, BYVAL pwszText AS WSTRING PTR, BYREF wszCap
 
 ---
 
-### AfxGetUserDomain
-
-Retrieves the name of the user associated with the current thread.
-
-```
-FUNCTION AfxGetUserDomain () AS DWSTRING
-```
----
-
-### AfxIsProcessElevated
-
-Checks if the process is running with real administrative privileges.
-
-```
-FUNCTION AfxIsProcessElevated () AS BOOLEAN
-```
----
-
 ### AfxGetWinDir
 
 Retrieves the path of the Windows directory. This path does not end with a backslash unless the Windows directory is the root directory. For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows. If the system was installed in the root directory of drive C, the path retrieved is C:\\.
@@ -3499,6 +3482,33 @@ The name of the current user associated with the current thread.
 
 If the current thread is impersonating another client, the **AfxGetUserName** function returns the user name of the client that the thread is impersonating.
 
+---
+
+### AfxGetUserDomain
+
+Retrieves the name of the user associated with the current thread.
+
+```
+FUNCTION AfxGetUserDomain () AS DWSTRING
+```
+---
+
+### AfxIsProcessElevated
+
+Checks if the process is running with real administrative privileges.
+
+```
+FUNCTION AfxIsProcessElevated () AS BOOLEAN
+```
+---
+
+### AfxMemoryLoad
+
+Returns the amount of actual physical memory, in bytes.
+
+```
+FUNCTION AfxMemoryLoad () AS DWORD
+```
 ---
 
 ### AfxGetMACAddress
