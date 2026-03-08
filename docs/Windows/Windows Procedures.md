@@ -3474,6 +3474,10 @@ FUNCTION AfxGetComputerName () AS DWSTRING
 
 The NetBIOS name of the local computer.
 
+#### Alias
+
+**AfxComputerName**
+
 #### Remarks
 
 The behavior of this function can be affected if the local computer is a node in a cluster. For more information, see **ResUtilGetEnvironmentWithNetName** and **UseNetworkName**.
@@ -3487,6 +3491,10 @@ Retrieves the name of the user associated with the current thread.
 ```
 FUNCTION AfxGetUserName () AS DWSTRING
 ```
+
+#### Alias
+
+**AfxUserName**
 
 #### Return value
 
