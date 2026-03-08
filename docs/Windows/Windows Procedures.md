@@ -16,6 +16,7 @@ Assorted Windows procedures.
 | [AfxComputerNameDnsFullyQualified](#afxgetcomputernamednsfullyqualified) | Retrieves the fully qualified DNS name that uniquely identifies the local computer. |
 | [AfxComputerNameDnsHostname](#afxgetcomputernamednshostname) | Retrieves the DNS host name of the local computer. |
 | [AfxGetComputerNameDnsHostname](#afxgetcomputernamednshostname) | Retrieves the The DNS host name of the local computer. |
+| [AfxComputerNameNetBios](#afxgetcomputernamenetbios) | Retrieves the NetBIOS name of the local computer. |
 | [AfxExtractResource](#afxextractresource) | Extracts resource data and returns it as a string. |
 | [AfxExtractResourceToFile](#afxextractresourcetofile) | Extracts resource data and saves it to a file. |
 | [AfxGetAllMACAddresses](#afxgetallmacaddresses) | Populates a dynamic array of STRINGs with all the real MAC addresses of the system. |
@@ -23,6 +24,7 @@ Assorted Windows procedures.
 | [AfxGetComputerName](#afxgetcomputername) | Retrieves the NetBIOS name of the local computer. |
 | [AfxComputerNameDnsFullyQualified](#afxgetcomputernamednsfullyqualified) | Retrieves the fully qualified DNS name that uniquely identifies the local computer. |
 | [AfxGetComputerNameDnsHostname](#afxgetcomputernamednshostname) | Retrieves the The DNS host name of the local computer. |
+| [AfxComputerNameNetBios](#afxgetcomputernamenetbios) | Retrieves the NetBIOS name of the local computer. |
 | [AfxGetMACAddress](#afxgetmacaddress) | Retrieves the MAC address of a machine's Ethernet card. |
 | [AfxGetMACAddressEx](#afxgetmacaddressex) | Retrieves the MAC address of a machine's Ethernet card. |
 | [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
@@ -3706,6 +3708,20 @@ FUNCTION AfxGetComputerNameDnsHostname () AS DWSTRING
 #### Alias
 
 AfxComputerNameDnsHostname
+
+---
+
+### AfxGetComputerNameNetBIOS
+
+Retrieves the NetBIOS name of the local computer. If the local computer is a node in a cluster, dwsBuffer receives the NetBIOS name of the cluster virtual server.
+
+```
+FUNCTION AfxGetComputerNameNetBIOS () AS DWSTRING
+```
+
+#### Alias
+
+AfxComputerNameNetBIOS
 
 ---
 
