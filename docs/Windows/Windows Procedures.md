@@ -163,6 +163,8 @@ Assorted Windows procedures.
 | [AfxGetDisplayFrequency](#afxgetdisplayfrequency) | Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. |
 | [AfxGetDisplayPixelsHeight](#afxgetdisplaypixelsheight) | Returns the height, in pixels, of the current display device on the computer on which the calling thread is running. |
 | [AfxGetDisplayPixelsWidth](#afxgetdisplaypixelswidth) | Returns the width, in pixels, of the current display device on the computer on which the calling thread is running. |
+| [AfxGetScreenColors](#afxgetdisplaybitsperpixel) | Returns the color resolution, in bits per pixel, of the display device. |
+| [AfxScreenColors](#afxgetdisplaybitsperpixel) | Returns the color resolution, in bits per pixel, of the display device. |
 
 ---
 
@@ -1513,6 +1515,11 @@ Returns the color resolution, in bits per pixel, of the display device.
 ```
 FUNCTION AfxGetDisplayBitsPerPixel () AS DWORD
 ```
+
+#### Aliases
+
+**AfxScreenColors**, **AfxGetScreenColors**
+
 ---
 
 ### AfxGetDisplayFrequency
