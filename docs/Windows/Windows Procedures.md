@@ -316,6 +316,7 @@ Assorted Windows procedures.
 | Name       | Description |
 | ---------- | ----------- |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
+| [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
@@ -3416,6 +3417,15 @@ FUNCTION AfxMsg (BYVAL hWin AS HWND, BYVAL pwszText AS WSTRING PTR, BYREF wszCap
 | *wszCaption* | Optional. The message box caption. Default title is "Message". |
 | *uType* | Optional. For a list of available types, see the Microsoft documentation for the MessageBoxW function. The MB_APPLMODAL type is always added. |
 
+---
+
+### AfxGetUserDomain
+
+Retrieves the name of the user associated with the current thread.
+
+```
+FUNCTION FUNCTION AfxGetUserDomain () AS DWSTRING
+```
 ---
 
 ### AfxGetWinDir
