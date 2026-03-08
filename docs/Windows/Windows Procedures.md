@@ -324,6 +324,7 @@ Assorted Windows procedures.
 | [AfxAvailablePhysicalMemory](#afxavailablephysicalmemory) | Returns the amount of physical memory currently available, in bytes. |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
+| [AfxGetWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxGetWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxIsProcessElevated](#afxisprocesselevated) | Checks if the process is running with real administrative privileges. |
@@ -3366,6 +3367,11 @@ Returns the Windows build number.
 ```
 FUNCTION AfxWindowsBuild () AS LONG
 ```
+
+#### Alias
+
+** AfxGetWindowsBuild**
+
 ---
 
 ### AfxWindowsPlatform
