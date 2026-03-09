@@ -3564,6 +3564,25 @@ FUNCTION AfxWindowsBuild () AS LONG
 
 ---
 
+### AfxWindowsInstallDate
+
+Returns the date in which Windows was installed, in Unix time.
+
+```
+FUNCTION AfxWindowsInstallDate () AS DWORD
+```
+
+#### Alias
+
+**AfxGetWindowsInstallDate**
+
+#### Usage examples:
+```
+PRINT AfxUnixDateStr(AfxWindowsInstallDate, "dd-MM-yyyy")
+PRINT AfxUnixTimeStr(AfxWindowsInstallDate, "hh':'mm':'ss")
+```
+---
+
 ### AfxWindowsPlatform
 
 Returns the Windows platform.
