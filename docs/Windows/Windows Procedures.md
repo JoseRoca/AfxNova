@@ -361,6 +361,7 @@ Assorted Windows procedures.
 | [AfxGetWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
 | [AfxGetWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
 | [AfxGetWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
+| [AfxGetWindowsVersionStr](#afxgetwindowsversionstr) | Returns the full Windows version as a string. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxIsProcessElevated](#afxisprocesselevated) | Checks if the process is running with real administrative privileges. |
 | [AfxMemoryLoad](#afxmemoryload) | Returns the amount of actual physical memory, in bytes. |
@@ -374,9 +375,10 @@ Assorted Windows procedures.
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxWindowsFeatureUpdate](#afxwindowsfeatureupdate) | Returns the Windows feature update versión, e.g. 22H2. |
 | [AfxWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
-| [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
 | [AfxWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
 | [AfxWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
+| [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
+| [AfxWindowsVersionStr](#afxgetwindowsversionstr) | Returns the full Windows version as a string. |
 
 ---
 
@@ -3495,6 +3497,20 @@ FUNCTION AfxWindowsMinorVersion () AS LONG
 #### Alias
 
 **AfxGetWindowsMinorVersion**
+
+---
+
+### AfxWindowsVersionStr
+
+Returns the full Windows version, including the build number, as a string.
+
+```
+FUNCTION AfxWindowsVersionStr () AS DWSTRING
+```
+
+#### Alias
+
+**AfxGetWindowsVersionStr**
 
 ---
 
