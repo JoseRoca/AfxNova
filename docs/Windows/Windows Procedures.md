@@ -350,13 +350,16 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
+| [AfxAppsUseDarkMode](#afxappsusedarkmode) | Returns TRUE if Windows applications are using dark mode, or FALSE otherwise. |
 | [AfxAvailablePageFile](#afxavailablepagefile) | Returns maximum amount of memory the current process can commit, in bytes. |
 | [AfxAvailablePhysicalMemory](#afxavailablephysicalmemory) | Returns the amount of physical memory currently available, in bytes. |
 | [AfxAvailableVirtualMemory](#afxavailablevirtualmemory) | Returns size of the user-mode portion of the virtual address space of the calling process, in bytes. |
 | [AfxComCtlVersion](#afxcomctlversion) | Returns the version of CommCtl32.dll. |
 | [AfxGetPhysicallyInstalledSystemMemory](#afxgetphysicallyinstalledsystemmemory) | Retrieves the amount of RAM that is physically installed on the computer, in kilobytes. |
+| [AfxGetProductInfo](#afxgetproductinfo) | Retrieves the product type for the operating system on the local computer, and maps the type to the product types supported by the specified operating system. |
 | [AfxGetUserDomain](#afxgetuserdomain) | Retrieves the name of the user associated with the current thread. |
 | [AfxGetWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
+| [AfxGetWindowsInstallDate](#afxwindowsinstalldate) | Returns the date in which Windows was installed, in Unix time. |
 | [AfxGetWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
 | [AfxGetWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
 | [AfxGetWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
@@ -368,12 +371,14 @@ Assorted Windows procedures.
 | [AfxPhysicallyInstalledSystemMemory](#afxgetphysicallyinstalledsystemmemory) | Retrieves the amount of RAM that is physically installed on the computer, in kilobytes. |
 | [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
+| [AfxSystemUsesDarkMode](#afxsystemusesdarkmode) | Returns TRUE if Windows is using dark mode, or FALSE otherwise. |
 | [AfxTotalPageFile](#afxtotalpagefile) | Returns the current committed memory limit for the system or the current process, whichever is smaller, in bytes. |
 | [AfxTotalPhysicalMemory](#afxtotalphysicalmemory) | Returns the amount of actual physical memory, in bytes. |
 | [AfxTotalVirtualMemory](#afxtotalvirtualmemory) | Returns size of the user-mode portion of the virtual address space of the calling process, in bytes. |
 | [AfxWindowsBitness](#afxwindowsbitness) | Returns the bitness of the operating system (32 or 64 bit). |
 | [AfxWindowsBuild](#afxwindowsbuild) | Returns the Windows build number. |
 | [AfxWindowsFeatureUpdate](#afxwindowsfeatureupdate) | Returns the Windows feature update versión, e.g. 22H2. |
+| [AfxWindowsInstallDate](#afxwindowsinstalldate) | Returns the date in which Windows was installed, in Unix time. |
 | [AfxWindowsPlatform](#afxwindowsplatform) | Returns the Windows platform. |
 | [AfxWindowsMajorVersion](#afxwindowsmajorversion) | Returns the Windows major version. |
 | [AfxWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
@@ -3580,6 +3585,24 @@ FUNCTION AfxWindowsInstallDate () AS DWORD
 ```
 PRINT AfxUnixDateStr(AfxWindowsInstallDate, "dd-MM-yyyy")
 PRINT AfxUnixTimeStr(AfxWindowsInstallDate, "hh':'mm':'ss")
+```
+---
+
+### AfxAppsUseDarkMode
+
+Returns TRUE if Windows applications are using dark mode, or FALSE otherwise.
+
+```
+FUNCTION AfxAppsUseDarkMode () AS BOOLEAN
+```
+---
+
+### AfxSystemUseDarkMode
+
+Returns TRUE if Windows is using dark mode, or FALSE otherwise.
+
+```
+FUNCTION AfxSystemUseDarkMode () AS BOOLEAN
 ```
 ---
 
