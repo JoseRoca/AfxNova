@@ -38,7 +38,8 @@
 #INCLUDE ONCE "win/iphlpapi.bi"
 #INCLUDE ONCE "AfxNova/DWSTRProcs.inc"
 #INCLUDE ONCE "AfxNova/AfxPath.inc"
-'#INCLUDE ONCE "AfxNova/AfxWsh.inc"
+#INCLUDE ONCE "AfxNova/AfxTime.inc"
+'#INCLUDE ONCE "AfxNova/AfxWsh.inc"   ' Don't include it; creates a circular dependency
 #INCLUDE ONCE "AfxNova/AfxExt.bi"   ' // Windows API extensions
 USING AfxNova
 
@@ -327,7 +328,7 @@ PRIVATE FUNCTION AfxWindowsVersionStr () AS DWSTRING
    FreeLibrary hLib
 END FUNCTION
 ' ========================================================================================
-#define AfxGetWindowsVersion AfxWindowsVersion
+#define AfxGetWindowsVersionStr AfxWindowsVersionStr
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1242,13 +1243,13 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Populate a dynamic array of STRINGs with all the real MAC addresses of the system.
+' Populates a dynamic array of STRINGs with all the real MAC addresses of the system.
 ' The array is passed by reference and resized internally.
 ' Return value:
 '    The number of elements in the array or -1 on failure.
 ' Usage example
 '    DIM macs(ANY) AS STRING
-'    DIM count AS LONG = CWin.GetAllMACAddresses(macs())
+'    DIM count AS LONG = AfxGetAllMACAddresses(macs())
 '    FOR i AS LONG = LBOUND(macs) TO UBOUND(macs)
 '      PRINT macs(i)
 '    NEXT
@@ -1295,12 +1296,12 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Populate a dynamic array of STRINGs with all *real* MAC addresses (Ethernet/Wi-Fi).
+' Populates a dynamic array of STRINGs with all *real* MAC addresses (Ethernet/Wi-Fi).
 ' Filters out virtual adapters, tunnels, Bluetooth, Hyper-V, loopback, etc.
 ' Returns: Number of MACs found, or -1 on failure.
 ' Usage example:
 '    DIM macs(ANY) AS STRING
-'    DIM count AS LONG = CWin.GetAllPhysicalMACAddresses(macs())
+'    DIM count AS LONG = AfxGetAllPhysicalMACAddresses(macs())
 '    FOR i AS LONG = LBOUND(macs) TO UBOUND(macs)
 '       PRINT macs(i)
 '    NEXT
@@ -4769,11 +4770,18 @@ END FUNCTION
 ' ========================================================================================
 ' * Returns the Windows feature update versión, e.g. 22H2.
 ' ========================================================================================
-'PRIVATE FUNCTION AfxWindowsFeatureUpdate () AS DWSTRING
-'   RETURN AfxRegRead("HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\DisplayVersion")
-'END FUNCTION
-'' ========================================================================================
-'#define AfxGetWindowsFeatureUpdate AfxWindowsFeatureUpdate
+PRIVATE FUNCTION AfxWindowsFeatureUpdate () AS DWSTRING
+   DIM key AS HKEY = HKEY_LOCAL_MACHINE
+   DIM subKey AS WSTRING * 260 = "SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+   DIM valueName AS WSTRING * 260 = "DisplayVersion"
+   DIM buffer AS WSTRING * 256
+   DIM bufferSize AS DWORD = SIZEOF(buffer)
+   DIM result AS LONG = RegGetValueW(key, @subkey, @valueName, RRF_RT_REG_SZ, NULL, @buffer, @bufferSize)
+   IF result = ERROR_SUCCESS THEN RETURN buffer
+   RETURN ""
+END FUNCTION
+' ========================================================================================
+#define AfxGetWindowsFeatureUpdate AfxWindowsFeatureUpdate
 ' ========================================================================================
 
 ' ========================================================================================
@@ -4964,20 +4972,47 @@ END FUNCTION
 ' * Returns TRUE if Windows applications are using dark mode, or FALSE otherwise.
 ' It affects Win32/UWP applications.
 ' ========================================================================================
-'PRIVATE FUNCTION AfxAppsUseDarkMode () AS BOOLEAN
-'   DIM dws AS DWSTRING = AfxRegRead("HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize\AppsUseLightTheme")
-'   IF LEN(dws) THEN RETURN (VAL(dws) = 0)
-'END FUNCTION
+PRIVATE FUNCTION AfxAppsUseDarkMode () AS BOOLEAN
+   DIM key AS HKEY = HKEY_CURRENT_USER
+   DIM subKey AS WSTRING * 260 = "SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+   DIM valueName AS WSTRING * 260 = "AppsUseLightTheme"
+   DIM dwValue AS DWORD
+   DIM dwSize AS DWORD = SIZEOF(dwValue)
+   DIM result AS LONG = RegGetValueW(key, @subkey, @valueName, RRF_RT_REG_DWORD, NULL, @dwValue, @dwSize)
+   IF result = ERROR_SUCCESS THEN RETURN (dwValue = 0)   ' // (0 = dark, 1 = light)
+END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' * Returns TRUE if Windows is using dark mode, or FALSE otherwise.
 ' It affects the shell (taskbar, start menu, etc.).
 ' ========================================================================================
-'PRIVATE FUNCTION AfxSystemUsesDarkMode () AS BOOLEAN
-'   DIM dws AS DWSTRING = AfxRegRead("HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize\SystemUsesLightTheme")
-'   IF LEN(dws) THEN RETURN (VAL(dws) = 0)
-'END FUNCTION
+PRIVATE FUNCTION AfxSystemUsesDarkMode () AS BOOLEAN
+   DIM key AS HKEY = HKEY_CURRENT_USER
+   DIM subKey AS WSTRING * 260 = "SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+   DIM valueName AS WSTRING * 260 = "SystemUsesLightTheme"
+   DIM dwValue AS DWORD
+   DIM dwSize AS DWORD = SIZEOF(dwValue)
+   DIM result AS LONG = RegGetValueW(key, @subkey, @valueName, RRF_RT_REG_DWORD, NULL, @dwValue, @dwSize)
+   IF result = ERROR_SUCCESS THEN RETURN (dwValue = 0)
+ END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Returns the date in which Windows was installed, in Unix time.
+' Usage examples:
+' PRINT AfxUnixDateStr(AfxWindowsInstallDate, "dd-MM-yyyy")
+' PRINT AfxUnixTimeStr(AfxWindowsInstallDate, "hh':'mm':'ss")
+' ========================================================================================
+PRIVATE FUNCTION AfxWindowsInstallDate () AS DWORD
+   DIM key AS HKEY = HKEY_LOCAL_MACHINE
+   DIM subKey AS WSTRING * 260 = "SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+   DIM valueName AS WSTRING * 260 = "InstallDate"
+   DIM dwValue AS DWORD
+   DIM dwSize AS DWORD = SIZEOF(dwValue)
+   DIM result AS LONG = RegGetValueW(key, @subkey, @valueName, RRF_RT_REG_DWORD, NULL, @dwValue, @dwSize)
+   IF result = ERROR_SUCCESS THEN RETURN dwValue
+END FUNCTION
 ' ========================================================================================
 
 
@@ -4998,7 +5033,7 @@ END FUNCTION
 
 
 ' ========================================================================================
-' Retrieves the AC power status. This member can be one of the following values:
+' Retrieves the battery charge status. This member can be one of the following values:
 ' 1 = High—the battery capacity is at more than 66 percent
 ' 2 = Low—the battery capacity is at less than 33 percent
 ' 4 = Critical—the battery capacity is at less than five percent
