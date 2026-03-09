@@ -3592,7 +3592,7 @@ FUNCTION AfxIsPlatformNT () AS BOOLEAN
 Returns the Windows feature update versión, e.g. 22H2.
 
 ```
-FUNCTION FUNCTION AfxWindowsFeatureUpdate () AS DWSTRING
+FUNCTION AfxWindowsFeatureUpdate () AS DWSTRING
 ```
 ---
 
@@ -3793,7 +3793,7 @@ FUNCTION AfxMemoryLoad () AS DWORD
 Returns the amount of actual physical memory, in bytes.
 
 ```
-FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
+FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
 ```
 ---
 
@@ -3802,7 +3802,7 @@ FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
 Returns the amount of physical memory currently available, in bytes. This is the amount of physical memory that can be immediately reused without having to write its contents to disk first. It is the sum of the size of the standby, free, and zero lists.
 
 ```
-FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
+FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
 ```
 ---
 
@@ -3811,7 +3811,7 @@ FUNCTION FUNCTION AfxTotalPhysicalMemory () AS DWORDLONG
 Returns size of the user-mode portion of the virtual address space of the calling process, in bytes. This value depends on the type of process, the type of processor, and the configuration of the operating system. For example, this value is approximately 2 GB for most 32-bit processes on an x86 processor and approximately 3 GB for 32-bit processes that are large address aware running on a system with 4-gigabyte tuning enabled.
 
 ```
-FUNCTION FUNCTION AfxTotalVirtualMemory () AS DWORDLONG
+FUNCTION AfxTotalVirtualMemory () AS DWORDLONG
 ```
 ---
 
@@ -3820,8 +3820,126 @@ FUNCTION FUNCTION AfxTotalVirtualMemory () AS DWORDLONG
 Returns amount of unreserved and uncommitted memory currently in the user-mode portion of the virtual address space of the calling process, in bytes.
 
 ```
-FUNCTION FUNCTION AfxAvailableVirtualMemory () AS DWORDLONG
+FUNCTION AfxAvailableVirtualMemory () AS DWORDLONG
 ```
+---
+
+### AfxGetProductInfo
+
+Retrieves the product type for the operating system on the local computer, and maps the type to the product types supported by the specified operating system.
+
+```
+FUNCTION AfxGetProductInfo () AS DWORD
+```
+
+#### Return value
+
+Can be one of the following values (some products below may be out of support).
+
+| Name | Value | Meaning |
+|----- | ------| ------- |
+| **PRODUCT_BUSINESS** | &h00000006 | Business |
+| **PRODUCT_BUSINESS_N** | &h00000010 | Business N |
+| **PRODUCT_CLUSTER_SERVER** | &h00000012 | HPC Edition |
+| **PRODUCT_CLUSTER_SERVER_V** | &h00000040 | Server Hyper Core V |
+| **PRODUCT_CORE** | &h00000065 | Windows 10 Home |
+| **PRODUCT_CORE_COUNTRYSPECIFIC** | &h00000063 | Windows 10 Home China |
+| **PRODUCT_CORE_N** | &h00000062 | Windows 10 Home N |
+| **PRODUCT_CORE_SINGLELANGUAGE** | &h00000064 | Windows 10 Home Single Language |
+| **PRODUCT_DATACENTER_EVALUATION_SERVER** | &h00000050 | Server Datacenter (evaluation installation) |
+| **PRODUCT_DATACENTER_A_SERVER_CORE** | &h00000091 | Server Datacenter, Semi-Annual Channel (core installation) |
+| **PRODUCT_STANDARD_A_SERVER_CORE** | &h00000092 | Server Standard, Semi-Annual Channel (core installation) |
+| **PRODUCT_DATACENTER_SERVER** | &h00000008 | Server Datacenter (full installation. For Server Core installations of Windows Server 2012 and later, use the method, Determining whether Server Core is running.) |
+| **PRODUCT_DATACENTER_SERVER_CORE** | &h0000000C | Server Datacenter (core installation, Windows Server 2008 R2 and earlier) |
+| **PRODUCT_DATACENTER_SERVER_CORE_V** | &h00000027 | Server Datacenter without Hyper-V (core installation) |
+| **PRODUCT_DATACENTER_SERVER_V** | &h00000025 | Server Datacenter without Hyper-V (full installation) |
+| **PRODUCT_EDUCATION** | &h00000079 | Windows 10 Education |
+| **PRODUCT_EDUCATION_N** | &h0000007A | Windows 10 Education N |
+| **PRODUCT_ENTERPRISE** | &h00000004 | Windows 10 Enterprise |
+| **PRODUCT_ENTERPRISE_E** | &h00000046 | Windows 10 Enterprise E |
+| **PRODUCT_ENTERPRISE_EVALUATION** | &h00000048 | Windows 10 Enterprise Evaluation |
+| **PRODUCT_ENTERPRISE_N** | &h00000018 | Windows 10 Enterprise N |
+| **PRODUCT_ENTERPRISE_N_EVALUATION** | &h00000054 | Windows 10 Enterprise N Evaluation |
+| **PRODUCT_ENTERPRISE_S** | &h0000007D | Windows 10 Enterprise 2015 LTSB |
+| **PRODUCT_ENTERPRISE_S_EVALUATION** | &h00000081 | Windows 10 Enterprise 2015 LTSB Evaluation |
+| **PRODUCT_ENTERPRISE_S_N** | &h0000007E | Windows 10 Enterprise 2015 LTSB N |
+| **PRODUCT_ENTERPRISE_S_N_EVALUATION** | &h00000082 | Windows 10 Enterprise 2015 LTSB N Evaluation |
+| **PRODUCT_ENTERPRISE_SERVER** | &h0000000A | Server Enterprise (full installation) |
+| **PRODUCT_ENTERPRISE_SERVER_CORE** | &h0000000E | Server Enterprise (core installation) |
+| **PRODUCT_ENTERPRISE_SERVER_CORE_V** | &h00000029 | Server Enterprise without Hyper-V (core installation) |
+| **PRODUCT_ENTERPRISE_SERVER_IA64** | &h0000000F | Server Enterprise for Itanium-based Systems |
+| **PRODUCT_ENTERPRISE_SERVER_V** | &h00000026 | Server Enterprise without Hyper-V (full installation) |
+| **PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL** | &h0000003C | Windows Essential Server Solution Additional |
+| **PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC** | &h0000003E | Windows Essential Server Solution Additional SVC |
+| **PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT** | &h0000003B | Windows Essential Server Solution Management |
+| **PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC** | &h0000003D | Windows Essential Server Solution Management SVC |
+| **PRODUCT_HOME_BASIC** | &h00000002 | Home Basic |
+| **PRODUCT_HOME_BASIC_E** | &h00000043 | Not supported |
+| **PRODUCT_HOME_BASIC_N** | &h00000005 | Home Basic N |
+| **PRODUCT_HOME_PREMIUM** | &h00000003 | Home Premium |
+| **PRODUCT_HOME_PREMIUM_E** | &h00000044 | Not supported |
+| **PRODUCT_HOME_PREMIUM_N** | &h0000001A | Home Premium N |
+| **PRODUCT_HOME_PREMIUM_SERVER** | &h00000022 | Windows Home Server 2011 |
+| **PRODUCT_HOME_SERVER** | &h00000013 | Windows Storage Server 2008 R2 Essentials |
+| **PRODUCT_HYPERV** | &h0000002A | Microsoft Hyper-V Server |
+| **PRODUCT_IOTENTERPRISE** | &h000000BC | Windows IoT Enterprise |
+| **PRODUCT_IOTENTERPRISE_S** | &h000000BF | Windows IoT Enterprise LTSC |
+| **PRODUCT_IOTUAP** | &h0000007B | Windows 10 IoT Core |
+| **PRODUCT_IOTUAPCOMMERCIAL** | &h00000083 | Windows 10 IoT Core Commercial |
+| **PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT** | &h0000001E | Windows Essential Business Server Management Server |
+| **PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING** | &h00000020 | Windows Essential Business Server Messaging Server |
+| **PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY** | &h0000001F | Windows Essential Business Server Security Server |
+| **PRODUCT_MOBILE_CORE** | &h00000068 | Windows 10 Mobile |
+| **PRODUCT_MOBILE_ENTERPRISE** | &h00000085 | Windows 10 Mobile Enterprise |
+| **PRODUCT_MULTIPOINT_PREMIUM_SERVER** | &h0000004D | Windows MultiPoint Server Premium (full installation) |
+| **PRODUCT_MULTIPOINT_STANDARD_SERVER** | &h0000004C | Windows MultiPoint Server Standard (full installation) |
+| **PRODUCT_PPI_PRO** | &h00000077 | Windows 10 Team |
+| **PRODUCT_PRO_FOR_EDUCATION** | &h000000A4 | Windows 10 Pro Education |
+| **PRODUCT_PRO_WORKSTATION** | &h000000A1 | Windows 10 Pro for Workstations |
+| **PRODUCT_PRO_WORKSTATION_N** | &h000000A2 | Windows 10 Pro for Workstations N |
+| **PRODUCT_PROFESSIONAL** | &h00000030 | Windows 10 Pro |
+| **PRODUCT_PROFESSIONAL_E** | &h00000045 | Not supported |
+| **PRODUCT_PROFESSIONAL_N** | &h00000031 | Windows 10 Pro N |
+| **PRODUCT_PROFESSIONAL_WMC** | &h00000067 | Professional with Media Center |
+| **PRODUCT_SB_SOLUTION_SERVER** | &h00000032 | Windows Small Business Server 2011 Essentials |
+| **PRODUCT_SB_SOLUTION_SERVER_EM** | &h00000036 | Server For SB Solutions EM |
+| **PRODUCT_SERVER_FOR_SB_SOLUTIONS** | &h00000033 | Server For SB Solutions |
+| **PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM** | &h00000037 | Server For SB Solutions EM |
+| **PRODUCT_SERVER_FOR_SMALLBUSINESS** | &h00000018 | Windows Server 2008 for Windows Essential Server Solutions |
+| **PRODUCT_SERVER_FOR_SMALLBUSINESS_V** | &h00000023 | Windows Server 2008 without Hyper-V for Windows Essential Server Solutions |
+| **PRODUCT_SERVER_FOUNDATION** | &h00000021 | Server Foundation |
+| **PRODUCT_SERVERRDSH** | &h000000AF | Windows 10 Enterprise for Virtual Desktops |
+| **PRODUCT_SMALLBUSINESS_SERVER** | &h00000009 | Windows Small Business Server |
+| **PRODUCT_SMALLBUSINESS_SERVER_PREMIUM** | &h00000019 | Small Business Server Premium |
+| **PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE** | &h0000003F | Small Business Server Premium (core installation) |
+| **PRODUCT_SOLUTION_EMBEDDEDSERVER** | &h00000038 | Windows MultiPoint Server |
+| **PRODUCT_STANDARD_EVALUATION_SERVER** | &h0000004F | Server Standard (evaluation installation) |
+| **PRODUCT_STANDARD_SERVER** | &h00000007 | Server Standard (full installation. For Server Core installations of Windows Server 2012 and later, use the method, Determining whether Server Core is running.) |
+| **PRODUCT_STANDARD_SERVER_CORE** | &h0000000D | Server Standard (core installation, Windows Server 2008 R2 and earlier) |
+| **PRODUCT_STANDARD_SERVER_CORE_V** | &h00000028 | Server Standard without Hyper-V (core installation) |
+| **PRODUCT_STANDARD_SERVER_V** | &h00000024 | Server Standard without Hyper-V |
+| **PRODUCT_STANDARD_SERVER_SOLUTIONS** | &h00000034 | Server Solutions Premium |
+| **PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE** | &h00000035 | Server Solutions Premium (core installation) |
+| **PRODUCT_STARTER** | &h0000000B | Starter |
+| **PRODUCT_STARTER_E** | &h00000042 | Not supported |
+| **PRODUCT_STARTER_N** | &h0000002F | Starter N |
+| **PRODUCT_STORAGE_ENTERPRISE_SERVER** | &h00000017 | Storage Server Enterprise |
+| **PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE** | &h0000002E | Storage Server Enterprise (core installation) |
+| **PRODUCT_STORAGE_EXPRESS_SERVER** | &h00000014 | Storage Server Express |
+| **PRODUCT_STORAGE_EXPRESS_SERVER_CORE** | &h0000002B | Storage Server Express (core installation) |
+| **PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER** | &h00000060 | Storage Server Standard (evaluation installation) |
+| **PRODUCT_STORAGE_STANDARD_SERVER** | &h00000015 | Storage Server Standard |
+| **PRODUCT_STORAGE_STANDARD_SERVER_CORE** | &h0000002C | Storage Server Standard (core installation) |
+| **PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER** | &h0000005F | Storage Server Workgroup (evaluation installation) |
+| **PRODUCT_STORAGE_WORKGROUP_SERVER** | &h00000016 | Storage Server Workgroup |
+| **PRODUCT_STORAGE_WORKGROUP_SERVER_CORE** | &h0000002D | Storage Server Workgroup (core installation) |
+| **PRODUCT_ULTIMATE** | &h00000001 | Ultimate |
+| **PRODUCT_ULTIMATE_E** | &h00000047 | Not supported |
+| **PRODUCT_ULTIMATE_N** | &h0000001C | Ultimate N |
+| **PRODUCT_UNDEFINED** | &h00000000 | An unknown product |
+| **PRODUCT_WEB_SERVER** | &h00000011 | Web Server (full installation) |
+| **PRODUCT_WEB_SERVER_CORE** | &h0000001D | Web Server (core installation) |
+
 ---
 
 ### AfxGetMACAddress
