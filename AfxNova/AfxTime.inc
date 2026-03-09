@@ -1252,3 +1252,65 @@ PRIVATE FUNCTION AfxIsValidFILETIME (BYREF ft AS FILETIME) AS BOOLEAN
    RETURN TRUE
 END FUNCTION
 ' ========================================================================================
+
+' ========================================================================================
+' Comverts Unix time to FileTime.
+' ========================================================================================
+FUNCTION AfxUnixTimeToFileTime (BYVAL unixTime AS DWORD) AS FILETIME
+   ' 11644473600 = seconds between entre 1601 y 1970
+   DIM t AS ULONGLONG = (culngint(unixTime) + 11644473600ull) * 10000000ull
+   DIM ft AS FILETIME
+   ft.dwLowDateTime  =  cast(DWORD, t and &hFFFFFFFFull)
+   ft.dwHighDateTime =  cast(DWORD, t shr 32)
+   RETURN ft
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Comverts Unix time to SystemTime.
+' ========================================================================================
+FUNCTION AfxUnixTimeToSystemTime (BYVAL unixTime AS DWORD) AS SYSTEMTIME
+   ' 11644473600 = seconds between entre 1601 y 1970
+   DIM t AS ULONGLONG = (culngint(unixTime) + 11644473600ull) * 10000000ull
+   DIM ft AS FILETIME
+   ft.dwLowDateTime  =  cast(DWORD, t and &hFFFFFFFFull)
+   ft.dwHighDateTime =  cast(DWORD, t shr 32)
+   DIM st AS SYSTEMTIME
+   FileTimeToSystemTime(@ft, @st)
+   RETURN st
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retuns an Unix date based on the specified mask, e.g. "dd-MM-yyyy".
+' ========================================================================================
+FUNCTION AfxUnixDateStr (BYVAL unixTime AS DWORD, BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+   ' 11644473600 = seconds between entre 1601 y 1970
+   DIM t AS ULONGLONG = (culngint(unixTime) + 11644473600ull) * 10000000ull
+   DIM ft AS FILETIME
+   ft.dwLowDateTime  =  cast(DWORD, t and &hFFFFFFFFull)
+   ft.dwHighDateTime =  cast(DWORD, t shr 32)
+   DIM st AS SYSTEMTIME
+   FileTimeToSystemTime(@ft, @st)
+   DIM wszDate AS WSTRING * 260
+   GetDateFormatW(lcid, NULL, @st, wszMask, wszDate, SIZEOF(wszDate) \ 2)
+   RETURN wszDate
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retuns an Unix time based on the specified mask, e.g. "hh':'mm':'ss"."
+' ========================================================================================
+FUNCTION AfxUnixTimeStr (BYVAL unixTime AS DWORD, BYREF wszMask AS WSTRING, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+   ' 11644473600 = seconds between entre 1601 y 1970
+   DIM t AS ULONGLONG = (culngint(unixTime) + 11644473600ull) * 10000000ull
+   DIM ft AS FILETIME
+   ft.dwLowDateTime  =  cast(DWORD, t and &hFFFFFFFFull)
+   ft.dwHighDateTime =  cast(DWORD, t shr 32)
+   DIM st AS SYSTEMTIME
+   FileTimeToSystemTime(@ft, @st)
+   DIM wszTime AS WSTRING * 260
+   GetTimeFormatW(lcid, NULL, @st, wszMask, wszTime, SIZEOF(wszTime) \ 2)
+   RETURN wszTime
+END FUNCTION
+' ========================================================================================
