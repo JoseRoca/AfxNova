@@ -192,9 +192,15 @@ Assorted Windows procedures.
 | [AfxGetDisplayPixelsHeight](#afxgetdisplaypixelsheight) | Returns the height, in pixels, of the current display device on the computer on which the calling thread is running. |
 | [AfxGetDisplayPixelsWidth](#afxgetdisplaypixelswidth) | Returns the width, in pixels, of the current display device on the computer on which the calling thread is running. |
 | [AfxGetScreenColors](#afxgetdisplaybitsperpixel) | Returns the color resolution, in bits per pixel, of the display device. |
+| [AfxGetScreenHeight](#afxgetscreenheight) | Retrieves the height of the screen, in pixels. This function is virtualized for DPI. |
 | [AfxGetScreenRefreshDate](#afxgetdisplayfrequency) | Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. |
+| [AfxScreenWidth](#afxgetscreenwidth) | Retrieves the width of the screen, in pixels. This function is virtualized for DPI. |
 | [AfxScreenColors](#afxgetdisplaybitsperpixel) | Returns the color resolution, in bits per pixel, of the display device. |
-| [AfxGcreenRefreshDate](#afxgetdisplayfrequency) | Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. |
+| [AfxGetScreenRefreshDate](#afxgetdisplayfrequency) | Returns the frequency, in hertz (cycles per second), of the display device in a particular mode. |
+| [AfxGetWorkArea](#afxgetworkarea) | Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates. |
+| [AfxScreenHeight](#afxgetscreenheight) | Retrieves the height of the screen, in pixels. This function is virtualized for DPI. |
+| [AfxScreenWidth](#afxgetscreenwidth) | Retrieves the width of the screen, in pixels. This function is virtualized for DPI. |
+| [AfxWorkArea](#afxgetworkarea) | Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates. |
 
 ---
 
@@ -1714,6 +1720,48 @@ FUNCTION AfxGetDisplayPixelsWidth () AS DWORD
 #### Remarks
 
 Contrarily to **GetSystemMetrics** or **GetDeviceCaps**, it returns the real width even when it is called from an application that is not DPI aware, e.g. an application running virtualized in a monitor 1920 pixels width and a DPI of 192, will return 960 pixels if it calls **GetSystemMetrics** or **GetDeviceCaps**, but will return 1920 pixels calling **AfxGetDisplayPixelsWidth**.
+
+---
+
+### AfxScreenHeight
+
+Retrieves the height of the screen, in pixels. This function is virtualized for DPI.
+
+```
+FUNCTION AfxGetScreenHeight () AS LONG
+```
+
+#### Alias
+
+**AfxGetScreenHeight**
+
+---
+
+### AfxScreenWidth
+
+Retrieves the width of the screen, in pixels. This function is virtualized for DPI.
+
+```
+FUNCTION AfxScreenWidth () AS LONG
+```
+
+#### Alias
+
+**AfxGetScreenWidth**
+
+---
+
+### AfxGetWorkArea
+
+Retrieves the coordinates of the work area on the primary display monitor expressed in virtual screen coordinates. The work area is the portion of the screen not obscured by the system taskbar or by application desktop toolbars. To get the work area of a monitor other than the primary display monitor, call the GetMonitorInfo function.
+
+```
+FUNCTION AfxGetWorkArea () AS RECT
+```
+
+#### Alias
+
+**AfxWorkArea**
 
 ---
 
