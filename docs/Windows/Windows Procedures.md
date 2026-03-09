@@ -230,7 +230,7 @@ Assorted Windows procedures.
 
 ---
 
-## Common Dialogs
+## Common dialogs
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -394,6 +394,16 @@ Assorted Windows procedures.
 | [AfxWindowsMinorVersion](#afxwindowsminorversion) | Returns the Windows minor version. |
 | [AfxWindowsVersion](#afxwindowsversion) | Returns the Windows version. |
 | [AfxWindowsVersionStr](#afxgetwindowsversionstr) | Returns the full Windows version as a string. |
+
+## Power status
+
+| Name       | Description |
+| ---------- | ----------- |
+| [ACLineStatus](#aclinestatus) | Retrieves the AC power status. |
+| [AfxBatteryChargeStatus](#afxbatterychargestatus) | Retrieves the battery charge status. |
+| [AfxBatteryLifePercent](#afxbatterylifepercent) | Retrieves the percentage of full battery charge remaining. |
+| [AfxBatteryLifeTime](#afxbatterylifetime) | Retrieves the number of seconds of battery life remaining. |
+| [AfxBatteryFullLifeTime](#afxbatteryfulllifetime) | Retrieves the number of seconds of battery life when at full charge |
 
 ---
 
@@ -4555,5 +4565,85 @@ FUNCTION AfxDibSaveImage (BYVAL pwszFileName AS WSTRING PTR, BYVAL pbmfh AS BITM
 #### Return value
 
 TRUE if the DIB has been saved successfully; FALSE otherwise.
+
+---
+
+### AfxACLineStatus
+
+Retrieves the AC power status.
+
+```
+FUNCTION AfxACLineStatus () AS UBYTE
+```
+
+#### Return value
+
+This member can be one of the following values:
+
+| Value  | Description |
+| ------ | ----------- |
+| 0 | Offline |
+| 1 | Online |
+| 255 | Unknown status |
+
+---
+
+### AfxBatteryChargeStatus
+
+Retrieves the battery charge status.
+
+```
+FUNCTION AfxBatteryChargeStatus () AS UBYTE
+```
+
+#### Return value
+
+| Value  | Description |
+| ------ | ----------- |
+| 1 | High. The battery capacity is at more than 66 percent. |
+| 2 | Low. The battery capacity is at less than 33 percent. |
+| 4 | Critical. The battery capacity is at less than five percent. |
+| 8 | Charging. |
+| 128 | No system battery. |
+| 255 | Unknown status. Unable to read the battery flag information. |
+
+#### Remarks
+
+The value is zero if the battery is not being charged and the battery capacity is between low and high.
+
+---
+
+### AfxBatteryLifePercent
+
+The percentage of full battery charge remaining.
+
+```
+FUNCTION AfxBatteryLifePercent () AS UBYTE
+```
+#### Return value
+
+This member can be a value in the range 0 to 100, or 255 if status is unknown.
+
+---
+
+### AfxBatteryLifeTime
+
+Retrieves the number of seconds of battery life remaining, or –1 if remaining seconds are unknown or if the device is connected to AC power.
+
+```
+FUNCTION AfxBatteryLifeTime () AS LONG
+```
+
+### AfxBatteryFullLifeTime
+
+Retrieves the number of seconds of battery life when at full charge, or –1 if full battery lifetime is unknown or if the device is connected to AC power.
+
+```
+FUNCTION AfxBatteryFullLifeTime () AS LONG
+```
+
+#### Remarks
+
+The system is only capable of estimating BatteryFullLifeTime based on calculations on BatteryLifeTime and BatteryLifePercent. Without smart battery subsystems, this value may not be accurate enough to be useful.
 
 ---
