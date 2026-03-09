@@ -3597,7 +3597,7 @@ FUNCTION AfxAppsUseDarkMode () AS BOOLEAN
 ```
 ---
 
-### AfxSystemUseDarkMode
+### AfxSystemUsesDarkMode
 
 Returns TRUE if Windows is using dark mode, or FALSE otherwise.
 
