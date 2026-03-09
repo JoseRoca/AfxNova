@@ -808,6 +808,124 @@ The formatted current local time.
 
 ---
 
+### AfxUnixTimeToFileTime
+
+Comverts Unix time to FileTime.
+
+```
+FUNCTION AfxUnixTimeToFileTime (BYVAL unixTime AS DWORD) AS FILETIME
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *unixTime* | The Unix time measures time by the number of non-leap seconds that have elapsed since 00:00:00 UTC on 1 January 1970 |
+
+#### Return value
+
+Returns a FileTime structure that contains a 64-bit value representing the number of 100-nanosecond intervals since January 1, 1601 (UTC).
+
+---
+
+### AfxUnixTimeToSystemTime
+
+Comverts Unix time to SystemTime.
+
+```
+FUNCTION AfxUnixTimeToSystemTime (BYVAL unixTime AS DWORD) AS SYSTEMTIME
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *unixTime* | The Unix time measures time by the number of non-leap seconds that have elapsed since 00:00:00 UTC on 1 January 1970 |
+
+#### Return value
+
+Returns a SystemTime structure that specifies a date and time, using individual members for the month, day, year, weekday, hour, minute, second, and millisecond. The time is either in coordinated universal time (UTC) or local time, depending on the function that is being called.
+
+---
+
+## AfxUnixDateStr
+
+Retuns an Unix date based on the specified mask, e.g. "dd-MM-yyyy".
+
+```
+FUNCTION AfxUnixDateStr (BYVAL unixTime AS DWORD, BYREF wszMask AS WSTRING, _
+   BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *unixTime* | The Unix time value. |
+| *wszMask* | A picture string that is used to form the date.<br>The format types "d", and "y" must be lowercase and the letter "M" must be uppercase.<br>For example, to get the date string "Wed, Aug 31 94", the application uses the picture string "ddd',' MMM dd yy". |
+| *lcid* | Optional. The language identifier used for the conversion. Default is LOCALE_USER_DEFAULT. |
+
+The following table defines the format types used to represent days.
+
+| Format type | Meaning |
+| ----------- | ----------- |
+| d | Day of the month as digits without leading zeros for single-digit days. |
+| dd | Day of the month as digits with leading zeros for single-digit days. |
+| ddd | Abbreviated day of the week, for example, "Mon" in English (United States). |
+| dddd | Day of the week. |
+
+The following table defines the format types used to represent months.
+
+| Format type | Meaning |
+| ----------- | ----------- |
+| M | Month as digits without leading zeros for single-digit months. |
+| MM | Month as digits with leading zeros for single-digit months. |
+| MMM | Abbreviated month, for example, "Nov" in English (United States). |
+| MMMM | Month value, for example, "November" for English (United States), and "Noviembre" for Spanish (Spain). |
+
+The following table defines the format types used to represent years.
+
+| Format type | Meaning |
+| ----------- | ----------- |
+| y | Year represented only by the last digit. |
+| yy | Year represented only by the last two digits. A leading zero is added for single-digit years. |
+| yyyy | Year represented by a full four or five digits, depending on the calendar used. Thai Buddhist and Korean calendars have five-digit years. The "yyyy" pattern shows five digits for these two calendars, and four digits for all other supported calendars. Calendars that have single-digit or two-digit years, such as for the Japanese Emperor era, are represented differently. A single-digit year is represented with a leading zero, for example, "03". A two-digit year is represented with two digits, for example, "13". No additional leading zeros are displayed. |
+| yyyyy | Behaves identically to "yyyy". |
+
+#### Return value
+
+The Unix date in string format.
+
+---
+
+## AfxUnixTimeStr
+
+Retuns an Unix time based on the specified mask, e.g. "hh':'mm':'ss"."
+
+```
+FUNCTION AfxUnixTimeStr (BYVAL unixTime AS DWORD, BYREF wszMask AS WSTRING, _
+   BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *unixTime* | The Unix time value. |
+| *wszMask* | A picture string that is used to form the time. |
+| *lcid* | Optional. The language identifier used for the conversion. Default is LOCALE_USER_DEFAULT. |
+
+Picture string used to form the time.
+
+| Picture    | Meaning |
+| ---------- | ----------- |
+| h | Hours with no leading zero for single-digit hours; 12-hour clock |
+| hh | Hours with leading zero for single-digit hours; 12-hour clock |
+| H | Hours with no leading zero for single-digit hours; 24-hour clock |
+| HH | Hours with leading zero for single-digit hours; 24-hour clock |
+| m | Minutes with no leading zero for single-digit minutes |
+| mm | Minutes with leading zero for single-digit minutes |
+| s | Seconds with no leading zero for single-digit seconds |
+| ss | Seconds with leading zero for single-digit seconds |
+| t | One character time marker string, such as A or P |
+| tt | Multi-character time marker string, such as AM or PM |
+
+#### Return value
+
+The formatted Unix time.
+
+---
+
 ## AfxUtcDateStr
 
 Returns the current UTC date based on the specified mask, e.g. "dd-MM-yyyy".
