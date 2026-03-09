@@ -888,6 +888,10 @@ The following table defines the format types used to represent years.
 
 The Unix date in string format.
 
+#### Usage example
+```
+PRINT AfxUnixDateStr(AfxWindowsInstallDate, "dd-MM-yyyy")
+```
 ---
 
 ## AfxUnixTimeStr
@@ -924,6 +928,10 @@ Picture string used to form the time.
 
 The formatted Unix time.
 
+#### Usage example
+```
+PRINT AfxUnixTimeStr(AfxWindowsInstallDate, "hh':'mm':'ss")
+```
 ---
 
 ## AfxUtcDateStr
