@@ -27,11 +27,15 @@ Assorted Windows procedures.
 | [AfxComputerNameNetBios](#afxgetcomputernamenetbios) | Retrieves the NetBIOS name of the local computer. |
 | [AfxGetMACAddress](#afxgetmacaddress) | Retrieves the MAC address of a machine's Ethernet card. |
 | [AfxGetMACAddressEx](#afxgetmacaddressex) | Retrieves the MAC address of a machine's Ethernet card. |
+| [AfxGetTempPath](#afxtemppath) | Retrieves the path of the directory designated for temporary files. |
 | [AfxGetUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
+| [AfxGetSystemWow64Directory](#afxgetsystemwow64directory) | Retrieves the path of the system directory used by WOW64. |
 | [AfxGetWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxGetWinErrMsg](#afxgetwinerrmsg) | Retrieves the localized description of the specified Windows error code. |
 | [AfxGetWindowsDirectory](#afxgetwindir) | Retrieves the path of the Windows directory. |
 | [AfxMsg](#afxmsg) | Displays an application modal message box. |
+| [AfxSystemWow64Directory](#afxgetsystemwow64directory) | Retrieves the path of the system directory used by WOW64. |
+| [AfxTempPath](#afxtemppath) | Retrieves the path of the directory designated for temporary files. |
 | [AfxUserName](#afxgetusername) | Retrieves the name of the user associated with the current thread. |
 | [AfxWinDir](#afxgetwindir) | Retrieves the path of the Windows directory. |
 
@@ -1237,9 +1241,37 @@ Retrieves the path of the Windows directory. This path does not end with a backs
 FUNCTION AfxGetWinDir () AS DWSTRING
 ```
 
-#### Alias
+#### Aliases
 
 **AfxWindir**, **"AfxWindowsDirectory**
+
+---
+
+### GetTempPath
+
+Retrieves the path of the directory designated for temporary files.
+
+```
+FUNCTION AfxGetTempPath () AS DWSTRING
+```
+
+#### Alias
+
+**AfxTempPath**
+
+---
+
+### AfxGetSystemWow64Directory
+
+Retrieves the path of the system directory used by WOW64. This directory is not present on 32-bit Windows.
+
+```
+FUNCTION AfxGetSystemWow64Directory () AS DWSTRING
+```
+
+#### Alias
+
+**AfxSystemWow64Directory**
 
 ---
 
