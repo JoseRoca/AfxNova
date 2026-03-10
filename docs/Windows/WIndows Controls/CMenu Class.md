@@ -126,6 +126,7 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [GetFont](#getfont) | Retrieves information about the font used in menu bars. |
 | [GetFontPointSize](#getfontpointsize) | Retrieves the point size of the font used in menu bars. |
 | [GetHandle](#gethandle) | Retrieves a handle to the menu assigned to the specified window or dialog.  |
+| [GetInfo](#getinfo) | Gets information for a specified menu. |
 | [GetItemCount](#getitemcount) | Determines the number of items in the specified menu. |
 | [GetItemFromPoint](#getitemfrompoint) | Determines which menu item, if any, is at the specified location. |
 | [GetItemID](#getitemid) | Retrieves the menu item ID of a menu item located at the specified position in a menu. |
@@ -152,7 +153,8 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [IsMenu](#ismenu) | Determines whether a handle is a menu handle. |
 | [IsMenuHandle](#ismenuhadle) | Determines whether a handle is a menu handle. |
 | [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
-
+| [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
+| [Modify](#modify) | Changes an existing menu item. |
 | [NewBar](#newbar) | Creates a new menu bar. |
 | [NewPopup](#newpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
@@ -162,6 +164,7 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
 | [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
 | [SetDefaultItem](#setdefaultitem) | Sets the default menu item for the specified menu. |
+| [SetInfo](#setifo) | Sets information for a specified menu. |
 | [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
 | [SetItemBold](#setitembold) | Changes the text of a menu item to bold. |
 | [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
