@@ -107,10 +107,10 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
 | [Modify](#modify) | Changes an existing menu item. |
 | [NewBar](#create) | Creates a new menu bar. |
-| [NewPopup](#newpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
+| [NewPopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
 | [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
-| [RemoveItem](#removeitem) | Deletes a menu item from an existing menu. |
+| [RemoveItem](#deleteitem) | Deletes a menu item from an existing menu. |
 | [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
 | [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
@@ -480,10 +480,50 @@ Instead of **CMenu.Create** you can call **CMenu.NewBar** or the Windows API fun
 
 ---
 
+### CreatePopup
+
+Creates a drop-down menu, submenu, or shortcut menu. The menu is initially empty. You can insert or append menu items by using the **CMenu.AddString** function. You can also use the **CMenu.Append** method to append menu items.
+
+```
+FUNCTION CreatePopup () AS HMENU
+```
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the newly created menu.
+
+If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+The application can add the new menu to an existing menu, or it can display a shortcut menu by calling the **TrackPopupMenuEx** or **TrackPopupMenu** functions.
+
+Resources associated with a menu that is assigned to a window are freed automatically. If the menu is not assigned to a window, an application must free system resources associated with the menu before closing. An application frees menu resources by calling the **CMenu.Destroy** method.
+
+---
+
+### DeleteItem
+
+Deletes a menu item from an existing menu.
+
+```
+FUNCTION DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+FUNCTION RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+---
+
 ++++++++++++++
 
-| [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
-| [DeleteItem](#deleteitem) | Deletes a menu item from an existing menu. |
 | [Destroy](#destroy) | Destroys the specified menu and frees any memory that the menu occupies. |
 | [DisableItem](#disableitem) | Disables the specified menu item. |
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
@@ -529,7 +569,6 @@ Instead of **CMenu.Create** you can call **CMenu.NewBar** or the Windows API fun
 | [Modify](#modify) | Changes an existing menu item. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
 | [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
-| [RemoveItem](#removeitem) | Deletes a menu item from an existing menu. |
 | [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
 | [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
