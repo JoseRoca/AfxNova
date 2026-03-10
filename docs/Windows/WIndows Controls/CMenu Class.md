@@ -246,7 +246,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## AddString
+### AddString
 
 Adds a string or separator to an existing menu. A string may contain an optional command accelerator key, and also describe an equivalent keyboard accelerator combination.
 
@@ -283,7 +283,7 @@ CMenu.AddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, ID_OPEN, FALSE   ' insert
 ```
 ---
 
-## Append
+### Append
 
 Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. You can use this function to specify the content, appearance, and behavior of the menu item.
 
@@ -342,7 +342,7 @@ The Windows API function **SetMenu** performs the same action.
 
 ---
 
-## BoldItem
+### BoldItem
 
 Changes the text of a menu item to bold.
 
