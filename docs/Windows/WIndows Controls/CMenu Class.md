@@ -887,30 +887,6 @@ If the retrieved menu item is of some other type, then **CMenu.GetItemInfo** set
 
 ---
 
-### GetRect
-
-Calculates the size of a menu bar or a drop-down menu.
-
-```
-FUNCTION GetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
-FUNCTION GetRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYREF rcmenu AS RECT) AS LONG
-FUNCTION MenuGetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
-```
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
-| *hmenu* | The one-based relative position of the menu item whose identifier is to be retrieved. |
-| *prcmenu* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
-| *prcmenu* | A **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
-
-#### Return value
-
-If the function succeeds, the return value is 0. If the function fails, the return value is a system error code.
-
-The third overloaded function returns a **RECT** structure directly.
-
----
-
 ### GetItemState
 
 Retrieves the state of the specified menu item.
@@ -965,10 +941,49 @@ DIM dwsText AS DWSTRING = CMenu.GetItemText(hMenu, 1, TRUE)
 ```
 ---
 
+### GetItemTextLen
+
+Returns the lengnth of the specified menu item.
+
+```
+FUNCTION GetItemTextLen (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
+   BYVAL fByPosition AS LONG = FALSE) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### GetRect
+
+Calculates the size of a menu bar or a drop-down menu.
+
+```
+FUNCTION GetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
+FUNCTION GetRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYREF rcmenu AS RECT) AS LONG
+FUNCTION MenuGetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
+| *hmenu* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+| *prcmenu* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+| *prcmenu* | A **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+
+#### Return value
+
+If the function succeeds, the return value is 0. If the function fails, the return value is a system error code.
+
+The third overloaded function returns a **RECT** structure directly.
+
+---
+
 ++++++++++++++
 
-| [GetItemTextLen](#getitemtextlen) | Returns the lengnth of the specified menu item. |
-| [GetRect](#getrect) | Calculates the size of a menu bar or a drop-down menu. |
 | [GetState](#getstate) | Retrieves the state of the specified menu item. |
 | [GetSubMenu](#ghetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
 | [GetSubmenusCount](#ghetsubmenuscount) | Retrieves the number of submenus of a menu. |
