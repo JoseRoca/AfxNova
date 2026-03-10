@@ -1515,11 +1515,101 @@ If the function fails, the return value is zero. To get extended error informati
 
 ---
 
+### SetInfo
+
+Sets information for a specified menu.
+
+```
+FUNCTION SetInfo (BYVAL hMenu AS HMENU, BYVAL pmi AS MENUINFO PTR) AS BOOLEAN
+FUNCTION SetInfo (BYVAL hMenu AS HMENU, BYREF mi AS MENUINFO) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to a menu. |
+| *pmi* | A pointer to a **MENUINFO** structure for the menu.. |
+| *mi* | A **MENUINFO** structure for the menu.. |
+
+#### Return value
+
+If the function succeeds, the return value is nonzero.
+
+If the function fails, the return value is zero. To get extended error information, call **GetLastError**.
+
+---
+
+### SetItemBitmaps
+
+Associates the specified bitmap with a menu item. Whether the menu item is selected or clear, the system displays the appropriate bitmap next to the menu item.
+
+```
+FUNCTION SetItemBitmaps (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL hBitmapUnchecked AS HBITMAP, BYVAL hBitmapChecked AS HBITMAP, _
+   BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu containing the item to receive new check-mark bitmaps. |
+| *item* | The identifier or position of the menu item to be changed. The meaning of this parameter depends on the value of *fByPosition*. |
+| *hBitmapUnchecked* | A handle to the bitmap displayed when the menu item is not selected. |
+| *hBitmapChecked* | A handle to the bitmap displayed when the menu item is selected. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+If the function succeeds, the return value is nonzero.
+
+If the function fails, the return value is zero. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+If either the *hBitmapUnchecked* or *hBitmapChecked* parameter is NULL, the system displays nothing next to the menu item for the corresponding check state. If both parameters are NULL, the system displays the default check-mark bitmap when the item is selected, and removes the bitmap when the item is not selected.
+
+When the menu is destroyed, these bitmaps are not destroyed; it is up to the application to destroy them.
+
+The selected and clear bitmaps should be monochrome. The system uses the Boolean AND operator to combine bitmaps with the menu so that the white part becomes transparent and the black part becomes the menu-item color. If you use color bitmaps, the results may be undesirable.
+
+Use the **GetSystemMetrics** function with the **SM_CXMENUCHECK** and **SM_CYMENUCHECK** values to retrieve the bitmap dimensions.
+
+---
+
+### SetItemInfo
+
+Changes information about a menu item.
+
+```
+FUNCTION SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, _
+   BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
+FUNCTION SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, _
+   BYREF mii AS MENUITEMINFOW) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to a menu. |
+| *item* | The identifier or position of the menu item to change. The meaning of this parameter depends on the value of *fByPositon*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+| *pmii* | A pointer to a **MENUITEMINFOW** structure that contains information about the menu item and specifies which menu item attributes to change. |
+| *mii* | A **MENUITEMINFOW** structure that contains information about the menu item and specifies which menu item attributes to change. |
+
+#### Return value
+
+If the function succeeds, the return value is nonzero.
+
+If the function fails, the return value is zero. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether the menu is in a displayed window.
+
+In order for keyboard accelerators to work with bitmap or owner-drawn menu items, the owner of the menu must process the **WM_MENUCHAR** message.
+
+---
+
 ++++++++++++++
 
 
-| [SetInfo](#setifo) | Sets information for a specified menu. |
-| [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
 | [SetItemInfo](#setiteminfo) | Changes information about a menu item. |
 | [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
 | [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
