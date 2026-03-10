@@ -174,3 +174,129 @@ FUNCTION AddBitmapToMenuItem (BYVAL hMenu AS HMENU, BYVAL nMenuItem AS LONG, _
 Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
+## AddIconToMenuItem
+
+Converts an icon handle to a bitmap and adds it to the specified *hbmpItem field* of **HMENU** item.
+
+```
+FUNCTION AddIconToMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
+   BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, _
+   BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+| *hIcon* | Handle of the icon to add to the menu. |
+| *fAutoDestroy* | TRUE (the default) or FALSE. If TRUE, **AfxAddIconToMenuItem** destroys the icon before returning. |
+| *phbmp* | Out. Location where the bitmap representation of the icon is stored. Can be NULL. |
+
+#### Return value
+
+TRUE or FALSE.
+
+#### Remarks
+
+The caller is responsible for destroying the bitmap generated. The icon will be destroyed if *fAutoDestroy* is set to true. The *hbmpItem* field of the menu item can be used to keep track of the bitmap by passing NULL to *phbmp*.
+
+Using **AfxGdipAddIconFromFile** or **AfxGdipIconFromRes** to load the image from a file or resource and convert it to a icon you can use alphablended .png icons.
+
+#### Usage example
+
+Loading the icon from disc:
+
+```
+DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 1)
+DIM hIcon AS HICON = LoadImageW(NULL, ExePath & "\undo_32.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE)
+IF hIcon THEN CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
+```
+
+Loading the icon from a resource file:
+
+```
+DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 1)
+CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_UNDO_32"))
+```
+---
+
+
+++++++++++++++
+
+| [AddPopup](#addpopup) | Adds a popup child menu to an existing menu. |
+| [AddString](#addstring) | Adds a string or separator to an existing menu. |
+| [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
+| [Attach](#attach) | Attaches a menu to a window or dialog. |
+| [BoldItem](#checkitem) | Changes the text of a menu item to bold. |
+| [CheckItem](#checkitem) | Checks a menu item. |
+| [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
+| [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
+| [ContextMenu](#contextmenu) | Creates a floating context menu. |
+| [Create](#create) | Creates a new menu bar. |
+| [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
+| [DeleteItem](#deleteitem) | Deletes a menu item from an existing menu. |
+| [Destroy](#destroy) | Destroys the specified menu and frees any memory that the menu occupies. |
+| [DisableItem](#disableitem) | Disables the specified menu item. |
+| [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
+| [EnableItem](#enableitem) | Enables the specified menu item. |
+| [FindItemPosition](#finditemposition) | Finds the position of the specified menu item. |
+| [GetBarInfo](#getarinfo) | Retrieves information about the specified menu bar. |
+| [GetCheckMarkHeight](#getcheckmarkheight) | Retrieves the height of the default check-mark bitmap. |
+| [GetCheckMarkWidth](#getcheckmarkwidth) | Retrieves the width of the default check-mark bitmap. |
+| [GetContextHelpId](#getcontexthelpid) | Retrieves the Help context identifier associated with the specified menu. |
+| [GetDefaultItem](#getdefaultitem) | Determines the default menu item on the specified menu. |
+| [GetFont](#getfont) | Retrieves information about the font used in menu bars. |
+| [GetFontPointSize](#getfontpointsize) | Retrieves the point size of the font used in menu bars. |
+| [GetHandle](#gethandle) | Retrieves a handle to the menu assigned to the specified window or dialog.  |
+| [GetInfo](#getinfo) | Gets information for a specified menu. |
+| [GetItemCount](#getitemcount) | Determines the number of items in the specified menu. |
+| [GetItemFromPoint](#getitemfrompoint) | Determines which menu item, if any, is at the specified location. |
+| [GetItemID](#getitemid) | Retrieves the menu item ID of a menu item located at the specified position in a menu. |
+| [GetItemInfo](#getiteminfo) | Retrieves information about a menu item. |
+| [GetItemRect](#getitemrect) | Retrieves the bounding rectangle for the specified menu item. |
+| [GetItemState](#getitemstate) | Retrieves the state of the specified menu item. |
+| [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
+| [GetItemTextLen](#getitemtextlen) | Returns the lengnth of the specified menu item. |
+| [GetRect](#getrect) | Calculates the size of a menu bar or a drop-down menu. |
+| [GetState](#getstate) | Retrieves the state of the specified menu item. |
+| [GetSubMenu](#ghetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
+| [GetSubmenusCount](#ghetsubmenuscount) | Retrieves the number of submenus of a menu. |
+| [GetSystemMenuHandle](#getsystemmenuhandle) | Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying. |
+| [GetWindowOwner](#ghetwindowowner) | Retrieves the window owner of the specified menu |
+| [GrayItem](#grayitem) | Grays the specified menu item. |
+| [HiliteItem](#hiliteitem) | Highlights the specified menu item. |
+| [IsItemChecked](#isitemchecked) | Returns TRUE if the specified menu item is checked; FALSE otherwise. |
+| [IsItemDisabled](#isitemdisabled) | Returns TRUE if the specified menu item is enabled; FALSE otherwise. |
+| [IsItemEnabled](#isitemenabled) | Returns TRUE if the specified menu item is disabled; FALSE otherwise. |
+| [IsItemGrayed](#isitemgrayed) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
+| [IsItemHighlighted](#isitemhighlighted) | Returns TRUE if the specified menu item is highlighted; FALSE otherwise. |
+| [IsItemOwnerdraw](#isitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
+| [IsItemPopup](#isitempopup) | Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
+| [IsItemSeparator](#isitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
+| [IsMenu](#ismenu) | Determines whether a handle is a menu handle. |
+| [IsMenuHandle](#ismenuhadle) | Determines whether a handle is a menu handle. |
+| [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
+| [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
+| [Modify](#modify) | Changes an existing menu item. |
+| [NewBar](#newbar) | Creates a new menu bar. |
+| [NewPopup](#newpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
+| [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
+| [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
+| [RemoveItem](#removeitem) | Deletes a menu item from an existing menu. |
+| [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
+| [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
+| [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
+| [SetDefaultItem](#setdefaultitem) | Sets the default menu item for the specified menu. |
+| [SetInfo](#setifo) | Sets information for a specified menu. |
+| [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
+| [SetItemBold](#setitembold) | Changes the text of a menu item to bold. |
+| [SetItemInfo](#setiteminfo) | Changes information about a menu item. |
+| [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
+| [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
+| [SetState](#setstate) | Sets the state of the specified menu item. |
+| [ToggleCheckState](#togglecheckstate) | Toggles the checked state of a menu item. |
+| [ToggleItem](#toggleitem) | Toggles the checked state of a menu item. |
+| [TrackPopupMenu](#trackpopupmenu) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
+| [TrackPopupMenuEx](#trackpopupmenuex) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
+| [UncheckItem](#uncheckitem) | Unchecks a menu item. |
