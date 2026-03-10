@@ -945,6 +945,8 @@ MFS_UNHILITE  The item is not highlighted.
 Retrieves the text of the specified menu item.
 
 ```
+FUNCTION GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG, _
+   BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG) AS BOOLEAN
 FUNCTION GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG) AS DWSTRING
 ```
 
@@ -953,6 +955,8 @@ FUNCTION GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosit
 | *hMenu* | Handle to the menu that contains the menu item. |
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+| *pwszText* | Pointer to a unicode buffer that receives the text of the menu item. |
+| *cchTextMax* | Size in characters of the *pwszText* buffer. |
 
 #### Usage example
 
@@ -963,7 +967,6 @@ DIM dwsText AS DWSTRING = CMenu.GetItemText(hMenu, 1, TRUE)
 
 ++++++++++++++
 
-| [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
 | [GetItemTextLen](#getitemtextlen) | Returns the lengnth of the specified menu item. |
 | [GetRect](#getrect) | Calculates the size of a menu bar or a drop-down menu. |
 | [GetState](#getstate) | Retrieves the state of the specified menu item. |
