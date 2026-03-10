@@ -108,6 +108,8 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [BoldItem](#checkitem) | Changes the text of a menu item to bold. |
 | [CheckItem](#checkitem) | Checks a menu item. |
 | [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
+| [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
+| [ContextMenu](#contextmenu) | Creates a floating context menu. |
 | [Create](#create) | Creates a new menu bar. |
 | [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [DeleteItem](#deleteitem) | Deletes a menu item from an existing menu. |
@@ -149,6 +151,8 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [IsItemSeparator](#isitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
 | [IsMenu](#ismenu) | Determines whether a handle is a menu handle. |
 | [IsMenuHandle](#ismenuhadle) | Determines whether a handle is a menu handle. |
+| [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
+
 | [NewBar](#newbar) | Creates a new menu bar. |
 | [NewPopup](#newpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
@@ -165,6 +169,8 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [SetState](#setstate) | Sets the state of the specified menu item. |
 | [ToggleCheckState](#togglecheckstate) | Toggles the checked state of a menu item. |
 | [ToggleItem](#toggleitem) | Toggles the checked state of a menu item. |
+| [TrackPopupMenu](#trackpopupmenu) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
+| [TrackPopupMenuEx](#trackpopupmenuex) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
 | [UncheckItem](#uncheckitem) | Unchecks a menu item. |
 
 ---
