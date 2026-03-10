@@ -107,6 +107,7 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [Attach](#attach) | Attaches a menu to a window or dialog. |
 | [BoldItem](#checkitem) | Changes the text of a menu item to bold. |
 | [CheckItem](#checkitem) | Checks a menu item. |
+| [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
 | [Create](#create) | Creates a new menu bar. |
 | [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [DeleteItem](#deleteitem) | Deletes a menu item from an existing menu. |
@@ -115,9 +116,16 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
 | [EnableItem](#enableitem) | Enables the specified menu item. |
 | [FindItemPosition](#finditemposition) | Finds the position of the specified menu item. |
+| [GetBarInfo](#getarinfo) | Retrieves information about the specified menu bar. |
+| [GetCheckMarkHeight](#getcheckmarkheight) | Retrieves the height of the default check-mark bitmap. |
+| [GetCheckMarkWidth](#getcheckmarkwidth) | Retrieves the width of the default check-mark bitmap. |
+| [GetContextHelpId](#getcontexthelpid) | Retrieves the Help context identifier associated with the specified menu. |
+| [GetDefaultItem](#getdefaultitem) | Determines the default menu item on the specified menu. |
 | [GetFont](#getfont) | Retrieves information about the font used in menu bars. |
 | [GetFontPointSize](#getfontpointsize) | Retrieves the point size of the font used in menu bars. |
 | [GetHandle](#gethandle) | Retrieves a handle to the menu assigned to the specified window or dialog.  |
+| [GetItemCount](#getitemcount) | Determines the number of items in the specified menu. |
+| [GetItemFromPoint](#getitemfrompoint) | Determines which menu item, if any, is at the specified location. |
 | [GetItemID](#getitemid) | Retrieves the menu item ID of a menu item located at the specified position in a menu. |
 | [GetItemRect](#getitemrect) | Retrieves the bounding rectangle for the specified menu item. |
 | [GetItemState](#getitemstate) | Retrieves the state of the specified menu item. |
@@ -146,7 +154,11 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
 | [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#removeitem) | Deletes a menu item from an existing menu. |
+| [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
+| [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
+| [SetDefaultItem](#setdefaultitem) | Sets the default menu item for the specified menu. |
+| [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
 | [SetItemBold](#setitembold) | Changes the text of a menu item to bold. |
 | [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
 | [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
