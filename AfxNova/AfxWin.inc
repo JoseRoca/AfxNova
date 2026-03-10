@@ -36,6 +36,7 @@
 #INCLUDE ONCE "crt/string.bi"
 #INCLUDE ONCE "win/wincrypt.bi"
 #INCLUDE ONCE "win/iphlpapi.bi"
+#INCLUDE ONCE "win/wininet.bi"
 #INCLUDE ONCE "AfxNova/DWSTRProcs.inc"
 #INCLUDE ONCE "AfxNova/AfxPath.inc"
 #INCLUDE ONCE "AfxNova/AfxTime.inc"
@@ -5108,13 +5109,90 @@ END FUNCTION
 ' ########################################################################################
 
 ' ========================================================================================
+' * Attempts to make a connection to the Internet.
+' IF AfxInternetAttemptConnect = ERROR_SUCCESS THEN ? "You can connect to the Internet"
+' ========================================================================================
+PRIVATE FUNCTION AfxInternetAttemptConnect () AS DWORD
+   RETURN InternetAttemptConnect(0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Checks if a connection to the Internet can be established.
+' Usage example:
+' IF AfxInternetCheckConnection("https://www.freebasic.net/forum/viewforum.php?f=1") THEN ? "Connection succeeded!"
+' ========================================================================================
+PRIVATE FUNCTION AfxInternetCheckConnection (BYVAL pwszUrl AS WSTRING PTR) AS BOOLEAN
+   RETURN InternetCheckConnection(pwszUrl, FLAG_ICC_FORCE_CONNECTION, 0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Canonicalizes a URL, which includes converting unsafe characters and spaces into escape sequences.
+' Usage example: PRINT AfxInternetCanonicalizeUrl("http://msdn2.microsoft.com/en-us/ library/")
+' ========================================================================================
+PRIVATE FUNCTION AfxInternetCanonicalizeUrl (BYVAL pwszUrl AS WSTRING PTR, BYVAL dwFlags AS DWORD = 0) AS DWSTRING
+   DIM wszUrl AS WSTRING * INTERNET_MAX_PATH_LENGTH
+   DIM dwUrlSize AS DWORD = SIZEOF(wszUrl)
+   IF InternetCanonicalizeUrlW(pwszUrl, @wszUrl, @dwUrlSize, dwFlags) = FALSE THEN RETURN ""
+   RETURN wszUrl
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Combines a base and relative URL into a single URL. The resultant URL is canonicalized.
+' Usage example: PRINT AfxInternetCombineUrl("https://www.planetsquires", "/protect/forum/index.php?board=1.0")
+' ========================================================================================
+PRIVATE FUNCTION AfxInternetCombineUrl (BYVAL pwszBaseUrl AS WSTRING PTR, BYVAL pwszRelativeUrl AS WSTRING PTR, BYVAL dwFlags AS DWORD = 0) AS DWSTRING
+   DIM wszUrl AS WSTRING * INTERNET_MAX_PATH_LENGTH
+   DIM dwUrlSize AS DWORD = SIZEOF(wszUrl)
+   IF InternetCombineUrlW(pwszBaseUrl, pwszRelativeUrl, @wszUrl, @dwUrlSize, dwFlags) = FALSE THEN RETURN ""
+   RETURN wszUrl
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Retrieves the connected state of the local system.
+' Returns TRUE or FALSE.
+' ========================================================================================
+PRIVATE FUNCTION AfxInternetGetConnectedState () AS BOOLEAN
+   DIM dwFlags AS DWORD
+   RETURN InternetGetConnectedState(@dwFlags, 0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Retrieves the connection description
+' ========================================================================================
+PRIVATE FUNCTION AfxInternetGetConnectionDescription () AS DWORD
+   DIM dwFlags AS DWORD
+   DIM wszConnectionName AS WSTRING * 260
+   InternetGetConnectedStateExW(@dwFlags, @wszConnectionName, SIZEOF(wszConnectionName), 0)
+   RETURN dwFlags
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Retrieves the connection name
+' ========================================================================================
+PRIVATE FUNCTION AfxInternetGetConnectionName () AS DWSTRING
+   DIM dwFlags AS DWORD
+   DIM wszConnectionName AS WSTRING * 260
+   IF InternetGetConnectedStateExW(@dwFlags, @wszConnectionName, SIZEOF(wszConnectionName), 0) = FALSE THEN RETURN ""
+   RETURN wszConnectionName
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' * Retrieves the Internet Explorer version (major.minor).
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetInternetExplorerVersion () AS SINGLE
-   DIM hk AS HKEY, wszData AS WSTRING * 1024, cbData AS DWORD = SIZEOF(wszData)\2
+   DIM hk AS HKEY, wszData AS WSTRING * 1024, cbData AS DWORD = SIZEOF(wszData)
    IF RegOpenKeyExW(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Internet Explorer", 0, _
                     KEY_QUERY_VALUE, @hk) <> ERROR_SUCCESS THEN EXIT FUNCTION
-   RegQueryValueExW hk, "Version", NULL, NULL, cast(BYTE PTR, @wszData), @cbData
+   IF RegQueryValueExW(hk, "Version", NULL, NULL, cast(BYTE PTR, @wszData), @cbData) <> ERROR_SUCCESS THEN
+      IF RegQueryValueExW(hk, "svcVersion", NULL, NULL, cast(BYTE PTR, @wszData), @cbData) <> ERROR_SUCCESS THEN wszData = ""
+   END IF
    RegCloseKey hk
    FUNCTION = VAL(wszData)
 END FUNCTION
@@ -5143,56 +5221,55 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Obsolete.
 ' Retrieves the handle of the top level window of the web browser.
 ' Parameter:
 '    pwszClassName: The browser class name.
 ' Return value:
 '    The handle of the top level window of the browser.
-' Thanks to Dominic Mitchell for the information provided in this thread:
-' https://forum.powerbasic.com/forum/user-to-user-discussions/powerbasic-for-windows/767812-handle-to-browser-window?p=767896#post767896
 ' Examples:
 ' DIM hwndBrowser AS HWND = AfxGetBrowserHandle("IEFrame")              ' // Internet Explorer
 ' DIM hwndBrowser AS HWND = AfxGetBrowserHandle("MozillaWindowClass")   ' // Firefox
 ' DIM hwndBrowser AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")   ' // Chrome
 ' ========================================================================================
-PRIVATE FUNCTION AfxEnumThreadWndProc (BYVAL hWin AS HWND, BYVAL lPrm AS LPARAM) AS WINBOOL
-   DIM dwStyle AS DWORD = GetWindowLongPtr(hWin, GWL_STYLE)
-   IF ((dwStyle AND (WS_POPUP OR WS_CHILD)) = 0) AND ((dwStyle AND WS_VISIBLE) <> 0) THEN
-      DIM phwndTop AS HWND PTR
-      CAST(LPARAM, phwndTop) = lPrm
-      *phwndTop = hWin
-      RETURN FALSE
-   END IF
-   RETURN CTRUE
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION AfxGetBrowserHandle (BYVAL pwszClassName AS WSTRING PTR) AS HWND
-  DIM hwndBrowser AS HWND = FindWindowW(pwszClassName, NULL)
-  IF hwndBrowser = NULL THEN RETURN NULL
-  DIM dwThread AS DWORD = GetWindowThreadProcessId(hwndBrowser, NULL)
-  IF dwThread = 0 THEN RETURN NULL
-  DIM hwndTop AS HWND
-  EnumThreadWindows(dwThread, @AfxEnumThreadWndProc, CAST(LPARAM, @hwndTop))
-  RETURN hwndTop
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-' Retrieves the top level window handle of Intenet Exploreror Google Chrome.
-' ========================================================================================
-PRIVATE FUNCTION AfxGetChromiumHandle () AS HWND
-   DIM hWin AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")
-   IF hWin = NULL THEN hWin = AfxGetBrowserHandle("Chrome_WidgetWin_2")
-   RETURN  hWin
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-' Retrieves the top level window handle of Firefox.
-' ========================================================================================
-PRIVATE FUNCTION AfxGetFireFoxHandle () AS HWND
-   RETURN AfxGetBrowserHandle("MozillaWindowClass")
-END FUNCTION
-' ========================================================================================
+'PRIVATE FUNCTION AfxEnumThreadWndProc (BYVAL hWin AS HWND, BYVAL lPrm AS LPARAM) AS WINBOOL
+'   DIM dwStyle AS DWORD = GetWindowLongPtr(hWin, GWL_STYLE)
+'   IF ((dwStyle AND (WS_POPUP OR WS_CHILD)) = 0) AND ((dwStyle AND WS_VISIBLE) <> 0) THEN
+'      DIM phwndTop AS HWND PTR
+'      CAST(LPARAM, phwndTop) = lPrm
+'      *phwndTop = hWin
+'      RETURN FALSE
+'   END IF
+'   RETURN CTRUE
+'END FUNCTION
+'' ========================================================================================
+'' ========================================================================================
+'PRIVATE FUNCTION AfxGetBrowserHandle (BYVAL pwszClassName AS WSTRING PTR) AS HWND
+'  DIM hwndBrowser AS HWND = FindWindowW(pwszClassName, NULL)
+'  IF hwndBrowser = NULL THEN RETURN NULL
+'  DIM dwThread AS DWORD = GetWindowThreadProcessId(hwndBrowser, NULL)
+'  IF dwThread = 0 THEN RETURN NULL
+'  DIM hwndTop AS HWND
+'  EnumThreadWindows(dwThread, @AfxEnumThreadWndProc, CAST(LPARAM, @hwndTop))
+'  RETURN hwndTop
+'END FUNCTION
+'' ========================================================================================
+'' ========================================================================================
+'' Retrieves the top level window handle of Intenet Exploreror Google Chrome.
+'' ========================================================================================
+'PRIVATE FUNCTION AfxGetChromiumHandle () AS HWND
+'   DIM hWin AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")
+'   IF hWin = NULL THEN hWin = AfxGetBrowserHandle("Chrome_WidgetWin_2")
+'   RETURN  hWin
+'END FUNCTION
+'' ========================================================================================
+'' ========================================================================================
+'' Retrieves the top level window handle of Firefox.
+'' ========================================================================================
+'PRIVATE FUNCTION AfxGetFireFoxHandle () AS HWND
+'   RETURN AfxGetBrowserHandle("MozillaWindowClass")
+'END FUNCTION
+'' ========================================================================================
 
 ' ========================================================================================
 ' * Retrieves the path of the default mail client application.
