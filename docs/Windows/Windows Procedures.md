@@ -347,12 +347,18 @@ Assorted Windows procedures.
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AfxGetBrowserHandle](#AfxGetBrowserHandle) | Retrieves the handle of the top level window of the web browser. |
 | [AfxGetDefaultBrowserName](#AfxGetDefaultBrowserName) | Retrieves the name of the default browser. |
 | [AfxGetDefaultBrowserPath](#AfxGetDefaultBrowserPath) | Retrieves the path of the default browser. |
 | [AfxGetDefaultMailClientName](#AfxGetDefaultMailClientName) | Retrieves the name of the default client mail application. |
 | [AfxGetDefaultMailClientPath](#AfxGetDefaultMailClientPath) | Retrieves the path of the default mail client application. |
 | [AfxGetInternetExplorerVersion](#AfxGetInternetExplorerVersion) | Returns the Internet Explorer version installed. |
+| [AfxInternetAttemptConnect](#afxinternetattemptconnect) | Attempts to make a connection to the Internet. |
+| [AfxInternetCheckConnection](#afxinternetcheckconnection) | Checks if a connection to the Internet can be established. |
+| [AfxInternetCanonicalizeUrl](#afxinternetcanonicalizeurl) | Canonicalizes a URL, which includes converting unsafe characters and spaces into escape sequences. |
+| [AfxInternetCombineUrl](#afxinternetcombineurl) | Combines a base and relative URL into a single URL. The resultant URL is canonicalized. |
+| [AfxInternetGetConnectedState](#afxinternetgetconnectedstate) | Retrieves the connected state of the local system. |
+| [AfxInternetGetConnectionDescription](#afxinternetgetconnectiondescription) | Retrieves the connection description. |
+| [AfxInternetGetConnectionName](#afxinternetgetconnectionname) | Retrieves the connection name. |
 
 ---
 
@@ -4170,51 +4176,6 @@ NEXT
 ```
 ---
 
-### AfxGetBrowserHandle
-
-Retrieves the handle of the top level window of the web browser.
-
-```
-FUNCTION AfxGetBrowserHandle (BYVAL pwszClassName AS WSTRING PTR) AS HWND
-FUNCTION AfxGetInternetExplorerHandle () AS HWND
-FUNCTION AfxGetFireFoxHandle () AS HWND
-FUNCTION AfxGetGoogleChromeHandle () AS HWND
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *pwszClassName* | Class name of the browser. |
-
-#### Return value
-
-The handle of the top level window of the browser. If there is not any instance of the browser running, it will return NULL.
-
-#### Examples
-
-```
-DIM hwndBrowser AS HWND = AfxGetBrowserHandle("IEFrame")              ' // Internet Explorer
-DIM hwndBrowser AS HWND = AfxGetBrowserHandle("MozillaWindowClass")   ' // Firefox
-DIM hwndBrowser AS HWND = AfxGetBrowserHandle("Chrome_WidgetWin_1")   ' // Chrome
-```
-
-#### Remarks
-
-**AfxGetInternetExplorerHandle**, **AfxGetFireFoxHandle** and **AfxGetGoogleChromeHandle** are wrappers functions that call AfxGetBrowserHandle passing the appropriate class name ("IEFrame", "MozillaWindowClass" and "Chrome_WidgetWin_1").
-
-### AfxGetDefaultBrowserName
-
-Retrieves the name of the default browser.
-
-```
-FUNCTION AfxGetDefaultBrowserName () AS DWSTRING
-```
-
-#### Return value
-
-The retrieved name or an empty string.
-
----
-
 ### AfxGetDefaultBrowserPath
 
 Retrieves the path of the default browser.
@@ -4268,6 +4229,162 @@ FUNCTION AfxGetInternetExplorerVersion () AS SINGLE
 #### Return value
 
 The Internet Explorer version (major.minor).
+
+---
+
+### AfxInternetAttemptConnect
+
+Attempts to make a connection to the Internet.
+
+```
+FUNCTION AfxInternetAttemptConnect () AS DWORD
+```
+
+#### Return value
+
+Returns ERROR_SUCCESS if successful, or a system error code otherwise.
+
+#### Remarks
+
+This function allows an application to first attempt to connect before issuing any requests. A client program can use this to evoke the dial-up dialog box. If the attempt fails, the application should enter offline mode.
+
+Like all other aspects of the WinINet API, this function cannot be safely called from within DllMain or the constructors and destructors of global objects.
+
+#### Usage example
+
+```
+IF AfxInternetAttemptConnect = ERROR_SUCCESS THEN ? "You can connect to the Internet"
+```
+---
+
+### AfxInternetCheckConnection
+
+Checks if a connection to the Internet can be established.
+
+```
+FUNCTION AfxInternetCheckConnection (BYVAL pwszUrl AS WSTRING PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszUrl* | Pointer to a null-terminated string that specifies the URL to use to check the connection. |
+
+#### Return value
+
+Returns TRUE if a connection is made successfully, or FALSE otherwise. Use GetLastError to retrieve the error code. ERROR_NOT_CONNECTED is returned by GetLastError if a connection cannot be made or if the sockets database is unconditionally offline.
+
+#### Remarks
+
+**InternetCheckConnection** is deprecated. **InternetCheckConnection** does not work in environments that use a web proxy server to access the Internet. Depending on the environment, use **NetworkInformation.GetInternetConnectionProfile** or the NLM Interfaces to check for Internet access instead.
+
+#### Usage example
+
+```
+IF AfxInternetCheckConnection("https://www.freebasic.net/forum/viewforum.php?f=1") THEN ? "Connection succeeded!"
+```
+---
+
+### AfxInternetCanonicalizeUrl
+
+Canonicalizes a URL, which includes converting unsafe characters and spaces into escape sequences.
+
+```
+FUNCTION AfxInternetCanonicalizeUrl (BYVAL pwszUrl AS WSTRING PTR, BYVAL dwFlags AS DWORD = 0) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszUrl* | A pointer to the string that contains the URL to canonicalize. |
+| *dwFlags* | Controls canonicalization. If no flags are specified, the function converts all unsafe characters and meta sequences (such as .,\\ .., and ...) to escape sequences. This parameter can be one of the following values. |
+
+| Value  | Meaning |
+| ------ | ------- |
+| **ICU_BROWSER_MODE** | Does not encode or decode characters after "#" or "?", and does not remove trailing white space after "?". If this value is not specified, the entire URL is encoded and trailing white space is removed. |
+| **ICU_DECODE** | Converts all %XX sequences to characters, including escape sequences, before the URL is parsed. |
+| **ICU_ENCODE_PERCENT** | Encodes any percent signs encountered. By default, percent signs are not encoded. This value is available in Microsoft Internet Explorer 5 and later. |
+| **ICU_ENCODE_SPACES_ONLY** | Encodes spaces only. |
+| **ICU_NO_ENCODE** | Does not convert unsafe characters to escape sequences. |
+| **ICU_NO_META** | Does not remove meta sequences (such as "." and "..") from the URL. |
+
+#### Return value
+
+The canonicalized url on success or an empty string on failure.
+
+#### Usage example
+```
+PRINT AfxInternetCanonicalizeUrl("http://msdn2.microsoft.com/en-us/ library/")
+```
+---
+
+### AfxInternetCombineUrl
+
+Combines a base and relative URL into a single URL. The resultant URL is canonicalized.
+
+```
+FUNCTION AfxInternetCombineUrl (BYVAL pwszBaseUrl AS WSTRING PTR, BYVAL pwszRelativeUrl AS WSTRING PTR, _
+   BYVAL dwFlags AS DWORD = 0) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pwszBaseUrl* | Pointer to a null-terminated string that contains the base URL. |
+| *pwszRelativeUrl* | Pointer to a null-terminated string that contains the relative URL. |
+| *dwFlags* | Controls canonicalization. If no flags are specified, the function converts all unsafe characters and meta sequences (such as .,\\ .., and ...) to escape sequences. This parameter can be one of the following values. |
+
+| Value  | Meaning |
+| ------ | ------- |
+| **ICU_BROWSER_MODE** | Does not encode or decode characters after "#" or "?", and does not remove trailing white space after "?". If this value is not specified, the entire URL is encoded and trailing white space is removed. |
+| **ICU_DECODE** | Converts all %XX sequences to characters, including escape sequences, before the URL is parsed. |
+| **ICU_ENCODE_PERCENT** | Encodes any percent signs encountered. By default, percent signs are not encoded. This value is available in Microsoft Internet Explorer 5 and later. |
+| **ICU_ENCODE_SPACES_ONLY** | Encodes spaces only. |
+| **ICU_NO_ENCODE** | Does not convert unsafe characters to escape sequences. |
+| **ICU_NO_META** | Does not remove meta sequences (such as "." and "..") from the URL. |
+
+#### Return value
+
+The canonicalized url on success or an empty string on failure.
+
+#### Usage example
+```
+PRINT AfxInternetCombineUrl (BYVAL pwszBaseUrl AS WSTRING PTR, BYVAL pwszRelativeUrl AS WSTRING PTR, _
+   BYVAL dwFlags AS DWORD = 0) AS DWSTRING
+```
+---
+
+### AfxInternetGetConnectedState
+
+Retrieves the connected state of the local system.
+
+```
+FUNCTION AfxInternetGetConnectedState () AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE or FALSE.
+
+---
+
+### AfxInternetGetConnectionDescription
+
+Retrieves the connection description.
+
+```
+FUNCTION AfxInternetGetConnectionDescription () AS DWORD
+```
+
+#### Return value
+
+Can be a combination of the following values.
+
+| Name | Value  | Meaning |
+| ---- | ------ | ------- |
+| **INTERNET_CONNECTION_CONFIGURED** | &h40 | Local system has a valid connection to the Internet, but it might or might not be currently connected. |
+| **INTERNET_CONNECTION_LAN** | &h02 | Local system uses a local area network to connect to the Internet. |
+| **INTERNET_CONNECTION_MODEM** | &h01 | Local system uses a modem to connect to the Internet. |
+| **INTERNET_CONNECTION_MODEM_BUSY** | &h08 | No longer used. |
+| **INTERNET_CONNECTION_OFFLINE** | &h20 | Local system is in offline mode. |
+| **INTERNET_CONNECTION_PROXY** | &h04 | Local system uses a proxy server to connect to the Internet. |
 
 ---
 
