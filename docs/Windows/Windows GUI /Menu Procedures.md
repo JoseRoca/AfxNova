@@ -1491,9 +1491,8 @@ The return value is the identifier of the specified menu item. If the menu item 
 Calculates the size of a menu bar or a drop-down menu.
 
 ```
-FUNCTION FUNCTION MenuGetRect OVERLOAD (BYVAL hWin AS HWND, _
-   BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
-FUNCTION MenuGetRect OVERLOAD (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
+FUNCTION FUNCTION MenuGetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
+FUNCTION MenuGetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
