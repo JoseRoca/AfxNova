@@ -197,7 +197,7 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 
 ---
 
-## AfxAddIconToMenuItem
+### AfxAddIconToMenuItem
 
 Converts an icon handle to a bitmap and adds it to the specified *hbmpItem field* of **HMENU** item.
 
@@ -244,7 +244,7 @@ AfxAddIconToMenuItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_UNDO_
 ```
 ---
 
-## AfxCheckMenuItem
+### AfxCheckMenuItem
 
 Checks a menu item.
 
@@ -265,7 +265,7 @@ The return value specifies the previous state of the menu item (either MF_CHECKE
 
 ---
 
-## AfxDestroyMenu
+### AfxDestroyMenu
 
 Destroys the specified menu and frees any memory that the menu occupies.
 The second overloaded function destroys the menu attached to a window or dialog.
@@ -289,7 +289,7 @@ A boolean true (-1) pr false (0).
 
 ---
 
-## AfxDisableMenuItem
+### AfxDisableMenuItem
 
 Disables the specified menu item.
 
@@ -314,7 +314,7 @@ The application must call the **DrawMenuBar** function whenever a menu changes, 
 
 ---
 
-## AfxEnableMenuItem
+### AfxEnableMenuItem
 
 Enables the specified menu item.
 
@@ -339,7 +339,7 @@ The application must call the **DrawMenuBar** function whenever a menu changes, 
 
 ---
 
-## AfxGetMenuFont
+### AfxGetMenuFont
 
 Retrieves information about the font used in menu bars.
 
@@ -357,7 +357,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 ---
 
-## AfxGetMenuFontPointSize
+### AfxGetMenuFontPointSize
 
 Retrieves the point size of the font used in menu bars.
 
@@ -371,7 +371,7 @@ The point size of the font. If the function fails, the return value is 0.
 
 ---
 
-## AfxGetMenuItemState
+### AfxGetMenuItemState
 
 Retrieves the state of the specified menu item.
 
@@ -401,7 +401,7 @@ MFS_UNHILITE  The item is not highlighted.
 ```
 ---
 
-## AfxGetMenuItemText
+### AfxGetMenuItemText
 
 Retrieves the text of the specified menu item.
 
@@ -423,7 +423,7 @@ DIM dwsText AS DWSTRING = AfxGetMenuItemText(hMenu, 1, TRUE)
 ```
 ---
 
-## AfxGetMenuItemTextLen
+### AfxGetMenuItemTextLen
 
 Returns the lengnth of the specified menu item.
 
@@ -440,7 +440,7 @@ FUNCTION AfxGetMenuItemTextLen (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxGetMenuRect
+### AfxGetMenuRect
 
 Returns the dimensions of a menu bar or a drop-down menu.
 
@@ -455,7 +455,7 @@ FUNCTION AfxGetMenuRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU) AS RECT
 
 ---
 
-## AfxGrayMenuItem
+### AfxGrayMenuItem
 
 Grays the specified menu item.
 
@@ -480,7 +480,7 @@ The application must call the **DrawMenuBar** function whenever a menu changes, 
 
 ---
 
-## AfxHiliteMenuItem
+### AfxHiliteMenuItem
 
 Highlights the specified menu item.
 
@@ -505,7 +505,7 @@ The application must call the **DrawMenuBar** function whenever a menu changes, 
 
 ---
 
-## AfxIsMenuItemChecked
+### AfxIsMenuItemChecked
 
 Returns TRUE if the specified menu item is checked; FALSE otherwise.
 
@@ -522,7 +522,7 @@ FUNCTION AfxIsMenuItemChecked (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemDisabled
+### AfxIsMenuItemDisabled
 
 Returns TRUE if the specified menu item is disabled; FALSE otherwise.
 
@@ -539,7 +539,7 @@ FUNCTION AfxIsMenuItemDisabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemEnabled
+### AfxIsMenuItemEnabled
 
 Returns TRUE if the specified menu item is enabled; FALSE otherwise.
 
@@ -556,7 +556,7 @@ FUNCTION AfxIsMenuItemEnabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemGrayed
+### AfxIsMenuItemGrayed
 
 Returns TRUE if the specified menu item is grayed; FALSE otherwise.
 
@@ -573,7 +573,7 @@ FUNCTION AfxIsMenuItemGrayed (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemHighlighted
+### AfxIsMenuItemHighlighted
 
 Returns TRUE if the specified menu item is highlighted; FALSE otherwise.
 
@@ -590,7 +590,7 @@ FUNCTION AfxIsMenuItemHighlighted (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemOwnerdraw
+### AfxIsMenuItemOwnerdraw
 
 Returns TRUE if the specified menu item is a ownerdraw; FALSE otherwise.
 
@@ -607,7 +607,7 @@ FUNCTION AfxIsMenuItemOwnerdraw (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemPopup
+### AfxIsMenuItemPopup
 
 Returns TRUE if the specified menu item is a submenu; FALSE otherwise.
 
@@ -624,7 +624,7 @@ FUNCTION AfxIsMenuItemPopup (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxIsMenuItemSeparator
+### AfxIsMenuItemSeparator
 
 Returns TRUE if the specified menu item is a separator; FALSE otherwise.
 
@@ -641,7 +641,7 @@ FUNCTION AfxIsMenuItemSeparator (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 
 ---
 
-## AfxRemoveCloseMenu
+### AfxRemoveCloseMenu
 
 Removes the system menu close option and disables the X button.
 
@@ -659,7 +659,7 @@ TRUE or FALSE.
 
 ---
 
-## AfxRightJustifyMenuItem
+### AfxRightJustifyMenuItem
 
 Right justifies a top level menu item.
 
@@ -682,7 +682,7 @@ This is usually used to have the Help menu item right-justified on the menu bar.
 
 ---
 
-## AfxSetMenuItemBold
+### AfxSetMenuItemBold
 
 Changes the text of a menu item to bold.
 
@@ -701,7 +701,7 @@ If the function succeeds, the return value is TRUE. If the function fails, the r
 
 ---
 
-## AfxSetMenuItemState
+### AfxSetMenuItemState
 
 Sets the state of the specified menu item.
 
@@ -727,7 +727,7 @@ The application must call the **DrawMenuBar** function whenever a menu changes, 
 
 ---
 
-## AfxSetMenuItemText
+### AfxSetMenuItemText
 
 Sets the text of the specified menu item.
 
@@ -753,7 +753,7 @@ The application must call the **DrawMenuBar** function whenever a menu changes, 
 
 ---
 
-## AfxToggleMenuItem
+### AfxToggleMenuItem
 
 Toggles the checked state of a menu item.
 
@@ -774,7 +774,7 @@ The return value specifies the previous state of the menu item (either MF_CHECKE
 
 ---
 
-## AfxUnCheckMenuItem
+### AfxUnCheckMenuItem
 
 Unchecks a menu item.
 
@@ -795,7 +795,7 @@ The return value specifies the previous state of the menu item (either MF_CHECKE
 
 ---
 
-## IsMenuHandle
+### IsMenuHandle
 
 Determines whether a handle is a menu handle.
 
@@ -809,7 +809,7 @@ Returns TRUE if the specified handle is a menu handle; FALSE otherwise.
 
 ---
 
-## IsMenuItemChecked
+### IsMenuItemChecked
 
 Determines whether the specified menu item is checked.
 
@@ -823,7 +823,7 @@ Returns TRUE if the specified menu item is checked; FALSE otherwise.
 
 ---
 
-## IsMenuItemEnabled
+### IsMenuItemEnabled
 
 Determines whether the specified menu item is enabled.
 
@@ -837,8 +837,7 @@ Returns TRUE if the specified menu item is enabled; FALSE otherwise.
 
 ---
 
-
-## IsMenuItemDisabled
+### IsMenuItemDisabled
 
 Determines whether the specified menu item is disabled.
 
@@ -852,7 +851,7 @@ Returns TRUE if the specified menu item is disabled; FALSE otherwise.
 
 ---
 
-## IsMenuItemGrayed
+### IsMenuItemGrayed
 
 Determines whether the specified menu item is grayed.
 
@@ -866,7 +865,7 @@ Returns TRUE if the specified menu item is grayed; FALSE otherwise.
 
 ---
 
-## IsMenuItemHighlighted
+### IsMenuItemHighlighted
 
 Determines whether the specified menu item is highlighted.
 
@@ -880,7 +879,7 @@ Returns TRUE if the specified menu item is highlighted; FALSE otherwise.
 
 ---
 
-## IsMenuItemSeparator
+### IsMenuItemSeparator
 
 Determines whether the specified menu item is a separator.
 
@@ -894,7 +893,7 @@ Returns TRUE if the specified menu item is a separator; FALSE otherwise.
 
 ---
 
-## IsMenuItemOwnerdraw
+### IsMenuItemOwnerdraw
 
 Determines whether the specified menu item is ownerdraw.
 
@@ -908,7 +907,7 @@ Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise.
 
 ---
 
-## IsMenuItemPopup
+### IsMenuItemPopup
 
 Determines whether the specified menu item is a popup item.
 
@@ -922,7 +921,7 @@ Returns TRUE if the specified menu item is a popup item; FALSE otherwise.
 
 ---
 
-## MenuAddIconToItem
+### MenuAddIconToItem
 
 Converts an icon to a bitmap and adds it to the specified hbmpItem field of HMENU item. The caller is responsible for destroying the bitmap generated. The icon will be destroyed if *fAutoDestroy* is set to true. The *hbmpItem* field of the menu item can be used to keep track of the bitmap by passing NULL to *phbmp*.
 
@@ -946,7 +945,7 @@ Returns TRUE if the function succeeds; FALSE otherwise. To get extended error in
 
 ---
 
-## MenuAddBitmapToItem
+### MenuAddBitmapToItem
 
 Adds a bitmap to the menu item.
 
@@ -968,7 +967,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## MenuAddPopup
+### MenuAddPopup
 
 Adds a popup child menu to an existing menu. A popup menu is a small window that "pops up" when a menu item is highlighted. This allows nesting, and gives the user an opportunity to choose from "sub-menu" items.
 
@@ -992,7 +991,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## MenuAddString
+### MenuAddString
 
 Adds a string or separator to an existing menu. A string may contain an optional command accelerator key, and also describe an equivalent keyboard accelerator combination.
 
@@ -1029,7 +1028,7 @@ MenuAddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, ID_OPEN, FALSE   ' insert b
 ```
 ---
 
-## MenuAttach
+### MenuAttach
 
 Attaches a menu to a window or dialog.
 
@@ -1047,7 +1046,7 @@ The Windows API function **SetMenu** performs the same action.
 
 ---
 
-## MenuBoldItem
+### MenuBoldItem
 
 Changes the text of a menu item to bold.
 
@@ -1066,7 +1065,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## MenuCheckItem
+### MenuCheckItem
 
 Checks a menu item.
 
@@ -1086,7 +1085,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## MenuCheckRadioButton
+### MenuCheckRadioButton
 
 Checks a specified menu item and makes it a radio item. At the same time, the function clears all other menu items in the associated group and clears the radio-item type flag for those items.
 
@@ -1113,7 +1112,7 @@ MenuCheckRadioButton(GetSubMenu(hMenu, 0), 1, 2, 2, TRUE)   ' By position
 ```
 ---
 
-## MenuContext
+### MenuContext
 
 Creates a floating context menu.
 
@@ -1166,7 +1165,7 @@ RETURN TRUE
 ```
 ---
 
-## MenuDelete
+### MenuDelete
 
 Deletes a menu item from an existing menu.
 
@@ -1185,7 +1184,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## MenuDestroy
+### MenuDestroy
 
 Destroys the main menu from the window or dialog.
 
@@ -1202,7 +1201,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## MenuDisableItem
+### MenuDisableItem
 
 Disables the specified menu item.
 
@@ -1225,7 +1224,7 @@ The application must call the **MenuDrawBar** function whenever a menu changes, 
 
 ---
 
-## MenuDrawBar
+### MenuDrawBar
 
 Redraws the menu bar of the specified window or dialog. If the menu bar changes after the system has created the window or dialog, this function must be called to draw the changed menu bar.
 
@@ -1246,7 +1245,7 @@ This operation should be performed when a menu is altered dynamically after the 
 
 ---
 
-## MenuEnableItem
+### MenuEnableItem
 
 Enables the specified menu item.
 
@@ -1269,7 +1268,7 @@ The application must call the **MenuDrawBar** function whenever a menu changes, 
 
 ---
 
-## MenuFindItemPosition
+### MenuFindItemPosition
 
 Finds the position of the specified menu item.
 
@@ -1293,7 +1292,7 @@ To get extended error information, use the **GetLastError** function.
 
 ---
 
-## MenuGetBarInfo
+### MenuGetBarInfo
 
 Retrieves information about the specified menu bar.
 
@@ -1312,7 +1311,7 @@ A **MENUBARINFO** structure.
 
 ---
 
-## MenuGetCheckMarkHeight
+### MenuGetCheckMarkHeight
 
 Retrieves the height of the default check-mark bitmap. The system displays this bitmap next to selected menu items. Before calling the **MenuSetItemBitmaps** function to replace the default check-mark bitmap for a menu item, an application must determine the correct bitmap size by calling **MenuGetCheckMarkWidth** and **MenuGetCheckMarkHeight**.
 
@@ -1326,7 +1325,7 @@ Returns the height of the default check-mark bitmap.
 
 ---
 
-## MenuGetCheckMarkWidth
+### MenuGetCheckMarkWidth
 
 Retrieves the width of the default check-mark bitmap. The system displays this bitmap next to selected menu items. Before calling the **MenuSetItemBitmaps** function to replace the default check-mark bitmap for a menu item, an application must determine the correct bitmap size by calling **MenuGetCheckMarkWidth** and **MenuGetCheckMarkHeight**.
 
@@ -1340,7 +1339,7 @@ Returns the width of the default check-mark bitmap.
 
 ---
 
-## MenuGetContextHelpId
+### MenuGetContextHelpId
 
 Retrieves the Help context identifier associated with the specified menu.
 
@@ -1358,7 +1357,7 @@ Returns the Help context identifier if the menu has one, or zero otherwise.
 
 ---
 
-## MenuGetDefaultItem
+### MenuGetDefaultItem
 
 Determines the default menu item on the specified menu.
 
@@ -1378,7 +1377,7 @@ If the function succeeds, the return value is the identifier or position of the 
 
 ---
 
-## MenuGetFont
+### MenuGetFont
 
 Retrieves information about the font used in menu bars.
 
@@ -1396,7 +1395,7 @@ A **LOGFONTW** structure that contains information about the font used in menu b
 
 ---
 
-## MenuGetFontPointSize
+### MenuGetFontPointSize
 
 Retrieves the point size of the font used in menu bars.
 
@@ -1410,7 +1409,7 @@ The point size of the font used in menu bars. If the function fails, the return 
 
 ---
 
-## MenuGetHandle
+### MenuGetHandle
 
 Retrieves a handle to the menu assigned to the specified window or dialog. 
 
@@ -1431,7 +1430,7 @@ The return value is a handle to the menu. If the specified window has no menu, t
 
 ---
 
-## MenuGetItemCount
+### MenuGetItemCount
 
 Determines the number of items in the specified menu.
 
@@ -1450,7 +1449,7 @@ If the function fails, the return value is -1. To get extended error information
 
 ---
 
-## MenuGetItemFromPoint
+### MenuGetItemFromPoint
 
 Determines which menu item, if any, is at the specified location.
 
@@ -1469,7 +1468,7 @@ Returns the zero-based position of the menu item at the specified location or -1
 
 ---
 
-## MenuGetItemID
+### MenuGetItemID
 
 Retrieves the menu item ID of a menu item located at the specified position in a menu.
 
@@ -1487,7 +1486,7 @@ The return value is the identifier of the specified menu item. If the menu item 
 
 ---
 
-## MenuGetRect
+### MenuGetRect
 
 Calculates the size of a menu bar or a drop-down menu.
 
@@ -1510,7 +1509,7 @@ The second overloaded function returns a **RECT** structure directly.
 
 ---
 
-## MenuGetState
+### MenuGetState
 
 Retrieves the state of the specified menu item.
 
@@ -1541,7 +1540,7 @@ FUNCTION MenuGetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 
 ---
 
-## MenuGetSubMenu
+### MenuGetSubMenu
 
 Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
 
@@ -1559,7 +1558,7 @@ If the function succeeds, the return value is a handle to the drop-down menu or 
 
 ---
 
-## MenuGetSubmenusCount
+### MenuGetSubmenusCount
 
 Retrieves the number of submenus of a menu.
 
@@ -1576,7 +1575,7 @@ The number of submenus.
 
 ---
 
-## MenuGetText
+### MenuGetText
 
 Retrieves the text of the specified menu item.
 
@@ -1597,7 +1596,7 @@ The retrieved text.
 
 ---
 
-## MenuGetTextLen
+### MenuGetTextLen
 
 Returns the lengnth of the text of the specified menu item.
 
@@ -1618,7 +1617,7 @@ The length of the text.
 
 ---
 
-## MenuGetWindowOwner
+### MenuGetWindowOwner
 
 Retrieves the window owner of the specified menu
 
@@ -1636,7 +1635,7 @@ The handle of the window that owns the menu.
 
 ---
 
-## MenuGetWindowOwner
+### MenuGetWindowOwner
 
 Retrieves the window owner of the specified menu.
 
@@ -1654,7 +1653,7 @@ The handle of the window that owns the menu.
 
 ---
 
-## MenuGetSystemMenuHandle
+### MenuGetSystemMenuHandle
 
 Retrieves the system menu handle.
 
@@ -1673,7 +1672,7 @@ If the *bRevert* parameter is FALSE, the return value is a handle to a copy of t
 
 ---
 
-## MenuGrayItem
+### MenuGrayItem
 
 Grays the specified menu item.
 
@@ -1698,7 +1697,7 @@ The application must call the **MenuDrawBar** function whenever a menu changes, 
 
 ---
 
-## MenuHiliteItem
+### MenuHiliteItem
 
 Highlights the specified menu item.
 
@@ -1723,7 +1722,7 @@ The application must call the **MenuDrawBar** function whenever a menu changes, 
 
 ---
 
-## MenuItemToggleCheckState
+### MenuItemToggleCheckState
 
 Toggles the checked state of a menu item.
 
@@ -1748,7 +1747,7 @@ The application must call the **MenuDrawBar** function whenever a menu changes, 
 
 ---
 
-## MenuNewBar
+### MenuNewBar
 
 Creates a menu.
 
@@ -1768,7 +1767,7 @@ Instead of **MenuNewBar** you can call the Windows API function **CreateMenu**.
 
 ---
 
-## MenuNewPopup
+### MenuNewPopup
 
 Creates a drop-down menu, submenu, or shortcut menu.
 
@@ -1788,7 +1787,7 @@ Instead of **MenuNewPopup** you can call the Windows API function **CreatePopupM
 
 ---
 
-## MenuRemoveCloseOptiom
+### MenuRemoveCloseOptiom
 
 Removes the system menu close option and disables the X button.
 
@@ -1806,7 +1805,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 ---
 
-## MenuRestoreCloseOptiom
+### MenuRestoreCloseOptiom
 
 Restores the system menu close option and enables Alt+F4 and the X button.
 
@@ -1824,7 +1823,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 ---
 
-## MenuRightJustifyItem
+### MenuRightJustifyItem
 
 Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar.
 
@@ -1849,7 +1848,7 @@ MenuRightJustifyItem(hMenu, ID_EXIT)
 ```
 ---
 
-## MenuSetContextHelpId
+### MenuSetContextHelpId
 
 Associates a Help context identifier with a menu.
 
@@ -1870,7 +1869,7 @@ To retrieve extended error information, call **GetLastError**.
 
 ---
 
-## MenuSetDefaultItem
+### MenuSetDefaultItem
 
 Sets the default menu item for the specified menu.
 
@@ -1893,7 +1892,7 @@ If the function fails, the return value is zero. To get extended error informati
 
 ---
 
-## MenuSetItemBitmaps
+### MenuSetItemBitmaps
 
 Associates the specified bitmap with a menu item. Whether the menu item is selected or clear, the system displays the appropriate bitmap next to the menu item.
 
@@ -1929,7 +1928,7 @@ Use the **GetSystemMetrics** function with the **SM_CXMENUCHECK** and **SM_CYMEN
 
 ---
 
-## MenuSetState
+### MenuSetState
 
 Sets the state of the specified menu item.
 
@@ -1955,7 +1954,7 @@ The application must call the **MenuDrawBar** function whenever a menu changes, 
 
 ---
 
-## MenuSetText
+### MenuSetText
 
 Sets the text of the specified menu item.
 
@@ -1977,7 +1976,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 ---
 
-## MenuUnCheckItem
+### MenuUnCheckItem
 
 Unchecks a menu item.
 
@@ -1997,7 +1996,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## <a name="cwindowmenu"></a>CWindow Menu
+### <a name="cwindowmenu"></a>CWindow Menu
 
 Builds a menu using `CWindow`and the Windows API.
 
@@ -2295,7 +2294,7 @@ END FUNCTION
 ```
 ---
 
-## <a name="cdialogmenu"></a>CDialog Menu
+### <a name="cdialogmenu"></a>CDialog Menu
 
 Builds a menu using `CDialog`and the DDT wrappers.
 
