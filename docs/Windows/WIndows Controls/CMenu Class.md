@@ -100,7 +100,9 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 
 | Name       | Description |
 | ---------- | ----------- |
+| [AddBitmapToItem](#addbitmaptoitem) | Adds a bitmap to the menu item. |
 | [AddPopup](#addpopup) | Adds a popup child menu to an existing menu. |
+| [AddString](#addstring) | Adds a string or separator to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
 | [Attach](#attach) | Attaches a menu to a window or dialog. |
 | [BoldItem](#checkitem) | Changes the text of a menu item to bold. |
@@ -112,6 +114,7 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [DisableItem](#disableitem) | Disables the specified menu item. |
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
 | [EnableItem](#enableitem) | Enables the specified menu item. |
+| [FindItemPosition](#finditemposition) | Finds the position of the specified menu item. |
 | [GetFont](#getfont) | Retrieves information about the font used in menu bars. |
 | [GetFontPointSize](#getfontpointsize) | Retrieves the point size of the font used in menu bars. |
 | [GetHandle](#gethandle) | Retrieves a handle to the menu assigned to the specified window or dialog.  |
@@ -121,9 +124,11 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
 | [GetItemTextLen](#getitemtextlen) | Returns the lengnth of the specified menu item. |
 | [GetRect](#getrect) | Calculates the size of a menu bar or a drop-down menu. |
+| [GetState](#getstate) | Retrieves the state of the specified menu item. |
 | [GetSubMenu](#ghetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
 | [GetSubmenusCount](#ghetsubmenuscount) | Retrieves the number of submenus of a menu. |
 | [GetSystemMenuHandle](#getsystemmenuhandle) | Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying. |
+| [GetWindowOwner](#ghetwindowowner) | Retrieves the window owner of the specified menu |
 | [GrayItem](#grayitem) | Grays the specified menu item. |
 | [HiliteItem](#hiliteitem) | Highlights the specified menu item. |
 | [IsItemChecked](#isitemchecked) | Returns TRUE if the specified menu item is checked; FALSE otherwise. |
@@ -134,14 +139,19 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [IsItemOwnerdraw](#isitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
 | [IsItemPopup](#isitempopup) | Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
 | [IsItemSeparator](#isitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
+| [IsMenu](#ismenu) | Determines whether a handle is a menu handle. |
+| [IsMenuHandle](#ismenuhadle) | Determines whether a handle is a menu handle. |
 | [NewBar](#newbar) | Creates a new menu bar. |
 | [NewPopup](#newpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
+| [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#removeitem) | Deletes a menu item from an existing menu. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
 | [SetItemBold](#setitembold) | Changes the text of a menu item to bold. |
 | [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
 | [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
+| [SetState](#setstate) | Sets the state of the specified menu item. |
+| [ToggleCheckState](#togglecheckstate) | Toggles the checked state of a menu item. |
 | [ToggleItem](#toggleitem) | Toggles the checked state of a menu item. |
 | [UncheckItem](#uncheckitem) | Unchecks a menu item. |
 
