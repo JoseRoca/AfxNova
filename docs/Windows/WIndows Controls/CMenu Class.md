@@ -632,21 +632,261 @@ To get extended error information, use the **GetLastError** function.
 
 ---
 
+### GetBarInfo
+
+Retrieves information about the specified menu bar.
+
+```
+FUNCTION GetBarInfo (BYVAL hwnd AS HWND, BYVAL idObject AS LONG, BYVAL idItem AS LONG, BYVAL pmbi AS MENUBARINFO PTR) AS BOOLEAN
+FUNCTION GetBarInfo (BYVAL hwnd AS HWND, BYVAL idObject AS LONG, BYVAL idItem AS LONG, BYREF mbi AS MENUBARINFO) AS BOOLEAN
+FUNCTION GetBarInfo (BYVAL hWin AS HWND, BYVAL idObject AS LONG, BYVAL idItem AS LONG) AS MENUBARINFO
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | A handle to the window or dialog that owns the menu bar. |
+| *idObject* | The menu object. This parameter can be one of the following values:<br>OBJID_CLIENT: &hFFFFFFFC - The popup menu associated with the window.<br>OBJID_MENU: &hFFFFFFFD - The menu bar associated with the window<br>OBJID_SYSMENU: &hFFFFFFFF - The system menu associated with the window |
+| *idItem* | The item for which to retrieve information. If this parameter is zero, the function retrieves information about the menu itself. If this parameter is 1, the function retrieves information about the first item on the menu, and so on. |
+
+#### Return value
+
+A **MENUBARINFO** structure.
+
+---
+
+### GetCheckMarkHeight
+
+Retrieves the height of the default check-mark bitmap. The system displays this bitmap next to selected menu items. Before calling the **SetItemBitmaps** function to replace the default check-mark bitmap for a menu item, an application must determine the correct bitmap size by calling **GetCheckMarkWidth** and **GetCheckMarkHeight**.
+
+```
+FUNCTION GetCheckMarkHeight () AS LONG
+```
+
+#### Return value
+
+Returns the height of the default check-mark bitmap.
+
+---
+
+### GetCheckMarkWidth
+
+Retrieves the width of the default check-mark bitmap. The system displays this bitmap next to selected menu items. Before calling the **SetItemBitmaps** function to replace the default check-mark bitmap for a menu item, an application must determine the correct bitmap size by calling **GetCheckMarkWidth** and **GetCheckMarkHeight**.
+
+```
+FUNCTION GetCheckMarkWidth () AS LONG
+```
+
+#### Return value
+
+Returns the width of the default check-mark bitmap.
+
+---
+
+### GetContextHelpId
+
+Retrieves the Help context identifier associated with the specified menu.
+
+```
+FUNCTION GetCheckMarkHeight () AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu for which the Help context identifier is to be retrieved. |
+
+#### Return value
+
+Returns the Help context identifier if the menu has one, or zero otherwise.
+
+---
+
+### GetDefaultItem
+
+Determines the default menu item on the specified menu.
+
+```
+FUNCTION GetDefaultItem (BYVAL hMenu AS HMENU, BYVAL gmdiFlags AS UINT = 0, BYVAL fByPosition AS BOOLEAN = TRUE) AS LONG
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu for which to retrieve the default menu item. |
+| *gmdiFlags* | Indicates how the function should search for menu items. This parameter can be zero or more of the following values.<br>GMDI_GOINTOPOPUPS &H0002 : If the default item is one that opens a submenu, the function is to search recursively in the corresponding submenu. If the submenu has no default item, the return value identifies the item that opens the submenu. By default, the function returns the first default item on the specified menu, regardless of whether it is an item that opens a submenu.<br>GMDI_USEDISABLED &h0001: The function is to return a default item, even if it is disabled. By default, the function skips disabled or grayed items. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+If the function succeeds, the return value is the identifier or position of the menu item. If the function fails, the return value is 0. To get extended error information, call **GetLastError**.
+
+---
+
+### GetFont
+
+Retrieves information about the font used in menu bars.
+
+```
+FUNCTION GetFont () AS LOGFONTW
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu for which to retrieve the default menu item. |
+
+#### Return value
+
+A **LOGFONTW** structure that contains information about the font used in menu bars.
+
+---
+
+### GetFontPointSize
+
+Retrieves the point size of the font used in menu bars.
+
+```
+FUNCTION GetFontPointSize () AS LONG
+```
+
+#### Return value
+
+The point size of the font used in menu bars. If the function fails, the return value is 0.
+
+---
+
+### GetHandle
+
+Retrieves a handle to the menu assigned to the specified window or dialog. 
+
+```
+FUNCTION GetHandle (BYVAL hWin AS HWND) AS HMENU
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | A handle to the window or dialog whose menu handle is to be retrieved. |
+
+#### Return value
+
+The return value is a handle to the menu. If the specified window has no menu, the return value is NULL. If the window is a child window, the return value is undefined.
+
+#### Remarks
+
+**GetHandle** does not work on floating menu bars. Floating menu bars are custom controls that mimic standard menus; they are not menus. To get the handle on a floating menu bar, use the Active Accessibility APIs. The Windows API **GetMenu** function can be used instead of **CMenu.GetHandle**.
+
+---
+
+### GetInfo
+
+Gets information for a specified menu.
+
+```
+FUNCTION GetInfo (BYVAL hMenu AS HMENU, BYVAL pmi AS MENUINFO PTR) AS BOOLEAN
+FUNCTION GetInfo (BYVAL hMenu AS HMENU, BYREF mi AS MENUINFO) AS BOOLEAN
+FUNCTION GetInfo (BYVAL hMenu AS HMENU) AS MENUINFO
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | A handle to the window or dialog whose menu handle is to be retrieved. |
+| *pmi* | A pointer to a **MENUINFO** structure containing information for the menu. |
+| *mi* | A pointer to a **MENUINFO** structure containing information for the menu. |
+
+#### Return value
+
+If the function succeeds, the return value is nonzero.
+
+If the function fails, the return value is zero. To get extended error information, call **GetLastError**.
+
+The third oveloaded function returns a **MENUINFO** directly.
+
+---
+
+### GetItemCount
+
+Determines the number of items in the specified menu.
+
+```
+FUNCTION GetItemCount (BYVAL hMenu AS HMENU) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu to be examined. |
+
+#### Return value
+
+If the function succeeds, the return value specifies the number of items in the menu.
+
+If the function fails, the return value is -1. To get extended error information, call **GetLastError**.
+
+---
+
+### GetItemFromPoint
+
+Determines which menu item, if any, is at the specified location.
+
+```
+FUNCTION GetItemFromPoint (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL ptScreen AS POINT) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | A handle to the window containing the menu. If this value is NULL and the hMenu parameter represents a popup menu, the function will find the menu window. |
+| *hMenu* | A handle to the menu containing the menu items to hit test. |
+| *ptScreen* | A structure that specifies the location to test. If *hMenu* specifies a menu bar, this parameter is in window coordinates. Otherwise, it is in client coordinates. |
+
+#### Return value
+
+Returns the zero-based position of the menu item at the specified location or -1 if no menu item is at the specified location.
+
+---
+
+### GetItemID
+
+Retrieves the menu item ID of a menu item located at the specified position in a menu.
+
+```
+FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the item whose identifier is to be retrieved. |
+| *nPos* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+
+#### Return value
+
+The return value is the identifier of the specified menu item. If the menu item identifier is NULL or if the specified item opens a submenu, the return value is -1.
+
+---
+
+### GetItemInfo
+
+Retrieves information about a menu item.
+
+```
+FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, _
+   BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
+FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, _
+   BYREF mii AS MENUITEMINFOW) AS BOOLEAN
+FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN) AS MENUITEMINFOW
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPositon* | The meaning of *item*. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position |
+| *pmii* | A pointer to a **MENUITEMINFO** structure that specifies the information to retrieve and receives information about the menu item. Note that you must set the **cbSize** member to sizeof(MENUITEMINFO) before calling this function. |
+| *mii* | A **MENUITEMINFO** structure that specifies the information to retrieve and receives information about the menu item. Note that you must set the **cbSize** member to sizeof(MENUITEMINFO) before calling this function. |
+
+#### Return value
+
+If the function succeeds, the return value is nonzero.
+
+If the function fails, the return value is zero. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+To retrieve a menu item of type **MFT_STRING**, first find the size of the string by setting the **dwTypeData** member of **MENUITEMINFO** to NULL and then calling **CMenu.GetItemInfo**. The value of **cch**+1 is the size needed. Then allocate a buffer of this size, place the pointer to the buffer in **dwTypeData**, increment cch by one, and then call **CMenu.GetItemInfo** once again to fill the buffer with the string.
+
+If the retrieved menu item is of some other type, then **CMenu.GetItemInfo** sets the **dwTypeData** member to a value whose type is specified by the **fTypefType** member and sets **cch** to 0.
+
 ++++++++++++++
 
-| [GetBarInfo](#getarinfo) | Retrieves information about the specified menu bar. |
-| [GetCheckMarkHeight](#getcheckmarkheight) | Retrieves the height of the default check-mark bitmap. |
-| [GetCheckMarkWidth](#getcheckmarkwidth) | Retrieves the width of the default check-mark bitmap. |
-| [GetContextHelpId](#getcontexthelpid) | Retrieves the Help context identifier associated with the specified menu. |
-| [GetDefaultItem](#getdefaultitem) | Determines the default menu item on the specified menu. |
-| [GetFont](#getfont) | Retrieves information about the font used in menu bars. |
-| [GetFontPointSize](#getfontpointsize) | Retrieves the point size of the font used in menu bars. |
-| [GetHandle](#gethandle) | Retrieves a handle to the menu assigned to the specified window or dialog.  |
-| [GetInfo](#getinfo) | Gets information for a specified menu. |
-| [GetItemCount](#getitemcount) | Determines the number of items in the specified menu. |
-| [GetItemFromPoint](#getitemfrompoint) | Determines which menu item, if any, is at the specified location. |
-| [GetItemID](#getitemid) | Retrieves the menu item ID of a menu item located at the specified position in a menu. |
-| [GetItemInfo](#getiteminfo) | Retrieves information about a menu item. |
 | [GetItemRect](#getitemrect) | Retrieves the bounding rectangle for the specified menu item. |
 | [GetItemState](#getitemstate) | Retrieves the state of the specified menu item. |
 | [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
