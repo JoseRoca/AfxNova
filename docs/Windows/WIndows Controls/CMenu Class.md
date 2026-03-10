@@ -102,7 +102,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [IsItemPopup](#isitempopup) | Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
 | [IsItemSeparator](#isitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
 | [IsMenu](#ismenu) | Determines whether a handle is a menu handle. |
-| [IsMenuHandle](#ismenuhadle) | Determines whether a handle is a menu handle. |
+| [IsMenuHandle](#ismenu) | Determines whether a handle is a menu handle. |
 | [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
 | [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
 | [Modify](#modify) | Changes an existing menu item. |
@@ -887,6 +887,32 @@ If the retrieved menu item is of some other type, then **CMenu.GetItemInfo** set
 
 ---
 
+### GetItemRect
+
+Retrieves the bounding rectangle for the specified menu item.
+
+```
+FUNCTION GetItemRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYVAL uItem AS UINT, BYVAL prcItem AS RECT PTR) AS BOOLEAN
+FUNCTION GetItemRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYVAL uItem AS UINT, BYREF rcItem AS RECT) AS BOOLEAN
+FUNCTION GetItemRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
+| *hmenu* | The handle of the menu. |
+| *uItem* | The one-based relative position of the menu item. |
+| *prcItem* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+| *rcItem* | A **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+
+#### Return value
+
+If the function succeeds, the return value is 0. If the function fails, the return value is a system error code.
+
+The third overloaded method returns a **RECT** structure directly.
+
+---
+
 ### GetItemState
 
 Retrieves the state of the specified menu item.
@@ -965,42 +991,319 @@ Calculates the size of a menu bar or a drop-down menu.
 ```
 FUNCTION GetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
 FUNCTION GetRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYREF rcmenu AS RECT) AS LONG
-FUNCTION MenuGetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
+FUNCTION GetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
-| *hmenu* | The one-based relative position of the menu item whose identifier is to be retrieved. |
-| *prcmenu* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
-| *prcmenu* | A **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+| *hmenu* | The handle of the menu. |
+| *prcmenu* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu expressed in screen coordinates. |
+| *prcmenu* | A **RECT** structure that receives the bounding rectangle of the specified menu expressed in screen coordinates. |
 
 #### Return value
 
 If the function succeeds, the return value is 0. If the function fails, the return value is a system error code.
 
-The third overloaded function returns a **RECT** structure directly.
+The third overloaded method returns a **RECT** structure directly.
+
+---
+
+### GetState
+
+Retrieves the state of the specified menu item.
+
+```
+FUNCTION GetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS UINT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+0 on failure or one or more of the following values:
+
+| Value  | Description |
+| ------ | ----------- |
+| **MFS_CHECKED** | The item is checked. |
+| **MFS_DEFAULT** | The menu item is the default. |
+| **MFS_DISABLED** | The item is disabled. |
+| **MFS_ENABLED** | The item is enabled. |
+| **MFS_GRAYED** | The item is grayed. |
+| **MFS_HILITE** | The item is highlighted. |
+| **MFS_UNCHECKED** | The item is unchecked. |
+| **MFS_UNHILITE** | The item is not highlighted. |
+
+---
+
+### GetSubMenu
+
+Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+
+```
+FUNCTION GetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+| *nPos* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item. If the menu item does not activate a drop-down menu or submenu, the return value is NULL.
+
+---
+
+### GetSubmenusCount
+
+Retrieves the number of submenus of a menu.
+
+```
+FUNCTION GetSubmenusCount(BYVAL hMenu AS HMENU) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+
+#### Return value
+
+The number of submenus.
+
+---
+
+### GetSystemMenuHandle
+
+Retrieves the system menu handle.
+
+```
+FUNCTION GetSystemMenuHandle (BYVAL hwnd AS HWND, BYVAL bRevert AS BOOLEAN = FALSE) AS HMENU
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+| *bRevert* | The action to be taken. If this parameter is FALSE, **MenuGetSystemMenuHandle** returns a handle to the copy of the window menu currently in use. The copy is initially identical to the window menu, but it can be modified. If this parameter is TRUE, **MenuGetSystemMenuHandle** resets the window menu back to the default state. The previous window menu, if any, is destroyed. |
+
+#### Return value
+
+If the *bRevert* parameter is FALSE, the return value is a handle to a copy of the window menu. If the *bRevert* parameter is TRUE, the return value is NULL.
+
+---
+
+### GetWindowOwner
+
+Retrieves the window owner of the specified menu
+
+```
+FUNCTION GetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu. |
+
+#### Return value
+
+The handle of the window that owns the menu.
+
+---
+
+### GrayItem
+
+Grays the specified menu item.
+
+```
+FUNCTION GrayItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
+
+### HiliteItem
+
+Highlights the specified menu item.
+
+```
+FUNCTION HiliteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
+
+### IsItemChecked
+
+Returns TRUE if the specified menu item is checked; FALSE otherwise.
+
+```
+FUNCTION IsItemChecked (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsItemDisabled
+
+Returns TRUE if the specified menu item is disabled; FALSE otherwise.
+
+```
+FUNCTION IsItemDisabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsItemEnabled
+
+Returns TRUE if the specified menu item is enabled; FALSE otherwise.
+
+```
+FUNCTION IsItemEnabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsItemGrayed
+
+Returns TRUE if the specified menu item is grayed; FALSE otherwise.
+
+```
+FUNCTION IsItemGrayed (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsItemHighlighted
+
+Returns TRUE if the specified menu item is highlighted; FALSE otherwise.
+
+```
+FUNCTION IsItemHighlighted (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsItemOwnerdraw
+
+Returns TRUE if the specified menu item is a ownerdraw; FALSE otherwise.
+
+```
+FUNCTION IsItemOwnerdraw (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsItemPopup
+
+Returns TRUE if the specified menu item is a submenu; FALSE otherwise.
+
+```
+FUNCTION IsItemPopup (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsItemSeparator
+
+Returns TRUE if the specified menu item is a separator; FALSE otherwise.
+
+```
+FUNCTION IsItemSeparator (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+---
+
+### IsMenu
+
+Determines whether a handle is a menu handle.
+
+```
+FUNCTION IsMenu (BYVAL hMenu AS HMENU) AS BOOLEAN
+FUNCTION IsMenuHandle (BYVAL hMenu AS HMENU) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the specified handle is a menu handle; FALSE otherwise.
 
 ---
 
 ++++++++++++++
 
-| [GetState](#getstate) | Retrieves the state of the specified menu item. |
-| [GetSubMenu](#ghetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
-| [GetSubmenusCount](#ghetsubmenuscount) | Retrieves the number of submenus of a menu. |
-| [GetSystemMenuHandle](#getsystemmenuhandle) | Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying. |
-| [GetWindowOwner](#ghetwindowowner) | Retrieves the window owner of the specified menu |
-| [GrayItem](#grayitem) | Grays the specified menu item. |
-| [HiliteItem](#hiliteitem) | Highlights the specified menu item. |
-| [IsItemChecked](#isitemchecked) | Returns TRUE if the specified menu item is checked; FALSE otherwise. |
-| [IsItemDisabled](#isitemdisabled) | Returns TRUE if the specified menu item is enabled; FALSE otherwise. |
-| [IsItemEnabled](#isitemenabled) | Returns TRUE if the specified menu item is disabled; FALSE otherwise. |
-| [IsItemGrayed](#isitemgrayed) | Returns TRUE if the specified menu item is grayed; FALSE otherwise. |
-| [IsItemHighlighted](#isitemhighlighted) | Returns TRUE if the specified menu item is highlighted; FALSE otherwise. |
-| [IsItemOwnerdraw](#isitemownerdraw) | Returns TRUE if the specified menu item is ownerdraw; FALSE otherwise. |
-| [IsItemPopup](#isitempopup) | Returns TRUE if the specified menu item is a submenu; FALSE otherwise. |
-| [IsItemSeparator](#isitemseparator) | Returns TRUE if the specified menu item is a separator; FALSE otherwise. |
-| [IsMenu](#ismenu) | Determines whether a handle is a menu handle. |
-| [IsMenuHandle](#ismenuhadle) | Determines whether a handle is a menu handle. |
 | [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
 | [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
 | [Modify](#modify) | Changes an existing menu item. |
