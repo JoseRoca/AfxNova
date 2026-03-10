@@ -4388,6 +4388,20 @@ Can be a combination of the following values.
 
 ---
 
+### AfxInternetGetConnectionName
+
+Retrieves the connection name.
+
+```
+FUNCTION AfxInternetGetConnectionDescription () AS DWORD
+```
+
+#### Return value
+
+Returns the connection name on success or an empty string on failure.
+
+---
+
 ### AfxHiMetricToPixelsX
 
 Converts from HiMetric to Pixels (horizontal resolution). Himetric is a scaling unit similar to twips used in computing. It is one thousandth of a centimeter and is independent of the screen resolution. HiMetric per inch = 2540; 1 inch = 2.54 mm.
