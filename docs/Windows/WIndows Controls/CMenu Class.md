@@ -131,7 +131,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 
 ---
 
-## AddBitmapToItem
+### AddBitmapToItem
 
 Adds a bitmap to the menu item.
 
@@ -153,7 +153,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
-## AddBitmapToMenuItem
+### AddBitmapToMenuItem
 
 Adds a bitmap to the menu item.
 
@@ -174,7 +174,8 @@ FUNCTION AddBitmapToMenuItem (BYVAL hMenu AS HMENU, BYVAL nMenuItem AS LONG, _
 Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
-## AddIconToMenuItem
+
+### AddIconToMenuItem
 
 Converts an icon handle to a bitmap and adds it to the specified *hbmpItem field* of **HMENU** item.
 
@@ -221,11 +222,70 @@ CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_UN
 ```
 ---
 
+### AddPopup
+
+Adds a popup child menu to an existing menu. A popup menu is a small window that "pops up" when a menu item is highlighted. This allows nesting, and gives the user an opportunity to choose from "sub-menu" items.
+
+```
+FUNCTION AddPopup (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL hPopup AS HMENU, _
+   BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle of the parent menu which holds the popup. |
+| *wszText* | Text displayed in the parent menu. An ampersand (&) may be used in the  to make the following letter into a control accelerator (hot-key). The letter appears underscored to signify that it is an accelerator. |
+| *hPopup* | Handle of the child popup menu to be added. |
+| *fState* | The initial state of the menu item. It can be one of the following:<br>MFS_DISABLED: Disable the item so that it cannot be selected.<br>%MFS_ENABLED:  Enable the item so that it can be selected. |
+| *item* | If the option is included, *item* is a unique numeric identifier for this popup menu. *item* may be used later with a *fByPosition* option to reference this popup. *item* is an integral numeric value in the range of -32768 to +32767. |
+| *fByPosition* | Indicates the position in the parent menu where the popup child menu is to be inserted. If the *fByPosition* option is used, the popup menu is inserted prior to the menu item specified by *item*. Otherwise, the popup menu is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+---
+
+## AddString
+
+Adds a string or separator to an existing menu. A string may contain an optional command accelerator key, and also describe an equivalent keyboard accelerator combination.
+
+```
+FUNCTION AddString OVERLOAD (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
+   BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle of the parent menu to which the string should be added. |
+| *wszText* | Text to display in the parent menu. An ampersand (&) may be used in the string to make the following letter into a command accelerator (hot-key). The letter is underscored to signify that it is an accelerator. To create a horizontal separator instead of a text string, set wszText = "-", id = 0, fState = 0. Keyboard accelerators can be indicated in the text of a menu item, for the reference of the user. To include a keyboard accelerator description in a menu string, separate it from the menu item text with a CHR(9) character. For example: MenuAddString hMenu, "Cu&t" & CHR(9) & "CTRL+X", id, fState. |
+| *id* | The unique  identifier for the menu item. When a menu item is selected, *id* is sent to the parent dialog callback function to notify the dialog which option was selected. |
+| *fState* | The initial state of the menu item. It can be one or more of the following, combined together with the OR operator to form a bitmask: <br>MFS_CHECKED: Place a checkmark next to the item.<br>MFS_DEFAULT: The default menu item, displayed in bold.  Only one item may be the default.<br>MFS_DISABLED: Disable the menu item so that it cannot be selected.<br>MFS_ENABLED: Enable the menu item so that it can be selected.<br>MFS_GRAYED: Disable the menu item so that it cannot be selected, and draw it in a "grayed" state to indicate this.<br>MFS_HILITE: Highlight the menu item.<br>MFS_UNCHECKED: Do not place a checkmark next to the item.<br>MFS_UNHILITE: Item is not highlighted.<br>A state value of zero (0) provides MFS_ENABLED, MFS_UNCHECKED, and MFS_UNHILITE. |
+| *item* | Optional position in the parent menu, where the menu item should be inserted. If the *fByPosition* option is used, the menu item is inserted prior to the menu item identifier specified by *item*. Otherwise, the menu item is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+#### Remarks
+
+The application must call the **DrawBar** statement whenever a menu changes, whether or not the menu is in a displayed dialog.
+
+#### Usage examples
+```
+CMenu.AddString hPopup1, "&Open", ID_OPEN, MF_ENABLED
+```
+Insert the item before the ID_OPEN item
+```
+CMenu.AddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, 1, TRUE          ' insert by position
+CMenu.AddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, ID_OPEN, FALSE   ' insert by identifier
+```
+---
+
 
 ++++++++++++++
 
-| [AddPopup](#addpopup) | Adds a popup child menu to an existing menu. |
-| [AddString](#addstring) | Adds a string or separator to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
 | [Attach](#attach) | Attaches a menu to a window or dialog. |
 | [BoldItem](#checkitem) | Changes the text of a menu item to bold. |
