@@ -101,6 +101,8 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | Name       | Description |
 | ---------- | ----------- |
 | [AddBitmapToItem](#addbitmaptoitem) | Adds a bitmap to the menu item. |
+| [AddBitmapToMenuItem](#addbitmaptomenuinfo) | Adds a bitmap to the menu item. |
+| [AddIconToMenuItem](#addicontomenuinfo) | Adds a bitmap to the menu item. |
 | [AddPopup](#addpopup) | Adds a popup child menu to an existing menu. |
 | [AddString](#addstring) | Adds a string or separator to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
@@ -130,6 +132,7 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [GetItemCount](#getitemcount) | Determines the number of items in the specified menu. |
 | [GetItemFromPoint](#getitemfrompoint) | Determines which menu item, if any, is at the specified location. |
 | [GetItemID](#getitemid) | Retrieves the menu item ID of a menu item located at the specified position in a menu. |
+| [GetItemInfo](#getiteminfo) | Retrieves information about a menu item. |
 | [GetItemRect](#getitemrect) | Retrieves the bounding rectangle for the specified menu item. |
 | [GetItemState](#getitemstate) | Retrieves the state of the specified menu item. |
 | [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
@@ -167,6 +170,7 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [SetInfo](#setifo) | Sets information for a specified menu. |
 | [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
 | [SetItemBold](#setitembold) | Changes the text of a menu item to bold. |
+| [SetItemInfo](#setiteminfo) | Changes information about a menu item. |
 | [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
 | [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
 | [SetState](#setstate) | Sets the state of the specified menu item. |
