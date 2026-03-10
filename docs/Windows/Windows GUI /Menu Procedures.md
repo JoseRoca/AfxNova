@@ -996,7 +996,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 Adds a string or separator to an existing menu. A string may contain an optional command accelerator key, and also describe an equivalent keyboard accelerator combination.
 
 ```
-FUNCTION MenuAddString OVERLOAD (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
+FUNCTION MenuAddString (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
    BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
 ```
 
@@ -1189,7 +1189,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 Destroys the main menu from the window or dialog.
 
 ```
-FUNCTION MenuDestroy OVERLOAD (BYVAL hWin AS HWND) AS BOOLEAN
+FUNCTION MenuDestroy (BYVAL hWin AS HWND) AS BOOLEAN
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
