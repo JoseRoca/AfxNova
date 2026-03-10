@@ -1302,10 +1302,58 @@ Returns TRUE if the specified handle is a menu handle; FALSE otherwise.
 
 ---
 
+### Load
+
+Loads the specified menu resource from the executable (.exe) file associated with an application instance.
+
+```
+FUNCTION Load (BYVAL hInst AS HINSTANCE, BYVAL pMenuName AS WSTRING PTR) AS HMENU
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hInst* | A handle to the module containing the menu resource to be loaded. |
+| *pMenuName* | The name of the menu resource. Alternatively, this parameter can consist of the resource identifier in the low-order word and zero in the high-order word. To create this value, use the **MAKEINTRESOURCE** macro. |
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the menu resource.
+
+If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+The **CMenu.Destroy** method is used, before an application closes, to destroy the menu and free memory that the loaded menu occupied.
+
+---
+
+### LoadIndirect
+
+Loads the specified menu template in memory.
+
+```
+FUNCTION LoadIndirect (BYVAL pMenuTemplate AS MENUTEMPLATEW PTR) AS HMENU
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *pMenuTemplate* | A pointer to a menu template or an extended menu template. A menu template consists of a MENUITEMTEMPLATEHEADER structure followed by one or more contiguous MENUITEMTEMPLATE structures. An extended menu template consists of a MENUEX_TEMPLATE_HEADER structure followed by one or more contiguous MENUEX_TEMPLATE_ITEM structures. |
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the menu.
+
+If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+For both the ANSI and the Unicode version of this function, the strings in the **MENUITEMTEMPLATE** structure must be Unicode strings.
+
+---
+
+
 ++++++++++++++
 
-| [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
-| [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
 | [Modify](#modify) | Changes an existing menu item. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
 | [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
