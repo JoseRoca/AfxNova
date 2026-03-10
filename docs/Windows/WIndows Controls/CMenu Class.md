@@ -724,12 +724,13 @@ If the function succeeds, the return value is the identifier or position of the 
 Retrieves information about the font used in menu bars.
 
 ```
+FUNCTION GetFont (BYVAL plfw AS LOGFONTW PTR) AS BOOLEAN
 FUNCTION GetFont () AS LOGFONTW
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *hMenu* | A handle to the menu for which to retrieve the default menu item. |
+| *plfw* | Pointer to a **LOGFONTW** structure that contains information about the font used in menu bars. |
 
 #### Return value
 
