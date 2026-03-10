@@ -283,6 +283,46 @@ CMenu.AddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, ID_OPEN, FALSE   ' insert
 ```
 ---
 
+## Append
+
+Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. You can use this function to specify the content, appearance, and behavior of the menu item.
+
+```
+FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS UINT_PTR, _
+   BYVAL pwszNewItem AS WSTRING PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle of the parent menu to which the item should be added. |
+| *uFlags* | Controls the appearance and behavior of the new menu item. This parameter can be a combination of the following values (see below). |
+| *uIDNewItem* | The identifier of the new menu item or, if the *uFlags* parameter is set to **MF_POPUP**, a handle to the drop-down menu or submenu. |
+| *pwszNewItem* | The content of the new menu item. The interpretation of *pwszNewItem* depends on whether the *uFlags* parameter includes the following values (see below). |
+
+| Flag  | Meaning |
+| ----- | ------- |
+| **MF_BITMAP** | Contains a bitmap handle. |
+| **MF_OWNERDRAW** | Contains an application-supplied value that can be used to maintain additional data related to the menu item. The value is in the **itemData** member of the structure pointed to by the *lParam* parameter of the **WM_MEASUREITEM** or **WM_DRAWITEM** message sent when the menu is created or its appearance is updated. |
+| **MF_STRING** | Contains a pointer to a null-terminated string. |
+
+#### Values for the *uFlags* parameter
+
+| Flag  | Meaning |
+| ----- | ------- |
+| **MF_BITMAP** | Uses a bitmap as the menu item. The lpNewItem parameter contains a handle to the bitmap. |
+| **MF_CHECKED** | Places a check mark next to the menu item. If the application provides check-mark bitmaps (see SetMenuItemBitmaps, this flag displays the check-mark bitmap next to the menu item. |
+| **MF_DISABLED** | Disables the menu item so that it cannot be selected, but the flag does not gray it. |
+| **MF_ENABLED** | Enables the menu item so that it can be selected, and restores it from its grayed state. |
+| **MF_GRAYED** | Disables the menu item and grays it so that it cannot be selected. |
+| **MF_MENUBARBREAK** | Functions the same as the **MF_MENUBREAK** flag for a menu bar. For a drop-down menu, submenu, or shortcut menu, the new column is separated from the old column by a vertical line. |
+| **MF_MENUBREAK** | Places the item on a new line (for a menu bar) or in a new column (for a drop-down menu, submenu, or shortcut menu) without separating columns. |
+| **MF_OWNERDRAW** | Specifies that the item is an owner-drawn item. Before the menu is displayed for the first time, the window that owns the menu receives a **WM_MEASUREITEM** message to retrieve the width and height of the menu item. The **WM_DRAWITEM** message is then sent to the window procedure of the owner window whenever the appearance of the menu item must be updated. |
+| **MF_POPUP** | Specifies that the menu item opens a drop-down menu or submenu. The *uIDNewItem* parameter specifies a handle to the drop-down menu or submenu. This flag is used to add a menu name to a menu bar, or a menu item that opens a submenu to a drop-down menu, submenu, or shortcut menu. |
+| **MF_SEPARATOR** | Draws a horizontal dividing line. This flag is used only in a drop-down menu, submenu, or shortcut menu. The line cannot be grayed, disabled, or highlighted. The *pwszNewItem* and *uIDNewItem* parameters are ignored. |
+| **MF_STRING** | Specifies that the menu item is a text string; the lpNewItem parameter is a pointer to the string. |
+| **MF_UNCHECKED** | Does not place a check mark next to the item (default). If the application supplies check-mark bitmaps (see **SetMenuItemBitmaps**), this flag displays the clear bitmap next to the menu item. |
+
+---
 
 ++++++++++++++
 
