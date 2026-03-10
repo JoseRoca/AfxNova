@@ -822,6 +822,7 @@ Determines which menu item, if any, is at the specified location.
 
 ```
 FUNCTION GetItemFromPoint (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL ptScreen AS POINT) AS LONG
+FUNCTION GetItemFromPoint (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYVAL x AS LONG, BYVAL y AS LONG) AS LONG
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1351,16 +1352,172 @@ For both the ANSI and the Unicode version of this function, the strings in the *
 
 ---
 
+### Modify
+
+Changes an existing menu item. This function is used to specify the content, appearance, and behavior of the menu item.
+
+```
+FUNCTION Modify (BYVAL hMenu AS HMENU, BYVAL uPosition AS UINT, BYVAL uFlags AS UINT, _
+   BYVAL uIDNewItem AS UINT_PTR, BYVAL pNewItem AS WSTRING PTR) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu to be changed. |
+| *uPosition* | The menu item to be changed, as determined by the *uFlags* parameter. |
+| *uFlags* | Controls the interpretation of the uPosition parameter and the content, appearance, and behavior of the menu item. This parameter must include one of the following required values:<br>**MF_BYCOMMAND**: Indicates that the *uPosition* parameter gives the identifier of the menu item. The **MF_BYCOMMAND** flag is the default if neither the **MF_BYCOMMAND** nor **MF_BYPOSITION** flag is specified.<br>**MF_BYPOSITION**: 	Indicates that the *uPosition* parameter gives the zero-based relative position of the menu item. The parameter must also include at least one of the following values (see below). |
+| *uIDNewItem* | The identifier of the modified menu item or, if the uFlags parameter has the **MF_POPUP** flag set, a handle to the drop-down menu or submenu. |
+| *pNewItem* | The contents of the changed menu item. The interpretation of this parameter depends on whether the uFlags parameter includes the **MF_BITMAP**, **MF_OWNERDRAW**, or **MF_STRING** flag. |
+
+| Flag  | Meaning |
+| ----- | ------- |
+| **MF_BITMAP** | A bitmap handle. |
+| **MF_OWNERDRAW** | Contains an application-supplied value that can be used to maintain additional data related to the menu item. The value is in the **itemData** member of the structure pointed to by the *lParam* parameter of the **WM_MEASUREITEM** or **WM_DRAWITEM** message sent when the menu is created or its appearance is updated. |
+| **MF_STRING** | A pointer to a null-terminated string (the default). |
+
+#### Values for the *uFlags* parameter
+
+| Flag  | Meaning |
+| ----- | ------- |
+| **MF_BITMAP** | Uses a bitmap as the menu item. The lpNewItem parameter contains a handle to the bitmap. |
+| **MF_CHECKED** | Places a check mark next to the menu item. If the application provides check-mark bitmaps (see SetMenuItemBitmaps, this flag displays the check-mark bitmap next to the menu item. |
+| **MF_DISABLED** | Disables the menu item so that it cannot be selected, but the flag does not gray it. |
+| **MF_ENABLED** | Enables the menu item so that it can be selected, and restores it from its grayed state. |
+| **MF_GRAYED** | Disables the menu item and grays it so that it cannot be selected. |
+| **MF_MENUBARBREAK** | Functions the same as the **MF_MENUBREAK** flag for a menu bar. For a drop-down menu, submenu, or shortcut menu, the new column is separated from the old column by a vertical line. |
+| **MF_MENUBREAK** | Places the item on a new line (for a menu bar) or in a new column (for a drop-down menu, submenu, or shortcut menu) without separating columns. |
+| **MF_OWNERDRAW** | Specifies that the item is an owner-drawn item. Before the menu is displayed for the first time, the window that owns the menu receives a **WM_MEASUREITEM** message to retrieve the width and height of the menu item. The **WM_DRAWITEM** message is then sent to the window procedure of the owner window whenever the appearance of the menu item must be updated. |
+| **MF_POPUP** | Specifies that the menu item opens a drop-down menu or submenu. The *uIDNewItem* parameter specifies a handle to the drop-down menu or submenu. This flag is used to add a menu name to a menu bar, or a menu item that opens a submenu to a drop-down menu, submenu, or shortcut menu. |
+| **MF_SEPARATOR** | Draws a horizontal dividing line. This flag is used only in a drop-down menu, submenu, or shortcut menu. The line cannot be grayed, disabled, or highlighted. The *pwszNewItem* and *uIDNewItem* parameters are ignored. |
+| **MF_STRING** | Specifies that the menu item is a text string; the lpNewItem parameter is a pointer to the string. |
+| **MF_UNCHECKED** | Does not place a check mark next to the item (default). If the application supplies check-mark bitmaps (see **SetMenuItemBitmaps**), this flag displays the clear bitmap next to the menu item. |
+
+---
+
+### RemoveCloseMenu
+
+Removes the system menu close option and disables the X button.
+
+```
+SUB RemoveCloseMenu (BYVAL hwnd AS HWND) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | Handle to the window that owns the menu. |
+
+#### Return value
+
+TRUE or FALSE.
+
+---
+
+### RemoveCloseOptiom
+
+Removes the system menu close option and disables the X button.
+
+```
+FUNCTION RemoveCloseOptiom (BYVAL hWin AS HWND) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+---
+
+### RestoreCloseOptiom
+
+Restores the system menu close option and enables Alt+F4 and the X button.
+
+```
+FUNCTION RestoreCloseOption (BYVAL hWin AS HWND) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+---
+
+### RightJustifyItem
+
+Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar.
+
+```
+FUNCTION RightJustifyItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the window or dialog that owns the menu. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Usage example
+```
+CMenu.RightJustifyItem(hMenu, ID_EXIT)
+```
+---
+
+### SetContextHelpId
+
+Associates a Help context identifier with a menu.
+
+```
+FUNCTION SetContextHelpId (BYVAL hMenu AS HMENU, BYVAL helpID AS DWORD) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu with which to associate the Help context identifier. |
+| *helpID* | The help context identifier. |
+
+#### Return value
+
+Returns nonzero if successful, or zero otherwise.
+
+To retrieve extended error information, call **GetLastError**.
+
+---
+
+### SetDefaultItem
+
+Sets the default menu item for the specified menu.
+
+```
+FUNCTION SetDefaultItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu to set the default item for. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+If the function succeeds, the return value is nonzero.
+
+If the function fails, the return value is zero. To get extended error information, use the **GetLastError** function.
+
+---
 
 ++++++++++++++
 
-| [Modify](#modify) | Changes an existing menu item. |
-| [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
-| [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
-| [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
-| [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
-| [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
-| [SetDefaultItem](#setdefaultitem) | Sets the default menu item for the specified menu. |
+
 | [SetInfo](#setifo) | Sets information for a specified menu. |
 | [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
 | [SetItemInfo](#setiteminfo) | Changes information about a menu item. |
