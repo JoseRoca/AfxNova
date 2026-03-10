@@ -106,7 +106,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
 | [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
 | [Modify](#modify) | Changes an existing menu item. |
-| [NewBar](#newbar) | Creates a new menu bar. |
+| [NewBar](#create) | Creates a new menu bar. |
 | [NewPopup](#newpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
 | [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
@@ -460,9 +460,28 @@ RETURN TRUE
 ```
 ---
 
+### Create
+
+Creates a menu.
+
+```
+FUNCTION Create () AS HMENU
+```
+
+#### Return value
+
+If the function succeeds, the return value is a handle to the newly created menu.
+
+If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
+
+#### Remarks
+
+Instead of **CMenu.Create** you can call **CMenu.NewBar** or the Windows API function **CreateMenu**.
+
+---
+
 ++++++++++++++
 
-| [Create](#create) | Creates a new menu bar. |
 | [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [DeleteItem](#deleteitem) | Deletes a menu item from an existing menu. |
 | [Destroy](#destroy) | Destroys the specified menu and frees any memory that the menu occupies. |
@@ -508,8 +527,6 @@ RETURN TRUE
 | [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
 | [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
 | [Modify](#modify) | Changes an existing menu item. |
-| [NewBar](#newbar) | Creates a new menu bar. |
-| [NewPopup](#newpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
 | [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#removeitem) | Deletes a menu item from an existing menu. |
