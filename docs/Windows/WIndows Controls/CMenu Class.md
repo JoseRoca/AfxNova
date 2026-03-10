@@ -885,9 +885,34 @@ To retrieve a menu item of type **MFT_STRING**, first find the size of the strin
 
 If the retrieved menu item is of some other type, then **CMenu.GetItemInfo** sets the **dwTypeData** member to a value whose type is specified by the **fTypefType** member and sets **cch** to 0.
 
+---
+
+### GetRect
+
+Calculates the size of a menu bar or a drop-down menu.
+
+```
+FUNCTION GetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
+FUNCTION GetRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYREF rcmenu AS RECT) AS LONG
+FUNCTION MenuGetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
+| *hmenu* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+| *prcmenu* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+| *prcmenu* | A **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
+
+#### Return value
+
+If the function succeeds, the return value is 0. If the function fails, the return value is a system error code.
+
+The third overloaded function returns a **RECT** structure directly.
+
+---
+
 ++++++++++++++
 
-| [GetItemRect](#getitemrect) | Retrieves the bounding rectangle for the specified menu item. |
 | [GetItemState](#getitemstate) | Retrieves the state of the specified menu item. |
 | [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
 | [GetItemTextLen](#getitemtextlen) | Returns the lengnth of the specified menu item. |
