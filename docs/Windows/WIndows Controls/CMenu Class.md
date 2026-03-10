@@ -524,13 +524,15 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ### Destroy
 
-Destroys the main menu from the window or dialog.
+Destroys the main menu from the window or dialog. The second overloades method destroys the menu attached to a window or dialog
 
 ```
-FUNCTION Destroy OVERLOAD (BYVAL hWin AS HWND) AS BOOLEAN
+FUNCTION Destroy (BYVAL hMenu AS HMENU) AS BOOLEAN
+FUNCTION Destroy (BYVAL hWin AS HWND) AS BOOLEAN
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
+| *hMenu* | Handle of the window or dialog that owns the menu. |
 | *hWin* | Handle of the window or dialog that owns the menu. |
 
 #### Return value
@@ -583,10 +585,55 @@ This operation should be performed when a menu is altered dynamically after the 
 
 ---
 
+### EnableItem
+
+Enables the specified menu item.
+
+```
+FUNCTION EnableItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
+
+#### Remaarks
+
+The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
+
+### FindItemPosition
+
+Finds the position of the specified menu item.
+
+```
+FUNCTION FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF itemPos AS LONG) AS BOOLEAN
+FUNCTION FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *itemID* | The identifier of the menu item. |
+| *itemPos* | A variable of type LONG that received the item position. |
+
+#### Return value
+
+The first overloaded function returns TRUE if the function succeeds; FALSE otherwise.
+
+The second overloaded function returns the item position, or zero if it is not found.
+
+To get extended error information, use the **GetLastError** function.
+
+---
+
 ++++++++++++++
 
-| [EnableItem](#enableitem) | Enables the specified menu item. |
-| [FindItemPosition](#finditemposition) | Finds the position of the specified menu item. |
 | [GetBarInfo](#getarinfo) | Retrieves information about the specified menu bar. |
 | [GetCheckMarkHeight](#getcheckmarkheight) | Retrieves the height of the default check-mark bitmap. |
 | [GetCheckMarkWidth](#getcheckmarkwidth) | Retrieves the width of the default check-mark bitmap. |
