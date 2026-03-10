@@ -911,9 +911,58 @@ The third overloaded function returns a **RECT** structure directly.
 
 ---
 
+### GetItemState
+
+Retrieves the state of the specified menu item.
+
+```
+FUNCTION GetItemState (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+#### Return value
+
+0 on failure or one or more of the following values:
+```
+MFS_CHECKED   The item is checked
+MFS_DEFAULT   The menu item is the default.
+MFS_DISABLED  The item is disabled.
+MFS_ENABLED   The item is enabled.
+MFS_GRAYED    The item is grayed.
+MFS_HILITE    The item is highlighted
+MFS_UNCHECKED The item is unchecked.
+MFS_UNHILITE  The item is not highlighted.
+```
+---
+
+### GetItemText
+
+Retrieves the text of the specified menu item.
+
+```
+FUNCTION GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG) AS DWSTRING
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+#### Usage example
+
+```
+DIM dwsText AS DWSTRING = CMenu.GetItemText(hMenu, 1, TRUE)
+```
+---
+
 ++++++++++++++
 
-| [GetItemState](#getitemstate) | Retrieves the state of the specified menu item. |
 | [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
 | [GetItemTextLen](#getitemtextlen) | Returns the lengnth of the specified menu item. |
 | [GetRect](#getrect) | Calculates the size of a menu bar or a drop-down menu. |
