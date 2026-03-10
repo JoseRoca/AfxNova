@@ -1608,11 +1608,32 @@ In order for keyboard accelerators to work with bitmap or owner-drawn menu items
 
 ---
 
+### SetItemText
+
+Sets the text of the specified menu item.
+
+```
+FUNCTION SetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYREF wszText AS WSTRING, _
+    BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *wszText* | Text to set. |
+| *fByPosition* | The meaning of uItem. If this parameter is FALSE, uItem is a menu item identifier. Otherwise, it is a menu item position. |
+
+#### Return value
+
+Returns TRUE if successful ot FALSE on failure.
+
+---
+
+
 ++++++++++++++
 
 
-| [SetItemInfo](#setiteminfo) | Changes information about a menu item. |
-| [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
 | [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
 | [SetState](#setstate) | Sets the state of the specified menu item. |
 | [ToggleCheckState](#togglecheckstate) | Toggles the checked state of a menu item. |
