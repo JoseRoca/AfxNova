@@ -118,7 +118,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [SetDefaultItem](#setdefaultitem) | Sets the default menu item for the specified menu. |
 | [SetInfo](#setifo) | Sets information for a specified menu. |
 | [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
-| [SetItemBold](#setitembold) | Changes the text of a menu item to bold. |
+| [SetItemBold](#bolditem) | Changes the text of a menu item to bold. |
 | [SetItemInfo](#setiteminfo) | Changes information about a menu item. |
 | [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
 | [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
@@ -324,11 +324,45 @@ FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS
 
 ---
 
+### Attach
+
+Attaches a menu to a window or dialog.
+
+```
+FUNCTION Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
+```
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+#### Remarks
+
+The Windows API function **SetMenu** performs the same action.
+
+---
+
+## BoldItem
+
+Changes the text of a menu item to bold.
+
+```
+FUNCTION BoldItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG) AS BOOLEAN
+FUNCTION SetItemBold (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+---
+
 ++++++++++++++
 
-| [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
-| [Attach](#attach) | Attaches a menu to a window or dialog. |
-| [BoldItem](#checkitem) | Changes the text of a menu item to bold. |
 | [CheckItem](#checkitem) | Checks a menu item. |
 | [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
 | [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
@@ -390,7 +424,6 @@ FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS
 | [SetDefaultItem](#setdefaultitem) | Sets the default menu item for the specified menu. |
 | [SetInfo](#setifo) | Sets information for a specified menu. |
 | [SetItemBitmaps](#setitembitmaps) | Associates the specified bitmap with a menu item. |
-| [SetItemBold](#setitembold) | Changes the text of a menu item to bold. |
 | [SetItemInfo](#setiteminfo) | Changes information about a menu item. |
 | [SetItemText](#setitemtext) | Sets the text of the specified menu item. |
 | [SetItemState](#setitemstate) | Sets the state of the specified menu item. |
