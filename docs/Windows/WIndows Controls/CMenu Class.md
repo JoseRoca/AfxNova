@@ -1626,10 +1626,48 @@ FUNCTION SetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYREF wszText 
 
 #### Return value
 
-Returns TRUE if successful ot FALSE on failure.
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
 
 ---
 
+### SetItemState
+
+Sets the text of the specified menu item.
+
+```
+FUNCTION SetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYREF wszText AS WSTRING, _
+    BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+### SetItemState
+
+Sets the state of the specified menu item.
+
+```
+FUNCTION SetMenuItemState (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
+   BYVAL fState AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fState* | The menu item state. It can be one or more of these values:<br>MFS_CHECKED: Checks the menu item.<br>MFS_DEFAULT: Specifies that the menu item is the default.<br>MFS_DISABLED: Disables the menu item and grays it so that it cannot be selected.<br>MFS_ENABLED: Enables the menu item so that it can be selected. This is the default state.<br>MFS_GRAYED: Disables the menu item and grays it so that it cannot be selected.<br>MFS_HILITE: Highlights the menu item.<br>MFS_UNCHECKED: Unchecks the menu item.<br>MFS_UNHILITE: Removes the highlight from the menu item. This is the default state. |
+| *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
 
 ++++++++++++++
 
