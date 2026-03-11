@@ -157,7 +157,7 @@ FUNCTION AddIconToItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, _
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 | *hIcon* | Handle of the icon to add to the menu. |
-| *fAutoDestroy* | TRUE (the default) or FALSE. If TRUE, **AfxAddIconToMenuItem** destroys the icon before returning. |
+| *fAutoDestroy* | TRUE (the default) or FALSE. If TRUE, **AddIconToItem** destroys the icon before returning. |
 | *phbmp* | Out. Location where the bitmap representation of the icon is stored. Can be NULL. |
 
 #### Return value
@@ -175,16 +175,16 @@ Using **AfxGdipAddIconFromFile** or **AfxGdipIconFromRes** to load the image fro
 Loading the icon from disc:
 
 ```
-DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 1)
+DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 1)
 DIM hIcon AS HICON = LoadImageW(NULL, ExePath & "\undo_32.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE)
-IF hIcon THEN CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
+IF hIcon THEN CMenu.AddIconToItem(hSubMenu, 0, TRUE, hIcon)
 ```
 
 Loading the icon from a resource file:
 
 ```
-DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 1)
-CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_UNDO_32"))
+DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 1)
+CMenu.AddIconToItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_UNDO_32"))
 ```
 ---
 
@@ -217,7 +217,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 Adds a string or separator to an existing menu. A string may contain an optional command accelerator key, and also describe an equivalent keyboard accelerator combination.
 
 ```
-FUNCTION AddString OVERLOAD (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
+FUNCTION AddString (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
    BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
 ```
 
