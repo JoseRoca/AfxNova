@@ -49,9 +49,8 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AddBitmapToItem](#addbitmaptoitem) | Adds a bitmap to the menu item. |
-| [AddBitmapToMenuItem](#addbitmaptomenuinfo) | Adds a bitmap to the menu item. |
-| [AddIconToMenuItem](#addicontomenuinfo) | Adds a bitmap to the menu item. |
+| [AddBitmapToMenuItem](#addbitmaptomenuitem) | Adds a bitmap to the menu item. |
+| [AddIconToMenuItem](#addicontomenuitem) | Adds a bitmap to the menu item. |
 | [AddPopup](#addpopup) | Adds a popup child menu to an existing menu. |
 | [AddString](#addstring) | Adds a string or separator to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
@@ -126,28 +125,6 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [TrackPopupMenu](#trackpopupmenu) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
 | [TrackPopupMenuEx](#trackpopupmenuex) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
 | [UncheckItem](#uncheckitem) | Unchecks a menu item. |
-
----
-
-### AddBitmapToItem
-
-Adds a bitmap to the menu item.
-
-```
-FUNCTION AddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
-   BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hMenu* | Handle to the menu that contains the menu item. |
-| *item* | The identifier or position of the menu item to change. The meaning of this parameter depends on the value of *fByPosition*. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
-| *hbmp* | The bitmap handle. |
-
-#### Return value
-
-Returns TRUE if the function succeeds; FALSE otherwise.
 
 ---
 
