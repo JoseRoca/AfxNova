@@ -1725,7 +1725,7 @@ The application must call the **CMenu.DrawBar** function whenever a menu changes
 Toggles the checked state of a menu item.
 
 ```
-FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
+FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
 ```
 
 | Parameter  | Description |
@@ -1734,11 +1734,13 @@ FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPositi
 | *uItem* | The menu item whose check-mark attribute is to be set or unset. |
 | *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 
+#### Return value
+
+The return value specifies the previous state of the menu item (either **MF_CHECKED** or **MF_UNCHECKED**). If the menu item does not exist, the return value is –1.
 
 ++++++++++++++
 
 
-| [ToggleItem](#toggleitem) | Toggles the checked state of a menu item. |
 | [TrackPopupMenu](#trackpopupmenu) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
 | [TrackPopupMenuEx](#trackpopupmenuex) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
 | [UncheckItem](#uncheckitem) | Unchecks a menu item. |
