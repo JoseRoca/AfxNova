@@ -148,11 +148,11 @@ Public:
 #if _WIN32_WINNT >= &h0600
    DECLARE STATIC FUNCTION InitBitmapInfo (BYVAL pbmi AS BITMAPINFO PTR, BYVAL cbInfo AS ULONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL bpp AS WORD) AS BOOLEAN
    DECLARE STATIC FUNCTION Create32BitHBITMAP (BYVAL hDC AS HDC, BYVAL psize AS SIZE PTR, BYVAL ppvBits AS ANY PTR PTR, BYVAL phBmp AS HBITMAP PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION AddBitmapToMenuItem (BYVAL hMenu AS HMENU, BYVAL nMenuItem AS LONG, BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
+   DECLARE STATIC FUNCTION AddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL nMenuItem AS LONG, BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
    DECLARE STATIC FUNCTION ConvertToPARGB32 (BYVAL hDC AS HDC, BYVAL pargb AS DWORD PTR, BYVAL hbmp AS HBITMAP, BYVAL sizeImage AS SIZE, BYVAL cxRow AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION HasAlpha (BYVAL pargb AS DWORD PTR, BYVAL sizeImage AS SIZE, BYVAL cxRow AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION ConvertBufferToPARGB32 (BYVAL hPaintBuffer AS HPAINTBUFFER, BYVAL hDC AS HDC, BYVAL hIcon AS HICON, BYVAL sizeIcon AS SIZE) AS BOOLEAN
-   DECLARE STATIC FUNCTION AddIconToMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
+   DECLARE STATIC FUNCTION AddIconToItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
 #endif
 
 END TYPE
@@ -1509,7 +1509,7 @@ END FUNCTION
 ' - hbmp        = Bitmap handle.
 ' Return value: TRUE or FALSE.
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.AddBitmapToMenuItem (BYVAL hMenu AS HMENU, BYVAL nMenuItem AS LONG, BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
+PRIVATE FUNCTION CMenu.AddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL nMenuItem AS LONG, BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_BITMAP
@@ -1634,7 +1634,7 @@ END FUNCTION
 '                  If TRUE, CMenu.AddIconToMenuItem destroys the icon before returning.
 ' - phbmp        = Location where the bitmap representation of the icon is stored. Can be NULL.
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.AddIconToMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
+PRIVATE FUNCTION CMenu.AddIconToItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
    IF hMenu = NULL OR hIcon = NULL THEN RETURN FALSE
    DIM hbmp AS HBITMAP, sizIcon AS SIZE, rcIcon AS RECT
    sizIcon.cx = GetSystemMetrics(SM_CXSMICON)
@@ -1665,13 +1665,14 @@ PRIVATE FUNCTION CMenu.AddIconToMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS D
       END IF
    END IF
    DeleteDC(hdcDest)
-   IF hr THEN hr = CMenu.AddBitmapToMenuItem(hMenu, uItem, fByPosition, hbmp)
+   IF hr THEN hr = CMenu.AddBitmapToItem(hMenu, uItem, fByPosition, hbmp)
    IF hr = FALSE THEN DeleteObject(hbmp): hbmp = NULL
    IF fAutoDestroy THEN DestroyIcon(hIcon)
    IF phbmp THEN *phbmp = hbmp
    RETURN hr
 END FUNCTION
 ' ========================================================================================
+
 #endif
 
 END NAMESPACE
