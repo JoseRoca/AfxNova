@@ -304,7 +304,7 @@ FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS
 Attaches a menu to a window or dialog.
 
 ```
-FUNCTION Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
+FUNCTION Attach (BYVAL hwnd AS HWND, BYVAL hMenu AS HMENU) AS BOOLEAN
 ```
 
 #### Return value
