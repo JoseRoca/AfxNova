@@ -1856,7 +1856,6 @@ If you do not specify **TPM_RETURNCMD** in the *uFlags* parameter, the return va
 
 ---
 
-
 ### UncheckItem
 
 Unchecks a menu item.
@@ -1874,6 +1873,11 @@ FUNCTION UncheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosit
 
 The return value specifies the previous state of the menu item (either **MF_CHECKED** or **MF_UNCHECKED**). If the menu item does not exist, the return value is -1.
 
+#### Usage example
+
+```
+CMenu.UncheckItem(hMenu, IDM_OPEN)
+```
 ---
 
 ## Examples
