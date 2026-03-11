@@ -780,7 +780,6 @@ Gets information for a specified menu.
 ```
 FUNCTION GetInfo (BYVAL hMenu AS HMENU, BYVAL pmi AS MENUINFO PTR) AS BOOLEAN
 FUNCTION GetInfo (BYVAL hMenu AS HMENU, BYREF mi AS MENUINFO) AS BOOLEAN
-FUNCTION GetInfo (BYVAL hMenu AS HMENU) AS MENUINFO
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -864,7 +863,6 @@ FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositio
    BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
 FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPosition AS BOOLEAN, _
    BYREF mii AS MENUITEMINFOW) AS BOOLEAN
-FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPosition AS BOOLEAN) AS MENUITEMINFOW
 ```
 
 | Parameter  | Description |
