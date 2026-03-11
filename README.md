@@ -16,6 +16,7 @@ The framework includes `DWSTRING`, a high‑performance, UTF‑16 dynamic string
 
 `DWSTRING` offers:
 
+* Full integration with FreeBasic's intrinsic procedures and operators
 * Automatic memory management
 * Rich text manipulation functions
 * Zero‑copy interoperability with Win32 Unicode functions
