@@ -10,7 +10,7 @@ A menu item can either carry out a command or open a submenu. An item that carri
 
 An item on the menu bar almost always opens a menu. Menu bars rarely contain command items. A menu opened from the menu bar drops down from the menu bar and is sometimes called a *drop-down menu*. When a drop-down menu is displayed, it is attached to the menu bar. A menu item on the menu bar that opens a drop-down menu is also called a menu name.
 
-The menu names on a menu bar represent the main categories of commands that an application provides. Selecting a menu name from the menu bar typically opens a menu whose menu items correspond to the commands in a category. For example, a menu bar might contain a File menu name that, when clicked by the user, activates a menu with menu items such as New, Open, and Save. To get information about a menu bar, call **GetMenuBarInfo**.
+The menu names on a menu bar represent the main categories of commands that an application provides. Selecting a menu name from the menu bar typically opens a menu whose menu items correspond to the commands in a category. For example, a menu bar might contain a File menu name that, when clicked by the user, activates a menu with menu items such as New, Open, and Save. To get information about a menu bar, call **CMenu.GetBarInfo**.
 
 Only an overlapped or pop-up window can contain a menu bar; a child window cannot contain one. If the window has a title bar, the system positions the menu bar just below it. A menu bar is always visible. A submenu is not visible, however, until the user selects a menu item that activates it. For more information about overlapped and pop-up windows, see [Window Types](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-features).
 
@@ -108,7 +108,6 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [Modify](#modify) | Changes an existing menu item. |
 | [NewBar](#create) | Creates a new menu bar. |
 | [NewPopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
-| [RemoveCloseMenu](#removeclosemenu) | Removes the system menu close option and disables the X button. |
 | [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#deleteitem) | Deletes a menu item from an existing menu. |
 | [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
@@ -1392,24 +1391,6 @@ FUNCTION Modify (BYVAL hMenu AS HMENU, BYVAL uPosition AS UINT, BYVAL uFlags AS 
 | **MF_SEPARATOR** | Draws a horizontal dividing line. This flag is used only in a drop-down menu, submenu, or shortcut menu. The line cannot be grayed, disabled, or highlighted. The *pwszNewItem* and *uIDNewItem* parameters are ignored. |
 | **MF_STRING** | Specifies that the menu item is a text string; the lpNewItem parameter is a pointer to the string. |
 | **MF_UNCHECKED** | Does not place a check mark next to the item (default). If the application supplies check-mark bitmaps (see **SetMenuItemBitmaps**), this flag displays the clear bitmap next to the menu item. |
-
----
-
-### RemoveCloseMenu
-
-Removes the system menu close option and disables the X button.
-
-```
-SUB RemoveCloseMenu (BYVAL hwnd AS HWND) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hwnd* | Handle to the window that owns the menu. |
-
-#### Return value
-
-TRUE or FALSE.
 
 ---
 
