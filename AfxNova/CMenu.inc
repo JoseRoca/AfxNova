@@ -108,7 +108,6 @@ Public:
    DECLARE STATIC FUNCTION IsMenu (BYVAL hMenu AS HMENU) AS BOOLEAN
    DECLARE STATIC FUNCTION IsMenuHandle (BYVAL hMenu AS HMENU) AS BOOLEAN
    DECLARE STATIC FUNCTION SetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fState AS UINT, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-   DECLARE STATIC FUNCTION AddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
    DECLARE STATIC FUNCTION RemoveCloseOptiom (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION RestoreCloseOption (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION GetBarInfo (BYVAL hwnd AS HWND, BYVAL idObject AS LONG, BYVAL idItem AS LONG, BYVAL pmbi AS MENUBARINFO PTR) AS BOOLEAN
@@ -525,29 +524,6 @@ PRIVATE FUNCTION CMenu.HiliteItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, B
    mii.fMask = MIIM_STATE
    mii.fState = MFS_HILITE
    RETURN SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Removes the system menu close option and disables the X button.
-' Parameter: hwnd = Handle of the window that owns the menu.
-' Return value: TRUE of FALSE.
-' Note: To restore the close menu, call GetSystemMenu(hwnd, TRUE)
-' ========================================================================================
-PRIVATE FUNCTION CMenu.RemoveCloseMenu (BYVAL hwnd AS HWND) AS BOOLEAN
-   ' // Get the system menu handle
-   DIM hMenu AS HMENU = ..GetSystemMenu(hwnd, 0)
-   IF hMenu = NULL THEN RETURN FALSE
-   ' // Get the number of menu items
-   DIM cbItems AS LONG = ..GetMenuItemCount(hMenu)
-   IF cbItems = 0 THEN RETURN FALSE
-   ' // Remove the close menu item
-   IF ..RemoveMenu(hMenu, cbItems - 1, MF_REMOVE OR MF_BYPOSITION) = 0 THEN RETURN FALSE
-   ' // Remove the separator line
-   IF ..RemoveMenu(hMenu, cbItems - 2, MF_REMOVE OR MF_BYPOSITION) = 0 THEN RETURN FALSE
-   ' // Redraw the menu (this refreshes the caption bar, dimming the X button)
-   ..DrawMenuBar(hwnd)
-   RETURN TRUE
 END FUNCTION
 ' ========================================================================================
 
@@ -1086,34 +1062,10 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Adds a bitmap to the menu item.
-' Parameters:
-' - hMenu       = A handle to the menu that contains the menu item.
-' - item        = The identifier or position of the menu item to change.
-'                 The meaning of this parameter depends on the value of fByPosition.
-' - fByPosition = The meaning of item. If this parameter is FALSE, item is a
-'                 menu item identifier. Otherwise, it is a menu item position.
-' - hbmp        = Bitmap handle.
-' Return value: TRUE or FALSE.
-' ========================================================================================
-PRIVATE FUNCTION CMenu.AddBitmapToItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
-   DIM mii AS MENUITEMINFOW
-   mii.cbSize = SIZEOF(mii)
-   mii.fMask = MIIM_BITMAP
-   mii.hbmpItem = hbmp
-   IF fByPosition = TRUE THEN
-      item -= 1 : IF item < 0 THEN item = 0
-   END IF
-   IF SetMenuItemInfoW(hMenu, item, fByPosition, @mii) = 0 THEN RETURN FALSE
-   RETURN TRUE
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' Removes the system menu close option and disables the X button.
 ' Parameter: hwnd = Handle of the window or dialog that owns the menu.
 ' Return value: TRUE of FALSE.
-' Note: To restore the close menu, call GetSystemMenu(hwnd, TRUE)
+' Note: To restore the close menu, call RestoreCloseOption.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.RemoveCloseOptiom (BYVAL hwnd AS HWND) AS BOOLEAN
    ' // Get the system menu handle
