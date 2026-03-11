@@ -58,7 +58,7 @@ Public:
            BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION CheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
    DECLARE STATIC FUNCTION UncheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
-   DECLARE STATIC FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
+   DECLARE STATIC FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    DECLARE STATIC FUNCTION IsItemChecked (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION IsItemEnabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION IsItemDisabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
@@ -167,7 +167,7 @@ END DESTRUCTOR
 
 ' ========================================================================================
 ' * Returns the version of ComCtrl.dll version multiplied by 100, e.g. 601 for version 6.01.
-' Example: DIM ver AS LONG = AfxGetFileVersion("COMCTL32.DLL")
+' Example: DIM ver AS LONG = CMenu.GetFileVersion("COMCTL32.DLL")
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.ComCtlVersion () AS LONG
    DIM pvsffi AS VS_FIXEDFILEINFO PTR, dwHandle AS DWORD
@@ -293,7 +293,7 @@ END FUNCTION
 ' ========================================================================================
 ' Toggles the checked state of a menu item.
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
+PRIVATE FUNCTION CMenu.ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    DIM dwFlags AS DWORD
    IF fByPosition THEN dwFlags = MF_BYPOSITION ELSE dwFlags = MF_BYCOMMAND
    IF ..GetMenuState(hMenu, uItem, dwFlags) AND MF_CHECKED = MF_CHECKED THEN
@@ -654,10 +654,10 @@ END FUNCTION
 ' Return value: TRUE or FALSE.
 ' Usage example:
 ' DIM wsz AS WSTRING * 260
-' AfxGetMenuItemText(hSubMenu, 1, TRUE, @wsz, 260)
+' CMenu.GetItemText(hSubMenu, 1, TRUE, @wsz, 260)
 ' AfxMsg wsz
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.GetItemText OVERLOAD (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG) AS BOOLEAN
+PRIVATE FUNCTION CMenu.GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG) AS BOOLEAN
    IF pwszText = NULL THEN RETURN FALSE
    ' // Fills the MENUITEMINFOW structure
    DIM mii AS MENUITEMINFOW
@@ -669,7 +669,7 @@ PRIVATE FUNCTION CMenu.GetItemText OVERLOAD (BYVAL hMenu AS HMENU, BYVAL uItem A
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.GetItemText OVERLOAD (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG) AS DWSTRING
+PRIVATE FUNCTION CMenu.GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG) AS DWSTRING
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STRING
@@ -796,7 +796,7 @@ END FUNCTION
 ' ========================================================================================
 ' Creates a drop-down menu, submenu, or shortcut menu. The menu is initially empty. You can
 ' insert or append menu items by using the InsertMenuItem function. You can also use the
-' InsertMenu function to insert menu items and the AppendMenu function to append menu items.
+' AppendMenu function to append menu items.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.CreatePopup () AS HMENU
    RETURN ..CreatePopupMenu
@@ -912,7 +912,7 @@ END FUNCTION
 ' Finds the position of the specified menu item.
 ' Example:
 '   DIM nPos AS LONG
-'   MenuFindItemPosition(hMenu, ID_EXIT, nPos)
+'   CMenu.FindItemPosition(hMenu, ID_EXIT, nPos)
 'Return value: TRUE or FALSE.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF itemPos AS LONG) AS BOOLEAN
@@ -939,7 +939,7 @@ END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 ' Example:
-'   DIM nPos AS LONG = MenuFindItemPosition(hMenu, ID_EXIT)
+'   DIM nPos AS LONG = CMenu.FindItemPosition(hMenu, ID_EXIT)
 'Return value: TRUE or FALSE.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT) AS LONG
@@ -1191,8 +1191,8 @@ END FUNCTION
 ' - fByPosition: The meaning of check. If this parameter is FALSE, check is a menu item
 '                identifier. Otherwise, it is a menu item position.
 ' Usage example:
-'   MenuCheckRadioButton(hMenu, ID_OPEN, ID_EXIT, ID_EXIT)      ' By item identifier
-'   MenuCheckRadioButton(GetSubMenu(hMenu, 0), 1, 2, 2, TRUE)   ' By position
+'   CMenu.CheckRadioButton(hMenu, ID_OPEN, ID_EXIT, ID_EXIT)      ' By item identifier
+'   CMenu.CheckRadioButton(GetSubMenu(hMenu, 0), 1, 2, 2, TRUE)   ' By position
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.CheckRadioButton (BYVAL hMenu AS HMENU, BYVAL first AS LONG, BYVAL last AS LONG, BYVAL check AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    IF fByPosition = TRUE THEN
@@ -1490,10 +1490,10 @@ END FUNCTION
 '    DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 1)
 '    DIM hIcon AS HICON
 '    hIcon = LoadImageW(NULL, "MyIcon.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE)
-'    IF hIcon THEN AfxAddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
+'    IF hIcon THEN CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
 ' PNG icons can be used by converting them to an icon with AfxGdipImageFromFile:
 '    hIcon = AfxGdipImageFromFile("MyIcon.png")
-'    IF hIcon THEN AfxAddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
+'    IF hIcon THEN CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
 
 #if _WIN32_WINNT = &h0602
 ' ========================================================================================
@@ -1669,7 +1669,7 @@ END FUNCTION
 '                  menu item identifier. Otherwise, it is a menu item position.
 ' - hIcon        = Handle of the icon to add to the menu.
 ' - fAutoDestroy = TRUE (the default) or FALSE.
-'                  If TRUE, AfxAddIconToMenuItem destroys the icon before returning.
+'                  If TRUE, CMenu.AddIconToMenuItem destroys the icon before returning.
 ' - phbmp        = Location where the bitmap representation of the icon is stored. Can be NULL.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.AddIconToMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
