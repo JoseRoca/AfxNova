@@ -77,7 +77,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [GetState](#getstate) | Retrieves the state of the specified menu item. |
 | [GetSubMenu](#ghetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
 | [GetSubmenusCount](#ghetsubmenuscount) | Retrieves the number of submenus of a menu. |
-| [GetSystemMenuHandle](#getsystemmenuhandle) | Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying. |
+| [GetSystemMenuHandle](#getsystemmenuhandle) | Retrieves the system menu handle. |
 | [GetWindowOwner](#ghetwindowowner) | Retrieves the window owner of the specified menu |
 | [GrayItem](#grayitem) | Grays the specified menu item. |
 | [HiliteItem](#hiliteitem) | Highlights the specified menu item. |
