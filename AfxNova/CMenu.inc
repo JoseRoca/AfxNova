@@ -52,7 +52,7 @@ Public:
    DECLARE STATIC FUNCTION Destroy (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION CreatePopup () AS HMENU
    DECLARE STATIC FUNCTION NewPopup () AS HMENU
-   DECLARE STATIC FUNCTION Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
+   DECLARE STATIC FUNCTION Attach (BYVAL hwnd AS HWND, BYVAL hMenu AS HMENU) AS BOOLEAN
    DECLARE STATIC FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS UINT_PTR, BYVAL pwszNewItem AS WSTRING PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION AddPopup (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL hPopup AS HMENU, _
            BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
@@ -144,6 +144,7 @@ Public:
    DECLARE STATIC FUNCTION SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYREF mii AS MENUITEMINFOW) AS BOOLEAN
   ' // Visual styles menus 
+#if _WIN32_WINNT >= &h0600
    DECLARE STATIC FUNCTION InitBitmapInfo (BYVAL pbmi AS BITMAPINFO PTR, BYVAL cbInfo AS ULONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL bpp AS WORD) AS BOOLEAN
    DECLARE STATIC FUNCTION Create32BitHBITMAP (BYVAL hDC AS HDC, BYVAL psize AS SIZE PTR, BYVAL ppvBits AS ANY PTR PTR, BYVAL phBmp AS HBITMAP PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION AddBitmapToMenuItem (BYVAL hMenu AS HMENU, BYVAL nMenuItem AS LONG, BYVAL fByPosition AS BOOLEAN, BYVAL hbmp AS HBITMAP) AS BOOLEAN
@@ -151,6 +152,7 @@ Public:
    DECLARE STATIC FUNCTION HasAlpha (BYVAL pargb AS DWORD PTR, BYVAL sizeImage AS SIZE, BYVAL cxRow AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION ConvertBufferToPARGB32 (BYVAL hPaintBuffer AS HPAINTBUFFER, BYVAL hDC AS HDC, BYVAL hIcon AS HICON, BYVAL sizeIcon AS SIZE) AS BOOLEAN
    DECLARE STATIC FUNCTION AddIconToMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
+#endif
 
 END TYPE
 ' ========================================================================================
@@ -787,7 +789,7 @@ END FUNCTION
 ' ========================================================================================
 ' Attaches a menu to a window or dialog.
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
+PRIVATE FUNCTION CMenu.Attach (BYVAL hwnd AS HWND, BYVAL hMenu AS HMENU) AS BOOLEAN
    RETURN ..SetMenu(hwnd, hMenu)
 END FUNCTION
 ' ========================================================================================
@@ -1661,7 +1663,7 @@ PRIVATE FUNCTION CMenu.AddIconToMenuItem (BYVAL hMenu AS HMENU, BYVAL uItem AS D
    IF phbmp THEN *phbmp = hbmp
    RETURN hr
 END FUNCTION
-#endif
 ' ========================================================================================
+#endif
 
 END NAMESPACE
