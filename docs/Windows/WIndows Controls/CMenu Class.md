@@ -376,7 +376,7 @@ FUNCTION CheckItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 
 #### Return value
 
-Returns TRUE if the function succeeds; FALSE otherwise.
+The return value specifies the previous state of the menu item (either **MF_CHECKED** or **MF_UNCHECKED**). If the menu item does not exist, the return value is -1.
 
 ---
 
@@ -1812,9 +1812,93 @@ If you do not specify **TPM_RETURNCMD** in the *uFlags* parameter, the return va
 
 ---
 
-++++++++++++++
+### TrackPopupMenuEx
+
+Displays a shortcut menu at the specified location and tracks the selection of items on the shortcut menu. The shortcut menu can appear anywhere on the screen.
+
+```
+FUNCTION TrackPopupMenuEx (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL x AS LONG, BYVAL y AS LONG, _
+   BYVAL hwnd AS HWND, BYVAL ptpm AS TPMPARAMS PTR = NULL) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the shortcut menu to be displayed. The handle can be obtained by calling **CMenu.CreatePopup** to create a new shortcut menu, or by calling **CMenu.GetSubMenu** to retrieve a handle to a submenu associated with an existing menu item. |
+| *uFlags* | Use zero of more of these flags to specify function options (see below). |
+| *x* | The horizontal location of the shortcut menu, in screen coordinates. |
+| *y* | The vertical location of the shortcut menu, in screen coordinates. |
+| *hWnd* | A handle to the window that owns the shortcut menu. This window receives all messages from the menu. The window does not receive a **WM_COMMAND** message from the menu until the function returns. If you specify **TPM_NONOTIFY** in the uFlags parameter, the function does not send messages to the window identified by *hWnd*. However, you must still pass a window handle in *hWnd*. It can be any window handle from your application. |
+| *ptpm* | A pointer to a **TPMPARAMS** structure that specifies an area of the screen the menu should not overlap. This parameter can be NULL. |
+
+Use one of the following flags to specify how the function positions the shortcut menu horizontally.
+
+| Value  | Meaaning |
+| ------ | -------- |
+| **TPM_CENTERALIGN** | Centers the shortcut menu horizontally relative to the coordinate specified by the x parameter. |
+| **TPM_LEFTALIGN** | Positions the shortcut menu so that its left side is aligned with the coordinate specified by the x parameter. |
+| **TPM_RIGHTALIGN** | Positions the shortcut menu so that its right side is aligned with the coordinate specified by the x parameter. |
+
+Use one of the following flags to specify how the function positions the shortcut menu vertically.
+
+| Value  | Meaaning |
+| ------ | -------- |
+| **TPM_BOTTOMALIGN** | Positions the shortcut menu so that its bottom side is aligned with the coordinate specified by the y parameter. |
+| **TPM_TOPALIGN** | Positions the shortcut menu so that its top side is aligned with the coordinate specified by the y parameter. |
+| **TPM_VCENTERALIGN** | Centers the shortcut menu vertically relative to the coordinate specified by the y parameter. |
+
+Use the following flags to control discovery of the user selection without having to set up a parent window for the menu.
+
+| Value  | Meaaning |
+| ------ | -------- |
+| **TPM_NONOTIFY** | The function does not send notification messages when the user clicks a menu item. |
+| **TPM_RETURNCMD** | The function returns the menu item identifier of the user's selection in the return value. |
+
+Use one of the following flags to specify which mouse button the shortcut menu tracks.
+
+| Value  | Meaaning |
+| ------ | -------- |
+| **TPM_LEFTBUTTON** | The user can select menu items with only the left mouse button. |
+| **TPM_RIGHTBUTTON** | The user can select menu items with both the left and right mouse buttons. |
+
+Use any reasonable combination of the following flags to modify the animation of a menu. For example, by selecting a horizontal and a vertical flag, you can achieve diagonal animation.
+
+| Value  | Meaaning |
+| ------ | -------- |
+| **TPM_HORNEGANIMATION** | Animates the menu from right to left. |
+| **TPM_HORPOSANIMATION** | Animates the menu from left to right. |
+| **TPM_NOANIMATION** | Displays menu without animation. |
+| **TPM_VERNEGANIMATION** | Animates the menu from bottom to top. |
+| **TPM_VERPOSANIMATION** | Animates the menu from top to bottom. |
+
+For any animation to occur, the **SystemParametersInfo** function must set **SPI_SETMENUANIMATION**. Also, all the TPM_*ANIMATION flags, except **TPM_NOANIMATION**, are ignored if menu fade animation is on. For more information, see the **SPI_GETMENUFADE** flag in **SystemParametersInfo**.
+
+Use the **TPM_RECURSE** flag to display a menu when another menu is already displayed. This is intended to support context menus within a menu.
+
+For right-to-left text layout, use **TPM_LAYOUTRTL**. By default, the text layout is left-to-right.
+
+#### Return value
+
+If you specify **TPM_RETURNCMD** in the *uFlags* parameter, the return value is the menu-item identifier of the item that the user selected. If the user cancels the menu without making a selection, or if an error occurs, the return value is zero.
+
+If you do not specify **TPM_RETURNCMD** in the *uFlags* parameter, the return value is nonzero if the function succeeds and zero if it fails. To get extended error information, call **GetLastError**.
+
+---
 
 
+### UncheckItem
 
-| [TrackPopupMenuEx](#trackpopupmenuex) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
-| [UncheckItem](#uncheckitem) | Unchecks a menu item. |
+Unchecks a menu item.
+
+```
+FUNCTION UncheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+The return value specifies the previous state of the menu item (either **MF_CHECKED** or **MF_UNCHECKED**). If the menu item does not exist, the return value is -1.
+
+---
