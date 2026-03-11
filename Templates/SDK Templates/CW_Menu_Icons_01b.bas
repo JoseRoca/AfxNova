@@ -79,7 +79,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Creates the menu
    DIM hMenu AS HMENU = BuildMenu
-   CMenu.Attach pWindow.hWindow, hMenu
+   CMenu.SetMenu pWindow.hWindow, hMenu
 
    ' // Add icons to the items of the File menu
    DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 0)

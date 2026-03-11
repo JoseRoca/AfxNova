@@ -80,7 +80,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the menu
    DIM hMenu AS HMENU = BuildMenu
-   CMenu.Attach pWindow.hWindow, hMenu
+   CMenu.SetMenu pWindow.hWindow, hMenu
 
    ' // Create a keyboard accelerator table
    pWindow.AddAccelerator FVIRTKEY OR FCONTROL, "U", IDM_UNDO ' // Ctrl+U - Undo

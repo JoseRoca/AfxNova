@@ -106,7 +106,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Creates the menu
    DIM hMenu AS HMENU = BuildMenu
-   CMenu.Attach pWindow.hWindow, hMenu
+   CMenu.SetMenu pWindow.hWindow, hMenu
 
    ' // Set the main window background color
    pWindow.SetBackColor(RGB_GOLD)
