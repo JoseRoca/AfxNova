@@ -4,7 +4,7 @@ A menu is a list of items that specify options or groups of options (a submenu) 
 
 #### Menu Bars and Menus
 
-A menu is arranged in a hierarchy. At the top level of the hierarchy is the *menu bar*; which contains a list of *menus*, which in turn can contain submenus. A menu bar is sometimaes called a *top-level menu*, and the menus and submenus are also known as *pop-up menus*.
+A menu is arranged in a hierarchy. At the top level of the hierarchy is the *menu bar*; which contains a list of *menus*, which in turn can contain submenus. A menu bar is sometimes called a *top-level menu*, and the menus and submenus are also known as *pop-up menus*.
 
 A menu item can either carry out a command or open a submenu. An item that carries out a command is called a *command item* or a *command*.
 
@@ -42,8 +42,6 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | ---------- | ----------- |
 | [AddBitmapToItem](#addbitmaptoitem) | Adds a bitmap to the menu item. |
 | [AddIconToItem](#addicontoitem) | Adds a bitmap to the menu item. |
-| [AddPopup](#addpopup) | Adds a popup child menu to an existing menu. |
-| [AddString](#addstring) | Adds a string or separator to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
 | [Attach](#attach) | Attaches a menu to a window or dialog. |
 | [BoldItem](#olditem) | Changes the text of a menu item to bold. |
@@ -74,7 +72,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [GetItemRect](#getitemrect) | Retrieves the bounding rectangle for the specified menu item. |
 | [GetItemState](#getitemstate) | Retrieves the state of the specified menu item. |
 | [GetItemText](#getitemtext) | Retrieves the text of the specified menu item. |
-| [GetItemTextLen](#getitemtextlen) | Returns the lengnth of the specified menu item. |
+| [GetItemTextLen](#getitemtextlen) | Returns the length of the specified menu item. |
 | [GetRect](#getrect) | Calculates the size of a menu bar or a drop-down menu. |
 | [GetState](#getstate) | Retrieves the state of the specified menu item. |
 | [GetSubMenu](#ghetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
@@ -96,9 +94,8 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [Load](#load) | Loads the specified menu resource from the executable (.exe) file associated with an application instance. |
 | [LoadIndirect](#loadindirect) | Loads the specified menu template in memory. |
 | [Modify](#modify) | Changes an existing menu item. |
-| [NewBar](#create) | Creates a new menu bar. |
 | [NewPopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
-| [RemoveCloseOptiom](#removecloseoption) | Removes the system menu close option and disables the X button. |
+| [RemoveCloseOption](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#deleteitem) | Deletes a menu item from an existing menu. |
 | [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
@@ -188,67 +185,6 @@ CMenu.AddIconToItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_UNDO_3
 ```
 ---
 
-### AddPopup
-
-Adds a popup child menu to an existing menu. A popup menu is a small window that "pops up" when a menu item is highlighted. This allows nesting, and gives the user an opportunity to choose from "sub-menu" items.
-
-```
-FUNCTION AddPopup (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL hPopup AS HMENU, _
-   BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hMenu* | Handle of the parent menu which holds the popup. |
-| *wszText* | Text displayed in the parent menu. An ampersand (&) may be used in the  to make the following letter into a control accelerator (hot-key). The letter appears underscored to signify that it is an accelerator. |
-| *hPopup* | Handle of the child popup menu to be added. |
-| *fState* | The initial state of the menu item. It can be one of the following:<br>MFS_DISABLED: Disable the item so that it cannot be selected.<br>%MFS_ENABLED:  Enable the item so that it can be selected. |
-| *item* | If the option is included, *item* is a unique numeric identifier for this popup menu. *item* may be used later with a *fByPosition* option to reference this popup. *item* is an integral numeric value in the range of -32768 to +32767. |
-| *fByPosition* | Indicates the position in the parent menu where the popup child menu is to be inserted. If the *fByPosition* option is used, the popup menu is inserted prior to the menu item specified by *item*. Otherwise, the popup menu is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
-
-#### Return value
-
-Returns TRUE if the function succeeds; FALSE otherwise.
-
----
-
-### AddString
-
-Adds a string or separator to an existing menu. A string may contain an optional command accelerator key, and also describe an equivalent keyboard accelerator combination.
-
-```
-FUNCTION AddString (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
-   BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *hMenu* | Handle of the parent menu to which the string should be added. |
-| *wszText* | Text to display in the parent menu. An ampersand (&) may be used in the string to make the following letter into a command accelerator (hot-key). The letter is underscored to signify that it is an accelerator. To create a horizontal separator instead of a text string, set wszText = "-", id = 0, fState = 0. Keyboard accelerators can be indicated in the text of a menu item, for the reference of the user. To include a keyboard accelerator description in a menu string, separate it from the menu item text with a CHR(9) character. For example: MenuAddString hMenu, "Cu&t" & CHR(9) & "CTRL+X", id, fState. |
-| *id* | The unique  identifier for the menu item. When a menu item is selected, *id* is sent to the parent dialog callback function to notify the dialog which option was selected. |
-| *fState* | The initial state of the menu item. It can be one or more of the following, combined together with the OR operator to form a bitmask: <br>MFS_CHECKED: Place a checkmark next to the item.<br>MFS_DEFAULT: The default menu item, displayed in bold.  Only one item may be the default.<br>MFS_DISABLED: Disable the menu item so that it cannot be selected.<br>MFS_ENABLED: Enable the menu item so that it can be selected.<br>MFS_GRAYED: Disable the menu item so that it cannot be selected, and draw it in a "grayed" state to indicate this.<br>MFS_HILITE: Highlight the menu item.<br>MFS_UNCHECKED: Do not place a checkmark next to the item.<br>MFS_UNHILITE: Item is not highlighted.<br>A state value of zero (0) provides MFS_ENABLED, MFS_UNCHECKED, and MFS_UNHILITE. |
-| *item* | Optional position in the parent menu, where the menu item should be inserted. If the *fByPosition* option is used, the menu item is inserted prior to the menu item identifier specified by *item*. Otherwise, the menu item is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
-
-#### Return value
-
-Returns TRUE if the function succeeds; FALSE otherwise.
-
-#### Remarks
-
-The application must call the **DrawBar** statement whenever a menu changes, whether or not the menu is in a displayed dialog.
-
-#### Usage examples
-```
-CMenu.AddString hPopup1, "&Open", ID_OPEN, MF_ENABLED
-```
-Insert the item before the ID_OPEN item
-```
-CMenu.AddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, 1, TRUE          ' insert by position
-CMenu.AddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, ID_OPEN, FALSE   ' insert by identifier
-```
----
-
 ### Append
 
 Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. You can use this function to specify the content, appearance, and behavior of the menu item.
@@ -319,7 +255,7 @@ FUNCTION SetItemBold (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | Handle to the menu that contains the menu item. |
-| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *item* | The identifier or position of the menu item to get information about. |
 
 #### Return value
 
@@ -333,7 +269,7 @@ Checks a menu item.
 
 ```
 FUNCTION CheckItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
-   BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+   BYVAL fByPosition AS BOOLEAN = FALSE) AS LONG
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -345,6 +281,17 @@ FUNCTION CheckItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
 
 The return value specifies the previous state of the menu item (either **MF_CHECKED** or **MF_UNCHECKED**). If the menu item does not exist, the return value is -1.
 
+#### Usage examples
+
+By command:
+```
+CMenu.CheckItem(hMenu, IDM_OPEN)
+```
+By position:
+```
+DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 0)
+CMenu.CheckItem(hSubMenu, 1, TRUE)
+```
 ---
 
 ### CheckRadioButton
@@ -437,7 +384,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Creates the main window
    DIM pWindow AS CWindow = "MyClassName"   ' Use the name you wish
-   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - Context meu", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - Context menu", @WndProc)
    ' // Sizes it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 220)
    ' // Centers the window
@@ -531,10 +478,6 @@ If the function succeeds, the return value is a handle to the newly created menu
 
 If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
 
-#### Remarks
-
-Instead of **CMenu.Create** you can call **CMenu.NewBar** or the Windows API function **CreateMenu**.
-
 ---
 
 ### CreatePopup
@@ -581,7 +524,7 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ### Destroy
 
-Destroys the main menu from the window or dialog. The second overloades method destroys the menu attached to a window or dialog
+Destroys the main menu from the window or dialog. The second overloaded method destroys the menu attached to a window or dialog
 
 ```
 FUNCTION Destroy (BYVAL hMenu AS HMENU) AS BOOLEAN
@@ -615,7 +558,7 @@ FUNCTION DisableItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPositio
 
 Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
 
-#### Remaarks
+#### Remarks
 
 The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window.
 
@@ -743,7 +686,7 @@ Returns the width of the default check-mark bitmap.
 Retrieves the Help context identifier associated with the specified menu.
 
 ```
-FUNCTION GetCheckMarkHeight () AS LONG
+FUNCTION GetContextHelpId (BYVAL hMenu AS HMENU) AS BOOLEAN
 ```
 
 | Parameter  | Description |
@@ -851,7 +794,7 @@ If the function succeeds, the return value is nonzero.
 
 If the function fails, the return value is zero. To get extended error information, call **GetLastError**.
 
-The third oveloaded function returns a **MENUINFO** directly.
+The third overloaded function returns a **MENUINFO** directly.
 
 ---
 
@@ -904,7 +847,7 @@ FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | A handle to the menu that contains the item whose identifier is to be retrieved. |
-| *nPos* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+| *nPos* | The zero-based relative position of the menu item whose identifier is to be retrieved. |
 
 #### Return value
 
@@ -917,11 +860,11 @@ The return value is the identifier of the menu item located at the specified pos
 Retrieves information about a menu item.
 
 ```
-FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, _
+FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPosition AS BOOLEAN, _
    BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
-FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, _
+FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPosition AS BOOLEAN, _
    BYREF mii AS MENUITEMINFOW) AS BOOLEAN
-FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN) AS MENUITEMINFOW
+FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPosition AS BOOLEAN) AS MENUITEMINFOW
 ```
 
 | Parameter  | Description |
@@ -958,9 +901,9 @@ FUNCTION GetItemRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
+| *hWin* | Handle of the window or dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
 | *hmenu* | The handle of the menu. |
-| *uItem* | The one-based relative position of the menu item. |
+| *uItem* | The zero-based relative position of the menu item. |
 | *prcItem* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
 | *rcItem* | A **RECT** structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates. |
 
@@ -1057,7 +1000,7 @@ FUNCTION GetRect (BYVAL hWin AS HWND, BYVAL hmenu AS HMENU) AS RECT
 | *hWin* | Handle of the windowor dialog  that owns the menu. If this value is NULL and the *hMenu* parameter represents a popup menu, the function will find the menu window. |
 | *hmenu* | The handle of the menu. |
 | *prcmenu* | A pointer to a **RECT** structure that receives the bounding rectangle of the specified menu expressed in screen coordinates. |
-| *prcmenu* | A **RECT** structure that receives the bounding rectangle of the specified menu expressed in screen coordinates. |
+| *rcmenu* | A **RECT** structure that receives the bounding rectangle of the specified menu expressed in screen coordinates. |
 
 #### Return value
 
@@ -1108,7 +1051,7 @@ FUNCTION GetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | A handle to the menu. |
-| *nPos* | The one-based relative position of the menu item whose identifier is to be retrieved. |
+| *nPos* | The zerp-based relative position of the menu item whose identifier is to be retrieved. |
 
 #### Return value
 
@@ -1452,12 +1395,12 @@ FUNCTION Modify (BYVAL hMenu AS HMENU, BYVAL uPosition AS UINT, BYVAL uFlags AS 
 
 ---
 
-### RemoveCloseOptiom
+### RemoveCloseOption
 
 Removes the system menu close option and disables the X button.
 
 ```
-FUNCTION RemoveCloseOptiom (BYVAL hWin AS HWND) AS BOOLEAN
+FUNCTION RemoveCloseOption (BYVAL hWin AS HWND) AS BOOLEAN
 ```
 
 | Parameter  | Description |
@@ -1470,7 +1413,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 ---
 
-### RestoreCloseOptiom
+### RestoreCloseOption
 
 Restores the system menu close option and enables Alt+F4 and the X button.
 
