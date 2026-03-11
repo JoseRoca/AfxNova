@@ -20,6 +20,7 @@ The framework includes `DWSTRING`, a high‑performance, UTF‑16 dynamic string
 * Automatic memory management
 * Rich text manipulation functions
 * Zero‑copy interoperability with Win32 Unicode functions
+* Support for Ansi, UTF-8 and OEM code pages
 
 It is one of the most advanced and efficient Unicode implementations available for **FreeBASIC**.
 
