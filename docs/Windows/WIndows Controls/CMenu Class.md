@@ -169,7 +169,7 @@ Using **AfxGdipAddIconFromFile** or **AfxGdipIconFromRes** to load the image fro
 
 #### Usage example
 
-Loading the icon from disc:
+Loading the icon from disk:
 
 ```
 DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 1)
@@ -224,6 +224,13 @@ FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS
 | **MF_STRING** | Specifies that the menu item is a text string; the lpNewItem parameter is a pointer to the string. |
 | **MF_UNCHECKED** | Does not place a check mark next to the item (default). If the application supplies check-mark bitmaps (see **SetMenuItemBitmaps**), this flag displays the clear bitmap next to the menu item. |
 
+#### Usage examples
+
+```
+CMenu.Append hMenu, MF_POPUP OR MF_ENABLED, CAST(UINT_PTR, hPopUpMenu), "&File"
+CMenu.Append hPopUpMenu, MF_ENABLED, IDM_NEW, "&New" & CHR(9) & "Ctrl+N"
+CMenu.Append hPopUpMenu, MF_SEPARATOR, 0, ""
+```
 ---
 
 ### Attach
@@ -466,7 +473,7 @@ END FUNCTION
 
 ### Create
 
-Creates a menu.
+Creates a new menu bar.
 
 ```
 FUNCTION Create () AS HMENU
@@ -478,6 +485,11 @@ If the function succeeds, the return value is a handle to the newly created menu
 
 If the function fails, the return value is NULL. To get extended error information, call **GetLastError**.
 
+#### Usage example
+
+```
+DIM hMenu AS HMENU = CMenu.Create
+```
 ---
 
 ### CreatePopup
@@ -539,6 +551,12 @@ FUNCTION Destroy (BYVAL hWin AS HWND) AS BOOLEAN
 
 Returns TRUE if the function succeeds; FALSE otherwise.
 
+#### Usage examples
+
+```
+CMenu.Destroy(hMenu)
+CMenu.Destroy(hwnd)
+```
 ---
 
 ### DisableItem
@@ -940,6 +958,11 @@ MFS_HILITE    The item is highlighted
 MFS_UNCHECKED The item is unchecked.
 MFS_UNHILITE  The item is not highlighted.
 ```
+
+#### Usage example
+```
+DIM dwState AS DWORD = CMenu.GetItemState(hMenu, IDM_OPEN)
+```
 ---
 
 ### GetItemText
@@ -1173,6 +1196,10 @@ FUNCTION IsItemChecked (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPos
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example
+```
+DIM bRes AS BOOLEAN = CMenu.IsItemChecked(hMenu, IDM_OPEN)
+```
 ---
 
 ### IsItemDisabled
@@ -1189,6 +1216,10 @@ FUNCTION IsItemDisabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPo
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example
+```
+DIM bRes AS BOOLEAN = IsItemDisabled(hMenu, IDM_OPEN)
+```
 ---
 
 ### IsItemEnabled
@@ -1205,6 +1236,10 @@ FUNCTION IsItemEnabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPos
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example
+```
+DIM bRes AS BOOLEAN = CMenu.IsItemEnabled(hMenu, IDM_OPEN)
+```
 ---
 
 ### IsItemGrayed
@@ -1221,6 +1256,10 @@ FUNCTION IsItemGrayed (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosi
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example
+```
+DIM bRes AS BOOLEAN = CMenu.IsItemGrayed(hMenu, IDM_OPEN)
+```
 ---
 
 ### IsItemHighlighted
@@ -1237,6 +1276,10 @@ FUNCTION IsItemHighlighted (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fB
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example
+```
+DIM bRes AS BOOLEAN = CMenu.IsItemHighlighted(hMenu, IDM_OPEN)
+```
 ---
 
 ### IsItemOwnerdraw
@@ -1253,6 +1296,11 @@ FUNCTION IsItemOwnerdraw (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByP
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example
+
+```
+DIM bRes AS BOOLEAN = CMenu.IsItemOwnerdraw(hMenu, IDM_OPEN)
+```
 ---
 
 ### IsItemPopup
@@ -1269,6 +1317,11 @@ FUNCTION IsItemPopup (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosit
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example
+
+```
+DIM bRes AS BOOLEAN = CMenu.IsItemPopup(hMenu, IDM_OPEN)
+```
 ---
 
 ### IsItemSeparator
@@ -1285,6 +1338,11 @@ FUNCTION IsItemSeparator (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByP
 | *uItem* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of *uItem*. If this parameter is FALSE, *uItem* is a menu item identifier. Otherwise, it is a menu item position. |
 
+#### Usage example:
+```
+DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 0)
+DIM bRes AS BOOLEAN = CMenu.IsItemSeparator(hSubMenu, 2, TRUE)
+```
 ---
 
 ### IsMenu
@@ -1300,6 +1358,12 @@ FUNCTION IsMenuHandle (BYVAL hMenu AS HMENU) AS BOOLEAN
 
 Returns TRUE if the specified handle is a menu handle; FALSE otherwise.
 
+#### Usage example
+
+```
+DIM bRes AS BOOLEAN = CMenu.IsMenu(hMenu)
+DIM bRes AS BOOLEAN = CMenu.IsMenuHandle(hMenu)
+```
 ---
 
 ### Load
@@ -1409,6 +1473,10 @@ FUNCTION RemoveCloseOption (BYVAL hWin AS HWND) AS BOOLEAN
 
 TRUE or FALSE. To get extended error information, use the **GetLastError** function.
 
+#### Usage eample
+```
+DIM bRes AS BOOLEAN = CMenu.RemoveCloseOption
+```
 ---
 
 ### RestoreCloseOption
@@ -1427,6 +1495,10 @@ FUNCTION RestoreCloseOption (BYVAL hWin AS HWND) AS BOOLEAN
 
 TRUE or FALSE. To get extended error information, use the **GetLastError** function.
 
+#### Usage eample
+```
+DIM bRes AS BOOLEAN = CMenu.RestoreCloseOption
+```
 ---
 
 ### RightJustifyItem
@@ -1449,7 +1521,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 #### Usage example
 ```
-CMenu.RightJustifyItem(hMenu, ID_EXIT)
+DIM bRes AS BOOLEAN = CMenu.RightJustifyItem(hMenu, ID_EXIT)
 ```
 ---
 
@@ -1472,6 +1544,10 @@ Returns nonzero if successful, or zero otherwise.
 
 To retrieve extended error information, call **GetLastError**.
 
+#### Usage example
+```
+DIM bRes AS BOOLEAN = CMenu.SetContextHelpId(hMenu, 123)
+```
 ---
 
 ### SetDefaultItem
@@ -1494,6 +1570,10 @@ If the function succeeds, the return value is nonzero.
 
 If the function fails, the return value is zero. To get extended error information, use the **GetLastError** function.
 
+#### Usage example
+```
+DIM bRes AS BOOLEAN = CMenu.SetDefaultItem(hMenu, IDM_NEW)
+```
 ---
 
 ### SetInfo
@@ -1553,6 +1633,11 @@ The selected and clear bitmaps should be monochrome. The system uses the Boolean
 
 Use the **GetSystemMetrics** function with the **SM_CXMENUCHECK** and **SM_CYMENUCHECK** values to retrieve the bitmap dimensions.
 
+#### Usage example
+```
+CMenu.CheckItem(hMenu, IDM_OPEN)
+CMenu.SetItemBitmaps(hMenu, IDM_OPEN, NULL, NULL)
+```
 ---
 
 ### SetItemInfo
@@ -1612,6 +1697,11 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
 
+#### Usage example
+
+```
+DIM bRes AS BOOLEAN = CMenu.SetItemText(hMenu, IDM_NEW, "New file")
+```
 ---
 
 ### SetItemState
@@ -1638,6 +1728,10 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
 
+#### Usage example
+```
+CMenu.SetItemState(hMenu, IDM_OPEN, MFS_CHECKED)
+```
 ---
 
 ### SetState
@@ -1664,6 +1758,10 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
 
+#### Usage example
+```
+CMenu.SetState(hMenu, IDM_OPEN, MFS_CHECKED)
+```
 ---
 
 ### ToggleCheckState
@@ -1689,6 +1787,10 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
 
+#### Usage example
+```
+CMenu.ToggleCheckState(hMenu, IDM_OPEN)
+```
 ---
 
 ### ToggleItem
@@ -1709,6 +1811,10 @@ FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPositi
 
 The return value specifies the previous state of the menu item (either **MF_CHECKED** or **MF_UNCHECKED**). If the menu item does not exist, the return value is –1.
 
+#### Usage example
+```
+CMenu.ToggleItem(hMenu, IDM_OPEN)
+```
 ---
 
 ### TrackPopupMenu
