@@ -1675,15 +1675,6 @@ The application must call the **CMenu.DrawBar** function whenever a menu changes
 
 ### SetItemState
 
-Sets the text of the specified menu item.
-
-```
-FUNCTION SetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYREF wszText AS WSTRING, _
-    BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
-```
-
-### SetItemState
-
 Sets the state of the specified menu item.
 
 ```
