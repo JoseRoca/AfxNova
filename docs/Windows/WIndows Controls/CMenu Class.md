@@ -30,7 +30,7 @@ The **Window** menu provides a standard set of menu items that the user can choo
 
 When the user chooses a command from the **Window menu**, the system sends a **WM_SYSCOMMAND** message to the menu's owner window. In most applications, the window procedure does not process messages from the window menu. Instead, it simply passes the messages to the **DefWindowProc** function for system-default processing of the message. If an application adds a command to the window menu, the window procedure must process the command.
 
-An application can use the **GetSystemMenu** function to create a copy of the default window menu to modify. Any window that does not use the **GetSystemMenu** function to make its own copy of the window menu receives the standard window menu.
+An application can use the **CMenu.GetSystemMenuHandle** function to create a copy of the default window menu to modify. Any window that does not use the **CMenu.GetSystemMenuHandle** function to make its own copy of the window menu receives the standard window menu.
 
 See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/about-menus) and [Using Menus](https://learn.microsoft.com/en-us/windows/win32/menurc/using-menus)
 
