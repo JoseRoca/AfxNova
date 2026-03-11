@@ -56,7 +56,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [AddString](#addstring) | Adds a string or separator to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
 | [Attach](#attach) | Attaches a menu to a window or dialog. |
-| [BoldItem](#checkitem) | Changes the text of a menu item to bold. |
+| [BoldItem](#olditem) | Changes the text of a menu item to bold. |
 | [CheckItem](#checkitem) | Checks a menu item. |
 | [CheckRadioButton](#checkradiobutton) | Checks a specified menu item and makes it a radio item. |
 | [ContextMenu](#contextmenu) | Creates a floating context menu. |
@@ -851,7 +851,7 @@ FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
 
 #### Return value
 
-The return value is the identifier of the specified menu item. If the menu item identifier is NULL or if the specified item opens a submenu, the return value is -1.
+The return value is the identifier of the menu item located at the specified position in a menu.
 
 ---
 
@@ -1695,10 +1695,49 @@ The application must call the **CMenu.DrawBar** function whenever a menu changes
 
 ---
 
+### ToggleCheckState
+
+Toggles the checked state of a menu item.
+
+```
+FUNCTION ToggleCheckState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, _
+   BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+#### Return value
+
+TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+
+---
+
+### ToggleItem
+
+Toggles the checked state of a menu item.
+
+```
+FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | A handle to the menu that contains the menu item. |
+| *uItem* | The menu item whose check-mark attribute is to be set or unset. |
+| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+
+
 ++++++++++++++
 
 
-| [ToggleCheckState](#togglecheckstate) | Toggles the checked state of a menu item. |
 | [ToggleItem](#toggleitem) | Toggles the checked state of a menu item. |
 | [TrackPopupMenu](#trackpopupmenu) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
 | [TrackPopupMenuEx](#trackpopupmenuex) | Displays a shortcut menu at the specified location and tracks the selection of items on the menu. |
