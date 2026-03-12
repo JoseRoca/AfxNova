@@ -268,6 +268,10 @@ FUNCTION SetItemBold (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
 
 Returns TRUE if the function succeeds; FALSE otherwise.
 
+#### Remarks
+
+The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window. **BoldItem** and **SetItemBold** do this call internally.
+
 ---
 
 ### CheckItem
@@ -1682,7 +1686,7 @@ If the function fails, the return value is zero. To get extended error informati
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** function whenever a menu changes, whether the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether the menu is in a displayed window. **SetItemInfo** does this call internally.
 
 In order for keyboard accelerators to work with bitmap or owner-drawn menu items, the owner of the menu must process the **WM_MENUCHAR** message.
 
@@ -1710,7 +1714,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window. **SetItemText** does this call internally.
 
 #### Usage example
 
@@ -1741,7 +1745,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window. **SetItemState** does this call internlly.
 
 #### Usage example
 ```
@@ -1771,7 +1775,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window. **SetState** does this call internally.
 
 #### Usage example
 ```
@@ -1800,7 +1804,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window. **ToggleCheckState** does this call internally.
 
 #### Usage example
 ```
