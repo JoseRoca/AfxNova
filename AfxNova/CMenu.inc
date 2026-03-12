@@ -51,6 +51,8 @@ Public:
    DECLARE STATIC FUNCTION Destroy (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION CreatePopup () AS HMENU
    DECLARE STATIC FUNCTION NewPopup () AS HMENU
+   DECLARE STATIC FUNCTION AddPopup (BYVAL hMenu AS HMENU, BYVAL hPopup AS HMENU, BYVAL fState AS UINT, _
+           BYVAL item AS LONG, BYREF wszText AS WSTRING, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS UINT_PTR, BYVAL pwszNewItem AS WSTRING PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION CheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
@@ -93,7 +95,7 @@ Public:
    DECLARE STATIC FUNCTION GetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
    DECLARE STATIC FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS LONG
    DECLARE STATIC FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL submenu AS LONG, BYVAL nPos AS LONG) AS LONG
-   DECLARE STATIC FUNCTION FindItemPos (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF subMenu AS LONG, BYREF itemPos AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION FindItemPos (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF hMenuFound AS HMENU, BYREF itemPos AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSubmenusCount (BYVAL hMenu AS HMENU) AS LONG
    DECLARE STATIC FUNCTION GetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
    DECLARE STATIC FUNCTION RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
@@ -834,6 +836,29 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' * Adds a popup child menu to an existing menu.
+' ========================================================================================
+PRIVATE FUNCTION CMenu.AddPopup (BYVAL hMenu AS HMENU, BYVAL hPopup AS HMENU, BYVAL fState AS UINT, _
+BYVAL item AS LONG, BYREF wszText AS WSTRING, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+   fState = fState OR MF_POPUP
+   IF item = 0 THEN RETURN AppendMenuW(hMenu, fState, CAST(UINT_PTR, hPopup), @wszText)
+   DIM mii AS MENUITEMINFOW
+   mii.cbSize = SIZEOF(mii)
+   mii.fMask = MIIM_SUBMENU OR MIIM_STRING OR MIIM_ID
+   mii.hSubMenu = hPopup
+   mii.dwTypeData = @wszText
+   IF fByPosition = FALSE THEN mii.wID = item   '// it is not a position but an identifier
+   IF InsertMenuItemW(hMenu, item, fByPosition, @mii) = FALSE THEN RETURN FALSE
+   mii.fMask = MIIM_STATE
+   mii.fState = fState
+   DIM bRes AS BOOLEAN = SetMenuItemInfoW(hMenu, item, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' * Attaches a menu to a window or dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
@@ -849,9 +874,28 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Deletes a menu item from an existing menu.
-' If it returns TRUE, call DrawMenuBar(hwnd).
-' Usage example: IF CMenu.RemoveItem(hMenu, IDM_OPEN) THEN CMenu.DrawBar(hWin)
+' * Deletes a menu item or detaches a submenu from the specified menu. If the menu item
+' opens a drop-down menu or submenu, RemoveItem does not destroy the menu or its handle,
+' allowing the menu to be reused. Before this function is called, the FindItemPos metod
+' should retrieve a handle to the drop-down menu or submenu.
+' Usage examples:
+' ----------------------------------------------------------------------------------------
+' Remove by identifier:
+' ----------------------------------------------------------------------------------------
+' CMenu.RemoveItem(hMenu, IDM_OPEN)    ' Removes the menu item with the IDM_OPEN identifier
+' CMenu.RemoveItem(hMenu, IDM_POPUP)   ' Removes de popup menu with the IDM_POPUP identifier
+' ----------------------------------------------------------------------------------------
+' Remove a menu by position
+' ----------------------------------------------------------------------------------------
+' CMenu.RemoveItem(hMenu, 1, TRUE)     ' Removes the second menu (zero-based position)
+' ----------------------------------------------------------------------------------------
+' Remove an item by position
+' ----------------------------------------------------------------------------------------
+' DIM hFoundMenu AS HMENU, itemPos AS LONG
+' DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_EXIT, hFoundMenu, itemPos)
+' IF bRes THEN CMenu.RemoveItem(hFoundMenu, itemPos, TRUE)
+' ----------------------------------------------------------------------------------------
+' Note: To remove menus use always the position and to remove drop-down menus use the identifier.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DIM uFlags AS UINT
@@ -863,8 +907,6 @@ PRIVATE FUNCTION CMenu.RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYV
    RETURN bRes
 END FUNCTION
 ' ========================================================================================
-' ========================================================================================
-' Usage example: IF CMenu.DeleteItem(hMenu, IDM_OPEN) THEN CMenu.DrawBar(hWin)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DIM uFlags AS UINT
@@ -930,35 +972,54 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Finds the submenu and position of the specified menu item.
+' Recursively finds the submenu and position of the specified menu item.
 ' Parameters:
-' - hMenu = [in] Handle of the menu
-' - itemID = [in] Item identfier
-' - subMenu = [out] Zero-based submenu number
-' - itemPos = [out] Zero-based position of the item in the submenu
+' - hMenu       = [in]  Handle of the menu to search
+' - itemID      = [in]  Item identifier to locate
+' - hMenuFound  = [out] HMENU where the item was found
+' - itemPos     = [out] Zero-based position of the item in that submenu
+' Return value: TRUE if found, FALSE otherwise.
 ' Example:
-'   DIM subMenu AS LONG, itemPos AS LONG
-'   DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_CASCADE, subMenu, itemPos)
+'   DIM hFoundMenu AS HMENU, itemPos AS LONG
+'   DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_COPY, hFoundMenu, itemPos)
 '   IF bRes THEN
-'      PRINT "subMenu", subMenu
+'      PRINT "hFoundMenu", hFoundMenu
 '      PRINT "itemPos", itemPos
-'      PRINT CMenu.GetItemID(hMenu, subMenu, itemPos)
+'      PRINT CMenu.GetItemID(hFoundMenu, itemPos)
 '   END IF
-' Return value: TRUE or FALSE.
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.FindItemPos (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF subMenu AS LONG, BYREF itemPos AS LONG) AS BOOLEAN
-   DIM hSubMenu AS ..HMENU
-   FOR i AS LONG = 0 TO CMenu.GetSubMenusCount(hMenu) - 1
-      hSubMenu = GetSubMenu(hMenu, i)
-      FOR x AS LONG = 0 TO GetMenuItemCount(hSubMenu) - 1
-         IF GetMenuItemID(hSubMenu, x) = itemID THEN
-            subMenu = i
-            itemPos = x
+PRIVATE FUNCTION CMenu.FindItemPos ( _
+      BYVAL hMenu AS HMENU, _
+      BYVAL itemID AS UINT, _
+      BYREF hMenuFound AS HMENU, _
+      BYREF itemPos AS LONG _
+   ) AS BOOLEAN
+
+   ' // Number of items of the menu
+   DIM itemCount AS LONG = GetMenuItemCount(hMenu)
+
+   ' --- 1. Search in this menu ---
+   FOR i AS LONG = 0 TO itemCount - 1
+      IF GetMenuItemID(hMenu, i) = itemID THEN
+         hMenuFound = hMenu
+         itemPos = i
+         RETURN TRUE
+      END IF
+   NEXT
+
+   ' --- 2. Search recursively in submenus ---
+   DIM hSub AS ..HMENU
+   FOR x AS LONG = 0 TO itemCount - 1
+      hSub = GetSubMenu(hMenu, x)
+      IF hSub <> 0 THEN
+         IF CMenu.FindItemPos(hSub, itemID, hMenuFound, itemPos) THEN
             RETURN TRUE
          END IF
-      NEXT
+      END IF
    NEXT
+
    RETURN FALSE ' Item not found
+
 END FUNCTION
 ' ========================================================================================
 
