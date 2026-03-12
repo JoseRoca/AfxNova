@@ -42,7 +42,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | ---------- | ----------- |
 | [AddBitmapToItem](#addbitmaptoitem) | Adds a bitmap to the menu item. |
 | [AddIconToItem](#addicontoitem) | Adds a bitmap to the menu item. |
-| [AddPopupMenu](#addpopupmenu) | Adds a popup child menu to an existing menu. |
+| [AddPopup](#addpopup) | Adds a popup child menu to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
 | [Attach](#attach) | Attaches a menu to a window or dialog. |
 | [BoldItem](#olditem) | Changes the text of a menu item to bold. |
@@ -234,7 +234,7 @@ CMenu.Append hPopUpMenu, MF_SEPARATOR, 0, ""
 ```
 ---
 
-### AppendPopup
+### AddPopup
 
 Adds a popup child menu to an existing menu. A popup menu is a small window that "pops up" when a menu item is highlighted. This allows nesting, and gives the user an opportunity to choose from "sub-menu" items.
 
