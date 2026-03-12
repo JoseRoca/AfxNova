@@ -47,16 +47,13 @@ Protected:
 Public:
    DECLARE STATIC FUNCTION ComCtlVersion () AS LONG
    DECLARE STATIC FUNCTION Create () AS HMENU
-   DECLARE STATIC FUNCTION NewBar () AS HMENU
    DECLARE STATIC FUNCTION Destroy (BYVAL hMenu AS HMENU) AS BOOLEAN
    DECLARE STATIC FUNCTION Destroy (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION CreatePopup () AS HMENU
    DECLARE STATIC FUNCTION NewPopup () AS HMENU
    DECLARE STATIC FUNCTION Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS UINT_PTR, BYVAL pwszNewItem AS WSTRING PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION AddPopup (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL hPopup AS HMENU, _
-           BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-   DECLARE STATIC FUNCTION CheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
+   DECLARE STATIC FUNCTION CheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    DECLARE STATIC FUNCTION UncheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
    DECLARE STATIC FUNCTION ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    DECLARE STATIC FUNCTION IsItemChecked (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
@@ -75,12 +72,12 @@ Public:
    DECLARE STATIC FUNCTION HiliteItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION RemoveCloseMenu (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION RightJustifyItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetItemBold (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
-   DECLARE STATIC FUNCTION BoldItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetItemBold (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
+   DECLARE STATIC FUNCTION BoldItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD,  BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION SetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYREF wszText AS WSTRING, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemTextLen (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    DECLARE STATIC FUNCTION GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG) AS DWSTRING
+   DECLARE STATIC FUNCTION GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWSTRING
    DECLARE STATIC FUNCTION GetFont (BYVAL plfw AS LOGFONTW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetFont () AS LOGFONTW
    DECLARE STATIC FUNCTION GetFontPointSize () AS LONG
@@ -94,21 +91,19 @@ Public:
    DECLARE STATIC FUNCTION GetHandle (BYVAL hwnd AS HWND) AS HMENU
    DECLARE STATIC FUNCTION GetSystemMenuHandle (BYVAL hwnd AS HWND, BYVAL bRevert AS BOOLEAN = FALSE) AS HMENU
    DECLARE STATIC FUNCTION GetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
-   DECLARE STATIC FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
+   DECLARE STATIC FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS LONG
+   DECLARE STATIC FUNCTION GetItemID (BYVAL hMenu AS HMENU, BYVAL submenu AS LONG, BYVAL nPos AS LONG) AS LONG
+   DECLARE STATIC FUNCTION FindItemPos (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF subMenu AS LONG, BYREF itemPos AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION GetSubmenusCount (BYVAL hMenu AS HMENU) AS LONG
    DECLARE STATIC FUNCTION GetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
-   DECLARE STATIC FUNCTION FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF itemPos AS LONG) AS BOOLEAN
-   DECLARE STATIC FUNCTION FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT) AS LONG
    DECLARE STATIC FUNCTION RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-   DECLARE STATIC FUNCTION AddString (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
-                  BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN 
    DECLARE STATIC FUNCTION GetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS UINT
    DECLARE STATIC FUNCTION ToggleCheckState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION IsMenu (BYVAL hMenu AS HMENU) AS BOOLEAN
    DECLARE STATIC FUNCTION IsMenuHandle (BYVAL hMenu AS HMENU) AS BOOLEAN
    DECLARE STATIC FUNCTION SetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fState AS UINT, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-   DECLARE STATIC FUNCTION RemoveCloseOptiom (BYVAL hwnd AS HWND) AS BOOLEAN
+   DECLARE STATIC FUNCTION RemoveCloseOption (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION RestoreCloseOption (BYVAL hwnd AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION GetBarInfo (BYVAL hwnd AS HWND, BYVAL idObject AS LONG, BYVAL idItem AS LONG, BYVAL pmbi AS MENUBARINFO PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetBarInfo (BYVAL hwnd AS HWND, BYVAL idObject AS LONG, BYVAL idItem AS LONG, BYREF mbi AS MENUBARINFO) AS BOOLEAN
@@ -124,8 +119,8 @@ Public:
    DECLARE STATIC FUNCTION GetItemFromPoint (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYVAL ptScreen AS POINT) AS LONG
    DECLARE STATIC FUNCTION GetItemFromPoint (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYVAL x AS LONG, BYVAL y AS LONG) AS LONG
    DECLARE STATIC FUNCTION SetContextHelpId (BYVAL hMenu AS HMENU, BYVAL helpID AS DWORD) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetContextHelpId (BYVAL hMenu AS HMENU) AS BOOLEAN
-   DECLARE STATIC FUNCTION ContextMenu (BYVAL hwnd AS HWND, BYVAL hPopupMenu AS HMENU, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL flags AS UINT) AS LONG
+   DECLARE STATIC FUNCTION GetContextHelpId (BYVAL hMenu AS HMENU) AS DWORD
+   DECLARE STATIC FUNCTION ContextMenu (BYVAL hwnd AS HWND, BYVAL hPopupMenu AS HMENU, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL flags AS UINT = 0) AS LONG
    DECLARE STATIC FUNCTION TrackPopupMenu (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL x AS LONG, BYVAL y AS LONG, _
                   BYVAL hwnd AS HWND, BYVAL prc AS RECT PTR = NULL) AS BOOLEAN
    DECLARE STATIC FUNCTION TrackPopupMenuEx (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL x AS LONG, BYVAL y AS LONG, _
@@ -135,12 +130,10 @@ Public:
    DECLARE STATIC FUNCTION Modify (BYVAL hMenu AS HMENU, BYVAL uPosition AS UINT, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS UINT_PTR, BYVAL pNewItem AS WSTRING PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetInfo (BYVAL hMenu AS HMENU, BYVAL pmi AS MENUINFO PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetInfo (BYVAL hMenu AS HMENU, BYREF mi AS MENUINFO) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetInfo (BYVAL hMenu AS HMENU) AS MENUINFO
    DECLARE STATIC FUNCTION SetInfo (BYVAL hMenu AS HMENU, BYVAL pmi AS MENUINFO PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetInfo (BYVAL hMenu AS HMENU, BYREF mi AS MENUINFO) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYREF mii AS MENUITEMINFOW) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN) AS MENUITEMINFOW
    DECLARE STATIC FUNCTION SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYREF mii AS MENUITEMINFOW) AS BOOLEAN
    DECLARE STATIC FUNCTION SetMenu (BYVAL hwnd AS HWND, BYVAL hMenu AS HMENU) AS BOOLEAN
@@ -189,20 +182,18 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Creates a new menu bar
+' * Creates a new menu bar
+' Usage example:
+' DIM hMenu AS HMENU = CMenu.Create
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Create () AS HMENU
    RETURN ..CreateMenu
 END FUNCTION
 ' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CMenu.NewBar () AS HMENU
-   RETURN ..CreateMenu
-END FUNCTION
-' ========================================================================================
 
 ' ========================================================================================
-' Destroys the specified menu and frees any memory that the menu occupies.
+' * Destroys the specified menu and frees any memory that the menu occupies.
+' Usage example: CMenu.Destroy(hMenu)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Destroy (BYVAL hMenu AS HMENU) AS BOOLEAN
    RETURN ..DestroyMenu(hMenu)
@@ -210,7 +201,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Destroys the menu attached to a window or dialog and frees any memory that the menu occupies.
+' * Destroys the menu attached to a window or dialog and frees any memory that the menu occupies.
+' Usage example: CMenu.Destroy(hwnd)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Destroy (BYVAL hwnd AS HWND) AS BOOLEAN
    ' // Get the menu handle, if any
@@ -226,9 +218,13 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or
+' * Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or
 ' shortcut menu. You can use this function to specify the content, appearance, and behavior
 ' of the menu item.
+' Usage examples:
+' CMenu.Append hMenu, MF_POPUP OR MF_ENABLED, CAST(UINT_PTR, hPopUpMenu), "&File"
+' CMenu.Append hPopUpMenu, MF_ENABLED, IDM_NEW, "&New" & CHR(9) & "Ctrl+N"
+' CMenu.Append hPopUpMenu, MF_SEPARATOR, 0, ""
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS UINT_PTR, BYVAL pwszNewItem AS WSTRING PTR) AS BOOLEAN
    RETURN ..AppendMenu(hMenu, uFlags, uIDNewItem, pwszNewItem)
@@ -236,28 +232,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Adds a popup child menu to an existing menu.
-' ========================================================================================
-PRIVATE FUNCTION CMenu.AddPopup (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL hPopup AS HMENU, _
-BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-   fState = fState OR MF_POPUP
-   IF item = 0 THEN RETURN AppendMenuW(hMenu, fState, CAST(UINT_PTR, hPopup), @wszText)
-   DIM mii AS MENUITEMINFOW
-   mii.cbSize = SIZEOF(mii)
-   mii.fMask = MIIM_SUBMENU OR MIIM_STRING OR MIIM_ID
-   mii.hSubMenu = hPopup
-   mii.dwTypeData = @wszText
-   IF fByPosition = FALSE THEN mii.wID = item   '// it is not a position but an identifier
-   IF fByPosition = TRUE THEN item -= 1
-   IF InsertMenuItemW(hMenu, item, fByPosition, @mii) = FALSE THEN RETURN FALSE
-   mii.fMask = MIIM_STATE
-   mii.fState = fState
-   RETURN SetMenuItemInfoW(hMenu, item, fByPosition, @mii)
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Checks a menu item.
+' * Checks a menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -265,8 +240,14 @@ END FUNCTION
 '           identifier. Otherwise, it is a menu item position.
 ' Return Value: The return value specifies the previous state of the menu item (either
 ' MF_CHECKED or MF_UNCHECKED). If the menu item does not exist, the return value is -1.
+' Usage examples:
+' - By command:
+'    CMenu.CheckItem(hMenu, IDM_OPEN)
+' - By position:
+'    DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 0)
+'    CMenu.CheckItem(hSubMenu, 1, TRUE)
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.CheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
+PRIVATE FUNCTION CMenu.CheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    DIM dwFlags AS DWORD
    IF fByPosition THEN dwFlags = MF_BYPOSITION ELSE dwFlags = MF_BYCOMMAND
    dwFlags = dwFlags OR MF_CHECKED
@@ -275,7 +256,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Unchecks a menu item.
+' * Unchecks a menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -283,6 +264,7 @@ END FUNCTION
 '           identifier. Otherwise, it is a menu item position.
 ' Return Value: The return value specifies the previous state of the menu item (either
 ' MF_CHECKED or MF_UNCHECKED). If the menu item does not exist, the return value is -1.
+' Usage example: CMenu.UncheckItem(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.UncheckItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
    DIM dwFlags AS DWORD
@@ -293,7 +275,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Toggles the checked state of a menu item.
+' * Toggles the checked state of a menu item.
+' Usage example: CMenu.ToggleItem(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.ToggleItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    DIM dwFlags AS DWORD
@@ -308,7 +291,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns TRUE if the specified menu item is checked; FALSE otherwise.
+' * Returns TRUE if the specified menu item is checked; FALSE otherwise.
+' Usage example: CMenu.IsItemChecked(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.IsItemChecked (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM dwFlags AS DWORD
@@ -318,7 +302,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns TRUE if the specified menu item is enabled; FALSE otherwise.
+' * Returns TRUE if the specified menu item is enabled; FALSE otherwise.
+' Usage example: CMenu.IsItemEnabled(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.IsItemEnabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM dwFlags AS DWORD
@@ -329,7 +314,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns TRUE if the specified menu item is disabled; FALSE otherwise.
+' * Returns TRUE if the specified menu item is disabled; FALSE otherwise.
+' Usage example: IsItemDisabled(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.IsItemDisabled (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM dwFlags AS DWORD
@@ -340,7 +326,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns TRUE if the specified menu item is grayed; FALSE otherwise.
+' * Returns TRUE if the specified menu item is grayed; FALSE otherwise.
+' Usage example: CMenu.IsItemGrayed(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.IsItemGrayed (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM dwFlags AS DWORD
@@ -351,7 +338,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns TRUE if the specified menu item is highlighted; FALSE otherwise.
+' * Returns TRUE if the specified menu item is highlighted; FALSE otherwise.
+' Usage example: CMenu.IsItemHighlighted(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.IsItemHighlighted (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM dwFlags AS DWORD
@@ -362,7 +350,10 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns TRUE if the specified menu item is a separator; FALSE otherwise.
+' * Returns TRUE if the specified menu item is a separator; FALSE otherwise.
+' Usage example:
+' DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 0)
+' PRINT CMenu.IsItemSeparator(hSubMenu, 2, TRUE)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.IsItemSeparator (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM dwFlags AS DWORD
@@ -395,7 +386,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the state of the specified menu item.
+' * Retrieves the state of the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -411,6 +402,7 @@ END FUNCTION
 ' - MFS_UNCHECKED The item is unchecked.
 ' - MFS_UNHILITE  The item is not highlighed.
 ' Note: To get extended error information, use the GetLastError function.
+' Usage example: CMenu.GetItemState(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetItemState (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWORD
    DIM mii AS MENUITEMINFOW
@@ -422,7 +414,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the state of the specified menu item.
+' * Sets the state of the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -440,18 +432,23 @@ END FUNCTION
 ' Return Value: TRUE or FALSE. To get extended error information, use the GetLastError function.
 ' Note: The application must call the DrawMenuBar function whenever a menu changes,
 ' whether or not the menu is in a displayed window.
+' Usage example: CMenu.SetItemState(hMenu, IDM_OPEN, MFS_CHECKED)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.SetItemState (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fState AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
    mii.fState = fState
-   RETURN SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   DIM bRes AS BOOLEAN
+   bRes = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Enables the specified menu item.
+' * Enables the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -460,18 +457,23 @@ END FUNCTION
 ' Return Value: TRUE or FALSE. To get extended error information, use the GetLastError function.
 ' Note: The application must call the DrawMenuBar function whenever a menu changes,
 ' whether or not the menu is in a displayed window.
+' Usage example: CMenu.EnableItem(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.EnableItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
    mii.fState = MFS_ENABLED
-   RETURN SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   DIM bRes AS BOOLEAN
+   bRes = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Disables the specified menu item.
+' * Disables the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -480,18 +482,22 @@ END FUNCTION
 ' Return Value: TRUE or FALSE. To get extended error information, use the GetLastError function.
 ' Note: The application must call the DrawMenuBar function whenever a menu changes,
 ' whether or not the menu is in a displayed window.
+' Usage example: CMenu.DisableItem((hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.DisableItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
    mii.fState = MFS_DISABLED
-   RETURN SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   DIM bRes AS BOOLEAN = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Grays the specified menu item.
+' * Grays the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -500,18 +506,22 @@ END FUNCTION
 ' Return Value: TRUE or FALSE. To get extended error information, use the GetLastError function.
 ' Note: The application must call the DrawMenuBar function whenever a menu changes,
 ' whether or not the menu is in a displayed window.
+' Usage example: CMenu.GrayItem(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GrayItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
    mii.fState = MFS_GRAYED
-   RETURN SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   DIM bRes AS BOOLEAN = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Highlights the specified menu item.
+' * Highlights the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -520,22 +530,27 @@ END FUNCTION
 ' Return Value: TRUE or FALSE. To get extended error information, use the GetLastError function.
 ' Note: The application must call the DrawMenuBar function whenever a menu changes,
 ' whether or not the menu is in a displayed window.
+' Usage example: CMenu.HiliteItem(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.HiliteItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
    mii.fState = MFS_HILITE
-   RETURN SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   DIM bRes AS BOOLEAN = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Right justifies a top level menu item. This is usually used to have the Help menu item
+' * Right justifies a top level menu item. This is usually used to have the Help menu item
 ' right-justified on the menu bar.
 ' - hwnd  = [in] A handle to the menu that contains the menu item.
 ' - uItem = [in] The zero-based position of the menu item to change.
 ' Return value: TRUE or FALSE.
+' Usage example: CMenu.RightJustifyItem(hMenu, 2)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.RightJustifyItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
    DIM mii AS MENUITEMINFOW, buffer AS WSTRING * MAX_PATH + 1
@@ -545,48 +560,64 @@ PRIVATE FUNCTION CMenu.RightJustifyItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DW
    mii.fType = MF_STRING
    mii.fState = MFS_DEFAULT
    mii.fMask = MIIM_ID OR MIIM_DATA OR MIIM_TYPE OR MIIM_SUBMENU
+   DIM bRes AS BOOLEAN
    IF GetMenuItemInfoW(hMenu, uItem, CTRUE, @mii) THEN
       mii.fType = mii.fType OR MF_HELP
-      RETURN SetMenuItemInfoW(hMenu, uItem, CTRUE, @mii)
+      bRes = SetMenuItemInfoW(hMenu, uItem, CTRUE, @mii)
    END IF
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Changes the text of a menu item to bold.
+' * Changes the text of a menu item to bold.
 ' - hwnd  = [in] A handle to the menu that contains the menu item.
 ' - uItem = [in] The zero-based position of the menu item to change.
 ' Return value: TRUE or FALSE.
+' Usage examples:
+' CMenu.SetItemBold(hMenu, IDM_EXIT)
+' CMenu.BoldItem(hMenu, IDM_EXIT)
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.SetItemBold (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
+PRIVATE FUNCTION CMenu.SetItemBold (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW, buffer AS WSTRING * MAX_PATH + 1
    mii.cbSize = SIZEOF(MENUITEMINFOW)
    mii.dwTypeData = @buffer
    mii.cch = MAX_PATH
    mii.fType = MF_STRING
    mii.fMask = MIIM_ID OR MIIM_DATA OR MIIM_TYPE OR MIIM_SUBMENU OR MIIM_STATE
-   IF GetMenuItemInfoW(hMenu, uItem, TRUE, @mii) THEN
+   DIM bRes AS BOOLEAN
+   IF GetMenuItemInfoW(hMenu, uItem, fByPosition, @mii) THEN
       mii.fState = mii.fState OR &H1000
-      RETURN SetMenuItemInfoW(hMenu, uItem, CTRUE, @mii)
+      bRes = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
    END IF
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.BoldItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD) AS BOOLEAN
+' ========================================================================================
+PRIVATE FUNCTION CMenu.BoldItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW, buffer AS WSTRING * MAX_PATH + 1
    mii.cbSize = SIZEOF(MENUITEMINFOW)
    mii.dwTypeData = @buffer
    mii.cch = MAX_PATH
    mii.fType = MF_STRING
    mii.fMask = MIIM_ID OR MIIM_DATA OR MIIM_TYPE OR MIIM_SUBMENU OR MIIM_STATE
-   IF GetMenuItemInfoW(hMenu, uItem, TRUE, @mii) THEN
+   DIM bRes AS BOOLEAN
+   IF GetMenuItemInfoW(hMenu, uItem, fByPosition, @mii) THEN
       mii.fState = mii.fState OR &H1000
-      RETURN SetMenuItemInfoW(hMenu, uItem, CTRUE, @mii)
+      bRes = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
    END IF
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Sets the text of the specified menu item.
+' * Sets the text of the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -594,18 +625,24 @@ END FUNCTION
 ' - fByPosition = The meaning of uItem. If this parameter is FALSE, uItem is a menu item
 '           identifier. Otherwise, it is a menu item position.
 ' Return value: TRUE or FALSE.
+' Usage example: CMenu.SetItemText(hMenu, IDM_OPEN, "Open new")
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.SetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYREF wszText AS WSTRING, BYVAL fByPosition AS LONG = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STRING
    mii.dwTypeData = @wszText
-   RETURN SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   DIM bRes AS BOOLEAN
+   bRes = SetMenuItemInfoW(hMenu, uItem, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Returns the lengnth of the specified menu item.
+' * Returns the lengnth of the specified menu item.
+' Usage example: CMenu.GetItemTextLen(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetItemTextLen (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS LONG
    ' // Fills the MENUITEMINFOW structure
@@ -620,7 +657,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the text of the specified menu item.
+' * Retrieves the text of the specified menu item.
 ' - hMenu = Handle to the menu that contains the menu item.
 ' - uItem = The identifier or position of the menu item to get information about.
 '           The meaning of this parameter depends on the value of fByPosition.
@@ -633,7 +670,7 @@ END FUNCTION
 ' Return value: TRUE or FALSE.
 ' Usage example:
 ' DIM wsz AS WSTRING * 260
-' CMenu.GetItemText(hSubMenu, 1, TRUE, @wsz, 260)
+' CMenu.GetItemText(hMenu, IDM_OPEN, FALSE, @wsz, 260)
 ' AfxMsg wsz
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG) AS BOOLEAN
@@ -648,41 +685,43 @@ PRIVATE FUNCTION CMenu.GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, 
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG) AS DWSTRING
+' Usage example: DIM dwsText AS DWSTRING = CMenu.GetItemText(hMenu, IDM_OPEN)
+' ========================================================================================
+PRIVATE FUNCTION CMenu.GetItemText (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS LONG = FALSE) AS DWSTRING
+   DIM wszText AS WSTRING * 260
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STRING
-   mii.dwTypeData = NULL
-   ' // Get the needed size of the buffer
-   IF GetMenuItemInfoW(hMenu, uItem, fByPosition, @mii) = 0 THEN RETURN ""
-   ' // Make room for the trailing null
-   mii.cch += 1
-   ' // Allocate the buffer
-   DIM buffer AS DWSTRING = WSPACE(mii.cch)
-   ' // Get the menu string
-   mii.dwTypeData = cast(WSTRING PTR, *buffer)
-   IF GetMenuItemInfoW(hMenu, uItem, fByPosition, @mii) THEN
-      RETURN RTRIM(buffer, CHR(0))
-   END IF
+   mii.dwTypeData = @wszText
+   mii.cch = 260
+   IF GetMenuItemInfoW(hMenu, uItem, fByPosition, @mii) THEN RETURN wszText
    RETURN ""
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves information about the font used in menu bars.
+' * Retrieves information about the font used in menu bars.
 ' Return value: TRUE on succes or FALSE on failure.
 ' If the function fails, the return value is zero.
 ' To get extended error information, call GetLastError.
+' Usage example:
+' DIM lfw AS LOGFONTW
+' CMenu.GetFont(@lfw)
+' print lfw.lfFaceName
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetFont (BYVAL plfw AS LOGFONTW PTR) AS BOOLEAN
    DIM ncm AS NONCLIENTMETRICSW
    IF plfw = NULL THEN RETURN FALSE
    IF CMenu.ComCtlVersion >= 6 THEN ncm.cbSize = 504 ELSE ncm.cbSize = 500
-   IF SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, SIZEOF(ncm), @ncm, 0) <> 0 THEN RETURN FALSE
+   IF SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, SIZEOF(ncm), @ncm, 0) = 0 THEN RETURN FALSE
    *plfw = ncm.lfMenuFont
    RETURN TRUE
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+' Usage example:
+' DIM lfw AS LOGFONTW = CMenu.GetFont
+' print lfw.lfFaceName
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetFont () AS LOGFONTW
    DIM ncm AS NONCLIENTMETRICSW
@@ -693,8 +732,9 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the point size of the font used in menu bars.
+' * Retrieves the point size of the font used in menu bars.
 ' If the function fails, the return value is 0.
+' print CMenu.GetFontPointSize
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetFontPointSize () AS LONG
    DIM ncm AS NONCLIENTMETRICSW
@@ -711,7 +751,10 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the bounding rectangle for the specified menu item.
+' * Retrieves the bounding rectangle for the specified menu item.
+' Usage example:
+' DIM rc AS RECT = CMenu.GetItemRect(hWin, hMenu, 1)
+' print rc.left, rc.top, rc.right, rc.bottom
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetItemRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYVAL uItem AS UINT, BYVAL prcItem AS RECT PTR) AS BOOLEAN
    RETURN ..GetMenuItemRect(hwnd, hMenu, uItem, prcItem)
@@ -731,13 +774,16 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Calculates the size of a menu bar or a drop-down menu.
+' * Calculates the size of a menu bar or a drop-down menu.
 ' - hwnd = Handle of the window that owns the menu.
 ' - hmenu = Handle of the menu.
 ' - prcmenu = Pointer to a variable of type RECT where to return the retrieved values.
 ' Return Value:
 ' If the function succeeds, the return value is 0.
 ' If the function fails, the return value is a system error code.
+' Usage example:
+' DIM rc AS RECT = CMenu.GetRect(hWin, hMenu)
+' print rc.left, rc.top, rc.right, rc.bottom
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetRect (BYVAL hwnd AS HWND, BYVAL hmenu AS HMENU, BYVAL prcmenu AS RECT PTR) AS LONG
    DIM i AS LONG, nRes AS LONG, rc AS RECT
@@ -773,7 +819,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Creates a drop-down menu, submenu, or shortcut menu. The menu is initially empty. You can
+' * Creates a drop-down menu, submenu, or shortcut menu. The menu is initially empty. You can
 ' insert or append menu items by using the InsertMenuItem function. You can also use the
 ' AppendMenu function to append menu items.
 ' ========================================================================================
@@ -788,14 +834,14 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Attaches a menu to a window or dialog.
+' * Attaches a menu to a window or dialog.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Attach (BYVAL hMenu AS HMENU, BYVAL hwnd AS HWND) AS BOOLEAN
    RETURN ..SetMenu(hwnd, hMenu)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' Assigns a new menu to the specified window.
+' * Assigns a new menu to the specified window.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.SetMenu (BYVAL hwnd AS HWND, BYVAL hMenu AS HMENU) AS BOOLEAN
    RETURN ..SetMenu(hwnd, hMenu)
@@ -803,26 +849,38 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Deletes a menu item from an existing menu.
+' * Deletes a menu item from an existing menu.
 ' If it returns TRUE, call DrawMenuBar(hwnd).
+' Usage example: IF CMenu.RemoveItem(hMenu, IDM_OPEN) THEN CMenu.DrawBar(hWin)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DIM uFlags AS UINT
    IF fByPosition = TRUE THEN uFlags = MF_BYPOSITION ELSE uFlags = MF_BYCOMMAND
-   FUNCTION = ..RemoveMenu(hMenu, item, uFlags)
+   DIM bRes AS BOOLEAN
+   bRes = ..RemoveMenu(hMenu, item, uFlags)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+' Usage example: IF CMenu.DeleteItem(hMenu, IDM_OPEN) THEN CMenu.DrawBar(hWin)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DIM uFlags AS UINT
    IF fByPosition = TRUE THEN uFlags = MF_BYPOSITION ELSE uFlags = MF_BYCOMMAND
-   FUNCTION = ..RemoveMenu(hMenu, item, uFlags)
+   DIM bRes AS BOOLEAN
+   bRes = ..RemoveMenu(hMenu, item, uFlags)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Redraws the menu bar of the specified window. If the menu bar changes after the system
+' * Redraws the menu bar of the specified window. If the menu bar changes after the system
 ' has created the window, this function must be called to draw the changed menu bar.
+' Usage example: CMenu.DrawBar(hwnd)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.DrawBar (BYVAL hwnd AS HWND) AS BOOLEAN
    RETURN ..DrawMenuBar(hwnd)
@@ -830,7 +888,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves a handle to the menu assigned to the specified window or dialog. 
+' * Retrieves a handle to the menu assigned to the specified window or dialog. 
+' Usage example: CMenu.GetHandle(hWin)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetHandle (BYVAL hwnd AS HWND) AS HMENU
    RETURN ..GetMenu(hwnd)
@@ -838,8 +897,8 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Enables the application to access the window menu (also known as the system menu
-' or the control menu) for copying and modifying.
+' * Retrieves the system menu handle.
+' Usage example: CMenu.GetSystemMenuHandle(hWin)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetSystemMenuHandle (BYVAL hwnd AS HWND, BYVAL bRevert AS BOOLEAN = FALSE) AS HMENU
    RETURN ..GetSystemMenu(hwnd, bRevert)
@@ -847,27 +906,65 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+' * Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+' Usage example: DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 0)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
-   nPos -= 1 : IF nPos < 0 THEN nPos = 0
    RETURN ..GetSubMenu(hMenu, nPos)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' * Retrieves the menu item ID of a menu item located at the specified position in a menu.
-' Usage example: MenuGetItemID(MenuGetSubMenu(hMenu, 1), 1)
-' - Returms the identifier of the first item of the first submenu.
+' Usage example: CMenu.GetItemID(CMenu.GetSubMenu(hMenu, 0), 1) 
+' - Returms the identifier of the second item of the first submenu.
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS UINT
-   nPos -= 1 : IF nPos < 0 THEN nPos = 0
+PRIVATE FUNCTION CMenu.GetItemID (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS LONG
    RETURN ..GetMenuItemID(hMenu, nPos)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CMenu.GetItemID (BYVAL hMenu AS HMENU, BYVAL submenu AS LONG, BYVAL nPos AS LONG) AS LONG
+   RETURN ..GetMenuItemID(GetSubMenu(hMenu, submenu), nPos)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the number of submenus of a menu.
+' Finds the submenu and position of the specified menu item.
+' Parameters:
+' - hMenu = [in] Handle of the menu
+' - itemID = [in] Item identfier
+' - subMenu = [out] Zero-based submenu number
+' - itemPos = [out] Zero-based position of the item in the submenu
+' Example:
+'   DIM subMenu AS LONG, itemPos AS LONG
+'   DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_CASCADE, subMenu, itemPos)
+'   IF bRes THEN
+'      PRINT "subMenu", subMenu
+'      PRINT "itemPos", itemPos
+'      PRINT CMenu.GetItemID(hMenu, subMenu, itemPos)
+'   END IF
+' Return value: TRUE or FALSE.
+' ========================================================================================
+PRIVATE FUNCTION CMenu.FindItemPos (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF subMenu AS LONG, BYREF itemPos AS LONG) AS BOOLEAN
+   DIM hSubMenu AS ..HMENU
+   FOR i AS LONG = 0 TO CMenu.GetSubMenusCount(hMenu) - 1
+      hSubMenu = GetSubMenu(hMenu, i)
+      FOR x AS LONG = 0 TO GetMenuItemCount(hSubMenu) - 1
+         IF GetMenuItemID(hSubMenu, x) = itemID THEN
+            subMenu = i
+            itemPos = x
+            RETURN TRUE
+         END IF
+      NEXT
+   NEXT
+   RETURN FALSE ' Item not found
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Retrieves the number of submenus of a menu.
+' Usage example: CMenu.GetSubmenusCount(hMenu)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetSubmenusCount (BYVAL hMenu AS HMENU) AS LONG
    DIM itemCount AS LONG = ..GetMenuItemCount(hMenu)
@@ -880,10 +977,11 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the window owner of the specified menu
+' * Retrieves the window owner of the specified menu.
+' Usage example: CMenu.GetWindowOwner(hMenu)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
-   DIM hwnd As HWND = ..GetTopWindow(NULL)
+   DIM hwnd AS HWND = ..GetTopWindow(NULL)
    WHILE hwnd <> 0
       IF ..GetMenu(hwnd) = hMenu THEN
          RETURN hwnd ' Found the window owner
@@ -895,91 +993,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Finds the position of the specified menu item.
-' Example:
-'   DIM nPos AS LONG
-'   CMenu.FindItemPosition(hMenu, ID_EXIT, nPos)
-'Return value: TRUE or FALSE.
-' ========================================================================================
-PRIVATE FUNCTION CMenu.FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF itemPos AS LONG) AS BOOLEAN
-   DIM itemCount AS LONG = GetMenuItemCount(hMenu)
-   FOR i AS LONG = 0 TO itemCount - 1
-      DIM currentID AS UINT = GetMenuItemID(hMenu, i)
-      ' If the item matches, return its absolute position
-      IF currentID = itemID THEN
-         itemPos = i
-         RETURN TRUE
-      END IF
-      ' Check if the item is a submenu
-      DIM hSubMenu AS ..HMENU = GetSubMenu(hMenu, i)
-      IF hSubMenu <> 0 THEN
-         ' Recursively search the submenu
-         IF CMenu.FindItemPosition(hSubMenu, itemID, itemPos) THEN
-            itemPos = itemPos + i + 1 ' Adjust position relative to parent menu
-            RETURN TRUE
-         END IF
-      END IF
-   NEXT
-   RETURN FALSE ' Item not found
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-' Example:
-'   DIM nPos AS LONG = CMenu.FindItemPosition(hMenu, ID_EXIT)
-'Return value: TRUE or FALSE.
-' ========================================================================================
-PRIVATE FUNCTION CMenu.FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT) AS LONG
-   DIM itemPos AS LONG
-   CMenu.FindItemPosition(hMenu, itemID, itemPos)
-   RETURN itemPos
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' * Adds a string or separator to an existing menu.
-' Usage examples:
-' MenuAddString hPopup1, "&Open", ID_OPEN, MF_ENABLED
-' Insert the item before the ID_OPEN item
-' MenuAddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, 1, TRUE          ' insert by position
-' MenuAddString hPopup1, "&Exit", ID_EXIT, MF_ENABLED, ID_OPEN, FALSE   ' insert by identifier
-' ========================================================================================
-PRIVATE FUNCTION CMenu.AddString (BYVAL hMenu AS HMENU, BYREF wszText AS WSTRING, BYVAL id AS LONG, _
-BYVAL fState AS UINT, BYVAL item AS LONG = 0, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-   IF wszText = "-" THEN RETURN AppendMenuW(hMenu, MF_SEPARATOR, 1, "")
-   ' // If fByPosition = FALSE and item > 0, it is a menu identifier
-   IF fByPosition = FALSE AND item > 0 THEN
-      ' // Find the item position
-      DIM itemPos AS LONG
-      IF CMenu.FindItemPosition (hMenu, item, itemPos) THEN
-         ' // If found, insert the item before that position
-         IF itemPos THEN
-            item = itemPos
-            fByPosition = TRUE
-         END IF
-      END IF
-   END IF
-   IF fByPosition THEN
-      ' // If the position is <=0, append the item into the menu
-      IF item <= 0 THEN RETURN AppendMenuW(hMenu, fState, id, @wszText)
-      ' // else adjust the position from 0-based to one-based
-      item -= 1
-   END IF
-   ' // Insert the item into the menu
-   DIM mii AS MENUITEMINFOW
-   mii.cbSize = SIZEOF(mii)
-   mii.fMask = MIIM_STRING
-   mii.dwTypeData = @wszText
-   IF InsertMenuItemW(hMenu, item, fByPosition, @mii) = FALSE THEN RETURN FALSE
-   mii.fMask = MIIM_STATE
-   mii.fState = fState
-   mii.fMask = MIIM_ID
-   mii.wID = id
-   RETURN SetMenuItemInfoW(hMenu, item, fByPosition, @mii)
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Retrieves the state of the specified menu item.
+' * Retrieves the state of the specified menu item.
 ' - hMenu = A handle to the menu that contains the menu item.
 ' - item = The identifier or position of the menu item to get information about.
 '          The meaning of this parameter depends on the value of fByPosition.
@@ -995,12 +1009,12 @@ END FUNCTION
 ' - MFS_UNCHECKED The item is unchecked.
 ' - MFS_UNHILITE  The item is not highlighted.
 ' Note: To get extended error information, use the GetLastError function.
+' Usage example: CMenu.GetState(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS UINT
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
-   IF fByPosition = TRUE THEN item -= 1   ' // adjust for zero-based
    IF GetMenuItemInfoW(hMenu, item, fByPosition, @mii) = 0 THEN RETURN 0
    RETURN mii.fState
 END FUNCTION
@@ -1008,6 +1022,7 @@ END FUNCTION
 
 ' ========================================================================================
 ' * Toggles the checked state of a menu item.
+' Usage example: CMenu.ToggleCheckState(hMenu, IDM_OPEN)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.ToggleCheckState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DIM dwFlags AS DWORD
@@ -1017,19 +1032,25 @@ PRIVATE FUNCTION CMenu.ToggleCheckState (BYVAL hMenu AS HMENU, BYVAL item AS LON
    ELSE
       dwFlags = dwFlags OR MF_CHECKED
    END IF
-   IF fByPosition = TRUE THEN item -= 1   ' // adjust for zero-based
    ' Microsoft advises to use SetMenuItemInfoW
 '   RETURN CheckMenuItem(hMenu, item, dwFlags)
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
    mii.fState = dwFlags
-   RETURN SetMenuItemInfoW(hMenu, item, fByPosition, @mii)
+   DIM bRes AS BOOLEAN
+   bRes = SetMenuItemInfoW(hMenu, item, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Determines whether a handle is a menu handle.
+' * Determines whether a handle is a menu handle.
+' Usage examples:
+' CMenu.IsMenu(hMenu)
+' CMenu.IsMenuHandle(hMenu)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.IsMenu (BYVAL hMenu AS HMENU) AS BOOLEAN
    RETURN ..IsMenu(hMenu)
@@ -1060,24 +1081,29 @@ END FUNCTION
 ' Return Value: TRUE or FALSE. To get extended error information, use the GetLastError function.
 ' Note: The application must call the DrawMenuBar function whenever a menu changes,
 ' whether or not the menu is in a displayed window.
+' Usage example: CMenu.SetState(hMenu, IDM_OPEN, MFS_CHECKED)
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.SetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fState AS UINT, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(mii)
    mii.fMask = MIIM_STATE
    mii.fState = fState
-   IF fByPosition = TRUE THEN item -= 1   ' // adjust for zero-based
-   RETURN SetMenuItemInfoW(hMenu, item, fByPosition, @mii)
+   DIM bRes AS BOOLEAN
+   bRes = SetMenuItemInfoW(hMenu, item, fByPosition, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Removes the system menu close option and disables the X button.
+' * Removes the system menu close option and disables the X button.
 ' Parameter: hwnd = Handle of the window or dialog that owns the menu.
 ' Return value: TRUE of FALSE.
 ' Note: To restore the close menu, call RestoreCloseOption.
+' Usage example: CMenu.RemoveCloseOption(hWin)
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.RemoveCloseOptiom (BYVAL hwnd AS HWND) AS BOOLEAN
+PRIVATE FUNCTION CMenu.RemoveCloseOption (BYVAL hwnd AS HWND) AS BOOLEAN
    ' // Get the system menu handle
    DIM hMenu AS HMENU = ..GetSystemMenu(hwnd, FALSE)
    IF hMenu = NULL THEN RETURN FALSE
@@ -1096,6 +1122,7 @@ END FUNCTION
 ' =====================================================================================
 ' Restores the system menu close option and enables Alt+F4 and the X button.
 ' Parameter: hwnd = Handle of the window or dialog that owns the menu.
+' Usage example: CMenu.RestoreCloseOption(hWin)
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.RestoreCloseOption (BYVAL hwnd AS HWND) AS BOOLEAN
    IF ..GetSystemMenu(hwnd, TRUE) <> NULL THEN RETURN FALSE
@@ -1143,7 +1170,7 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Checks a specified menu item and makes it a radio item. At the same time, the function
+' * Checks a specified menu item and makes it a radio item. At the same time, the function
 ' clears all other menu items in the associated group and clears the radio-item type flag
 ' for those items.
 ' - hMenu: A handle to the menu that contains the group of menu items.
@@ -1153,34 +1180,32 @@ END FUNCTION
 ' - fByPosition: The meaning of check. If this parameter is FALSE, check is a menu item
 '                identifier. Otherwise, it is a menu item position.
 ' Usage example:
-'   CMenu.CheckRadioButton(hMenu, ID_OPEN, ID_EXIT, ID_EXIT)      ' By item identifier
-'   CMenu.CheckRadioButton(GetSubMenu(hMenu, 0), 1, 2, 2, TRUE)   ' By position
+'   CMenu.CheckRadioButton(hMenu, IDM_OPEN, IDM_EXIT, IDM_SAVE)         ' By item identifier
+'   CMenu.CheckRadioButton(CMenu.GetSubMenu(hMenu, 0), 0, 1, 1, TRUE)   ' By position
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.CheckRadioButton (BYVAL hMenu AS HMENU, BYVAL first AS LONG, BYVAL last AS LONG, BYVAL check AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
-   IF fByPosition = TRUE THEN
-      first -= 1 : IF first < 0 THEN first = 0
-      last -= 1 : IF last < 0 THEN last = 0
-      check -= 1 : IF check < 0 THEN check = 0
-   END IF
    DIM dwFlags AS DWORD
    IF fByPosition = TRUE THEN dwFlags = MF_BYPOSITION ELSE dwFlags = MF_BYCOMMAND
    DIM bRes AS BOOLEAN = ..CheckMenuRadioItem(hMenu, first, last, check, dwFlags)
    ' Redraw the menu bar to reflect the changes
-   IF bRes THEN CMenu.DrawBar(CMenu.GetWindowOwner(hMenu))
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
    RETURN bRes
 END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Retrieves the dimensions of the default check-mark bitmap. The system displays this
+' * Retrieves the dimensions of the default check-mark bitmap. The system displays this
 ' bitmap next to selected menu items. Before calling the MenuSetItemBitmaps function to
 ' replace the default check-mark bitmap for a menu item, an application must determine
 ' the correct bitmap size by calling CMenu.GetCheckMarkWidth and CMenu.GetCheckMarkHeight.
+' Usage example: DIM nWidth AS LONG = CMenu.GetCheckMarkWidth
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.GetCheckMarkWidth () AS LONG
    RETURN GetSystemMetrics(SM_CYMENUCHECK)
 END FUNCTION
 ' =====================================================================================
+' =====================================================================================
+' * Usage example: DIM nHeight AS LONG = CMenu.GetCheckMarkHeight
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.GetCheckMarkHeight () AS LONG
    RETURN GetSystemMetrics(SM_CXMENUCHECK)
@@ -1188,7 +1213,7 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Sets the default menu item for the specified menu.
+' * Sets the default menu item for the specified menu.
 ' Parameters:
 ' - hMenu = A handle to the menu to set the default item for.
 ' - item = The identifier or position of the new default menu item or -1 for no default item.
@@ -1200,7 +1225,6 @@ END FUNCTION
 ' CMenu.SetDefaultItem(hMenu, 1)
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.SetDefaultItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
-   IF fByPosition = TRUE AND item <> -1 THEN item -= 1   ' Position is zero-based
    RETURN ..SetMenuDefaultItem(hMenu, item, fByPosition)
 END FUNCTION
 ' =====================================================================================
@@ -1231,7 +1255,10 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Determines the number of items in the specified menu.
+' * Determines the number of items in the specified menu.
+' Usage examples:
+' CMenu.GetItemCount(hMenu)
+' CMenu.GetItemCount(CMenu.GetSubmenu(hMenu, 0))
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.GetItemCount (BYVAL hMenu AS HMENU) AS LONG
    RETURN ..GetMenuItemCount(hMenu)
@@ -1239,17 +1266,16 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Associates the specified bitmap with a menu item. Whether the menu item is selected or
+' * Associates the specified bitmap with a menu item. Whether the menu item is selected or
 ' clear, the system displays the appropriate bitmap next to the menu item.
 ' Usage example:
-' CMenu.CheckItem(hMenu, ID_OPEN)
-' CMenu.SetItemBitmaps(hMenu, ID_OPEN, NULL, NULL)
+' CMenu.CheckItem(hMenu, IDM_OPEN)
+' CMenu.SetItemBitmaps(hMenu, IDM_OPEN, NULL, NULL)
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.SetItemBitmaps (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL hBitmapUnchecked AS HBITMAP, _
 BYVAL hBitmapChecked AS HBITMAP, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DIM dwFlags AS UINT
    IF fByPosition = TRUE THEN dwFlags = MF_BYPOSITION ELSE dwFlags = MF_BYCOMMAND
-   IF fByPosition = TRUE THEN item -= 1   ' Position is zero-based
    RETURN SetMenuItemBitmaps(hMenu, item, dwFlags, hBitmapUnchecked, hBitmapChecked)
 END FUNCTION
 ' =====================================================================================
@@ -1270,31 +1296,32 @@ END FUNCTION
 ' =====================================================================================
 
 ' =====================================================================================
-' Associates a Help context identifier with a menu.
+' * Associates a Help context identifier with a menu.
+' CMenu.SetContextHelpId(hMenu, 123)
 ' =====================================================================================
 PRIVATE FUNCTION CMenu.SetContextHelpId (BYVAL hMenu AS HMENU, BYVAL helpID AS DWORD) AS BOOLEAN
    RETURN ..SetMenuContextHelpId(hMenu, helpID)
 END FUNCTION
 ' =====================================================================================
 ' =====================================================================================
-' Retrieves the Help context identifier associated with the specified menu.
+' * Retrieves the Help context identifier associated with the specified menu.
+' print CMenu.GetContextHelpId(hMenu)
 ' =====================================================================================
-PRIVATE FUNCTION CMenu.GetContextHelpId (BYVAL hMenu AS HMENU) AS BOOLEAN
+PRIVATE FUNCTION CMenu.GetContextHelpId (BYVAL hMenu AS HMENU) AS DWORD
    RETURN ..GetMenuContextHelpId(hMenu)
 END FUNCTION
 ' =====================================================================================
  
 ' ========================================================================================
-' Creates a floating context menu.
+' * Creates a floating context menu.
 ' ========================================================================================
-PRIVATE FUNCTION CMenu.ContextMenu (BYVAL hwnd AS HWND, BYVAL hPopupMenu AS HMENU, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL flags AS UINT) AS LONG
-   flags = flags OR TPM_NONOTIFY OR TPM_RETURNCMD OR TPM_NOANIMATION
+PRIVATE FUNCTION CMenu.ContextMenu (BYVAL hwnd AS HWND, BYVAL hPopupMenu AS HMENU, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL flags AS UINT = 0) AS LONG
    RETURN ..TrackPopupMenu(hPopupMenu, flags, x, y, 0, hwnd, NULL)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Displays a shortcut menu at the specified location and tracks the selection of items on
+' * Displays a shortcut menu at the specified location and tracks the selection of items on
 ' the menu. The shortcut menu can appear anywhere on the screen. 
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.TrackPopupMenu (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL x AS LONG, BYVAL y AS LONG, _
@@ -1304,7 +1331,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Displays a shortcut menu at the specified location and tracks the selection of items on
+' * Displays a shortcut menu at the specified location and tracks the selection of items on
 ' the menu. The shortcut menu can appear anywhere on the screen. 
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.TrackPopupMenuEx (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL x AS LONG, BYVAL y AS LONG, _
@@ -1354,14 +1381,6 @@ PRIVATE FUNCTION CMenu.GetInfo (BYVAL hMenu AS HMENU, BYREF mi AS MENUINFO) AS B
    RETURN ..GetMenuInfo(hMenu, @mi)
 END FUNCTION
 ' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CMenu.GetInfo (BYVAL hMenu AS HMENU) AS MENUINFO
-   DIM mi AS MENUINFO
-   mi.cbSize = SIZEOF(MENUINFO)
-   ..GetMenuInfo(hMenu, @mi)
-   RETURN mi
-END FUNCTION
-' ========================================================================================
 
 ' ========================================================================================
 ' Sets information for a specified menu.
@@ -1385,23 +1404,15 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
    IF pmii = NULL THEN RETURN FALSE
-   pmii->cBSize = SIZEOF(MENUINFO)
+   pmii->cBSize = SIZEOF(MENUITEMINFOW)
    RETURN ..GetMenuItemInfoW(hMenu, item, fByPositon, pmii)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYREF mii AS MENUITEMINFOW) AS BOOLEAN
    IF VARPTR(mii) = NULL THEN RETURN FALSE
-   mii.cbSize = SIZEOF(MENUINFO)
+   mii.cbSize = SIZEOF(MENUITEMINFOW)
    RETURN ..GetMenuItemInfoW(hMenu, item, fByPositon, @mii)
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CMenu.GetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN) AS MENUITEMINFOW
-   DIM mii AS MENUITEMINFOW
-   mii.cbSize = SIZEOF(MENUINFO)
-   ..GetMenuItemInfoW(hMenu, item, fByPositon, @mii)
-   RETURN mii
 END FUNCTION
 ' ========================================================================================
 
@@ -1411,14 +1422,22 @@ END FUNCTION
 PRIVATE FUNCTION CMenu.SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYVAL pmii AS MENUITEMINFOW PTR) AS BOOLEAN
    IF pmii = NULL THEN RETURN FALSE
    pmii->cBSize = SIZEOF(MENUINFO)
-   RETURN ..SetMenuItemInfoW(hMenu, item, fByPositon, pmii)
+   DIM bRes AS BOOLEAN
+   bRes = ..SetMenuItemInfoW(hMenu, item, fByPositon, pmii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.SetItemInfo (BYVAL hMenu AS HMENU, BYVAL item AS UINT, BYVAL fByPositon AS BOOLEAN, BYREF mii AS MENUITEMINFOW) AS BOOLEAN
    IF VARPTR(mii) = NULL THEN RETURN FALSE
    mii.cbSize = SIZEOF(MENUINFO)
-   RETURN ..SetMenuItemInfoW(hMenu, item, fByPositon, @mii)
+   DIM bRes AS BOOLEAN
+   bRes = ..SetMenuItemInfoW(hMenu, item, fByPositon, @mii)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
 END FUNCTION
 ' ========================================================================================
 
