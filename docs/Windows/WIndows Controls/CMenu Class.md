@@ -572,13 +572,19 @@ FUNCTION DisableItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPositio
 | *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
 | *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
 
+#### Usage example
+
+```
+CMenu.DisableItem(hMenu, IDM_OPEN)
+```
+
 #### Return value
 
 Returns TRUE if the function succeeds; FALSE otherwise. To get extended error information, use the **GetLastError** function.
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window. **DisableItem** does this call internally.
 
 ---
 
@@ -622,8 +628,13 @@ Returns TRUE if the function succeeds; FALSE otherwise. To get extended error in
 
 #### Remaarks
 
-The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window. **EnableItem** does this call internally.
 
+#### Usage example
+
+```
+CMenu.EnableItem(hMenu, IDM_OPEN)
+```
 ---
 
 ### FindItemPosition
@@ -1154,7 +1165,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window. **GrayItem** does this call internally.
 
 ---
 
@@ -1178,7 +1189,7 @@ TRUE or FALSE. To get extended error information, use the **GetLastError** funct
 
 #### Remarks
 
-The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window.
+The application must call the **CMenu.DrawBar** function whenever a menu changes, whether or not the menu is in a displayed window. **HiliteItem** does this call internally.
 
 ---
 
@@ -1518,6 +1529,10 @@ FUNCTION RightJustifyItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPo
 #### Return value
 
 TRUE or FALSE. To get extended error information, use the **GetLastError** function.
+
+#### Remarks
+
+The application must call the **CMenu.DrawBar** method whenever a menu changes, whether or not the menu is in a displayed window. **RightJustifyItem** does this call internally.
 
 #### Usage example
 ```
