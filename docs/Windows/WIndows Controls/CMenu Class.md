@@ -55,7 +55,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [DisableItem](#disableitem) | Disables the specified menu item. |
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
 | [EnableItem](#enableitem) | Enables the specified menu item. |
-| [FindItemPosition](#finditemposition) | Finds the position of the specified menu item. |
+| [FindItemPos](#finditempos) | Finds the submenu and position of the specified menu item. |
 | [GetBarInfo](#getarinfo) | Retrieves information about the specified menu bar. |
 | [GetCheckMarkHeight](#getcheckmarkheight) | Retrieves the height of the default check-mark bitmap. |
 | [GetCheckMarkWidth](#getcheckmarkwidth) | Retrieves the width of the default check-mark bitmap. |
@@ -641,28 +641,35 @@ CMenu.EnableItem(hMenu, IDM_OPEN)
 ```
 ---
 
-### FindItemPosition
+### FindItemPos
 
-Finds the position of the specified menu item.
+Finds the submenu and position of the specified menu item.
 
 ```
-FUNCTION FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, BYREF itemPos AS LONG) AS BOOLEAN
-FUNCTION FindItemPosition (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT) AS LONG
+FUNCTION FindItemPos (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, _
+   BYREF subMenu AS LONG, BYREF itemPos AS LONG) AS BOOLEAN
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | A handle to the menu that contains the menu item. |
 | *itemID* | The identifier of the menu item. |
-| *itemPos* | A variable of type LONG that received the item position. |
+| *subMenu* | A variable of type LONG that receives the zero-based submenu number. |
+| *itemPos* | A variable of type LONG that receives the zero-based position of the item in the submenu. |
 
 #### Return value
 
-The first overloaded function returns TRUE if the function succeeds; FALSE otherwise.
+Returns TRUE if the function succeeds or FALSE otherwise.
 
-The second overloaded function returns the item position, or zero if it is not found.
-
-To get extended error information, use the **GetLastError** function.
-
+#### Example
+```
+DIM subMenu AS LONG, itemPos AS LONG
+DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_CASCADE, subMenu, itemPos)
+IF bRes THEN
+   PRINT "subMenu", subMenu
+   PRINT "itemPos", itemPos
+   PRINT CMenu.GetItemID(hMenu, subMenu, itemPos)
+END IF
+```
 ---
 
 ### GetBarInfo
