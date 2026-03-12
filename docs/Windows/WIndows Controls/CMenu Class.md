@@ -42,6 +42,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | ---------- | ----------- |
 | [AddBitmapToItem](#addbitmaptoitem) | Adds a bitmap to the menu item. |
 | [AddIconToItem](#addicontoitem) | Adds a bitmap to the menu item. |
+| [AddPopupMenu](#addpopupmenu) | Adds a popup child menu to an existing menu. |
 | [Append](#append) | Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu. |
 | [Attach](#attach) | Attaches a menu to a window or dialog. |
 | [BoldItem](#olditem) | Changes the text of a menu item to bold. |
@@ -230,6 +231,45 @@ FUNCTION Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS
 CMenu.Append hMenu, MF_POPUP OR MF_ENABLED, CAST(UINT_PTR, hPopUpMenu), "&File"
 CMenu.Append hPopUpMenu, MF_ENABLED, IDM_NEW, "&New" & CHR(9) & "Ctrl+N"
 CMenu.Append hPopUpMenu, MF_SEPARATOR, 0, ""
+```
+---
+
+### AppendPopup
+
+Adds a popup child menu to an existing menu. A popup menu is a small window that "pops up" when a menu item is highlighted. This allows nesting, and gives the user an opportunity to choose from "sub-menu" items.
+
+```
+FUNCTION AddPopup (BYVAL hMenu AS HMENU, BYVAL hPopup AS HMENU, BYVAL fState AS UINT, _
+   BYVAL item AS LONG, BYREF wszText AS WSTRING, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle of the parent menu which holds the popup. |
+| *hPopup* | Handle of the child popup menu to be added. |
+| *fState* | The initial state of the menu item. It can be one of the following:<br>MFS_DISABLED: Disable the item so that it cannot be selected.<br>%MFS_ENABLED:  Enable the item so that it can be selected. |
+| *item* | If the option is included, *item* is a unique numeric identifier for this popup menu. *item* may be used later with a *fByPosition* option to reference this popup. *item* is an integral numeric value in the range of -32768 to +32767. |
+| *wszText* | Text displayed in the parent menu. An ampersand (&) may be used in the  to make the following letter into a control accelerator (hot-key). The letter appears underscored to signify that it is an accelerator. |
+| *fByPosition* | Indicates the position in the parent menu where the popup child menu is to be inserted. If the *fByPosition* option is used, the popup menu is inserted prior to the menu item specified by *item*. Otherwise, the popup menu is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+#### Usage example
+
+```
+DIM hSubPopUpMenu AS HMENU = CMenu.CreatePopUp
+    CMenu.AddPopup hPopUpMenu, hSubPopUpMenu, MF_ENABLED, 4001, "Menú anidado"
+    CMenu.Append hSubPopUpMenu, MF_ENABLED, 4002, "Item menu anidado 1"
+    CMenu.Append hSubPopUpMenu, MF_SEPARATOR, 0, ""
+    CMenu.Append hSubPopUpMenu, MF_ENABLED, 4003, "Item menu anidado 2"
+
+DIM hSubPopUpMenu2 AS HMENU = CMenu.CreatePopUp
+    CMenu.AddPopup hSubPopUpMenu, hSubPopUpMenu2, MF_ENABLED, 4001, "Menú anidado 2"
+    CMenu.Append hSubPopUpMenu2, MF_ENABLED, 5002, "Item menu anidado 1 - 1"
+    CMenu.Append hSubPopUpMenu2, MF_SEPARATOR, 0, ""
+    CMenu.Append hSubPopUpMenu2, MF_ENABLED, 5003, "Item menu anidado 2 - 2"
 ```
 ---
 
