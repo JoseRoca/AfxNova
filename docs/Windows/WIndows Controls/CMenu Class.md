@@ -667,17 +667,18 @@ CMenu.EnableItem(hMenu, IDM_OPEN)
 
 ### FindItemPos
 
-Finds the submenu and position of the specified menu item.
+Recursively finds the submenu and position of the specified menu item.
 
 ```
 FUNCTION FindItemPos (BYVAL hMenu AS HMENU, BYVAL itemID AS UINT, _
-   BYREF subMenu AS LONG, BYREF itemPos AS LONG) AS BOOLEAN
+   BYREF hMenuFound AS HMENU, BYREF itemPos AS LONG) AS BOOLEAN
 ```
+
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | A handle to the menu that contains the menu item. |
 | *itemID* | The identifier of the menu item. |
-| *subMenu* | A variable of type LONG that receives the zero-based submenu number. |
+| *hMenuFound* | Handle of the submenu where the item was found |
 | *itemPos* | A variable of type LONG that receives the zero-based position of the item in the submenu. |
 
 #### Return value
@@ -686,12 +687,12 @@ Returns TRUE if the function succeeds or FALSE otherwise.
 
 #### Example
 ```
-DIM subMenu AS LONG, itemPos AS LONG
-DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_CASCADE, subMenu, itemPos)
+DIM hFoundMenu AS HMENU, itemPos AS LONG
+DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_CASCADE, hFoundMenu, itemPos)
 IF bRes THEN
-   PRINT "subMenu", subMenu
+   PRINT "hFoundMenu", hFoundMenu
    PRINT "itemPos", itemPos
-   PRINT CMenu.GetItemID(hMenu, subMenu, itemPos)
+   PRINT CMenu.GetItemID(hMenu, hFoundMenu, itemPos)
 END IF
 ```
 ---
