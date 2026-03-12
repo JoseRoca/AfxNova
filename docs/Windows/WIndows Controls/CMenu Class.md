@@ -937,9 +937,7 @@ This is the only combination that Win32 accepts.
 
 * Win32 menu positions are not global.
 * Each submenu has its own independent index space.
-* GetMenuItemID requires:
-** the correct submenu handle, and
-** the relative position within that submenu.
+* GetMenuItemID requires: the correct submenu handle, and the relative position within that submenu.
 
 Passing the main menu handle and an absolute index will always fail.
 
