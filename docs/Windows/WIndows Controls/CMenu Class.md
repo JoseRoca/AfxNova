@@ -894,9 +894,9 @@ The return value is the identifier of the menu item located at the specified pos
 
 #### Remarks
 
-When working with Win32 menus, it is easy to assume that menu item positions are global and that GetMenuItemID(hMenu, nPos) will return the identifier of the item located at that absolute index. Unfortunately, this assumption is incorrect and leads to the function consistently returning -1.
+When working with Win32 menus, it is easy to assume that menu item positions are global and that GetItemID(hMenu, nPos) will return the identifier of the item located at that absolute index. Unfortunately, this assumption is incorrect and leads to the function consistently returning -1.
 
-The key detail — which is not clearly stated in Microsoft’s documentation — is the following: **GetMenuItemID** does not accept absolute positions, it only accepts positions relative to the specific submenu you pass as *hMenu*.
+The key detail — which is not clearly stated in Microsoft’s documentation — is the following: The Windows API function **GetMenuItemID**, used by **GetItemID**, does not accept absolute positions, it only accepts positions relative to the specific submenu you pass as *hMenu*.
 
 In other words:
 
@@ -905,13 +905,13 @@ In other words:
 * Passing the main menu handle (hMenu) and a global index will always fail.
 * Passing the wrong submenu handle will also fail.
 
-This explains why calling GetMenuItemID(hMenu, absolutePos) returns -1, even when the item clearly exists.
+This explains why calling GetItemID(hMenu, absolutePos) returns -1, even when the item clearly exists.
 
 To retrieve the ID of a menu item, you must:
 
 * Determine which submenu contains the item.
 * Determine the relative position of the item within that submenu.
-* Pass the correct submenu handle and the relative position to **GetMenuItemID**.
+* Pass the correct submenu handle and the relative position to **GetItemID**.
 
 For example: CMenu.GetItemID(CMenu.GetSubMenu(hMenu, 0), 1)
 
@@ -920,7 +920,7 @@ This works because:
 * GetSubMenu(hMenu, 0) returns the correct submenu handle.
 * 1 is the position relative to that submenu.
 
-Finding the Correct Submenu and Position
+Finding the correct submenu and position:
 
 To make this easier, the framework provides: FindItemPos(hMenu, itemID, subMenu, itemPos)
 
@@ -929,7 +929,7 @@ This function returns:
 * subMenu → the zero‑based submenu index
 * itemPos → the zero‑based position inside that submenu
 
-Once you have these values, you can safely call: GetMenuItemID(GetSubMenu(hMenu, subMenu), itemPos)
+Once you have these values, you can safely call: GetItemID(GetSubMenu(hMenu, subMenu), itemPos)
 
 This is the only combination that Win32 accepts.
 
@@ -937,7 +937,7 @@ This is the only combination that Win32 accepts.
 
 * Win32 menu positions are not global.
 * Each submenu has its own independent index space.
-* GetMenuItemID requires: the correct submenu handle, and the relative position within that submenu.
+* GetItemID requires: the correct submenu handle, and the relative position within that submenu.
 
 Passing the main menu handle and an absolute index will always fail.
 
