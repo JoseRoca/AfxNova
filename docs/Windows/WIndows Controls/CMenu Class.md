@@ -76,8 +76,8 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [GetItemTextLen](#getitemtextlen) | Returns the length of the specified menu item. |
 | [GetRect](#getrect) | Calculates the size of a menu bar or a drop-down menu. |
 | [GetState](#getstate) | Retrieves the state of the specified menu item. |
-| [GetSubMenu](#ghetsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
-| [GetSubmenusCount](#ghetsubmenuscount) | Retrieves the number of submenus of a menu. |
+| [GetSubMenu](#getsubmenu) | Retrieves a handle to the drop-down menu or submenu activated by the specified menu item. |
+| [GetSubmenusCount](#getsubmenuscount) | Retrieves the number of submenus of a menu. |
 | [GetSystemMenuHandle](#getsystemmenuhandle) | Retrieves the system menu handle. |
 | [GetWindowOwner](#ghetwindowowner) | Retrieves the window owner of the specified menu |
 | [GrayItem](#grayitem) | Grays the specified menu item. |
