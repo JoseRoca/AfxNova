@@ -985,14 +985,14 @@ This works because:
 
 Finding the correct submenu and position:
 
-To make this easier, the framework provides: FindItemPos(hMenu, itemID, subMenu, itemPos)
+To make this easier, the framework provides: FindItemPos(hMenu, itemID, hMenuFound, itemPos)
 
 This function returns:
 
-* subMenu → the zero‑based submenu index
+* hMenuFound → the handle of the submenu
 * itemPos → the zero‑based position inside that submenu
 
-Once you have these values, you can safely call: GetItemID(GetSubMenu(hMenu, subMenu), itemPos)
+Once you have these values, you can safely call: GetItemID(hMenuFound, itemPos)
 
 This is the only combination that Win32 accepts.
 
