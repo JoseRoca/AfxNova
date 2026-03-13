@@ -179,8 +179,8 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 | [RemoveContainsFullScreenElementChanged](#containsfullscreenelementchanged) | Remove an event handler previously added with AddContainsFullScreenElementChanged. |
 | [AddContentLoading](#contentloading) | Add an event handler for the ContentLoading event. |
 | [RemoveContentLoading](#contentloading) | Remove an event handler previously added with AddContentLoading. |
-| [AddDocumentTitleChanged](#adddocumenttitlechanged) | Add an event handler for the DocumentTitleChanged event. |
-| [RemoveDocumentTitleChanged](#removedocumenttitlechanged) | Remove an event handler previously added with AddDocumentTitleChanged. |
+| [AddDocumentTitleChanged](#documenttitlechanged) | Add an event handler for the DocumentTitleChanged event. |
+| [RemoveDocumentTitleChanged](#documenttitlechanged) | Remove an event handler previously added with AddDocumentTitleChanged. |
 | [AddFrameNavigationCompleted](#addframenavigationcompleted) | Add an event handler for the FrameNavigationCompleted event. |
 | [RemoveFrameNavigationCompleted](#removeframenavigationcompleted) | Remove an event handler previously added with AddFrameNavigationCompleted. |
 | [AddFrameNavigationStarting](#addframenavigationstarting) | Add an event handler for the FrameNavigationStarting event. |
@@ -1686,6 +1686,24 @@ FUNCTION RemoveContainsFullScreenElementChanged (BYVAL token AS EventRegistratio
 ---
 
 ### ContentLoading
+
+Adds/removes an event handler for the **ContentLoading** event.
+
+```
+FUNCTION AddContentLoading ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2ContentLoadingEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveContentLoading (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2ContainsFullScreenElementChangedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### DocumentTitleChanged
 
 Adds/removes an event handler for the **ContentLoading** event.
 
