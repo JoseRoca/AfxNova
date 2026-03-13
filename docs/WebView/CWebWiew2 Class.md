@@ -150,6 +150,13 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 | [SetZoomFactor](#setzoomfactor) | Sets the **ZoomFactor** property. |
 | [Stop](#stop) | Stop all navigations and pending resource fetches. Does not stop scripts. |
 
+| [AddHostObjectToScript](#hostobjecttoscript) | Add the provided host object to script running in the WebView with the specified name. |
+| [RemoveHostObjectFromScript](#hostobjectfromscript) | Remove the host object specified by the name so that it is no longer accessible from JavaScript code in the WebView. |
+| [AddScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Add the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run. |
+| [RemoveScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Remove the corresponding JavaScript added using AddScriptToExecuteOnDocumentCreated with the specified script ID. |
+| [AddWebResourceRequestedFilter](#webresourcerequestedfilter) | This method is deprecated and does not behave as expected for iframes. |
+| [RemoveWebResourceRequestedFilter](#webresourcerequestedfilter) | Remove an event handler previously added with AddWebResourceRequestedFilter. |
+
 ---
 
 ### Settings properties
@@ -191,8 +198,6 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 | [RemoveLostFocus](#lostfocus) | Removes an event handler previously added with AddLostFocus. |
 | [AddHistoryChanged](#historychanged) | Add an event handler for the HistoryChanged event. |
 | [RemoveHistoryChanged](#historychanged) | Remove an event handler previously added with AddHistoryChanged. |
-| [AddHostObjectToScript](#hostobjecttoscript) | Add the provided host object to script running in the WebView with the specified name. |
-| [RemoveHostObjectFromScript](#hostobjectfromscript) | Remove the host object specified by the name so that it is no longer accessible from JavaScript code in the WebView. |
 | [AddMoveFocusRequested](#movefocusrequested) | Adds an event handler for the MoveFocusRequested event. |
 | [RemoveMoveFocusRequested](#focusrequested) | Removes an event handler previously added with AddMoveFocusRequested. |
 | [AddNavigationCompleted](#navigationcompleted) | Add an event handler for the NavigationCompleted event. |
@@ -207,16 +212,12 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 | [RemoveProcessFailed](#processfailed) | Remove an event handler previously added with AddProcessFailed. |
 | [AddScriptDialogOpening](#scriptdialogopening) | Add an event handler for the ScriptDialogOpening event. |
 | [RemoveScriptDialogOpening](#scriptdialogopening) | Remove an event handler previously added with AddScriptDialogOpening. |
-| [AddScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Add the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run. |
-| [RemoveScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Remove the corresponding JavaScript added using AddScriptToExecuteOnDocumentCreated with the specified script ID. |
 | [AddSourceChanged](#sourcechanged) | Add an event handler for the SourceChanged event. |
 | [RemoveSourceChanged](#sourcechanged) | Remove an event handler previously added with AddSourceChanged. |
 | [AddWebMessageReceived](#webmessagereceived) | Add an event handler for the WebMessageReceived event. |
 | [RemoveWebMessageReceived](#webmessagereceived) | Remove an event handler previously added with AddWebMessageReceived. |
 | [AddWebResourceRequested](#webresourcerequested) | Add an event handler for the WebResourceRequested event. |
 | [RemoveWebResourceRequested](#webresourcerequested) | Remove an event handler previously added with AddWebResourceRequested. |
-| [AddWebResourceRequestedFilter](#webresourcerequestedfilter) | This method is deprecated and does not behave as expected for iframes. |
-| [RemoveWebResourceRequestedFilter](#webresourcerequestedfilter) | Remove an event handler previously added with AddWebResourceRequestedFilter. |
 | [AddWindowCloseRequested](#windowcloserequested) | Add an event handler for the WindowCloseRequested event. |
 | [RemoveWindowCloseRequested](#windowcloserequested) | Remove an event handler previously added with AddWindowCloseRequested. |
 | [AddZoomFactorChanged](#zoomfactorchanged) | Adds an event handler for the ZoomFactorChanged event. |
@@ -1775,14 +1776,60 @@ FUNCTION RemoveLostFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
 
 ---
 
-| [AddHistoryChanged](#addhistorychanged) | Add an event handler for the HistoryChanged event. |
-| [RemoveHistoryChanged](#removehistorychanged) | Remove an event handler previously added with AddHistoryChanged. |
-| [AddHostObjectToScript](#addhostobjecttoscript) | Add the provided host object to script running in the WebView with the specified name. |
-| [RemoveHostObjectFromScript](#removehostobjectfromscript) | Remove the host object specified by the name so that it is no longer accessible from JavaScript code in the WebView. |
-| [AddMoveFocusRequested](#addmovefocusrequested) | Adds an event handler for the MoveFocusRequested event. |
-| [RemoveMoveFocusRequested](#removemovefocusrequested) | Removes an event handler previously added with AddMoveFocusRequested. |
-| [AddNavigationCompleted](#addnavigationcompleted) | Add an event handler for the NavigationCompleted event. |
-| [RemoveNavigationCompleted](#removenavigationcompleted) | Remove an event handler previously added with AddNavigationCompleted. |
+### HistoryChanged
+
+Adds/removes an event handler for the **HistoryChanged** event.
+
+```
+FUNCTION AddHistoryChanged ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveHistoryChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2SourceChangedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### MoveFocusRequested
+
+Adds/removes an event handler for the **MoveFocusRequested** event.
+
+```
+FUNCTION AddMoveFocusRequested ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2MoveFocusRequestedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveMoveFocusRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2MoveFocusRequestedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### NavigationCompleted
+
+Adds/removes an event handler for the **NavigationCompleted** event.
+
+```
+FUNCTION AddNavigationCompleted ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2NavigationCompletedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2MoveFocusRequestedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+   
 | [AddNavigationStarting](#addnavigationstarting) | Add an event handler for the NavigationStarting event. |
 | [RemoveNavigationStarting](#removenavigationstarting) | Remove an event handler previously added with AddNavigationStarting. |
 | [AddNewWindowRequested](#addnewwindowrequested) | Add an event handler for the NewWindowRequested event. |
@@ -1810,14 +1857,8 @@ FUNCTION RemoveLostFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
 
    DECLARE FUNCTION AddNavigationStarting (BYVAL eventHandler AS Afx_ICoreWebView2NavigationStartingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddNavigationCompleted (BYVAL eventHandler AS Afx_ICoreWebView2NavigationCompletedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddSourceChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveSourceChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddHistoryChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveHistoryChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddScriptDialogOpening (BYVAL eventHandler AS Afx_ICoreWebView2ScriptDialogOpeningEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveScriptDialogOpening (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddPermissionRequested (BYVAL eventHandler AS Afx_ICoreWebView2PermissionRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemovePermissionRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddProcessFailed (BYVAL eventHandler AS Afx_ICoreWebView2ProcessFailedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
@@ -1832,12 +1873,14 @@ FUNCTION RemoveLostFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION RemoveWindowCloseRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddZoomFactorChanged (BYVAL eventHandler AS Afx_ICoreWebView2ZoomFactorChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveZoomFactorChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddMoveFocusRequested (BYVAL eventHandler AS Afx_ICoreWebView2MoveFocusRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveMoveFocusRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
-   DECLARE FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
    DECLARE FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
    DECLARE FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS HRESULT
+
+
+   DECLARE FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
+   DECLARE FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION AddScriptDialogOpening (BYVAL eventHandler AS Afx_ICoreWebView2ScriptDialogOpeningEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+   DECLARE FUNCTION RemoveScriptDialogOpening (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
    DECLARE FUNCTION RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
    DECLARE FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
