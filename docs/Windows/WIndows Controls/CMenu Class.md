@@ -260,16 +260,14 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 
 ```
 DIM hSubPopUpMenu AS HMENU = CMenu.CreatePopUp
-    CMenu.AddPopup hPopUpMenu, hSubPopUpMenu, MF_ENABLED, 4001, "Menú anidado"
-    CMenu.Append hSubPopUpMenu, MF_ENABLED, 4002, "Item menu anidado 1"
+    CMenu.AddPopup hPopUpMenu, hSubPopUpMenu, MF_ENABLED, 4001, "Nested submenu 1"
+    CMenu.Append hSubPopUpMenu, MF_ENABLED, 4002, "Nested submenu 1 item 1"
+    CMenu.Append hSubPopUpMenu, MF_ENABLED, 4003, "Nested submenu 1 item 2"
     CMenu.Append hSubPopUpMenu, MF_SEPARATOR, 0, ""
-    CMenu.Append hSubPopUpMenu, MF_ENABLED, 4003, "Item menu anidado 2"
-
 DIM hSubPopUpMenu2 AS HMENU = CMenu.CreatePopUp
-    CMenu.AddPopup hSubPopUpMenu, hSubPopUpMenu2, MF_ENABLED, 4001, "Menú anidado 2"
-    CMenu.Append hSubPopUpMenu2, MF_ENABLED, 5002, "Item menu anidado 1 - 1"
-    CMenu.Append hSubPopUpMenu2, MF_SEPARATOR, 0, ""
-    CMenu.Append hSubPopUpMenu2, MF_ENABLED, 5003, "Item menu anidado 2 - 2"
+    CMenu.AddPopup hSubPopUpMenu, hSubPopUpMenu2, MF_ENABLED, 5001, "Nested submenu 2"
+    CMenu.Append hSubPopUpMenu2, MF_ENABLED, 5002, "Nested submenu 2 item 1"
+    CMenu.Append hSubPopUpMenu2, MF_ENABLED, 5003, "Nested submenu 2 item 2"
 ```
 ---
 
