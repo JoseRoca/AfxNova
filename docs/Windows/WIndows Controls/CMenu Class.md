@@ -52,7 +52,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [Create](#create) | Creates a new menu bar. |
 | [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [DeleteItem](#deleteitem) | Deletes a menu item or detaches a submenu from the specified menu. |
-| [DeleteMenu](#deletemenu) | Use **DeleteItem**. |
+| [DeleteMenu](#deleteitem) | Use **DeleteItem**. |
 | [Destroy](#destroy) | Destroys the specified menu and frees any memory that the menu occupies. |
 | [DisableItem](#disableitem) | Disables the specified menu item. |
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
