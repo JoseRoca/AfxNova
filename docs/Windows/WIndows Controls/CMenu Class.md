@@ -1208,7 +1208,7 @@ FUNCTION GetSubMenu (BYVAL hMenu AS HMENU, BYVAL nPos AS LONG) AS HMENU
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | A handle to the menu. |
-| *nPos* | The zerp-based relative position of the menu item whose identifier is to be retrieved. |
+| *nPos* | The zero-based relative position of the menu item whose identifier is to be retrieved. |
 
 #### Return value
 
