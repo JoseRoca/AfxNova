@@ -1829,11 +1829,43 @@ FUNCTION RemoveNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HR
 | *token* | Token that uniquely identifies the subscription. |
 
 ---
+
+### NavigationStarting
+
+Adds/removes an event handler for the **NavigationStarting** event.
+
+```
+FUNCTION AddNavigationStarting ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2NavigationStartingEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2NavigationStartingEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### NewWindowRequested
+
+Adds/removes an event handler for the **NewWindowRequested** event.
+
+```
+FUNCTION AddNavigationStarting ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2NewWindowRequestedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2NewWindowRequestedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
    
-| [AddNavigationStarting](#addnavigationstarting) | Add an event handler for the NavigationStarting event. |
-| [RemoveNavigationStarting](#removenavigationstarting) | Remove an event handler previously added with AddNavigationStarting. |
-| [AddNewWindowRequested](#addnewwindowrequested) | Add an event handler for the NewWindowRequested event. |
-| [RemoveNewWindowRequested](#removenewwindowrequested) | Remove an event handler previously added with AddNewWindowRequested. |
 | [AddPermissionRequested](#addpermissionrequested) | Add an event handler for the PermissionRequested event. |
 | [RemovePermissionRequested](#removepermissionrequested) | Remove an event handler previously added with AddPermissionRequested. |
 | [AddProcessFailed](#addprocessfailed) | Add an event handler for the ProcessFailed event. |
@@ -1855,8 +1887,7 @@ FUNCTION RemoveNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HR
 | [AddZoomFactorChanged](#addzoomfactorchanged) | Adds an event handler for the ZoomFactorChanged event. |
 | [RemoveZoomFactorChanged](#removezoomfactorchanged) | Remove an event handler previously added with AddZoomFactorChanged. |
 
-   DECLARE FUNCTION AddNavigationStarting (BYVAL eventHandler AS Afx_ICoreWebView2NavigationStartingEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveNavigationStarting (BYVAL token AS EventRegistrationToken) AS HRESULT
+
    DECLARE FUNCTION AddSourceChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveSourceChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddPermissionRequested (BYVAL eventHandler AS Afx_ICoreWebView2PermissionRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
@@ -1865,8 +1896,6 @@ FUNCTION RemoveNavigationCompleted (BYVAL token AS EventRegistrationToken) AS HR
    DECLARE FUNCTION RemoveProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddWebMessageReceived (BYVAL eventHandler AS Afx_ICoreWebView2WebMessageReceivedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveWebMessageReceived (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddNewWindowRequested (BYVAL eventHandler AS Afx_ICoreWebView2NewWindowRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveNewWindowRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddWebResourceRequested (BYVAL eventHandler AS Afx_ICoreWebView2WebResourceRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveWebResourceRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddWindowCloseRequested (BYVAL eventHandler AS Afx_ICoreWebView2WindowCloseRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
