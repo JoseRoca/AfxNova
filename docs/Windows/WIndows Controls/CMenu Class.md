@@ -99,6 +99,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [NewPopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseOption](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#deleteitem) | Deletes a menu item or detaches a submenu from the specified menu. |
+| [RemoveMenu](#deleteitem) | Use **DeleteItem**. |
 | [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
 | [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
