@@ -247,7 +247,7 @@ FUNCTION AddPopup (BYVAL hMenu AS HMENU, BYVAL hPopup AS HMENU, BYVAL fState AS 
 | ---------- | ----------- |
 | *hMenu* | Handle of the parent menu which holds the popup. |
 | *hPopup* | Handle of the child popup menu to be added. |
-| *fState* | The initial state of the menu item. It can be one of the following:<br>MFS_DISABLED: Disable the item so that it cannot be selected.<br>%MFS_ENABLED:  Enable the item so that it can be selected. |
+| *fState* | The initial state of the menu item. It can be one of the following:<br>MFS_DISABLED: Disable the item so that it cannot be selected.<br>MFS_ENABLED:  Enable the item so that it can be selected. |
 | *item* | If the option is included, *item* is a unique numeric identifier for this popup menu. *item* may be used later with a *fByPosition* option to reference this popup. *item* is an integral numeric value in the range of -32768 to +32767. |
 | *wszText* | Text displayed in the parent menu. An ampersand (&) may be used in the  to make the following letter into a control accelerator (hot-key). The letter appears underscored to signify that it is an accelerator. |
 | *fByPosition* | Indicates the position in the parent menu where the popup child menu is to be inserted. If the *fByPosition* option is used, the popup menu is inserted prior to the menu item specified by *item*. Otherwise, the popup menu is inserted at the physical position within the parent menu, where position = 1 for the first position, position = 2 for the second, and so on. If position is not specified then the popup menu is appended to the end of the menu. |
