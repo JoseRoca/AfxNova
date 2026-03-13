@@ -52,7 +52,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [Create](#create) | Creates a new menu bar. |
 | [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [DeleteItem](#deleteitem) | Deletes a menu item or detaches a submenu from the specified menu. |
-| [DeleteMenu](#deletemenu) | Deletes a menu item or detaches a submenu from the specified menu. |
+| [DeleteMenu](#deletemenu) | Deletes a menu or detaches a submenu from the specified menu. |
 | [Destroy](#destroy) | Destroys the specified menu and frees any memory that the menu occupies. |
 | [DisableItem](#disableitem) | Disables the specified menu item. |
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
@@ -99,7 +99,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [NewPopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseOption](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#deleteitem) | Deletes a menu item or detaches a submenu from the specified menu. |
-| [RemoveMenu](#deletemenu) | Deletes a menu item or detaches a submenu from the specified menu. |
+| [RemoveMenu](#deletemenu) | Deletes a menu or detaches a submenu from the specified menu. |
 | [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
 | [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
@@ -604,7 +604,7 @@ IF bRes THEN CMenu.DeleteItem(hFoundMenu, itemPos, TRUE)
 
 ### DeleteMenu
 
-Deletes a menu item or detaches a submenu from the specified menu.
+Deletes a menu or detaches a submenu from the specified menu. **DeleteItem** can also be used to delete menus.
 
 ```
 FUNCTION DeleteMenu (BYVAL hMenu AS HMENU, BYVAL uPosition AS DWORD, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
@@ -619,6 +619,10 @@ FUNCTION RemoveMenu (BYVAL hMenu AS HMENU, BYVAL uPosition AS DWORD, BYVAL fByPo
 #### Return value
 
 Returns TRUE if the function succeeds; FALSE otherwise.
+
+#### Remarks
+
+To remove menus use always the position and to remove drop-down menus use the identifier.
 
 #### Usage examples
 
