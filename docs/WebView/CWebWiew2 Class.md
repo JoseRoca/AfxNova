@@ -54,7 +54,7 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 
 ---
 
-## Functions
+### Functions
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -65,7 +65,8 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 | [GetAvailableCoreWebView2BrowserVersionString](#getavailablecorewebview2browserversionstring) | Get the browser version info including channel name if it is not the WebView2 Runtime. |
 
 ---
-## Helper functions
+
+### Helper functions
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -74,7 +75,7 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 
 ---
 
-## Error and result codes
+### Error and result codes
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -84,7 +85,7 @@ WebView2 creation is not immediate. You send a request, and the control becomes 
 
 ---
 
-## Creation Callbacks
+### Creation Callbacks
 
 Two objects are essential to the lifecycle of a `WebView2` control: the environment and the controller. Unlike normal events that use add_ and remove_ methods, these objects are created asynchronously by the `WebView2` runtime and delivered through completion handlers.
 
@@ -115,7 +116,7 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 
 ---
 
-## CWebView2 methods
+### CWebView2 methods
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -151,7 +152,7 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 
 ---
 
-## Settings properties
+### Settings properties
 
 | Name       | Description |
 | ---------- | ----------- |
@@ -168,7 +169,11 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 
 ---
 
-## Constructor
+### Events
++++++++++++++++++++
+---
+
+### Constructor
 
 Creates an instance of the `CWebView2`class.
 
@@ -368,7 +373,7 @@ END FUNCTION
 ```
 ---
 
-## CWebView2CreateCoreWebView2EnvironmentCompletedHandler
+### CWebView2CreateCoreWebView2EnvironmentCompletedHandler
 
 Implementation of the **ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler** interface.
 
@@ -600,7 +605,7 @@ END FUNCTION
 ```
 ---
 
-## CWebView2CreateCoreWebView2ControllerCompletedHandler
+### CWebView2CreateCoreWebView2ControllerCompletedHandler
 
 Implementation of the **ICoreWebView2CreateCoreWebView2ControllerCompletedHandler** callback interface.
 
@@ -813,7 +818,7 @@ END FUNCTION
 ```
 ---
 
-## GetControllerPtr
+### GetControllerPtr
 
 Returns a raw pointer to the **Afx_ICoreWebView2Controller** interface.
 
@@ -822,7 +827,7 @@ FUNCTION GetControllerPtr () AS Afx_ICoreWebView2Controller PTR
 ```
 ---
 
-## GetEnvironmentPtr
+### GetEnvironmentPtr
 
 Returns a raw pointer to the **Afx_ICoreWebView2Environment** interface.
 
@@ -831,7 +836,7 @@ FUNCTION GetEnvironmentPtr () AS Afx_ICoreWebView2Environment PTR
 ```
 ---
 
-## GetWebViewPtr
+### GetWebViewPtr
 
 Returns a raw pointer to the **Afx_ICoreWebView2** interface.
 
@@ -840,7 +845,7 @@ FUNCTION GetWebViewPtr () AS Afx_ICoreWebView2 PTR
 ```
 ---
 
-## GetCoreWebView
+### GetCoreWebView
 
 Gets an AddRef'ed pointer of the **Afx_ICoreWebView2** interface
 
@@ -849,7 +854,7 @@ FUNCTION GetCoreWebView2 () AS Afx_ICoreWebView2 PTR
 ```
 ---
 
-## IsReady
+### IsReady
 
 Checks if WebView2 is ready to be used.
 
@@ -867,7 +872,7 @@ Returns TRUE or FALSE.
 
 ---
 
-## AfxCWebView2Ptr
+### AfxCWebView2Ptr
 
 Returns a raw pointer to the **CWebView** class given the handle of the window that hosts it.
 
@@ -885,7 +890,7 @@ The returned pointer is a raw pointer. Therefore you don't have to release it.
 
 ---
 
-## AfxSaveTempHtmlFile
+### AfxSaveTempHtmlFile
 
 Saves the contents of an html script to a temporary file and returns the name of the file. The file is saved with a .html extension and using UTF-8 encoding.
 
@@ -903,7 +908,7 @@ Used to save and html script to be used with the **Navigate** method.
 
 ---
 
-## GetLastResult
+### GetLastResult
 
 Returns the last result code.
 
@@ -912,7 +917,7 @@ FUNCTION GetLastResult () AS HRESULT
 ```
 ---
 
-## SetResult
+### SetResult
 
 Sets the result code.
 ```
@@ -924,7 +929,7 @@ FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 
 ---
 
-## GetErrorInfo
+### GetErrorInfo
 
 Returns a description of the last result code.
 
@@ -938,7 +943,7 @@ DWSTRING. A description of the last result code.
 
 ---
 
-## CallDevToolsProtocolMethod
+### CallDevToolsProtocolMethod
 
 Runs an asynchronous DevToolsProtocol method.
 
@@ -958,7 +963,7 @@ For more information about available methods, navigate to [DevTools Protocol Vie
 
 ---
 
-## CanGoBack
+### CanGoBack
 
 TRUE if the WebView is able to navigate to a previous page in the navigation history.
 
@@ -967,7 +972,7 @@ FUNCTION CanGoBack () AS BOOLEAN
 ```
 ---
 
-## CanGoForward
+### CanGoForward
 
 TRUE if the WebView is able to navigate to a previous page in the navigation history.
 
@@ -976,7 +981,7 @@ FUNCTION CanGoForward () AS BOOLEAN
 ```
 ---
 
-## CapturePreview
+### CapturePreview
 
 Capture an image of what WebView is displaying.
 ```
@@ -994,7 +999,7 @@ Specify the format of the image with the *imageFormat* parameter. The resulting 
 
 ---
 
-## Close
+### Close
 
 Closes the WebView and cleans up the underlying browser instance.
 
@@ -1010,7 +1015,7 @@ After running **Close**, most methods will fail and event handlers stop running.
 
 ---
 
-## ExecuteScript
+### ExecuteScript
 
 Run JavaScript code from the javascript parameter in the current top-level document rendered in the WebView.
 
@@ -1026,7 +1031,7 @@ FUNCTION ExecuteScript (BYVAL javaScript AS LPCWSTR, _
 
 The result of evaluating the provided JavaScript is used in this parameter. The result value is a JSON encoded string. If the result is undefined, contains a reference cycle, or otherwise is not able to be encoded into JSON, then the result is considered to be null, which is encoded in JSON as the string "null".
 
-## GetBounds
+### GetBounds
 
 Gets the WebView bounds.
 
@@ -1044,7 +1049,7 @@ The values of **Bounds** are limited by the coordinate space of the host.
 
 ---
 
-## GetBrowserProcessId
+### GetBrowserProcessId
 
 Gets process ID of the browser process that hosts the WebView.
 
@@ -1053,7 +1058,7 @@ FUNCTION GetBrowserProcessId () AS UINT32
 ```
 ---
 
-## GetContainsFullScreenElement
+### GetContainsFullScreenElement
 
 Indicates if the WebView contains a fullscreen HTML element.
 
@@ -1062,7 +1067,7 @@ FUNCTION GetContainsFullScreenElement () AS LONG
 ```
 ---
 
-## GetIsVisible
+### GetIsVisible
 
 TRUE if the WebView is visible; FALSE otherwise.
 
@@ -1071,7 +1076,7 @@ FUNCTION GetIsVisible () AS BOOLEAN
 ```
 ---
 
-## GetParentWindow
+### GetParentWindow
 
 Gets the handle of the parent window provided by the app that this WebView is using to render content.
 
@@ -1080,7 +1085,7 @@ FUNCTION GetParentWindow () AS HWND
 ```
 ---
 
-## GetSource
+### GetSource
 
 Gets the URI of the current top level document.
 
@@ -1092,7 +1097,7 @@ This value potentially changes as a part of the **SourceChanged** event that run
 
 ---
 
-## GetZoomFactor
+### GetZoomFactor
 
 Gets the zoom factor for the WebView.
 
@@ -1106,7 +1111,7 @@ Changing zoom factor may cause **window.innerWidth**, **window.innerHeight**, bo
 
 ---
 
-## GoBack
+### GoBack
 
 Navigates the WebView to the previous page in the navigation history.
 
@@ -1115,7 +1120,7 @@ FUNCTION GoBack () AS HRESULT
 ```
 ---
 
-## GoForward
+### GoForward
 
 Navigates the WebView to the next page in the navigation history.
 
@@ -1124,7 +1129,7 @@ FUNCTION GoForward () AS HRESULT
 ```
 ---
 
-## MoveFocus
+### MoveFocus
 
 Moves focus into WebView.
 
@@ -1140,7 +1145,7 @@ WebView gets focus and focus is set to correspondent element in the page hosted 
 
 ---
 
-## Navigate
+### Navigate
 
 Cause a navigation of the top-level document to run to the specified URI.
 
@@ -1154,7 +1159,7 @@ FUNCTION Navigate (BYVAL uri AS LPCWSTR) AS HRESULT
 
 ---
 
-## NavigateToString
+### NavigateToString
 
 Initiates a navigation to htmlContent as source HTML of a new document.
 
@@ -1172,7 +1177,7 @@ The *htmlContent* parameter may not be larger than 2 MB (2 * 1024 * 1024 bytes) 
 
 ---
 
-## NotifyParentWindowPositionChangd
+### NotifyParentWindowPositionChangd
 
 This is a notification separate from **SetBounds** that tells WebView its parent (or any ancestor) HWND moved.
 
@@ -1186,7 +1191,7 @@ This is needed for accessibility and certain dialogs in WebView to work correctl
 
 ---
 
-## OpenDevToolsWindow
+### OpenDevToolsWindow
 
 Opens the DevTools window for the current document in the WebView.
 
@@ -1200,7 +1205,7 @@ Does nothing if run when the DevTools window is already open.
 
 ---
 
-## PostWebMessageAsJson
+# ## PostWebMessageAsJson
 
 Post the specified webMessage to the top level document in this WebView.
 
@@ -1214,7 +1219,7 @@ FUNCTION PostWebMessageAsJson (BYVAL webMessageAsJson AS LPCWSTR) AS HRESULT
 
 ---
 
-## PostWebMessageAsString
+### PostWebMessageAsString
 
 Posts a message that is a simple string rather than a JSON string representation of a JavaScript object.
 
@@ -1228,7 +1233,7 @@ FUNCTION PostWebMessageAsString (BYVAL webMessageAsString AS LPCWSTR) AS HRESULT
 
 ---
 
-## Reload
+### Reload
 
 Reload the current page.
 
@@ -1240,7 +1245,7 @@ This is similar to navigating to the URI of current top level document including
 
 ---
 
-## SetBounds
+### SetBounds
 
 Sets the **Bounds** propety.
 
@@ -1254,7 +1259,7 @@ FUNCTION SetBounds (BYVAL bounds AS RECT) AS HRESULT
 
 ---
 
-## SetIsVisible
+### SetIsVisible
 
 Set the **IsVisible** property.
 
@@ -1268,7 +1273,7 @@ FUNCTION SetIsVisible (BYVAL IsVisible AS BOOLEAN) AS HRESULT
 
 ---
 
-## SetParentWindow
+### SetParentWindow
 
 Set the parent window for the WebView.
 
@@ -1286,7 +1291,7 @@ This will cause the WebView to reparent its window to the newly provided window.
 
 ---
 
-## SetZoomFactor
+### SetZoomFactor
 
 Set the **ZoomFactor** property.
 
@@ -1300,7 +1305,7 @@ FUNCTION SetZoomFactor (BYVAL zoomFactor AS DOUBLE) AS HRESULT
 
 ---
 
-## Stop
+### Stop
 
 Stop all navigations and pending resource fetches. Does not stop scripts.
 
@@ -1309,7 +1314,7 @@ FUNCTION Stop () AS HRESULT
 ```
 ---
 
-## CompareBrowserVersions
+### CompareBrowserVersions
 
 Compares two instances of browser versions correctly and returns an integer that indicates whether the first instance is older, the same as, or newer than the second instance.
   
@@ -1333,7 +1338,7 @@ It can be used to determine whether to use webview2 or certain feature base on v
 
 ---
 
-## CreateCoreWebView2Environment
+### CreateCoreWebView2Environment
 
 Creates an evergreen WebView2 Environment using the installed Edge version. This is equivalent to calling CreateCoreWebView2EnvironmentWithOptions with nullptr for browserExecutableFolder, userDataFolder, additionalBrowserArguments.
 
@@ -1348,7 +1353,7 @@ FUNCTION CreateCoreWebView2Environment (BYVAL environment_created_handler AS _
 
 ---
 
-## CreateCoreWebView2EnvironmentWithOptions
+### CreateCoreWebView2EnvironmentWithOptions
 
 Creates a  WebView2 environment with a custom version of Edge, user data directory and/or additional options.
 
@@ -1434,7 +1439,7 @@ First we check with Root as HKLM and then HKCU. AppId is first set to the Applic
 
 ---
 
-## GetAvailableCoreWebView2BrowserVersionString
+### GetAvailableCoreWebView2BrowserVersionString
 
 Get the browser version info including channel name if it is not the stable channel or the Embedded Edge.
 
@@ -1453,7 +1458,7 @@ Channel names are beta, dev, and canary. If an override exists for the *browserE
 
 ---
 
-## GetAvailableCoreWebView2BrowserVersionString
+### GetAvailableCoreWebView2BrowserVersionString
 
 Get the browser version info including channel name if it is not the stable channel or the Embedded Edge.
 
@@ -1469,7 +1474,7 @@ FUNCTION GetAvailableCoreWebView2BrowserVersionString (BYVAL browserExecutableFo
 
 ---
 
-## GetSettings
+### GetSettings
 
 Gets a pointer to the **Afx_ICoreWebView2Settings** interface, that allows to modify various modifiable settings for the running WebView.
 
@@ -1478,7 +1483,7 @@ FUNCTION GetSettings () AS Afx_ICoreWebView2Settings PTR
 ```
 ---
 
-## AreDefaultContextMenusEnabled
+### AreDefaultContextMenusEnabled
 
 Determines whether the default context menus are shown to the user in WebView.
 
@@ -1488,7 +1493,7 @@ PROPERTY AreDefaultContextMenusEnabled (BYVAL enabled AS BOOLEAN) AS HRESULT
 ```
 ---
 
-## AreDefaultScriptDialogsEnabled
+### AreDefaultScriptDialogsEnabled
 
 Used when loading a new HTML document.
 
@@ -1503,7 +1508,7 @@ If set to FALSE, WebView2 does not render the default JavaScript dialog box (spe
 
 ---
 
-## AreDevToolsEnabled
+### AreDevToolsEnabled
 
 Determines whether the user is able to use the context menu or keyboard shortcuts to open the DevTools window.
 
@@ -1513,7 +1518,7 @@ PROPERTY AreDevToolsEnabled (BYVAL enabled AS BOOLEAN) AS HRESULT
 ```
 ---
 
-## AreHostObjectsAllowed
+### AreHostObjectsAllowed
 
 Determines whether host objects are accessible from the page in WebView.
 
@@ -1523,7 +1528,7 @@ PROPERTY AreHostObjectsAllowed (BYVAL enabled AS BOOLEAN) AS HRESULT
 ```
 ---
 
-## IsBuiltInErrorPageEnabled
+### IsBuiltInErrorPageEnabled
 
 Determines whether to disable built in error page for navigation failure and render process failure.
 
@@ -1533,7 +1538,7 @@ PROPERTY IsBuiltInErrorPageEnabled (BYVAL enabled AS BOOLEAN) AS HRESULT
 ```
 ---
 
-## IsScriptEnabled
+### IsScriptEnabled
 
 Controls if running JavaScript is enabled in all future navigations in the WebView. This only affects scripts in the document. Scripts injected with ExecuteScript runs even if script is disabled. The default value is TRUE.
 
@@ -1548,7 +1553,7 @@ Changes to settings will apply at the next navigation, which includes the naviga
 
 ---
 
-## IsStatusBarEnabled
+### IsStatusBarEnabled
 
 Controls whether the status bar is displayed.
 
@@ -1563,7 +1568,7 @@ The status bar is usually displayed in the lower left of the WebView and shows t
 
 ---
 
-## IsWebMessageEnabled
+### IsWebMessageEnabled
 
 Used when loading a new HTML document.
 
@@ -1578,7 +1583,7 @@ PROPERTY IsWebMessageEnabled (BYVAL enabled AS BOOLEAN) AS HRESULT
 
 ---
 
-## IsZoomControlEnabled
+### IsZoomControlEnabled
 
 Determines whether the user is able to impact the zoom of the WebView.
 
