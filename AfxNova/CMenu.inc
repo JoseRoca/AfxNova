@@ -920,6 +920,9 @@ PRIVATE FUNCTION CMenu.DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYV
    RETURN bRes
 END FUNCTION
 ' ========================================================================================
+
+' ========================================================================================
+' Deletes a menu or detaches a submenu from the specified menu.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.RemoveMenu (BYVAL hMenu AS HMENU, BYVAL uPositiom AS DWORD, BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
    DIM uFlags AS UINT
