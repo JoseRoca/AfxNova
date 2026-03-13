@@ -100,6 +100,8 @@ Public:
    DECLARE STATIC FUNCTION GetWindowOwner (BYVAL hMenu AS HMENU) AS HWND
    DECLARE STATIC FUNCTION RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+   DECLARE STATIC FUNCTION RemoveMenu (BYVAL hMenu AS HMENU, BYVAL uPosition AS DWORD, BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
+   DECLARE STATIC FUNCTION DeleteMenu (BYVAL hMenu AS HMENU, BYVAL uPosition AS DWORD, BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
    DECLARE STATIC FUNCTION GetState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS UINT
    DECLARE STATIC FUNCTION ToggleCheckState (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
    DECLARE STATIC FUNCTION IsMenu (BYVAL hMenu AS HMENU) AS BOOLEAN
@@ -913,6 +915,28 @@ PRIVATE FUNCTION CMenu.DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYV
    IF fByPosition = TRUE THEN uFlags = MF_BYPOSITION ELSE uFlags = MF_BYCOMMAND
    DIM bRes AS BOOLEAN
    bRes = ..RemoveMenu(hMenu, item, uFlags)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CMenu.RemoveMenu (BYVAL hMenu AS HMENU, BYVAL uPositiom AS DWORD, BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
+   DIM uFlags AS UINT
+   IF fByPosition = TRUE THEN uFlags = MF_BYPOSITION ELSE uFlags = MF_BYCOMMAND
+   DIM bRes AS BOOLEAN
+   bRes = ..RemoveMenu(hMenu, uPositiom, uFlags)
+   ' Redraw the menu bar to reflect the changes
+   IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
+   RETURN bRes
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CMenu.DeleteMenu (BYVAL hMenu AS HMENU, BYVAL uPositiom AS DWORD, BYVAL fByPosition AS BOOLEAN = TRUE) AS BOOLEAN
+   DIM uFlags AS UINT
+   IF fByPosition = TRUE THEN uFlags = MF_BYPOSITION ELSE uFlags = MF_BYCOMMAND
+   DIM bRes AS BOOLEAN
+   bRes = ..RemoveMenu(hMenu, uPositiom, uFlags)
    ' Redraw the menu bar to reflect the changes
    IF bRes THEN ..DrawMenuBar(CMenu.GetWindowOwner(hMenu))
    RETURN bRes
