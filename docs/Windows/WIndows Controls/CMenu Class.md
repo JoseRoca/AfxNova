@@ -52,7 +52,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [Create](#create) | Creates a new menu bar. |
 | [CreatePopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [DeleteItem](#deleteitem) | Deletes a menu item or detaches a submenu from the specified menu. |
-| [DeleteMenu](#deleteitem) | Use **DeleteItem**. |
+| [DeleteMenu](#deletemenu) | Deletes a menu item or detaches a submenu from the specified menu. |
 | [Destroy](#destroy) | Destroys the specified menu and frees any memory that the menu occupies. |
 | [DisableItem](#disableitem) | Disables the specified menu item. |
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
@@ -99,7 +99,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [NewPopup](#createpopup) | Creates a drop-down menu, submenu, or shortcut menu. |
 | [RemoveCloseOption](#removecloseoption) | Removes the system menu close option and disables the X button. |
 | [RemoveItem](#deleteitem) | Deletes a menu item or detaches a submenu from the specified menu. |
-| [RemoveMenu](#deleteitem) | Use **DeleteItem**. |
+| [RemoveMenu](#deletemenu) | Deletes a menu item or detaches a submenu from the specified menu. |
 | [RestoreCloseOption](#restorecloseoption) | Restores the system menu close option and enables Alt+F4 and the X button. |
 | [RightJustifyItem](#rightjustifyitem) |  Right justifies a top level menu item. This is usually used to have the Help menu item right-justified on the menu bar. |
 | [SetContextHelpId](#setcontexthelpid) | Associates a Help context identifier with a menu. |
@@ -560,7 +560,7 @@ Resources associated with a menu that is assigned to a window are freed automati
 
 ### DeleteItem
 
-Deletes a menu item from an existing menu.
+Deletes a menu item or detaches a submenu from the specified menu.
 
 ```
 FUNCTION DeleteItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
@@ -569,8 +569,8 @@ FUNCTION RemoveItem (BYVAL hMenu AS HMENU, BYVAL item AS LONG, BYVAL fByPosition
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hMenu* | Handle to the menu that contains the menu item. |
-| *item* | The identifier or position of the menu item to get information about. The meaning of this parameter depends on the value of *fByPosition*. |
-| *fByPosition* | The meaning of item. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 1 for the first position, position = 2 for the second, and so on. |
+| *item* | The identifier or position of the menu item to get delete. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *item*. If this parameter is FALSE, *item* is a menu item identifier. Otherwise, it is a menu item position, where position = 0 for the first position, position = 1 for the second, and so on. |
 
 #### Return value
 
@@ -586,19 +586,45 @@ To remove menus use always the position and to remove drop-down menus use the id
 ' ----------------------------------------------------------------------------------------
 ' Remove by identifier:
 ' ----------------------------------------------------------------------------------------
-' CMenu.RemoveItem(hMenu, IDM_OPEN)    ' Removes the menu item with the IDM_OPEN identifier
-' CMenu.RemoveItem(hMenu, IDM_POPUP)   ' Removes de popup menu with the IDM_POPUP identifier
+CMenu.DeleteItem(hMenu, IDM_OPEN)    ' Removes the menu item with the IDM_OPEN identifier
+CMenu.DeleteItem(hMenu, IDM_POPUP)   ' Removes the popup menu with the IDM_POPUP identifier
 ' ----------------------------------------------------------------------------------------
 ' Remove a menu by position
 ' ----------------------------------------------------------------------------------------
-' CMenu.RemoveItem(hMenu, 1, TRUE)     ' Removes the second menu (zero-based position)
+CMenu.DeleteItem(hMenu, 1, TRUE)     ' Removes the second menu (zero-based position)
 ' ----------------------------------------------------------------------------------------
 ' Remove an item by position
 ' ----------------------------------------------------------------------------------------
-' DIM hFoundMenu AS HMENU, itemPos AS LONG
-' DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_EXIT, hFoundMenu, itemPos)
-' IF bRes THEN CMenu.RemoveItem(hFoundMenu, itemPos, TRUE)
+DIM hFoundMenu AS HMENU, itemPos AS LONG
+DIM bRes AS BOOLEAN = CMenu.FindItemPos(hMenu, IDM_EXIT, hFoundMenu, itemPos)
+IF bRes THEN CMenu.DeleteItem(hFoundMenu, itemPos, TRUE)
 ' ----------------------------------------------------------------------------------------
+```
+---
+
+### DeleteMenu
+
+Deletes a menu item or detaches a submenu from the specified menu.
+
+```
+FUNCTION DeleteMenu (BYVAL hMenu AS HMENU, BYVAL uPosition AS DWORD, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+FUNCTION RemoveMenu (BYVAL hMenu AS HMENU, BYVAL uPosition AS DWORD, BYVAL fByPosition AS BOOLEAN = FALSE) AS BOOLEAN
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu that contains the menu item. |
+| *uPosition* | The identifier or position of the menu to delete. The meaning of this parameter depends on the value of *fByPosition*. |
+| *fByPosition* | The meaning of *uPosition*. If this parameter is FALSE, *uPosition* is a menu item identifier. Otherwise, it is a menu item position, where position = 0 for the first position, position = 1 for the second, and so on. |
+
+#### Return value
+
+Returns TRUE if the function succeeds; FALSE otherwise.
+
+#### Usage examples
+
+```
+CMenu.DeleteMenu(hMenu, 1, TRUE)     ' Removes the second menu (zero-based position)
+CMenu.DeleteMenu(hMenu, IDM_POPUP)   ' Removes the popup menu with the IDM_POPUP identifier
 ```
 ---
 
