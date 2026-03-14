@@ -111,7 +111,7 @@ The following table lists all lightweight RAII wrappers provided by AfxNova for 
 | [GdiPlusAdjustableArrowCap](#gdiplusadjustablearrowcap) | GpAdjustableArrowCap | Wraps adjustable arrow caps with height, width, and fill options. |
 | [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | Extendeds image wrapper with constructors for files, streams, HBITMAP, HICON, raw data, effects, and more. |
 | [GdiPlusBrush](#gdiplusbrush) | GpBrush | Base wrapper for all brush types. Clones and manages lifetime of generic brushes. |
-| [GdiPlusCustomLineCap](#gpcustomlinecap) | GpCustomLineCap | Wraps custom line caps defined by paths. Supports cloning and creation from fill/stroke paths. |
+| [GdiPlusCustomLineCap](#gdipluscustomlinecap) | GpCustomLineCap | Wraps custom line caps defined by paths. Supports cloning and creation from fill/stroke paths. |
 | [GdiPlusEffect](#gdipluseffect) | GpEffect | Wraps GDI+ effects; manages creation, parameters, and lifetime. |
 | [GdiPlusFont](#gdiplusfont) | GpFont | Font wrapper for text rendering; manages font object lifetime. |
 | [GdiPlusGraphics](#gdiplusgraphics) | GpGraphics | Wraps a GDI+ graphics context; manages its lifetime automatically. |
