@@ -319,7 +319,7 @@ END FUNCTION
 ```
 ---
 
-### GdiPlusCustomLLineCap
+### GdiPlusCustomLineCap
 
 A line cap defines the style of graphic used to draw the ends of a line. It can be various shapes, such as a square, circle, or diamond. A custom line cap is defined by the path that draws it. The path is drawn by using a Pen object to draw the outline of a shape or by using a Brush object to fill the interior. The cap can be used on either or both ends of the line. Spacing can be adjusted between the end caps and the line.
 
