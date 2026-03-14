@@ -106,7 +106,7 @@ The file `AfxGdipObjects.inc`, contains the complete set of these tiny classes f
 
 The following table lists all lightweight RAII wrappers provided by AfxNova for opaque GDI+ objects (raw pointers to hidden internal structures).
 
-| AfxNova Class | Underlying GDI+ Object | Purpose/Description |
+| AfxNova Class | GDI+ Object | Purpose/Description |
 | ------------- | ---------------------- | ------------------- |
 | [GdiPlusAdjustableArrowCap](#gdiplusadjustablearrowcap) | GpAdjustableArrowCap | Wraps adjustable arrow caps with height, width, and fill options. |
 | [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | Extendeds image wrapper with constructors for files, streams, HBITMAP, HICON, raw data, effects, and more. |
