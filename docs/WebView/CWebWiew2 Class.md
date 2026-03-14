@@ -2105,4 +2105,21 @@ Specifying a NULL for the uri is equivalent to an empty string which matches no 
 
 ---
 
-   DECLARE FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
+### GetDevToolsProtocolEventReceiver
+
+Get a DevTools Protocol event receiver that allows you to subscribe to a DevTools Protocol event.
+
+```
+FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, _
+   BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventName* | The full name of the event. |
+| *receiver* | A pointer that receives a pointer to ICoreWebView2DevToolsProtocolEventReceiver. |
+
+The eventName parameter is the full name of the event in the format {domain}.{event}. For more information about DevTools Protocol events description and event args, navigate to DevTools Protocol Viewer.
+
+---
+
