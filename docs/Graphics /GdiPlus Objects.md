@@ -130,6 +130,8 @@ END DESTRUCTOR
 
 ### GdiPlusCustomLLineCap
 
+A line cap defines the style of graphic used to draw the ends of a line. It can be various shapes, such as a square, circle, or diamond. A custom line cap is defined by the path that draws it. The path is drawn by using a Pen object to draw the outline of a shape or by using a Brush object to fill the interior. The cap can be used on either or both ends of the line. Spacing can be adjusted between the end caps and the line.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusCustomLineCap
@@ -194,6 +196,8 @@ END OPERATOR
 
 ### GdiPlusAdjustableArrowCap
 
+Builds a line cap that looks like an arrow.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusAdjustableArrowCap
@@ -257,6 +261,8 @@ END OPERATOR
 
 ### GdiPlusBrush
 
+A Brush object is used to paint the interior of graphics shapes, such as rectangles, ellipses, pies, polygons, and paths.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusBrush
@@ -306,6 +312,8 @@ END OPERATOR
 ---
 
 ### GdiPlusSolidBrush
+
+Defines a solid color Brush object. A Brush object is used to fill in shapes similar to the way a paint brush can paint the inside of a shape.
 
 ```
 ' ========================================================================================
@@ -369,6 +377,8 @@ END OPERATOR
 
 ### GdiPlusHatchBrush
 
+An HatchBrush defines a rectangular brush with a hatch style, a foreground color, and a background color. There are six hatch styles. The foreground color defines the color of the hatch lines; the background color defines the color over which the hatch lines are drawn
+
 ```
 ' ========================================================================================
 TYPE GdiPlusHatchBrush
@@ -429,6 +439,8 @@ END OPERATOR
 ---
 
 ### GdiPlusLinearGradientBrush
+
+The LinearGradientBrush functions allow to paint a color gradient in which the color changes evenly from the starting boundary line of the linear gradient brush to the ending boundary line of the linear gradient brush. The boundary lines of a linear gradient brush are two parallel straight lines. The color gradient is perpendicular to the boundary lines of the linear gradient brush, changing gradually across the stroke from the starting boundary line to the ending boundary line. The color gradient has one color at the starting boundary line and another color at the ending boundary line.
 
 ```
 ' ========================================================================================
@@ -521,6 +533,8 @@ END OPERATOR
 
 ### GdiPlusPathGradientBrush
 
+The PathGradientBrush functions allow to set the attributes of a color gradient that you can use to fill the interior of a path with a gradually changing color. A path gradient brush has a boundary path, a boundary color, a center point, and a center color. When you paint an area with a path gradient brush, the color changes gradually from the boundary color to the center color as you move from the boundary path to the center point.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusPathGradientBrush
@@ -588,6 +602,8 @@ END OPERATOR
 ---
 
 ### GdiPlusTextureBrush
+
+The TextureBrush object is a Brush object that contains an Image object that is used for the fill. The fill image can be transformed by using the local Matrix object contained in the Brush object.
 
 ```
 ' ========================================================================================
@@ -703,6 +719,8 @@ END OPERATOR
 
 ### GdiPlusImage
 
+The Image functions allow loading and saving raster images (bitmaps) and vector images (metafiles). An Image object encapsulates a bitmap or a metafile and stores attributes that you can retrieve by calling various Get functions. You can construct Image objects from a variety of file types including BMP, ICON, GIF, JPEG, Exif, PNG, TIFF, WMF, and EMF.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusImage
@@ -803,6 +821,8 @@ END SUB
 ---
 
 ### GdiPlusBitmap
+
+The Bitmap functions expands on the capabilities of the Image functions by providing additional methods for creating and manipulating raster images.
 
 ```
 ' ========================================================================================
@@ -997,6 +1017,8 @@ END SUB
 
 ### GdiPlusImageAttributes
 
+An ImageAttributes object contains information about how bitmap and metafile colors are manipulated during rendering. An ImageAttributes object maintains several color-adjustment settings, including color-adjustment matrices, grayscale-adjustment matrices, gamma-correction values, color-map tables, and color-threshold values.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusImageAttributes
@@ -1052,6 +1074,8 @@ END OPERATOR
 ---
 
 ### GdiPlusEffect
+
+Allows to apply effects and adjustments to bitmaps.
 
 ```
 ' ========================================================================================
@@ -1110,6 +1134,8 @@ END OPERATOR
 ---
 
 ### GdiPlusGraphics
+
+The Graphics functions provide methods for drawing lines, curves, figures, images, and text. A Graphics object stores attributes of the display device and attributes of the items to be drawn.
 
 ```
 ' ========================================================================================
@@ -1248,6 +1274,8 @@ END FUNCTION
 
 ### GdiPlusFont
 
+A Font object is used when drawing strings.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusFont
@@ -1367,6 +1395,8 @@ END OPERATOR
 
 ### GdiPlusFontFamily
 
+A font family is a group of fonts that have the same typeface but different styles.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusFontFamily
@@ -1427,6 +1457,8 @@ END OPERATOR
 ---
 
 ### GdiPlusGraphicsPath
+
+A GraphicsPath object stores a sequence of lines, curves, and shapes. You can draw the entire sequence by calling the GdipDrawPath function. You can partition the sequence of lines, curves, and shapes into figures, and with the help of the PathIterator functions, you can draw selected figures. You can also place markers in the sequence, so that you can draw selected portions of the path.
 
 ```
 ' ========================================================================================
@@ -1504,6 +1536,8 @@ END OPERATOR
 ---
 
 ### GdiPlusMatrix
+
+A Matrix object represents a 3 ×3 matrix that, in turn, represents an affine transformation. A Matrix object stores only six of the 9 numbers in a 3 ×3 matrix because all 3 ×3 matrices that represent affine transformations have the same third column (0, 0, 1).
 
 ```
 ' ========================================================================================
@@ -1590,6 +1624,8 @@ END OPERATOR
 
 ### GdiPlusPathIterator
 
+The PathIterator functions allow to isolate selected subsets of the path stored in a GraphicsPath object. A path consists of one or more figures. You can use a GraphicsPathIterator to isolate one or more of those figures. A path can also have markers that divide the path into sections. You can use a GraphicsPathIterator object to isolate one or more of those sections.
+
 ```
 ' ========================================================================================
 TYPE GdiPlusPathIterator
@@ -1641,6 +1677,8 @@ END OPERATOR
 ---
 
 ### GdiPlusPen
+
+A Pen object is a Microsoft Windows GDI+ object used to draw lines and curves.
 
 ```
 ' ========================================================================================
@@ -1711,6 +1749,8 @@ END OPERATOR
 ---
 
 ### GdiPlusRegion
+
+A Region describes an area of the display surface. The area can be any shape. In other words, the boundary of the area can be a combination of curved and straight lines. Regions can also be created from the interiors of rectangles, paths, or a combination of these. Regions are used in clipping and hit-testing operations.
 
 ```
 ' ========================================================================================
@@ -1827,6 +1867,8 @@ END SUB
 ---
 
 ### GdiPlusStringFormat
+
+The StringFormat functions allow to set and get text layout information (such as alignment, orientation, tab stops, and clipping) and display manipulations (such as trimming, font substitution for characters that are not supported by the requested font, and digit substitution for languages that do not use Western European digits). A StringFormat object can be passed to the GdipDrawString function to format a string.
 
 ```
 ' ========================================================================================
