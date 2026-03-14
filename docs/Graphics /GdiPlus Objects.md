@@ -105,6 +105,9 @@ The file `AfxGdipObjects.inc`, contains the complete set of these tiny classes f
 ---
 
 ### GdiPlusObjects
+
+Initializes GDI+.
+
 ```
 ' ========================================================================================
 ' Constructor - Initializes GDI+
@@ -122,6 +125,166 @@ END CONSTRUCTOR
 PRIVATE DESTRUCTOR GdiPlusObjects
    IF m_token THEN GdiplusShutdown(m_token)
 END DESTRUCTOR
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ########################################################################################
+' Microsoft Windows
+' File: Gdip_CreateAdjustableArrowCap.bas
+' Contents: GDI+ Flat API - Gdip_CreateAdjustableArrowCap example
+' Compiler: FreeBasic 32 & 64 bit
+' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
+' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+' ########################################################################################
+
+#define _WIN32_WINNT &h0602
+'#define _GDIP_DEBUG_ 1
+#INCLUDE ONCE "AfxNova/AfxGdipObjects.inc"
+#INCLUDE ONCE "AfxNova/CGraphCtx.inc"
+USING AfxNova
+
+CONST IDC_GRCTX = 1001
+
+DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                           BYVAL hPrevInstance AS HINSTANCE, _
+                           BYVAL pwszCmdLine AS WSTRING PTR, _
+                           BYVAL nCmdShow AS LONG) AS LONG
+
+   END wWinMain(GetModuleHandleW(NULL), NULL, wCOMMAND(), SW_NORMAL)
+
+' // Forward declaration
+DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+
+' ========================================================================================
+' The following example creates two AdjustableArrowCap objects, arrowCapStart and
+' arrowCapEnd, and sets the fill mode to TRUE. The code then creates a Pen object and
+' assigns arrowCapStart as the starting line cap for this Pen object and arrowCapEnd as
+' the ending line cap. Next, draws a line.
+' ========================================================================================
+SUB Example_CreateAdjustableArrowCap (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform(dpiRatio)
+
+   ' // Create an AdjustableArrowCap that is filled.
+   DIM arrowCapStart AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 10, TRUE)
+   ' // Adjust to DPI by setting the scale width
+   GdipSetCustomLineCapWidthScale(arrowCapStart, dpiRatio)
+
+   ' // Create an AdjustableArrowCap that is not filled.
+   DIM arrowCapEnd AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(15, 15, FALSE)
+   ' // Adjust to DPI by setting the scale width
+   GdipSetCustomLineCapWidthScale(arrowCapEnd, dpiRatio)
+
+   ' // Get the type of CustomLineCap
+   ' // It will return 1 (CustomLineCapTypeAdjustableArrow)
+   DIM nType AS CustomLineCapType
+   GdipGetCustomLineCapType(arrowCapEnd, @nType)
+
+   ' // Create a Pen
+   DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
+
+   ' // Assign arrowCapStart as the start cap.
+   GdipSetPenCustomStartCap(arrowPen, arrowCapStart)
+   ' // Assign arrowCapEnd as the end cap.
+   GdipSetPenCustomEndCap(arrowPen, arrowCapEnd)
+
+   ' // Draw a line using arrowPen.
+   GdipDrawLine(graphics, arrowPen, 0, 0, 100, 100)
+
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Main
+' ========================================================================================
+FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
+                   BYVAL hPrevInstance AS HINSTANCE, _
+                   BYVAL pwszCmdLine AS WSTRING PTR, _
+                   BYVAL nCmdShow AS LONG) AS LONG
+
+   ' // Set process DPI aware
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
+   ' // Enable visual styles without including a manifest file
+   AfxEnableVisualStyles
+
+   ' // Create the main window
+   DIM pWindow AS CWindow = "MyClassName"
+   pWindow.Create(NULL, "GDI+ Gdip_CreateAdjustableArrowCap", @WndProc)
+   ' // Size it by setting the wanted width and height of its client area
+   pWindow.SetClientSize(400, 250)
+   ' // Center the window
+   pWindow.Center
+
+   ' // Add a graphic control
+   DIM pGraphCtx AS CGraphCtx = CGraphCtx(@pWindow, IDC_GRCTX, "", 0, 0, pWindow.ClientWidth, pWindow.ClientHeight)
+   pGraphCtx.Clear RGB_FLORALWHITE
+   ' // Anchor the control
+   pWindow.AnchorControl(pGraphCtx.hWindow, AFX_ANCHOR_HEIGHT_WIDTH)
+   
+   ' // Get the memory device context of the graphic control
+   DIM hdc AS HDC = pGraphCtx.GetMemDc
+
+   ' // Initialize GDI+
+   DIM pGdiPlusObjects AS GdiPlusObjects
+
+   ' // Draw the graphics
+   Example_CreateAdjustableArrowCap(hdc)
+
+   ' // Displays the window and dispatches the Windows messages
+   FUNCTION = pWindow.DoEvents(nCmdShow)
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Main window procedure
+' ========================================================================================
+FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+
+   SELECT CASE uMsg
+
+      ' // If an application processes this message, it should return zero to continue
+      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // and the CreateWindowExW function returns a NULL handle.
+      CASE WM_CREATE
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+         AfxEnableDarkModeForWindow(hwnd)
+         RETURN 0
+
+      CASE WM_COMMAND
+         SELECT CASE CBCTL(wParam, lParam)
+            CASE IDCANCEL
+               ' // If ESC key pressed, close the application by sending an WM_CLOSE message
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
+                  SendMessageW hwnd, WM_CLOSE, 0, 0
+                  RETURN 0
+               END IF
+         END SELECT
+
+    	CASE WM_DESTROY
+         ' // Ends the application by sending a WM_QUIT message
+         PostQuitMessage(0)
+         RETURN 0
+
+   END SELECT
+
+   ' // Default processing of Windows messages
+   FUNCTION = DefWindowProcW(hwnd, uMsg, wParam, lParam)
+
+END FUNCTION
 ' ========================================================================================
 ```
 ---
@@ -187,6 +350,39 @@ PRIVATE OPERATOR GdiPlusCustomLineCap.CAST () AS GpCustomLineCap PTR
 END OPERATOR
 ' ========================================================================================
 ```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example creates a CustomLineCap object, sets its base cap, and then gets
+' the base cap and assigns it to a Pen object. It then uses the Pen object to draw a line.
+' ========================================================================================
+SUB Example_GetBaseCap (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create an empty Path object for the custom cap
+   DIM capPath AS GdiPlusGraphicsPath = FillModeAlternate
+
+   ' // Create a CustomLineCap using the empty path
+   DIM customCap AS GdiPlusCustomLineCap = GdiPlusCustomLineCap(NULL, *capPath)
+
+   ' // Create a red Pen with width 10
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 10)
+
+   ' // Assign the custom cap as the end cap of the pen
+   GdipSetPenCustomEndCap(pen, customCap)
+
+   ' // Draw a line using the pen and graphics object
+   GdipDrawLine(graphics, pen, 0, 0, 100, 100)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusAdjustableArrowCap
@@ -247,6 +443,42 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusAdjustableArrowCap.CAST () AS GpAdjustableArrowCap PTR
    RETURN m_AdjustableArrowCap
 END OPERATOR
+' ========================================================================================
+```
+
+#### Example
+
+```
+' ========================================================================================
+' The following example creates an AdjustableArrowCap object, myArrow, and sets the fill
+' mode to TRUE. The code then creates a Pen object and assigns myArrow as the ending line
+' cap for this Pen object. Next, the code tests whether myArrow is filled and, if it is,
+' draws a line.
+' ========================================================================================
+SUB Example_IsFilled (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   DIM dpiRatio AS SINGLE = graphics.DpiRatio
+   graphics.ScaleTransform(dpiRatio)
+
+   ' // Create an AdjustableArrowCap that is filled.
+   DIM myArrow AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 10, TRUE)
+   ' // Adjust to DPI by setting the scale width
+   GdipSetCustomLineCapWidthScale(myArrow, dpiRatio)
+
+   ' // Create a Pen, and assign myArrow as the end cap.
+   DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
+   ' // Assign myArrow as the end cap.
+   GdipSetPenCustomEndCap(arrowPen, myArrow)
+
+   ' // If the cap is filled, draw a line using arrowPen.
+   DIM isFilled AS BOOL
+   GdipGetAdjustableArrowCapFillState(myArrow, @isFilled)
+   IF isFilled THEN GdipDrawLine(graphics, arrowPen, 0, 0, 100, 100)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -360,6 +592,31 @@ PRIVATE OPERATOR GdiPlusSolidBrush.CAST () AS GpSolidBrush PTR
 END OPERATOR
 ' ========================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' The following example creates a SolidBrush object, clones it, and then uses the clone
+' to fill a rectangle.
+' ========================================================================================
+SUB Example_CloneBrush (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create a SolidBrush
+   DIM brush AS GdiPlusSolidBrush = ARGB_RED
+
+   ' // Create a clone of the SolidBrush
+   DIM cloneBrush AS GdiPlusSolidBrush = *brush
+
+   ' // Use the clone brush to fill a rectagle
+   GdipFillRectangle(graphics, cloneBrush, 0, 0, 100, 100)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusHatchBrush
@@ -418,6 +675,45 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusHatchBrush.CAST () AS GpHatchBrush PTR
    RETURN m_Brush
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' The following example draws six of the available hatch styles.
+' ========================================================================================
+SUB Example_CreateHatchBrush (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Set and then draw the first hatch style.
+   DIM brush AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleHorizontal, ARGB_BLACK, ARGB_WHITE)
+   GdipFillRectangle(graphics, brush, 20, 20, 115, 50)
+
+   ' // Set and then draw the second hatch style.
+   DIM brush1 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleVertical, ARGB_BLACK, ARGB_WHITE)
+   GdipFillRectangle(graphics, brush1, 145, 20, 115, 50)
+
+   ' // Set and then draw the third hatch style.
+   DIM brush2 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleForwardDiagonal, ARGB_BLACK, ARGB_WHITE)
+   GdipFillRectangle(graphics, brush2, 270, 20, 115, 50)
+
+   ' // Set and then draw the fourth hatch style.
+   DIM brush3 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleBackwardDiagonal, ARGB_BLACK, ARGB_WHITE)
+   GdipFillRectangle(graphics, brush3, 20, 100, 115, 50)
+
+   ' // Set and then draw the fifth hatch style.
+   DIM brush4 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleCross, ARGB_BLACK, ARGB_WHITE)
+   GdipFillRectangle(graphics, brush4, 145, 100, 115, 50)
+
+   ' // Set and then draw the sixth hatch style.
+   DIM brush5 AS GdiPlusHatchBrush = GdiPlusHatchBrush(HatchStyleDiagonalCross, ARGB_BLACK, ARGB_WHITE)
+   GdipFillRectangle(graphics, brush5, 270, 100, 115, 50)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -506,6 +802,31 @@ PRIVATE OPERATOR GdiPlusLinearGradientBrush.CAST () AS GpLinearGradientBrush PTR
 END OPERATOR
 ' ========================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' Creates a LinearGradientBrush object from a set of boundary points and boundary colors.
+' This function is ideal for creating gradients aligned to rectangular UI elements or backgrounds.
+' ========================================================================================
+SUB Example_CreateLineBrushFromRect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Define gradient rectangle
+   DIM rcf AS GpRectF = (0, 0, 200, 100)
+
+   ' // Create brush with horizontal gradient
+   DIM brush AS GdiPlusLinearGradientBrush = GdiPlusLinearGradientBrush(@rcf, ARGB_RED, ARGB_BLUE, LinearGradientModeHorizontal)
+
+   ' // Fill rectangle
+   GdipFillRectangle(graphics, brush, rcf.x, rcf.y, rcf.Width, rcf.Height)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusPathGradientBrush
@@ -570,6 +891,68 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusPathGradientBrush.CAST () AS GpPathGradientBrush PTR
    RETURN m_Brush
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' The following example draws a star-shaped GraphicsPath.
+' Creates a star-shaped GraphicsPath and fills it using a PathGradientBrush constructed
+' from that path. The gradient transitions from a red center to a set of surround colors
+' defined at each vertex of the star. DPI scaling is applied globally to ensure consistent
+' rendering across high-resolution displays.
+' ========================================================================================
+SUB Example_CreatePathGradientFromPath (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create a GraphicsPath object and initializes the fill mode.
+   DIM path AS GdiPlusGraphicsPath = FillModeAlternate
+
+   ' // Fill the array of points.
+   DIM pts(0 TO 9) AS GpPointF
+   pts(0).x = 75  : pts(0).y = 0
+   pts(1).x = 100 : pts(1).y = 50
+   pts(2).x = 150 : pts(2).y = 50
+   pts(3).x = 112 : pts(3).y = 75
+   pts(4).x = 150 : pts(4).y = 150
+   pts(5).x = 75  : pts(5).y = 100
+   pts(6).x = 0   : pts(6).y = 150
+   pts(7).x = 37  : pts(7).y = 75
+   pts(8).x = 0   : pts(8).y = 50
+   pts(9).x = 50  : pts(9).y = 50
+
+   ' // Construct the path with the array of points.
+   GdipAddPathLine2(path, @pts(0), 10)
+
+   ' // Use the path to construct a path gradient brush.
+   DIM brush AS GdiPlusPathGradientBrush = *path
+
+   ' // Set the color at the center of the path to red.
+   GdipSetPathGradientCenterColor(brush, ARGB_RED)
+
+   ' // Set the colors of the points in the array.
+   DIM Colors(9) AS ARGB
+   Colors(0) = ARGB_BLACK
+   Colors(1) = ARGB_LIGHTGREEN
+   Colors(2) = ARGB_BLUE
+   Colors(3) = ARGB_WHITE
+   Colors(4) = ARGB_BLACK
+   Colors(5) = ARGB_LIGHTGREEN
+   Colors(6) = ARGB_BLUE
+   Colors(7) = ARGB_WHITE
+   Colors(8) = ARGB_BLACK
+   Colors(9) = ARGB_LIGHTGREEN
+   DIM count AS LONG = 10
+   GdipSetPathGradientSurroundColorsWithCount(brush, @Colors(0), @count)
+
+   ' // Fill the path with the path gradient brush.
+   GdipFillPath(graphics, brush, path)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -678,6 +1061,30 @@ PRIVATE OPERATOR GdiPlusTextureBrush.CAST () AS GpTextureBrush PTR
 END OPERATOR
 ' ========================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' The following example creates a texture brush and fills a rectangle.
+' ========================================================================================
+SUB Example_CreateTexture (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Load the image and set the dpi resolution
+   DIM image AS GdiPlusImage = "HouseAndTree.gif"
+   image.SetResolution(graphics)
+
+   ' // Create a texture brush, and set its wrap mode.
+   DIM textureBrush AS GdiPlusTextureBrush = *image
+   ' // Fill a rectangle with the texture brush
+   GdipFillRectangle(graphics, textureBrush, 20, 20, 360, 210)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusImage
@@ -773,6 +1180,37 @@ PRIVATE SUB GdiPlusImage.SetResolution (BYVAL graphics AS GpGraphics PTR, BYVAL 
       GdipGetDpiY(graphics, @dpiY)
    END IF
    SetLastError(GdipBitmapSetResolution(m_Image, dpiX, dpiY))
+END SUB
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' The following example creates an Image object based on a JPEG file. The code creates a
+' second Image object by cloning the first. Then the code calls the DrawImage method twice
+' to draw the two images.
+' ========================================================================================
+SUB Example_CloneImage (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Load the original image from file
+   DIM image1 AS GdiPlusImage = "climber.jpg"
+   ' // Set the resolution of this Image object to the user's DPI settings
+   image1.SetResolution(graphics)
+
+   ' // Clone the image
+   DIM image2 AS GdiPlusImage = image1
+
+   ' // Draw the original image
+   GdipDrawImage(graphics, image1, 10, 10)
+
+   ' // Draw the cloned image
+   GdipDrawImage(graphics, image2, 210, 10)
+
 END SUB
 ' ========================================================================================
 ```
@@ -958,6 +1396,29 @@ PRIVATE SUB GdiPlusBitmap.SetResolution (BYVAL graphics AS GpGraphics PTR, BYVAL
 END SUB
 ' ========================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' The following example creates a Bitmap object based on a JPEG file and draws it.
+' ========================================================================================
+SUB Example_CreateBitmap (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create a bitmap object from a .jpg file
+   DIM myBitmap AS GdiPlusBitmap = "climber.jpg"
+   ' // Set the resolution of this Bitmap object to the user's DPI settings
+   myBitmap.SetResolution(graphics)
+
+   ' // Draw the bitmap.
+   GdipDrawImage(graphics, myBitmap, 0, 0)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusImageAttributes
@@ -1013,6 +1474,46 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusImageAttributes.CAST () AS GpImageAttributes PTR
    RETURN m_ImgAttr
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' The following example creates an Image object loading an image from file, creates an
+' ImageAttributes object, sets the wrap mode to WrapModeTile and draws the specified
+' source rectangle to the destination rectangle, which is four times as large as the
+' image itself.
+' ========================================================================================
+SUB Example_CreateImageAttributes (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Load an image from file
+   DIM image AS GdiPlusImage = "climber.jpg"
+   ' // Set the resolution of this image object to the user's DPI settings
+   image.SetResolution(graphics)
+   
+   ' // Get the width and height of the image
+   DIM AS LONG nWidth, nHeight
+   GdipGetImageWidth(image, @nWidth)
+   GdipGetImageHeight(image, @nHeight)
+
+   ' // Create an ImageAttributes object
+   DIM imgAttr AS GdiPlusImageAttributes
+
+   ' // Set the wrap mode to WrapModeTile
+   GdipSetImageAttributesWrapMode(imgAttr, WrapModeTile, ARGB_BLUE, FALSE)
+
+   ' // Draw the image
+   GdipDrawImageRectRect(graphics, image, _
+            10, 10, nWidth, nHeight, _         ' dest rect
+            0, 0, 2 * nWidth, 2 * nHeight, _   ' source dest
+            UnitPixel, imgAttr, NULL, NULL)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -1071,6 +1572,40 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusEffect.CAST () AS GpEffect PTR
    RETURN m_Effect
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' This example loads an image from disk and applies a blur effect using GDI+ 1.1.
+' ========================================================================================
+SUB Example_BlurEffect (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create a bitmap object from a .jpg file
+   DIM bmp AS GdiPlusBitmap = "climber.jpg"
+   ' // Set the resolution of this Bitmap object to the user's DPI settings
+   bmp.SetResolution(graphics)
+
+   ' // Create a blur effect
+   DIM effect AS GdiPlusEffect = BlurEffectGuid
+
+   ' // Set parameters: radius = 6.0, expandEdge = FALSE
+   DIM blurParams(0 TO 1) AS SINGLE = {6.0, FALSE}
+   DIM array_size AS GpUnit = (UBOUND(blurParams) - LBOUND(blurParams) + 1) * SIZEOF(SINGLE)
+   GdipSetEffectParameters(effect, @blurParams(0), array_size)
+
+   ' // Apply effects to the whole image
+   GdipBitmapApplyEffect(bmp, effect, NULL, FALSE, NULL, NULL)
+
+   ' // Draw the image
+   GdipDrawImage(graphics, bmp, 0, 0)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -1209,6 +1744,28 @@ PRIVATE FUNCTION GdiPlusGraphics.ScaleTransform (BYVAL order AS MatrixOrder = Ma
 END FUNCTION
 ' ========================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' The following example draws an image with its upper-left corner at (10, 10).
+' ========================================================================================
+SUB Example_DrawImage (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create the Image object
+   DIM image AS GdiPlusImage = "climber.jpg"
+   image.SetResolution(graphics)
+
+   ' // Draw the image
+   GdipDrawImage(graphics, image, 10, 10)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusFont
@@ -1324,6 +1881,33 @@ PRIVATE OPERATOR GdiPlusFont.CAST () AS GpFont PTR
 END OPERATOR
 ' ========================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' The following example creates a Font object and then uses it to draw text.
+' ========================================================================================
+SUB Example_CreateFont (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create the font
+   DIM fontFamily AS GdiPlusFontFamily = "Arial"
+   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
+
+   ' // Create a solid brush
+   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+
+   ' // Draw a string
+   DIM rcf AS GpRectF = (30, 30, 0, 0)
+   DIM wszText AS WSTRING * 64 = "Text drawn using an Arial font"
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, solidBrush)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusFontFamily
@@ -1382,6 +1966,33 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusFontFamily.CAST () AS GpFontFamily PTR
    RETURN m_FontFamily
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' The following example creates a Font object from a font family and then uses it to draw text.
+' ========================================================================================
+SUB Example_CreateFontFromFamily (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create the font
+   DIM fontFamily AS GdiPlusFontFamily = "Arial"
+   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(14, TRUE), FontStyleRegular, UnitPixel)
+
+   ' // Create a solid brush
+   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+
+   ' // Draw a string
+   DIM rcf AS GpRectF = (30, 30, 0, 0)
+   DIM wszText AS WSTRING * 64 = "This is a Font created from a FontFamily"
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, solidBrush)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -1455,6 +2066,33 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusGraphicsPath.CAST () AS GpPath PTR
    RETURN m_Path
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' This example creates a GraphicsPath and adds a shape to it.
+' ========================================================================================
+SUB Example_CreatePath (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create GraphicsPath
+   DIM path AS GdiPlusGraphicsPath = FillModeAlternate
+
+   ' // Add a shape to the path
+   GdipAddPathEllipse(path, 120, 80, 150, 100)
+
+   ' // Create pen
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_MIDNIGHTBLUE, 2, UnitWorld)
+
+   ' // Draw path
+   GdipDrawPath(graphics, pen, path)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -1540,6 +2178,45 @@ PRIVATE OPERATOR GdiPlusMatrix.@ () AS GpMatrix PTR PTR
 END OPERATOR
 ' ========================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' Creates a transformation matrix based on a source rectangle and a destination parallelogram.
+' This is especially useful for mapping one shape onto another—like skewing, rotating, or
+' stretching a rectangle into a custom shape.
+' ========================================================================================
+SUB Example_CreateMatrix3 (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Define source rectangle
+   DIM srcRect AS GpRectF = (0, 0, 100, 60)
+
+   ' // Define destination parallelogram points
+   DIM destPoints(0 TO 2) AS GpPointF
+   destPoints(0).x = 50  : destPoints(0).y = 50      ' Top-left
+   destPoints(1).x = 160 : destPoints(1).y = 40      ' Top-right
+   destPoints(2).x = 60  : destPoints(2).y = 120     ' Bottom-left
+
+   ' // Create matrix to map srcRect to dstPoints
+   DIM matrix AS GdiPlusMatrix = GdiPlusMatrix(@srcRect, @destPoints(0))
+
+   ' // Apply matrix to graphics
+   GdipSetWorldTransform(graphics, matrix)
+
+   ' // Create pen
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 2 * graphics.dpiRatio, UnitPixel)
+
+   ' // Draw transformed rectangle
+   GdipScaleWorldTransform(graphics, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+   GdipDrawRectangle(graphics, pen, 0, 0, 100, 60)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusPathIterator
@@ -1590,6 +2267,62 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusPathIterator.CAST () AS GpPathIterator PTR
    RETURN m_PathIretator
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' This example demonstrates
+' How to build a path with multiple figures.
+' How to use PathIterator to inspect each figure’s bounds and closure status.
+' ========================================================================================
+SUB Example_CreatePathIter (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' Create a GraphicsPath with two figures
+   DIM path AS GdiPlusGraphicsPath = FillModeAlternate
+
+   ' First figure: triangle (closed)
+   GdipAddPathLine(path, 10, 10, 100, 10)
+   GdipAddPathLine(path, 100, 10, 55, 80)
+   GdipClosePathFigure(path)
+
+   ' Second figure: open zigzag
+   GdipStartPathFigure(path)
+   GdipAddPathLine(path, 120, 10, 180, 50)
+   GdipAddPathLine(path, 180, 50, 120, 90)
+
+   ' Create PathIterator
+   DIM iterator AS GdiPlusPathIterator = *path
+
+   ' Get subpath count
+   DIM subpathCount AS LONG
+   GdipPathIterGetSubpathCount(iterator, @subpathCount)
+
+   ' Create font and brush for drawing text
+   DIM fontFamily AS GdiPlusFontFamily ="Arial"
+   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
+
+   ' Iterate through subpaths and draw info
+   DIM resultCount AS LONG, startIdx AS LONG, endIdx AS LONG
+   DIM isClosed AS BOOL
+   DIM yOffset AS SINGLE = 10.0
+
+   FOR i AS LONG = 1 TO subpathCount
+      GdipPathIterNextSubpath(iterator, @resultCount, @startIdx, @endIdx, @isClosed)
+      DIM info AS STRING
+      info = "Subpath " & i & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
+      DIM layout AS GpRectF = (10 * graphics.dpiRatioX, yOffset * graphics.dpiRatioY, 300 * graphics.dpiRatioX, 20 * graphics.dpiRatioY)
+      GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
+      yOffset += 20.0
+   NEXT
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -1658,6 +2391,30 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusPen.CAST () AS GpPen PTR
    RETURN m_Pen
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' The following example creates a Pen object, creates a copy of the Pen object, and then
+' draws an ellipse using the cloned Pen object.
+' ========================================================================================
+SUB Example_ClonePen (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create a Pen
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 4, UnitWorld)
+   ' // Clone it
+   DIM clonedPen AS GdiPlusPen = *pen
+
+   ' // Draw a rectangle using the cloned Pen object.
+   GdipDrawRectangleI(graphics, clonedPen, 10, 10, 100, 50)
+
+END SUB
 ' ========================================================================================
 ```
 ---
@@ -1763,6 +2520,35 @@ PRIVATE SUB GdiPlusRegion.FromPath (BYVAL path AS GpPath PTR)
 END SUB
 ' =====================================================================================
 ```
+#### Example
+```
+' ========================================================================================
+' Creates a region that is identical to the region that is specified by a handle to a
+' Microsoft Windows Graphics Device Interface (GDI) region.
+' ========================================================================================
+SUB Example_CreateRegionHrgn (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create a simple GDI region (an ellipse)
+   DIM hRgn AS HRGN = CreateEllipticRgn(50, 50, 200, 150)
+
+   ' // Convert the GDI region to a GDI+ region
+   DIM gdipRegion AS GdiPlusRegion = hRgn
+
+   ' // Fill the GDI+ region with a brush
+   DIM brush AS GdiPlusSolidBrush = ARGB_GREEN
+   GdipFillRegion(graphics, brush, gdipRegion)
+
+   ' // Cleanup
+   IF hRgn THEN DeleteObject(hRgn)
+
+END SUB
+' ========================================================================================
+```
 ---
 
 ### GdiPlusStringFormat
@@ -1825,6 +2611,44 @@ END OPERATOR
 PRIVATE OPERATOR GdiPlusStringFormat.CAST () AS GpStringFormat PTR
    RETURN m_StringFormat
 END OPERATOR
+' ========================================================================================
+```
+#### Example
+```
+' ========================================================================================
+' The following example uses the specified formatting to draw a string in a layout rectangle.
+' ========================================================================================
+SUB Example_CreateStringFormat (BYVAL hdc AS HDC)
+
+   ' // Create a graphics object from the device context
+   DIM graphics AS GdiPlusGraphics = hdc
+   ' // Set the scale transform
+   graphics.ScaleTransform
+
+   ' // Create the font
+   DIM fontFamily AS GdiPlusFontFamily ="Times New Roman"
+   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
+
+   ' // Create a StringFormat object
+   DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
+   GdipSetStringFormatAlign(format, StringAlignmentCenter)
+
+   ' // Create a solid brush
+   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLACK
+
+   ' // Draw the string
+   DIM wszText AS WSTRING * 64 = "Sample text"
+   DIM rcf AS GpRectF = (30, 30, 200, 25)
+   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, solidBrush)
+
+   ' // Create a Pen
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 3, UnitPixel)
+   GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
+
+   ' // Draw a rectangle
+   GdipDrawRectangle(graphics, *pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
+
+END SUB
 ' ========================================================================================
 ```
 ---
