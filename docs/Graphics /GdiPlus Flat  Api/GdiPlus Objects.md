@@ -109,26 +109,26 @@ The following table lists all lightweight RAII wrappers provided by `AfxNova` fo
 | AfxNova Class | GDI+ Object | Purpose/Description |
 | ------------- | ---------------------- | ------------------- |
 | [GdiPlusAdjustableArrowCap](#gdiplusadjustablearrowcap) | GpAdjustableArrowCap | Builds a line cap that looks like an arrow. |
-| [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | The Bitmap functions expands on the capabilities of the Image functions by providing additional methods for creating and manipulating raster images. |
-| [GdiPlusBrush](#gdiplusbrush) | GpBrush | Base wrapper for all brush types. Clones and manages lifetime of generic brushes. |
-| [GdiPlusCustomLineCap](#gdipluscustomlinecap) | GpCustomLineCap | Wraps custom line caps defined by paths. Supports cloning and creation from fill/stroke paths. |
-| [GdiPlusEffect](#gdipluseffect) | GpEffect | Wraps GDI+ effects; manages creation, parameters, and lifetime. |
-| [GdiPlusFont](#gdiplusfont) | GpFont | Font wrapper for text rendering; manages font object lifetime. |
-| [GdiPlusGraphics](#gdiplusgraphics) | GpGraphics | Wraps a GDI+ graphics context; manages its lifetime automatically. |
+| [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | Expands on the capabilities of the Image functions by providing additional methods for creating and manipulating raster images. |
+| [GdiPlusBrush](#gdiplusbrush) | GpBrush | Base wrapper for all brush types. |
+| [GdiPlusCustomLineCap](#gdipluscustomlinecap) | GpCustomLineCap | Wraps custom line caps defined by paths. |
+| [GdiPlusEffect](#gdipluseffect) | GpEffect | Wraps GDI+ effects. |
+| [GdiPlusFont](#gdiplusfont) | GpFont | Font wrapper for text rendering. |
+| [GdiPlusGraphics](#gdiplusgraphics) | GpGraphics | Wraps a GDI+ graphics context. |
 | [GdiPlusGraphicsPath](#gdiplusgraphicspath) | GpPath | Wraps a graphics path; building, modifying, and disposing paths. |
-| [GdiPlusHatchBrush](#gdiplushatchbrush) | GpHatchBrush | Hatch-style brush with foreground and background colors. |
+| [GdiPlusHatchBrush](#gdiplushatchbrush) | GpHatchBrush | Hatch-style brush. |
 | [GdiPlusImage](#gdiplusimage) | GpImage | Loads, clones, and manages images from files, streams, and resources. |
-| [GdiPlusImageAttributes](#gdiplusimageattributes) | GpImageAttributes | Wraps image attributes (color adjustments, gamma, color matrices). |
-| [GdiPlusLinearGradientBrush](#gdipluslineargradientbrush) | GpLinearGradientBrush | Linear gradient brush with multiple constructors (points, rectangles, angles). |
-| [GdiPlusMatrix](#gdiplusmatrix) | GpMatrix | Transformation matrix wrapper; translation, rotation, scaling, etc. |
-| [GdiPlusObjects](#gdiplusobjects) | GDI+ Startup/Shutdown | RAII wrapper for GDI+ initialization and shutdown token. |
+| [GdiPlusImageAttributes](#gdiplusimageattributes) | GpImageAttributes | Image attributes (color adjustments, gamma, color matrices). |
+| [GdiPlusLinearGradientBrush](#gdipluslineargradientbrush) | GpLinearGradientBrush | Linear gradient brush. |
+| [GdiPlusMatrix](#gdiplusmatrix) | GpMatrix | Transformation matrix; translation, rotation, scaling, etc. |
+| [GdiPlusObjects](#gdiplusobjects) | GDI+ Startup/Shutdown | RAII wrapper for GDI+ initialization and shutdown. |
 | [GdiPlusPathGradientBrush](#gdipluspathgradientbrush) | GpPathGradientBrush | Gradient brush that interpolates from boundary path to center color. |
-| [GdiPlusPathIterator](#gdipluspathiterator) | GpPathIterator | Iterates over path subpaths, types, and markers safely. |
-| [GdiPlusPen](#gdipluspen) | GpPen | Wraps a pen for drawing lines and outlines; safely deletes the pen. |
-| [GdiPlusRegion](#gdiplusregion) | GpRegion | Region wrapper for clipping and hit-testing; RAII-managed. |
-| [GdiPlusSolidBrush](#gdiplussolidbrush) | GpSolidBrush | Solid color brush. Supports creation from ARGB and cloning. |
-| [GdiPlusStringFormat](#gdiplusstringformat) | GpStringFormat | Text layout and formatting options; safely manages the format object. |
-| [GdiPlusTextureBrush](#gdiplustexturebrush) | GpTextureBrush | Brush that fills using an image. Supports multiple constructors and wrap modes. |
+| [GdiPlusPathIterator](#gdipluspathiterator) | GpPathIterator | Iterates over path subpaths, types, and markers. |
+| [GdiPlusPen](#gdipluspen) | GpPen | Wraps a pen for drawing lines and outlines. |
+| [GdiPlusRegion](#gdiplusregion) | GpRegion | Region wrapper for clipping and hit-testing. |
+| [GdiPlusSolidBrush](#gdiplussolidbrush) | GpSolidBrush | Solid color brush. |
+| [GdiPlusStringFormat](#gdiplusstringformat) | GpStringFormat | Text layout and formatting options |
+| [GdiPlusTextureBrush](#gdiplustexturebrush) | GpTextureBrush | Brush that fills using an image. |
 
 ---
 
