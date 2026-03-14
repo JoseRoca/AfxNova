@@ -104,3 +104,202 @@ The file `AfxGdipObjects.inc`, contains the complete set of these tiny classes f
 
 ---
 
+### GdiPlusObjects
+```
+' ========================================================================================
+' Constructor - Initializes GDI+
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusObjects
+   DIM StartupInput AS GdiplusStartupInput
+   StartupInput.GdiplusVersion = 1   ' Version must be 1
+   GdiplusStartup(@m_token, @StartupInput, NULL)
+   GDIP_DP("token: " & WSTR(m_token))
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Dstructor - Shutdowns GDI+
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusObjects
+   GDIP_DP("token: " & WSTR(m_token))
+   IF m_token THEN GdiplusShutdown(m_token)
+END DESTRUCTOR
+' ========================================================================================
+```
+---
+
+### GdiPlusCustomLLineCap
+
+```
+' ========================================================================================
+TYPE GdiPlusCustomLineCap
+Public:
+   m_CustomLineCap AS GpCustomLineCap PTR
+   DECLARE CONSTRUCTOR (BYVAL customCap AS GpPath PTR)
+   DECLARE CONSTRUCTOR (BYVAL fillPath AS GpPath PTR, BYVAL strokePath AS GpPath PTR, _
+           BYVAL baseCap AS GpLineCap = LinecapFlat, BYVAL baseInset AS SINGLE = 0.0)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpCustomLineCap PTR PTR
+   DECLARE OPERATOR CAST () AS GpCustomLineCap PTR
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Creates a CustomLineCap
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusCustomLineCap (BYVAL customCap AS GpPath PTR)
+   IF customCap THEN SetLastError(GdipCloneCustomLineCap(customCap, @m_CustomLineCap))
+   GDIP_DP("Clone - " & WSTR(m_CustomLineCap))
+END CONSTRUCTOR
+' ========================================================================================
+
+' =====================================================================================
+' Creates a CustomLineCap object from a fill path and a stroke path.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusCustomLineCap (BYVAL fillPath AS GpPath PTR, BYVAL strokePath AS GpPath PTR, _
+BYVAL baseCap AS GpLineCap = LinecapFlat, BYVAL baseInset AS SINGLE = 0.0)
+   SetLastError(GdipCreateCustomLineCap(fillPath, strokePath, baseCap, baseinset, @m_CustomLineCap))
+   GDIP_DP("m_pCustomLineCap: " & WSTR(m_CustomLineCap))
+END CONSTRUCTOR
+' =====================================================================================
+' ========================================================================================
+' * Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusCustomLineCap
+   GDIP_DP("m_pCustomLineCap: " & WSTR(m_CustomLineCap))
+   IF m_CustomLineCap THEN SetLastError(GdipDeleteCustomLineCap(m_CustomLineCap))
+END DESTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpCustomLineCap object
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF cap AS GdiPlusCustomLineCap) AS GpCustomLineCap PTR
+   RETURN cap.m_CustomLineCap
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of a pointer to the GpCustomLineCap object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusCustomLineCap.@ () AS GpCustomLineCap PTR PTR
+   RETURN @m_CustomLineCap
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusCustomLineCap.CAST () AS GpCustomLineCap PTR
+   RETURN m_CustomLineCap
+END OPERATOR
+' ========================================================================================
+```
+---
+
+### GdiPlusAdjustableArrowCap
+
+```
+' ========================================================================================
+TYPE GdiPlusAdjustableArrowCap
+Public:
+   m_AdjustableArrowCap AS GpAdjustableArrowCap PTR
+   DECLARE CONSTRUCTOR (BYVAL cap AS GpAdjustableArrowCap PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL nHeight AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL bIsFilled AS BOOL = CTRUE)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpAdjustableArrowCap PTR PTR
+   DECLARE OPERATOR CAST () AS GpAdjustableArrowCap PTR
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Creates a AdjustableArrowCap
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusAdjustableArrowCap (BYVAL cap AS GpAdjustableArrowCap PTR = NULL)
+   GDIP_DP(WSTR(cap))
+   IF cap THEN SetLastError(GdipCloneCustomLineCap(cap, @m_AdjustableArrowCap))
+END CONSTRUCTOR
+' ========================================================================================
+
+' =====================================================================================
+' Creates an adjustable arrow line cap with the specified height and width. The arrow
+' line cap can be filled or nonfilled. The middle inset defaults to zero.
+' =====================================================================================
+PRIVATE CONSTRUCTOR GdiPlusAdjustableArrowCap (BYVAL nHeight AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL bIsFilled AS BOOL = CTRUE)
+   SetLastError(GdipCreateAdjustableArrowCap(nHeight, nWidth, bIsFilled, @m_AdjustableArrowCap))
+   GDIP_DP("m_AdjustableArrowCap: " & WSTR(m_AdjustableArrowCap))
+END CONSTRUCTOR
+' =====================================================================================
+' ========================================================================================
+' * Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusAdjustableArrowCap
+   GDIP_DP("m_AdjustableArrowCap: " & WSTR(m_AdjustableArrowCap))
+   IF m_AdjustableArrowCap THEN SetLastError(GdipDeleteCustomLineCap(m_AdjustableArrowCap))
+END DESTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpAdjustableArrowCap object
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF cap AS GdiPlusAdjustableArrowCap) AS GpAdjustableArrowCap PTR
+   RETURN cap.m_AdjustableArrowCap
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of a pointer to the GpAdjustableArrowCap object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusAdjustableArrowCap.@ () AS GpAdjustableArrowCap PTR PTR
+   RETURN @m_AdjustableArrowCap
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusAdjustableArrowCap.CAST () AS GpAdjustableArrowCap PTR
+   RETURN m_AdjustableArrowCap
+END OPERATOR
+' ========================================================================================
+```
+---
+
+### GdiPlusBrush
+
+```
+' ========================================================================================
+TYPE GdiPlusBrush
+Public:
+   m_Brush AS GpBrush PTR
+   DECLARE CONSTRUCTOR (BYVAL brush AS GpBrush PTR = NULL)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS GpBrush PTR PTR
+   DECLARE OPERATOR CAST () AS GpBrush PTR
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusBrush (BYVAL brush AS GpBrush PTR = NULL)
+   GDIP_DP(WSTR(brush))
+   IF brush THEN SetLastError(GdipCloneBrush(brush, @m_brush))
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR GdiPlusBrush
+   GDIP_DP("m_Brush: " & WSTR(m_Brush))
+   IF m_Brush THEN GdipDeleteBrush(m_Brush)
+END DESTRUCTOR
+' ========================================================================================
+' ========================================================================================
+' Returns a pointer to the GpBrush object
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF brush AS GdiPlusBrush) AS GpBrush PTR
+   RETURN brush.m_Brush
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of a pointer to the GpBrush object
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusBrush.@ () AS GpBrush PTR PTR
+   RETURN @m_Brush
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE OPERATOR GdiPlusBrush.CAST () AS GpBrush PTR
+   RETURN m_Brush
+END OPERATOR
+' ========================================================================================
+```
