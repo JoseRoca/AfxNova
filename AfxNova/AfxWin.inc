@@ -5123,7 +5123,7 @@ END FUNCTION
 ' IF AfxInternetCheckConnection("https://www.freebasic.net/forum/viewforum.php?f=1") THEN ? "Connection succeeded!"
 ' ========================================================================================
 PRIVATE FUNCTION AfxInternetCheckConnection (BYVAL pwszUrl AS WSTRING PTR) AS BOOLEAN
-   RETURN InternetCheckConnection(pwszUrl, FLAG_ICC_FORCE_CONNECTION, 0)
+   RETURN InternetCheckConnectionW(pwszUrl, FLAG_ICC_FORCE_CONNECTION, 0)
 END FUNCTION
 ' ========================================================================================
 

@@ -70,6 +70,13 @@ TYPE CWebView2
    DECLARE FUNCTION CallDevToolsProtocolMethod (BYVAL methodName AS LPCWSTR, BYVAL parametersAsJson AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2CallDevToolsProtocolMethodCompletedHandler PTR) AS HRESULT
    DECLARE FUNCTION GetContainsFullScreenElement (BYVAL ContainsFullScreenElement AS LONG PTR) AS HRESULT
    DECLARE FUNCTION GetContainsFullScreenElement () AS LONG
+   DECLARE FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
+   DECLARE FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
+   DECLARE FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS HRESULT
+   DECLARE FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+   DECLARE FUNCTION RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+   DECLARE FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
 
    ' // Settings
    DECLARE FUNCTION GetSettings () AS Afx_ICoreWebView2Settings PTR
@@ -137,13 +144,6 @@ TYPE CWebView2
    DECLARE FUNCTION RemoveLostFocus (BYVAL token AS EventRegistrationToken) AS HRESULT
    DECLARE FUNCTION AddAcceleratorKeyPressed (BYVAL eventHandler AS Afx_ICoreWebView2AcceleratorKeyPressedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
    DECLARE FUNCTION RemoveAcceleratorKeyPressed (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
-   DECLARE FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
-   DECLARE FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
-   DECLARE FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS HRESULT
-   DECLARE FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
-   DECLARE FUNCTION RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
-   DECLARE FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
 
 END TYPE
 ' ========================================================================================
@@ -1542,7 +1542,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Saves the contents of a string buffer to a temporary file and returns the name of the file.
+' Saves the contents of an html script to a temporary file and returns the name of the file.
 ' The file is saved with a .html extension and using UTF-8 encoding.
 ' ========================================================================================
 PRIVATE FUNCTION AfxSaveTempHtmlFile (BYVAL pwszBuffer AS WSTRING PTR) AS DWSTRING
