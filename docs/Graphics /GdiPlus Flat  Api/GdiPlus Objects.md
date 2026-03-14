@@ -136,7 +136,7 @@ The following table lists all lightweight RAII wrappers provided by `AfxNova` fo
 
 ### GdiPlusObjects
 
-Initializes GDI+.
+Initializes and shutdowns GDI+.
 
 ```
 ' ========================================================================================
