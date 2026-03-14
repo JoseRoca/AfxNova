@@ -104,19 +104,33 @@ The file `AfxGdipObjects.inc`, contains the complete set of these tiny classes f
 
 ---
 
+The following table lists all lightweight RAII wrappers provided by AfxNova for opaque GDI+ objects (raw pointers to hidden internal structures).
+
 | AfxNova Class | Underlying GDI+ Object | Purpose/Description |
 | ------------- | ---------------------- | ------------------- |
-| [GdiPlusObjects](#gdiplusobjects) | GDI+ Startup/Shutdown | Initializes and shuts down GDI+. Manages the GDI+ token via RAII. |
-| [GdiPlusCustomLineCap](#gpcustomlinecap) | GDI+ Startup/Shutdown | Wraps custom line caps defined by paths. Supports cloning and creation from fill/stroke paths. |
 | [GdiPlusAdjustableArrowCap](#gdiplusadjustablearrowcap) | GpAdjustableArrowCap | Wraps adjustable arrow caps with height, width, and fill options. |
-| [GdiPlusBrush](#gdiplusbrush) | GpBrush | Base wrapper for all brush types. Clones and manages lifetime of generic brushes. |
-| [GdiPlusSolidBrush](#gdiplussolidbrush) | GpSolidBrush | Solid color brush. Supports creation from ARGB and cloning. |
-| [GdiPlusHatchBrush](#gdiplushatchbrush) | GpHatchBrush | Hatch-style brush with foreground and background colors. |
-| [GdiPlusLinearGradientBrush](#gdipluslineargradientbrush) | GpLinearGradientBrush | Linear gradient brush with multiple constructors (points, rectangles, angles). |
-| [GdiPlusPathGradientBrush](#gdipluspathgradientbrush) | GpPathGradientBrush | Gradient brush that interpolates from boundary path to center color. |
-| [GdiPlusTextureBrush](#gdiplustexturebrush) | GpTextureBrush | Brush that fills using an image. Supports multiple constructors and wrap modes. |
-| [GdiPlusImage](#gdiplusimage) | GpImage | Loads, clones, and manages images from files, streams, and resources. |
 | [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | Extendeds image wrapper with constructors for files, streams, HBITMAP, HICON, raw data, effects, and more. |
+| [GdiPlusBrush](#gdiplusbrush) | GpBrush | Base wrapper for all brush types. Clones and manages lifetime of generic brushes. |
+| [GdiPlusCustomLineCap](#gpcustomlinecap) | GpCustomLineCap | Wraps custom line caps defined by paths. Supports cloning and creation from fill/stroke paths. |
+| [GdiPlusEffect](#gdipluseffect) | GpEffect | Wraps GDI+ effects; manages creation, parameters, and lifetime. |
+| [GdiPlusFont](#gdiplusfont) | GpFont | Font wrapper for text rendering; manages font object lifetime. |
+| [GdiPlusGraphics](#gdiplusgraphics) | GpGraphics | Wraps a GDI+ graphics context; manages its lifetime automatically. |
+| [GdiPlusGraphicsPath](#gdiplusgraphicspath) | GpPath | Wraps a graphics path; building, modifying, and disposing paths. |
+| [GdiPlusHatchBrush](#gdiplushatchbrush) | GpHatchBrush | Hatch-style brush with foreground and background colors. |
+| [GdiPlusImage](#gdiplusimage) | GpImage | Loads, clones, and manages images from files, streams, and resources. |
+| [GdiPlusImageAttributes](#gdiplusimageattributes) | GpImageAttributes | Wraps image attributes (color adjustments, gamma, color matrices). |
+| [GdiPlusLinearGradientBrush](#gdipluslineargradientbrush) | GpLinearGradientBrush | Linear gradient brush with multiple constructors (points, rectangles, angles). |
+| [GdiPlusMatrix](#gdiplusmatrix) | GpMatrix | Transformation matrix wrapper; translation, rotation, scaling, etc. |
+| [GdiPlusObjects](#gdiplusobjects) | GDI+ Startup/Shutdown | RAII wrapper for GDI+ initialization and shutdown token. |
+| [GdiPlusPathGradientBrush](#gdipluspathgradientbrush) | GpPathGradientBrush | Gradient brush that interpolates from boundary path to center color. |
+| [GdiPlusPathIterator](#gdipluspathiterator) | GpPathIterator | Iterates over path subpaths, types, and markers safely. |
+| [GdiPlusPen](#gdipluspen) | GpPen | Wraps a pen for drawing lines and outlines; safely deletes the pen. |
+| [GdiPlusRegion](#gdiplusregion) | GpRegion | Region wrapper for clipping and hit-testing; RAII-managed. |
+| [GdiPlusSolidBrush](#gdiplussolidbrush) | GpSolidBrush | Solid color brush. Supports creation from ARGB and cloning. |
+| [GdiPlusStringFormat](#gdiplusstringformat) | GpStringFormat | Text layout and formatting options; safely manages the format object. |
+| [GdiPlusTextureBrush](#gdiplustexturebrush) | GpTextureBrush | Brush that fills using an image. Supports multiple constructors and wrap modes. |
+
+
 
 ---
 
