@@ -33,98 +33,74 @@ Big APIs like the Windows GDI+ flat API—tend to expose enormous functionality 
 The philosophy is simple:
 
 1. Wrap the object, not the API
+
 Each GDI+ object—GpGraphics, GpBitmap, GpPen, GpBrush, etc.—is represented by a small class whose only job is to manage:
 * creation
 * destruction
 * ownership
 * pointer access
 
-The class does not attempt to replace the API.
-It simply makes the API safe and pleasant to use.
+The class does not attempt to replace the API. It simply makes the API safe and pleasant to use.
 
 2. Automatic lifetime management
+
 Every class uses RAII semantics:
-
-the constructor creates the underlying GDI+ object
-
-the destructor frees it automatically
-
-This eliminates leaks, double frees, and forgotten cleanup calls—problems that plague raw GDI+ code.
+* the constructor creates the underlying GDI+ object
+* the destructor frees it automatically
+* This eliminates leaks, double frees, and forgotten cleanup calls—problems that plague raw GDI+ code.
 
 3. Full transparency and zero lock‑in
-AfxNova never hides the underlying pointer.
-Every class exposes:
 
-*object → the raw GDI+ pointer
+`AfxNova` never hides the underlying pointer. Every class exposes:
+* *object → the raw GDI+ pointer
+* @object → the address of the pointer (for functions that require GpObject**)
 
-@object → the address of the pointer (for functions that require GpObject**)
-
-This means the developer can always call the flat API directly whenever needed.
-Nothing is trapped behind an abstraction.
+This means the developer can always call the flat API directly whenever needed. Nothing is trapped behind an abstraction.
 
 4. No inheritance, no frameworks, no ceremony
-Each class is self‑contained.
-There is no base class, no virtual destructor, no hierarchy, no “framework rules” to follow.
+
+Each class is self‑contained. There is no base class, no virtual destructor, no hierarchy, no “framework rules” to follow.
 
 This keeps the system:
-
-predictable
-
-easy to read
-
-easy to maintain
-
-easy to extend
+* predictable
+* easy to read
+* easy to maintain
+* easy to extend
 
 And it avoids the complexity that often appears in Microsoft’s own wrappers.
 
 5. A consistent, minimal interface
+
 All classes follow the same pattern:
+* a constructor that initializes the object
+* a destructor that frees it
+* an operator to expose the pointer
+* optional helper methods for convenience
 
-a constructor that initializes the object
-
-a destructor that frees it
-
-an operator to expose the pointer
-
-optional helper methods for convenience
-
-This uniformity makes the entire API intuitive.
-Once you learn one class, you understand them all.
+This uniformity makes the entire API intuitive. Once you learn one class, you understand them all.
 
 6. 100% compatibility with the flat API
+
 Because the classes are thin wrappers, they remain fully compatible with:
-
-all GDI+ functions
-
-all Win32 functions
-
-mixed GDI/GDI+ rendering
-
-custom drawing pipelines
-
-user‑defined message loops
-
-any external library that expects raw pointers
+* all GDI+ functions
+* all Win32 functions
+* mixed GDI/GDI+ rendering
++ custom drawing pipelines
++ user‑defined message loops
++ any external library that expects raw pointers
 
 This is not a framework—it is a safety layer.
 
-🌟 Why this approach works
-
 The result is a system that preserves the full power of the underlying API while eliminating its friction. Developers get:
+* the safety of RAII
+* the clarity of object‑oriented syntax
+* the transparency of raw pointers
+* the flexibility of procedural APIs
+* the simplicity of tiny, focused classes
 
-the safety of RAII
+`AfxNova` does not try to redesign GDI+. It simply makes GDI+ usable.
 
-the clarity of object‑oriented syntax
+The file `AfxGdipObjects.inc`, contains the complete set of these tiny classes for all major GDI+ objects. Each class is small, predictable, and easy to understand—yet together they form a robust, safe, and modern interface to a large and complex graphics subsystem.
 
-the transparency of raw pointers
-
-the flexibility of procedural APIs
-
-the simplicity of tiny, focused classes
-
-AfxNova does not try to redesign GDI+.
-It simply makes GDI+ usable.
-
-This file, AfxGdipObjects.inc, contains the complete set of these tiny classes for all major GDI+ objects. Each class is small, predictable, and easy to understand—yet together they form a robust, safe, and modern interface to a large and complex graphics subsystem.
+---
 
