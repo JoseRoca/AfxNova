@@ -1879,52 +1879,160 @@ FUNCTION RemovePermissionRequested (BYVAL token AS EventRegistrationToken) AS HR
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *eventHandler* | Pointer to an Afx_ICoreWebView2PermissionRequestedEventHandler. |
+| *eventHandler* | Pointer to an ICoreWebView2PermissionRequestedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### ProcessFailed
+
+Adds/removes an event handler for the **ProcessFailed** event.
+
+```
+FUNCTION AddProcessFailed ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2ProcessFailedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2ProcessFailedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### ScriptDialogOpening
+
+Adds/removes an event handler for the **ScriptDialogOpening** event.
+
+```
+FUNCTION AddScriptDialogOpening ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2ScriptDialogOpeningEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2ScriptDialogOpeningEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### ScriptDialogOpening
+
+Adds/removes an event handler for the **ScriptDialogOpening** event.
+
+```
+FUNCTION AddScriptDialogOpening ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2ScriptDialogOpeningEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2ScriptDialogOpeningEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### SourceChanged
+
+Adds/removes an event handler for the **SourceChanged** event.
+
+```
+FUNCTION AddSourceChanged ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveSourceChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2SourceChangedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### WebMessageReceived
+
+Adds/removes an event handler for the **WebMessageReceived** event.
+
+```
+FUNCTION AddWebMessageReceived ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2WebMessageReceivedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveWebMessageReceived (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2WebMessageReceivedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### WebResourceRequested
+
+Adds/removes an event handler for the **WebResourceRequested** event.
+
+```
+FUNCTION AddWebResourceRequested ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2WebResourceRequestedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveWebResourceRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2WebResourceRequestedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### WindowCloseRequested
+
+Adds/removes an event handler for the **WindowCloseRequested** event.
+
+```
+FUNCTION AddWindowCloseRequested ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2WindowCloseRequestedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveWindowCloseRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2WindowCloseRequestedEventHandler. |
+| *token* | Token that uniquely identifies the subscription. |
+
+---
+
+### ZoomFactorChanged
+
+Adds/removes an event handler for the **ZoomFactorChanged** event.
+
+```
+FUNCTION AddZoomFactorChanged ( _
+   BYVAL eventHandler AS Afx_ICoreWebView2ZoomFactorChangedEventHandler PTR, _
+   BYVAL token AS EventRegistrationToken PTR) AS HRESULT
+FUNCTION RemoveZoomFactorChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *eventHandler* | Pointer to an ICoreWebView2ZoomFactorChangedEventHandler. |
 | *token* | Token that uniquely identifies the subscription. |
 
 ---
 
 
-| [AddProcessFailed](#addprocessfailed) | Add an event handler for the ProcessFailed event. |
-| [RemoveProcessFailed](#removeprocessfailed) | Remove an event handler previously added with AddProcessFailed. |
-| [AddScriptDialogOpening](#addscriptdialogopening) | Add an event handler for the ScriptDialogOpening event. |
-| [RemoveScriptDialogOpening](#removescriptdialogopening) | Remove an event handler previously added with AddScriptDialogOpening. |
-| [AddScriptToExecuteOnDocumentCreated](#addscripttoexecuteondocumentcreated) | Add the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run. |
-| [RemoveScriptToExecuteOnDocumentCreated](#removescripttoexecuteondocumentcreated) | Remove the corresponding JavaScript added using AddScriptToExecuteOnDocumentCreated with the specified script ID. |
-| [AddSourceChanged](#addsourcechanged) | Add an event handler for the SourceChanged event. |
-| [RemoveSourceChanged](#removesourcechanged) | Remove an event handler previously added with AddSourceChanged. |
-| [AddWebMessageReceived](#addwebmessagereceived) | Add an event handler for the WebMessageReceived event. |
-| [RemoveWebMessageReceived](#removewebmessagereceived) | Remove an event handler previously added with AddWebMessageReceived. |
-| [AddWebResourceRequested](#addwebresourcerequested) | Add an event handler for the WebResourceRequested event. |
-| [RemoveWebResourceRequested](#removewebresourcerequested) | Remove an event handler previously added with AddWebResourceRequested. |
-| [AddWebResourceRequestedFilter](#addwebresourcerequestedfilter) | This method is deprecated and does not behave as expected for iframes. |
-| [RemoveWebResourceRequestedFilter](#removewebresourcerequestedfilter) | Remove an event handler previously added with AddWebResourceRequestedFilter. |
-| [AddWindowCloseRequested](#addwindowcloserequested) | Add an event handler for the WindowCloseRequested event. |
-| [RemoveWindowCloseRequested](#removewindowcloserequested) | Remove an event handler previously added with AddWindowCloseRequested. |
-| [AddZoomFactorChanged](#addzoomfactorchanged) | Adds an event handler for the ZoomFactorChanged event. |
-| [RemoveZoomFactorChanged](#removezoomfactorchanged) | Remove an event handler previously added with AddZoomFactorChanged. |
-
-
-   DECLARE FUNCTION AddSourceChanged (BYVAL eventHandler AS Afx_ICoreWebView2SourceChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveSourceChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddProcessFailed (BYVAL eventHandler AS Afx_ICoreWebView2ProcessFailedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveProcessFailed (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddWebMessageReceived (BYVAL eventHandler AS Afx_ICoreWebView2WebMessageReceivedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveWebMessageReceived (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddWebResourceRequested (BYVAL eventHandler AS Afx_ICoreWebView2WebResourceRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveWebResourceRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddWindowCloseRequested (BYVAL eventHandler AS Afx_ICoreWebView2WindowCloseRequestedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveWindowCloseRequested (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddZoomFactorChanged (BYVAL eventHandler AS Afx_ICoreWebView2ZoomFactorChangedEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveZoomFactorChanged (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
-   DECLARE FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS HRESULT
-
 
    DECLARE FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
    DECLARE FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
-   DECLARE FUNCTION AddScriptDialogOpening (BYVAL eventHandler AS Afx_ICoreWebView2ScriptDialogOpeningEventHandler PTR, BYVAL token AS EventRegistrationToken PTR) AS HRESULT
-   DECLARE FUNCTION RemoveScriptDialogOpening (BYVAL token AS EventRegistrationToken) AS HRESULT
-   DECLARE FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+   DECLARE FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
+   DECLARE FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS    DECLARE FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
    DECLARE FUNCTION RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
    DECLARE FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
