@@ -108,8 +108,8 @@ The following table lists all lightweight RAII wrappers provided by `AfxNova` fo
 
 | AfxNova Class | GDI+ Object | Purpose/Description |
 | ------------- | ---------------------- | ------------------- |
-| [GdiPlusAdjustableArrowCap](#gdiplusadjustablearrowcap) | GpAdjustableArrowCap | Wraps adjustable arrow caps with height, width, and fill options. |
-| [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | Extendeds image wrapper with constructors for files, streams, HBITMAP, HICON, raw data, effects, and more. |
+| [GdiPlusAdjustableArrowCap](#gdiplusadjustablearrowcap) | GpAdjustableArrowCap | Builds a line cap that looks like an arrow. |
+| [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | The Bitmap functions expands on the capabilities of the Image functions by providing additional methods for creating and manipulating raster images. |
 | [GdiPlusBrush](#gdiplusbrush) | GpBrush | Base wrapper for all brush types. Clones and manages lifetime of generic brushes. |
 | [GdiPlusCustomLineCap](#gdipluscustomlinecap) | GpCustomLineCap | Wraps custom line caps defined by paths. Supports cloning and creation from fill/stroke paths. |
 | [GdiPlusEffect](#gdipluseffect) | GpEffect | Wraps GDI+ effects; manages creation, parameters, and lifetime. |
@@ -129,8 +129,6 @@ The following table lists all lightweight RAII wrappers provided by `AfxNova` fo
 | [GdiPlusSolidBrush](#gdiplussolidbrush) | GpSolidBrush | Solid color brush. Supports creation from ARGB and cloning. |
 | [GdiPlusStringFormat](#gdiplusstringformat) | GpStringFormat | Text layout and formatting options; safely manages the format object. |
 | [GdiPlusTextureBrush](#gdiplustexturebrush) | GpTextureBrush | Brush that fills using an image. Supports multiple constructors and wrap modes. |
-
-
 
 ---
 
