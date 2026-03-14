@@ -120,6 +120,9 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 
 | Name       | Description |
 | ---------- | ----------- |
+| [AddHostObjectToScript](#hostobjecttoscript) | Add the provided host object to script running in the WebView with the specified name. |
+| [AddScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Add the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run. |
+| [AddWebResourceRequestedFilter](#webresourcerequestedfilter) | This method is deprecated and does not behave as expected for iframes. |
 | [CallDevToolsProtocolMethod](#callDevToolsProtocolMethod) | Runs an asynchronous **DevToolsProtocol** method. |
 | [CanGoBack](#cangoback) | TRUE if the WebView is able to navigate to the previous page in the navigation history. |
 | [CanGoForward](#cangoforward) | TRUE if the WebView is able to navigate to a next page in the navigation history. |
@@ -144,18 +147,14 @@ Once the controller is available, the associated **ICoreWebView2** object can be
 | [PostWebMessageAsJson](#postwebmessageasjson) | Post the specified webMessage to the top level document in this WebView. |
 | [PostWebMessageAsString](#postwebmessageasstring) | Posts a message that is a simple string rather than a JSON string representation of a JavaScript object. |
 | [Reload](#reload) | Reload the current page. |
+| [RemoveHostObjectToScript](#hostobjecttoscript) | Remove the host object specified by the name so that it is no longer accessible from JavaScript code in the WebView. |
+| [RemoveScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Remove the corresponding JavaScript added using AddScriptToExecuteOnDocumentCreated with the specified script ID. |
+| [RemoveWebResourceRequestedFilter](#webresourcerequestedfilter) | Remove an event handler previously added with AddWebResourceRequestedFilter. |
 | [SetBounds](#setbounds) | Sets the **Bounds** property. |
 | [SetIsVisible](#setisvisible) | Sets the IsVisible property. |
 | [SetParentWindow](#setparentwindow) | Sets the parent window for the WebView. |
 | [SetZoomFactor](#setzoomfactor) | Sets the **ZoomFactor** property. |
 | [Stop](#stop) | Stop all navigations and pending resource fetches. Does not stop scripts. |
-
-| [AddHostObjectToScript](#hostobjecttoscript) | Add the provided host object to script running in the WebView with the specified name. |
-| [RemoveHostObjectFromScript](#hostobjectfromscript) | Remove the host object specified by the name so that it is no longer accessible from JavaScript code in the WebView. |
-| [AddScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Add the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run. |
-| [RemoveScriptToExecuteOnDocumentCreated](#scripttoexecuteondocumentcreated) | Remove the corresponding JavaScript added using AddScriptToExecuteOnDocumentCreated with the specified script ID. |
-| [AddWebResourceRequestedFilter](#webresourcerequestedfilter) | This method is deprecated and does not behave as expected for iframes. |
-| [RemoveWebResourceRequestedFilter](#webresourcerequestedfilter) | Remove an event handler previously added with AddWebResourceRequestedFilter. |
 
 ---
 
@@ -2028,11 +2027,82 @@ FUNCTION RemoveZoomFactorChanged (BYVAL token AS EventRegistrationToken) AS HRES
 
 ---
 
+### HostObjectToScript
+
+Adds/removes the provided host object to script running in the WebView with the specified name.
+
+```
+FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
+FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *_name* | The name of the host object. |
+| *_object* | The host object to be added to script. |
+
+#### Remarks
+
+Host objects are exposed as host object proxies using window.chrome.webview.hostObjects.{name}. Host object proxies are promises and resolves to an object representing the host object. The promise is rejected if the app has not added an object with the name. When JavaScript code access a property or method of the object, a promise is return, which resolves to the value returned from the host for the property or method, or rejected in case of error, for example, no property or method on the object or parameters are not valid.
+
+**Note**: While simple types, IDispatch and array are supported, and IUnknown objects that also implement IDispatch are treated as IDispatch, generic IUnknown, VT_DECIMAL, or VT_RECORD variant is not supported. Remote JavaScript objects like callback functions are represented as an VT_DISPATCH``VARIANT with the object implementing IDispatch. The JavaScript callback method may be invoked using DISPID_VALUE for the DISPID. Such callback method invocations will return immediately and will not wait for the JavaScript function to run and so will not provide the return value of the JavaScript function. Nested arrays are supported up to a depth of 3. Arrays of by reference types are not supported. VT_EMPTY and VT_NULL are mapped into JavaScript as null. In JavaScript, null and undefined are mapped to VT_EMPTY.
+
+---
+
+### ScriptToExecuteOnDocumentCreated
+
+Adds/removes the provided JavaScript to a list of scripts that should be run after the global object has been created, but before the HTML document has been parsed and before any other script included by the HTML document is run.
+
+```
+FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, _
+   BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
+FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *javaScript* | A javascript script. |
+| *handler* | Pointer to an ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler. |
+
+#### Remarks
+
+This method injects a script that runs on all top-level document and child frame page navigations. This method runs asynchronously, and you must wait for the completion handler to finish before the injected script is ready to run. When this method completes, the Invoke method of the handler is run with the id of the injected script. id is a string. To remove the injected script, use ^^RemoveScriptToExecuteOnDocumentCreated**.
+
+If the method is run in **AddNewWindowRequested** handler it should be called before the new window is set. If called after setting the **NewWindow** property, the initial script may or may not apply to the initial navigation and may only apply to the subsequent navigation.
+
+**Note**: If an HTML document is running in a sandbox of some kind using sandbox properties or the Content-Security-Policy HTTP header affects the script that runs. For example, if the allow-modals keyword is not set then requests to run the alert function are ignored.
+
+---
+
+### WebResourceRequestedFilter
+
+**Warning**: This method is deprecated and does not behave as expected for iframes.
+
+It will cause the **WebResourceRequested** event to fire only for the main frame and its same-origin iframes. Please use **AddWebResourceRequestedFilterWithRequestSourceKinds** instead, which will let the event to fire for all iframes on the document.
+
+Adds a URI and resource context filter for the **WebResourceRequested** event. A web resource request with a resource context that matches this filter's resource context and a URI that matches this filter's URI wildcard string will be raised via the **WebResourceRequested** event.
+
+```
+FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL _
+   ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+FUNCTION RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, _
+   BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *uri* | The URI to add. |
+| *ResourceContext* | The resource context filter. |
+
+#### Remarks
 
 
-   DECLARE FUNCTION AddHostObjectToScript (BYVAL _name AS LPCWSTR, BYVAL _object AS VARIANT PTR) AS HRESULT
-   DECLARE FUNCTION RemoveHostObjectFromScript (BYVAL _name AS LPCWSTR) AS HRESULT
-   DECLARE FUNCTION AddScriptToExecuteOnDocumentCreated (BYVAL javaScript AS LPCWSTR, BYVAL handler AS Afx_ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler PTR) AS HRESULT
-   DECLARE FUNCTION RemoveScriptToExecuteOnDocumentCreated (BYVAL id AS LPCWSTR) AS    DECLARE FUNCTION AddWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
-   DECLARE FUNCTION RemoveWebResourceRequestedFilter (BYVAL uri AS LPCWSTR, BYVAL ResourceContext AS COREWEBVIEW2_WEB_RESOURCE_CONTEXT) AS HRESULT
+The uri parameter value is a wildcard string matched against the URI of the web resource request. This is a glob style wildcard string in which a * matches zero or more characters and a ? matches exactly one character. These wildcard characters can be escaped using a backslash just before the wildcard character in order to represent the literal * or ?.
+
+The matching occurs over the URI as a whole string and not limiting wildcard matches to particular parts of the URI. The wildcard filter is compared to the URI after the URI has been normalized, any URI fragment has been removed, and non-ASCII hostnames have been converted to punycode.
+
+Specifying a NULL for the uri is equivalent to an empty string which matches no URIs.
+
+---
+
    DECLARE FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, BYVAL receiver AS Afx_ICoreWebView2DevToolsProtocolEventReceiver PTR PTR) AS HRESULT
