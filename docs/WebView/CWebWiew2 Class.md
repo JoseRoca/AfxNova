@@ -2119,7 +2119,7 @@ FUNCTION GetDevToolsProtocolEventReceiver (BYVAL eventName AS LPCWSTR, _
 | *eventName* | The full name of the event. |
 | *receiver* | A pointer that receives a pointer to ICoreWebView2DevToolsProtocolEventReceiver. |
 
-The eventName parameter is the full name of the event in the format {domain}.{event}. For more information about DevTools Protocol events description and event args, navigate to DevTools Protocol Viewer.
+The eventName parameter is the full name of the event in the format {domain}.{event}. For more information about DevTools Protocol events description and event args, navigate to [DevTools Protocol Viewer](https://chromedevtools.github.io/devtools-protocol/tot/).
 
 ---
 
