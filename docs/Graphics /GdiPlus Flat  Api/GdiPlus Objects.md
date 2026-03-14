@@ -104,6 +104,22 @@ The file `AfxGdipObjects.inc`, contains the complete set of these tiny classes f
 
 ---
 
+| AfxNova Class | Underlying GDI+ Object | Purpose/Description |
+| ------------- | ---------------------- | ------------------- |
+| [GdiPlusObjects](#gdiplusobjects) | GDI+ Startup/Shutdown | Initializes and shuts down GDI+. Manages the GDI+ token via RAII. |
+| [GdiPlusCustomLineCap](#gpcustomlinecap) | GDI+ Startup/Shutdown | Wraps custom line caps defined by paths. Supports cloning and creation from fill/stroke paths. |
+| [GdiPlusAdjustableArrowCap](#gdiplusadjustablearrowcap) | GpAdjustableArrowCap | Wraps adjustable arrow caps with height, width, and fill options. |
+| [GdiPlusBrush](#gdiplusbrush) | GpBrush | Base wrapper for all brush types. Clones and manages lifetime of generic brushes. |
+| [GdiPlusSolidBrush](#gdiplussolidbrush) | GpSolidBrush | Solid color brush. Supports creation from ARGB and cloning. |
+| [GdiPlusHatchBrush](#gdiplushatchbrush) | GpHatchBrush | Hatch-style brush with foreground and background colors. |
+| [GdiPlusLinearGradientBrush](#gdipluslineargradientbrush) | GpLinearGradientBrush | Linear gradient brush with multiple constructors (points, rectangles, angles). |
+| [GdiPlusPathGradientBrush](#gdipluspathgradientbrush) | GpPathGradientBrush | Gradient brush that interpolates from boundary path to center color. |
+| [GdiPlusTextureBrush](#gdiplustexturebrush) | GpTextureBrush | Brush that fills using an image. Supports multiple constructors and wrap modes. |
+| [GdiPlusImage](#gdiplusimage) | GpImage | Loads, clones, and manages images from files, streams, and resources. |
+| [GdiPlusBitmap](#gdiplusbitmap) | GpBitmap | Extendeds image wrapper with constructors for files, streams, HBITMAP, HICON, raw data, effects, and more. |
+
+---
+
 ### GdiPlusObjects
 
 Initializes GDI+.
