@@ -1,5 +1,7 @@
 # CWebView2 Class
 
+The Microsoft Edge WebView2 control enables you to host web content in your application using Chromium-based Microsoft Edge as the rendering engine. [WebView2 API Reference](https://learn.microsoft.com/en-us/microsoft-edge/webview2/webview2-api-reference?tabs=dotnetcsharp).
+
 The `CWebView2` class provides a FreeBasic-friendly wrapper around the Microsoft Edge WebView2 control, enabling developers to embed modern web content (HTML, CSS, JavaScript) directly into native Windows applications. It abstracts the complexity of COM interop by exposing a simplified interface that integrates seamlessly with FreeBasic code, while still giving access to the full power of the underlying WebView2 API.
 
 This class is designed to:
