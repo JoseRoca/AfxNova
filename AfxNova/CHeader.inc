@@ -46,26 +46,28 @@ Protected:
    DECLARE DESTRUCTOR
 
 Public:
-   DECLARE STATIC FUNCTION ClearAllFilters (BYVAL hHeader AS HWND) AS LONG
-   DECLARE STATIC FUNCTION ClearFilter (BYVAL hHeader AS HWND, BYVAL i AS DWORD) AS LONG
-   DECLARE STATIC FUNCTION CreateDragImage (BYVAL hHeader AS HWND, BYVAL i AS DWORD) AS DWORD
-   DECLARE STATIC FUNCTION DeleteItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD) AS LONG
-   DECLARE STATIC FUNCTION EditFilter (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL fDiscardChanges AS BOOLEAN) AS BOOLEAN
+   DECLARE STATIC FUNCTION ClearAllFilters (BYVAL hHeader AS HWND) AS BOOLEAN
+   DECLARE STATIC FUNCTION ClearFilter (BYVAL hHeader AS HWND, BYVAL i AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION CreateDragImage (BYVAL hHeader AS HWND, BYVAL i AS LONG) AS HIMAGELIST
+   DECLARE STATIC FUNCTION DeleteItem (BYVAL hHeader AS HWND, BYVAL i AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION EditFilter (BYVAL hHeader AS HWND, BYVAL i AS LONG, BYVAL fDiscardChanges AS BOOLEAN) AS BOOLEAN
    DECLARE STATIC FUNCTION GetBitmapMargin (BYVAL hHeader AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetImageList (BYVAL hHeader AS HWND) AS HIMAGELIST
-   DECLARE STATIC FUNCTION GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS DWORD, BYVAL phdi AS HDITEMW PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS DWORD, BYREF hdi AS HDITEMW) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS DWORD) AS HDITEMW
+   DECLARE STATIC FUNCTION GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL phdi AS HDITEMW PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYREF hdi AS HDITEMW) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS HDITEMW
    DECLARE STATIC FUNCTION GetItemCount (BYVAL hHeader AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetItemOrder (BYVAL hHeader AS HWND, BYVAL nItem AS LONG) AS LONG
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL prc AS RECT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYREF rc AS RECT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS RECT
-   DECLARE STATIC FUNCTION GetItemText (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL pszText AS WSTRING PTR, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItemText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL pszText AS WSTRING PTR, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetItemText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS DWSTRING
+   DECLARE STATIC FUNCTION GetText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL pszText AS WSTRING PTR, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS DWSTRING
    DECLARE STATIC FUNCTION GetItemWidth (BYVAL hHeader AS HWND, BYVAL nItem AS LONG) AS LONG
    DECLARE STATIC FUNCTION GetOrderArray (BYVAL hHeader AS HWND, BYVAL iCount AS LONG, BYVAL lpiArray AS LONG PTR) AS LONG
    DECLARE STATIC FUNCTION GetStateImageList (BYVAL hHeader AS HWND) AS HIMAGELIST
-   DECLARE STATIC FUNCTION GetText (BYVAL hHeader AS HWND, BYVAL iCol AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
    DECLARE STATIC FUNCTION HitTest (BYVAL hHeader AS HWND, BYVAL phdhti AS HDHITTESTINFO PTR) AS LONG
    DECLARE STATIC FUNCTION HitTest (BYVAL hHeader AS HWND, BYREF hdhti AS HDHITTESTINFO) AS LONG
    DECLARE STATIC FUNCTION HitTest (BYVAL hHeader AS HWND) AS HDHITTESTINFO
@@ -81,12 +83,12 @@ Public:
    DECLARE STATIC FUNCTION SetImageList (BYVAL hHeader AS HWND, BYVAL himl AS HIMAGELIST) AS HIMAGELIST
    DECLARE STATIC FUNCTION SetItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL phdi AS HDITEMW PTR) AS LONG
    DECLARE STATIC FUNCTION SetItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYREF hdi AS HDITEMW) AS LONG
-   DECLARE STATIC FUNCTION SetItemWidth (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL nWidth AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION SetItemText (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetItemOrder (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL iOrder AS LONG) AS LONG
-   DECLARE STATIC FUNCTION SetOrderArray (BYVAL hHeader AS HWND, BYVAL iSize AS DWORD, BYVAL lpiArray AS LONG PTR) AS LONG
-   DECLARE STATIC FUNCTION SetStateImageList (BYVAL hHeader AS HWND, BYVAL himl AS HIMAGELIST) AS HIMAGELIST
    DECLARE STATIC FUNCTION SetText (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetItemOrder (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL iOrder AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetItemWidth (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL nWidth AS LONG) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetOrderArray (BYVAL hHeader AS HWND, BYVAL iCount AS LONG, BYVAL lpiArray AS LONG PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetStateImageList (BYVAL hHeader AS HWND, BYVAL himl AS HIMAGELIST) AS HIMAGELIST
 
 #if _WIN32_WINNT >= &h0600
    DECLARE STATIC FUNCTION GetFocusedItem (BYVAL hHeader AS HWND) AS LONG
@@ -98,6 +100,9 @@ Public:
    DECLARE STATIC FUNCTION GetOverflowRect (BYVAL hHeader AS HWND) AS RECT
    DECLARE STATIC FUNCTION SetFocusedItem (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS BOOLEAN
 #endif
+
+   DECLARE STATIC FUNCTION SetDarkMode(BYVAL hHeader AS HWND) AS HRESULT
+   DECLARE STATIC FUNCTION RemoveDarkMode(BYVAL hHeader AS HWND) AS HRESULT
 
 END TYPE
 ' ========================================================================================
@@ -114,7 +119,7 @@ END DESTRUCTOR
 ' ========================================================================================
 ' Clears all of the filters for a given header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.ClearAllFilters (BYVAL hHeader AS HWND) AS LONG
+PRIVATE FUNCTION CHeader.ClearAllFilters (BYVAL hHeader AS HWND) AS BOOLEAN
    RETURN SendMessageW(hHeader, HDM_CLEARFILTER, -1, 0)
 END FUNCTION
 ' ========================================================================================
@@ -122,7 +127,7 @@ END FUNCTION
 ' ========================================================================================
 ' Clears the filter for a given header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.ClearFilter (BYVAL hHeader AS HWND, BYVAL i AS DWORD) AS LONG
+PRIVATE FUNCTION CHeader.ClearFilter (BYVAL hHeader AS HWND, BYVAL i AS LONG) AS BOOLEAN
    RETURN SendMessageW(hHeader, HDM_CLEARFILTER, i, 0)
 END FUNCTION
 ' ========================================================================================
@@ -130,15 +135,15 @@ END FUNCTION
 ' ========================================================================================
 ' Creates a transparent version of an item image within an existing header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.CreateDragImage (BYVAL hHeader AS HWND, BYVAL i AS DWORD) AS DWORD
-   RETURN SendMessageW(hHeader, HDM_CREATEDRAGIMAGE, i, 0)
+PRIVATE FUNCTION CHeader.CreateDragImage (BYVAL hHeader AS HWND, BYVAL i AS LONG) AS HIMAGELIST
+   RETURN cast(HIMAGELIST, SendMessageW(hHeader, HDM_CREATEDRAGIMAGE, i, 0))
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Deletes an item from a header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.DeleteItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD) AS LONG
+PRIVATE FUNCTION CHeader.DeleteItem (BYVAL hHeader AS HWND, BYVAL i AS LONG) AS BOOLEAN
    RETURN SendMessageW(hHeader, HDM_DELETEITEM, i, 0)
 END FUNCTION
 ' ========================================================================================
@@ -146,7 +151,7 @@ END FUNCTION
 ' ========================================================================================
 ' Moves the input focus to the edit box when a filter button has the focus.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.EditFilter (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL fDiscardChanges AS BOOLEAN) AS BOOLEAN
+PRIVATE FUNCTION CHeader.EditFilter (BYVAL hHeader AS HWND, BYVAL i AS LONG, BYVAL fDiscardChanges AS BOOLEAN) AS BOOLEAN
    RETURN SendMessageW(hHeader, HDM_EDITFILTER, i, fDiscardChanges)
 END FUNCTION
 ' ========================================================================================
@@ -180,19 +185,19 @@ END FUNCTION
 ' ========================================================================================
 ' Gets information about an item in a header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS DWORD, BYVAL phdi AS HDITEMW PTR) AS BOOLEAN
-   RETURN SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, phdi))
+PRIVATE FUNCTION CHeader.GetItem (BYVAL hHeader AS HWND, BYVAL i AS LONG, BYVAL phdi AS HDITEMW PTR) AS BOOLEAN
+   RETURN SendMessageW(hHeader, HDM_GETITEMW, i, CAST(LPARAM, phdi))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS DWORD, BYREF hdi AS HDITEMW) AS BOOLEAN
-   RETURN SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, @hdi))
+PRIVATE FUNCTION CHeader.GetItem (BYVAL hHeader AS HWND, BYVAL i AS LONG, BYREF hdi AS HDITEMW) AS BOOLEAN
+   RETURN SendMessageW(hHeader, HDM_GETITEMW, i, CAST(LPARAM, @hdi))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.GetItem (BYVAL hHeader AS HWND, BYVAL iItem AS DWORD) AS HDITEMW
+PRIVATE FUNCTION CHeader.GetItem (BYVAL hHeader AS HWND, BYVAL i AS LONG) AS HDITEMW
    DIM hdi AS HDITEMW
-   SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, @hdi))
+   SendMessageW(hHeader, HDM_GETITEMW, i, CAST(LPARAM, @hdi))
    RETURN hdi
 END FUNCTION
 ' ========================================================================================
@@ -253,12 +258,13 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the order of the specified item of a header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.GetItemOrder (BYVAL hHeader AS HWND, BYVAL nItem AS LONG) AS LONG
+PRIVATE FUNCTION CHeader.GetItemOrder (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS LONG
    DIM hdi AS HDITEMW
    hdi.mask = HDI_ORDER
-   IF SendMessageW(hHeader, HDM_GETITEMW, nItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi))) THEN RETURN hdi.iOrder
+   IF SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi))) THEN RETURN hdi.iOrder
 END FUNCTION
 ' ========================================================================================
+
 ' ========================================================================================
 ' Gets the text of the specified column.
 ' - hHeader: Handle to the header control.
@@ -273,24 +279,58 @@ END FUNCTION
 '   to return to make room for the null character terminator.
 ' Return value: Returns TRUE or FALSE.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.GetItemText (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS BOOLEAN
+PRIVATE FUNCTION CHeader.GetItemText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS BOOLEAN
    IF pwszText = NULL THEN EXIT FUNCTION
    DIM hdi AS HDITEMW
    hdi.mask = HDI_TEXT
    hdi.psztext = pwszText
    hdi.cchtextmax = cchtextmax
-   RETURN SendMessageW(hHeader, HDM_GETITEMW, nItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+   RETURN SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CHeader.GetItemText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS DWSTRING
+   DIM wszText AS WSTRING * MAX_PATH + 1
+   DIM hdi AS HDITEMW
+   hdi.mask = HDI_TEXT
+   hdi.psztext = @wszText
+   hdi.cchtextmax = MAX_PATH + 1
+   SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+   RETURN wszText
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Gets the text of the specified column.
+' ========================================================================================
+PRIVATE FUNCTION CHeader.GetText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL pwszText AS WSTRING PTR, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS BOOLEAN
+   IF pwszText = NULL THEN EXIT FUNCTION
+   DIM hdi AS HDITEMW
+   hdi.mask = HDI_TEXT
+   hdi.psztext = pwszText
+   hdi.cchtextmax = cchtextmax
+   RETURN SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CHeader.GetText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS DWSTRING
+   DIM wszText AS WSTRING * MAX_PATH + 1
+   DIM hdi AS HDITEMW
+   hdi.mask = HDI_TEXT
+   hdi.psztext = @wszText
+   hdi.cchtextmax = MAX_PATH + 1
+   SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+   RETURN wszText
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Gets the width of the specified item of a header control.
-' Returns the index of the item at the specified position, if any, or – 1 otherwise.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.GetItemWidth (BYVAL hHeader AS HWND, BYVAL nItem AS LONG) AS LONG
+PRIVATE FUNCTION CHeader.GetItemWidth (BYVAL hHeader AS HWND, BYVAL iItem AS LONG) AS LONG
    DIM hdi AS HDITEMW
    hdi.mask = HDI_WIDTH
-   IF SendMessageW(hHeader, HDM_GETITEMW, nItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi))) THEN RETURN hdi.cxy
+   IF SendMessageW(hHeader, HDM_GETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi))) THEN RETURN hdi.cxy
 END FUNCTION
 ' ========================================================================================
 
@@ -332,20 +372,6 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CHeader.GetStateImageList (BYVAL hHeader AS HWND) AS HIMAGELIST
    RETURN CAST(HIMAGELIST, SendMessageW(hHeader, HDM_GETIMAGELIST, HDSIL_STATE, 0))
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
-' Gets the text of the specified column.
-' ========================================================================================
-PRIVATE FUNCTION CHeader.GetText (BYVAL hHeader AS HWND, BYVAL iCol AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
-   DIM wszText AS DWSTRING
-   wszText = WSPACE(cchTextMax + 1)
-   DIM hdi AS HDITEMW
-   hdi.mask = HDI_TEXT
-   hdi.cchTextMax = cchTextMax + 1
-   hdi.pszText = STRPTR(wszText)
-   IF SendMessageW(hHeader, HDM_GETITEMW, iCol, CAST(LPARAM, @hdi)) THEN RETURN wszText
 END FUNCTION
 ' ========================================================================================
 
@@ -472,36 +498,36 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the order of the specified item of a header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.SetItemOrder (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL iOrder AS LONG) AS LONG
+PRIVATE FUNCTION CHeader.SetItemOrder (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL iOrder AS LONG) AS BOOLEAN
    DIM hdi AS HDITEMW
    hdi.mask = HDI_ORDER
    hdi.iOrder = iOrder
-   RETURN SendMessageW(hHeader, HDM_SETITEMW, nItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+   RETURN SendMessageW(hHeader, HDM_SETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Sets the text of the specified item. Returns TRUE or FALSE.
+' * Sets the text of the specified item.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.SetItemText (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
+PRIVATE FUNCTION CHeader.SetItemText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
    IF pwszText = NULL THEN EXIT FUNCTION
    DIM hdi AS HDITEMW
    hdi.mask = HDI_TEXT
    hdi.cchTextMax = LEN(*pwszText)
    hdi.pszText = pwszText
-   RETURN SendMessageW(hHeader, HDM_SETITEMW, nItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+   RETURN SendMessageW(hHeader, HDM_SETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 ' * Sets the text of the specified item. Returns TRUE or FALSE.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.SetText (BYVAL hHeader AS HWND, BYVAL nItem AS LONG, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
+PRIVATE FUNCTION CHeader.SetText (BYVAL hHeader AS HWND, BYVAL iItem AS LONG, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
    IF pwszText = NULL THEN EXIT FUNCTION
    DIM hdi AS HDITEMW
    hdi.mask = HDI_TEXT
    hdi.cchTextMax = LEN(*pwszText)
    hdi.pszText = pwszText
-   RETURN SendMessageW(hHeader, HDM_SETITEMW, nItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
+   RETURN SendMessageW(hHeader, HDM_SETITEMW, iItem, CAST(LPARAM, CAST(HDITEMW PTR, @hdi)))
 END FUNCTION
 ' ========================================================================================
 
@@ -520,8 +546,8 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the left-to-right order of header items.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.SetOrderArray (BYVAL hHeader AS HWND, BYVAL iSize AS DWORD, BYVAL lpiArray AS LONG PTR) AS LONG
-   RETURN SendMessageW(hHeader, HDM_SETORDERARRAY, iSize, CAST(LPARAM, lpiArray))
+PRIVATE FUNCTION CHeader.SetOrderArray (BYVAL hHeader AS HWND, BYVAL iCount AS LONG, BYVAL lpiArray AS LONG PTR) AS BOOLEAN
+   RETURN SendMessageW(hHeader, HDM_SETORDERARRAY, iCount, CAST(LPARAM, lpiArray))
 END FUNCTION
 ' ========================================================================================
 
@@ -530,6 +556,21 @@ END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION CHeader.SetStateImageList (BYVAL hHeader AS HWND, BYVAL himl AS HIMAGELIST) AS HIMAGELIST
    RETURN CAST(HIMAGELIST, SendMessageW(hHeader, HDM_SETIMAGELIST, HDSIL_STATE, CAST(LPARAM, himl)))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Sets the header dark mode.
+' ========================================================================================
+PRIVATE FUNCTION CHeader.SetDarkMode(BYVAL hHeader AS HWND) AS HRESULT
+   RETURN SetWindowTheme(hHeader, "DarkMode_ItemsView", NULL)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' * Removes the header dark mode.
+' ========================================================================================
+PRIVATE FUNCTION CHeader.RemoveDarkMode(BYVAL hHeader AS HWND) AS HRESULT
+   RETURN SetWindowTheme(hHeader, NULL, NULL)
 END FUNCTION
 ' ========================================================================================
 
