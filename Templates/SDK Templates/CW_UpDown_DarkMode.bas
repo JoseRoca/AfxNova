@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_UpDown_01.bas
+' File: CW_UpDown_DarkMode.bas
 ' Contents: CWindow - UpDown control
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
@@ -45,13 +45,21 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.SetClientSize(400, 220)
    ' // Centers the window
    pWindow.Center
+   ' // Set the main window background color
+   pWindow.SetBackColor(RGB_BLACK)
 
    ' // Adds a label control
-   pWindow.AddControl("Label", hWin, -1, "How many lines?", 80, 55, 100, 23)
+   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, -1, "How many lines?", 80, 55, 100, 23)
+   ' // Colors of the label text
+   pWindow.SetCtlColors(hLabel, RGB_WHITE, RGB_BLACK)
    ' // Adds an edit control
    DIM hEdit AS HWND = pWindow.AddControl("Edit", hWin, IDC_EDIT, "", 200, 55, 50, 23)
+   ' // Colors of the edit text
+   pWindow.SetCtlColors(hEdit, RGB_WHITE, RGB_BLACK)
    ' // Add an UpDown control (the size and position will be automatically adjusted to the buddy control)
    DIM hUpDown AS HWND = pWindow.AddControl("UpDown", hWin, IDC_UPDOWN)
+   ' // Set dark mode for the UpDown control
+'   SetWindowTheme(hUpDown, "DarkMode_Explorer", NULL)   ' Does not work
    ' // Set the edit control as buddy of the updown control
    UpDown_SetBuddy(hUpDown, hEdit)
    ' // Set the base
@@ -64,7 +72,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    SetFocus hEdit
 
    ' // Adds a button
-   pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 155, 75, 30)
+   DIM hButton AS HWND = pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 155, 75, 30)
+      ' // Set button dark mode
+   SetWindowTheme(hButton, "DarkMode_Explorer", NULL)
    ' // Anchors the button to the bottom and the right side of the main window
    pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
@@ -81,10 +91,13 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
    SELECT CASE uMsg
 
-      ' // If an application processes this message, it should return zero to continue
-      ' // creation of the window. If the application returns –1, the window is destroyed
-      ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
+         AfxEnableDarkModeForWindow(hwnd)
+         EXIT FUNCTION
+
+      ' // Theme has changed
+      CASE WM_THEMECHANGED
+         AfxEnableDarkModeForWindow(hwnd)
          RETURN 0
 
       ' // Sent when the user selects a command item from a menu, when a control sends a
