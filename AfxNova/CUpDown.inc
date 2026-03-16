@@ -47,8 +47,6 @@ Protected:
 
 Public:
    DECLARE STATIC FUNCTION GetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYVAL paccels AS UDACCEL PTR) AS LONG
-   DECLARE STATIC FUNCTION GetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYREF accels AS UDACCEL) AS LONG
-   DECLARE STATIC FUNCTION GetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD) AS UDACCEL
    DECLARE STATIC FUNCTION GetBase (BYVAL hUpDown AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetBuddy (BYVAL hUpDown AS HWND) AS HWND
    DECLARE STATIC FUNCTION GetPos (BYVAL hUpDown AS HWND) AS LONG
@@ -56,7 +54,6 @@ Public:
    DECLARE STATIC FUNCTION GetRange (BYVAL hUpDown AS HWND) AS LONG
    DECLARE STATIC SUB GetRange32 (BYVAL hUpDown AS HWND, BYVAL pLow AS LONG PTR, BYVAL pHigh AS LONG PTR)
    DECLARE STATIC FUNCTION SetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYVAL pAccels AS UDACCEL PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYREF accels AS UDACCEL) AS BOOLEAN
    DECLARE STATIC FUNCTION SetBase (BYVAL hUpDown AS HWND, BYVAL nBase AS LONG) AS LONG
    DECLARE STATIC FUNCTION SetBuddy (BYVAL hUpDown AS HWND, BYVAL hwndBuddy AS HWND) AS HWND
    DECLARE STATIC FUNCTION SetPos (BYVAL hUpDown AS HWND, BYVAL nPos AS SHORT) AS LONG
@@ -80,20 +77,8 @@ END DESTRUCTOR
 ' Retrieves acceleration information for an up-down control.
 ' The return value is the number of accelerators currently set for the control.
 ' ========================================================================================
-PRIVATE FUNCTION CUpDown.GetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYVAL paccels AS UDACCEL PTR) AS LONG
+PRIVATE FUNCTION CUpDown.GetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYVAL pAccels AS UDACCEL PTR) AS LONG
    RETURN SendMessageW(hUpDown, UDM_GETACCEL, cAccels, CAST(LPARAM, pAccels))
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CUpDown.GetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYREF accels AS UDACCEL) AS LONG
-   RETURN SendMessageW(hUpDown, UDM_GETACCEL, cAccels, CAST(LPARAM, @accels))
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CUpDown.GetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD) AS UDACCEL
-   DIM accels AS UDACCEL
-   SendMessageW(hUpDown, UDM_GETACCEL, cAccels, CAST(LPARAM, @accels))
-   RETURN accels
 END FUNCTION
 ' ========================================================================================
 
@@ -151,11 +136,6 @@ END SUB
 ' ========================================================================================
 PRIVATE FUNCTION CUpDown.SetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYVAL pAccels AS UDACCEL PTR) AS BOOLEAN
    RETURN SendMessageW(hUpDown, UDM_SETACCEL, cAccels, cast(LPARAM, pAccels))
-END FUNCTION
-' ========================================================================================
-' ========================================================================================
-PRIVATE FUNCTION CUpDown.SetAccel (BYVAL hUpDown AS HWND, BYVAL cAccels AS DWORD, BYREF accels AS UDACCEL) AS BOOLEAN
-   RETURN SendMessageW(hUpDown, UDM_SETACCEL, cAccels, cast(LPARAM, @accels))
 END FUNCTION
 ' ========================================================================================
 
