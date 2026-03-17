@@ -132,6 +132,38 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Creates, displays, and operates a task dialog.
+' Needed if we use AfxEnableVisualStyles instead of a manifest.
+' Otherwise, the linker will search the function in comctl32.dll version 5 instead of 6
+' and it will fail because it does not exist in versions prior to 6.
+' ========================================================================================
+#if _WIN32_WINNT >= &h0600
+PRIVATE FUNCTION AfxTaskDialog (BYVAL hwndOwner AS HWND, BYVAL hInst AS HINSTANCE, BYVAL pwszWindowTitle AS PCWSTR, BYVAL pwszMainInstruction AS PCWSTR, BYVAL pwszContent AS PCWSTR, BYVAL dwCommonButtons AS TASKDIALOG_COMMON_BUTTON_FLAGS, BYVAL pwszIcon AS PCWSTR, BYVAL pnButton AS LONG PTR) AS HRESULT
+   DIM hLib AS HMODULE = LoadLibraryW("comctl32.dll")
+   IF hLib = NULL THEN RETURN HRESULT_FROM_WIN32(GetLastError)
+   DIM pfnTaskDialog AS FUNCTION (BYVAL hwndOwner AS HWND, BYVAL hInst AS HINSTANCE, BYVAL pwszWindowTitle AS PCWSTR, BYVAL pwszMainInstruction AS PCWSTR, BYVAL pwszContent AS PCWSTR, BYVAL dwCommonButtons AS TASKDIALOG_COMMON_BUTTON_FLAGS, BYVAL pwszIcon AS PCWSTR, BYVAL pnButton AS LONG PTR) AS HRESULT
+   pfnTaskDialog = CAST(ANY PTR, GetProcAddress(hLib, "TaskDialog"))
+   DIM hr AS HRESULT
+   IF pfnTaskDialog THEN hr = pfnTaskDialog(hwndOwner, hInst, pwszWindowTitle, pwszMainInstruction, pwszContent, dwCommonButtons, pwszIcon, pnButton)
+   FreeLibrary hLib
+   RETURN hr
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxTaskDialogIndirect (BYVAL pTaskConfig AS CONST TASKDIALOGCONFIG PTR, BYVAL pnButton AS LONG PTR, BYVAL pnRadioButton AS LONG PTR, BYVAL pfVerificationFlagChecked AS BOOL PTR) AS HRESULT
+   DIM hLib AS HMODULE = LoadLibraryW("comctl32.dll")
+   IF hLib = NULL THEN RETURN HRESULT_FROM_WIN32(GetLastError)
+   DIM pfnTaskDialogIndirect AS FUNCTION (BYVAL pTaskConfig AS CONST TASKDIALOGCONFIG PTR, BYVAL pnButton AS LONG PTR, BYVAL pnRadioButton AS LONG PTR, BYVAL pfVerificationFlagChecked AS BOOL PTR) AS HRESULT
+   pfnTaskDialogIndirect = CAST(ANY PTR, GetProcAddress(hLib, "TaskDialogIndirect"))
+   DIM hr AS HRESULT
+   IF pfnTaskDialogIndirect THEN hr = pfnTaskDialogIndirect(pTaskConfig, pnButton, pnRadioButton, pfVerificationFlagChecked)
+   FreeLibrary hLib
+   RETURN hr
+END FUNCTION
+#endif
+' ========================================================================================
+
+' ========================================================================================
 ' Returns command line parameters used to call the program
 ' Unicode replacement for FreeBasic's Command keyword.
 ' Usage: result = AfxCommand ( [ index ] )
