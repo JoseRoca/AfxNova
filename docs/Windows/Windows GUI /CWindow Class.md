@@ -769,10 +769,10 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM cx AS LONG = 16 * pWindow.DPI \ 96
    hImageList = ImageList_Create(cx, cx, ILC_COLOR32 OR ILC_MASK, 4, 0)
    IF hImageList THEN
-      ImageList_ReplaceIcon(hImageList, -1, AfxGdipIconFromRes(hInst, "IDI_ARROW_LEFT_48"))
-      ImageList_ReplaceIcon(hImageList, -1, AfxGdipIconFromRes(hInst, "IDI_ARROW_RIGHT_48"))
-      ImageList_ReplaceIcon(hImageList, -1, AfxGdipIconFromRes(hInst, "IDI_HOME_48"))
-      ImageList_ReplaceIcon(hImageList, -1, AfxGdipIconFromRes(hInst, "IDI_SAVE_48"))
+      AfxGdipAddIconFromRes(hImageList, hInst, "IDI_ARROW_LEFT_48")
+      AfxGdipAddIconFromRes(hImageList, hInst, "IDI_ARROW_RIGHT_48")
+      AfxGdipAddIconFromRes(hImageList, hInst, "IDI_HOME_48")
+      AfxGdipAddIconFromRes(hImageList, hInst, "IDI_SAVE_48")
    END IF
    SendMessageW hToolBar, TB_SETIMAGELIST, 0, CAST(LPARAM, hImageList)
 
