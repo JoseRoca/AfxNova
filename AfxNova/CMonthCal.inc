@@ -65,7 +65,7 @@ Public:
    DECLARE STATIC FUNCTION SetColor (BYVAL hMonthCal AS HWND, BYVAL iColor AS LONG, BYVAL clr AS COLORREF) AS COLORREF
    DECLARE STATIC FUNCTION SetCurSel (BYVAL hMonthCal AS HWND, BYVAL pst AS SYSTEMTIME PTR) AS LONG
    DECLARE STATIC FUNCTION SetCurSel (BYVAL hMonthCal AS HWND, BYREF st AS SYSTEMTIME) AS LONG
-   DECLARE STATIC FUNCTION SetDayState (BYVAL hMonthCal AS HWND, BYVAL iMonths AS LONG, BYVAL rgds AS MONTHDAYSTATE PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetDayState (BYVAL hMonthCal AS HWND, BYVAL cbds AS LONG, BYVAL rgds AS MONTHDAYSTATE PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION SetFirstDayOfWeek (BYVAL hMonthCal AS HWND, BYVAL iDay AS LONG) AS DWORD
    DECLARE STATIC FUNCTION SetMaxSelCount (BYVAL hMonthCal AS HWND, BYVAL iMax AS UINT) AS BOOLEAN
    DECLARE STATIC FUNCTION SetMonthDelta (BYVAL hMonthCal AS HWND, BYVAL iDelta AS LONG) AS LONG
@@ -81,7 +81,7 @@ Public:
    DECLARE STATIC FUNCTION GetCalendarCount (BYVAL hMonthCal AS HWND) AS DWORD
    DECLARE STATIC FUNCTION GetCALID (BYVAL hMonthCal AS HWND) AS CALID
    DECLARE STATIC FUNCTION GetCurrentView (BYVAL hMonthCal AS HWND) AS DWORD
-   DECLARE STATIC FUNCTION SetCalendarBorder (BYVAL hMonthCal AS HWND, BYVAL fset AS BOOLEAN, BYVAL xyborder AS LONG) AS LONG
+   DECLARE STATIC SUB SetCalendarBorder (BYVAL hMonthCal AS HWND, BYVAL fset AS BOOLEAN, BYVAL xyborder AS LONG)
    DECLARE STATIC SUB SetCALID (BYVAL hMonthCal AS HWND, BYVAL calid AS UINT)
    DECLARE STATIC FUNCTION SetCurrentView (BYVAL hMonthCal AS HWND, BYVAL dwNewView AS DWORD) AS BOOLEAN
    DECLARE STATIC FUNCTION GetMinReqRect (BYVAL hMonthCal AS HWND, BYVAL prc AS RECT PTR) AS BOOLEAN
@@ -250,8 +250,8 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the day states for all months that are currently visible within a month calendar control.
 ' ========================================================================================
-PRIVATE FUNCTION CMonthCal.SetDayState (BYVAL hMonthCal AS HWND, BYVAL iMonths AS LONG, BYVAL rgds AS MONTHDAYSTATE PTR) AS BOOLEAN
-   RETURN SendMessageW(hMonthCal, MCM_SETDAYSTATE, iMonths, CAST(LPARAM, rgds))
+PRIVATE FUNCTION CMonthCal.SetDayState (BYVAL hMonthCal AS HWND, BYVAL cbds AS LONG, BYVAL rgds AS MONTHDAYSTATE PTR) AS BOOLEAN
+   RETURN SendMessageW(hMonthCal, MCM_SETDAYSTATE, cbds, CAST(LPARAM, rgds))
 END FUNCTION
 ' ========================================================================================
 
@@ -360,9 +360,9 @@ END FUNCTION
 ' ========================================================================================
 ' Sets the border size, in pixels, of a month calendar control.
 ' ========================================================================================
-PRIVATE FUNCTION CMonthCal.SetCalendarBorder (BYVAL hMonthCal AS HWND, BYVAL fset AS BOOLEAN, BYVAL xyborder AS LONG) AS LONG
-   RETURN SendMessageW(hMonthCal, MCM_SETCALENDARBORDER, fset, xyborder)
-END FUNCTION
+PRIVATE SUB CMonthCal.SetCalendarBorder (BYVAL hMonthCal AS HWND, BYVAL fset AS BOOLEAN, BYVAL xyborder AS LONG)
+   SendMessageW(hMonthCal, MCM_SETCALENDARBORDER, fset, xyborder)
+END SUB
 ' ========================================================================================
 
 ' ========================================================================================
