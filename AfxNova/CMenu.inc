@@ -151,6 +151,7 @@ Public:
    DECLARE STATIC FUNCTION ConvertBufferToPARGB32 (BYVAL hPaintBuffer AS HPAINTBUFFER, BYVAL hDC AS HDC, BYVAL hIcon AS HICON, BYVAL sizeIcon AS SIZE) AS BOOLEAN
    DECLARE STATIC FUNCTION AddIconToItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
 #endif
+   DECLARE STATIC SUB DestroyMenuBitmaps (BYVAL hMenu AS HMENU)
 
 END TYPE
 ' ========================================================================================
@@ -1781,5 +1782,42 @@ END FUNCTION
 ' ========================================================================================
 
 #endif
+
+' ========================================================================================
+' If the menu uses bitmaps, call this function in WM_DESTROY to delete them.
+' CASE WM_DESTROY
+'     // Destroy the menu and the bitmaps
+'     DIM hMenu AS HMENU = GetMenu(hwnd)
+'     AfxDestroyMenuBitmaps(hMenu)
+'     DestroyMenu(hMenu)              
+' ========================================================================================
+SUB CMenu.DestroyMenuBitmaps (BYVAL hMenu AS HMENU)
+   DIM count AS LONG = GetMenuItemCount(hMenu)
+   DIM mii AS MENUITEMINFOW
+   mii.cbSize = SIZEOF(MENUITEMINFOW)
+   mii.fMask = MIIM_BITMAP OR MIIM_SUBMENU
+   FOR i AS LONG = 0 TO count - 1
+      IF GetMenuItemInfoW(hMenu, i, TRUE, @mii) THEN
+         ' If it has a submenu, process it recursively
+         IF mii.hSubMenu THEN
+            AfxDestroyMenuBitmaps(mii.hSubMenu)
+         END IF
+         ' If it has a bitmap and is NOT one of the special ones
+         IF mii.hbmpItem <> NULL _
+            ANDALSO mii.hbmpItem <> HBMMENU_CALLBACK _
+            ANDALSO mii.hbmpItem <> HBMMENU_SYSTEM _
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_RESTORE _
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_MINIMIZE _
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_CLOSE _
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_CLOSE_D _
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_MINIMIZE_D THEN
+            DeleteObject(mii.hbmpItem)
+            mii.hbmpItem = NULL
+            SetMenuItemInfoW(hMenu, i, TRUE, @mii)
+         END IF
+      END IF
+    NEXT
+END SUB
+' ========================================================================================
 
 END NAMESPACE
