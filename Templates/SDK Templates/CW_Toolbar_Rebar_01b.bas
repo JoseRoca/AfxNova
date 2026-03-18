@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_Toolbar_Rebar_DarkMode.bas
+' File: CW_Toolbar_Rebar_01b.bas
 ' Contents: CWindow - Toolbar inside a rebar
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
@@ -11,9 +11,12 @@
 
 '#RESOURCE "CW_Toolbar_HDPI.rc"
 #define UNICODE
+#define _WIN32_WINNT &h0602
 #INCLUDE ONCE "windows.bi"
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 #INCLUDE ONCE "AfxNova/AfxGdiplus.inc"
+#INCLUDE ONCE "AfxNova/CToolbar.inc"
+#INCLUDE ONCE "AfxNova/CRebar.inc"
 USING AfxNova
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -54,14 +57,12 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Centers the window
    pWindow.Center
    ' // Set the main window background color
-   pWindow.SetBackColor(RGB_BLACK)
+   pWindow.SetBackColor(RGB_OLDLACE)
 
    ' // Adds a tooolbar
    DIM hToolBar AS HWND = pWindow.AddControl("Toolbar", hWin, IDC_TOOLBAR)
    ' // Allow drop down arrows
-   SendMessageW hToolBar, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_DRAWDDARROWS
-   ' // Set dark mode
-   SetWindowTheme(hToolBar, "DarkMode_InfoPaneToolbar", NULL)
+   CToolbar.SetExtendedStyle(hToolBar, TBSTYLE_EX_DRAWDDARROWS)
 
    ' // Calculate the size of the icon according the DPI
    DIM cx AS LONG = 30 * pWindow.DPI \ 96
@@ -75,9 +76,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
       AfxGdipAddIconFromRes(hNormalImageList, hInstance, "IDI_HOME")
       AfxGdipAddIconFromRes(hNormalImageList, hInstance, "IDI_SAVE")
       ' // Set the normal image list
-      Toolbar_SetImageList hToolBar, hNormalImageList
+      CToolbar.SetImageList(hToolBar, hNormalImageList)
       ' // Set the hot image list with the same images than the normal one
-      Toolbar_SetHotImageList hToolBar, hNormalImageList
+      CToolbar.SetHotImageList(hToolBar, hNormalImageList)
    END IF
 
    ' // Creates a disabled image list for the toolbar
@@ -89,27 +90,25 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
       AfxGdipAddIconFromRes(hDisabledImageList, hInstance, "IDI_HOME", 60, TRUE)
       AfxGdipAddIconFromRes(hDisabledImageList, hInstance, "IDI_SAVE", 60, TRUE)
       ' // Set the disabled image list
-      Toolbar_SetDisabledImageList hToolBar, hDisabledImageList
+      CToolbar.SetDisabledImageList(hToolBar, hDisabledImageList)
    END IF
 
    ' // Adds buttons to the toolbar
-   Toolbar_AddButton hToolBar, 0, IDM_LEFTARROW
-   Toolbar_AddButton hToolBar, 1, IDM_RIGHTARROW, 0, BTNS_DROPDOWN
-   Toolbar_AddButton hToolBar, 2, IDM_HOME
-   Toolbar_AddButton hToolBar, 3, IDM_SAVEFILE
+   CToolbar.AddButton(hToolBar, 0, IDM_LEFTARROW)
+   CToolbar.AddButton(hToolBar, 1, IDM_RIGHTARROW, 0, BTNS_DROPDOWN)
+   CToolbar.AddButton(hToolBar, 2, IDM_HOME)
+   CToolbar.AddButton(hToolBar, 3, IDM_SAVEFILE)
 
    ' // Disables the save file button
-   Toolbar_DisableButton(hToolBar, IDM_SAVEFILE)
+   CToolbar.DisableButton(hToolBar, IDM_SAVEFILE)
 
    ' // Sizes the toolbar
-   Toolbar_AutoSize hToolBar
+   CToolbar.AutoSize(hToolBar)
    ' // Anchors the toolbar
    pWindow.AnchorControl(IDC_TOOLBAR, AFX_ANCHOR_WIDTH)
 
    ' // Create a rebar control
    DIM hRebar AS HWND = pWindow.AddControl("Rebar", , IDC_REBAR)
-   ' // Set dark mode
-   SetWindowTheme(hRebar, "DarkModeNavbar", NULL)
 
    ' // Add the band containing the toolbar control to the rebar
    ' // The size of the REBARBANDINFOW is different in Vista/Windows 7
@@ -126,20 +125,18 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    rbbi.fStyle     = RBBS_CHILDEDGE
    rbbi.hwndChild  = hToolbar
    rbbi.cxMinChild = 200 * pWindow.rxRatio
-   rbbi.cyMinChild = Toolbar_GetButtonHeight(hToolbar)
+   rbbi.cyMinChild = CToolbar.GetButtonHeight(hToolbar)
    rbbi.cx         = 200 * pWindow.rxRatio
    rbbi.cxIdeal    = 200 * pWindow.rxRatio
    wszText = "Toolbar"
    rbbi.lpText = @wszText
    '// Insert band into rebar
-   Rebar_InsertBand(hRebar, -1, @rbbi)
+   CRebar.InsertBand(hRebar, -1, @rbbi)
    ' // Anchor the rebar
    pWindow.AnchorControl(IDC_REBAR, AFX_ANCHOR_WIDTH)
 
    ' // Adds a cancel button
-   DIM hButton AS HWND = pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 155, 75, 30)
-      ' // Set button dark mode
-   SetWindowTheme(hButton, "DarkMode_Explorer", NULL)
+   pWindow.AddControl("Button", hWin, IDCANCEL, "&Close", 270, 155, 75, 30)
    ' // Anchors the button to the bottom and the right side of the main window
    pWindow.AnchorControl(IDCANCEL, AFX_ANCHOR_BOTTOM_RIGHT)
 
