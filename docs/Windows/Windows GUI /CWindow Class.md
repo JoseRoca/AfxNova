@@ -836,6 +836,16 @@ DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 0)
 AfxAddIconToMenuItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInst, "IDI_ARROW_LEFT_48"))
 ```
 
+#### Remarks
+
+Unlike toolbars, which use image lists, menus do not copy the icons but store their handles directly. Therefore, the icons must remain valid for as long as the menu exists.
+
+The difference between **AfxGdipIconFromFile** / **AfxGdipIconFromRes** (used with menus) and **AfxAddGdipIconFromFile** / **AfxAddGdipIconFromRes** (used with image lists) is that the latter functions destroy the original icon after copying it into the image list.
+
+Since menu icons are not copied, they must be destroyed manually when the menu is no longer needed. To do this, call the **AfxDestroyMenuBitmaps** function before destroying the menu.
+
+#### Example
+
 The following code uses the same resource file that the one for the "Using PNG icons in toolbars example" to demonstrate that we can use just one set of icons for both toolbars and menus.
 
 ```
