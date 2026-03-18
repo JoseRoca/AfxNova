@@ -54,6 +54,7 @@ See more MSDN documentation at [About Menus](https://learn.microsoft.com/en-us/w
 | [DeleteItem](#deleteitem) | Deletes a menu item or detaches a submenu from the specified menu. |
 | [DeleteMenu](#deletemenu) | Deletes a menu or detaches a submenu from the specified menu. |
 | [Destroy](#destroy) | Destroys the specified menu and frees any memory that the menu occupies. |
+| [DestroyBitmaps](#destroybitmaps) | Destroys the bitmaps used by the menu. |
 | [DisableItem](#disableitem) | Disables the specified menu item. |
 | [DrawBar](#frawbar) |Redraws the menu bar of the specified window. |
 | [EnableItem](#enableitem) | Enables the specified menu item. |
@@ -634,7 +635,7 @@ CMenu.DeleteMenu(hMenu, IDM_POPUP)   ' Removes the popup menu with the IDM_POPUP
 
 ### Destroy
 
-Destroys the main menu from the window or dialog. The second overloaded method destroys the menu attached to a window or dialog
+Destroys the main menu from the window or dialog. The second overloaded method destroys the menu attached to a window or dialog.
 
 ```
 FUNCTION Destroy (BYVAL hMenu AS HMENU) AS BOOLEAN
@@ -642,7 +643,7 @@ FUNCTION Destroy (BYVAL hWin AS HWND) AS BOOLEAN
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
-| *hMenu* | Handle of the window or dialog that owns the menu. |
+| *hMenu* | Handle of the menu. |
 | *hWin* | Handle of the window or dialog that owns the menu. |
 
 #### Return value
@@ -654,6 +655,28 @@ Returns TRUE if the function succeeds; FALSE otherwise.
 ```
 CMenu.Destroy(hMenu)
 CMenu.Destroy(hwnd)
+```
+---
+
+### DestroyBitmaps
+
+Destroys the bitmaps used by the menu, if any.
+
+```
+SUB DestroyBitmaps (BYVAL hMenu AS HMENU)
+```
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle of the menu. |
+
+#### Usage example
+
+```
+CASE WM_DESTROY
+    ' // Destroy the menu and the bitmaps
+    DIM hMenu AS HMENU = GetMenu(hwnd)
+    CMenu.DestroyBitmaps(hMenu)
+    CMenu.Destroy(hMenu)              
 ```
 ---
 
