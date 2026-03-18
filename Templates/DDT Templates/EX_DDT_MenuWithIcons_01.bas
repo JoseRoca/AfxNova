@@ -103,6 +103,10 @@ FUNCTION DlgProc (BYVAL hDlg AS HWND, BYVAL uMsg AS DWORD, BYVAL wParam AS DWORD
          END SELECT
 
       CASE WM_CLOSE
+         ' // Destroy the bitmaps used in the menu
+         DIM hMenu AS HMENU = MenuGetHandle(hDlg)
+         MenuDestroyBitmaps(hMenu)
+         MenuDestroy(hMenu)
          ' // End the application
          DialogEnd(hDlg)
 
