@@ -151,7 +151,7 @@ Public:
    DECLARE STATIC FUNCTION ConvertBufferToPARGB32 (BYVAL hPaintBuffer AS HPAINTBUFFER, BYVAL hDC AS HDC, BYVAL hIcon AS HICON, BYVAL sizeIcon AS SIZE) AS BOOLEAN
    DECLARE STATIC FUNCTION AddIconToItem (BYVAL hMenu AS HMENU, BYVAL uItem AS DWORD, BYVAL fByPosition AS BOOLEAN, BYVAL hIcon AS HICON, BYVAL fAutoDestroy AS BOOLEAN = TRUE, BYVAL phbmp AS HBITMAP PTR = NULL) AS BOOLEAN
 #endif
-   DECLARE STATIC SUB DestroyMenuBitmaps (BYVAL hMenu AS HMENU)
+   DECLARE STATIC SUB DestroyBitmaps (BYVAL hMenu AS HMENU)
 
 END TYPE
 ' ========================================================================================
@@ -1788,10 +1788,10 @@ END FUNCTION
 ' CASE WM_DESTROY
 '     // Destroy the menu and the bitmaps
 '     DIM hMenu AS HMENU = GetMenu(hwnd)
-'     AfxDestroyMenuBitmaps(hMenu)
-'     DestroyMenu(hMenu)              
+'     CMenu.DestroyBitmaps(hMenu)
+'     CMenu.Destroy(hMenu)              
 ' ========================================================================================
-SUB CMenu.DestroyMenuBitmaps (BYVAL hMenu AS HMENU)
+SUB CMenu.DestroyBitmaps (BYVAL hMenu AS HMENU)
    DIM count AS LONG = GetMenuItemCount(hMenu)
    DIM mii AS MENUITEMINFOW
    mii.cbSize = SIZEOF(MENUITEMINFOW)
