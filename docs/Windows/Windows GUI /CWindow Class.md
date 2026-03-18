@@ -915,8 +915,13 @@ FUNCTION WndProc (BYVAL hWnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          END SELECT
 
       CASE WM_DESTROY
+         ' // Destroy the menu and the bitmaps
+         DIM hMenu AS HMENU = GetMenu(hwnd)
+         AfxDestroyMenuBitmaps(hMenu)
+         DestroyMenu(hMenu)              
+         ' // End the application by sending an WM_QUIT message
          PostQuitMessage(0)
-         EXIT FUNCTION
+         RETURN 0
 
    END SELECT
 
