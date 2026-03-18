@@ -562,7 +562,7 @@ and remove `PostQuitMessage(0)` in **WM_DESTROY**.
 
 **AfxGdiplus.inc** provides functions that allow to use alpha-blended PNG icons in toolbars.
 
-**AfxGdipIconFromFile** loads the images from disk and **AfxGdipIconFromRes** from a resource file embedded in the application.
+**AfxGdipAddIconFromFile** loads the images from disk and **AfxGdipAddIconFromRes** from a resource file embedded in the application.
 
 We need to create an image list for the toolbar of the appropriate size. To calculate the size, I'm using the following formula: 16 * pWindow.DPI \ 96. Where 16 is the size of a normal icon (for toolbars it may be preferible to use 20 to make them a bit bigger), pWindow.DPI the DPI being used by the computer and 96 the DPI used by applications that are not DPI aware.
 
@@ -582,7 +582,7 @@ SendMessageW hToolBar, TB_SETIMAGELIST, 0, CAST(LPARAM, hImageList)
 
 We are using 48 bit icons in this example, that usually resize well to adapt to different DPI settings. This way, we can use only a set of icons instead of several sets of icons of different sizes. However, for best quality, it is advisable to use the appropriate icon size.
 
-**AfxGdipIconFromFile** and **AfxGdipIconFromRes** also provide two optional parameters, *dimPercent* and *bGrayScale*. With *dimPercent* you can indicate a percentage of dimming, and *bGrayScale* is a boolean value (TRUE or FALSE) that tells these functions to convert the icon colors to shades of gray. This allows to create an image list for disabled items with the same icon set. The following code creates a disabled image using the same color PNG icons, but dimming them a 60% and converting them to gray:
+**AfxGdipAddIconFromFile** and **AfxGdipAddIconFromRes** also provide two optional parameters, *dimPercent* and *bGrayScale*. With *dimPercent* you can indicate a percentage of dimming, and *bGrayScale* is a boolean value (TRUE or FALSE) that tells these functions to convert the icon colors to shades of gray. This allows to create an image list for disabled items with the same icon set. The following code creates a disabled image using the same color PNG icons, but dimming them a 60% and converting them to gray:
 
 ```
 ' // Create a disabled image list for the toolbar
