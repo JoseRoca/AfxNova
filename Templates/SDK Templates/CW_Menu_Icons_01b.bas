@@ -3,7 +3,7 @@
 ' File: CW_Menu_Icons_01b.bas
 ' Contents: CWindow - Menu with icons
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -82,11 +82,11 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    CMenu.SetMenu pWindow.hWindow, hMenu
 
    ' // Add icons to the items of the File menu
-   DIM hSubMenu AS HMENU = GetSubMenu(hMenu, 0)
-   CMenu.AddIconToMenuItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_ARROW_LEFT_32"))
-   CMenu.AddIconToMenuItem(hSubMenu, 1, TRUE, AfxGdipIconFromRes(hInstance, "IDI_ARROW_RIGHT_32"))
-   CMenu.AddIconToMenuItem(hSubMenu, 2, TRUE, AfxGdipIconFromRes(hInstance, "IDI_HOME_32"))
-   CMenu.AddIconToMenuItem(hSubMenu, 3, TRUE, AfxGdipIconFromRes(hInstance, "IDI_SAVE_32"))
+   DIM hSubMenu AS HMENU = CMenu.GetSubMenu(hMenu, 0)
+   CMenu.AddIconToItem(hSubMenu, 0, TRUE, AfxGdipIconFromRes(hInstance, "IDI_ARROW_LEFT_32"))
+   CMenu.AddIconToItem(hSubMenu, 1, TRUE, AfxGdipIconFromRes(hInstance, "IDI_ARROW_RIGHT_32"))
+   CMenu.AddIconToItem(hSubMenu, 2, TRUE, AfxGdipIconFromRes(hInstance, "IDI_HOME_32"))
+   CMenu.AddIconToItem(hSubMenu, 3, TRUE, AfxGdipIconFromRes(hInstance, "IDI_SAVE_32"))
 
    ' // Set the main window background color
    pWindow.SetBackColor(RGB_OLDLACE)
@@ -135,6 +135,10 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          RETURN 0
 
       CASE WM_DESTROY
+         ' // Destroy the menu and the bitmaps
+         DIM hMenu AS HMENU = GetMenu(hwnd)
+         AfxDestroyMenuBitmaps(hMenu)
+         DestroyMenu(hMenu)              
          ' // End the application by sending an WM_QUIT message
          PostQuitMessage(0)
          RETURN 0
