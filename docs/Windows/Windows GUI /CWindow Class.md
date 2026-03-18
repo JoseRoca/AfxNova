@@ -825,7 +825,7 @@ IF hIcon THEN AfxAddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
 PNG icons can be used by converting them first to an icon with **AfxGdipImageFromFile**:
 
 ```
-hIcon = AfxGdipImageFromFileEx("MyIcon.png")
+hIcon = AfxGdipImageFromFile("MyIcon.png")
 IF hIcon THEN AfxAddIconToMenuItem(hSubMenu, 0, TRUE, hIcon)
 ```
 
