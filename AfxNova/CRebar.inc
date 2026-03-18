@@ -70,8 +70,7 @@ Public:
    DECLARE STATIC FUNCTION GetColorScheme (BYVAL hRebar AS HWND, BYREF cs AS COLORSCHEME) AS BOOLEAN
    DECLARE STATIC FUNCTION GetColorScheme (BYVAL hRebar AS HWND) AS COLORSCHEME
    DECLARE STATIC FUNCTION GetDropTarget (BYVAL hRebar AS HWND) AS IDropTarget PTR
-   DECLARE STATIC FUNCTION GetExtendedStyle (BYVAL hRebar AS HWND) AS DWORD
-   DECLARE STATIC FUNCTION GetPalette (BYVAL hRebar AS HWND) AS DWORD
+   DECLARE STATIC FUNCTION GetPalette (BYVAL hRebar AS HWND) AS HPALETTE
    DECLARE STATIC FUNCTION GetRect (BYVAL hRebar AS HWND, BYVAL uBand AS DWORD, BYVAL prc AS RECT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION GetRect (BYVAL hRebar AS HWND, BYVAL uBand AS DWORD, BYREF rc AS RECT) AS BOOLEAN
    DECLARE STATIC FUNCTION GetRect (BYVAL hRebar AS HWND, BYVAL uBand AS DWORD) AS RECT
@@ -97,7 +96,7 @@ Public:
    DECLARE STATIC FUNCTION SetBkColor (BYVAL hRebar AS HWND, BYVAL clrBk AS COLORREF) AS COLORREF
    DECLARE STATIC SUB SetColorScheme (BYVAL hRebar AS HWND, BYVAL pcs AS COLORSCHEME PTR)
    DECLARE STATIC SUB SetColorScheme (BYVAL hRebar AS HWND, BYREF cs AS COLORSCHEME)
-   DECLARE STATIC FUNCTION SetPalette (BYVAL hRebar AS HWND, BYVAL hpal AS HPALETTE) AS HPALETTE
+   DECLARE STATIC FUNCTION SetPalette (BYVAL hRebar AS HWND, BYVAL hPal AS HPALETTE) AS HPALETTE
    DECLARE STATIC FUNCTION SetParent (BYVAL hRebar AS HWND, BYVAL hwndParent AS hWND) AS HWND
    DECLARE STATIC FUNCTION SetTextColor (BYVAL hRebar AS HWND, BYVAL clrText AS COLORREF) AS COLORREF
    DECLARE STATIC SUB SetTooltips (BYVAL hRebar AS HWND, BYVAL hwndToolTip AS HWND)
@@ -341,18 +340,10 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Gets the extended style.
-' ========================================================================================
-PRIVATE FUNCTION CRebar.GetExtendedStyle (BYVAL hRebar AS HWND) AS DWORD
-   RETURN SendMessageW(hRebar, RB_GETEXTENDEDSTYLE, 0, 0)
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' Retrieves the rebar control's current palette.
 ' ========================================================================================
-PRIVATE FUNCTION CRebar.GetPalette (BYVAL hRebar AS HWND) AS DWORD
-   RETURN SendMessageW(hRebar, RB_GETPALETTE, 0, 0)
+PRIVATE FUNCTION CRebar.GetPalette (BYVAL hRebar AS HWND) AS HPALETTE
+   RETURN cast(HPALETTE, SendMessageW(hRebar, RB_GETPALETTE, 0, 0))
 END FUNCTION
 ' ========================================================================================
 
@@ -571,8 +562,8 @@ END SUB
 ' Sets the rebar control's current palette.
 ' Returns an HPALETTE that specifies the rebar control's previous palette.
 ' ========================================================================================
-PRIVATE FUNCTION CRebar.SetPalette (BYVAL hRebar AS HWND, BYVAL hpal AS HPALETTE) AS HPALETTE
-   RETURN cast(HPALETTE, SendMessageW(hRebar, RB_SETPALETTE, 0, cast(LPARAM, hpal)))
+PRIVATE FUNCTION CRebar.SetPalette (BYVAL hRebar AS HWND, BYVAL hPal AS HPALETTE) AS HPALETTE
+   RETURN cast(HPALETTE, SendMessageW(hRebar, RB_SETPALETTE, 0, cast(LPARAM, hPal)))
 END FUNCTION
 ' ========================================================================================
 
@@ -639,14 +630,14 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Set rebar dark mode.
+' * Sets the rebar dark mode.
 ' ========================================================================================
 PRIVATE FUNCTION CRebar.SetDarkMode(BYVAL hRebar AS HWND) AS HRESULT
    RETURN ..SetWindowTheme(hRebar, "DarkModeNavbar", NULL)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' * Remove rebar dark mode.
+' * Removes the rebar dark mode.
 ' ========================================================================================
 PRIVATE FUNCTION CRebar.RemoveDarkMode(BYVAL hRebar AS HWND) AS HRESULT
    RETURN ..SetWindowTheme(hRebar, NULL, NULL)
