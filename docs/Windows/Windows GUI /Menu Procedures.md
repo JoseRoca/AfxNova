@@ -103,6 +103,7 @@ Wwappers to add functionality or convenience of use to the above listed SDK func
 | [AfxAddIconToMenuItem](#afxaddicontomenuitem) | Converts an icon handle to a bitmap and adds it to the specified *hbmpItem* field of HMENU item. |
 | [AfxCheckMenuItem](#afxcheckmenuitem) | Checks a menu item. |
 | [AfxDestroyMenu](#afxdestroymenu) | Destroys a menu. |
+| [AfxDestroyMenuBitmaps](#afxdestroymenubitmaps) | Destroys the bitmaps used by the menu, if any. |
 | [AfxDisableMenuItem](#afxdisablemenuitem) | Disables the specified menu item. |
 | [AfxEnableMenuItem](#afxenablemenuitem) | Enables the specified menu item. |
 | [AfxGetMenuFont](#afxgetmenufont) | Retrieves information about the font used in menu bars. |
@@ -157,6 +158,7 @@ These procedures replicate the PowerBASIC's menu procedures and add many more fu
 | [MenuContext](#MenuContext) | Creates a floating context menu. |
 | [MenuDelete](#menudelete) | Deletes a menu item from an existing menu. |
 | [MenuDestroy](#menudestroy) | Destroys the main menu from the window or dialog. |
+| [MenuDestroyBitmaps](#menudestroybitmaps) | Destroys the bitmaps used by menu. |
 | [MenuDisableItem](#menudisableitem) | Disables the specified menu item. |
 | [MenuDrawBar](#menudrawbar) | Redraws the menu bar of the specified window or dialog. |
 | [MenuEnableItem](#menuenableitem) | Enables the specified menu item. |
@@ -287,6 +289,29 @@ FUNCTION AfxDestroyMenu (BYVAL hwnd AS HWND) AS BOOLEAN
 
 A boolean true (-1) pr false (0).
 
+---
+
+### AfxDestroyMenuBitmaps
+
+Destroys the bitmaps used by the menu.
+
+```
+SUB AfxDestroyMenuBitmaps (BYVAL hMenu AS HMENU)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu to be destroyed. |
+
+#### Example
+
+```
+CASE WM_DESTROY
+   ' // Destroy the menu and the bitmaps
+   DIM hMenu AS HMENU = GetMenu(hwnd)
+   AfxDestroyMenuBitmaps(hMenu)
+   DestroyMenu(hMenu)              
+```
 ---
 
 ### AfxDisableMenuItem
@@ -1166,6 +1191,29 @@ FUNCTION MenuDestroy (BYVAL hWin AS HWND) AS BOOLEAN
 
 Returns TRUE if the function succeeds; FALSE otherwise.
 
+---
+
+### MenuDestroyBitmaps
+
+Destroys the bitmaps used by the menu.
+
+```
+SUB MenuDestroyBitmaps (BYVAL hMenu AS HMENU)
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hMenu* | Handle to the menu to be destroyed. |
+
+#### Example
+
+```
+CASE WM_DESTROY
+   ' // Destroy the menu and the bitmaps
+   DIM hMenu AS HMENU = GetMenu(hwnd)
+   MenuDestroyBitmaps(hMenu)
+   DestroyMenu(hMenu)              
+```
 ---
 
 ### MenuDisableItem
