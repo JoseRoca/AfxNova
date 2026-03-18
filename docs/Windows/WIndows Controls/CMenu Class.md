@@ -674,7 +674,7 @@ SUB DestroyBitmaps (BYVAL hMenu AS HMENU)
 ```
 CASE WM_DESTROY
     ' // Destroy the menu and the bitmaps
-    DIM hMenu AS HMENU = GetMenu(hwnd)
+    DIM hMenu AS HMENU = CMenu.GetHandle(hwnd)
     CMenu.DestroyBitmaps(hMenu)
     CMenu.Destroy(hMenu)              
 ```
