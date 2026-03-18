@@ -1818,11 +1818,15 @@ SUB AfxDestroyMenuBitmaps (BYVAL hMenu AS HMENU)
          IF mii.hbmpItem <> NULL _
             ANDALSO mii.hbmpItem <> HBMMENU_CALLBACK _
             ANDALSO mii.hbmpItem <> HBMMENU_SYSTEM _
-            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_RESTORE _
-            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_MINIMIZE _
             ANDALSO mii.hbmpItem <> HBMMENU_MBAR_CLOSE _
             ANDALSO mii.hbmpItem <> HBMMENU_MBAR_CLOSE_D _
-            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_MINIMIZE_D THEN
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_MINIMIZE _
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_MINIMIZE_D _
+            ANDALSO mii.hbmpItem <> HBMMENU_MBAR_RESTORE _
+            ANDALSO mii.hbmpItem <> HBMMENU_POPUP_CLOSE _
+            ANDALSO mii.hbmpItem <> HBMMENU_POPUP_RESTORE _
+            ANDALSO mii.hbmpItem <> HBMMENU_POPUP_MAXIMIZE _
+            ANDALSO mii.hbmpItem <> HBMMENU_POPUP_MINIMIZE THEN
             DeleteObject(mii.hbmpItem)
             mii.hbmpItem = NULL
             SetMenuItemInfoW(hMenu, i, TRUE, @mii)
