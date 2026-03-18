@@ -8,7 +8,7 @@ See: [About Tab Controls](https://learn.microsoft.com/en-us/windows/win32/contro
 
 | Name       | Description |
 | ---------- | ----------- |
-| [AddTab](#addtab) |Retrieves the number of tabs and calls InsertTab to add a new tab.  |
+| [AddTab](#addtab) | Retrieves the number of tabs and calls InsertTab to add a new tab.  |
 | [AdjustRect](#adjustrect) | Calculates a tab control's display area given a window rectangle, or calculates the window rectangle that would correspond to a specified display area. |
 | [DeleteAllItems](#deleteallitems) | Removes all items from a tab control. |
 | [DeleteItem](#deleteitem) | Removes an item from a tab control. |
