@@ -170,7 +170,7 @@ pCommand.ActiveConnection = pConnection
 ```
 ---
 
-## <a name="Cancel"></a>Cancel (CADOCommand)
+## <a name="cancel"></a>Cancel (CADOCommand)
 
 Cancels execution of a pending, asynchronous method call.
 
