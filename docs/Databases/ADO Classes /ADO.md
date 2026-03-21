@@ -23,6 +23,8 @@ The `CAdoBase` object, from which the other ADO classes inherit, initializes and
 
 The `CAdpBase` class, from which the other ADO classes inherit, initializes and uninitializes the COM library and implements two methods, **GetLastResult** and **SetResult** used by the derived classes to store the result codes of ADO calls.
 
+---
+
 ## GetLastResult
 
 Returns the last result code.
@@ -30,6 +32,7 @@ Returns the last result code.
 ```
 FUNCTION GetLastResult () AS HRESULT
 ```
+---
 
 ## SetResult
 
@@ -42,6 +45,8 @@ FUNCTION SetResult (BYVAL Result AS HRESULT) AS HRESULT
 #### Return value
 
 The result code returned by the last executed method.
+
+---
 
 # <a name="adoobjectmodel"></a>ADO Object Model
 
