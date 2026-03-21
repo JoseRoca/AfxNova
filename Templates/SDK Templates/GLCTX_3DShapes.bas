@@ -3,7 +3,7 @@
 ' File: GLCTX_3DShapes.bas
 ' Contents: Graphic Control OpenGL: 3D shapes
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2025 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -276,7 +276,7 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
    SELECT CASE uMsg
 
       ' // If an application processes this message, it should return zero to continue
-      ' // creation of the window. If the application returns –1, the window is destroyed
+      ' // creation of the window. If the application returns Â–1, the window is destroyed
       ' // and the CreateWindowExW function returns a NULL handle.
       CASE WM_CREATE
          AfxEnableDarkModeForWindow(hwnd)
@@ -361,7 +361,7 @@ FUNCTION GraphCtx_SubclassProc ( _
       CASE WM_SIZE
          ' // First perform the default action
          DefSubclassProc(hwnd, uMsg, wParam, lParam)
-         ' // Check if the graphic contol is resizable
+         ' // Check if the graphic control is resizable
          DIM bResizable AS BOOLEAN =  AfxCGraphCtxPtr(hwnd)->Resizable
          ' // If it is resizable, we need to recreate the scene
          ' // because the rendering context has changed
