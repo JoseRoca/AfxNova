@@ -279,7 +279,7 @@ A dynamic **Property** object has four built-in properties of its own:
 
 The **Properties** collection contains all the **Property** objects for a specific instance of an object.
 
-# CADOProperties Class Methods
+### CADOProperties Class Methods
 
 **Include file**: CAdoProperties.inc (include CADODB.inc).
 
@@ -348,7 +348,7 @@ Using the **Refresh** method on a **Properties** collection of some objects popu
 ---
 ---
 
-# CADOProperty Class Methods
+### CADOProperty Class Methods
 
 **Include file**: CAdoProperties.inc (include CADODB.inc).
 
