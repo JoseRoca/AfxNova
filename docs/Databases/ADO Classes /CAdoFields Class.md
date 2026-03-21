@@ -148,7 +148,7 @@ Specifies the data type of a `Field`, **Parameter**, or **Property**. The corres
 
 The **FieldValue** parameter is only valid when adding a `Field` object to a `Record` object, not to a `Recordset` object. With a `Record` object, you may append fields and provide values at the same time. With a `Recordset` object, you must create fields while the `Recordset` is closed, then open the `Recordset` and assign values to the fields.
 
-**Notes**: For new `Field` objects that have been appended to the `Fields` collection of a `Record` object, the Value property must be set before any other `Field` properties can be specified. First, a specific value for the **Value** property must have been assigned and **Update** on the `Fields` collection called. Then, other properties such as Type or **Attributes** can be accessed.
+**Notes**: For new `Field` objects that have been appended to the `Fields` collection of a `Record` object, the **Value*+ property must be set before any other `Field` properties can be specified. First, a specific value for the **Value** property must have been assigned and **Update** on the `Fields` collection called. Then, other properties such as Type or **Attributes** can be accessed.
 
 `Field` objects of the following data types (**DataTypeEnum**) cannot be appended to the `Fields` collection and will cause an error to occur: **adArray**, **adChapter**, **adEmpty**, **adPropVariant**, and **adUserDefined**. Also, the following data types are not supported by ADO: **adIDispatch**, **adIUnknown**, and **adIVariant**. For these types, no error will occur when appended, but usage can produce unpredictable results including memory leaks.
 
