@@ -388,7 +388,7 @@ PROPERTY Type_ () AS DataTypeEnum
 
 | Constant   | Value       |
 | ---------- | ----------- |
-| **AdArray* | A flag value, always combined with another data type constant, that indicates an array of that other data type. |
+| **adArray** | A flag value, always combined with another data type constant, that indicates an array of that other data type. |
 | **adBigInt** | Indicates an eight-byte signed integer (DBTYPE_I8). |
 | **adBinary** | Indicates a binary value (DBTYPE_BYTES). |
 | **adBoolean** | Indicates a boolean value (DBTYPE_BOOL). |
