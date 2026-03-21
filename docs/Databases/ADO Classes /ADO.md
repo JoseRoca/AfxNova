@@ -346,16 +346,22 @@ S_OK (0) or an HRESULT code.
 Using the **Refresh** method on a **Properties** collection of some objects populates the collection with the dynamic properties that the provider exposes. These properties provide information about functionality specific to the provider, beyond the built-in properties ADO supports.
 
 ---
-
-++++++++++++++++++
-
 ---
 
 # CADOProperty Class Methods
 
 **Include file**: CAdoProperties.inc (include CADODB.inc).
 
-### Attributes (CADOProperty Class)
+| Name       | Description |
+| ---------- | ----------- |
+| [Attributes](#attributes) | For a **Property** object, the **Attributes** property is read-only, and its value can be the sum of any one or more **PropertyAttributesEnum** values. |
+| [Name](#name) | Returns the name of a **Property**. |
+| [Type_](#type_) | Returns a **DataTypeEnum** value that indicates the operational type or data type of a **Property** object. |
+| [Value](#value) | Sets or returns a Variant value that indicates the value of the object. Default value depends on the **Type_** property. |
+
+---
+
+### Attributes
 
 For a **Property** object, the **Attributes** property is read-only, and its value can be the sum of any one or more **PropertyAttributesEnum** values.
 
@@ -414,7 +420,7 @@ NEXT
 ```
 ---
 
-### Name (CADOProperty Class)
+### Name
 
 Returns the name of a **Property**.
 
@@ -446,7 +452,7 @@ NEXT
 ```
 ---
 
-### Type_ (CADOProperty Class)
+### Type_
 
 Returns a **DataTypeEnum** value that indicates the operational type or data type of a **Property** object.
 
@@ -522,7 +528,7 @@ NEXT
 ```
 ---
 
-### Value (CADOProperty Class)
+### Value
 
 Sets or returns a Variant value that indicates the value of the object. Default value depends on the **Type_** property.
 
