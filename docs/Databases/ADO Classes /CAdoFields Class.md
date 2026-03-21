@@ -20,15 +20,15 @@ If you attempt to reference a nonexistent field by name, a new `Field` object wi
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Append](#Append) | Appends an object to a collection. |
-| [Attach](#Attach1) | Attaches a reference to a `Fields` object to the class. |
-| [CancelUpdate](#CancelUpdate) | Cancels any changes made to the `Fields` collection of a `Record` object before calling the **Update** method. |
-| [Count](#Count) | Retrieves the number of objects in the `Fields` collection. |
-| [Delete_](#Delete_) | Deletes an object from the `Fields` collection. |
-| [Item](#Item) | Indicates a specific member of the `Fields` collection, by name or ordinal number. |
-| [Refresh](#Refresh) | Refreshes the contents of the `Fields` collection. |
-| [Resync](#Resync) | Resynchronizes the contents of the `Fields` collection. |
-| [Update](#Update) | Saves any changes you make to the current `Fields` collection of a `Record` object. |
+| [Append](#append) | Appends an object to a collection. |
+| [Attach](#attach1) | Attaches a reference to a `Fields` object to the class. |
+| [CancelUpdate](#cancelUpdate) | Cancels any changes made to the `Fields` collection of a `Record` object before calling the **Update** method. |
+| [Count](#count) | Retrieves the number of objects in the `Fields` collection. |
+| [Delete_](#delete_) | Deletes an object from the `Fields` collection. |
+| [Item](#item) | Indicates a specific member of the `Fields` collection, by name or ordinal number. |
+| [Refresh](#refresh) | Refreshes the contents of the `Fields` collection. |
+| [Resync](#resync) | Resynchronizes the contents of the `Fields` collection. |
+| [Update](#update) | Saves any changes you make to the current `Fields` collection of a `Record` object. |
 
 ---
 
@@ -154,7 +154,7 @@ The **FieldValue** parameter is only valid when adding a `Field` object to a `Re
 
 ---
 
-## <a name="Attach1"></a>Attach (CADOFields)
+## <a name="attach1"></a>Attach (CADOFields)
 
 Attaches a reference to an ADO `Fields` object to the class.
 
@@ -169,7 +169,7 @@ SUB Attach (BYVAL pFields AS Afx_ADOFields PTR, BYVAL fAddRef AS BOOLEAN = FALSE
 
 ---
 
-## <a name="CancelUpdate"></a>CancelUpdate (CADOFields)
+## <a name="cancelupdate"></a>CancelUpdate (CADOFields)
 
 Cancels any changes made to the `Fields` collection of a `Record` object before calling the **Update** method.
 
@@ -187,7 +187,7 @@ The **CancelUpdate** method cancels any pending insertions or deletions of Field
 
 ---
 
-## <a name="Count"></a>Count (CADOFields)
+## <a name="count"></a>Count (CADOFields)
 
 Retrieves the number of objects in the `Fields` collection.
 
@@ -229,7 +229,7 @@ Calling the **Delete_** method on an open `Recordset` causes a run-time error.
 
 ---
 
-## <a name="Item"></a>Item (CADOFields)
+## <a name="item"></a>Item (CADOFields)
 
 Indicates a specific member of the `Fields` collection, by name or ordinal number.
 
@@ -251,7 +251,7 @@ If **Item** cannot find an object in the collection corresponding to the *Index*
 
 ---
 
-## <a name="Refresh"></a>Refresh (CADOFields)
+## <a name="refresh"></a>Refresh (CADOFields)
 
 Refreshes the contents of the `Fields` collection.
 
@@ -268,7 +268,7 @@ Using the **Refresh** method on the `Fields` collection has no visible effect. T
 
 ---
 
-## <a name="Resync"></a>Resync (CADOFields)
+## <a name="resync"></a>Resync (CADOFields)
 
 Resynchronizes the contents of the `Fields` collection.
 
@@ -305,7 +305,7 @@ The value of the **Status** property for each `Field` object at the time of the 
 
 ---
 
-## <a name="Update"></a>Update (CADOFields)
+## <a name="update"></a>Update (CADOFields)
 
 Saves any changes you make to the current `Fields` collection of a `Record` object.
 
@@ -325,7 +325,7 @@ For example, fields deleted with the **Delete_** method are marked for deletion 
 
 ---
 
-## <a name="ActualSize"></a>ActualSize (CADOField)
+## <a name="sctualSize"></a>ActualSize (CADOField)
 
 Indicates the actual length of a field's value. Some providers may allow this property to be set to reserve space for BLOB data, in which case the default value is 0.
 
@@ -383,7 +383,7 @@ pConnection.Close
 ```
 ---
 
-## <a name="AppendChunk"></a>AppendChunk (CADOField)
+## <a name="appendchunk"></a>AppendChunk (CADOField)
 
 Appends data to a large text or binary data `Field`.
 
@@ -413,7 +413,7 @@ If there is no current record when you call **AppendChunk** on a `Field` object,
 
 ---
 
-## <a name="Attach2"></a>Attach (CADOField)
+## <a name="attach2"></a>Attach (CADOField)
 
 Attaches a reference to an ADO `Field` object to the class.
 
@@ -428,7 +428,7 @@ SUB Attach (BYVAL pField AS Afx_ADOField PTR, BYVAL fAddRef AS BOOLEAN = FALSE)
 
 ---
 
-## <a name="Attributes"></a>Attributes (CADOField)
+## <a name="attributes"></a>Attributes (CADOField)
 
 Indicates one or more characteristics of a field.
 
@@ -518,7 +518,7 @@ pConnection.Close
 ```
 ---
 
-## <a name="DataFormat"></a>DataFormat (CADOField)
+## <a name="dataformat"></a>DataFormat (CADOField)
 
 Links the current `Field` object to a data-bound control.
 
@@ -541,7 +541,7 @@ The **DataFormat** property is both read- and write-enabled. It accepts and retu
 
 ---
 
-## <a name="DefinedSize"></a>DefinedSize (CADOField)
+## <a name="definedsize"></a>DefinedSize (CADOField)
 
 Indicates the data capacity of a field.
 
@@ -604,7 +604,7 @@ pConnection.Close
 ```
 ---
 
-## <a name="GetChunk"></a>GetChunk (CADOField)
+## <a name="getchunk"></a>GetChunk (CADOField)
 
 Returns all, or a portion, of the contents of a large text or binary data field.
 
@@ -636,7 +636,7 @@ If there is no current record when you use the **GetChunk** method on a `Field` 
 
 ---
 
-## <a name="Name"></a>Name (CADOField)
+## <a name="name"></a>Name (CADOField)
 
 Returns the name of the field.
 
@@ -645,7 +645,7 @@ PROPERTY Name () AS DWSTRING
 ```
 ---
 
-## <a name="NumericScale"></a>NumericScale (CADOField)
+## <a name="numericscale"></a>NumericScale (CADOField)
 
 Sets or returns a Byte value that indicates the number of decimal places to which numeric values will be resolved.
 
@@ -670,7 +670,7 @@ For a field, **NumericScale** is normally read-only. However, for new fields tha
 
 ---
 
-## <a name="OriginalValue"></a>OriginalValue (CADOField)
+## <a name="originalvalue"></a>OriginalValue (CADOField)
 
 Indicates the value of a field that existed in the record before any changes were made.
 
@@ -692,7 +692,7 @@ In batch update mode (in which the provider caches multiple changes and writes t
 
 ---
 
-## <a name="Name"></a>Name (CADOField)
+## <a name="name"></a>Name (CADOField)
 
 Returns the name of the field.
 
@@ -701,7 +701,7 @@ PROPERTY Name () AS DWSTRING
 ```
 ---
 
-## <a name="Precision"></a>Precision (CADOField)
+## <a name="precision"></a>Precision (CADOField)
 
 Sets or returns a Byte value that indicates the maximum number of digits used to represent values.
 
@@ -726,7 +726,7 @@ For a field, **Precision** is normally read-only. However, for new fields that h
 
 ---
 
-## <a name="Properties"></a>Properties (CADOField)
+## <a name="properties"></a>Properties (CADOField)
 
 Returns a reference to the **Properties** collection.
 
@@ -740,7 +740,7 @@ An ADO **Properties** object reference.
 
 ---
 
-## <a name="Status"></a>Status (CADOField)
+## <a name="status"></a>Status (CADOField)
 
 Indicates the status of a field. Returns a **FieldStatusEnum** value.
 
@@ -807,7 +807,7 @@ Changes to the value of a `Field` object in the `Fields` collection of either a 
 
 ---
 
-## <a name="Type_"></a>Type_ (CADOField)
+## <a name="type_"></a>Type_ (CADOField)
 
 Sets or returns a **DataTypeEnum** value.
 
@@ -878,7 +878,7 @@ For all other objects, the **Type_** property is read-only.
 
 ---
 
-## <a name="UnderlyingValue"></a>UnderlyingValue (CADOField)
+## <a name="underlyingvalue"></a>UnderlyingValue (CADOField)
 
 Returns the current field's value in the database.
 
@@ -887,7 +887,7 @@ PROPERTY UnderlyingValue () AS DVARIANT
 ```
 ---
 
-## <a name="Value"></a>Value (CADOField)
+## <a name="value"></a>Value (CADOField)
 
 Sets or returns a Variant value that indicates the value of the object
 
@@ -948,3 +948,5 @@ LOOP
 pRecordset.Close
 pConnection.Close
 ```
+---
+
