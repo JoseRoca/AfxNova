@@ -76,7 +76,7 @@ All of the metadata properties (**Name**, **Type_**, **DefinedSize**, **Precisio
 
 ---
 
-## <a name="Append"></a>Append (CADOFields)
+## <a name="append"></a>Append (CADOFields)
 
 Appends an object to a collection. A new `Field` object may be created before it is appended to the collection.
 
