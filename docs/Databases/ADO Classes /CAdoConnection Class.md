@@ -28,7 +28,7 @@ To execute a query without using a `Command` object, pass a query string to the 
 
 | Name       | Description |
 | ---------- | ----------- |
-| [Attributes](#Attributes) | Indicates one or more characteristics of an object. |
+| [Attributes](#attributes) | Indicates one or more characteristics of an object. |
 | [BeginTrans](#begintrans) | Begins a new transaction. |
 | [Cancel](#cancel) | Cancels execution of a pending, asynchronous method call. |
 | [Close](#close) | Closes a `Connection` object and any dependent objects. |
@@ -142,7 +142,7 @@ One of the following values.
 
 #### XactAttributeEnum
 
-Specifies the transaction attributes of a Connection object.
+Specifies the transaction attributes of a `Connection` object.
 
 | Constant   | Description |
 | ---------- | ----------- |
