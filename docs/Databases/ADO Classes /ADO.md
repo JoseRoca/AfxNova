@@ -25,7 +25,7 @@ The `CAdpBase` class, from which the other ADO classes inherit, initializes and 
 
 ---
 
-## GetLastResult
+### GetLastResult
 
 Returns the last result code.
 
@@ -34,7 +34,7 @@ FUNCTION GetLastResult () AS HRESULT
 ```
 ---
 
-## SetResult
+### SetResult
 
 Sets the last result code.
 
@@ -187,7 +187,7 @@ Where *pConnection* is a reference to the ADO **Connection** object and *nError*
 
 ---
 
-## ErrorValueEnum Enumeration
+### ErrorValueEnum Enumeration
 
 Specifies the type of ADO run-time error.
 
@@ -285,7 +285,7 @@ The **Properties** collection contains all the **Property** objects for a specif
 
 **Include file**: CAdoProperties.inc (include CADODB.inc).
 
-## Attributes (CADOProperty Class)
+### Attributes (CADOProperty Class)
 
 For a **Property** object, the **Attributes** property is read-only, and its value can be the sum of any one or more **PropertyAttributesEnum** values.
 
@@ -344,7 +344,7 @@ NEXT
 ```
 ---
 
-## Name (CADOProperty Class)
+### Name (CADOProperty Class)
 
 Returns the name of a **Property**.
 
@@ -376,7 +376,7 @@ NEXT
 ```
 ---
 
-## Type_ (CADOProperty Class)
+### Type_ (CADOProperty Class)
 
 Returns a **DataTypeEnum** value that indicates the operational type or data type of a **Property** object.
 
@@ -452,7 +452,7 @@ NEXT
 ```
 ---
 
-## Value (CADOProperty Class)
+### Value (CADOProperty Class)
 
 Sets or returns a Variant value that indicates the value of the object. Default value depends on the **Type_** property.
 
@@ -493,7 +493,7 @@ NEXT
 
 **Include file**: CAdoProperties.inc (include CADODB.inc).
 
-## Count (CADOProperties Class)
+### Count (CADOProperties Class)
 
 Retrieves the number of objects of the **Properties** collection.
 
@@ -509,7 +509,7 @@ If the **Count** property is zero, there are no objects in the collection.
 
 ---
 
-## Item (CADOProperties Class)
+### Item (CADOProperties Class)
 
 Indicates a specific member of the **Properties** collection, by name or ordinal number.
 
@@ -531,7 +531,7 @@ If **Item** cannot find an object in the collection corresponding to the **Index
 
 ---
 
-## Refresh (CADOProperties Class)
+### Refresh (CADOProperties Class)
 
 Refreshes the contents of the **Properties** collection.
 
