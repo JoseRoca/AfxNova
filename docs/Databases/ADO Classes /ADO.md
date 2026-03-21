@@ -279,6 +279,76 @@ A dynamic **Property** object has four built-in properties of its own:
 
 The **Properties** collection contains all the **Property** objects for a specific instance of an object.
 
+# CADOProperties Class Methods
+
+**Include file**: CAdoProperties.inc (include CADODB.inc).
+
+| Name       | Description |
+| ---------- | ----------- |
+| [Count](#count) | Retrieves the number of objects of the **Properties** collection. |
+| [Item](#count) | Indicates a specific member of the **Properties** collection, by name or ordinal number. |
+| [Refresh](#refresh) | Refreshes the contents of the **Properties** collection. |
+
+---
+
+### Count
+
+Retrieves the number of objects of the **Properties** collection.
+
+```
+PROPERTY Count () AS LONG
+```
+
+#### Remarks
+
+Because numbering for members of a collection begins with zero, you should always code loops starting with the zero member and ending with the value of the Count property minus 1.
+
+If the **Count** property is zero, there are no objects in the collection.
+
+---
+
+### Item
+
+Indicates a specific member of the **Properties** collection, by name or ordinal number.
+
+```
+PROPERTY Item (BYREF cvIndex AS DVARIANT) AS Afx_ADOProperty PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *cvIndex* | A Variant expression that evaluates either to the name or to the ordinal number of an object in a collection. |
+
+#### Return value
+
+An **Afx_ADOProperty** object reference.
+
+#### Remarks
+
+If **Item** cannot find an object in the collection corresponding to the **Index** argument, an error occurs.
+
+---
+
+### Refresh
+
+Refreshes the contents of the **Properties** collection.
+
+```
+FUNCTION Refresh () AS HRESULT
+```
+
+#### Return value
+
+S_OK (0) or an HRESULT code.
+
+#### Remarks
+
+Using the **Refresh** method on a **Properties** collection of some objects populates the collection with the dynamic properties that the provider exposes. These properties provide information about functionality specific to the provider, beyond the built-in properties ADO supports.
+
+---
+
+++++++++++++++++++
+
 ---
 
 # CADOProperty Class Methods
@@ -487,64 +557,4 @@ FOR i AS LONG = 0 TO nCount - 1
    PRINT "Property name: "; pProperty.Name; " - Value: "; WSTR(pProperty.Value)
 NEXT
 ```
----
-
-# CADOProperties Class Methods
-
-**Include file**: CAdoProperties.inc (include CADODB.inc).
-
-### Count (CADOProperties Class)
-
-Retrieves the number of objects of the **Properties** collection.
-
-```
-PROPERTY Count () AS LONG
-```
-
-#### Remarks
-
-Because numbering for members of a collection begins with zero, you should always code loops starting with the zero member and ending with the value of the Count property minus 1.
-
-If the **Count** property is zero, there are no objects in the collection.
-
----
-
-### Item (CADOProperties Class)
-
-Indicates a specific member of the **Properties** collection, by name or ordinal number.
-
-```
-PROPERTY Item (BYREF cvIndex AS DVARIANT) AS Afx_ADOProperty PTR
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *cvIndex* | A Variant expression that evaluates either to the name or to the ordinal number of an object in a collection. |
-
-#### Return value
-
-An **Afx_ADOProperty** object reference.
-
-#### Remarks
-
-If **Item** cannot find an object in the collection corresponding to the **Index** argument, an error occurs.
-
----
-
-### Refresh (CADOProperties Class)
-
-Refreshes the contents of the **Properties** collection.
-
-```
-FUNCTION Refresh () AS HRESULT
-```
-
-#### Return value
-
-S_OK (0) or an HRESULT code.
-
-#### Remarks
-
-Using the **Refresh** method on a **Properties** collection of some objects populates the collection with the dynamic properties that the provider exposes. These properties provide information about functionality specific to the provider, beyond the built-in properties ADO supports.
-
 ---
