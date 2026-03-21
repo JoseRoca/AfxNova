@@ -21,7 +21,7 @@ The `CAdoBase` object, from which the other ADO classes inherit, initializes and
 
 # <a name="cadobase"></a>CAdoBase Class
 
-The `CAdpBase` class, from which the other ADO classes inherit, initializes and uninitializes the COM library and implements two methods, **GetLastResult** and **SetResult** used by the derived classes to store the result codes of ADO calls.
+The `CAdoBase` class, from which the other ADO classes inherit, initializes and uninitializes the COM library and implements two methods, **GetLastResult** and **SetResult** used by the derived classes to store the result codes of ADO calls.
 
 ---
 
