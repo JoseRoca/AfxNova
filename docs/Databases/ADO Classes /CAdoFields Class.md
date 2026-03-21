@@ -104,7 +104,7 @@ Specifies the data type of a `Field`, **Parameter**, or **Property**. The corres
 
 | Constant   | Description |
 | ---------- | ----------- |
-| **AdArray** | A flag value, always combined with another data type constant, that indicates an array of that other data type. (Does not apply to ADOX.) |
+| **adArray** | A flag value, always combined with another data type constant, that indicates an array of that other data type. (Does not apply to ADOX.) |
 | **adBigInt** | Indicates an eight-byte signed integer (DBTYPE_I8). |
 | **adBinary** | Indicates a binary value (DBTYPE_BYTES). |
 | **adBoolean** | Indicates a boolean value (DBTYPE_BOOL). |
