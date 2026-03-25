@@ -463,7 +463,9 @@ END FUNCTION
 '   GET #nFile, , *pBuffer, bufferSize
 '   CLOSE nFile
 '   IF pBuffer THEN
-'      ImageList_ReplaceIcon(hImageList, -1, AfxGdipIconFromBuffer(pBuffer, ImageSize))
+'      DIM hIcon AS HICON = AfxGdipIconFromBuffer(pBuffer, ImageSize)
+'      ImageList_ReplaceIcon(hImageList, -1, hIcon)
+'      DestroyIcon(hIcon)
 '      DeAllocate(pBuffer)
 '   END IF
 ' ========================================================================================
