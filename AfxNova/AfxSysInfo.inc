@@ -266,7 +266,7 @@ END FUNCTION
 ' ========================================================================================
 ' Generic SMBIOS string accessor: type + offset
 ' ========================================================================================
-PRIVATE FUNCTION AfxGetBiosInfo (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS DWSTRING
+PRIVATE FUNCTION AfxGetBiosString (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS DWSTRING
    DIM pBios AS CBiosTable = wantedType
    DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
    IF pTable = NULL THEN RETURN ""
@@ -275,22 +275,130 @@ PRIVATE FUNCTION AfxGetBiosInfo (BYVAL wantedType AS BYTE, BYVAL offset AS LONG)
    RETURN pBios.GetString(idx)
 END FUNCTION
 ' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosByte OVERLOAD (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS BYTE
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS BYTE PTR = CAST(BYTE PTR, pBios.GetTable)
+   IF pTable = NULL THEN RETURN 0
+   RETURN pTable[offset]
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosByte OVERLOAD (BYVAL wantedType AS BYTE, BYVAL offset AS LONG, BYVAL bitAnd AS BYTE) AS BYTE
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS BYTE PTR = CAST(BYTE PTR, pBios.GetTable)
+   IF pTable = NULL THEN RETURN 0
+   RETURN pTable[offset] AND bitAnd
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosUByte OVERLOAD (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS UBYTE
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS UBYTE PTR = CAST(UBYTE PTR, pBios.GetTable)
+   IF pTable = NULL THEN RETURN 0
+   RETURN pTable[offset]
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosUByte OVERLOAD (BYVAL wantedType AS BYTE, BYVAL offset AS LONG, BYVAL bitAnd AS BYTE) AS UBYTE
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS UBYTE PTR = CAST(UBYTE PTR, pBios.GetTable)
+   IF pTable = NULL THEN RETURN 0
+   RETURN pTable[offset] AND bitAnd
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosWord OVERLOAD (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS WORD
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS WORD PTR = CAST(WORD PTR, pBios.GetTable)
+   IF pTable = NULL THEN RETURN 0
+   RETURN pTable[offset]
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosDWord (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS DWORD
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS DWORD PTR = CAST(DWORD PTR, pBios.GetTable)
+   IF pTable = NULL THEN RETURN 0
+   RETURN pTable[offset]
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosQWord (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS ULONGINT
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS BYTE PTR = CAST(BYTE PTR, pBios.GetTable)
+   IF pTable = NULL THEN RETURN 0
+   ' 8 bytes (QWORD)
+   DIM ch AS ULONGINT
+   FOR i AS LONG = 0 TO 7
+      ch OR= (CULNGINT(pTable[offset + i]) SHL (i * 8))
+   NEXT
+   RETURN ch
+END FUNCTION
+' ========================================================================================
 
 ' // Macros:
 
 ' --- Type 0: BIOS Information ---
-#define SMBIOS_BIOSVendor          AfxGetBiosInfo(0, &h04)
-#define SMBIOS_BIOSVersion         AfxGetBiosInfo(0, &h05)
-#define SMBIOS_BIOSReleaseDate     AfxGetBiosInfo(0, &h08)
+#define SMBIOS_BIOSVendor               AfxGetBiosString(0, &h04)
+#define SMBIOS_BIOSVersion              AfxGetBiosString(0, &h05)
+#define SMBIOS_BIOSReleaseDate          AfxGetBiosString(0, &h08)
+'#define SMBIOS_BiosROMSize              AfxGetBiosByte(0, &h09)
+#define SMBIOS_FirmwareCharacteristics  AfxGetBiosQWord(0, &h0A)
+'DIM ch AS ULONGINT = SMBIOS_FirmwareCharacteristics
+'IF (ch AND &h0000000000000001ULL) THEN print "ISA supported"
+'IF (ch AND &h0000000000000002ULL) THEN print "MCA supported"
+'IF (ch AND &h0000000000000004ULL) THEN print "EISA supported"
+'IF (ch AND &h0000000000000008ULL) THEN print "PCI supported"
+'IF (ch AND &h0000000000000010ULL) THEN print "PCMCIA supported"
+'IF (ch AND &h0000000000000020ULL) THEN print "Plug-and-Play supported"
+'IF (ch AND &h0000000000000040ULL) THEN print "APM supported"
+'IF (ch AND &h0000000000000080ULL) THEN print "BIOS upgradeable"
+'IF (ch AND &h0000000000000100ULL) THEN print "BIOS shadowing allowed"
+'IF (ch AND &h0000000000000200ULL) THEN print "VL-VESA supported"
+'IF (ch AND &h0000000000000400ULL) THEN print "ESCD supported"
+'IF (ch AND &h0000000000000800ULL) THEN print "Boot from CD supported"
+'IF (ch AND &h0000000000001000ULL) THEN print "Selectable boot supported"
+'IF (ch AND &h0000000000002000ULL) THEN print "BIOS ROM socketed"
+'IF (ch AND &h0000000000004000ULL) THEN print "Boot from PCMCIA supported"
+'IF (ch AND &h0000000000008000ULL) THEN print "EDD supported"
+'IF (ch AND &h0000000000010000ULL) THEN print "Japanese floppy supported"
+'IF (ch AND &h0000000000020000ULL) THEN print "NEC floppy supported"
+'IF (ch AND &h0000000000040000ULL) THEN print "LS-120 supported"
+'IF (ch AND &h0000000000080000ULL) THEN print "ATAPI ZIP supported"
+'IF (ch AND &h0000000000100000ULL) THEN print "Boot from IEEE1394 supported"
+'IF (ch AND &h0000000000200000ULL) THEN print "Smart battery supported"
 
 ' --- Type 1: System Information ---
-#define SMBIOS_SystemManufacturer  AfxGetBiosInfo(1, &h04)
-#define SMBIOS_SystemProductName   AfxGetBiosInfo(1, &h05)
-#define SMBIOS_SystemVersion       AfxGetBiosInfo(1, &h06)
-#define SMBIOS_SystemSerialNumber  AfxGetBiosInfo(1, &h07)
-#define SMBIOS_SystemSKUNumber     AfxGetBiosInfo(1, &h19)
-#define SMBIOS_SystemFamily        AfxGetBiosInfo(1, &h1A)
-
+#define SMBIOS_SystemManufacturer       AfxGetBiosString(1, &h04)
+#define SMBIOS_SystemProductName        AfxGetBiosString(1, &h05)
+#define SMBIOS_SystemVersion            AfxGetBiosString(1, &h06)
+#define SMBIOS_SystemSerialNumber       AfxGetBiosString(1, &h07)
+#define SMBIOS_SystemSKUNumber          AfxGetBiosString(1, &h19)
+#define SMBIOS_SystemFamily             AfxGetBiosString(1, &h1A)
+#define SMBIOS_WakeupType               AfxGetBiosByte(1, 18)
+' ========================================================================================
+' BIOS Characteristics Extension Bytes (Type 0, offsets 12h y 13h)
+' ========================================================================================
+#define SMBIOS_BIOSCharacteristicsExt1  AfxGetBiosByte(0, &h12)
+' ========================================================================================
+'IF (b AND &h01) THEN print "ACPI supported"
+'IF (b AND &h02) THEN print "USB legacy supported"
+'IF (b AND &h04) THEN print "AGP supported"
+'IF (b AND &h08) THEN print "I2O boot supported"
+'IF (b AND &h10) THEN print "LS-120 boot supported"
+'IF (b AND &h20) THEN print "ATAPI ZIP boot supported"
+'IF (b AND &h40) THEN print "1394 boot supported"
+'IF (b AND &h80) THEN print "Smart battery supported"
+' ========================================================================================
+#define SMBIOS_BIOSCharacteristicsExt2  AfxGetBiosByte(0, &h13)
+' ========================================================================================
+'IF (b AND &h01) THEN print "BIOS boot spec supported"
+'IF (b AND &h02) THEN print "Function key-initiated network boot supported"
+'IF (b AND &h04) THEN print "Targeted content distribution supported"
+'IF (b AND &h08) THEN print "UEFI supported"
+'IF (b AND &h10) THEN print "SMBIOS table describes virtual machine"
+' ========================================================================================
 PRIVATE FUNCTION BIOS_SystemUUID () AS STRING
    DIM pBios AS CBiosTable = 1
    DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
@@ -304,119 +412,425 @@ PRIVATE FUNCTION BIOS_SystemUUID () AS STRING
    NEXT
    RETURN uuid
 END FUNCTION
+' ========================================================================================
 
 ' --- Type 2: Baseboard ---
-#define SMBIOS_BaseBoardManufacturer  AfxGetBiosInfo(2, &h04)
-#define SMBIOS_BaseBoardProduct       AfxGetBiosInfo(2, &h05)
-#define SMBIOS_BaseBoardVersion       AfxGetBiosInfo(2, &h06)
-#define SMBIOS_BaseBoardSerialNumber  AfxGetBiosInfo(2, &h07)
-#define SMBIOS_BaseBoardAssetTag      AfxGetBiosInfo(2, &h08)
+#define SMBIOS_BaseBoardManufacturer  AfxGetBiosString(2, &h04)
+#define SMBIOS_BaseBoardProduct       AfxGetBiosString(2, &h05)
+#define SMBIOS_BaseBoardVersion       AfxGetBiosString(2, &h06)
+#define SMBIOS_BaseBoardSerialNumber  AfxGetBiosString(2, &h07)
+#define SMBIOS_BaseBoardAssetTag      AfxGetBiosString(2, &h08)
 
 ' --- Type 3: Chassis ---
-#define SMBIOS_ChassisManufacturer    AfxGetBiosInfo(3, &h04)
-#define SMBIOS_ChassisVersion         AfxGetBiosInfo(3, &h06)
-#define SMBIOS_ChassisSerialNumber    AfxGetBiosInfo(3, &h07)
-#define SMBIOS_ChassisAssetTag        AfxGetBiosInfo(3, &h08)
+#define SMBIOS_ChassisManufacturer    AfxGetBiosString(3, &h04)
+#define SMBIOS_ChassisVersion         AfxGetBiosString(3, &h06)
+#define SMBIOS_ChassisSerialNumber    AfxGetBiosString(3, &h07)
+#define SMBIOS_ChassisAssetTag        AfxGetBiosString(3, &h08)
+#define SMBIOS_ChassisType            AfxGetBiosByte(3, &h05, &h7F)   ' bits 0-6
+#define SMBIOS_ChassisLockPresent     AfxGetBiosByte(3, &h05, &h80)   ' bit 7
 
 ' --- Type 4: Processor ---
-#define SMBIOS_ProcessorSocket        AfxGetBiosInfo(4, &h04)
-#define SMBIOS_ProcessorManufacturer  AfxGetBiosInfo(4, &h07)
-#define SMBIOS_ProcessorVersion       AfxGetBiosInfo(4, &h10)
-#define SMBIOS_ProcessorSerialNumber  AfxGetBiosInfo(4, &h20)
-#define SMBIOS_ProcessorAssetTag      AfxGetBiosInfo(4, &h21)
-#define SMBIOS_ProcessorPartNumber    AfxGetBiosInfo(4, &h22)
+#define SMBIOS_ProcessorSocket        AfxGetBiosString(4, &h04)
+#define SMBIOS_ProcessorType          AfxGetBiosByte(4, &h05)
+#define SMBIOS_ProcessorFamily        AfxGetBiosUByte(4, &h06)
+#define SMBIOS_ProcessorManufacturer  AfxGetBiosString(4, &h07)
+#define SMBIOS_ProcessorID            AfxGetBiosQWord(4, &h08)
+#define SMBIOS_ProcessorVersion       AfxGetBiosString(4, &h10)
+'#define SMBIOS_ProcessorVoltage       AfxGetBiosUByte(4, &h11)   ' // deprecated
+'#define SMBIOS_ProcessorExternalClock AfxGetBiosWord(4, &h12)
+'#define SMBIOS_ProcessorMaxSpeed      AfxGetBiosWord(4, &h14)
+'#define SMBIOS_ProcessorCurrentSpeed  AfxGetBiosWord(4, &h16)
+'#define SMBIOS_ProcessorSerialNumber  AfxGetBiosString(4, &h20)
+'#define SMBIOS_ProcessorAssetTag      AfxGetBiosString(4, &h21)
+'#define SMBIOS_ProcessorPartNumber    AfxGetBiosString(4, &h22)
+'#define SMBIOS_ProcessorCoreCount     AfxGetBiosByte(4, &h23)
+'#define SMBIOS_ProcessorThreadCount   AfxGetBiosByte(4, &h25)
 
 ' --- Type 17: Memory Device ---
-#define SMBIOS_MemoryDeviceLocator       AfxGetBiosInfo(17, &h10)
-#define SMBIOS_MemoryDeviceBankLocator   AfxGetBiosInfo(17, &h11)
-#define SMBIOS_MemoryDeviceManufacturer  AfxGetBiosInfo(17, &h17)
-#define SMBIOS_MemoryDeviceSerialNumber  AfxGetBiosInfo(17, &h18)
-#define SMBIOS_MemoryDeviceAssetTag      AfxGetBiosInfo(17, &h19)
-#define SMBIOS_MemoryDevicePartNumber    AfxGetBiosInfo(17, &h1A)
+'#define SMBIOS_MemoryDeviceLocator       AfxGetBiosString(17, &h10)
+'#define SMBIOS_MemoryDeviceBankLocator   AfxGetBiosString(17, &h11)
+'#define SMBIOS_MemoryDeviceManufacturer  AfxGetBiosString(17, &h17)
+'#define SMBIOS_MemoryDeviceSerialNumber  AfxGetBiosString(17, &h18)
+''#define SMBIOS_MemoryDeviceAssetTag      AfxGetBiosString(17, &h19)
+'#define SMBIOS_MemoryDevicePartNumber    AfxGetBiosString(17, &h1A)
+
+
+' ########################################################################################
+'                    *** IOCTL - Device Input and Output Control ***
+' ########################################################################################
 
 ' ========================================================================================
-' Retrieves the size of RAM in the first module (Type 17)
-' The Size field is at offset 0Ch, but it has special rules:
-' If it's FFFFh, use Extended Size (offset 1Ch).
-' If it's 0, it's not installed.
-' If it's 7FFFh, the size is unknown.
+' Retrieves the number of cylinders of the specified disk.
+' Parameter: wszPath = Drive to open.
+' Usage example: DIM cylinders AS LONGLONG = IOCTL_GetCylinders("//./PhysicalDrive0")
 ' ========================================================================================
-PRIVATE FUNCTION SMBIOS_MemoryDeviceSize () AS ULONG
-   DIM pBios AS CBiosTable = 17
-   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
-   IF pTable = NULL THEN RETURN 0
-   DIM p AS BYTE PTR = CAST(BYTE PTR, pTable)
-   DIM size AS ULONG = CULNG(p[&h0C]) OR (CULNG(p[&h0D]) SHL 8)
-   IF size = &hFFFF THEN
-      ' Extended size (in MB)
-      DIM ext AS ULONG = _
-         p[&h1C] OR _
-         (p[&h1D] SHL 8) OR _
-         (p[&h1E] SHL 16) OR _
-         (p[&h1F] SHL 24)
-      RETURN ext
+PRIVATE FUNCTION IOCTL_GetCylinders (BYREF wszPath AS WSTRING = "//./PhysicalDrive0") AS LONGLONG
+
+   DIM hDevice AS HANDLE   ' // handle to the drive to be examined
+   hDevice = CreateFileW (wszPath, _                              ' // drive to open
+                         0, _                                     ' // no access to the drive
+                         FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                         NULL, _                                  ' // default security attributes
+                         OPEN_EXISTING, _                         ' // disposition
+                         0, _                                     ' // file attributes
+                         NULL _                                   ' // do not copy file attributes
+                         )
+
+   DIM pdg AS DISK_GEOMETRY_EX, bytesReturned AS DWORD
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN 0
+
+   DIM bResult AS BOOLEAN = DeviceIoControl(hDevice, _            ' // device to be queried
+                            IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, _   ' // operation to perform
+                            NULL, 0, _                            ' // no input buffer
+                            @pdg, sizeof(pdg), _                  ' // output buffer
+                            @bytesReturned, _                     ' // # bytes returned
+                            NULL)                                 ' // synchronous I/O
+   CloseHandle(hDevice)
+   RETURN pdg.Geometry.Cylinders.QuadPart
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the size of the specified disk.
+' Parameter: wszPath = Drive to open.
+' Return value: The disk size
+' Usage example: DIM diskSize AS LONGLONG = IOCTL_GetDiskSize("//./PhysicalDrive0")
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetDiskSize (BYREF wszPath AS WSTRING = "//./PhysicalDrive0") AS LONGLONG
+
+   DIM hDevice AS HANDLE   ' // handle to the drive to be examined
+   hDevice = CreateFileW (wszPath, _                              ' // drive to open
+                         0, _                                     ' // no access to the drive
+                         FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                         NULL, _                                  ' // default security attributes
+                         OPEN_EXISTING, _                         ' // disposition
+                         0, _                                     ' // file attributes
+                         NULL _                                   ' // do not copy file attributes
+                         )
+   DIM pdg AS DISK_GEOMETRY_EX, bytesReturned AS DWORD
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN 0
+   DIM bResult AS BOOLEAN = DeviceIoControl(hDevice, _            ' // device to be queried
+                            IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, _   ' // operation to perform
+                            NULL, 0, _                            ' // no input buffer
+                            @pdg, sizeof(pdg), _                  ' // output buffer
+                            @bytesReturned, _                     ' // # bytes returned
+                            NULL)                                 ' // synchronous I/O
+   CloseHandle(hDevice)
+   RETURN pdg.DiskSize.QuadPart
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the type of media.
+' Parameter: wszPath = Drive to open.
+' Return value: The type od media.
+' Usage example: DIM mt AS MEDIA_TYPE = IOCTL_GetMediaType("//./PhysicalDrive0")
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetMediaType (BYREF wszPath AS WSTRING = "//./PhysicalDrive0") AS MEDIA_TYPE
+
+   DIM hDevice AS HANDLE   ' // handle to the drive to be examined
+   hDevice = CreateFileW (wszPath, _                              ' // drive to open
+                         0, _                                     ' // no access to the drive
+                         FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                         NULL, _                                  ' // default security attributes
+                         OPEN_EXISTING, _                         ' // disposition
+                         0, _                                     ' // file attributes
+                         NULL _                                   ' // do not copy file attributes
+                         )
+   DIM pdg AS DISK_GEOMETRY_EX, bytesReturned AS DWORD
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN 0
+   DIM bResult AS BOOLEAN = DeviceIoControl(hDevice, _            ' // device to be queried
+                            IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, _   ' // operation to perform
+                            NULL, 0, _                            ' // no input buffer
+                            @pdg, sizeof(pdg), _                  ' // output buffer
+                            @bytesReturned, _                     ' // # bytes returned
+                            NULL)                                 ' // synchronous I/O
+   CloseHandle(hDevice)
+   RETURN pdg.Geometry.MediaType
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the number of tracks per cylinder.
+' Parameter: wszPath = Drive to open.
+' Return value: The tracks per cylinder
+' Usage example: DIM tpc AS DWORD = IOCTL_GetTracksPerCylinder("//./PhysicalDrive0")
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetTracksPerCylinder (BYREF wszPath AS WSTRING = "//./PhysicalDrive0") AS DWORD
+
+   DIM hDevice AS HANDLE   ' // handle to the drive to be examined
+   hDevice = CreateFileW (wszPath, _                              ' // drive to open
+                         0, _                                     ' // no access to the drive
+                         FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                         NULL, _                                  ' // default security attributes
+                         OPEN_EXISTING, _                         ' // disposition
+                         0, _                                     ' // file attributes
+                         NULL _                                   ' // do not copy file attributes
+                         )
+   DIM pdg AS DISK_GEOMETRY_EX, bytesReturned AS DWORD
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN 0
+   DIM bResult AS BOOLEAN = DeviceIoControl(hDevice, _            ' // device to be queried
+                            IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, _   ' // operation to perform
+                            NULL, 0, _                            ' // no input buffer
+                            @pdg, sizeof(pdg), _                  ' // output buffer
+                            @bytesReturned, _                     ' // # bytes returned
+                            NULL)                                 ' // synchronous I/O
+   CloseHandle(hDevice)
+   RETURN pdg.Geometry.TracksPerCylinder
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the number of sectors per track
+' Parameter: wszPath = Drive to open.
+' Return value: The number of sectors per track.
+' Usage example: DIM spt AS DWORD = IOCTL_GetSectorsPerTrack("//./PhysicalDrive0")
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetSectorsPerTrack (BYREF wszPath AS WSTRING = "//./PhysicalDrive0") AS DWORD
+
+   DIM hDevice AS HANDLE   ' // handle to the drive to be examined
+   hDevice = CreateFileW (wszPath, _                              ' // drive to open
+                         0, _                                     ' // no access to the drive
+                         FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                         NULL, _                                  ' // default security attributes
+                         OPEN_EXISTING, _                         ' // disposition
+                         0, _                                     ' // file attributes
+                         NULL _                                   ' // do not copy file attributes
+                         )
+   DIM pdg AS DISK_GEOMETRY_EX, bytesReturned AS DWORD
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN 0
+   DIM bResult AS BOOLEAN = DeviceIoControl(hDevice, _            ' // device to be queried
+                            IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, _   ' // operation to perform
+                            NULL, 0, _                            ' // no input buffer
+                            @pdg, sizeof(pdg), _                  ' // output buffer
+                            @bytesReturned, _                     ' // # bytes returned
+                            NULL)                                 ' // synchronous I/O
+   CloseHandle(hDevice)
+   RETURN pdg.Geometry.SectorsPerTrack
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the number of bytes per sector.
+' Parameter: wszPath = Drive to open.
+' Return value: The number of bytes per sector.
+' Usage example: DIM bps AS DWORD = IOCTL_GetBytesPerSector("//./PhysicalDrive0")
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetBytesPerSector (BYREF wszPath AS WSTRING = "//./PhysicalDrive0") AS DWORD
+
+   DIM hDevice AS HANDLE   ' // handle to the drive to be examined
+   hDevice = CreateFileW (wszPath, _                              ' // drive to open
+                         0, _                                     ' // no access to the drive
+                         FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                         NULL, _                                  ' // default security attributes
+                         OPEN_EXISTING, _                         ' // disposition
+                         0, _                                     ' // file attributes
+                         NULL _                                   ' // do not copy file attributes
+                         )
+   DIM pdg AS DISK_GEOMETRY_EX, bytesReturned AS DWORD
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN 0
+   DIM bResult AS BOOLEAN = DeviceIoControl(hDevice, _            ' // device to be queried
+                            IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, _   ' // operation to perform
+                            NULL, 0, _                            ' // no input buffer
+                            @pdg, sizeof(pdg), _                  ' // output buffer
+                            @bytesReturned, _                     ' // # bytes returned
+                            NULL)                                 ' // synchronous I/O
+   CloseHandle(hDevice)
+   RETURN pdg.Geometry.BytesPerSector
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieve STORAGE_DEVICE_DESCRIPTOR using the IOCTL_STORAGE_QUERY_PROPERTY
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetStorageDeviceDescriptor (BYREF wszFileName AS WSTRING = "//./PhysicalDrive0") AS PSTORAGE_DEVICE_DESCRIPTOR
+
+   DIM hDevice AS HANDLE = CreateFileW(wszFileName, _                          ' // device to open
+                                       0, _                                     ' // no access to the drive
+                                       FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                                       NULL, _                                  ' // default security attributes
+                                       OPEN_EXISTING, _                         ' // disposition
+                                       0, _                                     ' // file attributes
+                                       NULL _                                   ' // do not copy file attributes
+                                       )
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN NULL
+
+   DIM query AS STORAGE_PROPERTY_QUERY
+   query.PropertyId = StorageDeviceProperty
+   query.QueryType = PropertyStandardQuery
+
+   ' // First call: get the need size for the full descriptor
+   DIM header AS STORAGE_DESCRIPTOR_HEADER
+   DIM bytesReturned AS DWORD
+   DIM bResult AS BOOLEAN = DeviceIoControl (hDevice, IOCTL_STORAGE_QUERY_PROPERTY, _
+                                             @query, sizeof(query), _
+                                             @header, sizeof(header), _
+                                             @bytesReturned, NULL)
+   IF bResult = FALSE THEN
+      CloseHandle(hDevice)
+      RETURN NULL
    END IF
-   IF size = 0 OR size = &h7FFF THEN RETURN 0
-   ' Size is in MB
-   RETURN size
+
+   ' // Allocate the device descriptor
+   DIM pDesc AS PSTORAGE_DEVICE_DESCRIPTOR = cast(PSTORAGE_DEVICE_DESCRIPTOR, Allocate(header.Size))
+   ' // Second call: Get the descriptor
+   bResult = DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY, _
+                             @query, sizeof(query), _
+                             pDesc, header.Size, _
+                             @bytesReturned, NULL)
+   CloseHandle(hDevice)
+   RETURN pDesc
+
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+' Retrieve the string stored at the specified offset of the STORAGE_DEVICE_DESCRIPTOR stucture.
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetStorageDeviceDescriptorString (BYVAL desc AS PSTORAGE_DEVICE_DESCRIPTOR, BYVAL offset AS DWORD) AS STRING
+   IF offset = 0 THEN RETURN ""
+   DIM pstr AS ZSTRING PTR = cast(ZSTRING PTR, cast(BYTE PTR, desc) + offset)
+   IF pstr THEN RETURN *pstr
+END FUNCTION
+' ========================================================================================
+
+' Usage example:
+
+'DIM d AS PSTORAGE_DEVICE_DESCRIPTOR
+'d = IOCTL_GetStorageDeviceDescriptor("//./PhysicalDrive0")
+
+'IF d <> 0 THEN
+'   print "Vendor: "; IOCTL_GetStorageDeviceDescriptorString(d, d->VendorIdOffset)
+'   print "Product: "; IOCTL_GetStorageDeviceDescriptorString(d, d->ProductIdOffset)
+'   print "Serial: "; IOCTL_GetStorageDeviceDescriptorString(d, d->SerialNumberOffset)
+'   print "BusType: "; d->BusType
+'   ' // Deallocate the STORAGE_DEVICE_DESCRIPTOR structure
+'   Deallocate(d)
+'END IF
+
+' ========================================================================================
+' Retrieves the serial number of the specified device.
+' wszPath: The name of the file or device to be created or opened.
+'          You may use either forward slashes (/) or backslashes (\) in this name.
+' - Drives  : "//./PhysicalDrive0" -> "//./C:"
+'             "//./PhysicalDrive1" -> "//./D:"
+' - Volumes : "//./C:"
+' - Drivers : "//./DriverName"
+' Return value:
+'   The retrieved serial number on success or an empty string om failure.
+'   To retrieve an error code, use GetLastError.
+'   To retrieve a localized error code, use AfxGetWinErrMsg(GetLastError).
+' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetDeviceSerialNumber (BYREF wszFileName AS WSTRING = "//./PhysicalDrive0") AS STRING
+
+   DIM hDevice AS HANDLE = CreateFileW(wszFileName, _                           ' // device to open
+                                       0, _                                     ' // no access to the drive
+                                       FILE_SHARE_READ OR FILE_SHARE_WRITE, _   ' // share mode
+                                       NULL, _                                  ' // default security attributes
+                                       OPEN_EXISTING, _                         ' // disposition
+                                       0, _                                     ' // file attributes
+                                       NULL _                                   ' // do not copy file attributes
+                                       )
+   IF hDevice = INVALID_HANDLE_VALUE THEN RETURN ""
+
+   DIM query AS STORAGE_PROPERTY_QUERY
+   query.PropertyId = StorageDeviceProperty
+   query.QueryType = PropertyStandardQuery
+
+   ' // First call: get the need size for the full descriptor
+   DIM header AS STORAGE_DESCRIPTOR_HEADER
+   DIM bytesReturned AS DWORD
+   DIM bResult AS BOOLEAN = DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY, _
+                                            @query, sizeof(query), _
+                                            @header, sizeof(header), _
+                                            @bytesReturned, NULL)
+   IF bResult = FALSE THEN
+      CloseHandle(hDevice)
+      RETURN ""
+   END IF
+
+   ' // Allocate the device descriptor
+   DIM pDesc AS PSTORAGE_DEVICE_DESCRIPTOR = cast(PSTORAGE_DEVICE_DESCRIPTOR, Allocate(header.Size))
+   ' // Second call: Get the descriptor
+   bResult = DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY, _
+                             @query, sizeof(query), _
+                             pDesc, header.Size, _
+                             @bytesReturned, NULL)
+   CloseHandle(hDevice)
+   IF bResult = FALSE THEN RETURN ""
+   IF pDesc->SerialNumberOffset = 0 THEN RETURN ""
+
+   ' // Retrieve the string
+   DIM serialNumber AS STRING
+   DIM pstr AS ZSTRING PTR = cast(ZSTRING PTR, cast(BYTE PTR, pDesc) + pDesc->SerialNumberOffset)
+   IF pstr THEN serialNumber = *pstr
+   Deallocate(pDesc)
+   RETURN serialNumber
+
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Additional detail of the memory device type.
+' Retrieves the physical location of a specified volume on one or more disks.
+' wszVolume: Volume path, e.g. "//./C:"
+' Returns: Disk number on success, or -1 on failure.
+' Usage example:
+' DIM disk AS LONG = IOCTL_GetVolumeDiskNumber("//./C:")
+' PRINT "C: is in PhysicalDrive" & STR(disk)
 ' ========================================================================================
-PRIVATE FUNCTION SMBIOS_MemoryDeviceTypeDetail () AS STRING
-   DIM pBios AS CBiosTable = 17
-   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
-   IF pTable = NULL THEN RETURN ""
-   DIM p AS BYTE PTR = CAST(BYTE PTR, pTable)
-   DIM typeDetail AS USHORT = p[&h13] OR (p[&h14] SHL 8)
-   IF (typeDetail AND &h0080) THEN RETURN "DDR"
-   IF (typeDetail AND &h0200) THEN RETURN "DDR2"
-   IF (typeDetail AND &h0400) THEN RETURN "DDR2 FB-DIMM"
-   IF (typeDetail AND &h0800) THEN RETURN "DDR3"
-   IF (typeDetail AND &h1000) THEN RETURN "FBD2"
-   IF (typeDetail AND &h2000) THEN RETURN "DDR4"
-   IF (typeDetail AND &h4000) THEN RETURN "LPDDR4"
-   IF (typeDetail AND &h8000) THEN RETURN "DDR5"
-   RETURN "Unknown"
-END FUNCTION
-' ========================================================================================
+PRIVATE FUNCTION IOCTL_GetVolumeDiskNumber (BYREF wszVolume AS WSTRING) AS LONG
 
-' ========================================================================================
-' Identifies the maximum capable speed of the device, in megatransfers per second (MT/s). 
-' ========================================================================================
-PRIVATE FUNCTION SMBIOS_MemoryDeviceSpeed () AS USHORT
-   DIM pBios AS CBiosTable = 17
-   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
-   IF pTable = NULL THEN RETURN 0
-   DIM p AS UBYTE PTR = CAST(UBYTE PTR, pTable)
-   RETURN p[&h15] OR (p[&h16] SHL 8)
-END FUNCTION
-' ========================================================================================
+   DIM hVolume AS HANDLE = CreateFileW (wszVolume, _
+                                        0, _
+                                        FILE_SHARE_READ OR FILE_SHARE_WRITE, _
+                                        NULL, _
+                                        OPEN_EXISTING, _
+                                        0, _
+                                        NULL )
+   IF hVolume = INVALID_HANDLE_VALUE THEN RETURN -1
 
-' ========================================================================================
-' Number of enabled cores per processor socket. If the value is unknown, the field is set to 0.
-' For core counts of 256 or greater, the Core Enabled field is set to FFh and the Core Enabled 2
-' field is set to the number of enabled cores. 
-' ========================================================================================
-PRIVATE FUNCTION SMBIOS_CPUCoreCount () AS LONG
-   DIM pBios AS CBiosTable = 4
-   DIM p AS BYTE PTR = CAST(BYTE PTR, pBios.GetTable)
-   IF p = NULL THEN RETURN 0
-   RETURN p[&h23]
-END FUNCTION
+    ' // First try with a small buffer
+    DIM smallBuf AS VOLUME_DISK_EXTENTS
+    DIM bytesReturned AS DWORD
 
-' ========================================================================================
-' Number of threads per processor socket. If the value is unknown, the field is set to 0.
-' For thread counts of 256 or greater, the Thread Count field is set to FFh and the Thread 
-' Count 2 field is set to the number of threads. 
-' ========================================================================================
-PRIVATE FUNCTION SMBIOS_CPUThreadCount () AS LONG
-   DIM pBios AS CBiosTable = 4
-   DIM p AS BYTE PTR = CAST(BYTE PTR, pBios.GetTable)
-   IF p = NULL THEN RETURN 0
-   RETURN p[&h25]
+    DIM bResult AS BOOLEAN = DeviceIoControl (hVolume, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, _
+                                              NULL, 0, _
+                                              @smallBuf, sizeof(smallBuf), _
+                                              @bytesReturned, NULL )
+    IF bResult = FALSE THEN
+        CloseHandle(hVolume)
+        RETURN -1
+    END IF
+
+    ' // If only one extent, no need to allocate more
+    IF smallBuf.NumberOfDiskExtents = 1 THEN
+        CloseHandle(hVolume)
+        RETURN smallBuf.Extents(0).DiskNumber
+    END IF
+
+    ' // Allocate buffer for multiple extents
+    DIM bufSize AS DWORD = sizeof(VOLUME_DISK_EXTENTS) + _
+                           (smallBuf.NumberOfDiskExtents - 1) * sizeof(DISK_EXTENT)
+    DIM pExt AS VOLUME_DISK_EXTENTS PTR = cast(VOLUME_DISK_EXTENTS PTR, Allocate(bufSize))
+    bResult = DeviceIoControl( hVolume, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, _
+                               NULL, 0, _
+                               pExt, bufSize, _
+                               @bytesReturned, NULL )
+    CloseHandle(hVolume)
+    IF bResult = FALSE THEN
+        Deallocate(pExt)
+        RETURN -1
+    END IF
+
+    DIM diskNum AS LONG = pExt->Extents(0).DiskNumber
+    Deallocate(pExt)
+    RETURN diskNum
+
 END FUNCTION
 ' ========================================================================================
 
