@@ -111,23 +111,23 @@ END FUNCTION
 'PowerBasic's MsgBox has the style and c aption parameters reversed
 ' ========================================================================================
 PRIVATE FUNCTION MsgBox OVERLOAD (BYREF wszText AS WSTRING, BYVAL uType AS DWORD = 0, BYREF wszCaption AS WSTRING = "Message") AS LONG
-   RETURN MessageBoxW(GetActiveWindow, @wszText, @wszCaption, MB_APPLMODAL OR uType) 
+   RETURN MessageBoxW(GetActiveWindow, @wszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION MsgBox OVERLOAD (BYVAL pwszText AS WSTRING PTR, BYVAL uType AS DWORD = 0, BYREF wszCaption AS WSTRING = "Message") AS LONG
-   RETURN MessageBoxW(GetActiveWindow, pwszText, @wszCaption, MB_APPLMODAL OR uType) 
+   RETURN MessageBoxW(GetActiveWindow, pwszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 ' PowerBasic has no parameter for the parent window.
 ' ========================================================================================
 PRIVATE FUNCTION MsgBox OVERLOAD (BYVAL hwnd AS HWND, BYREF wszText AS WSTRING, BYVAL uType AS DWORD = 0, BYREF wszCaption AS WSTRING = "Message") AS LONG
-   RETURN MessageBoxW(hWnd, @wszText, @wszCaption, MB_APPLMODAL OR uType) 
+   RETURN MessageBoxW(hWnd, @wszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION MsgBox OVERLOAD (BYVAL hwnd AS HWND, BYREF pwszText AS WSTRING PTR, BYVAL uType AS DWORD = 0, BYREF wszCaption AS WSTRING = "Message") AS LONG
-   RETURN MessageBoxW(hWnd, pwszText, @wszCaption, MB_APPLMODAL OR uType) 
+   RETURN MessageBoxW(hWnd, pwszText, @wszCaption, MB_APPLMODAL OR uType)
 END FUNCTION
 ' ========================================================================================
 
@@ -1205,7 +1205,7 @@ END FUNCTION
 ' ========================================================================================
 ' * Retrieves the MAC address of a machine's Ethernet card.
 ' This function only supports one NIC card on your PC.
-' Remarks: I have needes to call the UuidCreateSequential function dynamically because,
+' Remarks: I have needed to call the UuidCreateSequential function dynamically because,
 ' the time of writing, the library for the RPCRT4.DLL seems broken and the linker fails.
 ' ========================================================================================
 PRIVATE FUNCTION AfxGetMACAddress () AS STRING
@@ -5324,5 +5324,5 @@ PRIVATE FUNCTION AfxGetDefaultMailClientName () AS DWSTRING
    RETURN ""
 END FUNCTION
 ' ========================================================================================
- 
+
 END NAMESPACE

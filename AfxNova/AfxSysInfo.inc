@@ -26,6 +26,7 @@
 
 #pragma once
 #INCLUDE ONCE "windows.bi"
+#INCLUDE ONCE "win/winioctl.bi"
 #INCLUDE ONCE "AfxNova/AfxWin.inc"
 #INCLUDE ONCE "AfxNova/DWSTRING.inc"
 USING AfxNova
@@ -38,6 +39,7 @@ NAMESPACE AfxNova
 ' // DIM rsmb AS DWORD = MAKEFOURCCLE("RSMB")
 ' // Print HEX(rsmb, 8)  ' Output: &h52534D42
 ' ========================================================================================
+#ifndef MAKEFOURCCLE
 PRIVATE FUNCTION MAKEFOURCCLE (BYREF s AS STRING) AS DWORD
    IF LEN(s) <> 4 THEN RETURN 0   ' // input string must be exactly 4 characters
    ' Combine bytes in little-endian order
@@ -46,6 +48,7 @@ PRIVATE FUNCTION MAKEFOURCCLE (BYREF s AS STRING) AS DWORD
           ASC(MID(s, 2, 1)) SHL 16 OR _
           ASC(MID(s, 1, 1)) SHL 24
 END FUNCTION
+#endif
 ' ========================================================================================
 
 ' ========================================================================================
@@ -53,6 +56,7 @@ END FUNCTION
 ' // DIM rsmb AS DWORD = MAKEFOURCCBE("RSMB")
 ' // Print HEX(rsmb, 8)  ' Output: &h424D5352
 ' ========================================================================================
+#ifndef MAKEFOURCCBE
 PRIVATE FUNCTION MAKEFOURCCBE (BYREF s AS STRING) AS DWORD
    IF LEN(s) <> 4 THEN RETURN 0   ' // input string must be exactly 4 characters
    ' Combine bytes in big-endian order
@@ -61,6 +65,7 @@ PRIVATE FUNCTION MAKEFOURCCBE (BYREF s AS STRING) AS DWORD
           ASC(MID(s, 2, 1)) SHL 8 OR _
           ASC(MID(s, 1, 1))
 END FUNCTION
+#endif
 ' ========================================================================================
 
 ' ========================================================================================
@@ -68,7 +73,7 @@ END FUNCTION
 ' table. The pFirmwareTableBuffer parameter of the GetSystemFirmwareTable function 
 ' receives the following data:
 ' ========================================================================================
-
+#ifndef RawSMBIOSData
 TYPE RawSMBIOSData
    Used20CallingMethod AS BYTE
    SMBIOSMajorVersion AS BYTE
@@ -77,231 +82,342 @@ TYPE RawSMBIOSData
    Length As DWORD
    SMBIOSTableData(0) AS BYTE
 END TYPE
+#endif
+
+#ifndef RawSMBIOSTable
+TYPE RawSMBIOSTable
+   ' // Spec version 2.0+
+   AS BYTE Type       ' // Offset 00h - Platform Firmware Information indicator
+   AS BYTE Length     ' // Offset 01h - 12h + number of Firmware Characteristics Extension Bytes
+   AS WORD Handle     ' // Offset 02h - Varies
+END TYPE
+#endif
+
+' Type 0 - Firmware information
+#ifndef RawSMBIOSBiosInfo
+TYPE RawSMBIOSBiosInfo
+   AS RawSMBIOSTable Header
+   ' // Spec 2.0+
+   AS BYTE Vendor               ' // Offset 04h - String number of the Firmware Vendor's Name
+   AS BYTE Version              ' // Offset 05h - String number of the Firmware Version
+   AS WORD StartingAddrSeg      ' // Offset 06h - Bios Starting Address Segment
+   AS BYTE ReleaseDate          ' // Offset 08h - Firmware Release Date
+   AS BYTE ROMSize              ' // Offset 09h - Firmware ROM Size
+   AS ULONG64 Characteristics   ' // Offset 0Ah - Firmware Characteistics
+   ' // Spec 2.4+
+   AS BYTE Extension(1)         ' // Offset 12h - Firmware Characteristics Extension Bytes
+   AS BYTE MajorRelease         ' // Offset 14h - Platform Firmare Major Release
+   AS BYTE MinorRelease         ' // Offset 15h - Platform Firmare Minor Release
+   AS BYTE ECFirmwareMajor      ' // Offset 16h - Embedded Controller Firmare Major Release
+   AS BYTE ECFirmwareMinor      ' // Offset 17h - Embedded Controller Firmare Major Release
+   ' // Spec 3.1+
+   AS WORD EFROMSize            ' // Offset 18h - Extended Firmware ROM Size
+END TYPE
+#endif
+
+' Type 1 - System information
+#ifndef RawSMBIOSSystemInfo
+TYPE RawSMBIOSSystemInfo
+   ' // Spec 2.0+
+   AS RawSMBIOSTable Header
+   AS BYTE Manufacturer   ' // Offset 04h - Manufacturer
+   AS BYTE ProductName    ' // Offset 05h - Product name
+   AS BYTE Version        ' // Offset 06h - Version
+   AS BYTE SerialNumber   ' // Offset 07h - Serial number
+   ' // Spec 2.1+
+   AS BYTE UUID(15)       ' // Offset 08h - 16 bytes - Universal unique ID number
+   AS BYTE Wakeup_Type    ' // Offset 18h - Enum
+   ' // Spec 2.4+
+   AS BYTE SKUNumber      ' // Offset 19h - SKU Number
+   AS BYTE Family         ' // Offset 1Ah - Family
+END TYPE
+#endif
+
+' ########################################################################################
+' CBiosTable class
+' Loads and owns the SMBIOS memory block.
+' ########################################################################################
 
 ' ========================================================================================
-' Retrieves the Bios serial number.
-' ========================================================================================
-'FUNCTION AfxGetBiosSerialNumber() AS DWSTRING
-'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' 'RSMB'
-'   IF size = 0 THEN RETURN ""
-'   DIM buffer AS ANY PTR = Allocate(size)
-'   IF buffer = 0 THEN RETURN ""
-'   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, buffer, size)
-'   IF result <> size THEN
-'      Deallocate(buffer)
-'      RETURN ""
-'   END IF
-'   DIM pRaw AS RawSMBIOSData PTR = buffer
-'   DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
-'   Dim i AS LONG
-'   WHILE i < pRaw->Length
-'      DIM structType AS BYTE = pData[i]
-'      DIM structLength AS BYTE = pData[i + 1]
-'      IF structType = 1 THEN ' Type 1 = System Information
-'         DIM serialIndex As Byte = pData[i + 7]
-'         DIM pStrings AS UByte Ptr = pData + i + structLength
-'         DIM strCount AS LONG = 1
-'         DIM serial AS DWSTRING = ""
-'         WHILE *pStrings <> 0
-'            DIM dws AS DWSTRING = ""
-'            WHILE *pStrings <> 0
-'               dws += WCHR(*pStrings)
-'               pStrings += 1
-'            WEND
-'            pStrings += 1
-'            IF strCount = serialIndex THEN
-'               serial = dws
-'               EXIT WHILE
-'            END IF
-'            strCount += 1
-'         WEND
-'         Deallocate(buffer)
-'         RETURN serial
-'      END IF
-'      ' Move to next structure
-'      DIM pNext AS UBYTE PTR = pData + i + structLength
-'      WHILE *(pNext) <> 0 OR *(pNext + 1) <> 0
-'         pNext += 1
-'      WEND
-'      pNext += 2
-'      i = pNext - pData
-'   WEND
-'   Deallocate(buffer)
-'   RETURN ""
-'END FUNCTION
+TYPE CBiosTable
+
+   Private:
+      m_pTable AS RawSMBIOSTable PTR   ' // Pointer to the raw firmware bios table
+      m_pRaw AS RawSMBIOSData PTR      ' // Pointer to the persistent firmware bios data
+
+   Public:
+      DECLARE CONSTRUCTOR (BYVAL wantedType AS BYTE)
+      DECLARE DESTRUCTOR ()
+      DECLARE FUNCTION GetTable() AS RawSMBIOSTable PTR
+      DECLARE FUNCTION FindTable (BYVAL wantedType AS BYTE) AS BOOLEAN
+      DECLARE FUNCTION GetString (BYVAL index AS BYTE) AS DWSTRING
+
+END TYPE
 ' ========================================================================================
 
-FUNCTION AfxGetBiosSerialNumber() AS DWSTRING
-'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' 'RSMB'
-   DIM size AS DWORD = GetSystemFirmwareTable(MAKEFOURCCLE("RSMB"), 0, 0, 0) ' 'RSMB'
-   IF size = 0 THEN RETURN ""
-   DIM buffer AS STRING = SPACE(size)
-   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, STRPTR(buffer), size)
-   IF result <> size THEN RETURN ""
-   DIM pRaw AS RawSMBIOSData PTR = CAST(RawSMBIOSData PTR, STRPTR(buffer))
-   DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
-   Dim i AS LONG
-   WHILE i < pRaw->Length
-      DIM structType AS BYTE = pData[i]
-      DIM structLength AS BYTE = pData[i + 1]
-      IF structType = 1 THEN ' Type 1 = System Information
-         DIM serialIndex AS BYTE = pData[i + 7]
-         DIM pStrings AS UBYTE PTR = pData + i + structLength
-         DIM strCount AS LONG = 1
-         DIM serial AS DWSTRING = ""
-         WHILE *pStrings <> 0
-            DIM dws AS DWSTRING = ""
-            WHILE *pStrings <> 0
-               dws += WCHR(*pStrings)
-               pStrings += 1
-            WEND
-            pStrings += 1
-            IF strCount = serialIndex THEN
-               serial = dws
-               EXIT WHILE
-            END IF
-            strCount += 1
-         WEND
-         RETURN serial
-      END IF
-      ' Move to next structure
-      DIM pNext AS UBYTE PTR = pData + i + structLength
-      WHILE *(pNext) <> 0 OR *(pNext + 1) <> 0
-         pNext += 1
-      WEND
-      pNext += 2
-      i = pNext - pData
-   WEND
-   RETURN ""
+' ========================================================================================
+' Creates an instance of the CBiosTable class and retrieves the specified firmware table.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CBiosTable (BYVAL wantedType AS BYTE)
+   ' // Retrieve the system firmware table
+   DIM size AS DWORD = GetSystemFirmwareTable(MAKEFOURCCLE("RSMB"), 0, 0, 0)
+   IF size = 0 THEN EXIT CONSTRUCTOR
+   ' // Allocate a buffer for the firmware table
+   DIM pRoot AS ANY PTR = Allocate(size)
+   IF pRoot = NULL THEN EXIT CONSTRUCTOR
+   ' // Retrieves the specified firmware table from the firmware table provider
+   IF GetSystemFirmwareTable(MAKEFOURCCLE("RSMB"), 0, pRoot, size) <> size THEN
+      Deallocate(pRoot)
+      EXIT CONSTRUCTOR
+   END IF
+   ' // Store the pointer to the persistent firmware bios data
+   m_pRaw = CAST(RawSMBIOSData PTR, pRoot)
+   ' // Find the address of the SMBIOS Table
+   IF NOT this.FindTable(wantedType) THEN
+      Deallocate(pRoot)
+      EXIT CONSTRUCTOR
+   END IF
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Deallocates the persistent firmware table data.
+' ========================================================================================
+PRIVATE DESTRUCTOR CBiosTable
+    IF m_pRaw <> NULL THEN Deallocate(m_pRaw)
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns a pointer to the raw SMBIOS table.
+' ========================================================================================
+PRIVATE FUNCTION CBiosTable.GetTable() AS RawSMBIOSTable PTR
+    RETURN m_pTable
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Retrieves the baseboard (motherboard/system board) serial number using Windows API.
+' Retrieve the RawSMBIOSTable pointer
 ' ========================================================================================
-'PRIVATE FUNCTION AfxGetBaseBoardSerialNumber () AS DWSTRING
-'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' RSMB
-'   IF size = 0 THEN RETURN ""
-'   DIM buffer AS ANY PTR = Allocate(size)
-'   IF buffer = 0 THEN RETURN ""
-'   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, buffer, size)
-'   IF result <> size THEN
-'      Deallocate(buffer)
-'      RETURN ""
-'   END IF
-'   DIM pRaw AS RawSMBIOSData PTR = buffer
-'   DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
-'   DIM i AS LONG
-'   WHILE i < pRaw->Length
-'      DIM structType AS BYTE = pData[i]
-'      DIM structLength AS BYTE = pData[i + 1]
-'      IF structType = 2 THEN ' Baseboard Information (Type 2)
-'         DIM serialIndex AS BYTE = pData[i + 7]
-'         DIM pStrings AS UBYTE PTR = pData + i + structLength
-'         DIM strCount AS LONG = 1
-'         DIM serial AS DWSTRING = ""
-'         WHILE *pStrings <> 0
-'            DIM dws AS DWSTRING = ""
-'            WHILE *pStrings <> 0
-'               dws += WCHR(*pStrings)
-'               pStrings += 1
-'            WEND
-'            pStrings += 1
-'            IF strCount = serialIndex THEN
-'               serial = dws
-'               EXIT WHILE
-'            END IF
-'            strCount += 1
-'         WEND
-'         Deallocate(buffer)
-'         RETURN serial
-'      END IF
-'      ' Move to next structure
-'      DIM pNext AS UBYTE PTR = pData + i + structLength
-'      WHILE *(pNext) <> 0 OR *(pNext + 1) <> 0
-'         pNext += 1
-'      WEND
-'      pNext += 2
-'      i = pNext - pData
-'   WEND
-'   Deallocate(buffer)
-'   RETURN ""
-'END FUNCTION
-' ========================================================================================
-
-PRIVATE FUNCTION AfxGetBaseBoardSerialNumber () AS DWSTRING
-'   DIM size AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, 0, 0) ' RSMB
-   DIM size AS DWORD = GetSystemFirmwareTable(MAKEFOURCCLE("RSMB"), 0, 0, 0) ' 'RSMB'
-   IF size = 0 THEN RETURN ""
-   DIM buffer AS STRING = SPACE(size)
-   DIM result AS DWORD = GetSystemFirmwareTable(&H52534D42, 0, STRPTR(buffer), size)
-   IF result <> size THEN RETURN ""
-   DIM pRaw AS RawSMBIOSData PTR = CAST(RawSMBIOSData PTR, STRPTR(buffer))
-   DIM pData AS UBYTE PTR = @pRaw->SMBIOSTableData(0)
+PRIVATE FUNCTION CBiosTable.FindTable (BYVAL wantedType AS BYTE) AS BOOLEAN
+   IF m_pRaw = NULL THEN RETURN FALSE
+   DIM pData AS BYTE PTR = @m_pRaw->SMBIOSTableData(0)
    DIM i AS LONG
-   WHILE i < pRaw->Length
+   WHILE i < m_pRaw->Length
       DIM structType AS BYTE = pData[i]
       DIM structLength AS BYTE = pData[i + 1]
-      IF structType = 2 THEN ' Baseboard Information (Type 2)
-         DIM serialIndex AS BYTE = pData[i + 7]
-         DIM pStrings AS UBYTE PTR = pData + i + structLength
-         DIM strCount AS LONG = 1
-         DIM serial AS DWSTRING = ""
-         WHILE *pStrings <> 0
-            DIM dws AS DWSTRING = ""
-            WHILE *pStrings <> 0
-               dws += WCHR(*pStrings)
-               pStrings += 1
-            WEND
-            pStrings += 1
-            IF strCount = serialIndex THEN
-               serial = dws
-               EXIT WHILE
-            END IF
-            strCount += 1
-         WEND
-         RETURN serial
+      IF structLength = 0 THEN EXIT WHILE  ' Corrupted data
+      ' It is the type we are looking for?
+      IF structType = wantedType THEN
+         m_pTable = CAST(RawSMBIOSTable PTR, pData + i)
+         RETURN TRUE
       END IF
-      ' Move to next structure
-      DIM pNext AS UBYTE PTR = pData + i + structLength
-      WHILE *(pNext) <> 0 OR *(pNext + 1) <> 0
+      ' Advance to the strings section
+      DIM pNext AS BYTE PTR = pData + i + structLength
+      ' Skip strings until a double null is found
+      WHILE (pNext[0] <> 0) OR (pNext[1] <> 0)
          pNext += 1
       WEND
-      pNext += 2
+      pNext += 2  ' Skip the double null
       i = pNext - pData
+   WEND
+   RETURN FALSE   ' Not found
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieve the SMBIOS string
+' ========================================================================================
+PRIVATE FUNCTION CBiosTable.GetString (BYVAL index AS BYTE) AS DWSTRING
+   IF m_pTable = NULL THEN RETURN ""
+   IF index = 0 THEN RETURN ""
+   DIM pData AS BYTE PTR = cast(BYTE PTR, m_pTable)
+   DIM structLength AS BYTE = m_pTable->Length
+   ' First string immediately after the formatted part
+   DIM pStr AS BYTE PTR = pData + structLength
+   DIM current AS LONG = 1
+   DIM result AS DWSTRING
+   WHILE TRUE
+      ' End of all strings? (double zero)
+      IF pStr[0] = 0 AND pStr[1] = 0 THEN EXIT WHILE
+      IF current = index THEN
+         ' Extract string
+         WHILE *pStr <> 0
+            result += WCHR(*pStr)
+            pStr += 1
+         WEND
+         RETURN result
+      END IF
+      ' Skip current string
+      WHILE *pStr <> 0
+         pStr += 1
+      WEND
+      ' Skip the terminating zero
+      pStr += 1
+      current += 1
    WEND
    RETURN ""
 END FUNCTION
+' ========================================================================================
+
+
+' ########################################################################################
+
+' ========================================================================================
+' Generic SMBIOS string accessor: type + offset
+' ========================================================================================
+PRIVATE FUNCTION AfxGetBiosInfo (BYVAL wantedType AS BYTE, BYVAL offset AS LONG) AS DWSTRING
+   DIM pBios AS CBiosTable = wantedType
+   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
+   IF pTable = NULL THEN RETURN ""
+   DIM idx AS BYTE = CAST(BYTE PTR, pTable)[offset]
+   IF idx = 0 THEN RETURN ""
+   RETURN pBios.GetString(idx)
+END FUNCTION
+' ========================================================================================
+
+' // Macros:
+
+' --- Type 0: BIOS Information ---
+#define SMBIOS_BIOSVendor          AfxGetBiosInfo(0, &h04)
+#define SMBIOS_BIOSVersion         AfxGetBiosInfo(0, &h05)
+#define SMBIOS_BIOSReleaseDate     AfxGetBiosInfo(0, &h08)
+
+' --- Type 1: System Information ---
+#define SMBIOS_SystemManufacturer  AfxGetBiosInfo(1, &h04)
+#define SMBIOS_SystemProductName   AfxGetBiosInfo(1, &h05)
+#define SMBIOS_SystemVersion       AfxGetBiosInfo(1, &h06)
+#define SMBIOS_SystemSerialNumber  AfxGetBiosInfo(1, &h07)
+#define SMBIOS_SystemSKUNumber     AfxGetBiosInfo(1, &h19)
+#define SMBIOS_SystemFamily        AfxGetBiosInfo(1, &h1A)
+
+PRIVATE FUNCTION BIOS_SystemUUID () AS STRING
+   DIM pBios AS CBiosTable = 1
+   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
+   IF pTable = NULL THEN RETURN ""
+   DIM p AS BYTE PTR = CAST(BYTE PTR, pTable) + &h08
+   ' SMBIOS UUID is 16 bytes
+   DIM uuid AS STRING
+   FOR i AS LONG = 0 TO 15
+      uuid &= HEX(p[i], 2)
+      IF i = 3 OR i = 5 OR i = 7 OR i = 9 THEN uuid &= "-"
+   NEXT
+   RETURN uuid
+END FUNCTION
+
+' --- Type 2: Baseboard ---
+#define SMBIOS_BaseBoardManufacturer  AfxGetBiosInfo(2, &h04)
+#define SMBIOS_BaseBoardProduct       AfxGetBiosInfo(2, &h05)
+#define SMBIOS_BaseBoardVersion       AfxGetBiosInfo(2, &h06)
+#define SMBIOS_BaseBoardSerialNumber  AfxGetBiosInfo(2, &h07)
+#define SMBIOS_BaseBoardAssetTag      AfxGetBiosInfo(2, &h08)
+
+' --- Type 3: Chassis ---
+#define SMBIOS_ChassisManufacturer    AfxGetBiosInfo(3, &h04)
+#define SMBIOS_ChassisVersion         AfxGetBiosInfo(3, &h06)
+#define SMBIOS_ChassisSerialNumber    AfxGetBiosInfo(3, &h07)
+#define SMBIOS_ChassisAssetTag        AfxGetBiosInfo(3, &h08)
+
+' --- Type 4: Processor ---
+#define SMBIOS_ProcessorSocket        AfxGetBiosInfo(4, &h04)
+#define SMBIOS_ProcessorManufacturer  AfxGetBiosInfo(4, &h07)
+#define SMBIOS_ProcessorVersion       AfxGetBiosInfo(4, &h10)
+#define SMBIOS_ProcessorSerialNumber  AfxGetBiosInfo(4, &h20)
+#define SMBIOS_ProcessorAssetTag      AfxGetBiosInfo(4, &h21)
+#define SMBIOS_ProcessorPartNumber    AfxGetBiosInfo(4, &h22)
+
+' --- Type 17: Memory Device ---
+#define SMBIOS_MemoryDeviceLocator       AfxGetBiosInfo(17, &h10)
+#define SMBIOS_MemoryDeviceBankLocator   AfxGetBiosInfo(17, &h11)
+#define SMBIOS_MemoryDeviceManufacturer  AfxGetBiosInfo(17, &h17)
+#define SMBIOS_MemoryDeviceSerialNumber  AfxGetBiosInfo(17, &h18)
+#define SMBIOS_MemoryDeviceAssetTag      AfxGetBiosInfo(17, &h19)
+#define SMBIOS_MemoryDevicePartNumber    AfxGetBiosInfo(17, &h1A)
+
+' ========================================================================================
+' Retrieves the size of RAM in the first module (Type 17)
+' The Size field is at offset 0Ch, but it has special rules:
+' If it's FFFFh, use Extended Size (offset 1Ch).
+' If it's 0, it's not installed.
+' If it's 7FFFh, the size is unknown.
+' ========================================================================================
+PRIVATE FUNCTION SMBIOS_MemoryDeviceSize () AS ULONG
+   DIM pBios AS CBiosTable = 17
+   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
+   IF pTable = NULL THEN RETURN 0
+   DIM p AS BYTE PTR = CAST(BYTE PTR, pTable)
+   DIM size AS ULONG = CULNG(p[&h0C]) OR (CULNG(p[&h0D]) SHL 8)
+   IF size = &hFFFF THEN
+      ' Extended size (in MB)
+      DIM ext AS ULONG = _
+         p[&h1C] OR _
+         (p[&h1D] SHL 8) OR _
+         (p[&h1E] SHL 16) OR _
+         (p[&h1F] SHL 24)
+      RETURN ext
+   END IF
+   IF size = 0 OR size = &h7FFF THEN RETURN 0
+   ' Size is in MB
+   RETURN size
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Additional detail of the memory device type.
+' ========================================================================================
+PRIVATE FUNCTION SMBIOS_MemoryDeviceTypeDetail () AS STRING
+   DIM pBios AS CBiosTable = 17
+   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
+   IF pTable = NULL THEN RETURN ""
+   DIM p AS BYTE PTR = CAST(BYTE PTR, pTable)
+   DIM typeDetail AS USHORT = p[&h13] OR (p[&h14] SHL 8)
+   IF (typeDetail AND &h0080) THEN RETURN "DDR"
+   IF (typeDetail AND &h0200) THEN RETURN "DDR2"
+   IF (typeDetail AND &h0400) THEN RETURN "DDR2 FB-DIMM"
+   IF (typeDetail AND &h0800) THEN RETURN "DDR3"
+   IF (typeDetail AND &h1000) THEN RETURN "FBD2"
+   IF (typeDetail AND &h2000) THEN RETURN "DDR4"
+   IF (typeDetail AND &h4000) THEN RETURN "LPDDR4"
+   IF (typeDetail AND &h8000) THEN RETURN "DDR5"
+   RETURN "Unknown"
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Identifies the maximum capable speed of the device, in megatransfers per second (MT/s). 
+' ========================================================================================
+PRIVATE FUNCTION SMBIOS_MemoryDeviceSpeed () AS USHORT
+   DIM pBios AS CBiosTable = 17
+   DIM pTable AS RawSMBIOSTable PTR = pBios.GetTable
+   IF pTable = NULL THEN RETURN 0
+   DIM p AS UBYTE PTR = CAST(UBYTE PTR, pTable)
+   RETURN p[&h15] OR (p[&h16] SHL 8)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Number of enabled cores per processor socket. If the value is unknown, the field is set to 0.
+' For core counts of 256 or greater, the Core Enabled field is set to FFh and the Core Enabled 2
+' field is set to the number of enabled cores. 
+' ========================================================================================
+PRIVATE FUNCTION SMBIOS_CPUCoreCount () AS LONG
+   DIM pBios AS CBiosTable = 4
+   DIM p AS BYTE PTR = CAST(BYTE PTR, pBios.GetTable)
+   IF p = NULL THEN RETURN 0
+   RETURN p[&h23]
+END FUNCTION
+
+' ========================================================================================
+' Number of threads per processor socket. If the value is unknown, the field is set to 0.
+' For thread counts of 256 or greater, the Thread Count field is set to FFh and the Thread 
+' Count 2 field is set to the number of threads. 
+' ========================================================================================
+PRIVATE FUNCTION SMBIOS_CPUThreadCount () AS LONG
+   DIM pBios AS CBiosTable = 4
+   DIM p AS BYTE PTR = CAST(BYTE PTR, pBios.GetTable)
+   IF p = NULL THEN RETURN 0
+   RETURN p[&h25]
+END FUNCTION
+' ========================================================================================
 
 END NAMESPACE
-
-' Is there more useful information to be extracted using GetSystemFirmwareTable?
-' Absolutely—and you’ve only scratched the surface by parsing Type 1 (System Info) and
-' Type 2 (Baseboard Info) from the SMBIOS table. The real power of GetSystemFirmwareTable
-' with provider 'RSMB' is that it exposes the entire SMBIOS structure, which contains
-' dozens of types with rich hardware metadata.
-' Here’s a curated list of notable SMBIOS structure types you can extract for further insight:
-' Hardware Identity & Configuration
-' Type	Description	Notable Fields
-' 0	BIOS Information	Version, Vendor, Release Date
-' 1	System Information	Product Name, Serial, UUID
-' 2	Baseboard Information	Manufacturer, Product, Serial
-' 3	System Enclosure (Chassis)	Type (Laptop, Tower), Serial, Lock
-' 4	Processor Information	Socket, Type, Manufacturer, Core Count
-' 17	Memory Device	Size, Speed, Type, Serial
-' Capabilities & Features
-' Type	Description	Notable Fields
-' 5	Memory Controller	Error Correction, Supported Speeds
-' 7	Cache Information	Level, Size, Associativity
-' 32	System Boot Information	Boot Status
-' 15	System Event Log	Logging methods, format
-' Device Mapping
-' Type	Description	Usefulness
-' 8	Port Connector Info	I/O ports on board
-' 9	System Slots	PCI, AGP, M.2 slot enumeration
-' 10	On Board Devices Info (Old)	Legacy mapping (deprecated but useful)
-' 41	On Board Devices Extended Info	Modern mapping, device type flags
-' Security & Power
-' Type	Description	Notable Fields
-' 24	Hardware Security	Reset Switch, Power Locks
-' 27	Cooling Device	Type (Fan, Liquid), Speed, Status
