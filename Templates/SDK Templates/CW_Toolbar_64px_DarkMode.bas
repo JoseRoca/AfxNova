@@ -9,7 +9,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-'#RESOURCE "CW_Toolbar_64px.rc"
+#cmdline "CW_Toolbar_64px.rc"
 #define UNICODE
 #INCLUDE ONCE "windows.bi"
 #INCLUDE ONCE "AfxNova/CWindow.inc"

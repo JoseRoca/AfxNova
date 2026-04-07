@@ -9,7 +9,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-'#RESOURCE "CW_Toolbar_HDPI.rc"
+#cmdline "CW_Toolbar_HDPI.rc"
 #define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "windows.bi"
