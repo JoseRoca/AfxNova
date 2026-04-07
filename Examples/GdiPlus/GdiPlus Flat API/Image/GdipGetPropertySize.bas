@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: GdipGetImageWidth.bas
-' Contents: GDI+ Flat API - GdipGetImageWidth example
+' File: GdipGetPropertySize.bas
+' Contents: GDI+ Flat API - GdipGetPropertySize example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -14,7 +14,8 @@
 #INCLUDE ONCE "AfxNova/AfxGdiPlus.inc"
 
 ' ========================================================================================
-' The following example retrieves the width, in pixels, of an image.
+' Gets the total size, in bytes, of all the property items stored in an Image object.
+' It also gets the number of property items stored in the Image object.
 ' ========================================================================================
 
 DIM hStatus AS LONG
@@ -24,12 +25,14 @@ DIM token AS ULONG_PTR = AfxGdipInit
 
 ' // Load the original image from file
 DIM image AS GpImage PTR
-hStatus = GdipLoadImageFromFile("climber.jpg", @image)
+hStatus = GdipLoadImageFromFile("BERRY_Halle_01.jpg", @image)
 
-' // Get the width of the image
-DIM nWidth AS UINT
-hStatus = GdipGetImageWidth(image, @nWidth)
-PRINT "Image width: " & WSTR(nWidth)
+DIM AS UINT totalBufferSize, numProperties
+hStatus = GdipGetPropertySize(image, @totalBufferSize, @numProperties)
+IF hStatus = StatusOK THEN
+   print "Total buffer size: " & WSTR(totalBufferSize)
+   print "Number of properties: " & WSTR(numProperties)
+END IF
 
 ' // Cleanup
 IF image THEN GdipDisposeImage(image)
