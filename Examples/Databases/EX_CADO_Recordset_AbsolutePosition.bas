@@ -1,12 +1,12 @@
 ' ########################################################################################
 ' Microsoft Windows
 ' Contents: ADO - AbsolutePosition example
-' Compiler: FreeBasic 32 & 64 bit
+' Compiler: FreeBasic 32 bit
 ' This example demonstrates how the AbsolutePosition property can track the progress of a
 ' loop that enumerates all the records of a Recordset. It uses the CursorLocation property
 ' to enable the AbsolutePosition property by setting the cursor to a client cursor.
 ' Note: Error checking ommited for brevity.
-' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2026 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
