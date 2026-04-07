@@ -1,5 +1,5 @@
 '#TEMPLATE DDT Dialog with a Split button
-'#RESOURCE "EX_DDT_SplitButton_01.rc"
+#cmdline "EX_DDT_SplitButton_01.rc"
 #define _WIN32_WINNT &h0602
 #include once "AfxNova/AfxExt.bi"
 #include once "AfxNova/AfxGdiPlus.inc"
