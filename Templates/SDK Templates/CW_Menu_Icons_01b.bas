@@ -9,7 +9,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-'#RESOURCE "CW_Menu_Icons_01.rc"
+#cmdline "CW_Menu_Icons_01.rc"
 #define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
