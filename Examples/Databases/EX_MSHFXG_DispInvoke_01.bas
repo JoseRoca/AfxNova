@@ -1,8 +1,8 @@
 ' ########################################################################################
 ' Microsoft Windows
 ' Contents: Embedded Microsoft Hierarchical Grid Control
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
+' Compiler: FreeBasic 32 bit
+' Copyright (c) 2026 JosÃ© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
