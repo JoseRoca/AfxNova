@@ -8,7 +8,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-'#RESOURCE "CW_GraphCtxDemo.rc"
+#cmdline "CW_GraphCtxDemo.rc"
 #define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
@@ -48,6 +48,8 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Add a graphic control
    DIM pGraphCtx AS CGraphCtx = CGraphCtx(@pWindow, IDC_GRCTX, "", 0, 0, pWindow.ClientWidth, pWindow.ClientHeight)
+   ' // Anchor the control
+   pWindow.AnchorControl(IDC_GRCTX, AFX_ANCHOR_WIDTH OR AFX_ANCHOR_HEIGHT)
    ' // Dark mode
    pGraphCtx.Clear RGB_BLACK
    SetWindowTheme(pGraphCtx.hWindow, "DarkMode_Explorer", NULL)
@@ -94,13 +96,6 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                   EXIT FUNCTION
                END IF
          END SELECT
-
-      CASE WM_SIZE
-         ' // If the window isn't minimized, resize it
-         IF wParam <> SIZE_MINIMIZED THEN
-            DIM pWindow AS CWindow PTR = AfxCWindowPtr(hwnd)
-            IF pWindow THEN pWindow->MoveWindow GetDlgItem(hwnd, IDC_GRCTX), 0, 0, pWindow->ClientWidth, pWindow->ClientHeight, CTRUE
-         END IF
 
     	CASE WM_DESTROY
          ' // End the application
