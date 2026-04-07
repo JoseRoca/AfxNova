@@ -1,5 +1,5 @@
 '#TEMPLATE DDT Dialog with a TreeView
-'#RESOURCE "EX_DDT_TreeView_01.rc"
+#cmdline "EX_DDT_TreeView_01.rc"
 #define UNICODE
 #define _WIN32_WINNT &h0602
 #include once "AfxNova/AfxGdiplus.inc"
