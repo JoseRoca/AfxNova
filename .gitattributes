@@ -15,6 +15,9 @@
 *.res       eol=crlf
 *.rh        eol=crlf
 *.xml       eol=crlf
+*.html      eol=crlf
+*.js        eol=crlf
+*.json      eol=crlf
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary
