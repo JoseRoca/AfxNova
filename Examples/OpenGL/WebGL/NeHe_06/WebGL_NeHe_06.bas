@@ -10,8 +10,6 @@
 ' ########################################################################################
 
 #define UNICODE
-'#define _CAXH_DEBUG_ 1
-'#define _CWBX_DEBUG_ 1
 #INCLUDE ONCE "AfxNova/CWebCtx.inc"
 USING AfxNova
 
@@ -56,8 +54,6 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pwb.Navigate(wszPath)
    ' // Wait for page load with a timeout of 5 seconds
    DIM lReadyState AS READYSTATE = pwb.WaitForPageLoad(5)
-   ' // Kill the temporary file
-   KILL wszPath
    '// Set the focus in the web page
    pwb.SetFocus
 
@@ -91,11 +87,20 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
    SELECT CASE uMsg
 
+      CASE WM_SYSCOMMAND
+         ' // Disable the Windows screensaver
+         IF (wParam AND &hFFF0) = SC_SCREENSAVE THEN EXIT FUNCTION
+         ' // Close the window
+         IF (wParam AND &hFFF0) = SC_CLOSE THEN
+            SendMessageW hwnd, WM_CLOSE, 0, 0
+            EXIT FUNCTION
+         END IF
+
       CASE WM_COMMAND
-         SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
+         SELECT CASE CBCTL(wParam, lParam)
             CASE IDCANCEL
                ' // If ESC key pressed, close the application by sending an WM_CLOSE message
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF
