@@ -317,7 +317,6 @@ pWHttp.Send
 ' // Wait for response with a timeout of 5 seconds
 DIM iSucceeded AS LONG = pWHttp.WaitForResponse(5)
 ' // Get the response headers
-' // Get the response headers
 DIM dwsResponseHeader AS DWSTRING = pWHttp.GetResponseHeader("Date")
 PRINT dwsResponseHeader
 ```
