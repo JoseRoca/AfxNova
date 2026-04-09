@@ -104,16 +104,18 @@ END FUNCTION
 ' date based on the specified mask, e.g. "dd-MM-yyyy"
 ' ========================================================================================
 PRIVATE FUNCTION AfxWmiTimeToDateStr (BYVAL pwszDateTime AS WSTRING PTR, BYREF wszMask AS WSTRING, BYVAL bIsLocal AS BOOLEAN = TRUE, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+   DIM hr AS HRESULT
    IF pwszDateTime = NULL THEN RETURN ""
    DIM pDateTime AS Afx_ISWbemDateTime PTR = AfxNewCom("WbemScripting.SWbemDateTime")
    IF pDateTime = NULL THEN RETURN ""
    DIM bstrDateTime AS AFX_BSTR = SysAllocString(pwszDateTime)
-   pDateTime->put_Value(bstrDateTime)
+   hr = pDateTime->put_Value(bstrDateTime)
+   IF hr <> 0 THEN RETURN ""
    SysFreeString(bstrDateTime)
    DIM bstrFileTime AS AFX_BSTR
-   DIM hr AS HRESULT = pDateTime->GetFileTime(cast(VARIANT_BOOL, bIsLocal), @bstrFileTime)
+   hr = pDateTime->GetFileTime(cast(VARIANT_BOOL, bIsLocal), @bstrFileTime)
    pDateTime->Release
-   IF hr = &h80041001 THEN RETURN ""   ' // &h80041001 = wbemErrFailed
+   IF hr <> 0 THEN RETURN ""
    DIM li AS LARGE_INTEGER
    li.QuadPart = _wtoi64(bstrFileTime)
    DIM ft AS FILETIME
@@ -132,16 +134,18 @@ END FUNCTION
 ' the time based on the specified mask, e.g. "hh':'mm':'ss".
 ' ========================================================================================
 PRIVATE FUNCTION AfxWmiTimeToTimeStr (BYVAL pwszDateTime AS WSTRING PTR, BYREF wszMask AS WSTRING, BYVAL bIsLocal AS BOOLEAN = TRUE, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
+   DIM hr AS HRESULT
    IF pwszDateTime = NULL THEN RETURN ""
    DIM pDateTime AS Afx_ISWbemDateTime PTR = AfxNewCom("WbemScripting.SWbemDateTime")
    IF pDateTime = NULL THEN RETURN ""
    DIM bstrDateTime AS AFX_BSTR = SysAllocString(pwszDateTime)
-   pDateTime->put_Value(bstrDateTime)
+   hr = pDateTime->put_Value(bstrDateTime)
+   IF hr <> 0 THEN RETURN ""
    IF bstrDateTime THEN SysFreeString(bstrDateTime)
    DIM bstrFileTime AS AFX_BSTR
-   DIM hr AS HRESULT = pDateTime->GetFileTime(cast(VARIANT_BOOL, bIsLocal), @bstrFileTime)
+   hr = pDateTime->GetFileTime(cast(VARIANT_BOOL, bIsLocal), @bstrFileTime)
    pDateTime->Release
-   IF hr = &h80041001 THEN RETURN ""   ' // &h80041001 = wbemErrFailed
+   IF hr <> 0 THEN RETURN ""
    DIM li AS LARGE_INTEGER
    li.QuadPart = _wtoi64(bstrFileTime)
    DIM ft AS FILETIME
@@ -441,7 +445,7 @@ END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CWmiServices.WmiDateToStr (BYREF dvDateTime AS DVARIANT, BYREF wszMask AS WSTRING, BYVAL bIsLocal AS BOOLEAN = TRUE, BYVAL lcid AS LCID = LOCALE_USER_DEFAULT) AS DWSTRING
-   RETURN AfxWmiTimeToDateStr(dvDateTime, wszMask, bIsLocal, lcid)
+   RETURN AfxWmiTimeToDateStr(dvDateTime.ToStr, wszMask, bIsLocal, lcid)
 END FUNCTION
 ' ========================================================================================
 
