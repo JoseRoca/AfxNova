@@ -1,7 +1,8 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_TreeView_01.bas
+' File: CW_TreeView_01b.bas
 ' Contents: CWindow - TreeView control
+' Uses the CTreeView static class instead of macros.
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -12,6 +13,7 @@
 #define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
+#INCLUDE ONCE "AfxNova/CTreeView.inc"
 USING AfxNova
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -59,54 +61,54 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Add items to the TreeView
    DIM AS HTREEITEM hRoot, hNode, hItem
    ' // Create the root node
-   hRoot = TreeView_AddRootItem(hTreeView, "Root")
+   hRoot = CTreeView.AddRootItem(hTreeView, "Root")
    ' // Create a node
-   hNode = TreeView_AppendItem(hTreeView, hRoot, "Node 1")
+   hNode = CTreeView.AppendItem(hTreeView, hRoot, "Node 1")
    ' // Insert items in the node
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 1 Item 1")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 1 Item 2")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 1 Item 3")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 1 Item 4")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 1 Item 5")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 1 Item 6")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 1 Item 1")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 1 Item 2")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 1 Item 3")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 1 Item 4")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 1 Item 5")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 1 Item 6")
    ' // Expand the node
-   TreeView_Expand(hTreeView, hNode, TVM_EXPAND)
+   CTreeView.Expand(hTreeView, hNode, TVM_EXPAND)
    ' // Create another node
-   hNode = TreeView_AppendItem(hTreeView, hRoot, "Node 2")
+   hNode = CTreeView.AppendItem(hTreeView, hRoot, "Node 2")
    ' // Insert items in the node
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 2 Item 1")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 2 Item 2")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 2 Item 3")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 2 Item 4")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 2 Item 5")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 2 Item 6")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 2 Item 1")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 2 Item 2")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 2 Item 3")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 2 Item 4")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 2 Item 5")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 2 Item 6")
    ' // Expand the node
-   TreeView_Expand(hTreeView, hNode, TVM_EXPAND)
+   CTreeView.Expand(hTreeView, hNode, TVM_EXPAND)
    ' // Create another node
-   hNode = TreeView_AppendItem(hTreeView, hRoot, "Node 3")
+   hNode = CTreeView.AppendItem(hTreeView, hRoot, "Node 3")
    ' // Insert items in the node
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 3 Item 1")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 3 Item 2")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 3 Item 3")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 3 Item 4")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 3 Item 5")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 3 Item 6")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 3 Item 1")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 3 Item 2")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 3 Item 3")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 3 Item 4")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 3 Item 5")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 3 Item 6")
    ' // Expand the node
-   TreeView_Expand(hTreeView, hNode, TVM_EXPAND)
+   CTreeView.Expand(hTreeView, hNode, TVM_EXPAND)
    ' // Create another node
-   hNode = TreeView_AppendItem(hTreeView, hRoot, "Node 4")
+   hNode = CTreeView.AppendItem(hTreeView, hRoot, "Node 4")
    ' // Insert items in the node
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 4 Item 1")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 4 Item 2")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 4 Item 3")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 4 Item 4")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 4 Item 5")
-   hItem = TreeView_AppendItem(hTreeView, hNode, "Node 4 Item 6")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 4 Item 1")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 4 Item 2")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 4 Item 3")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 4 Item 4")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 4 Item 5")
+   hItem = CTreeView.AppendItem(hTreeView, hNode, "Node 4 Item 6")
    ' // Expand the node
-   TreeView_Expand(hTreeView, hNode, TVM_EXPAND)
+   CTreeView.Expand(hTreeView, hNode, TVM_EXPAND)
 
    ' // Expand the root node
-   TreeView_Expand(hTreeView, hRoot, TVE_EXPAND)
+   CTreeView.Expand(hTreeView, hRoot, TVE_EXPAND)
 
    ' // Add a cancel button
    pWindow.AddControl("Button", hWin, IDCANCEL, "&Cancel",  233, 340, 75, 23)
@@ -149,11 +151,10 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
             ' // Retrieve the handle of the TreeView
             DIM hTreeView AS HWND = GetDlgItem(hwnd, IDC_TREEVIEW)
             ' // Retrieve the selected item
-            DIM hItem AS HTREEITEM = TreeView_GetSelection(hTreeView)
+            DIM hItem AS HTREEITEM = CTreeView.GetSelection(hTreeView)
             ' // Retrieve the text of the selected item
-            DIM wszText AS WSTRING * 260
-            TreeView_GetItemText(hTreeView, hItem, @wszText, 260)
-            MessageBoxW hwnd, wszText, "Message", MB_OK
+            DIM dwsText AS DWSTRING = CTreeView.GetItemText(hTreeView, hItem)
+            MessageBoxW hwnd, dwsText, "Message", MB_OK
             RETURN 0
          END IF
 
