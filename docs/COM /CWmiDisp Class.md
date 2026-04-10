@@ -157,24 +157,19 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
+
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT Caption, SerialNumber FROM Win32_BIOS")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
+
 ' // Get the number of objects retrieved
 DIM nCount AS LONG = pServices.ObjectsCount
 print "Count: ", nCount
-IF nCount = 0 THEN PRINT "No objects found" : SLEEP : END
+
 ' // Enumerate the objects using the standard IEnumVARIANT enumerator (NextObject method)
 ' // and retrieve the properties using the CDispInvoke class.
 DIM pDispServ AS CDispInvoke = pServices.NextObject
-IF pDispServ.DispPtr THEN
-   PRINT "Caption: "; pDispServ.Get("Caption")
-   PRINT "Serial number: "; pDispServ.Get("SerialNumber")
-END IF
-PRINT
-PRINT "Press any key..."
-SLEEP
+PRINT "Caption: "; pDispServ.Get("Caption")
+PRINT "Serial number: "; pDispServ.Get("SerialNumber")
 ```
 
 If the query returns more than one object, then we will use a loop:
@@ -186,30 +181,20 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT * FROM Win32_Printer")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Get the number of objects retrieved
 DIM nCount AS LONG = pServices.ObjectsCount
-print "Count: ", nCount
-IF nCount = 0 THEN PRINT "No objects found" : SLEEP : END
 
 ' // Enumerate the objects
 FOR i AS LONG = 0 TO nCount - 1
    PRINT "--- Index " & STR(i) & " ---"
    DIM pDispServ AS CDispInvoke = pServices.NextObject
-   IF pDispServ.DispPtr THEN
-      PRINT "Caption: "; pDispServ.Get("Caption")
-      PRINT "Capabilities "; pDispServ.Get("Capabilities")
-   END IF
+   PRINT "Caption: "; pDispServ.Get("Caption")
+   PRINT "Capabilities "; pDispServ.Get("Capabilities")
 NEXT
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 
 To improve enumeration performance set the *iFlags* parameter of the **ExecQuery** method to *WbemFlagReturnImmediately* and *WbemFlagForwardOnly* (the combined value of these flags is 48) to allow semisynchronous return of the data with an enumerator that discards each item from WMI as it is delivered. In this case don't call the **ObjectsCount** method because it will return 0, since the operation has not been completed.
@@ -221,23 +206,15 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT Caption, SerialNumber FROM Win32_BIOS", 48)
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Enumerate the objects using the standard IEnumVARIANT enumerator (NextObject method)
 ' // and retrieve the properties using the CDispInvoke class.
 DIM pDispServ AS CDispInvoke = pServices.NextObject
-IF pDispServ.DispPtr THEN
-   PRINT "Caption: "; pDispServ.Get("Caption")
-   PRINT "Serial number: "; pDispServ.Get("SerialNumber")
-END IF
-
-PRINT
-PRINT "Press any key..."
-SLEEP
+PRINT "Caption: "; pDispServ.Get("Caption")
+PRINT "Serial number: "; pDispServ.Get("SerialNumber")
 ```
 
 If there are several objects in the collection, we can use a loop:
@@ -249,11 +226,9 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT * FROM Win32_Printer", 48)
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Enumerate the objects using the standard IEnumVARIANT enumerator (NextObject method)
 ' // and retrieve the properties using the CDispInvoke class.
@@ -264,10 +239,6 @@ DO
    PRINT "Caption: "; pDispServ.Get("Caption")
    PRINT "Capabilities "; pDispServ.Get("Capabilities")
 LOOP
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 
 Calling the **GetNamedProperties** method after executing the query. **GetNamedProperties** generates a named collection of properties. This has the advantage of not having to use **CDispInvoke**.
@@ -279,29 +250,19 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT Caption, SerialNumber FROM Win32_BIOS")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Get the number of objects retrieved
 DIM nCount AS LONG = pServices.ObjectsCount
-print "Number of objects: ", nCount
-IF nCount = 0 THEN PRINT "No objects found" : SLEEP : END
 
 ' // Get a collection of named properties
-IF pServices.GetNamedProperties <> S_OK THEN PRINT "Failed to get the named properties" : SLEEP : END
+IF pServices.GetNamedProperties <> S_OK THEN PRINT "Failed to get the named properties"
 
 ' // Retrieve the value of the properties
-'DIM dv AS DVARIANT = pServices.PropValue("Caption")
-'PRINT dv
 PRINT pServices.PropValue("Caption")
 PRINT pServices.PropValue("SerialNumber")
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 
 **Using a loop**:
@@ -313,16 +274,12 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT * FROM Win32_Printer")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Get the number of objects retrieved
 DIM nCount AS LONG = pServices.ObjectsCount
-print "Number of objects: ", nCount
-IF nCount = 0 THEN PRINT "No objects found" : SLEEP : END
 
 ' // Enumerate the objects
 FOR i AS LONG = 0 TO nCount - 1
@@ -333,10 +290,6 @@ FOR i AS LONG = 0 TO nCount - 1
       PRINT pServices.PropValue("Capabilities")
    END IF
 NEXT
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 
 #### Example
@@ -376,10 +329,6 @@ DO   ' // fake loop to avoid nested IFs/ENDIFs
 
    EXIT DO   ' // Inconditional exit
 LOOP
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 
 Using an enumerator:
@@ -412,10 +361,6 @@ DO   ' // fake loop to avoid nested IFs/ENDIFs
 
    EXIT DO   ' // Inconditional exit
 LOOP
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 ---
 
@@ -453,15 +398,13 @@ May return one of the error codes in the following list:
 
 ```
 #include "AfxNova/CWmiDisp.inc"
-USING AfxNova
+using AfxNova
 
 ' // Connect to WMI using a moniker
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
  
 ' // Get an instance of the printer "OKI B410" --> change me
 DIM hr AS HRESULT = pServices.Get("Win32_Printer.DeviceID='OKI B410'")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Number of properties
 PRINT "Number of properties: ", pServices.PropsCount
@@ -471,10 +414,6 @@ PRINT
 PRINT "Port name: "; pServices.PropValue("PortName")
 PRINT "Attributes: "; pServices.PropValue("Attributes")
 PRINT "Paper sizes supported: "; pServices.PropValue("PaperSizesSupported")
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 
 Example
@@ -487,12 +426,10 @@ USING AfxNova
 'DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
 ' Use the constructor for server connection, just for trying...
 DIM pServices AS CWmiServices = CWmiServices(".", "root\cimv2")
-IF pServices.ServicesPtr = NULL THEN END
  
  '// Get an instance of a file --> change me
 DIM dwsPath AS DWSTRING = ExePath & "\EX_CWMI_Get_01.bas"   ' --> change me
 DIM hr AS HRESULT = pServices.Get("CIM_DataFile.Name='" & dwsPath & "'")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Number of properties
 PRINT "Number of properties: ", pServices.PropsCount
@@ -505,10 +442,6 @@ PRINT "Extension: "; pServices.PropValue("Extension")
 PRINT "Size: "; pServices.PropValue("Filesize")
 'PRINT pServices.PropValue("LastModified")
 PRINT "Date last modified: "; pServices.WmiDateToStr(pServices.PropValue("LastModified"), "dd-MM-yyyy")   ' // change the mask if needed
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 ---
 
@@ -590,29 +523,20 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT Caption, SerialNumber FROM Win32_BIOS")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Get the number of objects retrieved
 DIM nCount AS LONG = pServices.ObjectsCount
 print "Number of objects: ", nCount
-IF nCount = 0 THEN PRINT "No objects found" : SLEEP : END
 
 ' // Get a collection of named properties
-IF pServices.GetNamedProperties <> S_OK THEN PRINT "Failed to get the named properties" : SLEEP : END
+IF pServices.GetNamedProperties <> S_OK THEN PRINT "Failed to get the named properties"
 
 ' // Retrieve the value of the properties
-'DIM dv AS DVARIANT = pServices.PropValue("Caption")
-'PRINT dv
 PRINT pServices.PropValue("Caption")
 PRINT pServices.PropValue("SerialNumber")
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 
 Using a loop:
@@ -624,16 +548,13 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT * FROM Win32_Printer")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Get the number of objects retrieved
 DIM nCount AS LONG = pServices.ObjectsCount
 print "Number of objects: ", nCount
-IF nCount = 0 THEN PRINT "No objects found" : SLEEP : END
 
 ' // Enumerate the objects
 FOR i AS LONG = 0 TO nCount - 1
@@ -644,10 +565,6 @@ FOR i AS LONG = 0 TO nCount - 1
       PRINT pServices.PropValue("Capabilities")
    END IF
 NEXT
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 ---
 
@@ -686,11 +603,9 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Retrieve the instances of
 DIM hr AS HRESULT = pServices.InstancesOf("Win32_Printer")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Enumerate the objects using the standard IEnumVARIANT enumerator (NextObject method)
 ' // and retrieve the properties using the CDispInvoke class.
@@ -701,10 +616,6 @@ DO
    PRINT "Caption: "; pDispServ.Get("Caption")
    PRINT "Capabilities "; pDispServ.Get("Capabilities")
 LOOP
-
-PRINT
-PRINT "Press any key..."
-SLEEP
 ```
 ---
 
@@ -747,24 +658,19 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
+
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT Caption, SerialNumber FROM Win32_BIOS")
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
+
 ' // Get the number of objects retrieved
 DIM nCount AS LONG = pServices.ObjectsCount
 print "Count: ", nCount
-IF nCount = 0 THEN PRINT "No objects found" : SLEEP : END
+
 ' // Enumerate the objects using the standard IEnumVARIANT enumerator (NextObject method)
 ' // and retrieve the properties using the CDispInvoke class.
 DIM pDispServ AS CDispInvoke = pServices.NextObject
-IF pDispServ.DispPtr THEN
-   PRINT "Caption: "; pDispServ.Get("Caption")
-   PRINT "Serial number: "; pDispServ.Get("SerialNumber")
-END IF
-PRINT
-PRINT "Press any key..."
-SLEEP
+PRINT "Caption: "; pDispServ.Get("Caption")
+PRINT "Serial number: "; pDispServ.Get("SerialNumber")
 ```
 
 To improve enumeration performance set the *iFlags* parameter of the **ExecQuery** method to *WbemFlagReturnImmediately* and *WbemFlagForwardOnly* (the combined value of these flags is 48) to allow semisynchronous return of the data with an enumerator that discards each item from WMI as it is delivered. In this case don't call the **ObjectsCount** method because it will return 0, since the operation has not been completed.
@@ -776,23 +682,15 @@ USING AfxNova
 ' // Connect to WMI using a moniker
 ' // Note: $ is used to avoid the pedantic warning of the compiler about escape characters
 DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2"
-IF pServices.ServicesPtr = NULL THEN END
 
 ' // Execute a query
 DIM hr AS HRESULT = pServices.ExecQuery("SELECT Caption, SerialNumber FROM Win32_BIOS", 48)
-IF hr <> S_OK THEN PRINT AfxWmiGetErrorCodeText(hr) : SLEEP : END
 
 ' // Enumerate the objects using the standard IEnumVARIANT enumerator (NextObject method)
 ' // and retrieve the properties using the CDispInvoke class.
 DIM pDispServ AS CDispInvoke = pServices.NextObject
-IF pDispServ.DispPtr THEN
-   PRINT "Caption: "; pDispServ.Get("Caption")
-   PRINT "Serial number: "; pDispServ.Get("SerialNumber")
-END IF
-
-PRINT
-PRINT "Press any key..."
-SLEEP
+PRINT "Caption: "; pDispServ.Get("Caption")
+PRINT "Serial number: "; pDispServ.Get("SerialNumber")
 ```
 ---
 
