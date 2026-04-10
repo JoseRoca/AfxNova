@@ -892,3 +892,63 @@ FUNCTION WmiTimeToStr (BYVAL pwszDateTime AS WSTRING PTR, BYREF wszMask AS WSTRI
 The formatted date as a string.
 
 ---
+
+### Examples to call methods of WMI classes
+
+```
+#cmdline "-s console"
+#include "AfxNova/CWmiDisp.inc"
+using AfxNova
+
+DO   ' // fake loop to allow early exit
+
+' // Connect to WMI using a moniker
+DIM pServices AS CWmiServices = $"winmgmts:{impersonationLevel=impersonate}!\\.\root\default:StdRegProv"
+IF pServices.ServicesPtr = NULL THEN EXIT DO
+ 
+' // Assign the WMI services object pointer to CDispInvoke
+' // CWmiServices.ServicesObj returns an AddRefed pointer, whereas CWmiServices.ServicesPtr not.
+DIM pDispServices AS CDispInvoke = CDispInvoke(pServices.ServicesObj)
+
+' Parameters of the GetStringValue method:
+' %HKEY_LOCAL_MACHINE ("2147483650") - The value must be specified as an string and in decimal, not hexadecimal.
+' vDefKey = [IN]  "2147483650"
+' vPath   = [IN]  "Software\Microsoft\Windows NT\CurrentVersion"
+' vValue  = [OUT] "ProductName"
+
+DIM bsValue AS BSTRING
+DIM dvRes AS DVARIANT = pDispServices.Invoke("GetStringValue", "2147483650", _
+    $"Software\Microsoft\Windows NT\CurrentVersion", "ProductName", DVARIANT(bsValue.vptr, VT_BSTR))
+PRINT bsValue
+
+EXIT DO   ' // exit the fake loop
+LOOP
+```
+---
+
+```
+#cmdline "-s console"
+#include "AfxNova/CWmiDisp.inc"
+using AfxNova
+
+DO   ' // fake loop to allow early exit
+
+' // Connect to WMI using a moniker
+DIM pServices AS CWmiServices = ( _
+   $"winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2:Win32_Process")
+IF pServices.ServicesPtr = NULL THEN EXIT DO
+ 
+' // Assign the WMI services object pointer to CDispInvoke
+' // CWmiServices.ServicesObj returns an AddRefed pointer, whereas CWmiServices.ServicesPtr not.
+DIM pDispServices AS CDispInvoke = CDispInvoke(pServices.ServicesObj)
+
+' // Note: Although the WMI documentation says that this OUT parameter is an UInt32,
+' // it only works if I use "LONG".
+DIM ProcessId AS LONG
+pDispServices.Invoke("Create", "notepad.exe", AfxDVarOptPrm, AfxDVarOptPrm, DVARIANT(@ProcessId, "LONG"))
+PRINT "Process id: ", ProcessId
+
+EXIT DO   ' // exit the fake loop
+LOOP
+```
+---
