@@ -1722,7 +1722,7 @@ If this mwthod succeeds, it returns S_OK. Otherwise, it returns an HRESULT error
 Sets the normal or state image list for a tree-view control and redraws the control using the new images.
 
 ```
-FUNCTION SetImageList (BYVAL hTreeView AS HWND, BYVAL himl AS HIMAGELIST, BYVAL iImage AS LONG) AS HIMAGELIST
+FUNCTION SetImageList (BYVAL hTreeView AS HWND, BYVAL himl AS HIMAGELIST, BYVAL iImage AS LONG = TVSIL_NORMAL) AS HIMAGELIST
 ```
 
 | Parameter | Description |
