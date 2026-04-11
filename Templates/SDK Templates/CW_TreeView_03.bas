@@ -191,6 +191,9 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
          END IF
 
       CASE WM_DESTROY
+          ' // Destroy the image list
+         DIM hTreeView AS HWND = GetDlgItem(hwnd, IDC_TREEVIEW)
+         ImageList_Destroy(CTreeView.SetImageList(hTreeView, NULL, TVSIL_NORMAL))
          ' // End the application by sending an WM_QUIT message
          PostQuitMessage(0)
          RETURN 0
