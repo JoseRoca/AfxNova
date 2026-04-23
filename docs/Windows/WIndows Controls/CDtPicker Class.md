@@ -406,7 +406,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM st AS SYSTEMTIME
    st.wDay = 15
    st.wMonth = 8
-   st.wYear = 2016
+   st.wYear = 2026
    CDtPicker.SetSystemTime(htDTP, GDT_VALID, @st)
 
    ' // Adds a button
