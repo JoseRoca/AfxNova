@@ -231,9 +231,10 @@ It is acceptable to include extra characters within the format string to produce
 
 A DTP control tracks locale changes when it is using the default format string. If you set a custom format string, it will not be updated in response to locale changes.
 
-#### Usage example
+#### Usage examples
 ```
 CDtPicker.SetFormat(hCtl, "dd.MM.yyyy")
+CDtPicker.SetFormat(hCtl, "'Today is: 'hh':'m':'s ddddMMMdd', 'yyy")
 ```
 
 ---
