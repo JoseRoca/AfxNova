@@ -233,8 +233,8 @@ A DTP control tracks locale changes when it is using the default format string. 
 
 #### Usage examples
 ```
-CDtPicker.SetFormat(hCtl, "dd.MM.yyyy")
-CDtPicker.SetFormat(hCtl, "'Today is: 'hh':'m':'s ddddMMMdd', 'yyy")
+CDtPicker.SetFormat(hDtp, "dd.MM.yyyy")
+CDtPicker.SetFormat(hDtp, "'Today is: 'hh':'m':'s ddddMMMdd', 'yyy")
 ```
 
 ---
@@ -329,6 +329,19 @@ Returns nonzero if successful, or zero otherwise.
 
 The date and time picker displays only dates/times that fall within the specified range, preventing the user from selecting a date and time that falls outside the range. If the **SetSystemtime** method specifies a date and time that falls outside the range, it will fail.
 
+#### Usage example
+```
+DIM grgst (0 TO 1) AS SYSTEMTIME
+grgst(0).wDay = 1
+grgst(0).wMonth = 1
+grgst(0).wYear = 2016
+
+grgst(1).wDay = 31
+grgst(1).wMonth = 12
+grgst(1).wYear = 2026
+
+CDtPicker.SetRange(hDtp, GDTR_MIN OR GDTR_MAX, @grgst(0))
+```
 ---
 
 ### SetSystemtime
