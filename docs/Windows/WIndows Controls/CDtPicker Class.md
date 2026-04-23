@@ -363,6 +363,14 @@ FUNCTION SetSystemtime (BYVAL hDtp AS HWND, BYVAL gd AS DWORD, BYREF st AS SYSTE
 
 Returns nonzero if successful, or zero otherwise.
 
+#### Usage example
+```
+DIM st AS SYSTEMTIME
+st.wDay = 15
+st.wMonth = 8
+st.wYear = 2016
+CDtPicker.SetSystemTime(hDtp, GDT_VALID, @st)
+```
 ---
 
 ### Example
