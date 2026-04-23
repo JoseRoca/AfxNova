@@ -189,6 +189,17 @@ Returns a **DWORD** value that is a combination of **GDTR_MIN** or **GDTR_MAX**.
 
 The date and time picker displays only dates/times that fall within the specified range, preventing the user from selecting a date and time that falls outside the range. If the **CDtPicker.SetSystemtime** message specifies a date and time that falls outside the range, it will fail.
 
+#### Usage example
+```
+DIM rgst (0 TO 1) AS SYSTEMTIME
+print CDtPicker.GetRange(hDtp, @rgst(0))
+print rgst(0).wDay
+print rgst(0).wMonth
+print rgst(0).wYear
+print rgst(1).wDay
+print rgst(1).wMonth
+print rgst(1).wYear
+```
 ---
 
 ### GetSystemtime
@@ -331,16 +342,16 @@ The date and time picker displays only dates/times that fall within the specifie
 
 #### Usage example
 ```
-DIM grgst (0 TO 1) AS SYSTEMTIME
-grgst(0).wDay = 1
-grgst(0).wMonth = 1
-grgst(0).wYear = 2016
+DIM rgst (0 TO 1) AS SYSTEMTIME
+rgst(0).wDay = 1
+rgst(0).wMonth = 1
+rgst(0).wYear = 2016
 
-grgst(1).wDay = 31
-grgst(1).wMonth = 12
-grgst(1).wYear = 2026
+rgst(1).wDay = 31
+rgst(1).wMonth = 12
+rgst(1).wYear = 2026
 
-CDtPicker.SetRange(hDtp, GDTR_MIN OR GDTR_MAX, @grgst(0))
+CDtPicker.SetRange(hDtp, GDTR_MIN OR GDTR_MAX, @rgst(0))
 ```
 ---
 
