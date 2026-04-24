@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_ListBox_DarkMode_01.bas
+' File: CW_ListBox_DarkMode_01b.bas
 ' Contents: ListBox control
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
@@ -9,9 +9,10 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE   ' ListBox_AddString needs the unicode flag
+'#define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
+#INCLUDE ONCE "AfxNova/CListBox.inc"
 USING AfxNova
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -62,12 +63,10 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM dwsText AS DWSTRING
    FOR i AS LONG = 1 TO 50
       dwsText = "Item " & RIGHT("00" & WSTR(i), 2)
-      ListBox_AddString(hListBox, *dwsText)
-      ' -- or --
-      ' AfxListBoxAddString(hListBox, dwsText)
+      CListBox.AddString(hListBox, *dwsText)
    NEXT
    ' // Select the first item
-   ListBox_SetCursel(hListBox, 0)
+   CListBox.SetCursel(hListBox, 0)
 
    ' // Add a cancel button
    DIM hButton AS HWND = pWindow.AddControl("Button", hWin, IDCANCEL, "&Cancel",  233, 340, 75, 23)
@@ -114,8 +113,8 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                      ' // Get the handle of the Listbox
                      DIM hListBox AS HWND = GetDlgItem(hwnd, IDC_LISTBOX)
                      ' // Get the current selection
-                     DIM curSel AS LONG = ListBox_GetCursel(hListBox)
-                     DIM dwsText AS DWSTRING = AfxGetListBoxText(hListBox, curSel)
+                     DIM curSel AS LONG = CListBox.GetCursel(hListBox)
+                     DIM dwsText AS DWSTRING = CListBox.GetText(hListBox, curSel)
                      MessageBoxW(hwnd, dwsText, "ListBox test", MB_OK)
                END SELECT
          END SELECT
