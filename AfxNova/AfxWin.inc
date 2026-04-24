@@ -1857,8 +1857,6 @@ PRIVATE FUNCTION AfxGetWindowExStyle (BYVAL hWin AS HWND) AS LONG_PTR
    RETURN GetWindowLongPtrW(hWin, GWL_EXSTYLE)
 END FUNCTION
 ' ========================================================================================
-#define AfxGetWindowStyleEx AfxGetWindowExStyle
-' ========================================================================================
 
 ' ========================================================================================
 ' Sets the window styles
@@ -1880,8 +1878,6 @@ PRIVATE FUNCTION AfxSetWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS LON
    SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
    RETURN dwOldExStyle
 END FUNCTION
-' ========================================================================================
-#define AfxSetWindowStyleEx AfxSetWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1913,8 +1909,6 @@ PRIVATE FUNCTION AfxAddWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS LON
    RETURN dwOldExStyle
 END FUNCTION
 ' ========================================================================================
-#define AfxAddWindowStyleEx AfxAddWindowExStyle
-' ========================================================================================
 
 ' ========================================================================================
 ' Removes an style from the specified window.
@@ -1944,8 +1938,6 @@ PRIVATE FUNCTION AfxRemoveWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS 
    SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
    RETURN dwOldExStyle
 END FUNCTION
-' ========================================================================================
-#define AfxRemoveWindowStyleEx AfxRemoveWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================

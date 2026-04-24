@@ -241,6 +241,14 @@ Public:
    DECLARE SUB GetWorkArea OVERLOAD (BYVAL lpRect AS LPRECT)
    DECLARE FUNCTION GetWorkArea OVERLOAD () AS RECT
    DECLARE FUNCTION ControlHandle (BYVAL cID AS LONG) AS HWND
+   DECLARE FUNCTION ControlGetStyle (BYVAL hWnd AS HWND) AS LONG_PTR
+   DECLARE FUNCTION ControlGetExStyle (BYVAL hWnd AS HWND) AS LONG_PTR
+   DECLARE FUNCTION ControlSetStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DECLARE FUNCTION ControlSetExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+   DECLARE FUNCTION ControlAddStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DECLARE FUNCTION ControlAddExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+   DECLARE FUNCTION ControlRemoveStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DECLARE FUNCTION ControlRemoveExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS DWORD) AS LONG_PTR
    DECLARE FUNCTION SetWindowPos (BYVAL hwnd AS HWND, BYVAL hwndInsertAfter AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL uFlags AS UINT) AS BOOLEAN
    DECLARE FUNCTION MoveWindow (BYVAL hwnd AS HWND, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL nWidth AS LONG, BYVAL nHeight AS LONG, BYVAL bRepaint AS BOOLEAN = TRUE) AS BOOLEAN
    DECLARE SUB Resize ()
@@ -1267,7 +1275,105 @@ PRIVATE FUNCTION CWindow.ControlHandle (BYVAL cID AS LONG) AS HWND
 END FUNCTION
 ' =====================================================================================
 
-' =====================================================================================
+' ========================================================================================
+' Retrieves the window styles of the specified control
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlGetStyle (BYVAL hWnd AS HWND) AS LONG_PTR
+   RETURN GetWindowLongPtrW(hWnd, GWL_STYLE)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the extended window styles of the specified control
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlGetExStyle (BYVAL hWnd AS HWND) AS LONG_PTR
+   RETURN GetWindowLongPtrW(hWnd, GWL_EXSTYLE)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the window styles of the specified control
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlSetStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldStyle AS LONG_PTR = GetWindowLongPtrW(hWnd, GWL_STYLE)
+   SetWindowLongPtrW(hWnd, GWL_STYLE, dwStyle)
+   SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldStyle
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the window extended styles
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlSetExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldExStyle AS LONG_PTR = GetWindowLongPtrW(hWnd, GWL_EXSTYLE)
+   SetWindowLongPtrW(hWnd, GWL_EXSTYLE, dwExStyle)
+   SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldExStyle
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Adds a new style to the specified control.
+' - hwnd  = Window handle
+' - dwStyle = Style to add
+' Return value:
+'   The previous window styles
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlAddStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldStyle AS LONG_PTR = GetWindowLongPtrW(hWnd, GWL_STYLE)
+   SetWindowLongPtrW(hWnd, GWL_STYLE, dwOldStyle OR dwStyle)
+   SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldStyle
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Adds a new extended style to the specified control.
+' - hwnd  = Window handle
+' - dwExStyle = Style to add
+' Return value:
+'   The previous extended window styles
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlAddExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldExStyle AS LONG_PTR = GetWindowLongPtrW(hWnd, GWL_EXSTYLE)
+   SetWindowLongPtrW(hWnd, GWL_EXSTYLE, dwOldExStyle OR dwExStyle)
+   SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldExStyle
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Removes an style from the specified control.
+' - hwnd  = Window handle
+' - dwStyle = Style to remove
+' Return value:
+'   The previous window styles
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlRemoveStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldStyle AS LONG_PTR = GetWindowLongPtrW(hWnd, GWL_STYLE)
+   SetWindowLongPtrW(hWnd, GWL_STYLE, dwOldStyle AND (NOT dwStyle))
+   SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldStyle
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Removes an extended style from the specified control.
+' - hwnd  = Window handle
+' - dwExStyle = Style to remove
+' Return value:
+'   The previous window styles
+' ========================================================================================
+PRIVATE FUNCTION CWindow.ControlRemoveExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS DWORD) AS LONG_PTR
+   DIM dwOldExStyle AS LONG_PTR = GetWindowLongPtrW(hWnd, GWL_EXSTYLE)
+   SetWindowLongPtrW(hWnd, GWL_EXSTYLE, dwOldExStyle AND (NOT dwExStyle))
+   SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldExStyle
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' Resizes the window
 ' =====================================================================================
 PRIVATE SUB CWindow.Resize
