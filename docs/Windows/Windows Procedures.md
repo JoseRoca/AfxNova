@@ -176,12 +176,16 @@ Assorted Windows procedures.
 | Name       | Description |
 | ---------- | ----------- |
 | [AfxAddWindowExStyle](#afxaddwindowexstyle) | Adds a new extended style to the specified window. |
+| [AfxAddWindowStyleEx](#afxaddwindowexstyle) | Adds a new extended style to the specified window. |
 | [AfxAddWindowStyle](#afxaddwindowstyle) | Adds a new style to the specified window. |
 | [AfxGetWindowExStyle](#afxgetwindowexstyle) | Retrieves the extended window styles. |
+| [AfxGetWindowStyleEx](#afxgetwindowexstyle) | Retrieves the extended window styles. |
 | [AfxGetWindowStyle](#afxgetwindowstyle) | Retrieves the window styles. |
 | [AfxRemoveWindowExStyle](#afxremovewindowexstyle) | Removes an extended style from the specified window. |
+| [AfxRemoveWindowStyleEx](#afxremovewindowexstyle) | Removes an extended style from the specified window. |
 | [AfxRemoveWindowStyle](#afxremovewindowstyle) | Removes a style from the specified window. |
 | [AfxSetWindowExStyle](#afxsetwindowexstyle) | Sets the extended style(s) of the specified window. |
+| [AfxSetWindowStyleEx](#afxsetwindowexstyle) | Sets the extended style(s) of the specified window. |
 | [AfxSetWindowStyle](#afxsetwindowstyle) | Sets the style(s) of the specified window. |
 
 ---
@@ -1550,10 +1554,10 @@ Temporary files whose names have been created by this function are not automatic
 
 ### AfxAddWindowExStyle
 
-Adds a new extended style to the specified window.
+Adds a new extended style to the specified window. Alias: **AfxAddWindowStyleEx**.
 
 ```
-FUNCTION AfxAddWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
+FUNCTION AfxAddWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1581,7 +1585,7 @@ If the window has a class style of CS_CLASSDC or CS_OWNDC, do not set the extend
 Adds a new style to the specified window.
 
 ```
-FUNCTION AfxAddWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
+FUNCTION AfxAddWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1600,10 +1604,10 @@ AfxAddWindowStyle(hwnd, WS_HSCROLL)
 
 ### AfxGetWindowExStyle
 
-Retrieves the extended window styles.
+Retrieves the extended window styles. Alias; **AfxGetWindowStyleEx**.
 
 ```
-FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS DWORD
+FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS LONG_PTR
 
 ```
 | Parameter  | Description |
@@ -1617,8 +1621,7 @@ FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS DWORD
 Retrieves the window styles.
 
 ```
-FUNCTION AfxGetWindowStyle (BYVAL hwnd AS HWND) AS DWORD
-
+FUNCTION AfxGetWindowStyle (BYVAL hwnd AS HWND) AS LONG_PTR
 ```
 | Parameter  | Description |
 | ---------- | ----------- |
@@ -1628,10 +1631,10 @@ FUNCTION AfxGetWindowStyle (BYVAL hwnd AS HWND) AS DWORD
 
 ### AfxRemoveWindowExStyle
 
-Removes an extended style from the specified window.
+Removes an extended style from the specified window. Alias: **AfxRemoveWindowStyleEx**.
 
 ```
-FUNCTION AfxRemoveWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
+FUNCTION AfxRemoveWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
 ```
 
 | Parameter  | Description |
@@ -1648,7 +1651,7 @@ The previous extended window styles.
 Removes a style from the specified window.
 
 ```
-FUNCTION AfxRemoveWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
+FUNCTION AfxRemoveWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
 ```
 
 | Parameter  | Description |
@@ -1664,10 +1667,10 @@ The previous window styles.
 
 ### AfxSetWindowExStyle
 
-Sets the extended style(s) of the specified window.
+Sets the extended style(s) of the specified window. Alias: **AfxSetWindowStyleEx**.
 
 ```
-FUNCTION AfxSetWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
+FUNCTION AfxSetWindowExStyle (BYVAL hwnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
 ```
 
 | Parameter  | Description |
@@ -1686,7 +1689,7 @@ The previous extended window styles.
 Sets the style(s) of the specified window.
 
 ```
-FUNCTION AfxSetWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
+FUNCTION AfxSetWindowStyle (BYVAL hwnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
 ```
 
 | Parameter  | Description |
