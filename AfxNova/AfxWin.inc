@@ -1845,37 +1845,43 @@ END FUNCTION
 ' ========================================================================================
 ' Retrieves the window styles.
 ' ========================================================================================
-PRIVATE FUNCTION AfxGetWindowStyle (BYVAL hWin AS HWND) AS DWORD
-   FUNCTION = GetWindowLongPtrW(hWin, GWL_STYLE)
+PRIVATE FUNCTION AfxGetWindowStyle (BYVAL hWin AS HWND) AS LONG_PTR
+   RETURN GetWindowLongPtrW(hWin, GWL_STYLE)
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Retrieves the extended window styles.
 ' ========================================================================================
-PRIVATE FUNCTION AfxGetWindowExStyle (BYVAL hWin AS HWND) AS DWORD
-   FUNCTION = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
+PRIVATE FUNCTION AfxGetWindowExStyle (BYVAL hWin AS HWND) AS LONG_PTR
+   RETURN GetWindowLongPtrW(hWin, GWL_EXSTYLE)
 END FUNCTION
+' ========================================================================================
+#define AfxGetWindowStyleEx AfxGetWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
 ' Sets the window styles
 ' ========================================================================================
-PRIVATE FUNCTION AfxSetWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
-   DIM dwOldStyle AS DWORD = GetWindowLongPtrW(hWin, GWL_STYLE)
+PRIVATE FUNCTION AfxSetWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldStyle AS LONG_PTR = GetWindowLongPtrW(hWin, GWL_STYLE)
    SetWindowLongPtrW(hWin, GWL_STYLE, dwStyle)
-   FUNCTION = dwOldStyle
+   SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldStyle
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 ' Sets the window extended styles
 ' ========================================================================================
-PRIVATE FUNCTION AfxSetWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
-   DIM dwOldExStyle AS DWORD = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
+PRIVATE FUNCTION AfxSetWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldExStyle AS LONG_PTR = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
    SetWindowLongPtrW(hWin, GWL_EXSTYLE, dwExStyle)
-   FUNCTION = dwOldExStyle
+   SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldExStyle
 END FUNCTION
+' ========================================================================================
+#define AfxSetWindowStyleEx AfxSetWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1885,10 +1891,11 @@ END FUNCTION
 ' Return value:
 '   The previous window styles
 ' ========================================================================================
-PRIVATE FUNCTION AfxAddWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
-   DIM dwOldStyle AS DWORD = GetWindowLongPtrW(hWin, GWL_STYLE)
+PRIVATE FUNCTION AfxAddWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldStyle AS LONG_PTR = GetWindowLongPtrW(hWin, GWL_STYLE)
    SetWindowLongPtrW(hWin, GWL_STYLE, dwOldStyle OR dwStyle)
-   FUNCTION = dwOldStyle
+   SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldStyle
 END FUNCTION
 ' ========================================================================================
 
@@ -1899,11 +1906,14 @@ END FUNCTION
 ' Return value:
 '   The previous extended window styles
 ' ========================================================================================
-PRIVATE FUNCTION AfxAddWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
-   DIM dwOldExStyle AS DWORD = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
+PRIVATE FUNCTION AfxAddWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldExStyle AS LONG_PTR = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
    SetWindowLongPtrW(hWin, GWL_EXSTYLE, dwOldExStyle OR dwExStyle)
-   FUNCTION = dwOldExStyle
+   SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldExStyle
 END FUNCTION
+' ========================================================================================
+#define AfxAddWindowStyleEx AfxAddWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
@@ -1913,10 +1923,11 @@ END FUNCTION
 ' Return value:
 '   The previous window styles
 ' ========================================================================================
-PRIVATE FUNCTION AfxRemoveWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS DWORD) AS DWORD
-   DIM dwOldStyle AS DWORD = GetWindowLongPtrW(hWin, GWL_STYLE)
+PRIVATE FUNCTION AfxRemoveWindowStyle (BYVAL hWin AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+   DIM dwOldStyle AS LONG_PTR = GetWindowLongPtrW(hWin, GWL_STYLE)
    SetWindowLongPtrW(hWin, GWL_STYLE, dwOldStyle AND (NOT dwStyle))
-   FUNCTION = dwOldStyle
+   SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldStyle
 END FUNCTION
 ' ========================================================================================
 
@@ -1927,11 +1938,14 @@ END FUNCTION
 ' Return value:
 '   The previous window styles
 ' ========================================================================================
-PRIVATE FUNCTION AfxRemoveWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS DWORD) AS DWORD
-   DIM dwOldExStyle AS DWORD = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
-   SetWindowLongPtrW(hWin, GWL_EXSTYLE, dwOldExStyle AND (NOT dwEXStyle))
-   FUNCTION = dwOldEXStyle
+PRIVATE FUNCTION AfxRemoveWindowExStyle (BYVAL hWin AS HWND, BYVAL dwExStyle AS DWORD) AS LONG_PTR
+   DIM dwOldExStyle AS LONG_PTR = GetWindowLongPtrW(hWin, GWL_EXSTYLE)
+   SetWindowLongPtrW(hWin, GWL_EXSTYLE, dwOldExStyle AND (NOT dwExStyle))
+   SetWindowPos(hWin, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+   RETURN dwOldExStyle
 END FUNCTION
+' ========================================================================================
+#define AfxRemoveWindowStyleEx AfxRemoveWindowExStyle
 ' ========================================================================================
 
 ' ========================================================================================
