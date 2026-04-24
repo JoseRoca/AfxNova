@@ -115,6 +115,7 @@ DIM pWindow AS CWindow = "MyClassName"
 | [Width](#width) | Returns the unscaled width of the main window. |
 | [WindowExStyle](#windowexstyle) | Gets/sets the window extended styles. |
 | [WindowStyle](#windowstyle) | Gets/sets the window styles. |
+| [WindowStyleEx](#windowexstyle) | Gets/sets the window extended styles. |
 
 ### Procedures
 
@@ -2706,11 +2707,11 @@ DIM value AS LONG_PTR = pWindow.UserData(1)
 
 ## WindowExStyle
 
-Gets/sets the window extended styles.
+Gets/sets the window extended styles. Alias: **WindowStyleEx**.
 
 ```
-PROPERTY WindowExStyle () AS ULONG_PTR
-PROPERTY WindowExStyle (BYVAL dwExStyle AS ULONG_PTR)
+PROPERTY WindowExStyle () AS LONG_PTR
+PROPERTY WindowExStyle (BYVAL dwExStyle AS LONG_PTR)
 ```
 
 | Parameter  | Description |
@@ -2736,8 +2737,8 @@ pWindow.WindowExStyle = WS_EX_CLIENTEDGE
 Gets/sets the window styles.
 
 ```
-PROPERTY WindowStyle () AS ULONG_PTR
-PROPERTY WindowStyle (BYVAL dwStyle AS ULONG_PTR)
+PROPERTY WindowStyle () AS LONG_PTR
+PROPERTY WindowStyle (BYVAL dwStyle AS LONG_PTR)
 ```
 
 | Parameter  | Description |
@@ -2751,7 +2752,7 @@ The style(s) used by the window.
 #### Usage examples
 
 ```
-DIM dwStyle AS ULONG_PTR = pWindow.WindowStyle
+DIM dwStyle AS LONG_PTR = pWindow.WindowStyle
 ```
 ```
 pWindow.WindowStyle = WS_POPUPWINDOW OR WS_CAPTION   ' // Creates a popup window
