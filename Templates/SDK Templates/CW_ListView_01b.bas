@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_ListView_CheckBoxes_01.bas
+' File: CW_ListView_01b.bas
 ' Contents: ListView control
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
@@ -9,9 +9,10 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE   ' The ListView macros need the unicode flag
+'#define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
+#INCLUDE ONCE "AfxNova/CListView.inc"
 USING AfxNova
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -42,48 +43,50 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM pWindow AS CWindow = "MyClassName"   ' Use the name you wish
    DIM hWin AS HWND = pWindow.Create(NULL, "CWindow - ListView control", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(280, 280)
+'   pWindow.ClassStyle = CS_DBLCLKS   ' // Change the window style to avoid flicker
+   pWindow.SetClientSize(770, 365)
    ' // Center the window
    pWindow.Center
 
    ' // Adds a listview
-   DIM hListView AS HWND = pWindow.AddControl("ListView", hWin, IDC_LISTVIEW, "", 10, 10, 260, 260)
-   Listview_AddColumn(hListview, 0, "Common Controls", pWindow.ScaleX(227), LVCFMT_LEFT)
-   Listview_AddItem(hListview, 0, 0, "Buttons")
-   Listview_AddItem(hListview, 1, 0, "Checkboxes")
-   Listview_AddItem(hListview, 2, 0, "Comboboxes")
-   Listview_AddItem(hListview, 3, 0, "Custom Controls")
-   Listview_AddItem(hListview, 4, 0, "Frames")
-   Listview_AddItem(hListview, 5, 0, "Graphics")
-   Listview_AddItem(hListview, 6, 0, "Labels")
-   Listview_AddItem(hListview, 7, 0, "Listboxes")
-   Listview_AddItem(hListview, 8, 0, "Listviews")
-   Listview_AddItem(hListview, 9, 0, "Radio Buttons")
-   Listview_AddItem(hListview, 10, 0, "Textboxes")
-   DIM LV_Style AS DWORD = ListView_GetExtendedListViewStyle(hListView)
-   ListView_SetExtendedListViewStyle(hListView, LV_Style XOR LVS_EX_CHECKBOXES OR LVS_EX_INFOTIP)
-
-   ' // Set the text color of the ListView
-   ListView_SetTextColor(hListView, RGB_BLUE)
-   
+   DIM hListView AS HWND = pWindow.AddControl("ListView", hWin, IDC_LISTVIEW)
+   pWindow.SetWindowPos hListView, NULL, 0, 0, 770, 365, SWP_NOZORDER
    ' // Anchor the ListView
    pWindow.AnchorControl(IDC_LISTVIEW, AFX_ANCHOR_HEIGHT_WIDTH)
 
-   ' // Optinal: Set the font of the tooltips
-   DIM hTooltipFont AS HFONT = pWindow.CreateFont("Times New Roman", 10, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET)
-   DIM hwndTooltip AS HWND = ListView_GetToolTips(hListview)
-   IF hwndTooltip THEN AfxSetWindowFont(hwndTooltip, hTooltipFont)
+   ' // Add some extended styles
+   DIM dwExStyle AS DWORD
+   dwExStyle = CListView.GetExtendedListViewStyle(hListView)
+   dwExStyle = dwExStyle OR LVS_EX_FULLROWSELECT OR LVS_EX_GRIDLINES
+   CListView.SetExtendedListViewStyle(hListView, dwExStyle)
+
+   ' // Set the text color of the ListView
+   CListView.SetTextColor(hListView, RGB_BLUE)
+
+   ' // Add the header's column names
+   DIM dwsText AS DWSTRING
+   FOR i AS LONG = 0 TO 9
+      dwsText = "Column " & WSTR(i)
+      CListView.AddColumn(hListView, i, dwsText, pWindow.ScaleX(110))
+   NEXT
+
+   ' // Populate the ListView with some data
+   FOR i AS LONG = 0 to 29
+      dwsText = "Column 1 Row " + WSTR(i)
+      CListView.AddItem(hListView, i, 0, dwsText)
+      FOR x AS LONG = 0 TO 9
+         dwsText = "Column " & WSTR(x) & " Row " + WSTR(i)
+         CListView.SetItemText(hListView, i, x, dwsText)
+      NEXT
+   NEXT
 
    ' // Select the fist item (ListView items are zero based)
-   ListView_SelectItem(hListView, 0)
+   CListView.SelectItem(hListView, 0)
    ' // Set the focus in the ListView
    SetFocus hListView
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
-
-   ' // Delete the tooltip font
-   IF hTooltipFont THEN DeleteObject hTooltipFont
 
 END FUNCTION
 ' ========================================================================================
@@ -116,30 +119,6 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
                IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN SendMessageW(hwnd, WM_CLOSE, 0, 0)
          END SELECT
          RETURN 0
-
-      CASE WM_NOTIFY
-         ' // Listview Tooltips
-         DIM wszText AS WSTRING * 80
-         DIM infoTip AS NMLVGETINFOTIPW
-         infotip.cchTextMax = 80
-         CBNMTypeset(infoTip, wParam, lParam)
-         IF infoTip.hdr.code = LVN_GETINFOTIPW AND infoTip.hdr.idFrom = IDC_LISTVIEW THEN
-            SELECT CASE infoTip.iItem
-               CASE  0 : wszText = "Add Buttons"
-               CASE  1 : wszText = "Add Checkbox Controls"
-               CASE  2 : wszText = "Add Combobox Controls"
-               CASE  3 : wszText = "Add Custom Controls"
-               CASE  4 : wszText = "Add Frame Controls"
-               CASE  5 : wszText = "Add Graphic Controls"
-               CASE  6 : wszText = "Add Label Controls"
-               CASE  7 : wszText = "Add Listbox Controls"
-               CASE  8 : wszText = "Add Listview Controls"
-               CASE  9 : wszText = "Add Radio Button Controls"
-               CASE 10 : wszText = "Add Textbox Controls"
-            END SELECT
-            ' // Assign the tooltip text to the tooltip buffer
-            IF LEN(wszText) THEN *infoTip.pszText = wszText
-         END IF
 
       CASE WM_DESTROY
          ' // End the application by sending an WM_QUIT message
