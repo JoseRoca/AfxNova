@@ -232,7 +232,7 @@ END FUNCTION
 ' CMenu.Append hPopUpMenu, MF_SEPARATOR, 0, ""
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Append (BYVAL hMenu AS HMENU, BYVAL uFlags AS UINT, BYVAL uIDNewItem AS UINT_PTR, BYVAL pwszNewItem AS WSTRING PTR) AS BOOLEAN
-   RETURN ..AppendMenu(hMenu, uFlags, uIDNewItem, pwszNewItem)
+   RETURN ..AppendMenuW(hMenu, uFlags, uIDNewItem, pwszNewItem)
 END FUNCTION
 ' ========================================================================================
 
@@ -1433,7 +1433,7 @@ END FUNCTION
 ' Loads the specified menu resource from the executable (.exe) file associated with an application instance.
 ' ========================================================================================
 PRIVATE FUNCTION CMenu.Load (BYVAL hInst AS HINSTANCE, BYVAL pMenuName AS WSTRING PTR) AS HMENU
-   RETURN ..LoadMenu(hInst, pMenuName)
+   RETURN ..LoadMenuW(hInst, pMenuName)
 END FUNCTION
 ' ========================================================================================
 
