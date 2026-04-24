@@ -63,12 +63,20 @@ DIM pWindow AS CWindow = "MyClassName"
 | [ClassStyle](#classstyle) | Gets/sets the style of the class. |
 | [ClientHeight](#clientheight) | Returns the unscaled client height of the main window. |
 | [ClientWidth](#clientwidth) | Returns the unscaled client width of the window. |
+| [ControlAddExStyle](#controladdexstyle) | Adds a new extended style to the specified control..|
+| [ControlAddStyle](#controladdstyle) | Adds a new style to the specified control.|
 | [ControlClientHeight](#controlclientheight) | Returns the unscaled client height of the specified window. |
 | [ControlClientWidth](#controlclientwidth) | Returns the unscaled client width of the specified window. |
-| [ControlGetUser](#controlgetuser) | Gets the control's user data |
+| [ControlGetExStyle](#controlgetexstyle) | Retrieves the extended window styles of the specified control. |
+| [ControlGetStyle](#controlgetstyle) | Retrieves the window styles of the specified control. |
+| [ControlGetUser](#controlgetuser) | Gets the control's user data. |
 | [ControlHandle](#controlhandle) | Retrieves a handle to the child control specified by its identifier. |
 | [ControlHeight](#controlheight) | Returns the unscaled height of the specified window. |
-| [ControlSetUser](#controlsetuser) | Sets the control's user data |
+| [ControlRemoveExStyle](#controlremoveexstyle) | Removes an extended style from the specified control. |
+| [ControlRemoveStyle](#controlremovestyle) | Removes an style from the specified control. |
+| [ControlSetExStyle](#controlsetexstyle) | Sets the window extended styles of the specified control. |
+| [ControlSetStyle](#controlsetstyle) | Sets the window styles of the specified control. |
+| [ControlSetUser](#controlsetuser) | Sets the control's user data. |
 | [ControlWidth](#controlwidth) | Returns the unscaled width of the specified window. |
 | [Create](#create) | Creates a new window. |
 | [CreateAcceleratorTable](#createacceleratortable) | Creates the accelerator table. |
@@ -1586,6 +1594,118 @@ FUNCTION ControlHandle (BYVAL cID AS LONG) AS HWND
 ```
 DIM hCtl AS HWND = pWindow.ControlHandle(cID)
 ```
+---
+
+## ControlAddExStyle
+
+Adds a new extended style to the specified control.
+
+```
+FUNCTION ControlAddExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
+---
+
+## ControlAddStyle
+
+Adds a new style to the specified control.
+
+```
+FUNCTION ControlAddStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
+---
+
+## ControlGetExStyle
+
+Retrieves the extended window styles of the specified control
+
+```
+FUNCTION ControlGetExStyle (BYVAL hWnd AS HWND) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
+---
+
+## ControlGetStyle
+
+Retrieves the window styles of the specified control
+
+```
+FUNCTION ControlGetStyle (BYVAL hWnd AS HWND) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
+---
+
+## ControlSetExStyle
+
+Sets the window extended styles of the specified control
+
+```
+FUNCTION ControlSetExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS LONG_PTR) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
+---
+
+## ControlRemoveExStyle
+
+Removes an extended style from the specified control.
+
+```
+FUNCTION ControlRemoveExStyle (BYVAL hWnd AS HWND, BYVAL dwExStyle AS DWORD) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
+---
+
+## ControlRemoveStyle
+
+Removes an style from the specified control.
+
+```
+FUNCTION ControlRemoveStyle (BYVAL hWnd AS HWND, BYVAL dwStyle AS LONG_PTR) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
+---
+
+## ControlSetStyle
+
+Sets the window styles of the specified control
+
+```
+FUNCTION ControlSetEtyle (BYVAL hWnd AS HWND) AS LONG_PTR
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *hwnd* | The handle of the control. |
+
 ---
 
 ## ControlHeight
