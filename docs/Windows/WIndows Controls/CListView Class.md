@@ -2239,16 +2239,16 @@ This method passes -1 as the wParam of the message, specifying that the **iGroup
 Inserts a new column in a list-view control.
 
 ```
-FUNCTION InsertColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMN PTR) AS LONG
-FUNCTION InsertColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMN) AS LONG
+FUNCTION InsertColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMNW PTR) AS LONG
+FUNCTION InsertColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMNW) AS LONG
 ```
 
 | Parameter | Description |
 | --------- | ----------- |
 | *hListView* | Handle to the ListView control. |
 | *iCol* | The index of the new column. |
-| *pcol* | A pointer to an **LVCOLUMN** structure that contains the attributes of the new column. |
-| *col* | An **LVCOLUMN** structure that contains the attributes of the new column. |
+| *pcol* | A pointer to an **LVCOLUMNW** structure that contains the attributes of the new column. |
+| *col* | An **LVCOLUMNW** structure that contains the attributes of the new column. |
 
 #### Return value
 
@@ -2756,8 +2756,8 @@ This method should only be used for list-view controls with the **LVS_EX_CHECKBO
 Sets the attributes of a list-view column.
 
 ```
-FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMN PTR) AS BOOLEAN
-FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMN) AS BOOLEAN
+FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMNW PTR) AS BOOLEAN
+FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMNW) AS BOOLEAN
 ```
 
 | Parameter | Description |
