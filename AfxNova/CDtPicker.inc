@@ -136,7 +136,7 @@ END FUNCTION
 ' Sets the display of a date and time picker (DTP) control based on a given format string.
 ' ========================================================================================
 PRIVATE SUB CDtPicker.SetFormat (BYVAL hDtp AS HWND, BYVAL pwsz AS WSTRING PTR)
-   SendMessageW(hDtp, DTM_SETFORMAT, 0, cast(LPARAM, pwsz))
+   SendMessageW(hDtp, DTM_SETFORMATW, 0, cast(LPARAM, pwsz))
 END SUB
 ' ========================================================================================
 
