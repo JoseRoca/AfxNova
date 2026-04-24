@@ -9,7 +9,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
+'#define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 #INCLUDE ONCE "AfxNova/CHeader.inc"

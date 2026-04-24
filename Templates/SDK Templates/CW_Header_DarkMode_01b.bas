@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_Header_DarkMode_02.bas
+' File: CW_Header_DarkMode_01b.bas
 ' Contents: CWindow - Header
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
@@ -9,7 +9,7 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE
+'#define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
 #INCLUDE ONCE "AfxNova/CHeader.inc"
