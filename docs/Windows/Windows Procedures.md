@@ -177,8 +177,8 @@ Assorted Windows procedures.
 | ---------- | ----------- |
 | [AfxAddWindowExStyle](#afxaddwindowexstyle) | Adds a new extended style to the specified window. |
 | [AfxAddWindowStyle](#afxaddwindowstyle) | Adds a new style to the specified window. |
-| [AfxGetWindowExStyle](#afxgetwindowexstyle) | Retrieves the extended window styles. |
-| [AfxGetWindowStyle](#afxgetwindowstyle) | Retrieves the window styles. |
+| [AfxGetWindowExStyle](#afxgetwindowexstyle) | Retrieves the extended window styles of the specified window. |
+| [AfxGetWindowStyle](#afxgetwindowstyle) | Retrieves the window styles of the specified window. |
 | [AfxRemoveWindowExStyle](#afxremovewindowexstyle) | Removes an extended style from the specified window. |
 | [AfxRemoveWindowStyle](#afxremovewindowstyle) | Removes a style from the specified window. |
 | [AfxSetWindowExStyle](#afxsetwindowexstyle) | Sets the extended style(s) of the specified window. |
@@ -1600,7 +1600,7 @@ AfxAddWindowStyle(hwnd, WS_HSCROLL)
 
 ### AfxGetWindowExStyle
 
-Retrieves the extended window styles.
+Retrieves the extended window styles of the specified window.
 
 ```
 FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS LONG_PTR
@@ -1614,7 +1614,7 @@ FUNCTION AfxGetWindowExStyle (BYVAL hwnd AS HWND) AS LONG_PTR
 
 ### AfxGetWindowStyle
 
-Retrieves the window styles.
+Retrieves the window styles of the specified window.
 
 ```
 FUNCTION AfxGetWindowStyle (BYVAL hwnd AS HWND) AS LONG_PTR
