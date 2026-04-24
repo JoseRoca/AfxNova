@@ -444,15 +444,15 @@ Returns the index of the item at the specified position, if any, or -1 otherwise
 Inserts a new item into a header control.
 
 ```
-FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL phdi AS HDITEM PTR) AS LONG
-FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYREF hdi AS HDITEM) AS LONG
+FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL phdi AS HDITEMW PTR) AS LONG
+FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYREF hdi AS HDITEMW) AS LONG
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hHeader* | The handle of the header control. |
 | *i* | The index of the item after which the new item is to be inserted. The new item is inserted at the end of the header control if i is greater than or equal to the number of items in the control. If i is zero, the new item is inserted at the beginning of the header control. |
-| *phdi* | A pointer to an **HDITEM++ structure that contains information about the new item. |
+| *phdi* | A pointer to an **HDITEMW** structure that contains information about the new item. |
 
 #### Return value
 
