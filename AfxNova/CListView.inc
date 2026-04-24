@@ -185,8 +185,8 @@ Public:
    DECLARE STATIC FUNCTION SetBkImage (BYVAL hListView AS HWND, BYREF vbki AS LVBKIMAGE) AS BOOLEAN
    DECLARE STATIC FUNCTION SetCallbackMask (BYVAL hListView AS HWND, BYVAL mask AS DWORD) AS BOOLEAN
    DECLARE STATIC SUB SetCheckState (BYVAL hListView AS HWND, BYVAL iIndex AS LONG, BYVAL fCheck AS BOOLEAN)
-   DECLARE STATIC FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMN PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMN) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMNW PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMNW) AS BOOLEAN
    DECLARE STATIC SUB SetColumnOrderArray (BYVAL hListView AS HWND, BYVAL iCount AS LONG, BYVAL pi AS LONG PTR)
    DECLARE STATIC FUNCTION SetColumnWidth (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL cx AS LONG) AS BOOLEAN
    DECLARE STATIC SUB SetExtendedListViewStyle (BYVAL hListView AS HWND, BYVAL dwExStyle AS DWORD)
@@ -1469,13 +1469,13 @@ END SUB
 ' ========================================================================================
 ' Sets the attributes of a list-view column.
 ' ========================================================================================
-PRIVATE FUNCTION CListView.SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMN PTR) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_SETCOLUMN, iCol, CAST(LPARAM, pcol))
+PRIVATE FUNCTION CListView.SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMNW PTR) AS BOOLEAN
+   RETURN SendMessageW(hListView, LVM_SETCOLUMNW, iCol, CAST(LPARAM, pcol))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CListView.SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMN) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_SETCOLUMN, iCol, CAST(LPARAM, @col))
+PRIVATE FUNCTION CListView.SetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMNW) AS BOOLEAN
+   RETURN SendMessageW(hListView, LVM_SETCOLUMNW, iCol, CAST(LPARAM, @col))
 END FUNCTION
 ' ========================================================================================
 
