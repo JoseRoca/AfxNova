@@ -195,11 +195,13 @@ Public:
    DECLARE PROPERTY InstanceHandle () AS HINSTANCE
    DECLARE PROPERTY InstanceHandle (BYVAL hInst AS HINSTANCE)
    DECLARE PROPERTY ClassStyle () AS ULONG_PTR
-   DECLARE PROPERTY ClassStyle (BYVAL dwStyle AS ULONG_PTR)
-   DECLARE PROPERTY WindowStyle () AS ULONG_PTR
-   DECLARE PROPERTY WindowStyle (BYVAL dwStyle AS ULONG_PTR)
-   DECLARE PROPERTY WindowExStyle () AS ULONG_PTR
-   DECLARE PROPERTY WindowExStyle (BYVAL dwExStyle AS ULONG_PTR)
+   DECLARE PROPERTY ClassStyle (BYVAL dwStyle AS LONG_PTR)
+   DECLARE PROPERTY WindowStyle () AS LONG_PTR
+   DECLARE PROPERTY WindowStyle (BYVAL dwStyle AS LONG_PTR)
+   DECLARE PROPERTY WindowExStyle () AS LONG_PTR
+   DECLARE PROPERTY WindowExStyle (BYVAL dwExStyle AS LONG_PTR)
+   DECLARE PROPERTY WindowStyleEx () AS LONG_PTR
+   DECLARE PROPERTY WindowStyleEx (BYVAL dwExStyle AS LONG_PTR)
    DECLARE PROPERTY DefaultFontName () AS STRING
    DECLARE PROPERTY DefaultFontName (BYREF wszFontName AS WSTRING)
    DECLARE PROPERTY DefaultFontSize () AS LONG
@@ -797,7 +799,7 @@ END PROPERTY
 ' =====================================================================================
 ' Sets the window class style.
 ' =====================================================================================
-PRIVATE PROPERTY CWindow.ClassStyle (BYVAL dwStyle AS ULONG_PTR)
+PRIVATE PROPERTY CWindow.ClassStyle (BYVAL dwStyle AS LONG_PTR)
    IF m_hwnd = NULL THEN EXIT PROPERTY
    ..SetClassLongPtrW(m_hwnd, GCL_STYLE, dwStyle)
 END PROPERTY
@@ -806,7 +808,7 @@ END PROPERTY
 ' =====================================================================================
 ' Gets the window style.
 ' =====================================================================================
-PRIVATE PROPERTY CWindow.WindowStyle () AS ULONG_PTR
+PRIVATE PROPERTY CWindow.WindowStyle () AS LONG_PTR
    IF m_hwnd = NULL THEN EXIT PROPERTY
    PROPERTY = ..GetWindowLongPtrW(m_hwnd, GWL_STYLE)
 END PROPERTY
@@ -816,16 +818,23 @@ END PROPERTY
 ' Sets the window style.
 ' Example to create a popup window: pWindow.WindowStyle = WS_POPUPWINDOW OR WS_CAPTION
 ' =====================================================================================
-PRIVATE PROPERTY CWindow.WindowStyle (BYVAL dwStyle AS ULONG_PTR)
+PRIVATE PROPERTY CWindow.WindowStyle (BYVAL dwStyle AS LONG_PTR)
    IF m_hwnd = NULL THEN EXIT PROPERTY
    ..SetWindowLongPtrW(m_hwnd, GWL_STYLE, dwStyle)
+   ..SetWindowPos(m_hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
 END PROPERTY
 ' =====================================================================================
 
 ' =====================================================================================
 ' Gets the window extended style.
 ' =====================================================================================
-PRIVATE PROPERTY CWindow.WindowExStyle () AS ULONG_PTR
+PRIVATE PROPERTY CWindow.WindowExStyle () AS LONG_PTR
+   IF m_hwnd = NULL THEN EXIT PROPERTY
+   PROPERTY = ..GetWindowLongPtrW(m_hwnd, GWL_EXSTYLE)
+END PROPERTY
+' =====================================================================================
+' =====================================================================================
+PRIVATE PROPERTY CWindow.WindowStyleEx () AS LONG_PTR
    IF m_hwnd = NULL THEN EXIT PROPERTY
    PROPERTY = ..GetWindowLongPtrW(m_hwnd, GWL_EXSTYLE)
 END PROPERTY
@@ -834,9 +843,17 @@ END PROPERTY
 ' =====================================================================================
 ' Sets the window extended style.
 ' =====================================================================================
-PRIVATE PROPERTY CWindow.WindowExStyle (BYVAL dwExStyle AS ULONG_PTR)
+PRIVATE PROPERTY CWindow.WindowExStyle (BYVAL dwExStyle AS LONG_PTR)
    IF m_hwnd = NULL THEN EXIT PROPERTY
    ..SetWindowLongPtrW(m_hwnd, GWL_EXSTYLE, dwExStyle)
+   ..SetWindowPos(m_hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
+END PROPERTY
+' =====================================================================================
+' =====================================================================================
+PRIVATE PROPERTY CWindow.WindowStyleEx (BYVAL dwExStyle AS LONG_PTR)
+   IF m_hwnd = NULL THEN EXIT PROPERTY
+   ..SetWindowLongPtrW(m_hwnd, GWL_EXSTYLE, dwExStyle)
+   ..SetWindowPos(m_hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED OR SWP_NOMOVE OR SWP_NOSIZE OR SWP_NOZORDER)
 END PROPERTY
 ' =====================================================================================
 
