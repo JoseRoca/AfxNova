@@ -71,8 +71,8 @@ Public:
    DECLARE STATIC FUNCTION HitTest (BYVAL hHeader AS HWND, BYVAL phdhti AS HDHITTESTINFO PTR) AS LONG
    DECLARE STATIC FUNCTION HitTest (BYVAL hHeader AS HWND, BYREF hdhti AS HDHITTESTINFO) AS LONG
    DECLARE STATIC FUNCTION HitTest (BYVAL hHeader AS HWND) AS HDHITTESTINFO
-   DECLARE STATIC FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL phdi AS HDITEM PTR) AS LONG
-   DECLARE STATIC FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYREF hdi AS HDITEM) AS LONG
+   DECLARE STATIC FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL phdi AS HDITEMW PTR) AS LONG
+   DECLARE STATIC FUNCTION InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYREF hdi AS HDITEMW) AS LONG
    DECLARE STATIC FUNCTION Layout (BYVAL hHeader AS HWND, BYVAL phdl AS HDLAYOUT PTR) AS BOOLEAN
    DECLARE STATIC FUNCTION Layout (BYVAL hHeader AS HWND, BYREF hdl AS HDLAYOUT) AS BOOLEAN
    DECLARE STATIC FUNCTION Layout (BYVAL hHeader AS HWND) AS HDLAYOUT
@@ -400,13 +400,13 @@ END FUNCTION
 ' ========================================================================================
 ' Inserts a new item into a header control.
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL phdi AS HDITEM PTR) AS LONG
-   RETURN SendMessageW(hHeader, HDM_INSERTITEM, i, CAST(LPARAM, phdi))
+PRIVATE FUNCTION CHeader.InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYVAL phdi AS HDITEMW PTR) AS LONG
+   RETURN SendMessageW(hHeader, HDM_INSERTITEMW, i, CAST(LPARAM, phdi))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CHeader.InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYREF hdi AS HDITEM) AS LONG
-   RETURN SendMessageW(hHeader, HDM_INSERTITEM, i, CAST(LPARAM, @hdi))
+PRIVATE FUNCTION CHeader.InsertItem (BYVAL hHeader AS HWND, BYVAL i AS DWORD, BYREF hdi AS HDITEMW) AS LONG
+   RETURN SendMessageW(hHeader, HDM_INSERTITEMW, i, CAST(LPARAM, @hdi))
 END FUNCTION
 ' ========================================================================================
 
