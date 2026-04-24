@@ -62,14 +62,14 @@ Public:
    DECLARE STATIC FUNCTION FindItem (BYVAL hListView AS HWND, BYVAL iStart AS LONG, BYREF vfi AS LVFINDINFOW) AS LONG
    DECLARE STATIC FUNCTION FindString (BYVAL hListView AS HWND, BYVAL pwszText AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION GetBkColor (BYVAL hListView AS HWND) AS COLORREF
-   DECLARE STATIC FUNCTION GetBkImage (BYVAL hListView AS HWND, BYVAL pvbki AS LVBKIMAGE PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetBkImage (BYVAL hListView AS HWND, BYREF vbki AS LVBKIMAGE) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetBkImage (BYVAL hListView AS HWND) AS LVBKIMAGE
+   DECLARE STATIC FUNCTION GetBkImage (BYVAL hListView AS HWND, BYVAL pvbki AS LVBKIMAGEW PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetBkImage (BYVAL hListView AS HWND, BYREF vbki AS LVBKIMAGEW) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetBkImage (BYVAL hListView AS HWND) AS LVBKIMAGEW
    DECLARE STATIC FUNCTION GetCallbackMask (BYVAL hListView AS HWND) AS UINT
    DECLARE STATIC FUNCTION GetCheckState (BYVAL hListView AS HWND, BYVAL i AS LONG) AS UINT
-   DECLARE STATIC FUNCTION GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMN PTR) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMN) AS BOOLEAN
-   DECLARE STATIC FUNCTION GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG) AS LVCOLUMN
+   DECLARE STATIC FUNCTION GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMNW PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMNW) AS BOOLEAN
+   DECLARE STATIC FUNCTION GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG) AS LVCOLUMNW
    DECLARE STATIC FUNCTION GetColumnText (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL cchTextMax AS LONG = MAX_PATH + 1) AS DWSTRING
    DECLARE STATIC FUNCTION GetColumnOrderArray (BYVAL hListView AS HWND, BYVAL iCount AS LONG, BYVAL lpiArray AS LONG PTR) AS LONG
    DECLARE STATIC FUNCTION GetColumnWidth (BYVAL hListView AS HWND, BYVAL iCol AS LONG) AS LONG
@@ -438,8 +438,8 @@ END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetBkImage (BYVAL hListView AS HWND) AS LVBKIMAGEW
-   DIM vbki AS LVBKIMAGE
-   SendMessageW(hListView, LVM_GETBKIMAGE, 0, CAST(LPARAM, @vbki))
+   DIM vbki AS LVBKIMAGEW
+   SendMessageW(hListView, LVM_GETBKIMAGEW, 0, CAST(LPARAM, @vbki))
    RETURN vbki
 END FUNCTION
 ' ========================================================================================
@@ -467,18 +467,18 @@ END FUNCTION
 ' Gets the attributes of a list-view control's column.
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYVAL pcol AS LVCOLUMNW PTR) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_GETCOLUMN, iCol, CAST(LPARAM, pcol))
+   RETURN SendMessageW(hListView, LVM_GETCOLUMNW, iCol, CAST(LPARAM, pcol))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF col AS LVCOLUMNW) AS BOOLEAN
-   RETURN SendMessageW(hListView, LVM_GETCOLUMN, iCol, CAST(LPARAM, @col))
+   RETURN SendMessageW(hListView, LVM_GETCOLUMNW, iCol, CAST(LPARAM, @col))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CListView.GetColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG) AS LVCOLUMNW
    DIM pcol AS LVCOLUMNW
-   SendMessageW(hListView, LVM_GETCOLUMN, iCol, CAST(LPARAM, @pcol))
+   SendMessageW(hListView, LVM_GETCOLUMNW, iCol, CAST(LPARAM, @pcol))
    RETURN pcol
 END FUNCTION
 ' ========================================================================================
