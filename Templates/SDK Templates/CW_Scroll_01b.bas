@@ -1,6 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_Scroll_01.bas
+' File: CW_Scroll_01b.bas
 ' Contents: Scrollable window with a ListBx
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
@@ -9,9 +9,10 @@
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 ' ########################################################################################
 
-#define UNICODE   ' Needed becase the use of ListBox_AddString
+'#define UNICODE
 #define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/CWindow.inc"
+#INCLUDE ONCE "AfxNova/ClistBox.inc"
 USING AfxNova
 
 DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -55,7 +56,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    DIM dwsText AS DWSTRING
    FOR i AS LONG = 1 TO 50
       dwsText = "Item " & RIGHT("00" & WSTR(i), 2)
-      ListBox_AddString(hListBox, *dwsText)
+      CListBox.AddString(hListBox, *dwsText)
    NEXT
 
    ' // Add a cancel button
