@@ -185,7 +185,7 @@ FUNCTION AddColumn (BYVAL hListView AS HWND, BYVAL iCol AS LONG, BYREF wszText A
 | Parameter | Description |
 | --------- | ----------- |
 | *hListView* | Handle to the ListView control. |
-| *iCol* | Zero-based indez of the new column. |
+| *iCol* | Zero-based index of the new column. |
 | *wszText* | The column header text. |
 | *nWidth* | The width of the column, in pixels. |
 | *nFormat* | Alignment of the column header and the subitem text in the column. The alignment of the leftmost column is always **LVCFMT_LEFT**; it cannot be changed. This member can be a combination of the following values. Note that not all combinations are valid.
