@@ -3751,7 +3751,7 @@ END SUB
 ```
 ---
 
-## GdipFillPolygo
+## GdipFillPolygon
 
 Uses a brush to fill the interior of a pie.
 
