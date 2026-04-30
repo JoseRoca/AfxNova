@@ -68,7 +68,7 @@ SUB Example_GetStringFormatAlign (BYVAL hdc AS HDC)
    ' // Draw the rectangle that encloses the text
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
    GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   GdipDrawRectangle(graphics, *pen, rcf.x, rcf.y, rcf.width, rcf.height)
+   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.width, rcf.height)
 
 END SUB
 ' ========================================================================================
@@ -103,17 +103,11 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Get the memory device context of the graphic control
    DIM hdc AS HDC = pGraphCtx.GetMemDc
 
-   ' // Initialize GDI+
-   DIM token AS ULONG_PTR = AfxGdipInit
-
    ' // Draw the graphics
-   Example_GetStringFormatAlign(hdc)
+   Example_GetStringFormatAlign(pGraphCtx.GetMemDc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
-
-   ' // Shutdown GDI+
-   AfxGdipShutdown token
 
 END FUNCTION
 ' ========================================================================================
