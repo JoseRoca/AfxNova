@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: Gdip_ScaleWorldTransform.bas
-' Contents: GDI+ Flat API - GdipScaleWorldTransform example
+' File: Gdip_DrawPolygon.bas
+' Contents: GDI+ Flat API - GdipDrawPolygon example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -28,26 +28,27 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example sets the world transformation of a Graphics object to a translation.
-' The call to GdipScaleWorldTransform multiplies the Graphics object's existing world
-' transformation matrix (translation) by a scaling matrix. The MatrixOrderAppend argument
-' specifies that the multiplication is done with the scaling matrix on the right. At that
-' point, the world transformation matrix of the Graphics object represents a composite
-' transformation: first translate, then scale. The call to GdipDrawEllipse draws a translated
-' and scaled ellipse.
+' To draw a triangle using the GDI+ Flat API (C), define three Point structures and use
+' GdipDrawPolygon (for an outline) or GdipFillPolygon (for a filled triangle).
 ' ========================================================================================
-SUB Example_ScaletWorldTransform (BYVAL hdc AS HDC)
+SUB Example_DrawTriangle (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   graphics.ScaleTransform(dpiRatio)
+   graphics.ScaleTransform
 
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLUE, 1 * dpiRatio, UnitPixel)
-   GdipTranslateWorldTransform(graphics, 70.0, 70.0, MatrixOrderAppend)   ' // first translate
-   GdipScaleWorldTransform(graphics, 3.0, 1.0, MatrixOrderAppend)         ' // then scale
-   GdipDrawEllipse(graphics, pen, 0, 0, 50, 50)
+   ' // Create a black pen
+   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 2, UnitPixel)
+
+   ' // Define triangle points
+   DIM points(2) AS GpPointF
+   points(0).x = 100.0 : points(0).y =  20.0   ' // Top
+   points(1).x = 200.0 : points(1).y = 120.0   ' // Right
+   points(2).x = 0.0   : points(2).y = 220.0   ' // Left
+
+   ' // Draw the triangle
+   GdipDrawPolygon(graphics, pen, @points(0), 3)
 
 END SUB
 ' ========================================================================================
@@ -67,7 +68,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ GdipScaleWorldTransform", @WndProc)
+   pWindow.Create(NULL, "GDI+ GdipDrawPolygon", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
@@ -80,7 +81,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.AnchorControl(pGraphCtx.hWindow, AFX_ANCHOR_HEIGHT_WIDTH)
    
    ' // Draw the graphics
-   Example_ScaletWorldTransform(pGraphCtx.GetMemDc)
+   Example_DrawTriangle(pGraphCtx.GetMemDc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
