@@ -1,7 +1,6 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: Gdip_AddPathRectangle.bas
-' Contents: GDI+ Flat API - GdipAddPathRectangle example
+' File: Gdip_Torus.bas
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -28,26 +27,46 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' This example draws a rectangle using GdipAddPathRectangle.
+' The following example draws a torus.
 ' ========================================================================================
-SUB Example_DrawRectangle (BYVAL hdc AS HDC)
+SUB Example_DrawTorus (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    graphics.ScaleTransform
+   ' // Enable anti-aliasing
+   GdipSetSmoothingMode(graphics, SmoothingModeAntiAlias)
 
-   ' // Create GraphicsPath
+   ' // Torus parameters (for a client size of 400x250 that we are using in this example)
+   DIM centerX AS SINGLE = 200       ' // Half of the client area's width (400 / 2)
+   DIM centerY AS SINGLE = 125       ' // Half of the client area's height (250 / 2)
+   DIM outerRadius AS SINGLE = 120   ' // The maximum usable radius is half the height (250 / 2 = 125).
+                                     ' // Using 120 leaves a small visual margin.
+   DIM innerRadius AS SINGLE = 40    ' // Inner radius: adjustable depending on how large you want the central hole to be.
+
+   ' // Create a GraphicsPath object and initializes the fill mode.
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
 
-   ' // Add rectangle to path
-   GdipAddPathRectangle(path, 150, 60, 100, 100)
+   ' // Outer ellipse
+   GdipAddPathEllipse(path, centerX - outerRadius, centerY - outerRadius, 2 * outerRadius, 2 * outerRadius)
+   ' // Inner ellipse
+   GdipAddPathEllipse(path, centerX - innerRadius, centerY - innerRadius, 2 * innerRadius, 2 * innerRadius)
 
-   ' // Create pen
-   DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_SADDLEBROWN, 2, UnitWorld)
+   ' // Create PathGradientBrush
+   DIM brush AS GdiPlusPathGradientBrush = *path
 
-   ' // Draw path
-   GdipDrawPath(graphics, pen, path)
+   ' // Center color (Red)
+   DIM centerColor AS ARGB = ARGB_Red
+   GdipSetPathGradientCenterColor(brush, centerColor)
+
+   ' // Surround color (DarkRed)
+   DIM surroundColor(0) AS ARGB = {ARGB_Orange}
+   DIM surroundCount AS LONG = 1
+   GdipSetPathGradientSurroundColorsWithCount(brush, @surroundColor(0), @surroundCount)
+
+   ' // Fill the torus
+   GdipFillPath(graphics, brush, path)
 
 END SUB
 ' ========================================================================================
@@ -67,7 +86,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ GdipAddPathRectangle", @WndProc)
+   pWindow.Create(NULL, "GDI+ Gdip_Torus", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
    pWindow.SetClientSize(400, 250)
    ' // Center the window
@@ -80,7 +99,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.AnchorControl(pGraphCtx.hWindow, AFX_ANCHOR_HEIGHT_WIDTH)
    
    ' // Draw the graphics
-   Example_DrawRectangle(pGraphCtx.GetMemDc)
+   Example_DrawTorus(pGraphCtx.GetMemDc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
