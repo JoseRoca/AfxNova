@@ -22,7 +22,7 @@ USING AfxNova
 DIM status AS LONG
 
 ' // Initialize GDI+
-DIM token AS ULONG_PTR = AfxGdipInit
+DIM pObjs AS GdiPlusObjects
 
 ' // Create an InstalledFontCollection object
 DIM fontCollection AS GpFontCollection PTR
@@ -52,9 +52,6 @@ NEXT
 ' // Cleanup
 ' No delete function exists for installed font collections
 ' //because it is a shared collection; cleanup is automatic”
-
-' // Shutdown GDI+
-AfxGdipShutdown token
 
 PRINT
 PRINT "Press any key"

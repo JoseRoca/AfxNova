@@ -23,9 +23,6 @@ USING AfxNova
 
 DIM status AS LONG
 
-' // Initialize GDI+
-DIM token AS ULONG_PTR = AfxGdipInit
-
 ' // Create the font family
 DIM fontFamily AS GdiPlusFontFamily PTR = NEW GdiPlusFontFamily("Arial")
 
@@ -41,9 +38,6 @@ END IF
 
 ' // Cleanup
 IF fontFamily THEN Delete(fontFamily)
-
-' // Shutdown GDI+
-AfxGdipShutdown token
 
 PRINT
 PRINT "Press any key"

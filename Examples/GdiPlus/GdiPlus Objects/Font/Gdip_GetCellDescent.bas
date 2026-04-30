@@ -3,7 +3,7 @@
 ' File: Gdip_GetCellDescent.bas
 ' Contents: GDI+ Flat API - GdipGetCellDescent example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -25,9 +25,6 @@ USING AfxNova
 ' ========================================================================================
 
 DIM status AS LONG
-
-' // Initialize GDI+
-DIM token AS ULONG_PTR = AfxGdipInit
 
 ' // Create the font family
 DIM fontFamily AS GdiPlusFontFamily PTR = NEW GdiPlusFontFamily("Arial")
@@ -55,9 +52,6 @@ PRINT "Line spacing (px): "; spacingPixels
 
 ' // Cleanup
 IF fontFamily THEN Delete(fontFamily)
-
-' // Shutdown GDI+
-AfxGdipShutdown token
 
 PRINT
 PRINT "Press any key"
