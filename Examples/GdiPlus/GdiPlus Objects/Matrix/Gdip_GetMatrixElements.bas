@@ -51,8 +51,9 @@ SUB Example_GetMatrixElements (BYVAL hdc AS HDC)
    GdipGetMatrixElements(matrix, @elements(0))
 
    ' // Create font and brush
-   DIM fontFamily AS GdiPlusFontFamily = "Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 12, TRUE)
+
+   ' // Create a brush
    DIM brush AS GdiPlusSOlidBrush = ARGB_BLACK
 
    ' // Display matrix values
@@ -64,8 +65,7 @@ SUB Example_GetMatrixElements (BYVAL hdc AS HDC)
    text &= "m22 = " & STR(elements(3)) & !"\n"
    text &= "dx  = " & STR(elements(4)) & !"\n"
    text &= "dy  = " & STR(elements(5))
-   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 200.0)
-   GdipDrawString(graphics, text, LEN(text), font, @layout, NULL, brush)
+   graphics.DrawString(text, font, brush, 10, 10, 300, 300)
 
 END SUB
 ' ========================================================================================
