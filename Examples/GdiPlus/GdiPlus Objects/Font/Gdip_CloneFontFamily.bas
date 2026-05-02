@@ -44,15 +44,13 @@ SUB Example_CloneFontFamily (BYVAL hdc AS HDC)
    DIM clonedFamily AS GdiPlusFontFamily = *fontFamily
 
    ' // Create a font from the cloned family
-   DIM font AS GdiPlusFont = GdiPlusFont(*clonedFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleItalic, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 18, TRUE, FontStyleItalic)
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Draw a string using the clones font family
-   DIM rcf AS GpRectF = (30, 30, 0, 0)
-   DIM wszText AS WSTRING * 64 = "Text from cloned FontFamily"
-   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, solidBrush)
+   graphics.DrawString("Text from cloned FontFamily", font, brush, 30, 30)
 
 END SUB
 ' ========================================================================================
