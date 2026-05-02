@@ -55,13 +55,11 @@ SUB Example_PathIterIsValid (BYVAL hdc AS HDC)
    GdipPathIterIsValid(iterator, @isValid)
 
    ' Display result in window
-   DIM fontFamily AS GdiPlusFontFamily ="Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 12, TRUE)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    DIM info AS STRING = "PathIterator is valid: " & IIF(isValid, "True", "False")
-   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
+   graphics.DrawString(info, font, brush, 30, 30)
 
 END SUB
 ' ========================================================================================

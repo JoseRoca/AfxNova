@@ -66,16 +66,14 @@ SUB Example_PathIterCopyData (BYVAL hdc AS HDC)
    GdipDrawLines(graphics, pen, @points(0), resultCount)
 
    ' Display info about copied points
-   DIM fontFamily AS GdiPlusFontFamily ="Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 12, TRUE)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    DIM yOffset AS SINGLE = 140
    FOR i AS LONG = 0 TO resultCount - 1
       DIM info AS STRING
       info = "Point " & i & ": (" & points(i).x & ", " & points(i).y & ") Type=" & types(i)
-      DIM layout AS GpRectF = (10.0, yOffset, 300.0, 20.0)
-      GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
+      graphics.DrawString(info, font, brush, 10.0, yOffset, 300, 20)
       yOffset += 20.0
    NEXT
 

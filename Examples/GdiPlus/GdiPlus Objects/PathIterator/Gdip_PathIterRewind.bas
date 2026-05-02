@@ -61,13 +61,11 @@ SUB Example_PathIterRewind (BYVAL hdc AS HDC)
    GdipPathIterGetSubpathCount(iterator, @subpathCount)
 
    ' Display count
-   DIM fontFamily AS GdiPlusFontFamily ="Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 12, TRUE)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    DIM info AS STRING = "Subpath count (first pass): " & subpathCount
-   DIM layout AS GpRectF = (10.0, 10.0, 300.0, 20.0)
-   GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
+   graphics.DrawString("Text drawn using an Arial font", font, brush, 10, 10)
 
    ' Rewind iterator
    GdipPathIterRewind(iterator)
@@ -81,10 +79,8 @@ SUB Example_PathIterRewind (BYVAL hdc AS HDC)
    DO
       GdipPathIterNextSubpath(iterator, @resultCount, @startIdx, @endIdx, @isClosed)
       IF resultCount = 0 THEN EXIT DO
-      DIM lin AS STRING
-      lin = "Subpath " & subpathIndex & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
-      DIM layout AS GpRectF = (10.0, yOffset, 400.0, 20.0)
-      GdipDrawString(graphics, lin, -1, font, @layout, NULL, brush)
+      DIM info AS STRING = "Subpath " & subpathIndex & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
+      graphics.DrawString(info, font, brush, 10, yOffset)
       yOffset += 20.0
       subpathIndex += 1
    LOOP

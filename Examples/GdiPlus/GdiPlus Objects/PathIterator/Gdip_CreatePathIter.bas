@@ -60,8 +60,7 @@ SUB Example_CreatePathIter (BYVAL hdc AS HDC)
    GdipPathIterGetSubpathCount(iterator, @subpathCount)
 
    ' Create font and brush for drawing text
-   DIM fontFamily AS GdiPlusFontFamily ="Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(12, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 12, TRUE)
    DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    ' Iterate through subpaths and draw info
@@ -73,8 +72,7 @@ SUB Example_CreatePathIter (BYVAL hdc AS HDC)
       GdipPathIterNextSubpath(iterator, @resultCount, @startIdx, @endIdx, @isClosed)
       DIM info AS STRING
       info = "Subpath " & i & ": Start=" & startIdx & ", End=" & endIdx & ", Closed=" & IIF(isClosed, "True", "False")
-      DIM layout AS GpRectF = (10 * graphics.dpiRatioX, yOffset * graphics.dpiRatioY, 300 * graphics.dpiRatioX, 20 * graphics.dpiRatioY)
-      GdipDrawString(graphics, info, -1, font, @layout, NULL, brush)
+      graphics.DrawString(info, font, brush, 10, yOffset, 400, 20)
       yOffset += 20.0
    NEXT
 
