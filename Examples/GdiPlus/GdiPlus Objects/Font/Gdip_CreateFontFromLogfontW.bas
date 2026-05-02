@@ -60,12 +60,10 @@ SUB Example_GdipCreateFontFromLogfontW (BYVAL hdc AS HDC)
    DIM font AS GdiPlusFont = GdiPlusFont(hdc, @lf)
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Draw a string
-   DIM rcf AS GpRectF = (30, 30, 0, 0)
-   DIM wszText AS WSTRING * 64 = "Font from LOGFONTW"
-   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, solidBrush)
+   graphics.DrawString("Font from LOGFONTW", font, brush, 30, 30)
 
 END SUB
 ' ========================================================================================
