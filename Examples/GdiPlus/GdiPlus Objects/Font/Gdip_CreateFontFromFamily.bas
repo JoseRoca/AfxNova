@@ -38,16 +38,13 @@ SUB Example_CreateFontFromFamily (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily = "Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(14, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 14, TRUE)
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Draw a string
-   DIM rcf AS GpRectF = (30, 30, 0, 0)
-   DIM wszText AS WSTRING * 64 = "This is a Font created from a FontFamily"
-   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, NULL, solidBrush)
+   graphics.DrawString("This is a Font created from a FontFamily", font, brush, 30, 30)
 
 END SUB
 ' ========================================================================================
