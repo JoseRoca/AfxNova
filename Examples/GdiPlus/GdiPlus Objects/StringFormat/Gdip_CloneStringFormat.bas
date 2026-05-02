@@ -60,7 +60,7 @@ SUB Example_CloneStringFormat (BYVAL hdc AS HDC)
    ' // Draw the rectangle that encloses the text.
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
    GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipDrawRectangle(graphics, pen, 30, 30, 200, 200)
 
 END SUB
 ' ========================================================================================

@@ -38,8 +38,7 @@ SUB Example_CreateStringFormat (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily ="Times New Roman"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(16, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Times New Roman", 16, TRUE)
 
    ' // Create a StringFormat object
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
@@ -49,16 +48,14 @@ SUB Example_CreateStringFormat (BYVAL hdc AS HDC)
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLACK
 
    ' // Draw the string
-   DIM wszText AS WSTRING * 64 = "Sample text"
-   DIM rcf AS GpRectF = (30, 30, 200, 25)
-   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, solidBrush)
+   graphics.DrawString("Sample text", font, solidBrush, 30, 30)
 
    ' // Create a Pen
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 3, UnitPixel)
    GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
 
    ' // Draw a rectangle
-   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.Width, rcf.Height)
+   GdipDrawRectangle(graphics, pen, 30, 30, 200, 25)
 
 END SUB
 ' ========================================================================================

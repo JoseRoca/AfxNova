@@ -41,8 +41,7 @@ SUB Example_GetStringFormatDigitSubstitution (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily = "Tahoma"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(20, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Tahoma", 20, TRUE)
 
    ' // Create StringFormat and set digit substitution
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_ARABIC)
@@ -57,9 +56,7 @@ SUB Example_GetStringFormatDigitSubstitution (BYVAL hdc AS HDC)
    DIM solidBrush AS GdiPlusSOlidBrush = ARGB_RED
 
    ' Draw string with digits
-   DIM rcf AS GpRectF = (30, 30, 300, 50)
-   DIM wszText AS WSTRING * 64 = "Year: 2025"
-   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format, solidBrush)
+   graphics.DrawString("Year: 2025", font, solidBrush, 30, 30, 300, 50)
 
 END SUB
 ' ========================================================================================

@@ -43,8 +43,7 @@ SUB Example_GetStringFormatHotkeyPrefix (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily = "Times New Roman"
-   DIm font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Times New Roman", 18, TRUE)
 
    ' // Create a StringFormat object
    DIM format AS GdiPlusStringFormat = GdiPlusStringFormat(0, LANG_NEUTRAL)
@@ -62,14 +61,12 @@ SUB Example_GetStringFormatHotkeyPrefix (BYVAL hdc AS HDC)
    DIM solidBrush AS GdiPlusSolidBrush = ARGB_RED
 
    ' // Draw the string
-   DIM wszText AS WSTRING * 64 = "This &text has some &underlined characters."
-   DIM rcf AS GpRectF = (30, 30, 160, 200)
-   GdipDrawString(graphics, wszText, LEN(wszText), font, @rcf, format2, solidBrush)
+   graphics.DrawString("This &text has some &underlined characters.", font, solidBrush, 30, 30, 160, 200, format2)
 
    ' // Draw the rectangle that encloses the text
    DIM pen AS GdiPlusPen = GdiPlusPen(ARGB_RED, 1, UnitPixel)
    GdipScalePenTransform(pen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
-   GdipDrawRectangle(graphics, pen, rcf.x, rcf.y, rcf.width, rcf.height)
+   GdipDrawRectangle(graphics, pen, 30, 30, 160, 200)
 
 END SUB
 ' ========================================================================================
