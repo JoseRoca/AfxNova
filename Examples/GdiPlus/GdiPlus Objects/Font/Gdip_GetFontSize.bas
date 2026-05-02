@@ -40,23 +40,20 @@ SUB Example_GetFontSize (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily = "Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 16, TRUE)
 
    ' // Get the font size
    DIM nSize AS REAL
    GdipGetFontSize(font, @nSize)
 
    ' // Create a second font object with the same size
-   DIM font2 AS GdiPlusFont = GdiPlusFont(*fontFamily, nSize, FontStyleRegular, UnitPixel)
+   DIM font2 AS GdiPlusFont = GdiPlusFont("Arial", nSize, TRUE)
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Draw a string
-   DIM rcf AS GpRectF = (30, 30, 0, 0)
-   DIM wszText AS WSTRING * 64 = "Font with an acquired size"
-   GdipDrawString(graphics, wszText, LEN(wszText), font2, @rcf, NULL, solidBrush)
+   graphics.DrawString("Font with an acquired size", font2, brush, 30, 30)
 
 END SUB
 ' ========================================================================================

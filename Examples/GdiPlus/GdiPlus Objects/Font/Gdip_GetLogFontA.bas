@@ -37,12 +37,10 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
-   ' // Set the scale transform (don't use it in this example or the font will be scaled twice)
-   ' graphics.ScaleTransform
+   graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily = "Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, FALSE), FontStyleItalic, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 18, TRUE, 0)
 
    ' //Retrieve the LOGFONTA structure
    DIM lf AS LOGFONTA
@@ -54,16 +52,17 @@ SUB Example_GetLogFontA (BYVAL hdc AS HDC)
    ' PRINT "Weight: "; lf.lfWeight
    ' PRINT "Italic: "; lf.lfItalic
 
+   lf.lfHeight = lf.lfHeight / graphics.dpiRatio
+   lf.lfWeight = lf.lfWeight / graphics.dpiRatio
+
    ' // Create a font from LOGFONTA
    DIM font2 AS GdiPlusFont = GdiPlusFont(hdc, @lf)
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Draw a string using the second font
-   DIM rcf AS GpRectF = (30, 30, 0, 0)
-   DIM wszText AS WSTRING * 64 = "Font from LOGFONTA"
-   GdipDrawString(graphics, wszText, LEN(wszText), font2, @rcf, NULL, solidBrush)
+   graphics.DrawString("Font from LOGFONTA", font2, brush, 30, 30)
 
 END SUB
 ' ========================================================================================

@@ -40,23 +40,20 @@ SUB Example_GetFontStyle (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily = "Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 18, TRUE)
 
-   ' // Get the font size
+   ' // Get the font style
    DIM style AS LONG
    GdipGetFontStyle(font, @style)
 
-   ' // Create a second font object with the same size
-   DIM font2 AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(18, TRUE), FontStyleRegular, UnitPixel)
+   ' // Create a second font object with the same style
+   DIM font2 AS GdiPlusFont = GdiPlusFont("Arial", 18, TRUE, style)
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Draw a string
-   DIM rcf AS GpRectF = (30, 30, 0, 0)
-   DIM wszText AS WSTRING * 64 = "Font with an acquired style"
-   GdipDrawString(graphics, wszText, LEN(wszText), font2, @rcf, NULL, solidBrush)
+   graphics.DrawString("Font with an acquired style", font2, brush, 30, 30)
 
 END SUB
 ' ========================================================================================

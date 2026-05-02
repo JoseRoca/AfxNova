@@ -42,16 +42,14 @@ SUB Example_GetGenericFontFamilySerif (BYVAL hdc AS HDC)
    GdipGetGenericFontFamilySerif(@monoFamily)
 
    ' Create a font from the generic monospace family
-   DIM font AS GdiPlusFont = GdiPlusFont(monoFamily, AfxGdipPointsToPixels(14, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont(monoFamily, 14, TRUE)
    GdipDeleteFontFamily(monoFamily)
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLACK
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLACK
 
    ' // Draw a string
-   DIM text AS WSTRING * 64 = "Serif text example"
-   DIM layout AS GpRectF = (20.0, 20.0, 300.0, 100.0)
-   GdipDrawString(graphics, text, LEN(text), font, @layout, NULL, solidBrush)
+   graphics.DrawString("Serif text example", font, brush, 20, 20, 300, 100)
 
 END SUB
 ' ========================================================================================
