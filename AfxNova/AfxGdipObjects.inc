@@ -1112,6 +1112,9 @@ Public:
    DECLARE FUNCTION ScaleTransform (BYVAL sx AS SINGLE, BYVAL sy AS SINGLE, BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
    DECLARE FUNCTION ScaleTransform (BYVAL dpiRatio_ AS SINGLE, BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
    DECLARE FUNCTION ScaleTransform (BYVAL order AS MatrixOrder = MatrixOrderPrepend) AS GpStatus
+   DECLARE FUNCTION DrawString (BYREF wszText AS CONST WSTRING, BYVAL font AS CONST GpFont PTR, _
+           BYVAL brush AS CONST GpBrush PTR, BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE = 0, BYVAL nHeight AS SINGLE = 0, _
+           BYVAL stringFormat AS CONST GpStringFormat PTR = NULL) AS GpStatus
 END TYPE
 ' ========================================================================================
 
@@ -1227,6 +1230,18 @@ PRIVATE FUNCTION GdiPlusGraphics.ScaleTransform (BYVAL order AS MatrixOrder = Ma
 END FUNCTION
 ' ========================================================================================
 
+' ========================================================================================
+' Draws a string based on a font, a layout rectangle, and a format.
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusGraphics.DrawString (BYREF wszText AS CONST WSTRING, BYVAL font AS CONST GpFont PTR, _
+BYVAL brush AS CONST GpBrush PTR, BYVAL x AS SINGLE, BYVAL y AS SINGLE, BYVAL nWidth AS SINGLE = 0, BYVAL nHeight AS SINGLE = 0, _
+BYVAL stringFormat AS CONST GpStringFormat PTR = NULL) AS GpStatus
+   DIM rcf AS GpRectF = (x, y, nWidth, nHeight)
+   RETURN GdipDrawString(m_Graphics, wszText, LEN(wszText), font, @rcf, stringFormat, brush)
+END FUNCTION
+' ========================================================================================
+
+
 ' ########################################################################################
 ' GdiPlusFont object
 ' ########################################################################################
@@ -1240,7 +1255,9 @@ Public:
    DECLARE CONSTRUCTOR (BYVAL hdc AS HDC, BYVAL plogfont AS LOGFONTA PTR)
    DECLARE CONSTRUCTOR (BYVAL hdc AS HDC, BYVAL plogfont AS LOGFONTW PTR)
    DECLARE CONSTRUCTOR (BYVAL fontFamily AS GpFontFamily PTR, BYVAL emSize AS SINGLE, BYVAL nStyle AS INT_ = 0, BYVAL nUnit AS GpUnit = 0)
+   DECLARE CONSTRUCTOR (BYVAL fontFamily AS GpFontFamily PTR, BYVAL ptSize AS SINGLE, BYVAL fUsingScaleTransform AS BOOLEAN, BYVAL nStyle AS INT_ = 0, BYVAL nUnit AS GpUnit = 0, BYVAL fontCollection AS GpFontCollection PTR = NULL)
    DECLARE CONSTRUCTOR (BYVAL pwszFamilyName AS WSTRING PTR, BYVAL emSize AS SINGLE, BYVAL nStyle AS INT_ = 0, BYVAL nUnit AS GpUnit = 0, BYVAL fontCollection AS GpFontCollection PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL pwszFamilyName AS WSTRING PTR, BYVAL ptSize AS SINGLE, BYVAL fUsingScaleTransform AS BOOLEAN, BYVAL nStyle AS INT_ = 0, BYVAL nUnit AS GpUnit = 0, BYVAL fontCollection AS GpFontCollection PTR = NULL)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS GpFont PTR PTR
    DECLARE OPERATOR CAST () AS GpFont PTR
@@ -1301,6 +1318,35 @@ PRIVATE CONSTRUCTOR GdiPlusFont (BYVAL fontFamily AS GpFontFamily PTR, BYVAL emS
 END CONSTRUCTOR
 ' ========================================================================================
 ' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusFont (BYVAL fontFamily AS GpFontFamily PTR, BYVAL ptSize AS SINGLE, BYVAL fUsingScaleTransform AS BOOLEAN, BYVAL nStyle AS INT_ = 0, BYVAL nUnit AS GpUnit = 0, BYVAL fontCollection AS GpFontCollection PTR = NULL)
+   ' // Make the font DPI aware
+   ' If scale world transform has been set with GdipScaleWorldTransform, it only needs to be
+   ' scaled by multiplying the point size by 1.3333 (one point is one point is approximately
+   ' 1.3333 pixel). If the dpi ratios have been set with GdipScaleWorldTransform, GDI+ will
+   ' scale the font automatically. Otherwise, we will convert and scale the font size using
+   ' the value returned by the GetDeviceCaps API function.
+   IF fUsingScaleTransform THEN
+      ptSize = ptSize * 1.3333
+   ELSE
+      ' // Scale according the DPI settings of the computer
+      DIM hDC AS HDC = GetDC(HWND_DESKTOP)
+      DIM LPX AS LONG = GetDeviceCaps(hDC, LOGPIXELSX)
+      ReleaseDC(HWND_DESKTOP, hDC)
+      MulDiv(ptSize, LPX, 72)
+   END IF
+   ' // Create a font
+   IF fontFamily THEN
+      SetLastError GdipCreateFont(fontFamily, ptSize, nStyle, nUnit, @m_Font)
+   ELSE
+      SetLastError(GdipGetGenericFontFamilySansSerif(@fontFamily))
+      SetLastError(GdipCreateFont(fontFamily, ptSize, nStyle, nUnit, @m_Font))
+   END IF
+   IF fontFamily THEN GdipDeleteFontFamily(fontFamily)
+   GDIP_DP("m_Font: " & WSTR(m_Font))
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a Font object based on a font family, a size, a font style, a unit of
 ' measurement, and a FontCollection object.
 ' ========================================================================================
@@ -1312,6 +1358,36 @@ PRIVATE CONSTRUCTOR GdiPlusFont (BYVAL pwszFamilyName AS WSTRING PTR, BYVAL emSi
    ELSE
       SetLastError(GdipGetGenericFontFamilySansSerif(@fontFamily))
       SetLastError(GdipCreateFont(fontFamily, emSize, nStyle, nUnit, @m_Font))
+   END IF
+   IF fontFamily THEN GdipDeleteFontFamily(fontFamily)
+   GDIP_DP("m_Font: " & WSTR(m_Font))
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE CONSTRUCTOR GdiPlusFont (BYVAL pwszFamilyName AS WSTRING PTR, BYVAL ptSize AS SINGLE, BYVAL fUsingScaleTransform AS BOOLEAN, BYVAL nStyle AS INT_ = 0, BYVAL nUnit AS GpUnit = 0, BYVAL fontCollection AS GpFontCollection PTR = NULL)
+   DIM fontFamily AS GpFontFamily PTR
+   SetLastError(GdipCreateFontFamilyFromName(pwszFamilyName, fontCollection, @fontFamily))
+   ' // Make the font DPI aware
+   ' If scale world transform has been set with GdipScaleWorldTransform, it only needs to be
+   ' scaled by multiplying the point size by 1.3333 (one point is one point is approximately
+   ' 1.3333 pixel). If the dpi ratios have been set with GdipScaleWorldTransform, GDI+ will
+   ' scale the font automatically. Otherwise, we will convert and scale the font size using
+   ' the value returned by the GetDeviceCaps API function.
+   IF fUsingScaleTransform THEN
+      ptSize = ptSize * 1.3333
+   ELSE
+      ' // Scale according the DPI settings of the computer
+      DIM hDC AS HDC = GetDC(HWND_DESKTOP)
+      DIM LPX AS LONG = GetDeviceCaps(hDC, LOGPIXELSX)
+      ReleaseDC(HWND_DESKTOP, hDC)
+      MulDiv(ptSize, LPX, 72)
+   END IF
+   ' // Create a font
+   IF fontFamily THEN
+      SetLastError GdipCreateFont(fontFamily, ptSize, nStyle, nUnit, @m_Font)
+   ELSE
+      SetLastError(GdipGetGenericFontFamilySansSerif(@fontFamily))
+      SetLastError(GdipCreateFont(fontFamily, ptSize, nStyle, nUnit, @m_Font))
    END IF
    IF fontFamily THEN GdipDeleteFontFamily(fontFamily)
    GDIP_DP("m_Font: " & WSTR(m_Font))
