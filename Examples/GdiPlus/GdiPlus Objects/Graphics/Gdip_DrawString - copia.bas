@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: Gdip_DrawlosedCurveWithLabels.bas
-' Contents: GDI+ Flat API - GdipDrawlosedCurveWithLabels example
+' File: Gdip_DrawString.bas
+' Contents: GDI+ Flat API - GdipDrawString example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -28,63 +28,23 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example draws a cardinal spline and adds labels to each point.
+' The following example creates a Font object from a family name and uses it to draw text.
 ' ========================================================================================
-SUB Example_DrawCurveWithLabels (BYVAL hdc AS HDC)
+SUB Example_Drawstring (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    graphics.ScaleTransform
 
-   ' // Create a green Pen
-   DIM greenPen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 3)
+   ' // Create the font
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 16, TRUE)
 
-   DIM point1 AS GpPointF = (100, 100)
-   DIM point2 AS GpPointF = (200, 50)
-   DIM point3 AS GpPointF = (400, 30)
-   DIM point4 AS GpPointF = (500, 100)
+   ' // Create a solid brush
+   DIM blackBrush AS GdiPlusSolidBrush = ARGB_BLACK
 
-   DIM curvePoints(3) AS GpPointF
-   curvePoints(0) = point1
-   curvePoints(1) = point2
-   curvePoints(2) = point3
-   curvePoints(3) = point4
-
-   ' // Specify offset, number of segments to draw, and tension.
-   DIM offset AS LONG = 1
-   DIM segments AS LONG = 2
-   DIM tension AS SINGLE = 1.0
-
-   ' // Draw the curve
-   GdipDrawCurve(graphics, greenPen, @curvePoints(0), 4)
-
-   ' // Create the brush
-   DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
-
-   ' // Draw the points in the curve
-   GdipFillEllipse(*graphics, *redBrush, 95, 95, 10, 10)
-   GdipFillEllipse(*graphics, *redBrush, 195, 45, 10, 10)
-   GdipFillEllipse(*graphics, *redBrush, 395, 25, 10, 10)
-   GdipFillEllipse(*graphics, *redBrush, 495, 95, 10, 10)
-
-   ' // Create a font
-   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 12, TRUE)
-
-   ' // Create a brush
-   DIM labelBrush AS GdiPlusSolidBrush = ARGB_BLACK
-
-   ' // Label each point
-   DIM layoutRect AS GpRectF
-   DIM label AS WSTRING * 32
-   FOR i AS LONG = 0 TO 3
-      label = "P" & STR(i)
-      layoutRect.x = curvePoints(i).x + 10
-      layoutRect.y = curvePoints(i).y - 10
-      layoutRect.Width = 50
-      layoutRect.Height = 20
-      GdipDrawString(graphics, @label, -1, font, @layoutRect, NULL, labelBrush)
-   NEXT
+   ' // Draw the string
+   graphics.DrawString("Sample text", font, blackBrush, 30, 30)
 
 END SUB
 ' ========================================================================================
@@ -104,9 +64,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ GdipDrawlosedCurveWithLabels", @WndProc)
+   pWindow.Create(NULL, "GDI+ GdipDrawString", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(600, 250)
+   pWindow.SetClientSize(400, 250)
    ' // Center the window
    pWindow.Center
 
@@ -116,11 +76,8 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Anchor the control
    pWindow.AnchorControl(pGraphCtx.hWindow, AFX_ANCHOR_HEIGHT_WIDTH)
    
-   ' // Get the memory device context of the graphic control
-   DIM hdc AS HDC = pGraphCtx.GetMemDc
-
    ' // Draw the graphics
-   Example_DrawCurveWithLabels(pGraphCtx.GetMemDc)
+   Example_Drawstring(pGraphCtx.GetMemDc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)

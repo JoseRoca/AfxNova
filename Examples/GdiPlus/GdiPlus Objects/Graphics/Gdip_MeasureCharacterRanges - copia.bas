@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: Gdip_DrawlosedCurveWithLabels.bas
-' Contents: GDI+ Flat API - GdipDrawlosedCurveWithLabels example
+' File: Gdip_MeasureCharacterRanges.bas
+' Contents: GDI+ Flat API - GdipMeasureCharacterRanges example
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -10,7 +10,7 @@
 ' ########################################################################################
 
 #define _WIN32_WINNT &h0602
-'#define _GDIP_DEBUG_ 1
+#define _GDIP_DEBUG_ 1
 #INCLUDE ONCE "AfxNova/AfxGdipObjects.inc"
 #INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
@@ -28,62 +28,77 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' The following example draws a cardinal spline and adds labels to each point.
+' The following example defines three ranges of character positions within a string and
+' sets those ranges in a StringFormat object. Next, the MeasureCharacterRanges method is
+' used to get the three regions of the display that are occupied by the characters that
+' are specified by the ranges. This is done for three different layout rectangles to show
+' how the regions change according to the layout of the string. Also, on the third repetition
+' of this, the string format flags are changed so that the regions measured will include
+' trailing spaces.
 ' ========================================================================================
-SUB Example_DrawCurveWithLabels (BYVAL hdc AS HDC)
+SUB Example_MeasureCharacterRanges (BYVAL hdc AS HDC)
 
    ' // Create a graphics object from the device context
    DIM graphics AS GdiPlusGraphics = hdc
    ' // Set the scale transform
    graphics.ScaleTransform
 
-   ' // Create a green Pen
-   DIM greenPen AS GdiPlusPen = GdiPlusPen(ARGB_LIGHTGREEN, 3)
+   ' // Create font
+   DIM font AS GdiPlusFont = GdiPlusFont("Times New Roman", 16, TRUE)
 
-   DIM point1 AS GpPointF = (100, 100)
-   DIM point2 AS GpPointF = (200, 50)
-   DIM point3 AS GpPointF = (400, 30)
-   DIM point4 AS GpPointF = (500, 100)
+   ' // Create brushes and pen
+   DIM blueBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM redBrush AS GdiPlusSolidBrush = GDIP_ARGB(100, 255, 0, 0)
+   DIM blackPen AS GdiPlusPen = GdiPlusPen(ARGB_BLACK, 1.0)
+   GdipScalePenTransform(blackPen, graphics.dpiRatioX, graphics.dpiRatioY, MatrixOrderPrepend)
 
-   DIM curvePoints(3) AS GpPointF
-   curvePoints(0) = point1
-   curvePoints(1) = point2
-   curvePoints(2) = point3
-   curvePoints(3) = point4
+   ' // Create string format
+   DIM stringFormat As GdiPlusStringFormat
+   GdipStringFormatGetGenericDefault(@stringFormat)
 
-   ' // Specify offset, number of segments to draw, and tension.
-   DIM offset AS LONG = 1
-   DIM segments AS LONG = 2
-   DIM tension AS SINGLE = 1.0
+   ' // Define character ranges
+   DIM charRanges(2) As GpCharacterRange
+   charRanges(0).First = 3  : charRanges(0).Length = 5
+   charRanges(1).First = 15 : charRanges(1).Length = 2
+   charRanges(2).First = 30 : charRanges(2).Length = 15
+   GdipSetStringFormatMeasurableCharacterRanges(stringFormat, 3, @charRanges(0))
 
-   ' // Draw the curve
-   GdipDrawCurve(graphics, greenPen, @curvePoints(0), 4)
+   ' // Allocate regions
+   DIM regions(2) AS GdiPlusRegion PTR
+   FOR i AS LONG = 0 TO 2
+      GdipCreateRegion(@regions(i))
+   NEXT
 
-   ' // Create the brush
-   DIM redBrush AS GdiPlusSolidBrush = ARGB_RED
+   ' // Text to draw
+   DIM text AS WSTRING * 128 = "The quick, brown fox easily jumps over the lazy dog."
 
-   ' // Draw the points in the curve
-   GdipFillEllipse(*graphics, *redBrush, 95, 95, 10, 10)
-   GdipFillEllipse(*graphics, *redBrush, 195, 45, 10, 10)
-   GdipFillEllipse(*graphics, *redBrush, 395, 25, 10, 10)
-   GdipFillEllipse(*graphics, *redBrush, 495, 95, 10, 10)
+   ' // Measure and draw for layoutRectA
+   DIM layoutRectA AS GpRectF = (20.0, 20.0, 130.0, 130.0)
+   GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectA, stringFormat, 3, @regions(0))
 
-   ' // Create a font
-   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 12, TRUE)
+   GdipDrawString(graphics, @text, -1, font, @layoutRectA, stringFormat, blueBrush)
+   GdipDrawRectangle(graphics, blackPen, layoutRectA.X, layoutRectA.Y, layoutRectA.Width, layoutRectA.Height)
+   FOR i AS LONG = 0 TO 2
+      GdipFillRegion(graphics, redBrush, regions(i))
+   NEXT
 
-   ' // Create a brush
-   DIM labelBrush AS GdiPlusSolidBrush = ARGB_BLACK
+   ' // Measure and draw for layoutRectB
+   DIM layoutRectB AS GpRectF = (160.0, 20.0, 165.0, 130.0)
+   GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectB, stringFormat, 3, @regions(0))
+   GdipDrawString(graphics, @text, -1, font, @layoutRectB, stringFormat, blueBrush)
+   GdipDrawRectangle(graphics, blackPen, layoutRectB.X, layoutRectB.Y, layoutRectB.Width, layoutRectB.Height)
+   FOR i AS LONG = 0 TO 2
+      GdipFillRegion(graphics, redBrush, regions(i))
+   NEXT
 
-   ' // Label each point
-   DIM layoutRect AS GpRectF
-   DIM label AS WSTRING * 32
-   FOR i AS LONG = 0 TO 3
-      label = "P" & STR(i)
-      layoutRect.x = curvePoints(i).x + 10
-      layoutRect.y = curvePoints(i).y - 10
-      layoutRect.Width = 50
-      layoutRect.Height = 20
-      GdipDrawString(graphics, @label, -1, font, @layoutRect, NULL, labelBrush)
+   ' // Set trailing space flag and draw for layoutRectC
+   DIM layoutRectC As GpRectF = (335.0, 20.0, 165.0, 130.0)
+   GdipSetStringFormatFlags(stringFormat, StringFormatFlagsMeasureTrailingSpaces)
+   GdipMeasureCharacterRanges(graphics, @text, -1, font, @layoutRectC, stringFormat, 3, @regions(0))
+   GdipDrawString(graphics, @text, -1, font, @layoutRectC, stringFormat, blueBrush)
+   GdipDrawRectangle(graphics, blackPen, layoutRectC.X, layoutRectC.Y, layoutRectC.Width, layoutRectC.Height)
+   FOR i AS LONG = 0 TO 2
+      GdipFillRegion(graphics, redBrush, regions(i))
    NEXT
 
 END SUB
@@ -104,9 +119,9 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ GdipDrawlosedCurveWithLabels", @WndProc)
+   pWindow.Create(NULL, "GDI+ GdipMeasureCharacterRanges", @WndProc)
    ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(600, 250)
+   pWindow.SetClientSize(520, 250)
    ' // Center the window
    pWindow.Center
 
@@ -116,11 +131,8 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Anchor the control
    pWindow.AnchorControl(pGraphCtx.hWindow, AFX_ANCHOR_HEIGHT_WIDTH)
    
-   ' // Get the memory device context of the graphic control
-   DIM hdc AS HDC = pGraphCtx.GetMemDc
-
    ' // Draw the graphics
-   Example_DrawCurveWithLabels(pGraphCtx.GetMemDc)
+   Example_MeasureCharacterRanges(pGraphCtx.GetMemDc)
 
    ' // Displays the window and dispatches the Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
