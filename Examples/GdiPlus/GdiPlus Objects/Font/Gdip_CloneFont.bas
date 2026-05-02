@@ -38,19 +38,16 @@ SUB Example_CloneFont (BYVAL hdc AS HDC)
    graphics.ScaleTransform
 
    ' // Create the font
-   DIM fontFamily AS GdiPlusFontFamily = "Arial"
-   DIM font AS GdiPlusFont = GdiPlusFont(*fontFamily, AfxGdipPointsToPixels(24, TRUE), FontStyleRegular, UnitPixel)
+   DIM font AS GdiPlusFont = GdiPlusFont("Arial", 24, TRUE)
 
    ' // Create a clone of the font
    DIM clonedFont AS GdiPlusFont = *font
 
    ' // Create a solid brush
-   DIM solidBrush AS GdiPlusSolidBrush = ARGB_BLUE
+   DIM brush AS GdiPlusSolidBrush = ARGB_BLUE
 
    ' // Draw a string
-   DIM rcf AS GpRectF = (30, 30, 0, 0)
-   DIM wszText AS WSTRING * 64 = "This is a cloned Font"
-   GdipDrawString(graphics, wszText, LEN(wszText), clonedFont, @rcf, NULL, solidBrush)
+   graphics.DrawString("This is a cloned Font", font, brush, 30, 30)
 
 END SUB
 ' ========================================================================================
