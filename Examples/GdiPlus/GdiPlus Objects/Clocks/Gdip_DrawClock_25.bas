@@ -27,7 +27,7 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' Clock with glass dome effect
+' Swiss blue crystal dome
 ' ========================================================================================
 SUB Example_DrawClock (BYVAL hdc AS HDC)
 
@@ -72,41 +72,49 @@ SUB Example_DrawClock (BYVAL hdc AS HDC)
    GdipDrawLine(graphics, pen, 200,125, 200 + COS(angH)*60, 125 + SIN(angH)*60)
    GdipDrawLine(graphics, pen, 200,125, 200 + COS(angM)*90, 125 + SIN(angM)*90)
 
-   ' ============================================
-   ' 2) Crystal sphere (PathGradientBrush)
-   ' ============================================
-
-   ' Circular path
+   ' ============================================================
+   ' 1) Circular path for the glass
+   ' ============================================================
    DIM path AS GdiPlusGraphicsPath = FillModeAlternate
    GdipAddPathEllipse(path, 100, 25, 200, 200)
 
-   ' Create a brush
+   ' ============================================================
+   ' 2) Create a PathGradientBrush
+   ' ============================================================
    DIM pgb AS GdiPlusPathGradientBrush = *path
 
-   ' Center shifted upwards -> Top brightness
+   ' Center shifted upwards -> Overhead light
    DIM center AS GpPointF = (200, 60)
    GdipSetPathGradientCenterPoint(pgb, @center)
 
-   ' Very ckear center
-   GdipSetPathGradientCenterColor(pgb, GDIP_ARGB(180, 255, 255, 255))   ' semi-transparent white
+   ' Very light blue center (cool brightness)
+   GdipSetPathGradientCenterColor(pgb, GDIP_ARGB(180, 180, 220, 255))
 
-   ' Slightly dark edge
-   DIM surround(0) AS ARGB = {GDIP_ARGB(80, 0, 0, 0)}   ' very transparent dark gray
+   ' Semi-transparent dark blue border
+   DIM surround(0) AS ARGB = {GDIP_ARGB(120, 0, 40, 90)}
    DIM count AS UINT = 1
    GdipSetPathGradientSurroundColorsWithCount(pgb, @surround(0), @count)
 
-   ' Fill the glass sphere
+   ' Fill the glass
    GdipFillPath(graphics, pgb, path)
 
-   ' ============================================
-   ' 3) Superior reflection (optional but very realistic)
-   ' ============================================
+   ' ============================================================
+   ' 3) Superior reflection (typical of Swiss crystal)
+   ' ============================================================
+   DIM topRef AS GdiPlusGraphicsPath = FillModeAlternate
+   GdipAddPathPie(topRef, 120, 35, 160, 80, 200, 140)
 
-   DIM highlightPath AS GdiPlusGraphicsPath = FillModeAlternate
-   GdipAddPathPie(highlightPath, 120, 35, 160, 80, 200, 140)
+   DIM topBrush AS GdiPlusSolidBrush = GDIP_ARGB(90, 255, 255, 255)
+   GdipFillPath(graphics, topBrush, topRef)
 
-   DIM highlightBrush AS GdiPlusSolidBrush = GDIP_ARGB(80, 255, 255, 255)
-   GdipFillPath(graphics, highlightBrush, highlightPath)
+   ' ============================================================
+   ' 4) Side reflection (Swiss premium effect)
+   ' ============================================================
+   DIM sideRef AS GdiPlusGraphicsPath = FillModeAlternate
+   GdipAddPathPie(sideRef, 160, 60, 80, 140, 300, 120)
+
+   DIM sideBrush AS GdiPlusSolidBrush = GDIP_ARGB(60, 255, 255, 255)
+   GdipFillPath(graphics, sideBrush, sideRef)
 
 END SUB
 ' ========================================================================================
