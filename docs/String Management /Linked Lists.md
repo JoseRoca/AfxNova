@@ -1,6 +1,8 @@
 # DWStrList
 
-`DWStrList`implements an indexed singly-linked list for the `DWSTRING` (Unicode dynamic string) data type.
+`DWStrList`implements an indexed doubly-linked list for the `DWSTRING` (Unicode dynamic string) data type.
+
+**Include file*** : DWStrProcs.inc
 
 #### Usage examples
 
@@ -57,7 +59,9 @@ Delete List
 
 # DVarList
 
-`DVarList`implements an indexed singly-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data (if you pass it as the input it will be converted to a unicode dynamic string).
+`DVarList`implements an indexed doubly-linked list for the `DVARIANT` (dynamic variant) data type. A `DVARIANT` can contain any kind of data except fixed-length string data (if you pass it as the input it will be converted to a unicode dynamic string).
+
+**Include file*** : DVariant.inc
 
 #### Usage examples
 
