@@ -214,6 +214,26 @@ If the method succeeds, it returns TRUE; otherwise, FALSE.
 
 ---
 
+## <a name="replace"></a>Replace (DWStrList)
+
+Replaces the item at the specified index.
+
+```
+FUNCTION Replace (BYVAL idx AS LONG, BYREF dws AS DWSTRING) AS BOOLEAN
+```
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| *idx* | The one-based index of the item to replace. |
+| *dws* | The replacement string. |
+
+
+#### Return value
+
+If the method succeeds, it returns TRUE; otherwise, FALSE.
+
+---
+
 ## <a name="add2"></a>Add (DVarList)
 
 Appends a VARIANT to the list.
@@ -309,27 +329,6 @@ FUNCTION Remove (BYVAL idx AS LONG) AS BOOLEAN
 If the method succeeds, it returns TRUE; otherwise, FALSE.
 
 ---
-
-## <a name="replace"></a>Replace (DWStrList)
-
-Replaces the item at the specified index.
-
-```
-FUNCTION Replace (BYVAL idx AS LONG, BYREF dws AS DWSTRING) AS BOOLEAN
-```
-
-| Parameter  | Description |
-| ---------- | ----------- |
-| *idx* | The one-based index of the item to replace. |
-| *dws* | The replacement string. |
-
-
-#### Return value
-
-If the method succeeds, it returns TRUE; otherwise, FALSE.
-
----
-
 
 ## <a name="replace2"></a>Replace (DVarList)
 
