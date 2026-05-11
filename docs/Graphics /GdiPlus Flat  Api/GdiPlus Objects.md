@@ -31,7 +31,7 @@ Every class uses RAII semantics:
 
 `AfxNova` never hides the underlying pointer. Every class exposes:
 * *object → the raw GDI+ pointer
-* @object → the address of the pointer (for functions that require GpObject**)
+* @object → the address of the pointer
 
 This means the developer can always call the flat API directly whenever needed. Nothing is trapped behind an abstraction.
 
