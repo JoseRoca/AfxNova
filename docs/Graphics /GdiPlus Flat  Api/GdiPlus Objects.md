@@ -2274,8 +2274,8 @@ TYPE GdiPlusPen
 Public:
    m_Pen AS GpPen PTR
    DECLARE CONSTRUCTOR (BYVAL pen AS GpPen PTR = NULL)
-   DECLARE CONSTRUCTOR (BYVAL colour AS ARGB, BYVAL nWidth AS SINGLE = 1.0, BYVAL unit AS GpUnit = UnitWorld)
-   DECLARE CONSTRUCTOR (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE, BYVAL unit AS GpUnit = UnitWorld)
+   DECLARE CONSTRUCTOR (BYVAL colour AS ARGB, BYVAL nWidth AS SINGLE = 1.0, BYVAL unit AS GpUnit = UnitPixel)
+   DECLARE CONSTRUCTOR (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE, BYVAL unit AS GpUnit = UnitPixel)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS GpPen PTR PTR
    DECLARE OPERATOR CAST () AS GpPen PTR
@@ -2291,7 +2291,7 @@ END CONSTRUCTOR
 ' =====================================================================================
 ' * Creates a Pen object that uses a specified color and width.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPen (BYVAL colour AS ARGB, BYVAL nWidth AS SINGLE = 1.0, BYVAL unit AS GpUnit = UnitWorld)
+PRIVATE CONSTRUCTOR GdiPlusPen (BYVAL colour AS ARGB, BYVAL nWidth AS SINGLE = 1.0, BYVAL unit AS GpUnit = UnitPixel)
    SetLastError(GdipCreatePen1(colour, nWidth, unit, @m_Pen))
 END CONSTRUCTOR
 ' =====================================================================================
@@ -2299,7 +2299,7 @@ END CONSTRUCTOR
 ' Creates a Pen object that uses the attributes of a brush and a real number to set the
 ' width of this Pen object.
 ' =====================================================================================
-PRIVATE CONSTRUCTOR GdiPlusPen (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE, BYVAL unit AS GpUnit = UnitWorld)
+PRIVATE CONSTRUCTOR GdiPlusPen (BYVAL brush AS GpBrush PTR, BYVAL nWidth AS SINGLE, BYVAL unit AS GpUnit = UnitPixel)
    SetLastError(GdipCreatePen2(brush, nWidth, unit, @m_Pen))
 END CONSTRUCTOR
 ' =====================================================================================
