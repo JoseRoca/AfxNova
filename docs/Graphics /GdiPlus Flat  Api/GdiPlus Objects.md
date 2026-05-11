@@ -112,186 +112,117 @@ The following table lists all lightweight RAII wrappers provided by `AfxNova` fo
 
 ### GdiPlusObjects
 
-Initializes and shutdowns GDI+.
+Initializes and shutdowns GDI+. This class is instantiated by all the other classes, so you almost never need to create an instance of it, unless you need to call a GDI+ flat api function without having created an instance of any of the classes.
 
 ```
+' ########################################################################################
+' * GdiPlusObjects
+' Base class for all the GDI+ classes
+' ########################################################################################
+TYPE GdiPlusObjects
+
+   DIM m_Status AS GpStatus
+   DECLARE CONSTRUCTOR
+   DECLARE DESTRUCTOR
+   DECLARE FUNCTION RefCount (BYVAL bIncrement AS BOOLEAN) AS LONG
+
+END TYPE
+' ########################################################################################
+
 ' ========================================================================================
-' Constructor - Initializes GDI+
+' Default constructor
 ' ========================================================================================
 PRIVATE CONSTRUCTOR GdiPlusObjects
-   DIM StartupInput AS GdiplusStartupInput
-   StartupInput.GdiplusVersion = 1   ' Version must be 1
-   GdiplusStartup(@m_token, @StartupInput, NULL)
+   ' // Increase the reference count
+   this.RefCount(TRUE)
 END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
-' Dstructor - Shutdowns GDI+
+' Destructor
 ' ========================================================================================
 PRIVATE DESTRUCTOR GdiPlusObjects
-   IF m_token THEN GdiplusShutdown(m_token)
+   ' // Decrease the reference count
+   this.RefCount(FALSE)
 END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Increases/decreases the reference count and initializes or shutdowns GDI+ when required.
+' ========================================================================================
+PRIVATE FUNCTION GdiPlusObjects.RefCount (BYVAL bIncrement AS BOOLEAN) AS LONG
+   STATIC cRef AS LONG, token AS ULONG_PTR
+   IF cRef = 0 THEN
+      ' // Initialize the GDI+ library
+      DIM StartupInput AS GdiplusStartupInput
+      StartupInput.GdiplusVersion = 1 ' Version must be 1
+      m_Status = GdiplusStartup(@token, @StartupInput, NULL)
+      IF m_Status <> 0 THEN MessageBoxW(0, "GDI+ initialization failed - Error: " & WSTR(m_Status), "Error", MB_OK OR MB_ICONERROR OR MB_APPLMODAL)
+      GDIP_DP("Initialize GDI+; token = " & WSTR(token))
+   END IF
+   ' // Increase or decrease the reference count
+   IF bIncrement THEN cRef += 1 ELSE cRef -= 1
+   ' // If the reference count reaches a value of 0, shutdown GDI+
+   IF cRef = 0  THEN
+      ' // Shutdown GDI+
+      IF token THEN GdiplusShutdown(token)
+      token = 0
+   END IF
+   RETURN cRef
+END FUNCTION
 ' ========================================================================================
 ```
 
 #### Example
 
 ```
-' ########################################################################################
-' Microsoft Windows
-' File: Gdip_CreateAdjustableArrowCap.bas
-' Contents: GDI+ Flat API - Gdip_CreateAdjustableArrowCap example
-' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
-' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
-' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-' ########################################################################################
-
-#define _WIN32_WINNT &h0602
+#cmdline "-s console"
 '#define _GDIP_DEBUG_ 1
+#define _WIN32_WINNT &h0602
 #INCLUDE ONCE "AfxNova/AfxGdipObjects.inc"
-#INCLUDE ONCE "AfxNova/CGraphCtx.inc"
 USING AfxNova
 
-CONST IDC_GRCTX = 1001
-
-DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
-                           BYVAL hPrevInstance AS HINSTANCE, _
-                           BYVAL pwszCmdLine AS WSTRING PTR, _
-                           BYVAL nCmdShow AS LONG) AS LONG
-
-   END wWinMain(GetModuleHandleW(NULL), NULL, wCOMMAND(), SW_NORMAL)
-
-' // Forward declaration
-DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
-
 ' ========================================================================================
-' The following example creates two AdjustableArrowCap objects, arrowCapStart and
-' arrowCapEnd, and sets the fill mode to TRUE. The code then creates a Pen object and
-' assigns arrowCapStart as the starting line cap for this Pen object and arrowCapEnd as
-' the ending line cap. Next, draws a line.
-' ========================================================================================
-SUB Example_CreateAdjustableArrowCap (BYVAL hdc AS HDC)
-
-   ' // Create a graphics object from the device context
-   DIM graphics AS GdiPlusGraphics = hdc
-   ' // Set the scale transform
-   DIM dpiRatio AS SINGLE = graphics.DpiRatio
-   graphics.ScaleTransform(dpiRatio)
-
-   ' // Create an AdjustableArrowCap that is filled.
-   DIM arrowCapStart AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(10, 10, TRUE)
-   ' // Adjust to DPI by setting the scale width
-   GdipSetCustomLineCapWidthScale(arrowCapStart, dpiRatio)
-
-   ' // Create an AdjustableArrowCap that is not filled.
-   DIM arrowCapEnd AS GdiPlusAdjustableArrowCap = GdiPlusAdjustableArrowCap(15, 15, FALSE)
-   ' // Adjust to DPI by setting the scale width
-   GdipSetCustomLineCapWidthScale(arrowCapEnd, dpiRatio)
-
-   ' // Get the type of CustomLineCap
-   ' // It will return 1 (CustomLineCapTypeAdjustableArrow)
-   DIM nType AS CustomLineCapType
-   GdipGetCustomLineCapType(arrowCapEnd, @nType)
-
-   ' // Create a Pen
-   DIM arrowPen AS GdiPlusPen = GdiPlusPen(ARGB_Violet, 1)
-
-   ' // Assign arrowCapStart as the start cap.
-   GdipSetPenCustomStartCap(arrowPen, arrowCapStart)
-   ' // Assign arrowCapEnd as the end cap.
-   GdipSetPenCustomEndCap(arrowPen, arrowCapEnd)
-
-   ' // Draw a line using arrowPen.
-   GdipDrawLine(graphics, arrowPen, 0, 0, 100, 100)
-
-END SUB
+' Gets the number of font families installed.
 ' ========================================================================================
 
-' ========================================================================================
-' Main
-' ========================================================================================
-FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
-                   BYVAL hPrevInstance AS HINSTANCE, _
-                   BYVAL pwszCmdLine AS WSTRING PTR, _
-                   BYVAL nCmdShow AS LONG) AS LONG
+DIM status AS LONG
 
-   ' // Set process DPI aware
-   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
-   ' // Enable visual styles without including a manifest file
-   AfxEnableVisualStyles
+' // Initialize GDI+
+DIM pObjs AS GdiPlusObjects
 
-   ' // Create the main window
-   DIM pWindow AS CWindow = "MyClassName"
-   pWindow.Create(NULL, "GDI+ Gdip_CreateAdjustableArrowCap", @WndProc)
-   ' // Size it by setting the wanted width and height of its client area
-   pWindow.SetClientSize(400, 250)
-   ' // Center the window
-   pWindow.Center
+' // Create an InstalledFontCollection object
+DIM fontCollection AS GpFontCollection PTR
+status = GdipNewInstalledFontCollection(@fontCollection)
 
-   ' // Add a graphic control
-   DIM pGraphCtx AS CGraphCtx = CGraphCtx(@pWindow, IDC_GRCTX, "", 0, 0, pWindow.ClientWidth, pWindow.ClientHeight)
-   pGraphCtx.Clear RGB_FLORALWHITE
-   ' // Anchor the control
-   pWindow.AnchorControl(pGraphCtx.hWindow, AFX_ANCHOR_HEIGHT_WIDTH)
-   
-   ' // Get the memory device context of the graphic control
-   DIM hdc AS HDC = pGraphCtx.GetMemDc
+' // Get the number of font families in the collection
+DIM numberFonts AS LONG
+status = GdipGetFontCollectionFamilyCount(fontCollection, @numberFonts)
 
-   ' // Initialize GDI+
-   DIM pGdiPlusObjects AS GdiPlusObjects
+' // Display the result (for example, in console)
+PRINT "Number of installed font families: "; numberFonts
 
-   ' // Draw the graphics
-   Example_CreateAdjustableArrowCap(hdc)
+' // Buffer for font name
+DIM wszName AS WSTRING * 32
 
-   ' // Displays the window and dispatches the Windows messages
-   FUNCTION = pWindow.DoEvents(nCmdShow)
+' // Allocate array for font family pointers
+DIM families(numberFonts - 1) AS GpFontFamily PTR
+status = GdipGetFontCollectionFamilyList(fontCollection, numberFonts, @families(0), @numberFonts)
 
-END FUNCTION
-' ========================================================================================
+' // Print each font family name
+FOR i AS LONG = 0 TO numberFonts - 1
+   status = GdipGetFamilyName(families(i), @wszName, LANG_NEUTRAL)
+   PRINT "Font "; i + 1; ": "; wszName
+   GdipDeleteFontFamily(families(i))
+NEXT
 
-' ========================================================================================
-' Main window procedure
-' ========================================================================================
-FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
+' // Cleanup
+' No delete function exists for installed font collections
+' //because it is a shared collection; cleanup is automatic”
 
-   SELECT CASE uMsg
-
-      ' // If an application processes this message, it should return zero to continue
-      ' // creation of the window. If the application returns –1, the window is destroyed
-      ' // and the CreateWindowExW function returns a NULL handle.
-      CASE WM_CREATE
-         AfxEnableDarkModeForWindow(hwnd)
-         RETURN 0
-
-      ' // Theme has changed
-      CASE WM_THEMECHANGED
-         AfxEnableDarkModeForWindow(hwnd)
-         RETURN 0
-
-      CASE WM_COMMAND
-         SELECT CASE CBCTL(wParam, lParam)
-            CASE IDCANCEL
-               ' // If ESC key pressed, close the application by sending an WM_CLOSE message
-               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
-                  SendMessageW hwnd, WM_CLOSE, 0, 0
-                  RETURN 0
-               END IF
-         END SELECT
-
-    	CASE WM_DESTROY
-         ' // Ends the application by sending a WM_QUIT message
-         PostQuitMessage(0)
-         RETURN 0
-
-   END SELECT
-
-   ' // Default processing of Windows messages
-   FUNCTION = DefWindowProcW(hwnd, uMsg, wParam, lParam)
-
-END FUNCTION
-' ========================================================================================
+PRINT
+PRINT "Press any key"
+SLEEP
 ```
 ---
 
