@@ -4,28 +4,6 @@ In Microsoft documentation, GDI+ objects—such as GpGraphics, GpBitmap, GpBrush
 
 Each GDI+ object is a pointer to a structure with a well-defined memory layout. These structures contain fields for internal state, handles, flags, and configuration data. The Flat API functions (e.g. GdipSetPenWidth, GdipGetImageBounds) are essentially accessors and mutators—they read or write values to these internal fields.
 
-For example, the GpCustomLineCap "object", is a pointer to the following structure:
-
-```
-typedef struct {
-    CustomLineCapType type;
-    GpPathData pathdata;
-    BOOL fill;
-    GpLineCap cap;
-    REAL inset;
-    GpLineJoin join;
-    REAL scale;
-} GpCustomLineCap;
-```
-
-So when you call:
-
-```
-GdipSetCustomLineCapWidthScale(cap, 1.5)
-```
-
-…it’s just setting cap->scale = 1.5.
-
 Big APIs like the Windows GDI+ flat API—tend to expose enormous functionality through low‑level procedural calls. They are powerful, but also verbose, error‑prone, and difficult to use safely. Every object must be created manually, destroyed manually, passed as a pointer, and handled with strict lifetime discipline. A single missing cleanup call or an incorrect pointer cast can destabilize an entire application.
 
 `AfxNova` takes a different approach. Instead of building a heavy framework with deep inheritance trees, virtual methods, and opaque abstractions, `AfxNova` wraps these large APIs using tiny, lightweight classes—each one focused on a single GDI+ object.
