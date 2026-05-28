@@ -31,6 +31,7 @@ TYPE CWebView2
    m_BrowserVersion AS DWSTRING                       ' // Runtime WebView version
 
    DECLARE CONSTRUCTOR (BYVAL hWin AS HWND, BYVAL pUserDataFolder AS WSTRING PTR = NULL)
+   DECLARE CONSTRUCTOR (BYVAL hWin AS HWND, BYREF wszUserDataFolder AS WSTRING)
    DECLARE DESTRUCTOR
    DECLARE FUNCTION GetBrowserVersion () AS DWSTRING
    DECLARE FUNCTION GetLastResult () AS HRESULT
@@ -217,6 +218,28 @@ PRIVATE CONSTRUCTOR CWebView2 (BYVAL hWin AS HWND, BYVAL pUserDataFolder AS WSTR
       hr = CreateCoreWebView2Environment(cast(ANY PTR, pEnv))
    ELSE
       hr = CreateCoreWebView2EnvironmentWithOptions(NULL, pUserDataFolder, NULL, cast(ANY PTR, pEnv))
+   END IF
+   SetResult(hr)
+   CWV2_DP("pEnv: " & WSTR(pEnv) & " - hr: " & HEX(hr))
+END CONSTRUCTOR
+' ========================================================================================
+' ========================================================================================
+PRIVATE CONSTRUCTOR CWebView2 (BYVAL hWin AS HWND, BYREF wszUserDataFolder AS WSTRING)
+   CWV2_DP("hWin: " & WSTR(hWin) & " - UserDataFolder: " & wszUserDataFolder)
+   ' // Initialize the COM library
+   CoInitialize NULL
+   ' // Store the window handle
+   IF hWin = NULL THEN SetResult(E_POINTER): EXIT CONSTRUCTOR
+   SetWindowLongPtrW(hWin, GWLP_USERDATA, cast(LONG_PTR, @this))
+   m_hwnd = hWin
+   ' // Create the environment
+   DIM pEnv AS CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal PTR
+   pEnv = NEW CWebView2CreateCoreWebView2EnvironmentCompletedHandlerInternal(@this)
+   DIM hr AS HRESULT
+   IF VARPTR(wszUserDataFolder) = NULL THEN
+      hr = CreateCoreWebView2Environment(cast(ANY PTR, pEnv))
+   ELSE
+      hr = CreateCoreWebView2EnvironmentWithOptions(NULL, @wszUserDataFolder, NULL, cast(ANY PTR, pEnv))
    END IF
    SetResult(hr)
    CWV2_DP("pEnv: " & WSTR(pEnv) & " - hr: " & HEX(hr))
