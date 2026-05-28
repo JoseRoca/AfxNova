@@ -53,6 +53,13 @@ wszUserData = wszTemp & "AfxNovaWebView2"
 DIM pWebView2 AS CWebView2 = CWebView2(hWin, @wszUserData)
 ```
 
+Usando DWSTRING:
+
+DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
+DIM pWebView2 AS CWebView2 = CWebView2(hWin, dwsUserDataFolder)
+```
+```
+
 **Key Takeaway**
 
 WebView2 creation is not immediate. You send a request, and the control becomes ready only after the asynchronous callbacks complete. The `CWebView2` class encapsulates this pattern, so developers simply construct the object and then call **IsReady** before using it — no need to manually wire up completion handlers.
@@ -246,12 +253,14 @@ Creates an instance of the `CWebView2`class.
 
 ```
 CONSTRUCTOR CWebView2 (BYVAL hWin AS HWND, BYVAL pUserDataFolder AS WSTRING PTR = NULL)
+CONSTRUCTOR CWebView2 (BYVAL hWin AS HWND, BYREF wszUserDataFolder AS WSTRING)
 ```
 
 | Parameter  | Description |
 | ---------- | ----------- |
 | *hWin* | [in] Handle of the window that will host the WebView control. |
-| *pUserDataFolder* | [in] Path of the folder where WebView will create the profile files. Use null to create WebView using Edge installed on the machine|
+| *pUserDataFolder* | [in] Path of the folder where WebView2 will create the profile files. If You don't specify a folder, WebView2 will create one with the name of the application and the WebView2 suffix, e.g. MyApp.exe.WebView2. |
+| *wszUserDataFolder* | [in] Path of the folder where WebView2 will create the profile files.|
 
 #### Flow diagram
 
