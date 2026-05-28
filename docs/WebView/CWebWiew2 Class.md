@@ -39,6 +39,20 @@ Default runtime: Relies on the installed Edge runtime and default profile storag
 
 Custom folder: Calls **CreateCoreWebView2EnvironmentWithOptions**, allowing you to isolate cookies, cache, and storage in a separate profile. This is ideal for multi-tab or multi-user scenarios, though startup may be slightly slower.
 
+We can also use a subfolder in te Windows temporary folder for this purpose:
+
+```
+' // Use always the same folder for the WebView2 files
+' // Here we are using a subfolder in the temporary folder
+DIM wszTemp AS WSTRING * 260
+GetTempPathW(260, @wszTemp)
+DIM wszUserData AS WSTRING * 260
+wszUserData = wszTemp & "AfxNovaWebView2"
+
+' // Create an instance of WebView
+DIM pWebView2 AS CWebView2 = CWebView2(hWin, @wszUserData)
+```
+
 **Key Takeaway**
 
 WebView2 creation is not immediate. You send a request, and the control becomes ready only after the asynchronous callbacks complete. The `CWebView2` class encapsulates this pattern, so developers simply construct the object and then call **IsReady** before using it — no need to manually wire up completion handlers.
