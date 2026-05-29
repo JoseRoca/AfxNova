@@ -3,7 +3,7 @@
 ' File: Google circular chart.bas
 ' Contents: WebView2 example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -11,7 +11,7 @@
 
 #define _WIN32_WINNT &h0602
 #include once "AfxNova/CWindow.inc"
-#define _CWV2_DEBUG_ 1
+'#define _CWV2_DEBUG_ 1
 #include once "AfxNova/CWebView2.inc"
 USING AfxNova
 
@@ -74,8 +74,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
                    BYVAL nCmdShow AS LONG) AS LONG
 
    ' // Set process DPI aware
-'   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
-   SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)
+   SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
    ' // Enable visual styles without including a manifest file
    AfxEnableVisualStyles
 
@@ -88,7 +87,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.Center
 
    ' // Adds a label to be used as the host of the WebView2 control
-   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 400)
+   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 410)
    ' // Anchors the label to the height and width of the main window
    pWindow.AnchorControl(hLabel, AFX_ANCHOR_HEIGHT_WIDTH)
 
@@ -97,8 +96,11 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Path to navigate to the temporary file
    DIM dwsPath AS DWSTRING = "file:///" & dwsTempFile
    
+   ' // Use the same folder for the WebView2 files
+   ' // Here we are using a subfolder in the temporary folder
+   DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
    ' // Create an instance of WebView
-   DIM pWebView2 AS CWebView2 = hLabel
+   DIM pWebView2 AS CWebView2 = CWebView2(hLabel, dwsUserDataFolder)
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
       ' // Navigate to the web page
