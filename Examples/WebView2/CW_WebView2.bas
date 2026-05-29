@@ -11,7 +11,7 @@
 
 #define _WIN32_WINNT &h0602
 #include once "AfxNova/CWindow.inc"
-#define _CWV2_DEBUG_ 1
+'#define _CWV2_DEBUG_ 1
 #include once "AfxNova/CWebView2.inc"
 USING AfxNova
 
