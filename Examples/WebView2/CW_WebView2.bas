@@ -3,7 +3,7 @@
 ' File: CW_WebView2.bas
 ' Contents: WebView2 example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José© Roca. Freeware. Use at your own risk.
+' Copyright (c) 2026 José© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -61,8 +61,11 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Center the window
    pWindow.Center
 
+   ' // Use the same folder for the WebView2 files
+   ' // Here we are using a subfolder in the temporary folder
+   DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
    ' // Create an instance of WebView
-   DIM pWebView2 AS CWebView2 = hWin
+   DIM pWebView2 AS CWebView2 = CWebView2(hWin, dwsUserDataFolder)
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
       ' // Set a navigation handler
@@ -94,15 +97,13 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
       CASE WM_COMMAND
          
-         SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
-
+         SELECT CASE CBCTL(wParam, lParam)
             ' // If ESC key pressed, close the application sending an WM_CLOSE message
             CASE IDCANCEL
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF
-
          END SELECT
 
       CASE WM_SIZE
