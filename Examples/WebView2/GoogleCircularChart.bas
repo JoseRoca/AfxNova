@@ -3,7 +3,7 @@
 ' File: Google circular chart.bas
 ' Contents: WebView2 example
 ' Compiler: FreeBasic 32 & 64 bit
-' Copyright (c) 2025 José Roca. Freeware. Use at your own risk.
+' Copyright (c) 2026 José Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
 ' MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
@@ -106,7 +106,7 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    pWindow.Center
 
    ' // Adds a label to be used as the host of the WebView2 control
-   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 400)
+   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 410)
    ' // Anchors the label to the height and width of the main window
    pWindow.AnchorControl(hLabel, AFX_ANCHOR_HEIGHT_WIDTH)
 
@@ -115,8 +115,11 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Path to navigate to the temporary file
    DIM dwsPath AS DWSTRING = "file:///" & dwsTempFile
    
+   ' // Use the same folder for the WebView2 files
+   ' // Here we are using a subfolder in the temporary folder
+   DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
    ' // Create an instance of WebView
-   DIM pWebView2 AS CWebView2 = hLabel
+   DIM pWebView2 AS CWebView2 = CWebView2(hLabel, dwsUserDataFolder)
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
       ' // Navigate to the web page
@@ -157,15 +160,13 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
       CASE WM_COMMAND
          
-         SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
-
+         SELECT CASE CBCTL(wParam, lParam)
             ' // If ESC key pressed, close the application sending an WM_CLOSE message
             CASE IDCANCEL
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF
-
          END SELECT
 
       CASE WM_SIZE
