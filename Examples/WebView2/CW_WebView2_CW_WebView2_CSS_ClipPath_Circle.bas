@@ -73,12 +73,21 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
       ' // CSS code (Cascading Style Sheets)
       s += "<style>"
       s += "body {"
-      s += "  background-color: violet;"
+      s += "  background: linear-gradient(45deg, violet, pink);"
+      s += "  filter: drop-shadow(0 0 30px rgba(0,0,0,0.5));"
+      s += "  animation: zoom 6s infinite alternate;"
       s += "}"
+
+      s += "@keyframes zoom {"
+      s += "  0% { clip-path: circle(30%); }"
+      s += "  100% { clip-path: circle(40%); }"
+      s + = "}"
+
       s += "#img1 {"
       s += "  width: 100vw;"
       s += "  height: 100vh;"
       s += "  object-fit: cover;"
+      s += "  object-position: center;"
       s += "  clip-path: circle(35%);"
       s += "}"
       s += "html, body {"
