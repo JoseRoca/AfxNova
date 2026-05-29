@@ -81,11 +81,6 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    s += "</body>"
    s += "</html>"
 
-   ' // Save the script as a temporary file
-   DIM dwsTempFile AS DWSTRING = AfxSaveTempHtmlFile(s)
-   ' // Path to navigate to the temporary file
-   DIM dwsPath AS DWSTRING = "file:///" & dwsTempFile
-
    ' // Use the same folder for the WebView2 files
    ' // Here we are using a subfolder in the temporary folder
    DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
@@ -94,16 +89,13 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
       ' // Navigate to a web page
-      pWebView2.Navigate(dwsPath)
+      pWebView2.NavigateToString(s)
       ' // Set the focus in the web page
       pWebView2.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC)
    END IF
 
    ' // Dispatch Windows messages
    FUNCTION = pWindow.DoEvents(nCmdShow)
-
-   ' // Delete the temporary file
-   AfxDeleteFile dwsPath
 
 END FUNCTION
 ' ========================================================================================
