@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_WebView2_DisplayImage.bas
-' Contents: WebView2 example - Display image
+' File: CW_WebView2_CSS_ClipPath_Circle.bas
+' Contents: WebView2 example - Display clipped image
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -41,34 +41,66 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow
-   DIM hWin AS HWND = pWindow.Create(NULL, "WebView2 - Display image", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "WebView2 - Display clipped image", @WndProc)
    ' // Set its client size
-   pWindow.SetClientSize(640, 450)
+   pWindow.SetClientSize(640, 440)
    ' // Center the window
    pWindow.Center
 
    ' // Adds a label
-   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 410)
+   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 395)
    ' // Anchors the label to the height and width of the main window
    pWindow.AnchorControl(hLabel, AFX_ANCHOR_HEIGHT_WIDTH)
 
    ' // Use the same folder for the WebView2 files
    ' // Here we are using a subfolder in the temporary folder
    DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
+
    ' // Create an instance of WebView
    DIM pWebView2 AS CWebView2 = CWebView2(hLabel, dwsUserDataFolder)
+
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
-      ' // Navigate to a web page
+
+      ' // Build the script
       DIM s AS STRING
-      s += "<body scroll='auto' style='margin: 0px 0px 0px 0px'>"
-      s += "<center>"
-      s += "<img src='http://www.kenrockwell.com/trips/2016-05-yosemite/RX300658-green-falls.jpg' border='0' width='120%'></img>"
-      s += "<center>"
+
+      s = "<!DOCTYPE html>"
+      s += "<html>"
+      s += "<head>"
+      s += "<meta charset='UTF-8'>"
+
+      ' // CSS code (Cascading Style Sheets)
+      s += "<style>"
+      s += "body {"
+      s += "  background-color: violet;"
+      s += "}"
+      s += "#img1 {"
+      s += "  width: 100vw;"
+      s += "  height: 100vh;"
+      s += "  object-fit: cover;"
+      s += "  clip-path: circle(35%);"
+      s += "}"
+      s += "html, body {"
+      s += "  margin: 0;"
+      s += "  padding: 0;"
+      s += "  overflow: hidden;"
+      s += "}"
+
+      ' // HTML code
+      s += "</style>"
+      s += "</head>"
+      s += "<body>"
+      s += "<img id='img1' src='https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=600&auto=format&fit=crop&q=60'>"
       s += "</body>"
+      s += "</html>"
+      
+      ' // Navigate to the string
       pWebView2.NavigateToString(s)
+
       ' // Set the focus in the web page
       pWebView2.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC)
+
    END IF
 
    ' // Dispatch Windows messages

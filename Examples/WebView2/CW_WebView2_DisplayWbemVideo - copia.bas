@@ -1,7 +1,7 @@
 ' ########################################################################################
 ' Microsoft Windows
-' File: CW_WebView2_DisplayImage.bas
-' Contents: WebView2 example - Display image
+' File: CW_WebView2_DisplayWbemideo
+' Contents: WebView2 example - Display WBEM video
 ' Compiler: FreeBasic 32 & 64 bit
 ' Copyright (c) 2026 José© Roca. Freeware. Use at your own risk.
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
@@ -41,17 +41,31 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 
    ' // Create the main window
    DIM pWindow AS CWindow
-   DIM hWin AS HWND = pWindow.Create(NULL, "WebView2 - Display image", @WndProc)
+   DIM hWin AS HWND = pWindow.Create(NULL, "WebView2 - Display WBEM video", @WndProc)
    ' // Set its client size
-   pWindow.SetClientSize(640, 450)
+   pWindow.SetClientSize(640, 420)
    ' // Center the window
    pWindow.Center
 
    ' // Adds a label
-   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 410)
+   DIM hLabel AS HWND = pWindow.AddControl("Label", hWin, IDC_LABEL, "", 20, 20, 600, 380)
    ' // Anchors the label to the height and width of the main window
    pWindow.AnchorControl(hLabel, AFX_ANCHOR_HEIGHT_WIDTH)
 
+   ' // Script to load the video
+   ' // Note: YouTube videos give error 153
+   DIM s AS STRING
+   s += "<!DOCTYPE html>"
+   s += "<html>"
+   s += "<body scroll='auto'>"
+   s += "<center>"
+   s += "<video width='540' height='340' controls>"
+   s += "  <source src='http://www.bokowsky.net/de/knowledge-base/video/videos/big_buck_bunny_240p.webm' type='video/webm'>"
+   s += "</video>"
+   s += "<center>"
+   s += "</body>"
+   s += "</html>"
+   
    ' // Use the same folder for the WebView2 files
    ' // Here we are using a subfolder in the temporary folder
    DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
@@ -60,12 +74,6 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
       ' // Navigate to a web page
-      DIM s AS STRING
-      s += "<body scroll='auto' style='margin: 0px 0px 0px 0px'>"
-      s += "<center>"
-      s += "<img src='http://www.kenrockwell.com/trips/2016-05-yosemite/RX300658-green-falls.jpg' border='0' width='120%'></img>"
-      s += "<center>"
-      s += "</body>"
       pWebView2.NavigateToString(s)
       ' // Set the focus in the web page
       pWebView2.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC)

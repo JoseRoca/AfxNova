@@ -26,22 +26,6 @@ DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam A
 
 CONST IDC_LABEL = 1001
 
-' ########################################################################################
-' CWebView2NavigationCompletedEventHandlerImpl class
-' Implementation of the ICoreWebView2NavigationCompletedEventHandler callback interface.
-' ########################################################################################
-TYPE CWebView2NavigationCompletedEventHandlerImpl EXTENDS CWebView2NavigationCompletedEventHandler
-
-   DECLARE FUNCTION Invoke (BYVAL sender AS Afx_ICoreWebView2 PTR, BYVAL args AS Afx_ICoreWebView2NavigationCompletedEventArgs PTR) AS HRESULT
-   DECLARE CONSTRUCTOR (BYVAL pWebView2 AS CWebView2 PTR)
-   DECLARE DESTRUCTOR
-
-   m_pWebView2 AS CWebView2 PTR
-   m_token AS EventRegistrationToken
-
-END TYPE
-' ########################################################################################
-
 ' ========================================================================================
 ' Main
 ' ========================================================================================
@@ -111,11 +95,11 @@ FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM
 
       CASE WM_COMMAND
          
-         SELECT CASE GET_WM_COMMAND_ID(wParam, lParam)
+         SELECT CASE CBCTL(wParam, lParam)
 
             ' // If ESC key pressed, close the application sending an WM_CLOSE message
             CASE IDCANCEL
-               IF GET_WM_COMMAND_CMD(wParam, lParam) = BN_CLICKED THEN
+               IF CBCTLMSG(wParam, lParam) = BN_CLICKED THEN
                   SendMessageW hwnd, WM_CLOSE, 0, 0
                   EXIT FUNCTION
                END IF

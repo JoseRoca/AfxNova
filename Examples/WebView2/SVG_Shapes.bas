@@ -25,42 +25,6 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' Build an html page
-' ========================================================================================
-FUNCTION BuildScript () AS DWSTRING
-
-   DIM s AS DWSTRING
-
-   s  = "<!DOCTYPE html>"
-   s += "<html><head><meta charset=""UTF-8""></head><body>"
-   s += "<h2>SVG Shapes Demo</h2>"
-   s += "<svg width=""600"" height=""300"" xmlns=""http://www.w3.org/2000/svg"">"
-
-   ' Rectangle with rounded corners
-   s += "  <rect x=""20"" y=""20"" width=""100"" height=""60"" rx=""10"" ry=""10"" "
-   s += "        style=""fill:blue;stroke:black;stroke-width:2;opacity:0.7"" />"
-
-   ' Circle
-   s += "  <circle cx=""200"" cy=""50"" r=""30"" "
-   s += "          style=""fill:green;stroke:black;stroke-width:2;opacity:0.7"" />"
-
-   ' Ellipse
-   s += "  <ellipse cx=""320"" cy=""50"" rx=""50"" ry=""30"" "
-   s += "           style=""fill:orange;stroke:black;stroke-width:2;opacity:0.7"" />"
-
-   ' Line
-   s += "  <line x1=""400"" y1=""20"" x2=""500"" y2=""80"" "
-   s += "        style=""stroke:red;stroke-width:4"" />"
-
-   s += "</svg>"
-   s += "</body></html>"
-
-   RETURN s
-
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' Main
 ' ========================================================================================
 FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -84,12 +48,44 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Use the same folder for the WebView2 files
    ' // Here we are using a subfolder in the temporary folder
    DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
+
    ' // Create an instance of WebView
    DIM pWebView2 AS CWebView2 = CWebView2(hWin, dwsUserDataFolder)
+
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
-      ' // Navigate to a web page
-      pWebView2.NavigateToString(BuildScript)
+
+      ' // Build the script
+
+      DIM s AS DWSTRING
+
+      s  = "<!DOCTYPE html>"
+      s += "<html><head><meta charset=""UTF-8""></head><body>"
+      s += "<h2>SVG Shapes Demo</h2>"
+      s += "<svg width=""600"" height=""300"" xmlns=""http://www.w3.org/2000/svg"">"
+
+      ' Rectangle with rounded corners
+      s += "  <rect x=""20"" y=""20"" width=""100"" height=""60"" rx=""10"" ry=""10"" "
+      s += "        style=""fill:blue;stroke:black;stroke-width:2;opacity:0.7"" />"
+
+      ' Circle
+      s += "  <circle cx=""200"" cy=""50"" r=""30"" "
+      s += "          style=""fill:green;stroke:black;stroke-width:2;opacity:0.7"" />"
+
+      ' Ellipse
+      s += "  <ellipse cx=""320"" cy=""50"" rx=""50"" ry=""30"" "
+      s += "           style=""fill:orange;stroke:black;stroke-width:2;opacity:0.7"" />"
+
+      ' Line
+      s += "  <line x1=""400"" y1=""20"" x2=""500"" y2=""80"" "
+      s += "        style=""stroke:red;stroke-width:4"" />"
+
+      s += "</svg>"
+      s += "</body></html>"
+
+      ' // Navigate to the string
+      pWebView2.NavigateToString(s)
+
    END IF
 
    ' // Dispatch Windows messages

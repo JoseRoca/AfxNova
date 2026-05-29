@@ -25,29 +25,6 @@ DECLARE FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
 DECLARE FUNCTION WndProc (BYVAL hwnd AS HWND, BYVAL uMsg AS UINT, BYVAL wParam AS WPARAM, BYVAL lParam AS LPARAM) AS LRESULT
 
 ' ========================================================================================
-' Build an html page
-' ========================================================================================
-FUNCTION BuildScript () AS DWSTRING
-
-   DIM s AS DWSTRING
-
-   s =  "<!DOCTYPE html>"
-   s += "<html>"
-   s += "<body>"
-   s += "<h2>SVG rect Element</h2>"
-   s += "<svg width='300' height='130' xmlns='http://www.w3.org/2000/svg'>"
-   s += "   <rect width='200' height='100' x='10' y='10' rx='20' ry='20' fill='blue' />"
-   s += "   Sorry, your browser does not support inline SVG.  "
-   s += "</svg>"
-   s += "</body>"
-   s += "</html>"
-
-   RETURN s
-
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' Main
 ' ========================================================================================
 FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
@@ -71,12 +48,30 @@ FUNCTION wWinMain (BYVAL hInstance AS HINSTANCE, _
    ' // Use the same folder for the WebView2 files
    ' // Here we are using a subfolder in the temporary folder
    DIM dwsUserDataFolder AS DWSTRING = AfxGetTempPath & "AfxNovaWebView2"
+
    ' // Create an instance of WebView
    DIM pWebView2 AS CWebView2 = CWebView2(hWin, dwsUserDataFolder)
+
    ' // Wait until is ready
    IF pWebView2.IsReady THEN
-      ' // Navigate to a web page
-      pWebView2.NavigateToString(BuildScript)
+
+      ' // Build the script
+      DIM s AS DWSTRING
+
+      s =  "<!DOCTYPE html>"
+      s += "<html>"
+      s += "<body>"
+      s += "<h2>SVG rect Element</h2>"
+      s += "<svg width='300' height='130' xmlns='http://www.w3.org/2000/svg'>"
+      s += "   <rect width='200' height='100' x='10' y='10' rx='20' ry='20' fill='blue' />"
+      s += "   Sorry, your browser does not support inline SVG.  "
+      s += "</svg>"
+      s += "</body>"
+      s += "</html>"
+
+      ' // Navigate to the string
+      pWebView2.NavigateToString(s)
+
    END IF
 
    ' // Dispatch Windows messages
