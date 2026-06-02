@@ -265,22 +265,6 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' Creates a D2D1_GRADIENT_STOP structure.
-' ========================================================================================
-PRIVATE FUNCTION D2D1_GradientStop ( _
-   BYVAL position AS FLOAT, _
-   BYREF clr AS D2D1_COLOR_F _
-   ) AS D2D1_GRADIENT_STOP
-
-   DIM gstop AS D2D1_GRADIENT_STOP
-   gstop.position = position
-   gstop.color = clr
-   RETURN gstop
-
-END FUNCTION
-' ========================================================================================
-
-' ========================================================================================
 ' Creates a D2D1_QUADRATIC_BEZIER_SEGMENT structure.
 ' ========================================================================================
 PRIVATE FUNCTION D2D1_QuadraticBezierSegment ( _
@@ -724,6 +708,36 @@ PRIVATE FUNCTION D2D1_ColorF OVERLOAD ( _
    cf.b = blue
    cf.a = alpha
    RETURN cf
+
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Creates a D2D1_GRADIENT_STOP structure.
+' ========================================================================================
+PRIVATE FUNCTION D2D1_GradientStop OVERLOAD ( _
+   BYVAL position AS FLOAT, _
+   BYREF clr AS D2D1_COLOR_F _
+   ) AS D2D1_GRADIENT_STOP
+
+   DIM gstop AS D2D1_GRADIENT_STOP
+   gstop.position = position
+   gstop.color = clr
+   RETURN gstop
+
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION D2D1_GradientStop OVERLOAD ( _
+   BYVAL position AS FLOAT, _
+   BYVAL clr AS UINT32, _
+   BYVAL alpha AS FLOAT = 1.0 _
+   ) AS D2D1_GRADIENT_STOP
+
+   DIM gstop AS D2D1_GRADIENT_STOP
+   gstop.position = position
+   gstop.color = D2D1_ColorF(clr, alpha)
+   RETURN gstop
 
 END FUNCTION
 ' ========================================================================================

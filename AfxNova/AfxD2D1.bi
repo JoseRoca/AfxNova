@@ -1528,11 +1528,11 @@ TYPE ID2D1Geometry_ EXTENDS ID2D1Resource
    DECLARE ABSTRACT FUNCTION Outline (BYREF worldTransform AS const D2D1_MATRIX_3X2_F, _
       BYVAL flatteningTolerance AS FLOAT, BYVAL geometrySink AS ID2D1SimplifiedGeometrySink PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION ComputeArea (BYREF worldTransform AS const D2D1_MATRIX_3X2_F, _
-      BYVAL flatteningTolerance AS FLOAT, BYVAL area AS FLOAT PTR) AS HRESULT
+      BYVAL flatteningTolerance AS FLOAT, BYREF area AS FLOAT) AS HRESULT
    DECLARE ABSTRACT FUNCTION ComputeLength (BYREF worldTransform AS const D2D1_MATRIX_3X2_F, _
-      BYVAL flatteningTolerance AS FLOAT, BYVAL Length AS FLOAT PTR) AS HRESULT
+      BYVAL flatteningTolerance AS FLOAT, BYREF Length AS FLOAT) AS HRESULT
    DECLARE ABSTRACT FUNCTION ComputePointAtLength (BYVAL length AS FLOAT, BYREF worldTransform AS const D2D1_MATRIX_3X2_F, _
-      BYVAL flatteningTolerance AS FLOAT, BYREF point AS D2D1_POINT_2F, BYREF unitTangentVector AS D2D1_POINT_2F) AS HRESULT
+      BYVAL flatteningTolerance AS FLOAT, BYREF pt AS D2D1_POINT_2F, BYREF unitTangentVector AS D2D1_POINT_2F) AS HRESULT
    DECLARE ABSTRACT FUNCTION Widen (BYVAL strokeWidth AS FLOAT, BYVAL strokeStyle AS ID2D1StrokeStyle PTR, _
       BYREF worldTransform AS const D2D1_MATRIX_3X2_F, BYVAL flatteningTolerance AS FLOAT, BYVAL geometrySink AS ID2D1SimplifiedGeometrySink PTR) AS HRESULT
 END TYPE
@@ -1712,7 +1712,7 @@ END TYPE
 
 TYPE ID2D1PathGeometry_ EXTENDS ID2D1Geometry
    DECLARE ABSTRACT FUNCTION Open (BYREF geometrySink AS ID2D1GeometrySink PTR) AS HRESULT
-   DECLARE ABSTRACT FUNCTION Stream (BYVAL geometrySink AS ID2D1GeometrySink PTR) AS HRESULT
+   DECLARE ABSTRACT FUNCTION Stream (BYREF geometrySink AS ID2D1GeometrySink PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION GetSegmentCount (BYREF count AS UINT32) AS HRESULT
    DECLARE ABSTRACT FUNCTION GetFigureCount (BYREF count AS UINT32) AS HRESULT
 END TYPE
@@ -2550,7 +2550,7 @@ TYPE ID2D1ImageBrush_ EXTENDS ID2D1Brush
    DECLARE ABSTRACT FUNCTION GetExtendModeX () AS D2D1_EXTEND_MODE
    DECLARE ABSTRACT FUNCTION GetExtendModeY () AS D2D1_EXTEND_MODE
    DECLARE ABSTRACT FUNCTION GetInterpolationMode () AS D2D1_INTERPOLATION_MODE
-   DECLARE ABSTRACT SUB GetSourceRectangle (BYREF sourceRectangle AS D2D1_RECT_F PTR)
+   DECLARE ABSTRACT SUB GetSourceRectangle (BYREF sourceRectangle AS D2D1_RECT_F)
 END TYPE
 
 #endif
@@ -2870,10 +2870,10 @@ TYPE IDXGIDevice AS IDXGIDevice_
 
 TYPE ID2D1Factory1_ EXTENDS ID2D1Factory
    DECLARE ABSTRACT FUNCTION CreateDevice (BYVAL dxgiDevice AS IDXGIDevice PTR, BYREF d2dDevice AS ID2D1Device PTR) AS HRESULT
-   DECLARE ABSTRACT FUNCTION CreateStrokeStyle (BYREF strokeStyleProperties AS D2D1_STROKE_STYLE_PROPERTIES1, _
+   DECLARE ABSTRACT FUNCTION CreateStrokeStyle1 (BYREF strokeStyleProperties AS D2D1_STROKE_STYLE_PROPERTIES1, _
       BYREF dashes AS const FLOAT, BYVAL dashesCount AS UINT32, BYREF strokeStyle AS ID2D1StrokeStyle1 PTR) AS HRESULT
-   DECLARE ABSTRACT FUNCTION CreatePathGeometry (BYREF pathGeometry AS ID2D1PathGeometry1 PTR) AS HRESULT
-   DECLARE ABSTRACT FUNCTION CreateDrawingStateBlock (BYREF drawingStateDescription AS D2D1_DRAWING_STATE_DESCRIPTION1, _
+   DECLARE ABSTRACT FUNCTION CreatePathGeometry1 (BYREF pathGeometry AS ID2D1PathGeometry1 PTR) AS HRESULT
+   DECLARE ABSTRACT FUNCTION CreateDrawingStateBlock1 (BYREF drawingStateDescription AS D2D1_DRAWING_STATE_DESCRIPTION1, _
       BYVAL textRenderingParams AS IDWriteRenderingParams PTR, BYREF drawingStateBlock AS ID2D1DrawingStateBlock1 PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION CreateGdiMetafile (BYVAL metafileStream AS IStream PTR, BYREF metafile AS ID2D1GdiMetafile PTR) AS HRESULT
    DECLARE ABSTRACT FUNCTION RegisterEffectFromStream (BYREF ClassId AS CLSID, BYVAL propertyXml AS IStream PTR, _
@@ -3152,8 +3152,8 @@ TYPE ID2D1DeviceContext6 AS ID2D1DeviceContext6_
 TYPE ID2D1Device6 AS ID2D1Device6_
 TYPE ID2D1Factory7 AS ID2D1Factory7_
 TYPE ID2D1DeviceContext7 AS ID2D1DeviceContext7_
-TYPE ID2D1Device7 AS ID2D1Device7
-TYPE ID2D1Factory8 AS ID2D1Factory8
+TYPE ID2D1Device7 AS ID2D1Device7_
+TYPE ID2D1Factory8 AS ID2D1Factory8_
 
 TYPE ID2D1SvgDocument AS ID2D1SvgDocument_
 
