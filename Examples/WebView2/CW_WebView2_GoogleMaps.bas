@@ -11,7 +11,7 @@
 
 #define _WIN32_WINNT &h0602
 #include once "AfxNova/CWindow.inc"
-'#define _CWV2_DEBUG_ 1
+#define _CWV2_DEBUG_ 1
 #include once "AfxNova/CWebView2.inc"
 USING AfxNova
 
@@ -54,13 +54,23 @@ FUNCTION BuildScript () AS STRING
    s += "  <meta charset='UTF-8'>"
    s += "  <title>Google Maps Embed</title>"
    s += "  <style>"
-   s += "    html, body { margin:0; padding:0; height:100%; width:100%; }"
-   s += "    iframe { border:0; width:100%; height:100%; }"
+   s += "    html, body {"
+   s += "      margin:0;"
+   s += "      padding:0;"
+   s += "      height:100%;"
+   s += "      width:100%;"
+   s += "      overflow:hidden;"
+   s += "    }"
+   s += "    iframe {"
+   s += "      border:0;"
+   s += "      width:100%;"
+   s += "      height:100%;"
+   s += "    }"
    s += "  </style>"
    s += "</head>"
    s += "<body>"
    s += "  <iframe "
-   s += "    src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2992.123456789!2d-0.418!3d39.469!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6047c123456789%3A0xabcdef123456789!2sQuart%20de%20Poblet%2C%20Valencia!5e0!3m2!1sen!2ses!4v1700000000000!5m2!1sen!2ses' "
+   s += "    src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.999040820983!2d2.292292315674014!3d48.87377907928851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fc7b0f0c6c7%3A0x8e8f0b1a0b0c0d0e!2sChamps-%C3%89lys%C3%A9es%2C%20Paris%2C%20France!5e0!3m2!1ses!2ses!4v1700000000001!5m2!1ses!2ses' "
    s += "    allowfullscreen='' "
    s += "    loading='lazy' "
    s += "    referrerpolicy='no-referrer-when-downgrade'>"
