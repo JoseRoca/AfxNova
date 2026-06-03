@@ -1972,6 +1972,7 @@ Public:
    DECLARE SUB SetFillMode (BYVAL fillMode AS D2D1_FILL_MODE)
    DECLARE SUB SetSegmentFlags (BYVAL vertexFlags AS D2D1_PATH_SEGMENT)
    DECLARE SUB BeginFigure (BYVAL startPoint AS D2D1_POINT_2F, BYVAL figureBegin AS D2D1_FIGURE_BEGIN)
+   DECLARE SUB BeginFigure (BYVAL startPointX AS SINGLE, BYVAL startPointY AS SINGLE, BYVAL figureBegin AS D2D1_FIGURE_BEGIN)
    DECLARE SUB AddLines (BYREF points AS D2D1_POINT_2F, BYVAL pointsCount AS UINT32)
    DECLARE SUB AddLines (BYVAL points AS D2D1_POINT_2F PTR, BYVAL pointsCount AS UINT32)
    DECLARE SUB AddBeziers (BYREF beziers AS const D2D1_BEZIER_SEGMENT, BYVAL beziersCount AS UINT32)
@@ -2060,6 +2061,14 @@ PRIVATE SUB CID2D1SimplifiedGeometrySink.BeginFigure (BYVAL startPoint AS D2D1_P
    m_pSimplifiedGeometrySink->BeginFigure(startPoint, figureBegin)
 END SUB
 ' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1SimplifiedGeometrySink.BeginFigure (BYVAL startPointX AS SINGLE, BYVAL startPointY AS SINGLE, BYVAL figureBegin AS D2D1_FIGURE_BEGIN)
+   D2D1_DP("")
+   IF m_pSimplifiedGeometrySink = NULL THEN EXIT SUB
+   DIM startPoint AS D2D1_POINT_2F = (startPointX, startPointY)
+   m_pSimplifiedGeometrySink->BeginFigure(startPoint, figureBegin)
+END SUB
+' ========================================================================================
 
 ' ========================================================================================
 ' Creates a sequence of lines using the specified points and adds them to the geometry sink.
@@ -2133,14 +2142,20 @@ Public:
 
    ' // ID2D1GeometrySink methods
    DECLARE SUB AddLine (BYVAL pt AS D2D1_POINT_2F)
+   DECLARE SUB AddLine (BYVAL endPointX AS SINGLE, BYVAL endPointY AS SINGLE)
    DECLARE SUB AddBezier (BYREF bezier AS D2D1_BEZIER_SEGMENT)
    DECLARE SUB AddBezier (BYVAL bezier AS D2D1_BEZIER_SEGMENT PTR)
+   DECLARE SUB AddBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BIVAL pt2X AS SINGLE, _
+           BYVAL pt2Y AS SINGLE, BYVAL pt3X AS SINGLE, BYVAL pt3Y AS SINGLE)
    DECLARE SUB AddQuadraticBezier (BYREF bezier AS D2D1_QUADRATIC_BEZIER_SEGMENT)
    DECLARE SUB AddQuadraticBezier (BYVAL bezier AS D2D1_QUADRATIC_BEZIER_SEGMENT PTR)
+   DECLARE SUB AddQuadraticBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BYVAL pt2X AS SINGLE, BYVAL pt2Y AS SINGLE)
    DECLARE SUB AddQuadraticBeziers (BYREF beziers AS D2D1_QUADRATIC_BEZIER_SEGMENT, BYVAL beziersCount AS UINT32)
    DECLARE SUB AddQuadraticBeziers (BYVAL beziers AS D2D1_QUADRATIC_BEZIER_SEGMENT PTR, BYVAL beziersCount AS UINT32)
    DECLARE SUB AddArc (BYREF arc AS D2D1_ARC_SEGMENT)
    DECLARE SUB AddArc (BYVAL arc AS D2D1_ARC_SEGMENT PTR)
+   DECLARE SUB AddArc (BYVAL ptX AS SINGLE, BYVAL ptY AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight aS SINGLE, _
+           BYVAL rotationAngle AS SINGLE, BYVAL sweepDirection AS D2D1_SWEEP_DIRECTION, BYVAL arcSize AS D2D1_ARC_SIZE)
 
 END TYPE
 ' ========================================================================================
@@ -2196,6 +2211,14 @@ PRIVATE SUB CID2D1GeometrySink.AddLine (BYVAL pt AS D2D1_POINT_2F)
    m_pGeometrySink->AddLine(pt)
 END SUB
 ' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1GeometrySink.AddLine (BYVAL endPointX AS SINGLE, BYVAL endPointY AS SINGLE)
+   D2D1_DP("")
+   IF m_pGeometrySink = NULL THEN EXIT SUB
+   DIM pt AS D2D1_POINT_2F = (endPointX, endPointY)
+   m_pGeometrySink->AddLine(pt)
+END SUB
+' ========================================================================================
 
 ' ========================================================================================
 ' Creates a cubic Bezier curve between the current point and the specified end point.
@@ -2211,6 +2234,28 @@ PRIVATE SUB CID2D1GeometrySink.AddBezier (BYVAL bezier AS D2D1_BEZIER_SEGMENT PT
    D2D1_DP("")
    IF m_pGeometrySink = NULL THEN EXIT SUB
    m_pGeometrySink->AddBezier(BYVAL bezier)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1GeometrySink.AddBezier (BYREF bezier AS D2D1_BEZIER_SEGMENT)
+   D2D1_DP("")
+   IF m_pGeometrySink = NULL THEN EXIT SUB
+   m_pGeometrySink->AddBezier(bezier)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1GeometrySink.AddBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BIVAL pt2X AS SINGLE, _
+   BYVAL pt2Y AS SINGLE, BYVAL pt3X AS SINGLE, BYVAL pt3Y AS SINGLE)
+   D2D1_DP("")
+   IF m_pGeometrySink = NULL THEN EXIT SUB
+   DIM pt1 AS D2D1_POINT_2F = (pt1X, pt1Y)
+   DIM pt2 AS D2D1_POINT_2F = (pt2X, pt2Y)
+   DIM pt3 AS D2D1_POINT_2F = (pt3X, pt3Y)
+   DIM segment AS D2D1_BEZIER_SEGMENT
+   segment.point1 = pt1
+   segment.point2 = pt2
+   segment.point3 = pt3
+   m_pGeometrySink->AddBezier(segment)
 END SUB
 ' ========================================================================================
 
@@ -2230,6 +2275,18 @@ PRIVATE SUB CID2D1GeometrySink.AddQuadraticBezier (BYVAL bezier AS D2D1_QUADRATI
    m_pGeometrySink->AddQuadraticBezier(BYVAL bezier)
 END SUB
 ' ========================================================================================
+PRIVATE SUB CID2D1GeometrySink.AddQuadraticBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BYVAL pt2X AS SINGLE, BYVAL pt2Y AS SINGLE)
+   D2D1_DP("")
+   IF m_pGeometrySink = NULL THEN EXIT SUB
+   DIM point1 AS D2D1_POINT_2F = (pt1X, pt1Y)
+   DIM point2 AS D2D1_POINT_2F = (pt2X, pt2Y)
+   DIM segment AS D2D1_QUADRATIC_BEZIER_SEGMENT
+   segment.point1 = point1
+   segment.point2 = point2
+   m_pGeometrySink->AddQuadraticBezier(segment)
+END SUB
+' ========================================================================================
+   DECLARE SUB AddQuadraticBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BYVAL pt2X AS SINGLE, BYVAL pt2Y AS SINGLE)
 
 ' ========================================================================================
 ' Adds a sequence of quadratic Bezier segments as an array in a single call.
@@ -2262,5 +2319,21 @@ PRIVATE SUB CID2D1GeometrySink.AddArc (BYVAL arc AS D2D1_ARC_SEGMENT PTR)
    D2D1_DP("")
    IF m_pGeometrySink = NULL THEN EXIT SUB
    m_pGeometrySink->AddArc(BYVAL arc)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB AddArc (BYVAL ptX AS SINGLE, BYVAL ptY AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight aS SINGLE, _
+   BYVAL rotationAngle AS SINGLE, BYVAL sweepDirection AS D2D1_SWEEP_DIRECTION, BYVAL arcSize AS D2D1_ARC_SIZE)
+   D2D1_DP("")
+   IF m_pGeometrySink = NULL THEN EXIT SUB
+   DIM pt AS D2D1_POINT_2F = (ptX, ptY)
+   DIM size AS D2D1_SIZE_F = (nWidth, nHeight)
+   DIM segment AS D2D1_ARC_SEGMENT
+   segment.point = p1
+   segment.size = size
+   segment.rotationAngle = rotationAngle
+   segment.sweepDirection = sweepDirection
+   segment.arcSize = arcSize
+   m_pGeometrySink(segment)
 END SUB
 ' ========================================================================================

@@ -259,7 +259,7 @@ PRIVATE DESTRUCTOR CWebView2
       m_pController->Release
    END IF
    IF m_pEnv THEN m_pEnv->Release
-   CWV2_DP("delete clas - this: " & WSTR(@this))
+   CWV2_DP("delete class - this: " & WSTR(@this))
    ' // Uninitialize the COM library
    CoUninitialize
 END DESTRUCTOR
