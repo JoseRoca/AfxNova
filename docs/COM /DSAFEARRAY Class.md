@@ -284,7 +284,7 @@ CONSTRUCTOR DSAFEARRAY (BYREF dsa AS DSAFEARRAY)
 
 ---
 
-## <a name="constructor3"></a>CConstructor (SAFEARRAY PTR)
+## <a name="constructor3"></a>Constructor (SAFEARRAY PTR)
 
 Creates a DSAFEARRAY from a safe array.
 ```
