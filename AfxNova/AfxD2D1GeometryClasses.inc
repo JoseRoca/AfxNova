@@ -1715,6 +1715,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1PathGeometry PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1PathGeometry PTR
+   DECLARE OPERATOR CAST () AS ID2D1Geometry PTR
 
    DECLARE FUNCTION Open (BYREF geometrySink AS ID2D1GeometrySink PTR) AS HRESULT
    DECLARE FUNCTION Open () AS ID2D1GeometrySink PTR
@@ -1729,7 +1730,7 @@ END TYPE
 ' Creates an instance of the CID2D1PathGeometry class.
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CID2D1PathGeometry
-   D2D1_DP("Deault")
+   D2D1_DP("Default")
 END CONSTRUCTOR
 ' ========================================================================================
 
@@ -1776,6 +1777,13 @@ END OPERATOR
 ' ========================================================================================
 PRIVATE OPERATOR CID2D1PathGeometry.CAST () AS ID2D1PathGeometry PTR
    RETURN m_pPathGeometry
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Geometry interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1PathGeometry.CAST () AS ID2D1Geometry PTR
+   RETURN cast(ID2D1Geometry PTR, m_pPathGeometry)
 END OPERATOR
 ' ========================================================================================
 
@@ -1956,7 +1964,7 @@ END FUNCTION
 ' CID2D1SimplifiedGeometrySink class
 ' Inherited interface = IUnknown
 ' ########################################################################################
-TYPE CID2D1SimplifiedGeometrySink EXTENDS Afx_IUnknown
+TYPE CID2D1SimplifiedGeometrySink
 
 Public:
 
@@ -2135,6 +2143,7 @@ Public:
 
    m_pGeometrySink AS ID2D1GeometrySink PTR
 
+   DECLARE CONSTRUCTOR
    DECLARE CONSTRUCTOR (BYVAL pGeometrySink AS ID2D1GeometrySink PTR)
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1GeometrySink PTR PTR
@@ -2145,7 +2154,7 @@ Public:
    DECLARE SUB AddLine (BYVAL endPointX AS SINGLE, BYVAL endPointY AS SINGLE)
    DECLARE SUB AddBezier (BYREF bezier AS D2D1_BEZIER_SEGMENT)
    DECLARE SUB AddBezier (BYVAL bezier AS D2D1_BEZIER_SEGMENT PTR)
-   DECLARE SUB AddBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BIVAL pt2X AS SINGLE, _
+   DECLARE SUB AddBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BYVAL pt2X AS SINGLE, _
            BYVAL pt2Y AS SINGLE, BYVAL pt3X AS SINGLE, BYVAL pt3Y AS SINGLE)
    DECLARE SUB AddQuadraticBezier (BYREF bezier AS D2D1_QUADRATIC_BEZIER_SEGMENT)
    DECLARE SUB AddQuadraticBezier (BYVAL bezier AS D2D1_QUADRATIC_BEZIER_SEGMENT PTR)
@@ -2158,6 +2167,14 @@ Public:
            BYVAL rotationAngle AS SINGLE, BYVAL sweepDirection AS D2D1_SWEEP_DIRECTION, BYVAL arcSize AS D2D1_ARC_SIZE)
 
 END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1GeometrySink class. Default constructor.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1GeometrySink
+   D2D1_DP("Default constructor - m_pGeometrySink = " & WSTR(m_pGeometrySink))
+END CONSTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
@@ -2237,14 +2254,7 @@ PRIVATE SUB CID2D1GeometrySink.AddBezier (BYVAL bezier AS D2D1_BEZIER_SEGMENT PT
 END SUB
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE SUB CID2D1GeometrySink.AddBezier (BYREF bezier AS D2D1_BEZIER_SEGMENT)
-   D2D1_DP("")
-   IF m_pGeometrySink = NULL THEN EXIT SUB
-   m_pGeometrySink->AddBezier(bezier)
-END SUB
-' ========================================================================================
-' ========================================================================================
-PRIVATE SUB CID2D1GeometrySink.AddBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BIVAL pt2X AS SINGLE, _
+PRIVATE SUB CID2D1GeometrySink.AddBezier (BYVAL pt1X AS SINGLE, BYVAL pt1Y AS SINGLE, BYVAL pt2X AS SINGLE, _
    BYVAL pt2Y AS SINGLE, BYVAL pt3X AS SINGLE, BYVAL pt3Y AS SINGLE)
    D2D1_DP("")
    IF m_pGeometrySink = NULL THEN EXIT SUB
@@ -2322,18 +2332,18 @@ PRIVATE SUB CID2D1GeometrySink.AddArc (BYVAL arc AS D2D1_ARC_SEGMENT PTR)
 END SUB
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE SUB AddArc (BYVAL ptX AS SINGLE, BYVAL ptY AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight aS SINGLE, _
+PRIVATE SUB CID2D1GeometrySink.AddArc (BYVAL ptX AS SINGLE, BYVAL ptY AS SINGLE, BYVAL nWidth AS SINGLE, BYVAL nHeight aS SINGLE, _
    BYVAL rotationAngle AS SINGLE, BYVAL sweepDirection AS D2D1_SWEEP_DIRECTION, BYVAL arcSize AS D2D1_ARC_SIZE)
    D2D1_DP("")
    IF m_pGeometrySink = NULL THEN EXIT SUB
    DIM pt AS D2D1_POINT_2F = (ptX, ptY)
    DIM size AS D2D1_SIZE_F = (nWidth, nHeight)
    DIM segment AS D2D1_ARC_SEGMENT
-   segment.point = p1
+   segment.point = pt
    segment.size = size
    segment.rotationAngle = rotationAngle
    segment.sweepDirection = sweepDirection
    segment.arcSize = arcSize
-   m_pGeometrySink(segment)
+   m_pGeometrySink->AddArc(segment)
 END SUB
 ' ========================================================================================

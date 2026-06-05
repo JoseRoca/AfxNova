@@ -1322,7 +1322,7 @@ END OPERATOR
 ' ========================================================================================
 PRIVATE SUB CID2D1BitmapBrush1.SetInterpolationMode1 (BYVAL InterpolationMode AS D2D1_BITMAP_INTERPOLATION_MODE)
    D2D1_DP("")
-   IF m_pBitmapBrush = NULL THEN EXIT SUB
+   IF m_pBitmapBrush1 = NULL THEN EXIT SUB
    m_pBitmapBrush1->SetInterpolationMode1(InterpolationMode)
 END SUB
 ' ========================================================================================
@@ -1331,7 +1331,7 @@ END SUB
 ' ========================================================================================
 PRIVATE FUNCTION CID2D1BitmapBrush1.GetInterpolationMode1 () AS D2D1_EXTEND_MODE
    D2D1_DP("")
-   IF m_pBitmapBrush = NULL THEN EXIT FUNCTION
+   IF m_pBitmapBrush1 = NULL THEN EXIT FUNCTION
    RETURN m_pBitmapBrush1->GetInterpolationMode1
 END FUNCTION
 ' ========================================================================================
