@@ -533,6 +533,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory1 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory1 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device PTR
    DECLARE FUNCTION CreateStrokeStyle1 (BYREF strokeStyleProperties AS D2D1_STROKE_STYLE_PROPERTIES1, _
@@ -602,6 +603,35 @@ PRIVATE DESTRUCTOR CD2D1Factory1
    D2D1_DP("m_pFactory1: " & WSTR(m_pFactory1))
    IF m_pFactory1 THEN m_pFactory1->Release
 END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying ID2D1Factory1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory1) AS ID2D1Factory1 PTR
+   RETURN factory.m_pFactory1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory1.@ () AS ID2D1Factory1 PTR PTR
+   RETURN @m_pFactory1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory1.CAST () AS ID2D1Factory1 PTR
+   RETURN m_pFactory1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory1.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory1)
+END OPERATOR
 ' ========================================================================================
 
 ' ========================================================================================
@@ -818,6 +848,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory2 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory2 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice1 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device1 PTR
 
@@ -868,6 +899,35 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Returns the underlying ID2D1Factory2 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory2) AS ID2D1Factory2 PTR
+   RETURN factory.m_pFactory2
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory2 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory2.@ () AS ID2D1Factory2 PTR PTR
+   RETURN @m_pFactory2
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory2 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory2.CAST () AS ID2D1Factory2 PTR
+   RETURN m_pFactory2
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory2.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory2)
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a ID2D1Device1 object.
 ' ========================================================================================
 PRIVATE FUNCTION CD2D1Factory2.CreateDevice1 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device1 PTR
@@ -895,6 +955,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory3 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory3 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice2 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device2 PTR
 
@@ -952,6 +1013,35 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Returns the underlying ID2D1Factory3 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory3) AS ID2D1Factory3 PTR
+   RETURN factory.m_pFactory3
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory3 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory3.@ () AS ID2D1Factory3 PTR PTR
+   RETURN @m_pFactory3
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory3 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory3.CAST () AS ID2D1Factory3 PTR
+   RETURN m_pFactory3
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory3.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory3)
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a ID2D1Device1 object.
 ' ========================================================================================
 PRIVATE FUNCTION CD2D1Factory3.CreateDevice2 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device2 PTR
@@ -979,6 +1069,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory4 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory4 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice3 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device3 PTR
 
@@ -1048,6 +1139,35 @@ END DESTRUCTOR
 ' =================================================================================
 
 ' ========================================================================================
+' Returns the underlying ID2D1Factory4 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory4) AS ID2D1Factory4 PTR
+   RETURN factory.m_pFactory4
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory4 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory4.@ () AS ID2D1Factory4 PTR PTR
+   RETURN @m_pFactory4
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory4 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory4.CAST () AS ID2D1Factory4 PTR
+   RETURN m_pFactory4
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory4.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory4)
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a ID2D1Device3 object.
 ' ========================================================================================
 PRIVATE FUNCTION CD2D1Factory4.CreateDevice3 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device3 PTR
@@ -1074,6 +1194,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory5 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory5 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice4 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device4 PTR
 
@@ -1151,6 +1272,35 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Returns the underlying ID2D1Factory5 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory5) AS ID2D1Factory5 PTR
+   RETURN factory.m_pFactory5
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory5 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory5.@ () AS ID2D1Factory5 PTR PTR
+   RETURN @m_pFactory5
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory5 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory5.CAST () AS ID2D1Factory5 PTR
+   RETURN m_pFactory5
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory5.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory5)
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a ID2D1Device4 object.
 ' ========================================================================================
 PRIVATE FUNCTION CD2D1Factory5.CreateDevice4 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device4 PTR
@@ -1177,6 +1327,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory6 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory6 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice5 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device5 PTR
 
@@ -1262,6 +1413,35 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Returns the underlying ID2D1Factory6 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory6) AS ID2D1Factory6 PTR
+   RETURN factory.m_pFactory6
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory6 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory6.@ () AS ID2D1Factory6 PTR PTR
+   RETURN @m_pFactory6
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory6 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory6.CAST () AS ID2D1Factory6 PTR
+   RETURN m_pFactory6
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory6.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory6)
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a ID2D1Device5 object.
 ' ========================================================================================
 PRIVATE FUNCTION CD2D1Factory6.CreateDevice5 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device5 PTR
@@ -1289,6 +1469,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory7 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory7 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice6 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device6 PTR
 
@@ -1362,6 +1543,35 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Returns the underlying ID2D1Factory7 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory7) AS ID2D1Factory7 PTR
+   RETURN factory.m_pFactory7
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory7 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory7.@ () AS ID2D1Factory7 PTR PTR
+   RETURN @m_pFactory7
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory7 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory7.CAST () AS ID2D1Factory7 PTR
+   RETURN m_pFactory7
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory7.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory7)
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a ID2D1Device6 object.
 ' ========================================================================================
 PRIVATE FUNCTION CD2D1Factory7.CreateDevice6 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device6 PTR
@@ -1390,6 +1600,7 @@ Public:
    DECLARE DESTRUCTOR
    DECLARE OPERATOR @ () AS ID2D1Factory8 PTR PTR
    DECLARE OPERATOR CAST () AS ID2D1Factory8 PTR
+   DECLARE OPERATOR CAST () AS ID2D1Factory PTR
 
    DECLARE FUNCTION CreateDevice7 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device7 PTR
 
@@ -1491,6 +1702,35 @@ END DESTRUCTOR
 ' ========================================================================================
 
 ' ========================================================================================
+' Returns the underlying ID2D1Factory8 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF factory AS CD2D1Factory8) AS ID2D1Factory8 PTR
+   RETURN factory.m_pFactory8
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Factory8  interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory8 .@ () AS ID2D1Factory8  PTR PTR
+   RETURN @m_pFactory8
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory8 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory8.CAST () AS ID2D1Factory8 PTR
+   RETURN m_pFactory8
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Factory interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CD2D1Factory8.CAST () AS ID2D1Factory PTR
+   RETURN cast(ID2D1Factory PTR, m_pFactory8)
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
 ' Creates a ID2D1Device7 object.
 ' ========================================================================================
 PRIVATE FUNCTION CD2D1Factory8.CreateDevice7 (BYVAL dxgiDevice AS IDXGIDevice PTR) AS ID2D1Device7 PTR
@@ -1502,10 +1742,414 @@ PRIVATE FUNCTION CD2D1Factory8.CreateDevice7 (BYVAL dxgiDevice AS IDXGIDevice PT
 END FUNCTION
 ' ========================================================================================
 
+' ########################################################################################
+' CID2D1StrokeStyle class
+' Describes the caps, miter limit, line join, and dash information for a stroke.
+' ########################################################################################
 
-#include once "AfxD2D1RenderTargetClasses.inc"
-#include once "AfxD2D1BrushClasses.inc"
-#include once "AfxD2D1GeometryClasses.inc"
+TYPE CID2D1StrokeStyle
+Public:
+
+   m_pStrokeStyle AS ID2D1StrokeStyle PTR
+
+   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL pStrokeStyle AS ID2D1StrokeStyle PTR)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS ID2D1StrokeStyle PTR PTR
+   DECLARE OPERATOR CAST () AS ID2D1StrokeStyle PTR
+
+   ' // ID2D1Resource
+   DECLARE FUNCTION GetFactory () AS ID2D1Factory PTR
+
+   ' // ID2D1StrokeStyle
+   DECLARE FUNCTION GetStartCap () AS D2D1_CAP_STYLE
+   DECLARE FUNCTION GetEndCap () AS D2D1_CAP_STYLE
+   DECLARE FUNCTION GetDashCap () AS D2D1_CAP_STYLE
+   DECLARE FUNCTION GetMiterLimit () AS FLOAT
+   DECLARE FUNCTION GetLineJoin () AS D2D1_LINE_JOIN
+   DECLARE FUNCTION GetDashOffset () AS FLOAT
+   DECLARE FUNCTION GetDashStyle () AS D2D1_DASH_STYLE
+   DECLARE FUNCTION GetDashesCount () AS UINT32
+   DECLARE SUB GetDashes (BYREF dashes AS FLOAT, BYVAL dashesCount AS UINT32)
+   
+
+END TYPE
+' ========================================================================================
+
+
+' ========================================================================================
+' Creates an instance of the CID2D1StrokeStyle class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1StrokeStyle
+   D2D1_DP("Deault")
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1StrokeStyle class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1StrokeStyle (BYVAL pStrokeStyle AS ID2D1StrokeStyle PTR)
+   D2D1_DP("pStrokeStyle - " & WSTR(pStrokeStyle))
+   m_pStrokeStyle = pStrokeStyle
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR CID2D1StrokeStyle
+   D2D1_DP("m_pStrokeStyle: " & WSTR(m_pStrokeStyle))
+   IF m_pStrokeStyle THEN m_pStrokeStyle->Release
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying ID2D1GradientStopCollection interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF gradientStopCollection AS CID2D1StrokeStyle) AS ID2D1StrokeStyle PTR
+   RETURN gradientStopCollection.m_pStrokeStyle
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1StrokeStyle interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1StrokeStyle.@ () AS ID2D1StrokeStyle PTR PTR
+   RETURN @m_pStrokeStyle
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1StrokeStyle interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1StrokeStyle.CAST () AS ID2D1StrokeStyle PTR
+   RETURN m_pStrokeStyle
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
+' Inherited ID2D1Resource inteface method
+' ========================================================================================
+' ========================================================================================
+' Retrieves the factory associated with this resource.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetFactory () AS ID2D1Factory PTR
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN RETURN NULL
+   DIM factory AS ID2D1Factory PTR
+   DIM pResource AS ID2D1Resource PTR = CAST(ANY PTR, m_pStrokeStyle)
+   pResource->GetFactory(factory)
+   RETURN factory
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' ID2D1StrokeStyle inteface methods
+' ========================================================================================
+' ========================================================================================
+' Retrieves the type of shape used at the beginning of a stroke.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetStartCap () AS D2D1_CAP_STYLE
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetStartCap
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the type of shape used at the end of a stroke.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetEndCap () AS D2D1_CAP_STYLE
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetEndCap
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Gets a value that specifies how the ends of each dash are drawn.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetDashCap () AS D2D1_CAP_STYLE
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetDashCap
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the limit on the ratio of the miter length to half the stroke's thickness.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetMiterLimit () AS FLOAT
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetMiterLimit
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the type of joint used at the vertices of a shape's outline.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetLineJoin () AS D2D1_LINE_JOIN
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetLineJoin
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves a value that specifies how far in the dash sequence the stroke will start.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetDashOffset () AS FLOAT
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetDashOffset
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Gets a value that describes the stroke's dash pattern.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetDashStyle () AS D2D1_DASH_STYLE
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetDashStyle
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves a value that specifies how far in the dash sequence the stroke will start.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle.GetDashesCount () AS UINT32
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle->GetDashesCount
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves a value that specifies how far in the dash sequence the stroke will start.
+' ========================================================================================
+PRIVATE SUB CID2D1StrokeStyle.GetDashes (BYREF dashes AS FLOAT, BYVAL dashesCount AS UINT32)
+   D2D1_DP("")
+   IF m_pStrokeStyle = NULL THEN EXIT SUB
+   m_pStrokeStyle->GetDashes(dashes, dashesCount)
+END SUB
+' ========================================================================================
+
+' ########################################################################################
+' CID2D1StrokeStyle1 class
+' Describes the caps, miter limit, line join, and dash information for a stroke.
+' ########################################################################################
+
+TYPE CID2D1StrokeStyle1 EXTENDS CID2D1StrokeStyle
+Public:
+
+   m_pStrokeStyle1 AS ID2D1StrokeStyle1 PTR
+
+   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL pStrokeStyle1 AS ID2D1StrokeStyle1 PTR)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS ID2D1StrokeStyle1 PTR PTR
+   DECLARE OPERATOR CAST () AS ID2D1StrokeStyle1 PTR
+
+   ' // ID2D1Resource
+   DECLARE FUNCTION GetFactory () AS ID2D1Factory PTR
+
+   ' // ID2D1StrokeStyle1
+   DECLARE FUNCTION GetStrokeTransformType () AS D2D1_STROKE_TRANSFORM_TYPE
+
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1StrokeStyle1 class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1StrokeStyle1
+   D2D1_DP("Deault")
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1StrokeStyle1 class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1StrokeStyle1 (BYVAL pStrokeStyle1 AS ID2D1StrokeStyle1 PTR)
+   D2D1_DP("pStrokeStyle1 - " & WSTR(pStrokeStyle1))
+   m_pStrokeStyle1 = pStrokeStyle1
+   ' // Increment the reference count
+   IF m_pStrokeStyle1 THEN m_pStrokeStyle1->AddRef
+   ' // Release the base factory if there is one
+   IF m_pStrokeStyle THEN
+      m_pStrokeStyle->Release
+      D2D1_DP("Release old stroke style: " & WSTR(m_pStrokeStyle))
+   END iF
+   ' // Assign the new factory pointer to the base class
+   m_pStrokeStyle = m_pStrokeStyle1
+   D2D1_DP("Assign new stroke style: " & WSTR(m_pStrokeStyle))
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR CID2D1StrokeStyle1
+   D2D1_DP("m_pStrokeStyle1: " & WSTR(m_pStrokeStyle1))
+   IF m_pStrokeStyle1 THEN m_pStrokeStyle1->Release
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying CID2D1StrokeStyle1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF gradientStopCollection AS CID2D1StrokeStyle1) AS ID2D1StrokeStyle1 PTR
+   RETURN gradientStopCollection.m_pStrokeStyle1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1StrokeStyle1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1StrokeStyle1.@ () AS ID2D1StrokeStyle1 PTR PTR
+   RETURN @m_pStrokeStyle1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1StrokeStyle1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1StrokeStyle1.CAST () AS ID2D1StrokeStyle1 PTR
+   RETURN m_pStrokeStyle1
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
+' Inherited ID2D1Resource inteface method
+' ========================================================================================
+' ========================================================================================
+' Retrieves the factory associated with this resource.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle1.GetFactory () AS ID2D1Factory PTR
+   D2D1_DP("")
+   IF m_pStrokeStyle1 = NULL THEN RETURN NULL
+   DIM factory AS ID2D1Factory PTR
+   DIM pResource AS ID2D1Resource PTR = CAST(ANY PTR, m_pStrokeStyle1)
+   pResource->GetFactory(factory)
+   RETURN factory
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' ID2D1StrokeStyle1 methods
+' ========================================================================================
+' ========================================================================================
+' Gets the stroke transform type.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1StrokeStyle1.GetStrokeTransformType () AS D2D1_STROKE_TRANSFORM_TYPE
+   D2D1_DP("")
+   IF m_pStrokeStyle1 = NULL THEN EXIT FUNCTION
+   RETURN m_pStrokeStyle1->GetStrokeTransformType
+END FUNCTION
+' ========================================================================================
+
+' ########################################################################################
+' CID2D1Multithread class
+' A locking mechanism from a Direct2D factory that Direct2D uses to control exclusive
+' resource access in an app that is uses multiple threads.
+' ########################################################################################
+
+TYPE CID2D1Multithread
+Public:
+
+   m_pMultithread AS ID2D1Multithread PTR
+
+   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL pMultithread AS ID2D1Multithread PTR)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS ID2D1Multithread PTR PTR
+   DECLARE OPERATOR CAST () AS ID2D1Multithread PTR
+
+   DECLARE FUNCTION GetMultithreadProtected () AS BOOLEAN
+   DECLARE SUB Enter ()
+   DECLARE SUB Leave ()
+
+END TYPE
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1Multithread class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1Multithread
+   D2D1_DP("Deault")
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1Multithread class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1Multithread (BYVAL pMultithread AS ID2D1Multithread PTR)
+   D2D1_DP("pMultithread - " & WSTR(pMultithread))
+   m_pMultithread = pMultithread
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR CID2D1Multithread
+   D2D1_DP("m_pMultithread: " & WSTR(m_pMultithread))
+   IF m_pMultithread THEN m_pMultithread->Release
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying CID2D1Multithread interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF gradientMultithread AS CID2D1Multithread) AS ID2D1Multithread PTR
+   RETURN gradientMultithread.m_pMultithread
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1Multithread interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1Multithread.@ () AS ID2D1Multithread PTR PTR
+   RETURN @m_pMultithread
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1Multithread interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1Multithread.CAST () AS ID2D1Multithread PTR
+   RETURN m_pMultithread
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns whether the Direct2D factory was created with the D2D1_FACTORY_TYPE_MULTI_THREADED flag.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1Multithread.GetMultithreadProtected () AS BOOLEAN
+   D2D1_DP("")
+   IF m_pMultithread = NULL THEN RETURN FALSE
+   RETURN m_pMultithread->GetMultithreadProtected
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Enters the Direct2D API critical section, if it exists.
+' ========================================================================================
+PRIVATE SUB CID2D1Multithread.Enter
+   D2D1_DP("")
+   IF m_pMultithread THEN m_pMultithread->Enter
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Leaves the Direct2D API critical section, if it exists.
+' ========================================================================================
+PRIVATE SUB CID2D1Multithread.Leave
+   D2D1_DP("")
+   IF m_pMultithread THEN m_pMultithread->Leave
+END SUB
+' ========================================================================================
+
+#include once "AfxNova/AfxD2D1RenderTargetClasses.inc"
+#include once "AfxNova/AfxD2D1BrushClasses.inc"
+#include once "AfxNova/AfxD2D1GeometryClasses.inc"
+#include once "AfxNova/AfxD2D1ImageClasses.inc"
 
 END NAMESPACE
 

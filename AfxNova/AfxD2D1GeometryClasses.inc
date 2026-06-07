@@ -1403,6 +1403,7 @@ PRIVATE CONSTRUCTOR CID2D1EllipseGeometry (BYVAL pEllipseGeometry AS ID2D1Ellips
       D2D1_DP("Release old factory: " & WSTR(m_pGeometry))
    END iF
    m_pGeometry = m_pEllipseGeometry
+   IF m_pEllipseGeometry = NULL THEN SetLastError(E_POINTER)
 END CONSTRUCTOR
 ' ========================================================================================
 
@@ -1746,6 +1747,7 @@ PRIVATE CONSTRUCTOR CID2D1PathGeometry (BYVAL pPathGeometry AS ID2D1PathGeometry
       D2D1_DP("Release old factory: " & WSTR(m_pGeometry))
    END iF
    m_pGeometry = m_pPathGeometry
+   IF m_pPathGeometry = NULL THEN SetLastError(E_POINTER)
 END CONSTRUCTOR
 ' ========================================================================================
 
@@ -2005,6 +2007,7 @@ END CONSTRUCTOR
 PRIVATE CONSTRUCTOR CID2D1SimplifiedGeometrySink (BYVAL pSimplifiedGeometrySink AS ID2D1SimplifiedGeometrySink PTR)
    D2D1_DP("pSimplifiedGeometrySink - " & WSTR(pSimplifiedGeometrySink))
    m_pSimplifiedGeometrySink = pSimplifiedGeometrySink
+   IF m_pSimplifiedGeometrySink = NULL THEN SetLastError(E_POINTER)
 END CONSTRUCTOR
 ' ========================================================================================
 
@@ -2184,7 +2187,12 @@ PRIVATE CONSTRUCTOR CID2D1GeometrySink (BYVAL pGeometrySink AS ID2D1GeometrySink
    D2D1_DP("pGeometrySink - " & WSTR(pGeometrySink))
    m_pGeometrySink = pGeometrySink
    IF m_pGeometrySink THEN m_pGeometrySink->AddRef
+   IF m_pSimplifiedGeometrySink THEN
+      m_pSimplifiedGeometrySink->Release
+      D2D1_DP("Release old factory: " & WSTR(m_pSimplifiedGeometrySink))
+   END iF
    m_pSimplifiedGeometrySink = m_pGeometrySink
+   IF m_pGeometrySink = NULL THEN SetLastError(E_POINTER)
 END CONSTRUCTOR
 ' ========================================================================================
 

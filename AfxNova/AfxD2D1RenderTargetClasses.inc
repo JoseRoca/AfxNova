@@ -1534,14 +1534,14 @@ END SUB
 
 ' ========================================================================================
 PRIVATE FUNCTION CID2D1RenderTarget.EndDraw (BYREF tag1 AS D2D1_TAG, BYREF tag2 AS D2D1_TAG) AS HRESULT
-   D2D1_DP("BYREF")
+   D2D1_DP("")
    IF m_pRenderTarget = NULL THEN RETURN E_POINTER
    RETURN m_pRenderTarget->EndDraw(tag1, tag2)
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CID2D1RenderTarget.EndDraw (BYVAL tag1 AS D2D1_TAG PTR = NULL, BYVAL tag2 AS D2D1_TAG PTR = NULL) AS HRESULT
-   D2D1_DP("BYVAL PTR")
+   D2D1_DP("")
    IF m_pRenderTarget = NULL THEN RETURN E_POINTER
    RETURN m_pRenderTarget->EndDraw(BYVAL tag1, BYVAL tag2)
 END FUNCTION
@@ -1934,7 +1934,7 @@ END TYPE
 ' Creates an instance of the CID2D1HwndRenderTarget class.
 ' ========================================================================================
 PRIVATE CONSTRUCTOR CID2D1BitmapRenderTarget (BYVAL pBitmapRenderTarget AS ID2D1BitmapRenderTarget PTR)
-   D2D1_DP("BitmapRenderTarget - " & WSTR(pBitmapRenderTarget))
+   D2D1_DP("pBitmapRenderTarget - " & WSTR(pBitmapRenderTarget))
    m_pBitmapRenderTarget = pBitmapRenderTarget
    IF m_pBitmapRenderTarget THEN m_pBitmapRenderTarget->AddRef
    m_pRenderTarget = CAST(ID2D1RenderTarget PTR, m_pBitmapRenderTarget)
@@ -1981,5 +1981,415 @@ PRIVATE FUNCTION CID2D1BitmapRenderTarget.GetBitmap () AS ID2D1Bitmap PTR
    DIM bitmap AS ID2D1Bitmap PTR
    SetLasTError(m_pBitmapRenderTarget->GetBitmap(bitmap))
    RETURN bitmap
+END FUNCTION
+' ========================================================================================
+
+
+' ########################################################################################
+' CID2D1DrawingStateBlock class
+' Represents the drawing state of a render target: the antialiasing mode, transform, tags, and text-rendering options.
+' ########################################################################################
+
+' ========================================================================================
+TYPE CID2D1DrawingStateBlock
+Public:
+
+   m_pDrawingStateBlock AS ID2D1DrawingStateBlock PTR
+
+   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL pDrawingStateBlock AS ID2D1DrawingStateBlock PTR)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS ID2D1DrawingStateBlock PTR PTR
+   DECLARE OPERATOR CAST () AS ID2D1DrawingStateBlock PTR
+
+   ' // ID2D1Resource
+   DECLARE FUNCTION GetFactory () AS ID2D1Factory PTR
+
+   ' // CID2D1DrawingStateBlock methods
+   DECLARE SUB GetDescription (BYREF stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION)
+   DECLARE SUB GetDescription (BYVAL stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION PTR)
+   DECLARE FUNCTION GetDescription () AS D2D1_DRAWING_STATE_DESCRIPTION
+   DECLARE SUB SetDescription (BYREF stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION)
+   DECLARE SUB SetDescription (BYVAL stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION PTR)
+   DECLARE SUB SetTextRenderingParams (BYVAL textRenderingParams AS IDWriteRenderingParams PTR)
+   DECLARE SUB GetTextRenderingParams (BYREF textRenderingParams AS IDWriteRenderingParams PTR)
+   DECLARE FUNCTION GetTextRenderingParams () AS IDWriteRenderingParams PTR
+
+END TYPE
+
+' ========================================================================================
+' Creates an instance of the CID2D1DrawingStateBlock class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1DrawingStateBlock
+   D2D1_DP(" - Default")
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1DrawingStateBlock class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1DrawingStateBlock (BYVAL pDrawingStateBlock AS ID2D1DrawingStateBlock PTR)
+   D2D1_DP("pDrawingStateBlock - " & WSTR(pDrawingStateBlock))
+   m_pDrawingStateBlock = pDrawingStateBlock
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR CID2D1DrawingStateBlock
+   D2D1_DP("m_pDrawingStateBlock: " & WSTR(m_pDrawingStateBlock))
+   IF m_pDrawingStateBlock THEN m_pDrawingStateBlock->Release
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying ID2D1DrawingStateBlock interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF drawingStateBlock AS CID2D1DrawingStateBlock) AS ID2D1DrawingStateBlock PTR
+   RETURN drawingStateBlock.m_pDrawingStateBlock
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1DrawingStateBlock interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1DrawingStateBlock.@ () AS ID2D1DrawingStateBlock PTR PTR
+   RETURN @m_pDrawingStateBlock
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1DrawingStateBlock interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1DrawingStateBlock.CAST () AS ID2D1DrawingStateBlock PTR
+   RETURN m_pDrawingStateBlock
+END OPERATOR
+' ========================================================================================
+
+' // ID2D1Resource method
+
+' ========================================================================================
+PRIVATE FUNCTION CID2D1DrawingStateBlock.GetFactory () AS ID2D1Factory PTR
+   D2D1_DP("")
+   DIM factory AS ID2D1Factory PTR
+   DIM pResource AS ID2D1Resource PTR = CAST(ID2D1DrawingStateBlock PTR, m_pDrawingStateBlock)
+   pResource->GetFactory(factory)
+   RETURN factory
+END FUNCTION
+' ========================================================================================
+
+' // ID2D1DrawingStateBlock methods
+
+' ========================================================================================
+' Retrieves the antialiasing mode, transform, and tags portion of the drawing state.
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock.GetDescription (BYREF stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT SUB
+   m_pDrawingStateBlock->GetDescription(stateDescription)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock.GetDescription (BYVAL stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION PTR)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT SUB
+   m_pDrawingStateBlock->GetDescription(BYVAL stateDescription)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CID2D1DrawingStateBlock.GetDescription () AS D2D1_DRAWING_STATE_DESCRIPTION
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT FUNCTION
+   DIM stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION
+   m_pDrawingStateBlock->GetDescription(stateDescription)
+   RETURN stateDescription
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Specifies the antialiasing mode, transform, and tags portion of the drawing state.
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock.SetDescription (BYREF stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT SUB
+   m_pDrawingStateBlock->SetDescription(stateDescription)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock.SetDescription (BYVAL stateDescription AS D2D1_DRAWING_STATE_DESCRIPTION PTR)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT SUB
+   m_pDrawingStateBlock->SetDescription(BYVAL stateDescription)
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Specifies the text-rendering configuration of the drawing state.
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock.SetTextRenderingParams (BYVAL textRenderingParams AS IDWriteRenderingParams PTR)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT SUB
+   m_pDrawingStateBlock->SetTextRenderingParams(textRenderingParams)
+END SUB
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the text-rendering configuration of the drawing state.
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock.GetTextRenderingParams (BYREF textRenderingParams AS IDWriteRenderingParams PTR)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT SUB
+   m_pDrawingStateBlock->GetTextRenderingParams(textRenderingParams)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CID2D1DrawingStateBlock.GetTextRenderingParams () AS IDWriteRenderingParams PTR
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT FUNCTION
+   DIM textRenderingParams AS IDWriteRenderingParams PTR
+   m_pDrawingStateBlock->GetTextRenderingParams(textRenderingParams)
+   RETURN textRenderingParams
+END FUNCTION
+' ========================================================================================
+
+
+' ########################################################################################
+' CID2D1DrawingStateBlock1 class
+' Implementation of a drawing state block that adds the functionality of primitive blend in
+' addition to already existing antialias mode, transform, tags and text rendering mode.
+' ########################################################################################
+
+' ========================================================================================
+TYPE CID2D1DrawingStateBlock1 EXTENDS CID2D1DrawingStateBlock
+Public:
+
+   m_pDrawingStateBlock1 AS ID2D1DrawingStateBlock1 PTR
+
+   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL pDrawingStateBlock1 AS ID2D1DrawingStateBlock1 PTR)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS ID2D1DrawingStateBlock1 PTR PTR
+   DECLARE OPERATOR CAST () AS ID2D1DrawingStateBlock1 PTR
+   DECLARE OPERATOR CAST () AS ID2D1DrawingStateBlock PTR
+
+   DECLARE SUB GetDescription1 (BYREF stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1)
+   DECLARE SUB GetDescription1 (BYVAL stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1 PTR)
+   DECLARE FUNCTION GetDescription1 () AS D2D1_DRAWING_STATE_DESCRIPTION1
+   DECLARE SUB SetDescription1 (BYREF stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1)
+   DECLARE SUB SetDescription1 (BYVAL stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1 PTR)
+
+END TYPE
+
+' ========================================================================================
+' Creates an instance of the CID2D1DrawingStateBlock1 class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1DrawingStateBlock1
+   D2D1_DP(" - Default")
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1DrawingStateBlock1 class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1DrawingStateBlock1 (BYVAL pDrawingStateBlock1 AS ID2D1DrawingStateBlock1 PTR)
+   D2D1_DP("pDrawingStateBlock1 - " & WSTR(pDrawingStateBlock1))
+   m_pDrawingStateBlock1 = pDrawingStateBlock1
+   IF m_pDrawingStateBlock1 THEN m_pDrawingStateBlock1->AddRef
+   IF m_pDrawingStateBlock THEN m_pDrawingStateBlock1->Release
+   m_pDrawingStateBlock = m_pDrawingStateBlock1
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR CID2D1DrawingStateBlock1
+   D2D1_DP("m_pDrawingStateBlock1: " & WSTR(m_pDrawingStateBlock1))
+   IF m_pDrawingStateBlock1 THEN m_pDrawingStateBlock1->Release
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying ID2D1DrawingStateBlock1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF drawingStateBlock1 AS CID2D1DrawingStateBlock1) AS ID2D1DrawingStateBlock1 PTR
+   RETURN drawingStateBlock1.m_pDrawingStateBlock1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1DrawingStateBlock1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1DrawingStateBlock1.@ () AS ID2D1DrawingStateBlock1 PTR PTR
+   RETURN @m_pDrawingStateBlock1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1DrawingStateBlock1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1DrawingStateBlock1.CAST () AS ID2D1DrawingStateBlock1 PTR
+   RETURN m_pDrawingStateBlock1
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1DrawingStateBlock interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1DrawingStateBlock1.CAST () AS ID2D1DrawingStateBlock PTR
+   RETURN m_pDrawingStateBlock
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
+' Gets the antialiasing mode, transform, tags, primitive blend, and unit mode portion of the drawing state.
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock1.GetDescription1 (BYREF stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock1 = NULL THEN EXIT SUB
+   m_pDrawingStateBlock1->GetDescription1(stateDescription1)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock1.GetDescription1 (BYVAL stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1 PTR)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock1 = NULL THEN EXIT SUB
+   m_pDrawingStateBlock1->GetDescription1(BYVAL stateDescription1)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CID2D1DrawingStateBlock1.GetDescription1 () AS D2D1_DRAWING_STATE_DESCRIPTION1
+   D2D1_DP("")
+   IF m_pDrawingStateBlock = NULL THEN EXIT FUNCTION
+   DIM stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1
+   m_pDrawingStateBlock1->GetDescription1(stateDescription1)
+   RETURN stateDescription1
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Specifies the antialiasing mode, transform, and tags portion of the drawing state.
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock1.SetDescription1 (BYREF stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock1 = NULL THEN EXIT SUB
+   m_pDrawingStateBlock1->SetDescription1(stateDescription1)
+END SUB
+' ========================================================================================
+' ========================================================================================
+PRIVATE SUB CID2D1DrawingStateBlock1.SetDescription1 (BYVAL stateDescription1 AS D2D1_DRAWING_STATE_DESCRIPTION1 PTR)
+   D2D1_DP("")
+   IF m_pDrawingStateBlock1 = NULL THEN EXIT SUB
+   m_pDrawingStateBlock1->SetDescription1(BYVAL stateDescription1)
+END SUB
+' ========================================================================================
+
+' ########################################################################################
+' CID2D1GdiInteropRenderTarget class
+' Provides access to a device context that can accept GDI drawing commands.
+' ########################################################################################
+
+' ========================================================================================
+TYPE CID2D1GdiInteropRenderTarget EXTENDS CID2D1DrawingStateBlock
+Public:
+
+   m_pGdiInteropRenderTarget AS ID2D1GdiInteropRenderTarget PTR
+
+   DECLARE CONSTRUCTOR
+   DECLARE CONSTRUCTOR (BYVAL pGdiInteropRenderTarget AS ID2D1GdiInteropRenderTarget PTR)
+   DECLARE DESTRUCTOR
+   DECLARE OPERATOR @ () AS ID2D1GdiInteropRenderTarget PTR PTR
+   DECLARE OPERATOR CAST () AS ID2D1GdiInteropRenderTarget PTR
+
+   DECLARE FUNCTION GetDC (BYVAL mode AS D2D1_DC_INITIALIZE_MODE, BYREF hDC AS ..HDC) AS HRESULT
+   DECLARE FUNCTION GetDC (BYVAL mode AS D2D1_DC_INITIALIZE_MODE, BYVAL hDC AS ..HDC PTR) AS HRESULT
+   DECLARE FUNCTION GetDC (BYVAL mode AS D2D1_DC_INITIALIZE_MODE) AS ..HDC
+   DECLARE FUNCTION ReleaseDC (BYREF rcUpdate AS const RECT) AS HRESULT
+   DECLARE FUNCTION ReleaseDC (BYVAL rcUpdate AS const RECT PTR = NULL) AS HRESULT
+
+END TYPE
+
+' ========================================================================================
+' Creates an instance of the CID2D1GdiInteropRenderTarget class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1GdiInteropRenderTarget
+   D2D1_DP(" - Default")
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Creates an instance of the CID2D1GdiInteropRenderTarget class.
+' ========================================================================================
+PRIVATE CONSTRUCTOR CID2D1GdiInteropRenderTarget (BYVAL pGdiInteropRenderTarget AS ID2D1GdiInteropRenderTarget PTR)
+   D2D1_DP("pGdiInteropRenderTarget - " & WSTR(pGdiInteropRenderTarget))
+   m_pGdiInteropRenderTarget = pGdiInteropRenderTarget
+END CONSTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Cleanup
+' ========================================================================================
+PRIVATE DESTRUCTOR CID2D1GdiInteropRenderTarget
+   D2D1_DP("m_pGdiInteropRenderTarget: " & WSTR(m_pGdiInteropRenderTarget))
+   IF m_pGdiInteropRenderTarget THEN m_pGdiInteropRenderTarget->Release
+END DESTRUCTOR
+' ========================================================================================
+
+' ========================================================================================
+' Returns the underlying ID2D1GdiInteropRenderTarget interface pointer
+' ========================================================================================
+PRIVATE OPERATOR * (BYREF interopRenderTarget AS CID2D1GdiInteropRenderTarget) AS ID2D1GdiInteropRenderTarget PTR
+   RETURN interopRenderTarget.m_pGdiInteropRenderTarget
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the address of the underlying ID2D1DrawingStateBlock1 interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1GdiInteropRenderTarget.@ () AS ID2D1GdiInteropRenderTarget PTR PTR
+   RETURN @m_pGdiInteropRenderTarget
+END OPERATOR
+' ========================================================================================
+' ========================================================================================
+' Returns the underlying ID2D1GdiInteropRenderTarget interface pointer
+' ========================================================================================
+PRIVATE OPERATOR CID2D1GdiInteropRenderTarget.CAST () AS ID2D1GdiInteropRenderTarget PTR
+   RETURN m_pGdiInteropRenderTarget
+END OPERATOR
+' ========================================================================================
+
+' ========================================================================================
+' Retrieves the device context associated with this render target.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1GdiInteropRenderTarget.GetDC (BYVAL mode AS D2D1_DC_INITIALIZE_MODE, BYREF hDC AS ..HDC) AS HRESULT
+   D2D1_DP(" - mode: " & WSTR(mode))
+   IF m_pGdiInteropRenderTarget = NULL THEN RETURN E_POINTER
+   RETURN m_pGdiInteropRenderTarget->GetDC(mode, hdc)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CID2D1GdiInteropRenderTarget.GetDC (BYVAL mode AS D2D1_DC_INITIALIZE_MODE, BYVAL hDC AS ..HDC PTR) AS HRESULT
+   D2D1_DP(" - mode: " & WSTR(mode))
+   IF m_pGdiInteropRenderTarget = NULL THEN RETURN E_POINTER
+   RETURN m_pGdiInteropRenderTarget->GetDC(mode, BYVAL hdc)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CID2D1GdiInteropRenderTarget.GetDC (BYVAL mode AS D2D1_DC_INITIALIZE_MODE) AS ..HDC
+   D2D1_DP(" - mode: " & WSTR(mode))
+   IF m_pGdiInteropRenderTarget = NULL THEN EXIT FUNCTION
+   DIM hdc AS ..HDC
+   SetLastError(m_pGdiInteropRenderTarget->GetDC(mode, hdc))
+   RETURN hdc
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Indicates that drawing with the device context retrieved using the GetDC method is finished.
+' ========================================================================================
+PRIVATE FUNCTION CID2D1GdiInteropRenderTarget.ReleaseDC (BYREF rcUpdate AS const RECT) AS HRESULT
+   D2D1_DP("")
+   RETURN m_pGdiInteropRenderTarget->ReleaseDC(rcUpdate)
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
+PRIVATE FUNCTION CID2D1GdiInteropRenderTarget.ReleaseDC (BYVAL rcUpdate AS const RECT PTR = NULL) AS HRESULT
+   D2D1_DP("")
+   RETURN m_pGdiInteropRenderTarget->ReleaseDC(BYVAL rcUpdate)
 END FUNCTION
 ' ========================================================================================
