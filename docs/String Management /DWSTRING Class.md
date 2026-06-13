@@ -260,7 +260,7 @@ FUNCTION ChrW (BYVAL codePoint AS UInteger) AS DWSTRING
 
 ### <a name="jscript"></a>JScript
 
-Converts the DWSTRING content into a safe JavaScript expression for use with WebView2 ExecuteScript.
+Converts the `DWSTRING` content into a safe JavaScript expression for use with `WebView2` **ExecuteScript**.
 
 ```
 PROPERTY DWSTRING.JScript () AS STRING
