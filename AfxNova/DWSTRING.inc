@@ -311,6 +311,61 @@ END PROPERTY
 ' ========================================================================================
 
 ' ========================================================================================
+' JScript (PROPERTY)
+' ------------------
+' Converts the DWSTRING content into a safe JavaScript expression for use with
+' WebView2 ExecuteScript.
+'
+' WebView2 requires UTF-8 text when passing strings to JavaScript. This property
+' takes the internal UTF-8 byte sequence of the DWSTRING and generates a JS
+' expression of the form:
+'
+'     new TextDecoder('utf-8').decode(Uint8Array.from([b1,b2,b3,...]))
+'
+' This guarantees that any Unicode text (including accents, symbols and emojis)
+' is transmitted correctly to JavaScript without escaping issues, broken quotes,
+' or encoding mismatches.
+'
+' The user can therefore pass DWSTRING values directly to ExecuteScript without
+' worrying about UTF-8 handling or manual escaping.
+'
+' Usage example:
+' m_pWebView->ExecuteScript("console.log(" & myString.JScript & ");")
+'
+' Notes:
+' - The returned value is valid JavaScript code, not a literal string.
+' - Ideal for passing arbitrary text safely from FreeBasic to JavaScript.
+' ========================================================================================
+' ========================================================================================
+'PRIVATE PROPERTY DWSTRING.JScript () AS STRING
+'   DWSTRING_DP("")
+'   DIM utf8Text AS STRING = this.utf8
+'   DIM js AS STRING = "new TextDecoder('utf-8').decode(Uint8Array.from(["
+'   DIM L AS LONG = LEN(utf8Text)
+'   FOR i AS LONG = 1 TO L
+'      js += STR(ASC(MID(utf8Text, i, 1)))
+'      IF i < L THEN js += ","
+'   NEXT
+'   js += "]))"
+'   RETURN js
+'END PROPERTY
+' ========================================================================================
+PRIVATE PROPERTY DWSTRING.JScript () AS STRING
+   DWSTRING_DP("")
+   DIM utf8Text AS STRING = this.utf8
+   DIM p AS UBYTE PTR = STRPTR(utf8Text)
+   DIM js AS STRING = "new TextDecoder('utf-8').decode(Uint8Array.from(["
+   DIM L AS LONG = LEN(utf8Text)
+   FOR i AS LONG = 0 TO L - 1
+      js += STR(p[i])
+      IF i < L - 1 THEN js += ","
+   NEXT
+   js += "]))"
+   RETURN js
+END PROPERTY
+' ========================================================================================
+
+' ========================================================================================
 ' Converts OEM to unicode and assigns it to the DWSTRING.
 ' ========================================================================================
 PRIVATE PROPERTY DWSTRING.OEM (BYREF OEMString AS STRING)
