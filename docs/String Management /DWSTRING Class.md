@@ -283,4 +283,5 @@ m_pWebView->ExecuteScript("console.log(" & myString.JScript & ");")
 #### Notes
 
 The returned value is valid JavaScript code, not a literal string.
+
 ---
