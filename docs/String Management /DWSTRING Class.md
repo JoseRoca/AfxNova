@@ -266,7 +266,7 @@ Converts the `DWSTRING` content into a safe JavaScript expression for use with `
 PROPERTY DWSTRING.JScript () AS STRING
 ```
 
-`WebView2` requires UTF-8 text when passing strings to JavaScript. This property takes the internal UTF-8 byte sequence of the DWSTRING and generates a JavaScripy expression of the form:
+`WebView2` requires UTF-8 text when passing strings to JavaScript. This property takes the internal UTF-8 byte sequence of the `DWSTRING` and generates a JavaScripy expression of the form:
 ```
 new TextDecoder('utf-8').decode(Uint8Array.from([b1,b2,b3,...]))
 ```
