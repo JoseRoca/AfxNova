@@ -19,7 +19,12 @@ Macros to manipulate one-dimensional dynamic arrays.
 
 # Sorting Macros
 
-**Include file**: AfxSort2.inc.
+**Include file**: AfxSort.inc.
+
+**Note**: Before including this file, add 
+```
+#define _WIN32_WINNT &h0602
+```
 
 | Name       | Description |
 | ---------- | ----------- |
