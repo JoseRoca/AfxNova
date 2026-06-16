@@ -19,7 +19,7 @@ Macros to manipulate one-dimensional dynamic arrays.
 
 # Sorting Macros
 
-**Include file**: AfxSort.inc.
+**Include file**: AfxNova/AfxSort.inc.
 
 **Note**: Before including this file, add 
 ```
