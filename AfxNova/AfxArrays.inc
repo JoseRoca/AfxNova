@@ -27,6 +27,8 @@
 #pragma once
 #include once "/fbc-int/array.bi"
 USING FBC
+#include once "AfxNova/DWSTRING.inc"
+USING AfxNova
 
 ' ########################################################################################
 '                                     ARRAY MACROS

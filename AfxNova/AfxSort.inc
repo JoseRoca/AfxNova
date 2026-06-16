@@ -29,8 +29,6 @@
 #include once "AfxNova/AfxArrays.inc"
 USING AfxNova
 
-NAMESPACE AfxNowa
-
 ' ########################################################################################
 '                                     DWSTRING
 ' ########################################################################################
@@ -563,6 +561,7 @@ SUB Afx_ArraySortDouble OVERLOAD (rgDouble() AS DOUBLE, BYVAL bAscend AS BOOLEAN
    Afx_ArraySortDouble @rgDouble(LBOUND(rgDouble)), numElm, bAscend
 END SUB
 
+
 ' ########################################################################################
 ' Macros to identify the type of aaray and call the appropriate sorting procedures.
 ' Works with one-dimensional arrays.
@@ -676,5 +675,3 @@ END SUB
 'NEXT
 
 #endif
-
-END NAMESPACE
