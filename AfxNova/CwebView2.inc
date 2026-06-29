@@ -550,13 +550,54 @@ PRIVATE FUNCTION CWebView2.LoadImageAsUint8Array (BYREF dwsPath AS DWSTRING) AS 
    ReadFile(hFile, @buf(0), dwSize, @bytesRead, NULL)
    CloseHandle(hFile)
 
-   ' // Convert bytes to a javascript list
-   DIM s AS STRING = "new Uint8Array(["
-   FOR i AS LONG = 0 TO dwSize-1
-      s &= STR(buf(i))
-      IF i < dwSize-1 THEN s &= ","
+'   ' // Convert bytes to a javascript list
+'   DIM s AS STRING = "new Uint8Array(["
+'   FOR i AS LONG = 0 TO dwSize-1
+'      s &= STR(buf(i))
+'      IF i < dwSize-1 THEN s &= ","
+'   NEXT
+'   s &= "])"
+
+   ' Preallocate string: "new Uint8Array([" + bytes + "])"
+   DIM totalSize AS LONG = 16 + (dwSize * 4)
+   DIM s AS STRING = SPACE(totalSize)
+
+   DIM pos AS LONG = 1
+   MID(s, pos, 16) = "new Uint8Array(["
+   pos += 16
+
+'   FOR i AS LONG = 0 TO dwSize-1
+'      DIM t AS STRING = STR(buf(i))
+'      MID(s, pos, LEN(t)) = t
+'      pos += LEN(t)
+'      IF i < dwSize-1 THEN
+'         MID(s, pos, 1) = ","
+'         pos += 1
+'      END IF
+'   NEXT
+
+   ' // Lookup table
+   DIM lookup(255) AS STRING
+   FOR i AS LONG = 0 TO 255
+      lookup(i) = STR(i)
    NEXT
-   s &= "])"
+   ' // Convert bytes to string
+   DIM t AS STRING
+   FOR i AS LONG = 0 TO dwSize-1
+      t = lookup(buf(i))
+      MID(s, pos, LEN(t)) = t
+      pos += LEN(t)
+      IF i < dwSize-1 THEN
+         MID(s, pos, 1) = ","
+         pos += 1
+      END IF
+   NEXT
+
+   MID(s, pos, 2) = "])"
+   pos += 2
+
+   ' Trim to actual size
+   s = LEFT(s, pos - 1)
 
    RETURN s
 
