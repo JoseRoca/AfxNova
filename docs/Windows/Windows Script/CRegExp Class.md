@@ -41,7 +41,7 @@ With regular expressions, you can:
 | [Extract](#extract) | Extracts a substring using VBScript regular expressions search patterns. |
 | [Find](#find) | Find function with VBScript regular expressions search patterns. |
 | [FindEx](#findex) | Global, multiline find function with VBScript regular expressions search patterns. |
-| [MatchCount](#matchcount) | Returns the number of matches found. |
+| [MatchesCount](#matchescount) | Returns the number of matches found. |
 | [RegExpPtr](#regexpptr) | Returns a direct pointer to the **IRegExp2** interface. |
 | [Remove](#remove) | Returns a copy of a string with text removed using a regular expression as the search string. |
 | [Replace](#replace) | Replaces text found in a regular expression search. |
@@ -234,12 +234,12 @@ PRINT dwsOut
 
 ---
 
-### <a name="matchcount"></a>MatchCount
+### <a name="matchescount"></a>MatchesCount
 
 Returns the number of matches found.
 
 ```
-FUNCTION MatchCount () AS LONG
+FUNCTION MatchesCount () AS LONG
 ```
 
 ---
