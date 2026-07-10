@@ -31,6 +31,16 @@
 #include once "AfxNova/DWSTRING.inc"
 USING AfxNova
 
+#ifndef EM_SETEXTENDEDSTYLE
+   #define EM_SETEXTENDEDSTYLE ECM_FIRST + 10
+#endif
+#ifndef EM_SETEXTENDEDSTYLE
+   #define EM_GETEXTENDEDSTYLE ECM_FIRST + 11
+#endif
+#ifndef ES_EX_ZOOMABLE
+   #define ES_EX_ZOOMABLE &h0010
+#endif
+
 NAMESPACE AfxNova
 
 ' ========================================================================================
@@ -83,6 +93,7 @@ Public:
    DECLARE STATIC FUNCTION HideBalloonTip (BYVAL hEdit AS HWND) AS BOOLEAN
    DECLARE STATIC SUB LimitText (BYVAL hEdit AS HWND, BYVAL chMax AS DWORD)
    DECLARE STATIC FUNCTION LineFromChar (BYVAL hEdit AS HWND, BYVAL index AS LONG) AS LONG
+   DECLARE STATIC FUNCTION LineIndex (BYVAL hEdit AS HWND, BYVAL nLine AS LONG) AS LONG
    DECLARE STATIC FUNCTION LineLength (BYVAL hEdit AS HWND, BYVAL index AS LONG) AS LONG
    DECLARE STATIC FUNCTION LineScroll (BYVAL hEdit AS HWND, BYVAL x AS LONG, BYVAL y AS LONG) AS BOOLEAN
    DECLARE STATIC SUB Paste (BYVAL hEdit AS HWND)
@@ -109,10 +120,15 @@ Public:
    DECLARE STATIC FUNCTION SetText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
    DECLARE STATIC SUB SetWordBreakProc (BYVAL hEdit AS HWND, BYVAL pfn AS LONG_PTR)
    DECLARE STATIC FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL peditballoontip AS EDITBALLOONTIP PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYREF edittip AS EDITBALLOONTIP) AS BOOLEAN
    DECLARE STATIC FUNCTION ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL pwszTitle AS WSTRING PTR, BYVAL pwszText AS WSTRING PTR, BYVAL iIcon AS LONG) AS BOOLEAN
    DECLARE STATIC FUNCTION Undo (BYVAL hEdit AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION SetDarkMode (BYVAL hEdit AS HWND) AS HRESULT
    DECLARE STATIC FUNCTION RemoveDarkMode (BYVAL hEdit AS HWND) AS HRESULT
+   DECLARE STATIC FUNCTION SetExtendedStyle (BYVAL hEdit AS HWND, BYVAL dwExStyle AS DWORD, BYVAL dwMask AS DWORD) AS HRESULT
+   DECLARE STATIC FUNCTION GetZoom (BYVAL hEdit AS HWND, BYVAL pzNum AS DWORD PTR, BYVAL pzDen AS DWORD PTR) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetZoom (BYVAL hEdit AS HWND, BYVAL zNum AS DWORD, BYVAL zDen AS DWORD) AS BOOLEAN
+   DECLARE STATIC FUNCTION SetZoomable (BYVAL hEdit AS HWND) AS HRESULT
 
 END TYPE
 ' ========================================================================================
@@ -460,6 +476,14 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
+' Gets the character index of the first character of a specified line in a multiline edit control. 
+' ========================================================================================
+PRIVATE FUNCTION CEdit.LineIndex (BYVAL hEdit AS HWND, BYVAL nLine AS LONG) AS LONG
+   RETURN SendMessageW(hEdit, EM_LINEINDEX, nLine, 0)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
 ' * Retrieves the length, in characters, of a line in an edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.LineLength (BYVAL hEdit AS HWND, BYVAL index AS LONG) AS LONG
@@ -683,7 +707,7 @@ END FUNCTION
 ' * Sets the text of an edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.SetText (BYVAL hEdit AS HWND, BYVAL pwszText AS WSTRING PTR) AS BOOLEAN
-   RETURN SetWindowText(hEdit, pwszText)
+   RETURN SetWindowTextW(hEdit, pwszText)
 END FUNCTION
 ' ========================================================================================
 
@@ -708,6 +732,13 @@ PRIVATE FUNCTION CEdit.ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL peditballoonti
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
+PRIVATE FUNCTION CEdit.ShowBalloonTip (BYVAL hEdit AS HWND, BYREF edittip AS EDITBALLOONTIP) AS BOOLEAN
+   IF VARPTR(edittip) = NULL THEN RETURN FALSE
+   edittip.cbStruct = SIZEOF(EDITBALLOONTIP)
+   RETURN SendMessageW(hEdit, EM_SHOWBALLOONTIP, 0, cast(LPARAM, @edittip))
+END FUNCTION
+' ========================================================================================
+' ========================================================================================
 PRIVATE FUNCTION CEdit.ShowBalloonTip (BYVAL hEdit AS HWND, BYVAL pwszTitle AS WSTRING PTR, BYVAL pwszText AS WSTRING PTR, BYVAL iIcon AS LONG) AS BOOLEAN
    DIM bt AS EDITBALLOONTIP
    bt.cbStruct = SIZEOF(EDITBALLOONTIP)
@@ -727,7 +758,42 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-' * Set the edit control dark mode.
+' Sets the extended style.
+' ========================================================================================
+PRIVATE FUNCTION CEdit.SetExtendedStyle (BYVAL hEdit AS HWND, BYVAL dwExStyle AS DWORD, BYVAL dwMask AS DWORD) AS HRESULT
+   DIM _dwExStyle AS DWORD = SendMessageW(hEdit, ECM_FIRST + 11, 0, 0)
+   RETURN SendMessageW(hEdit, EM_SETEXTENDEDSTYLE, dwMask, dwExStyle)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Gets the current zoom ratio, which is always between 1/64 and 64.
+' ========================================================================================
+PRIVATE FUNCTION CEdit.GetZoom (BYVAL hEdit AS HWND, BYVAL pzNum AS DWORD PTR, BYVAL pzDen AS DWORD PTR) AS BOOLEAN
+   FUNCTION = SendMessageW(hEdit, EM_GETZOOM, cast(WPARAM, pzNum), cast(LPARAM, pzDen))
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Sets the zoom ratio anywhere between 1/64 and 64.
+' Only works with multiline edit controls.
+' Example: SendMessageW(hEditMulti, EM_SETZOOM, 150, 100)
+' ========================================================================================
+PRIVATE FUNCTION CEdit.SetZoom (BYVAL hEdit AS HWND, BYVAL zNum AS DWORD, BYVAL zDen AS DWORD) AS BOOLEAN
+   FUNCTION = SendMessageW(hEdit, EM_SETZOOM, zNum, zDen)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' Makes a multiline edit control zoomable.
+' ========================================================================================
+PRIVATE FUNCTION CEdit.SetZoomable (BYVAL hEdit AS HWND) AS HRESULT
+   RETURN SendMessageW(hEdit, EM_SETEXTENDEDSTYLE, ES_EX_ZOOMABLE, ES_EX_ZOOMABLE)
+END FUNCTION
+' ========================================================================================
+
+' ========================================================================================
+' * Sets the edit control dark mode.
 ' Only affects the scroll bars of a multiline edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.SetDarkMode (BYVAL hEdit AS HWND) AS HRESULT
@@ -735,7 +801,7 @@ PRIVATE FUNCTION CEdit.SetDarkMode (BYVAL hEdit AS HWND) AS HRESULT
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-' * Removes the edit control dark mode.
+' * Remove the edit control dark mode.
 ' Only affects the scroll bars of a multiline edit control.
 ' ========================================================================================
 PRIVATE FUNCTION CEdit.RemoveDarkMode (BYVAL hEdit AS HWND) AS HRESULT
