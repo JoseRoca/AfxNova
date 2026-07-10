@@ -36,7 +36,8 @@ See: [About Edit Controls](https://learn.microsoft.com/en-us/windows/win32/contr
 | [GetText](#gettext) | Retrieves the text from an edit control. |
 | [GetTextLength](#gettextlength) | Retrieves the text length from an edit control. |
 | [GetThumb](#getthumb) | Gets the position of the scroll box (thumb) in the vertical scroll bar of a multiline edit control. |
-| [GetWordBreakProc](#GetWordBreakProc) | Gets the address of the currently registered word-break procedure. |
+| [GetWordBreakProc](#getwordbreakproc) | Gets the address of the currently registered word-break procedure. |
+| [GetZoom](#getzoom) | Gets the current zoom ratio for a multiline edit control. The zoom ration is always between 1/64 and 64. |
 | [HideBalloonTip](#hideballoontip) | Hides any balloon tip associated with an edit control. |
 | [LimitText](#limittext) | Sets the text limit of an edit control. |
 | [LineFromChar](#linefromchar) | Gets the index of the line that contains the specified character index in a multiline edit control. |
@@ -52,6 +53,7 @@ See: [About Edit Controls](https://learn.microsoft.com/en-us/windows/win32/contr
 | [SetCueBannerText](#setcuebannertext) | Sets the textual cue, or tip, that is displayed by the edit control to prompt the user for information. |
 | [SetCueBannerTextFocused](#setcuebannertextfocused) | Sets the text that is displayed as the textual cue, or tip, for an edit control. |
 | [SetDarkMode](#setdarknode) | Sets the dark mode of the edit control. |
+| [SetExtendedStyle](#setextendedstyle) | Sets extended styles for edit controls using the style mask. |
 | [SetHandle](#sethandle) | Sets the handle of the memory that will be used by a multiline edit control. |
 | [SetIMEStatus](#setimestatus) | Sets the status flags that determine how an edit control interacts with the Input Method Editor (IME). |
 | [SetLimitText](#limittext) | Sets the text limit of an edit control. |
@@ -67,6 +69,8 @@ See: [About Edit Controls](https://learn.microsoft.com/en-us/windows/win32/contr
 | [SetTabStops](#settabstops) | Sets the tab stops in a multiline edit control. |
 | [SetText](#settext) | Sets the text of an edit control. |
 | [SetWordBreakProc](#setwordbreakproc) | ' Replaces an edit control's default Wordwrap function with an application-defined Wordwrap function. |
+| [SetZoom](#setzoom) | Sets the zoom ratio for a multiline edit control or a rich edit control. |
+| [SetZoomable](#setzoomable) | Makes a multiline edit control zoomable. |
 | [ShowBalloonTip](#showballoontip) | Displays a balloon tip associated with an edit control. |
 | [Undo](#undo) | Undoes the last edit control operation in the control's undo queue. |
 
@@ -1290,7 +1294,6 @@ An undo operation can also be undone. For example, you can restore deleted text 
 
 ---
 
-
 ### SetDarkMode
 
 Sets the dark mode of the edit control.
@@ -1301,7 +1304,7 @@ FUNCTION SetDarkMode (BYVAL hEdit AS HWND) AS HRESULT
 
 #### Example usage
 ```
-CButton.SetDarkMode(hEdit)
+CEdit.SetDarkMode(hEdit)
 ```
 ---
 
@@ -1315,6 +1318,114 @@ FUNCTION RemoveDarkMode (BYVAL hEdit AS HWND) AS HRESULT
 
 #### Example usage
 ```
-CButton.RemoveDarkMode(hEdit)
+CEdit.RemoveDarkMode(hEdit)
 ```
+
+## SetExtendedStyle
+
+Sets extended styles for edit controls using the style mask.
+
+```
+FUNCTION CEdit.SetExtendedStyle (BYVAL hEdit AS HWND, BYVAL dwExStyle AS DWORD, BYVAL dwMask AS DWORD) AS HRESULT
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
+| *dwExStyle* | A DWORD value that specifies the extended edit control styles to set. |
+| *dwMask* | A DWORD value that specifies which styles are to be affected. |
+
+#### Return value
+
+If this message succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Usage example
+
+```
+CEdit.SetExtendedStyle(hEditMulti, ES_EX_ZOOMABLE, ES_EX_ZOOMABLE)
+```
+---
+
+## GetZoom
+
+Gets the current zoom ratio for a multiline edit control or a rich edit control. The zoom ration is always between 1/64 and 64.
+
+```
+FUNCTION CEdit.GetZoom (BYVAL hEdit AS HWND, BYVAL pzNum AS DWORD PTR, BYVAL pzDen AS DWORD PTR) AS BOOLEAN
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
+| *pzNum* | Receives the numerator of the zoom ratio. |
+| *pzDen* | Receives the denominator of the zoom ratio. |
+
+#### Return value
+
+The message returns TRUE if message is processed, which it will be if both *pzNum* and *pzDen* are not NULL.
+
+#### Remarks
+
+Supported in Windows 10 1809 and later. The edit control needs to have the **ES_EX_ZOOMABLE** extended style set, for this message to have an effect
+
+---
+
+## SetZoom
+
+Sets the zoom ratio for a multiline edit control or a rich edit control. The ratio must be a value between 1/64 and 64. The edit control needs to have the **ES_EX_ZOOMABLE** extended style set, for this message to have an effect
+
+```
+FUNCTION CEdit.SetZoom (BYVAL hEdit AS HWND, BYVAL zNum AS DWORD, BYVAL zDen AS DWORD) AS BOOLEAN
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
+| *zNum* | Numerator of the zoom ratio. |
+| *zDen* | Denominator of the zoom ratio. These parameters can have the following values. |
+
+| Value | Meaning |
+| ----- | ------- |
+| **Both 0** | Turns off zooming by using the EM_SETZOOM message (zooming may still occur using TxGetExtent). |
+| **1/64 < (wParam / lParam) < 64** | Zooms display by the zoom ratio numerator/denominator. |
+
+#### Return value
+
+If the new zoom setting is accepted, the return value is TRUE.
+
+If the new zoom setting is not accepted, the return value is FALSE.
+
+#### Remarks
+
+Supported in Windows 10 1809 and later. The edit control needs to have the **ES_EX_ZOOMABLE** extended style set, for this message to have an effect
+
+#### Usage example
+
+```
+CEdit.SetZoom(hEditMulti, 150, 100)
+```
+---
+
+## SetZoomable
+
+Makes a multiline edit control zoomable.
+
+```
+FUNCTION CEdit.SetZoomable (BYVAL hEdit AS HWND) AS HRESULT
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| *hEdit* | The handle of the edit control. |
+
+#### Return value
+
+If this message succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.
+
+#### Usage example
+
+```
+CEdit.SetZoom(ablehEditMulti)
+```
+
 ---
