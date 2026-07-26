@@ -65,7 +65,7 @@ PRIVATE CONSTRUCTOR DWSTRING (BYREF wszStr AS CONST WSTRING)
    DWSTRING_DP("BYREF WSTRING")
    IF VARPTR(wszStr) = NULL THEN
       this.ResizeBuffer(1)
-   ELSEIF .LEN(wszStr) = 0 THEN
+   ELSEIF ..LEN(wszStr) = 0 THEN
       this.ResizeBuffer(1)
    ELSE
       this.Add(wszStr)
@@ -75,11 +75,11 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' Initializes the DWSTRING with the contents of the passed WSTRING.
 ' ========================================================================================
-PRIVATE CONSTRUCTOR DWSTRING (BYVAL pwszStr AS WSTRING PTR)
+PRIVATE CONSTRUCTOR DWSTRING (BYVAL pwszStr AS CONST WSTRING PTR)
    DWSTRING_DP("WSTRING PTR - pwszStr: " & ..WSTR(pwszStr))
    IF pwszStr = NULL THEN
       this.ResizeBuffer(1)
-   ELSEIF .LEN(*pwszStr) = 0 THEN
+   ELSEIF ..LEN(*pwszStr) = 0 THEN
       this.ResizeBuffer(1)
    ELSE
       this.Add(pwszStr)
@@ -93,7 +93,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 PRIVATE CONSTRUCTOR DWSTRING (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT = 0)
    DWSTRING_DP("STRING - code page: " & WSTR(nCodePage))
-   IF .LEN(ansiStr) = 0 THEN
+   IF ..LEN(ansiStr) = 0 THEN
       this.ResizeBuffer(1)
    ELSE
       this.Add(ansiStr, nCodePage)
@@ -104,7 +104,7 @@ END CONSTRUCTOR
 ' ========================================================================================
 ' Initializes the DWSTRING with the contents of the passed DWSTRING.
 ' ========================================================================================
-PRIVATE CONSTRUCTOR DWSTRING (BYREF dws AS DWSTRING)
+PRIVATE CONSTRUCTOR DWSTRING (BYREF dws AS CONST DWSTRING)
    DWSTRING_DP("DWSTRING")
    IF dws.m_BufferLen = 0 THEN
       this.ResizeBuffer(1)
@@ -190,13 +190,13 @@ END OPERATOR
 ' ========================================================================================
 ' Assigns new text to the DWSTRING
 ' ========================================================================================
-PRIVATE OPERATOR DWSTRING.Let (BYREF wszStr AS WSTRING)
+PRIVATE OPERATOR DWSTRING.Let (BYREF wszStr AS CONST WSTRING)
    DWSTRING_DP("BYREF WSTRING")
    this.Clear : this.Add(wszStr)
 END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE OPERATOR DWSTRING.Let (BYVAL pwszStr AS WSTRING PTR)
+PRIVATE OPERATOR DWSTRING.Let (BYVAL pwszStr AS CONST WSTRING PTR)
    DWSTRING_DP("WSTRING PTR")
    this.Clear : this.Add(*pwszStr)
 END OPERATOR
@@ -208,7 +208,7 @@ PRIVATE OPERATOR DWSTRING.Let (BYREF ansiStr AS STRING)
 END OPERATOR
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE OPERATOR DWSTRING.Let (BYREF dws AS DWSTRING)
+PRIVATE OPERATOR DWSTRING.Let (BYREF dws AS CONST DWSTRING)
    DWSTRING_DP("DWSTRING - buffer: " & ..WSTR(m_pBuffer) & " - buffer in: " & ..WSTR(dws.m_pBuffer))
    IF m_pBuffer = dws.m_pBuffer THEN EXIT OPERATOR   ' // Ignore dws = dws
    this.Clear : this.Add(dws)
@@ -582,16 +582,16 @@ END FUNCTION
 ' The string parameter is appended to the string held in the class. If the internal string
 ' buffer overflows, the class will automatically extend it to an appropriate size.
 ' ========================================================================================
-PRIVATE FUNCTION DWSTRING.Add (BYVAL pwszStr AS WSTRING PTR) AS BOOLEAN
+PRIVATE FUNCTION DWSTRING.Add (BYVAL pwszStr AS CONST WSTRING PTR) AS BOOLEAN
    DWSTRING_DP("WSTRING PTR - buffer: " & ..WSTR(m_pBuffer))
-   RETURN this.AppendBuffer(pwszStr, .LEN(*pwszStr))
+   RETURN this.AppendBuffer(cast(ANY PTR, pwszStr), ..LEN(*pwszStr))
 END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
 PRIVATE FUNCTION DWSTRING.Add (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT = 0) AS BOOLEAN
    DWSTRING_DP("STRING - buffer: " & ..WSTR(m_pBuffer) & " - codepage: " & ..WSTR(nCodePage))
-   IF .LEN(ansiStr) = 0 THEN RETURN FALSE
+   IF ..LEN(ansiStr) = 0 THEN RETURN FALSE
    ' // Create the wide string from the incoming ansi string
    DIM dwLen AS UINT, pbuffer AS ANY PTR
    DIM bRes AS BOOLEAN = TRUE   ' // assume success for now
@@ -599,16 +599,16 @@ PRIVATE FUNCTION DWSTRING.Add (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT 
       IF this.IsUtf8(ansiStr) = FALSE THEN nCodePage = CP_ACP
    END IF
    IF nCodePage = CP_UTF8 THEN
-      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), .LEN(ansiStr), NULL, 0)
+      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), ..LEN(ansiStr), NULL, 0)
       IF dwLen = 0 THEN RETURN FALSE
       pbuffer = Allocate(dwLen * 2)
-      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), .LEN(ansiStr), pbuffer, dwLen)
+      dwLen = MultiByteToWideChar(CP_UTF8, 0, STRPTR(ansiStr), ..LEN(ansiStr), pbuffer, dwLen)
       IF dwLen = 0 THEN bRes = FALSE
    ELSE
-      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), .LEN(ansiStr), NULL, 0)
+      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), ..LEN(ansiStr), NULL, 0)
       IF dwLen = 0 THEN RETURN FALSE
       pbuffer = Allocate(dwLen * 2)
-      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), .LEN(ansiStr), pbuffer, dwLen)
+      dwLen = MultiByteToWideChar(nCodePage, MB_PRECOMPOSED, STRPTR(ansiStr), ..LEN(ansiStr), pbuffer, dwLen)
       IF dwLen = 0 THEN bRes = FALSE
    END IF
    IF bRes = FALSE THEN
@@ -627,7 +627,7 @@ END FUNCTION
 ' ========================================================================================
 
 ' ========================================================================================
-PRIVATE FUNCTION DWSTRING.Add (BYREF dws AS DWSTRING) AS BOOLEAN
+PRIVATE FUNCTION DWSTRING.Add (BYREF dws AS CONST DWSTRING) AS BOOLEAN
    DWSTRING_DP("DWSTRING")
    RETURN this.AppendBuffer(dws.m_pBuffer, dws.m_BufferLen)
 END FUNCTION
@@ -636,7 +636,7 @@ END FUNCTION
 ' ========================================================================================
 ' Appends a string to the DWSTRING
 ' ========================================================================================
-PRIVATE OPERATOR DWSTRING.+= (BYVAL pwszStr AS WSTRING PTR)
+PRIVATE OPERATOR DWSTRING.+= (BYVAL pwszStr AS CONST WSTRING PTR)
    DWSTRING_DP("WSTRING PTR")
    this.Add(pwszStr)
 END OPERATOR
@@ -652,7 +652,7 @@ END OPERATOR
 ' ========================================================================================
 ' Appends a DWSTRING to the DWSTRING
 ' ========================================================================================
-PRIVATE OPERATOR DWSTRING.+= (BYREF dws AS DWSTRING)
+PRIVATE OPERATOR DWSTRING.+= (BYREF dws AS CONST DWSTRING)
    DWSTRING_DP("DWSTRING")
    this.Add(dws)
 END OPERATOR
@@ -683,7 +683,7 @@ END OPERATOR
 ' ========================================================================================
 ' Appends a WSTRING to the DWSTRING
 ' ========================================================================================
-PRIVATE OPERATOR DWSTRING.&= (BYREF wszStr AS WSTRING)
+PRIVATE OPERATOR DWSTRING.&= (BYREF wszStr AS CONST WSTRING)
    DWSTRING_DP("WSTRING")
    this.Add(wszStr)
 END OPERATOR
@@ -699,7 +699,7 @@ END OPERATOR
 ' ========================================================================================
 ' Appends a DWSTRING to the DWSTRING
 ' ========================================================================================
-PRIVATE OPERATOR DWSTRING.&= (BYREF dws AS DWSTRING)
+PRIVATE OPERATOR DWSTRING.&= (BYREF dws AS CONST DWSTRING)
    DWSTRING_DP("DWSTRING")
    this.Add(dws)
 END OPERATOR
@@ -803,7 +803,7 @@ USING AfxNova
 ' Global operator.
 ' Returns the length, in characters, of the DWSTRING.
 ' ========================================================================================
-PRIVATE OPERATOR LEN OVERLOAD (BYREF dws AS DWSTRING) AS UINT
+PRIVATE OPERATOR LEN OVERLOAD (BYREF dws AS CONST DWSTRING) AS UINT
    OPERATOR = dws.m_BufferLen
 END OPERATOR
 ' ========================================================================================
