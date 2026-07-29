@@ -1188,7 +1188,7 @@ PRIVATE FUNCTION AfxStrParseCountAny (BYREF wszMainStr AS CONST WSTRING, BYREF w
       nPos = INSTR(nPos, wszMainStr, ANY wszDelimiter)
       IF nPos = 0 THEN EXIT DO
       nCount += 1
-      nPos += LEN(wszDelimiter)
+      nPos += 1
    LOOP
    RETURN nCount
 END FUNCTION

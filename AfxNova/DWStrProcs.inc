@@ -1217,7 +1217,7 @@ END FUNCTION
 ' ========================================================================================
 ' * Returns the count of delimited fields from a string expression.
 ' If wszMainStr is empty (a null string) or contains no delimiter character(s), the string
-' is considered to contain exactly one sub-field. In this case, wstrParseCount returns the value 1.
+' is considered to contain exactly one sub-field. In this case, DWstrParseCount returns the value 1.
 ' Delimiter contains a string (one or more characters) that must be fully matched.
 ' Delimiters are case-sensitive.
 ' Example: DIM nCount AS LONG = DWStrParseCount("one,two,three", ",")   ' Output: 3
@@ -1230,7 +1230,7 @@ PRIVATE FUNCTION DWStrParseCount (BYREF wszSourceString AS CONST WSTRING, BYREF 
       nPos = INSTR(nPos, wszSourceString, ANY wszDelimiter)
       IF nPos = 0 THEN EXIT DO
       nCount += 1
-      nPos += LEN(wszDelimiter)
+      nPos += 1
    LOOP
    RETURN nCount
 END FUNCTION
