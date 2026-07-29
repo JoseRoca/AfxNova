@@ -16,7 +16,7 @@ The `DWSTRING` class implements a dynamic unicode null terminated string. Free B
 | [Utf8](#utf8) | Converts from UTF8 to Unicode and from Unicode to UTF8. |
 | [vptr](#vptr) | Returns the address of the string buffer. |
 | [wchar](#wchar) | Returns the string data as a new unicode string allocated with **CoTaskMemAlloc**. |
-| [JScript](#jscript) | Converts the DWSTRING content into a safe JavaScript expression for use with WebView2 ExecuteScript. |
+| [JScript](#jscript) | Converts the DWSTRING content into a safe JavaScript expression for use with WebView2 **ExecuteScript**. |
 
 # <a name="constructors"></a>Constructors
 
@@ -25,7 +25,7 @@ CONSTRUCTOR
 CONSTRUCTOR (BYREF wszStr AS CONST WSTRING)
 CONSTRUCTOR (BYVAL pwszStr AS WSTRING PTR)
 CONSTRUCTOR (BYREF ansiStr AS STRING, BYVAL nCodePage AS UINT = 0)
-CONSTRUCTOR (BYREF dws AS DWSTRING)
+CONSTRUCTOR (BYREF dws AS CONST DWSTRING)
 CONSTRUCTOR (BYREF bs AS BSTRING)
 CONSTRUCTOR (BYVAL nChars AS LONG, BYREF wszFill AS CONST WSTRING)
 CONSTRUCTOR (BYVAL n AS LONGINT)
