@@ -1162,7 +1162,7 @@ END FUNCTION
 '   PRINT "The initial number has " & WSTR(n) & " digits"   ' Output: 3
 ' The C wcsspn function can also be used.
 ' ========================================================================================
-PRIVATE FUNCTION DWStrSpn (BYREF wszText AS CONST WSTRING, BYREF wszSet AS CONST WSTRING, BYVAL IgnoreCase AS LONG = TRUE) AS LONG
+PRIVATE FUNCTION DWStrSpn (BYREF wszText AS CONST WSTRING, BYREF wszSet AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS LONG
    IF IgnoreCase THEN
       RETURN StrSpnW(@wszText, @wszSet)
    ELSE
