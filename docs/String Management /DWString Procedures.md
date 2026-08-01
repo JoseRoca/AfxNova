@@ -1137,7 +1137,7 @@ PRINT dwsTokens
 Returns the index of the initial portion of a string which consists only of characters that are part of a specified set of characters.
 
 ```
-FUNCTION DWStrSpn (BYREF wszText AS CONST WSTRING, BYREF wszSet AS CONST WSTRING, BYVAL IgnoreCase AS LONG = TRUE) AS LONG
+FUNCTION DWStrSpn (BYREF wszText AS CONST WSTRING, BYREF wszSet AS CONST WSTRING, BYVAL IgnoreCase AS BOOLEAN = TRUE) AS LONG
 ```
 
 | Parameter  | Description |
