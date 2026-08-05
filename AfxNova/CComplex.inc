@@ -83,8 +83,8 @@ TYPE CComplex
    DECLARE OPERATOR CAST () AS _complex
    DECLARE OPERATOR CAST () AS STRING
    ' // Complex number methods
-   DECLARE FUNCTION IsInf (BYVAL x AS DOUBLE) AS LONG
-   DECLARE FUNCTION IsInfinity (BYVAL x AS DOUBLE) AS LONG
+   DECLARE FUNCTION IsInf_ (BYVAL x AS DOUBLE) AS LONG
+   DECLARE FUNCTION IsInfinity_ (BYVAL x AS DOUBLE) AS LONG
    DECLARE FUNCTION ArcCosH (BYVAL x AS DOUBLE) AS DOUBLE
    DECLARE FUNCTION ArcTanH (BYVAL x AS DOUBLE) AS DOUBLE
    DECLARE PROPERTY CSet (BYVAL x AS DOUBLE, BYVAL y AS DOUBLE)
@@ -286,7 +286,7 @@ END OPERATOR
 ' Determines whether the argument is an infinity.
 ' Returns +1 if x is positive infinity, -1 if x is negative infinity and 0 otherwise.
 ' ========================================================================================
-PRIVATE FUNCTION CComplex.IsInf (BYVAL x AS DOUBLE) AS LONG
+PRIVATE FUNCTION CComplex.IsInf_ (BYVAL x AS DOUBLE) AS LONG
    CCOMPLEX_DP("CCOMPLEX IsInf")
    IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
       FUNCTION = IIF(x > 0, 1, -1)
@@ -294,7 +294,7 @@ PRIVATE FUNCTION CComplex.IsInf (BYVAL x AS DOUBLE) AS LONG
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
-PRIVATE FUNCTION CComplex.IsInfinity (BYVAL x AS DOUBLE) AS LONG
+PRIVATE FUNCTION CComplex.IsInfinity_ (BYVAL x AS DOUBLE) AS LONG
    CCOMPLEX_DP("CCOMPLEX IsInfinity")
    IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
       FUNCTION = IIF(x > 0, 1, -1)
@@ -905,7 +905,7 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CComplex.CAbs () AS DOUBLE
    CCOMPLEX_DP("CCOMPLEX CAbs")
-   IF this.IsInfinity(m_cpx.x) OR this.IsInfinity(m_cpx.y) THEN RETURN HUGE_VALF
+   IF this.IsInfinity_(m_cpx.x) OR this.IsInfinity_(m_cpx.y) THEN RETURN HUGE_VALF
    ' // |value| == sqrt(a^2 + b^2)
    ' // sqrt(a^2 + b^2) == a/a * sqrt(a^2 + b^2) = a * sqrt(a^2/a^2 + b^2/a^2)
    ' // Using the above we can factor out the square of the larger component to dodge overflow.
@@ -925,7 +925,7 @@ END FUNCTION
 ' =====================================================================================
 PRIVATE FUNCTION CComplex.CMagnitude () AS DOUBLE
    CCOMPLEX_DP("CCOMPLEX CMagnitude")
-   IF this.IsInfinity(m_cpx.x) OR this.IsInfinity(m_cpx.y) THEN RETURN HUGE_VALF
+   IF this.IsInfinity_(m_cpx.x) OR this.IsInfinity_(m_cpx.y) THEN RETURN HUGE_VALF
    ' // |value| == sqrt(a^2 + b^2)
    ' // sqrt(a^2 + b^2) == a/a * sqrt(a^2 + b^2) = a * sqrt(a^2/a^2 + b^2/a^2)
    ' // Using the above we can factor out the square of the larger component to dodge overflow.

@@ -1443,7 +1443,7 @@ END FUNCTION
 '   r = modulus of z
 '   t = argument of z
 '   i = sqrt(-1.0)
-' we can calculate the nth root of z by the formula:  
+' we can calculate the nth root of z by the formula:
 '   z^(1/n) = r^(1/n) * (cos(x/n) + i sin(x/n))
 ' by using log division.
 ' Example:
