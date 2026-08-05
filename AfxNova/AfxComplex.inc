@@ -59,19 +59,7 @@ NAMESPACE AfxNova
 '   acosh =        1.324609089232506           0.7853981633749999
 ' ========================================================================================
 PRIVATE FUNCTION acosh (BYVAL x AS DOUBLE) AS DOUBLE
-   DIM t AS DOUBLE
-   IF x > 1.0 / SQRT_DBL_EPSILON THEN
-      FUNCTION = log(x) + M_LN2
-   ELSEIF x > 2 THEN
-      FUNCTION = log(2 * x - 1 / (sqr(x * x - 1) + x))
-   ELSEIF x > 1 THEN
-      t = x - 1
-      FUNCTION = log1p(t + sqr(2 * t + t * t))
-   ELSEIF x = 1 THEN
-      FUNCTION = 0
-   ELSE
-      FUNCTION = 0 / 0  ' NAN
-   END IF
+   RETURN Log(x + Sqrt(x * x - 1))
 END FUNCTION
 ' ========================================================================================
 
@@ -89,19 +77,7 @@ END FUNCTION
 '   asinh =        0.8686709614562744          0.7853981633750001
 ' ========================================================================================
 PRIVATE FUNCTION asinh (BYVAL x AS DOUBLE) AS DOUBLE
-   DIM AS DOUBLE a, s, a2
-   a = fabs(x)
-   s = IIF(x < 0, -1, 1)
-   IF a > 1 / SQRT_DBL_EPSILON THEN
-      FUNCTION = s * (log(a) + M_LN2)
-   ELSEIF a > 2 THEN
-      FUNCTION = s * log(2 * a + 1 / (a + sqr(a * a + 1)))
-   ELSEIF a > SQRT_DBL_EPSILON THEN
-      a2 = a * a
-      FUNCTION = s * log1p(a + a2 / (1 + sqr(1 + a2)))
-   ELSE
-      FUNCTION = x
-   END IF
+   RETURN Log(x + Sqrt(x * x + 1))
 END FUNCTION
 ' ========================================================================================
 
@@ -114,20 +90,7 @@ END FUNCTION
 '   -0.1003353477310756
 ' ========================================================================================
 PRIVATE FUNCTION atanh (BYVAL x AS DOUBLE) AS DOUBLE
-   DIM AS DOUBLE a, s
-   a = fabs(x)
-   s = IIF(x < 0, -1, 1)
-   IF a > 1 THEN
-      FUNCTION = 0 / 0   ' NAN
-   ELSEIF a = 1 THEN
-      FUNCTION = IIF(x < 0, HUGE_VALF, -HUGE_VALF)
-   ELSEIF a >= 0.5 THEN
-      FUNCTION = s * 0.5 * log1p(2 * a / (1 - a))
-   ELSEIF a > DBL_EPSILON THEN
-      FUNCTION = s * 0.5 * log1p(2 * a + 2 * a * a / (1 - a))
-   ELSE
-      FUNCTION = x
-   END IF
+   RETURN Log((1 + x) / (1 - x)) / 2
 END FUNCTION
 ' ========================================================================================
 
@@ -143,19 +106,27 @@ END FUNCTION
 ' Determines whether the argument is an infinity.
 ' Returns +1 if x is positive infinity, -1 if x is negative infinity and 0 otherwise.
 ' ========================================================================================
-PRIVATE FUNCTION isinf (BYVAL x AS DOUBLE) AS LONG
-   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
-      FUNCTION = IIF(x > 0, 1, -1)
-   END IF
-END FUNCTION
-' ========================================================================================
+'PRIVATE FUNCTION isinf (BYVAL x AS DOUBLE) AS LONG
+'   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
+'      FUNCTION = IIF(x > 0, 1, -1)
+'   END IF
+'END FUNCTION
+'' ========================================================================================
+'' ========================================================================================
+'PRIVATE FUNCTION isinfinity (BYVAL x AS DOUBLE) AS LONG
+'   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
+'      FUNCTION = IIF(x > 0, 1, -1)
+'   END IF
+'END FUNCTION
 ' ========================================================================================
 PRIVATE FUNCTION isinfinity (BYVAL x AS DOUBLE) AS LONG
-   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
-      FUNCTION = IIF(x > 0, 1, -1)
-   END IF
+   IF _isnan(x) THEN RETURN 0
+   ' x is either +inf or -inf
+   IF _finite(x) = FALSE THEN RETURN IIF(x > 0, 1, -1)
+   RETURN 0
 END FUNCTION
 ' ========================================================================================
+#define isinf isinfinity
 
 ' ########################################################################################
 ' Complex numbers wrapper functions
