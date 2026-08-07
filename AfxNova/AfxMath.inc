@@ -1555,7 +1555,7 @@ PRIVATE FUNCTION AfxIEEERemainder (BYVAL x AS DOUBLE, BYVAL y AS DOUBLE) AS DOUB
    ELSEIF frac_q < 0.5 THEN
       q = floor_q
    ELSE
-      ' frac_q = exactly 0.5 ? tie ? choose even integer
+      ' frac_q = exactly 0.5 -> tie -> choose even integer
       IF (floor_q MOD 2) = 0 THEN
          q = floor_q
       ELSE
