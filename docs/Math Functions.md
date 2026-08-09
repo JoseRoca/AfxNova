@@ -745,7 +745,7 @@ FUNCTION AfxEaseInOut (BYVAL t AS DOUBLE) AS DOUBLE
 
 #### Return value
 
-Returns t^2 * (3 - 2t), same shape as SmoothStep but normalized for 0,1.
+Returns t^2 * (3 - 2t), same shape as **SmoothStep** but normalized for 0,1.
 
 #### Usage examples:
 ```
