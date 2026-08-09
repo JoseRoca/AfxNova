@@ -727,6 +727,7 @@ AfxDivMod(-7, 3) -> q = -3, r = 2   (floored)
 ```
 #### Usage examples
 ```
+DIM AS LONGINT 1, r
 AfxDivMod(7, 3, q, r)   ' q = 2,  r = 1
 AfxDivMod(-7, 3, q, r)  ' q = -3, r = 2
 AfxDivMod(7, -3, q, r)  ' q = -3, r = -2
