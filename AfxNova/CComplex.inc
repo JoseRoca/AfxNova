@@ -286,19 +286,36 @@ END OPERATOR
 ' Determines whether the argument is an infinity.
 ' Returns +1 if x is positive infinity, -1 if x is negative infinity and 0 otherwise.
 ' ========================================================================================
+'PRIVATE FUNCTION CComplex.IsInf_ (BYVAL x AS DOUBLE) AS LONG
+'   CCOMPLEX_DP("CCOMPLEX IsInf")
+'   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
+'      FUNCTION = IIF(x > 0, 1, -1)
+'   END IF
+'END FUNCTION
+' ========================================================================================
 PRIVATE FUNCTION CComplex.IsInf_ (BYVAL x AS DOUBLE) AS LONG
    CCOMPLEX_DP("CCOMPLEX IsInf")
-   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
-      FUNCTION = IIF(x > 0, 1, -1)
-   END IF
+   IF _isnan(x) THEN RETURN 0
+   ' x is either +inf or -inf
+   IF _finite(x) = FALSE THEN RETURN IIF(x > 0, 1, -1)
+   RETURN 0
 END FUNCTION
+' ========================================================================================
+' ========================================================================================
+'PRIVATE FUNCTION CComplex.IsInfinity_ (BYVAL x AS DOUBLE) AS LONG
+'   CCOMPLEX_DP("CCOMPLEX IsInfinity")
+'   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
+'      FUNCTION = IIF(x > 0, 1, -1)
+'   END IF
+'END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 PRIVATE FUNCTION CComplex.IsInfinity_ (BYVAL x AS DOUBLE) AS LONG
    CCOMPLEX_DP("CCOMPLEX IsInfinity")
-   IF _finite(x) = TRUE AND _isnan(x) = FALSE THEN
-      FUNCTION = IIF(x > 0, 1, -1)
-   END IF
+   IF _isnan(x) THEN RETURN 0
+   ' x is either +inf or -inf
+   IF _finite(x) = FALSE THEN RETURN IIF(x > 0, 1, -1)
+   RETURN 0
 END FUNCTION
 ' ========================================================================================
 
