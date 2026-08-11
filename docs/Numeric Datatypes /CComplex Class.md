@@ -164,8 +164,8 @@ DIM cpx AS CComplex = TYPE<_complex>(3, 4)
 | ---------- | ----------- |
 | [ArcCosH](#arcosh) | Calculates the inverse hyperbolic cosine. |
 | [ArcTanH](#arctanh) | Returns the inverse hyperbolic tangent of a number. |
-| [IsInf](#isinfinity) | Determines whether the argument is an infinity. |
-| [IsInfinity](#isinfinity) | Determines whether the argument is an infinity. |
+| [IsInf_](#isinfinity) | Determines whether the argument is an infinity. |
+| [IsInfinity_](#isinfinity) | Determines whether the argument is an infinity. |
 
 ---
 
@@ -1660,13 +1660,13 @@ Output: -0.1003353477310756
 ```
 ---
 
-## <a name="isinfinity"></a>IsInfinity / IsInf
+## <a name="isinfinity"></a>IsInfinity_ / IsInf_
 
 Determines whether the argument is an infinity.
 
 ```
-FUNCTION IsInfinity (BYVAL x AS DOUBLE) AS LONG
-FUNCTION IsInf (BYVAL x AS DOUBLE) AS LONG
+FUNCTION IsInfinity_ (BYVAL x AS DOUBLE) AS LONG
+FUNCTION IsInf_ (BYVAL x AS DOUBLE) AS LONG
 ```
 
 | Parameter  | Description |
