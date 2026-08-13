@@ -33,7 +33,7 @@ pMsg.TextBody("This is a sample message text")
 pMsg.AddAttachment ExePath & "\xxxxx.xxx"
 ' // Send the message
 pMsg.Send
-IF pMsg.GetLastResult = S_OK THEN PRINT "Message sent" ELSE PRINT pMsg.GeterrorInfo
+IF pMsg.GetLastResult = S_OK THEN PRINT "Message sent" ELSE PRINT pMsg.GetErrorInfo
 ```
 ---
 
