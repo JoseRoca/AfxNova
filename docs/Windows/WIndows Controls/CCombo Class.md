@@ -767,7 +767,7 @@ Retrieves the length of the text of the edit control in a combobox or the text o
 
 ```
 FUNCTION GetTextLength (BYVAL hCombo AS HWND) AS LONG
-FUNCTION GetTextLength (BYVAL hCombo AS HWND, BYVAL index AS LONG) AS DWSTRING
+FUNCTION GetTextLength (BYVAL hCombo AS HWND, BYVAL index AS LONG) AS LONG
 ```
 
 | Parameter | Description |
