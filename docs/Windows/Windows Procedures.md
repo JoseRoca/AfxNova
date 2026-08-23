@@ -383,7 +383,7 @@ Assorted Windows procedures.
 | [AfxGetWindowsVersionStr](#afxgetwindowsversionstr) | Returns the full Windows version as a string. |
 | [AfxIsPlatformNT](#afxisplatformnt) | Returns TRUE if the Windows Platform is NT; FALSE, otherwise. |
 | [AfxIsProcessElevated](#afxisprocesselevated) | Checks if the process is running with real administrative privileges. |
-| [AfxMemoryLoad](#afxmemoryload) | Returns the amount of actual physical memory, in bytes. |
+| [AfxMemoryLoad](#afxmemoryload) | Returns a number between 0 and 100 that specifies the approximate percentage of physical memory that is in use (0 indicates no memory use and 100 indicates full memory use). |
 | [AfxPhysicallyInstalledSystemMemory](#afxgetphysicallyinstalledsystemmemory) | Retrieves the amount of RAM that is physically installed on the computer, in kilobytes. |
 | [AfxProcessorArchitecture](#afxprocessorarchitecture) | Returns the processor architecture of the operating system. |
 | [AfxProcessorsCount](#afxprocessorscount) | Returns the number of processors. |
@@ -3934,7 +3934,7 @@ FUNCTION AfxIsProcessElevated () AS BOOLEAN
 
 ### AfxMemoryLoad
 
-Returns the amount of actual physical memory, in bytes.
+Returns a number between 0 and 100 that specifies the approximate percentage of physical memory that is in use (0 indicates no memory use and 100 indicates full memory use).
 
 ```
 FUNCTION AfxMemoryLoad () AS DWORD
