@@ -952,12 +952,11 @@ print dsa.GetStr(2)
 DIM dsa AS DSAFEARRAY = DSAFEARRAY(VT_VARIANT, 5, 1)
 DIM dv1 AS DVARIANT = "Test variant 1"
 dsa.PutVar(1, dv1)
-DIM dvOut AS DVARIANT
-dsa.Get(1, dvOut)
+DIM dvOut AS DVARIANT = dsa.GetVar(1)
 print dvOut
 DIM dv2 AS DVARIANT = "Test variant 2"
 dsa.PutVar(1, dv2)
-dsa.Get(1, dvOut)
+dvOut = dsa.GetVar(1)
 print dvOut
 ```
 
@@ -966,43 +965,38 @@ print dvOut
 ' // 2D: elements = 5, lower bound = 1
 ' // 2D: elements = 3, lower bound = 1
 DIM rgsabounds(0 TO 1) AS SAFEARRAYBOUND = {(5, 1), (3, 1)}
-DIM csa AS DSAFEARRAY = DSAFEARRAY(VT_BSTR, 2, @rgsabounds(0))
+DIM dsa AS DSAFEARRAY = DSAFEARRAY(VT_BSTR, 2, @rgsabounds(0))
 
 ' // array index: first element, first dimension
 DIM rgidx(0 TO 1) AS LONG = {1, 1}
 DIM bs1 AS BSTRING = "Test string 1"
 ' // Put the value
-dsa.Put(@rgidx(0), bs1)
+dsa.PutStr(@rgidx(0), bs1)
 ' // Get the value
-DIM bsOut AS BSTRING
-dsa.Get(@rgidx(0), bsOut)
-print bsOut
+print dsa.GetStr(@rgidx(0))
 ' // array index: second element, first dimension
 rgidx(0) = 2 : rgidx(1) = 1
 ' // Put the value
 DIM bs2 AS BSTRING = "Test string 2"
-dsa.Put(@rgidx(0), bs2)
+dsa.PutStr(@rgidx(0), bs2)
 ' // Get the value
-dsa.Get(@rgidx(0), bsOut)
-print bsOut
+print dsa.GetStr(@rgidx(0))
 
 ' // array index: first element, second dimension
 rgidx(0) = 1 : rgidx(1) = 2
 ' // Put the value
 DIM bs3 AS BSTRING = "Test string 3"
-dsa.Put(@rgidx(0), bs3)
+dsa.PutStr(@rgidx(0), bs3)
 ' // Get the value
-dsa.Get(@rgidx(0), bsOut)
-print bsOut
+print dsa.GetStr(@rgidx(0))
 
 ' // array index: second element, second dimension
 rgidx(0) = 2 : rgidx(1) = 2
 ' // Put the value
 DIM bs4 AS BSTRING = "Test string 4"
-dsa.Put(@rgidx(0), bs4)
+dsa.PutStr(@rgidx(0), bs4)
 ' // Get the value
-dsa.Get(@rgidx(0), bsOut)
-print bsOut
+print dsa.GetStr(@rgidx(0))
 ```
 
 #### Return value (Get)
