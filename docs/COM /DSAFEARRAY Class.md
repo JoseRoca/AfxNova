@@ -951,12 +951,12 @@ print dsa.GetStr(2)
 ' // One-dimensional array of VT_VARIANT
 DIM dsa AS DSAFEARRAY = DSAFEARRAY(VT_VARIANT, 5, 1)
 DIM dv1 AS DVARIANT = "Test variant 1"
-dsa.Put(1, dv1)
+dsa.PutVar(1, dv1)
 DIM dvOut AS DVARIANT
 dsa.Get(1, dvOut)
 print dvOut
 DIM dv2 AS DVARIANT = "Test variant 2"
-dsa.Put(1, dv2)
+dsa.PutVar(1, dv2)
 dsa.Get(1, dvOut)
 print dvOut
 ```
