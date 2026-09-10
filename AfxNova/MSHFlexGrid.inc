@@ -3103,6 +3103,7 @@ PRIVATE FUNCTION CMSHFlexGrid.GetBandName (BYVAL BandNumber AS LONG) AS DWSTRING
    DIM dwsName AS DWSTRING, bstrName AS AFX_BSTR
    m_Result = m_grid->GetBandName(BandNumber, @bstrName)
    dwsName = *bstrName
+   SysFreeString bstrName
    RETURN dwsName
 END FUNCTION
 ' ========================================================================================
