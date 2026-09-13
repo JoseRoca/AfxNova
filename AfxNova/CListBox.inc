@@ -40,7 +40,7 @@ NAMESPACE AfxNova
 TYPE CListBox
 
 Private:
-   m_pData AS ANY PTR   ' Not used by the static functions, but we can't have an empty type.
+   m_pData AS LONG_PTR   ' Not used by the static functions, but we can't have an empty type.
 
 Protected:
    DECLARE CONSTRUCTOR
@@ -48,14 +48,14 @@ Protected:
 
 Public:
    DECLARE STATIC FUNCTION AddFile (BYVAL hListBox AS HWND, BYVAL pwszFileName AS WSTRING PTR) AS LONG
-   DECLARE STATIC FUNCTION AddItemData (BYVAL hListBox AS HWND, BYVAL pData AS ANY PTR) AS LONG
+   DECLARE STATIC FUNCTION AddItemData (BYVAL hListBox AS HWND, BYVAL pData AS LONG_PTR) AS LONG
    DECLARE STATIC FUNCTION AddString (BYVAL hListBox AS HWND, BYVAL pwszText AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION CalcHorizontalExtent (BYVAL hListBox AS HWND) AS LONG
    DECLARE STATIC FUNCTION DeleteString (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
    DECLARE STATIC FUNCTION Dir (BYVAL hListBox AS HWND, BYVAL Attr AS DWORD, BYVAL pwszFileSpec AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION Disable (BYVAL hListBox AS HWND) AS BOOLEAN
    DECLARE STATIC FUNCTION Enable (BYVAL hListBox AS HWND) AS BOOLEAN
-   DECLARE STATIC FUNCTION FindItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS ANY PTR) AS LONG
+   DECLARE STATIC FUNCTION FindItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    DECLARE STATIC FUNCTION FindString (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pwszString AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION FindStringExact (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pwszSearchString AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION GetAnchorIndex (BYVAL hListBox AS HWND) AS LONG
@@ -64,7 +64,7 @@ Public:
    DECLARE STATIC FUNCTION GetCurSel (BYVAL hListBox AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetHorizontalExtent (BYVAL hListBox AS HWND) AS LONG
    DECLARE STATIC FUNCTION GetListBoxInfo (BYVAL hListBox AS HWND) AS LONG
-   DECLARE STATIC FUNCTION GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS ANY PTR
+   DECLARE STATIC FUNCTION GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG_PTR
    DECLARE STATIC FUNCTION GetItemHeight (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL prc AS RECT PTR) AS LONG
    DECLARE STATIC FUNCTION GetItemRect (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYREF rc AS RECT) AS LONG
@@ -78,12 +78,12 @@ Public:
    DECLARE STATIC FUNCTION GetTextLen (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
    DECLARE STATIC FUNCTION GetTopIndex (BYVAL hListBox AS HWND) AS LONG
    DECLARE STATIC FUNCTION InitStorage (BYVAL hListBox AS HWND, BYVAL nItems AS DWORD, BYVAL nBytes AS DWORD) AS LONG
-   DECLARE STATIC FUNCTION InsertItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS ANY PTR) AS LONG
+   DECLARE STATIC FUNCTION InsertItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    DECLARE STATIC FUNCTION InsertString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszText AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION ItemFromPoint (BYVAL hListBox AS HWND, BYVAL x AS SHORT, BYVAL y AS SHORT) AS LONG
-   DECLARE STATIC FUNCTION ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS ANY PTR = NULL) AS LONG
+   DECLARE STATIC FUNCTION ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS LONG_PTR = 0) AS LONG
    DECLARE STATIC SUB ResetContent (BYVAL hListBox AS HWND)
-   DECLARE STATIC FUNCTION SelectItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS ANY PTR) AS LONG
+   DECLARE STATIC FUNCTION SelectItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    DECLARE STATIC FUNCTION SelectString (BYVAL hListBox AS HWND, BYVAL start AS LONG, BYVAL pwszText AS WSTRING PTR) AS LONG
    DECLARE STATIC FUNCTION SelectString (BYVAL hListBox AS HWND, BYVAL index AS LONG =-1) AS LONG
    DECLARE STATIC FUNCTION SelItemRange (BYVAL hListBox AS HWND, BYVAL fSel AS BOOLEAN, BYVAL startIndex AS SHORT, BYVAL endIndex AS SHORT) AS LONG
@@ -94,7 +94,7 @@ Public:
    DECLARE STATIC FUNCTION SetCount (BYVAL hListBox AS HWND, BYVAL nCount AS DWORD) AS LONG
    DECLARE STATIC FUNCTION SetCurSel (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG
    DECLARE STATIC SUB SetHorizontalExtent (BYVAL hListBox AS HWND, BYVAL cxExtent AS LONG)
-   DECLARE STATIC FUNCTION SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS ANY PTR) AS LONG
+   DECLARE STATIC FUNCTION SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    DECLARE STATIC FUNCTION SetItemHeight (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL nHeight AS DWORD) AS LONG
    DECLARE STATIC FUNCTION SetLocale (BYVAL hListBox AS HWND, BYVAL wLocaleID AS DWORD) AS LONG
    DECLARE STATIC FUNCTION SetSel (BYVAL hListBox AS HWND, BYVAL fSelect AS BOOLEAN, BYVAL index AS LONG = -1) AS LONG
@@ -244,8 +244,8 @@ END FUNCTION
 ' ========================================================================================
 ' Gets the application-defined value associated with the specified list box item.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS ANY PTR
-   RETURN cast(ANY PTR, SendMessageW(hListBox, LB_GETITEMDATA, index, 0))
+PRIVATE FUNCTION CListBox.GetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG) AS LONG_PTR
+   RETURN SendMessageW(hListBox, LB_GETITEMDATA, index, 0)
 END FUNCTION
 ' ========================================================================================
 
@@ -489,7 +489,7 @@ END SUB
 ' ========================================================================================
 ' Sets a value associated with the specified item in a list box.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS ANY PTR) AS LONG
+PRIVATE FUNCTION CListBox.SetItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    RETURN SendMessageW(hListBox, LB_SETITEMDATA, index, cast(LPARAM, pData))
 END FUNCTION
 ' ========================================================================================
@@ -573,7 +573,7 @@ END FUNCTION
 ' ========================================================================================
 ' * Replaces a string, and his associated data, into a list box.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS ANY PTR = NULL) AS LONG
+PRIVATE FUNCTION CListBox.ReplaceString (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pwszNewText AS WSTRING PTR, BYVAL pNewData AS LONG_PTR = 0) AS LONG
    DIM lRes AS LONG = SendMessageW(hListBox, LB_DELETESTRING, index, 0)
    IF lRes = LB_ERR THEN RETURN lRes
    ' // Insert the new string
@@ -626,28 +626,28 @@ END FUNCTION
 ' ========================================================================================
 ' Adds item data to the list box.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.AddItemData (BYVAL hListBox AS HWND, BYVAL pData AS ANY PTR) AS LONG
+PRIVATE FUNCTION CListBox.AddItemData (BYVAL hListBox AS HWND, BYVAL pData AS LONG_PTR) AS LONG
    RETURN SendMessageW(hListBox, LB_ADDSTRING, 0, CAST(LPARAM, pData))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 ' Inserts item data to a list box.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.InsertItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS ANY PTR) AS LONG
+PRIVATE FUNCTION CListBox.InsertItemData (BYVAL hListBox AS HWND, BYVAL index AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    RETURN SendMessageW(hListBox, LB_INSERTSTRING, index, CAST(LPARAM, pData))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 ' Finds the first item in a list box that has the specified item data.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.FindItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS ANY PTR) AS LONG
+PRIVATE FUNCTION CListBox.FindItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    RETURN SendMessageW(hListBox, LB_FINDSTRING, indexStart, CAST(LPARAM, pData))
 END FUNCTION
 ' ========================================================================================
 ' ========================================================================================
 ' Searches a list box for an item that has the specified item data. If a matching item is found, the item is selected.
 ' ========================================================================================
-PRIVATE FUNCTION CListBox.SelectItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS ANY PTR) AS LONG
+PRIVATE FUNCTION CListBox.SelectItemData (BYVAL hListBox AS HWND, BYVAL indexStart AS LONG, BYVAL pData AS LONG_PTR) AS LONG
    RETURN SendMessageW(hListBox, LB_SELECTSTRING, indexStart, CAST(LPARAM, pData))
 END FUNCTION
 ' ========================================================================================
