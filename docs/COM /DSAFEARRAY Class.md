@@ -1524,6 +1524,7 @@ S_OK (0) on success or an HRESULT code on failure.
 
 ```
 ' // Create a one-dimensional array of BSTR
+DIM dsa AS DSAFEARRAY = DSAFEARRAY(VT_BSTR, 3, 1)
 DIM bsVal AS BSTRING = "bcde"
 dsa.PutStr(1, bsVal)
 bsVal = "abc"
