@@ -107,7 +107,7 @@ IF pMatches.DispPtr THEN
    DIM nCount AS LONG = VAL(pMatches.Get("Count"))
    ' // This is equivalent to:
    ' DIM dvRes AS DVARIANT = pMatches.Get("Count")
-   ' DIM nCount AS LONG = (VAL(dvRes)
+   ' DIM nCount AS LONG = VAL(dvRes)
    FOR i AS LONG = 0 TO nCount -1
       ' // Get a pointer to the Match object
       ' // When using COM Automation, it's not always necessary to make sure that the
