@@ -217,7 +217,7 @@ OPERATOR XOR= (BYREF rhs AS CInt96)
 | **SHR=** | Shifts right and assigns a value to a variable. |
 | **XOR=** | Performs a bitwise-xor (exclusive disjunction) and assigns the result to a variable. |
 
-#### Usaage examples
+#### Usage examples
 
 ```
 PRINT CInt96(5) AND CInt96(3) ' 1
