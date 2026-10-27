@@ -425,7 +425,7 @@ FUNCTION FileExists (BYREF wszFileSpec AS WSTRING) AS BOOLEAN
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFileSpec* | CBSTR. The name of the file whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the file isn't expected to exist in the current folder. |
+| *wszFileSpec* | The name of the file whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the file isn't expected to exist in the current folder. |
 
 #### Return value
 
@@ -450,7 +450,7 @@ FUNCTION FolderExists (BYREF wszFolderSpec AS WSTRING) AS BOOLEAN
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFolderSpec* | CBSTR. The name of the folder whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the folder isn't expected to exist in the current folder. |
+| *wszFolderSpec* | The name of the folder whose existence is to be determined. A complete path specification (either absolute or relative) must be provided if the folder isn't expected to exist in the current folder. |
 
 #### Return value
 
@@ -573,7 +573,7 @@ FUNCTION GetDriveFileSystem (BYREF wszDrive AS WSTRING) AS DWSTRING
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -602,7 +602,7 @@ FUNCTION GetDriveFreeSpace (BYREF wszDrive AS WSTRING) AS DOUBLE
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -631,7 +631,7 @@ FUNCTION GetDriveName (BYREF wszPathSpec AS WSTRING) AS DWSTRING
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszPathSpec* | CBSTR. The path. |
+| *wszPathSpec* | The path. |
 
 #### Return value
 
@@ -685,7 +685,7 @@ FUNCTION GetDriveTotalSize (BYREF wszDrive AS WSTRING) AS DOUBLE
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -710,7 +710,7 @@ FUNCTION GetDriveType (BYREF wszDrive AS WSTRING) AS DRIVETYPECONST
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1050,7 +1050,7 @@ FUNCTION GetFolderAttributes (BYREF wszFolder AS WSTRING) AS FILEATTRIBUTE
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
@@ -1139,7 +1139,7 @@ FUNCTION GetFolderDateLastModified (BYREF wszFolder AS WSTRING) AS DATE_
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
@@ -1265,7 +1265,7 @@ FUNCTION GetFolderSize (BYREF wszFolder AS WsTRING) AS LONG
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
@@ -1290,11 +1290,11 @@ FUNCTION GetFolderType (BYREF wszFolder AS WSTRING) AS DWSTRING
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFolder* | CBSTR. The path to a specific folder. |
+| *wszFolder* | The path to a specific folder. |
 
 #### Return value
 
-CBSTR. The type of folder.
+The type of folder.
 
 #### Usage example
 
@@ -1412,7 +1412,7 @@ FUNCTION GetSerialNumber (BYREF wszDrive AS WSTRING) AS LONG
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1578,7 +1578,7 @@ FUNCTION GetVolumeName (BYREF dwsDrive AS WSTRING) AS DWSTRING
 
 | Name       | Description |
 | ---------- | ----------- |
-| *dwsDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *dwsDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1603,7 +1603,7 @@ FUNCTION IsDriveReady (BYREF dwsDrive AS STRING) AS BOOLEAN
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1632,7 +1632,7 @@ FUNCTION IsRootFolder (BYREF dwsFolder AS WSTRIN) AS BOOLEAN
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszDrive* | CBSTR. The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
+| *wszDrive* | The drive letter. For drive letters, the root drive is not included. For example, the path for the C drive is C:, not C:\\. |
 
 #### Return value
 
@@ -1683,8 +1683,8 @@ FUNCTION MoveFolder (BYREF wszSource AS WSTRING, BYREF wszDestination AS WSTRING
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszSource* | CBSTR. The path to the folder or folders to be moved. The *cbsSource* argument string can contain wildcard characters in the last path component only. |
-| *wszDestination* | CBSTR. Destination where the folder is to be moved (must end with a "\\"). Wildcard characters are not allowed. |
+| *wszSource* | The path to the folder or folders to be moved. The *cbsSource* argument string can contain wildcard characters in the last path component only. |
+| *wszDestination* | Destination where the folder is to be moved (must end with a "\\"). Wildcard characters are not allowed. |
 
 #### Return value
 
@@ -1747,8 +1747,8 @@ FUNCTION SetFileName (BYREF wszFile AS WSTRING, BYREF wszName AS WSTRING) AS HRE
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFile* | CBSTR. The path to a specific file. |
-| *wszName* | CBSTR. The new name of the file. |
+| *wszFile* | The path to a specific file. |
+| *wszName* | The new name of the file. |
 
 #### Return value
 
@@ -1777,8 +1777,8 @@ FUNCTION SetFolderAttributes (BYREF wszFolder AS WSTRING, BYVAL lAttr AS FILEATT
 
 | Name       | Description |
 | ---------- | ----------- |
-| *wszFolder* | CBSTR. The path to a specific folder. |
-| *lAttr* | LONG. The new value for the attributes of the specified folder. |
+| *wszFolder* | The path to a specific folder. |
+| *lAttr* | The new value for the attributes of the specified folder. |
 
 #### Return value
 
