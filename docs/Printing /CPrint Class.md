@@ -616,7 +616,7 @@ PROPERTY ColorMode (BYVAL nMode AS LONG)
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nMode* | LONG. The color mode. Possible values: DMCOLOR_MONOCHROME, DMCOLOR_COLOR. |
+| *nMode* | LONG. The color mode. Possible values: DMCOLOR_MONOCHROME (1), DMCOLOR_COLOR (2). |
 
 #### Return value
 
