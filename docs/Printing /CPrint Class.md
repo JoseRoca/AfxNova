@@ -687,7 +687,7 @@ PROPERTY Orientation (BYVAL nOrientation AS LONG)
 
 | Parameter  | Description |
 | ---------- | ----------- |
-| *nOrientation* | LONG. The printer orientation.<br>*DMORIENT_PORTRAIT* = Portrait.<br>*DMORIENT_LANDSCAPE* = Landscape. |
+| *nOrientation* | LONG. The printer orientation.<br>*DMORIENT_PORTRAIT (1)* = Portrait.<br>*DMORIENT_LANDSCAPE (2)* = Landscape. |
 
 #### Return value
 
