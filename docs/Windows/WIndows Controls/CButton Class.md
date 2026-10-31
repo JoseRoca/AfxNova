@@ -1076,7 +1076,7 @@ Unchecks the button.
 SUB CButton.Uncheck ()
 ```
 
-#### Example usage
+#### Usage example
 ```
 CButton.Uncheck(hButton)
 ```
@@ -1090,7 +1090,7 @@ Sets the dark mode of the button.
 FUNCTION SetDarkMode(BYVAL hButton AS HWND) AS HRESULT
 ```
 
-#### Example usage
+#### Usage example
 ```
 CButton.SetDarkMode(hButton)
 ```
@@ -1104,7 +1104,7 @@ Removes dark mode from the button.
 FUNCTION RemoveDarkMode (BYVAL hButton AS HWND) AS HRESULT
 ```
 
-#### Example usage
+#### Usage example
 ```
 CButton.RemoveDarkMode(hButton)
 ```
